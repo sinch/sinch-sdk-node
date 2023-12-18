@@ -1,0 +1,37 @@
+import { VerificationStatusByIdentityRequestData } from '@sinch/sdk-core';
+import { getPrintFormat, getVerificationIdentityFromConfig, initVerificationClient, printFullResponse } from '../../config';
+
+(async () => {
+  console.log('********************************');
+  console.log('* VerificationStatusByIdentity *');
+  console.log('********************************');
+
+  const verificationIdentity = getVerificationIdentityFromConfig();
+  if (!verificationIdentity) {
+    throw new Error('No verification identity has been provided. '
+      + 'Please update your .env file '
+      + 'or edit the ./src/verification/verification-status/verification-by-identity.ts file');
+  }
+
+  const requestData: VerificationStatusByIdentityRequestData = {
+    endpoint: verificationIdentity,
+    method: 'sms',
+  };
+
+  const sinchClient = initVerificationClient();
+  let response;
+  try {
+    response = await sinchClient.verification.verificationStatus.getByIdentity(requestData);
+  } catch (error) {
+    console.log(`Impossible to get the verification status for the identity ${requestData.endpoint}`);
+    throw error;
+  }
+
+  const printFormat = getPrintFormat(process.argv);
+
+  if (printFormat === 'pretty') {
+    console.log(`Verification ID: ${response.id}\nStatus: ${response.status}${response.status === 'SUCCESSFUL' ? '':' (' + response.reason + ')'}\nPrice: ${response.price?.verificationPrice?.amount} ${response.price?.verificationPrice?.currencyId}`);
+  } else {
+    printFullResponse(response);
+  }
+})();

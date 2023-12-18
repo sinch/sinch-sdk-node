@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "removeComments": false,
+    "lib": ["ES2022"],
+    "strict": true,
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "pretty": true,
+    "preserveSymlinks": true,
+    "resolveJsonModule": true,
+    "types": ["jest", "node"],
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "useDefineForClassFields": false,
+    "declaration": true,
+    "composite": true,
+    "noEmit": false,
+    "baseUrl": "."
+  },
+  "ts-node": {
+    "esm": true
+  }
+}

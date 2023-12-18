@@ -1,0 +1,121 @@
+import {
+  RequestBody,
+  SinchClientParameters,
+} from '@sinch/sdk-client';
+import { VerificationReportResponse } from '../../../models';
+import { VerificationApi } from '../verification-api';
+
+export interface VerificationStatusByIdRequestData {
+  /** The ID of the verification. */
+  'id': string;
+}
+export interface VerificationStatusByIdentityRequestData {
+  /** For type `number` use a [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537)-compatible phone number. */
+  'endpoint': string;
+  /** The method of the verification. */
+  'method': 'sms' | 'callout' | 'flashCall';
+}
+export interface VerificationStatusByReferenceRequestData {
+  /** The custom reference of the verification. */
+  'reference': string;
+}
+
+export class VerificationStatusApi extends VerificationApi {
+
+  /**
+   * Initialize your interface
+   *
+   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
+   */
+  constructor(sinchClientParameters: SinchClientParameters) {
+    super(sinchClientParameters, 'VerificationStatusApi');
+  }
+
+  /**
+   * Get verification by ID
+   * Queries the verification result by sending the verification ID. With this query you can get the result of a verification.
+   * @param { VerificationStatusByIdRequestData } data - The data to provide to the API call.
+   */
+  public async getById(data: VerificationStatusByIdRequestData): Promise<VerificationReportResponse> {
+    this.client = this.getSinchClient();
+    const getParams = this.client.extractQueryParams<VerificationStatusByIdRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = '';
+    const path = `/verification/v1/verifications/id/${data['id']}`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
+    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+
+    return this.client.processCall<VerificationReportResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'VerificationStatusById',
+    });
+  }
+
+  /**
+   * Get verification by Identity
+   * Queries the verification result by sending the verification Identity (usually a phone number) and its method. With this query you can get the result of a verification.
+   * @param { VerificationStatusByIdentityRequestData } data - The data to provide to the API call.
+   */
+  public async getByIdentity(data: VerificationStatusByIdentityRequestData): Promise<VerificationReportResponse> {
+    this.client = this.getSinchClient();
+    const getParams = this.client.extractQueryParams<VerificationStatusByIdentityRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = '';
+    const path = `/verification/v1/verifications/${data['method']}/number/${data['endpoint']}`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
+    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+
+    return this.client.processCall<VerificationReportResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'VerificationStatusByIdentity',
+    });
+  }
+
+  /**
+   * Get verification by Reference
+   * Queries the verification result by sending the verification Reference. With this query you can get the result of a verification.
+   * @param { VerificationStatusByReferenceRequestData } data - The data to provide to the API call.
+   */
+  public async getByReference(data: VerificationStatusByReferenceRequestData): Promise<VerificationReportResponse> {
+    this.client = this.getSinchClient();
+    const getParams = this.client.extractQueryParams<VerificationStatusByReferenceRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = '';
+    const path = `/verification/v1/verifications/reference/${data['reference']}`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
+    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+
+    return this.client.processCall<VerificationReportResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'VerificationStatusByReference',
+    });
+  }
+
+}

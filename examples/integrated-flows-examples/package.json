@@ -1,0 +1,22 @@
+{
+  "name": "@sinch/integrated-flows-examples",
+  "version": "0.0.0",
+  "author": "Sinch",
+  "private": true,
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "yarn run clean && yarn run compile",
+    "clean": "rimraf dist tsconfig.tsbuildinfo",
+    "compile": "tsc --build --verbose",
+    "numbers:app": "ts-node src/numbers/app.ts"
+  },
+  "dependencies": {
+    "@sinch/sdk-core": "^0.0.0",
+    "@types/node": "^20.8.7",
+    "dotenv": "^16.3.1",
+    "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
+  }
+}

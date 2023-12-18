@@ -1,0 +1,40 @@
+{
+  "name": "@sinch/sdk-core",
+  "version": "0.0.0",
+  "description": "Node.js client for the Sinch API platform",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "Apache-2.0",
+  "author": "Sinch",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "directories": {
+    "src": "dist",
+    "test": "tests"
+  },
+  "files": ["/dist"],
+  "scripts": {
+    "build": "yarn run clean && yarn run compile",
+    "clean": "rimraf dist tsconfig.tsbuildinfo",
+    "compile": "tsc --build --verbose"
+  },
+  "dependencies": {
+    "@sinch/numbers": "^0.0.0",
+    "@sinch/sms": "^0.0.0",
+    "@sinch/verification": "^0.0.0"
+  },
+  "devDependencies": {},
+  "publishConfig": {
+    "directory": "dist"
+  }
+}
