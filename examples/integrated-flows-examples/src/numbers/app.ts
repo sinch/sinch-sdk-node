@@ -32,7 +32,7 @@ require('dotenv').config();
 
   // Build the request data
   const availableRegionsRequestData: ListAvailableRegionsRequestData = {
-    types: regionType,
+    types: [regionType],
   };
 
   // Declare the variable holding the response

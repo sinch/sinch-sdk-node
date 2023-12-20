@@ -1,13 +1,13 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
   CallbackConfiguration,
-  CallbackConfigurationApi,
+  CallbacksApi,
   CallbackConfigurationApiFixture,
   GetCallbackConfigurationRequestData, UpdateCallbackConfigurationRequestData,
 } from '../../../../src';
 
 describe('CallbackConfigurationApi', () => {
-  let callbackConfigurationApi: CallbackConfigurationApi;
+  let callbacksApi: CallbacksApi;
   let fixture: CallbackConfigurationApiFixture;
   let credentials: SinchClientParameters;
 
@@ -18,7 +18,7 @@ describe('CallbackConfigurationApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    callbackConfigurationApi = new CallbackConfigurationApi(credentials);
+    callbacksApi = new CallbacksApi(credentials);
   });
 
   describe ('getCallbackConfiguration', () => {
@@ -32,8 +32,8 @@ describe('CallbackConfigurationApi', () => {
 
       // When
       fixture.get.mockResolvedValue(expectedResponse);
-      callbackConfigurationApi.get = fixture.get;
-      const response = await callbackConfigurationApi.get(requestData);
+      callbacksApi.get = fixture.get;
+      const response = await callbacksApi.get(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
@@ -56,8 +56,8 @@ describe('CallbackConfigurationApi', () => {
 
       // When
       fixture.update.mockResolvedValue(expectedResponse);
-      callbackConfigurationApi.update = fixture.update;
-      const response = await callbackConfigurationApi.update(requestData);
+      callbacksApi.update = fixture.update;
+      const response = await callbacksApi.update(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
