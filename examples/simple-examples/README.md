@@ -36,6 +36,7 @@ SINCH_KEY_SECRET=access-key-secret found at access-key creation time
 # Credentials for legacy SMS API usage
 SINCH_SERVICE_PLAN_ID=service-plan-id found at https://dashboard.sinch.com/sms/api/services
 SINCH_API_TOKEN=api-token found at https://dashboard.sinch.com/sms/api/services
+SMS_REGION=Value to determine according to your use case (default will be 'us')
 # Application credentials for Verification and Voice APIs
 SINCH_APPLICATION_KEY=application-key found at https://dashboard.sinch.com/verification/apps
 SINCH_APPLICATION_SECRET=application-secret found at https://dashboard.sinch.com/verification/apps
