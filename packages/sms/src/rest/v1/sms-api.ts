@@ -24,13 +24,18 @@ export class SmsApi implements Api {
    * @param {string} basePath - The new base path to use for the APIs.
    */
   public setBasePath(basePath: string) {
-    this.client = this.getSinchClient();
-    this.client.apiClientOptions.basePath = basePath;
+    try {
+      this.client = this.getSinchClient();
+      this.client.apiClientOptions.basePath = basePath;
+    } catch (error) {
+      console.error('Impossible to set a new base path, the Application credentials need to be provided first.');
+      throw error;
+    }
   }
 
   /**
    * Updates the credentials used to authenticate API requests
-   * @param {UnifiedCredentials | ServicePlanIdCredentials} credentials 
+   * @param {UnifiedCredentials | ServicePlanIdCredentials} credentials
    */
   public setCredentials(credentials: UnifiedCredentials | ServicePlanIdCredentials) {
     const parametersBackup = { ...this.sinchClientParameters };
