@@ -31,7 +31,8 @@
   "dependencies": {
     "@sinch/numbers": "^0.0.0",
     "@sinch/sms": "^0.0.0",
-    "@sinch/verification": "^0.0.0"
+    "@sinch/verification": "^0.0.0",
+    "@sinch/voice": "^0.0.0"
   },
   "devDependencies": {},
   "publishConfig": {
