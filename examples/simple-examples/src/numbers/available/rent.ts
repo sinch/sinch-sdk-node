@@ -7,9 +7,9 @@ import {
   printFullResponse,
 } from '../../config';
 import {
+  RentNumberRequest,
   RentNumberRequestData,
 } from '@sinch/sdk-core';
-import { RentNumberRequest } from '@sinch/numbers/src';
 
 (async () => {
   console.log('****************************');
@@ -23,7 +23,7 @@ import { RentNumberRequest } from '@sinch/numbers/src';
       + 'Please update your .env file or edit the ./src/numbers/available/rent.ts file');
   }
 
-  const servicePlanId = getServicePlanIdFromConfig()
+  const servicePlanId = getServicePlanIdFromConfig();
   const appId = getApplicationKeyFromConfig();
 
   let rentNumberRequest: RentNumberRequest = {

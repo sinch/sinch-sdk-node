@@ -34,7 +34,7 @@ export const getPhoneNumberFromConfig = (): string | undefined => {
 };
 
 export const getServicePlanIdFromConfig = (): string | undefined => {
-  return process.env.SERVICE_PLAN_ID;
+  return process.env.SINCH_SERVICE_PLAN_ID;
 };
 
 export const getApplicationKeyFromConfig = (): string | undefined => {
