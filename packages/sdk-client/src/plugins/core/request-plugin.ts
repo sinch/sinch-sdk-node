@@ -22,6 +22,8 @@ export interface RequestOptions extends RequestInit {
  * The plugin will be run on the request of a call
  */
 export interface RequestPlugin extends Plugin<RequestOptions, RequestOptions> {
+  /** Unique identifier of the plugin */
+  getName(): string;
   /** Load the plugin with the context */
   load(): PluginRunner<RequestOptions, RequestOptions>;
 }

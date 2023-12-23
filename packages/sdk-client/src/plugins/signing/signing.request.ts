@@ -38,6 +38,10 @@ export class SigningRequest implements RequestPlugin {
     this.applicationSecret = applicationSecret;
   }
 
+  getName(): string {
+    return 'SigningRequest';
+  }
+
   public load(): PluginRunner<RequestOptions, RequestOptions> {
     return {
       transform: (data: RequestOptions) => {

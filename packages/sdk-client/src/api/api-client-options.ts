@@ -1,4 +1,5 @@
-import { RequestPlugin, ResponsePlugin } from '../plugins';
+import { RequestPlugin } from '../plugins/core/request-plugin';
+import { ResponsePlugin } from '../plugins/core/response-plugin';
 
 interface BaseApiClientOptions {
   /**

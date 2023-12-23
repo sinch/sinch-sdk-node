@@ -10,6 +10,10 @@ export class Oauth2TokenRequest implements RequestPlugin {
 
   private token: AccessToken | undefined;
 
+  getName(): string {
+    return 'Oauth2TokenRequest';
+  }
+
   constructor(
     clientId: string,
     clientSecret: string,

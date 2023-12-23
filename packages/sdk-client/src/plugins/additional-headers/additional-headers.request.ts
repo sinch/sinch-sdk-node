@@ -11,6 +11,10 @@ export class AdditionalHeadersRequest implements RequestPlugin {
     this.additionalHeaders = additionalHeaders;
   }
 
+  getName(): string {
+    return 'AdditionalHeadersRequest';
+  }
+
   public load(): PluginRunner<RequestOptions, RequestOptions> {
     return {
       transform: async (data: RequestOptions) => {

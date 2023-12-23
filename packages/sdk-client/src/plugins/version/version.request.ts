@@ -4,6 +4,10 @@ import * as process from 'process';
 import { sdkCoreVersion } from '../../getVersion';
 
 export class VersionRequest implements RequestPlugin {
+
+  getName(): string {
+    return 'VersionRequest';
+  }
   public load(): PluginRunner<RequestOptions, RequestOptions> {
     const sdkVersion = sdkCoreVersion;
     const languageVersion = process.version;

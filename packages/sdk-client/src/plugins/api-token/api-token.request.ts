@@ -7,6 +7,10 @@ export class ApiTokenRequest implements RequestPlugin {
     this.apiToken = apiToken;
   }
 
+  getName(): string {
+    return 'ApiTokenRequest';
+  }
+
   public load(): PluginRunner<RequestOptions, RequestOptions> {
     return {
       transform: (data: RequestOptions) => {

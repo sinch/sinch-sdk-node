@@ -9,6 +9,10 @@ export class BasicAuthenticationRequest implements RequestPlugin {
     this.password = password;
   }
 
+  getName(): string {
+    return 'BasicAuthenticationRequest';
+  }
+
   public load(): PluginRunner<RequestOptions, RequestOptions> {
     return {
       transform: (data: RequestOptions) => {
