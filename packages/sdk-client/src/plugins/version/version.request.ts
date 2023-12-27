@@ -1,6 +1,6 @@
-import { PluginRunner, RequestOptions, RequestPlugin } from '../core';
+import { PluginRunner } from '../core';
+import { RequestOptions, RequestPlugin } from '../core/request-plugin';
 import * as process from 'process';
-// import version from '../../getVersion';
 import { sdkCoreVersion } from '../../getVersion';
 
 export class VersionRequest implements RequestPlugin {

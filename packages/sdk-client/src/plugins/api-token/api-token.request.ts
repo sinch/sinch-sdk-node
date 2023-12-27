@@ -1,4 +1,5 @@
-import { PluginRunner, RequestOptions, RequestPlugin } from '../core';
+import { PluginRunner } from '../core';
+import { RequestOptions, RequestPlugin } from '../core/request-plugin';
 
 export class ApiTokenRequest implements RequestPlugin {
   private readonly apiToken: string;

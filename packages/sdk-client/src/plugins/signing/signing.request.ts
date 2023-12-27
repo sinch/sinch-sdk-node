@@ -1,4 +1,5 @@
-import { PluginRunner, RequestOptions, RequestPlugin } from '../core';
+import { PluginRunner } from '../core';
+import { RequestOptions, RequestPlugin } from '../core/request-plugin';
 import * as crypto from 'crypto';
 
 export const calculateMD5 = (body: string): string => {

@@ -1,4 +1,5 @@
-import { calculateHMACSHA256, calculateMD5, RequestOptions, SigningRequest } from '../../../src';
+import { calculateHMACSHA256, calculateMD5, SigningRequest } from '../../../src';
+import { RequestOptions } from '../../../src/plugins/core/request-plugin';
 import { Headers } from 'node-fetch';
 
 describe('Signed request plugin', () => {
