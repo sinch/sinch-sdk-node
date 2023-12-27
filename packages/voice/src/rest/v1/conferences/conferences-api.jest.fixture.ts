@@ -1,37 +1,30 @@
 import {
-  GetCalloutResponseObj,
   GetConferenceInfoResponse,
 } from '../../../models';
 import {
-  ConferenceCalloutsRequestData,
   ConferencesApi,
-  GetConferenceInfoRequestData,
-  KickConferenceAllRequestData,
-  KickConferenceParticipantRequestData,
-  ManageConferenceParticipantRequestData,
+  GetInfoRequestData,
+  KickAllRequestData,
+  KickParticipantRequestData,
+  ManageParticipantRequestData,
 } from './conferences-api';
 
 export class ConferencesApiFixture implements Partial<Readonly<ConferencesApi>> {
 
   /**
-   * Fixture associated to function getConferenceInfo
+   * Fixture associated to function get
    */
-  public getConferenceInfo: jest.Mock<Promise<GetConferenceInfoResponse>, [GetConferenceInfoRequestData]> = jest.fn();
+  public get: jest.Mock<Promise<GetConferenceInfoResponse>, [GetInfoRequestData]> = jest.fn();
   /**
-   * Fixture associated to function kickConferenceAll
+   * Fixture associated to function kickAll
    */
-  public kickConferenceAll: jest.Mock<Promise<void>, [KickConferenceAllRequestData]> = jest.fn();
+  public kickAll: jest.Mock<Promise<void>, [KickAllRequestData]> = jest.fn();
   /**
-   * Fixture associated to function kickConferenceParticipant
+   * Fixture associated to function kickParticipant
    */
-  public kickConferenceParticipant: jest.Mock<Promise<void>, [KickConferenceParticipantRequestData]> = jest.fn();
+  public kickParticipant: jest.Mock<Promise<void>, [KickParticipantRequestData]> = jest.fn();
   /**
-   * Fixture associated to function manageConferenceParticipant
+   * Fixture associated to function manageParticipant
    */
-  public manageConferenceParticipant: jest.Mock<Promise<void>, [ManageConferenceParticipantRequestData]> = jest.fn();
-  /**
-   * Fixture associated to function callouts
-   */
-  public callouts: jest.Mock<Promise<GetCalloutResponseObj>, [ConferenceCalloutsRequestData]> = jest.fn();
+  public manageParticipant: jest.Mock<Promise<void>, [ManageParticipantRequestData]> = jest.fn();
 }
-

@@ -1,12 +1,12 @@
 /**
- * Model: UpdateNumbers
+ * Model: AssignNumbers
  *
  * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
  *
  */
 
 
-export interface UpdateNumbers {
+export interface AssignNumbers {
 
   /** The phone number or list of numbers in E.164 format. */
   numbers?: string[];
