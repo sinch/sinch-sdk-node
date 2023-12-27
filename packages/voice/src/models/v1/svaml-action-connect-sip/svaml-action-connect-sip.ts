@@ -27,7 +27,7 @@ export interface SvamlActionConnectSip {
   suppressCallbacks?: boolean;
   /** [Private SIP headers](../../sip-trunking/#receiving-calls-from-sinch-platform-to-your-sip-infrastructure) to send with the call. */
   callHeaders?: CallHeader[];
-  /** Means \"music on hold\". If this optional parameter is included, plays music to the connected participant if the SIP call is placed on hold. If `moh` isn\'t specified and the SIP call is placed on hold, the user will only hear silence while during the holding period . */
+  /** Means \"music on hold\". If this optional parameter is included, plays music to the connected participant if the SIP call is placed on hold. If `moh` isn't specified and the SIP call is placed on hold, the user will only hear silence while during the holding period . */
   moh?: string;
 }
 
