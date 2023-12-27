@@ -18,7 +18,7 @@ export interface SvamlActionConnectConf {
   conferenceId: string;
   /** @see SvamlActionConnectConfConferenceDtmfOptions */
   conferenceDtmfOptions?: SvamlActionConnectConfConferenceDtmfOptions;
-  /** Means "music on hold". If this optional parameter is included, plays music to the first participant in a conference while they\'re alone and waiting for other participants to join. If `moh` isn't specified, the user will only hear silence while alone in the conference. */
+  /** Means "music on hold". If this optional parameter is included, plays music to the first participant in a conference while they're alone and waiting for other participants to join. If `moh` isn't specified, the user will only hear silence while alone in the conference. */
   moh?: string;
 }
 

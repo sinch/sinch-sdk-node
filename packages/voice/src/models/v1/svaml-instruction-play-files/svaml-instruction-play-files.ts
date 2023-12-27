@@ -7,7 +7,7 @@
 
 
 /**
- * Plays Interactive Voice Response (IVR) files for the supported locale or SSML commands at the Sinch backend. An IVR message is played only on the caller\'s side.
+ * Plays Interactive Voice Response (IVR) files for the supported locale or SSML commands at the Sinch backend. An IVR message is played only on the caller's side.
  */
 export interface SvamlInstructionPlayFiles {
 

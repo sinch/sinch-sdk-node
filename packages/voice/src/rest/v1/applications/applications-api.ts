@@ -4,7 +4,7 @@ import {
   GetQueryNumber,
   UnassignNumbers,
   UpdateCallbacks,
-  UpdateNumbers,
+  AssignNumbers,
 } from '../../../models';
 import {
   RequestBody,
@@ -32,9 +32,9 @@ export interface UpdateCallbackURLsRequestData {
   /**  */
   'updateCallbacksRequestBody'?: UpdateCallbacks;
 }
-export interface UpdateNumbersRequestData {
+export interface AssignNumbersRequestData {
   /**  */
-  'updateNumbersRequestBody'?: UpdateNumbers;
+  'assignNumbersRequestBody'?: AssignNumbers;
 }
 
 export class ApplicationsApi extends VoiceApi {
@@ -142,7 +142,8 @@ export class ApplicationsApi extends VoiceApi {
       'Accept': '',
     };
 
-    const body: RequestBody = data['unassignNumbersRequestBody'] ? JSON.stringify(data['unassignNumbersRequestBody']) : '{}';
+    const body: RequestBody = data['unassignNumbersRequestBody']
+      ? JSON.stringify(data['unassignNumbersRequestBody']) : '{}';
     const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/configuration/numbers`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body);
@@ -169,7 +170,8 @@ export class ApplicationsApi extends VoiceApi {
       'Accept': '',
     };
 
-    const body: RequestBody = data['updateCallbacksRequestBody'] ? JSON.stringify(data['updateCallbacksRequestBody']) : '{}';
+    const body: RequestBody = data['updateCallbacksRequestBody']
+      ? JSON.stringify(data['updateCallbacksRequestBody']) : '{}';
     const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/configuration/callbacks/applications/${data['applicationkey']}`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body);
@@ -186,17 +188,18 @@ export class ApplicationsApi extends VoiceApi {
   /**
    * Update Numbers
    * Assign a number or a list of numbers to an application.
-   * @param { UpdateNumbersRequestData } data - The data to provide to the API call.
+   * @param { AssignNumbersRequestData } data - The data to provide to the API call.
    */
-  public async updateNumbers(data: UpdateNumbersRequestData): Promise<void> {
+  public async assignNumbers(data: AssignNumbersRequestData): Promise<void> {
     this.client = this.getSinchClient();
-    const getParams = this.client.extractQueryParams<UpdateNumbersRequestData>(data, [] as never[]);
+    const getParams = this.client.extractQueryParams<AssignNumbersRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': '',
     };
 
-    const body: RequestBody = data['updateNumbersRequestBody'] ? JSON.stringify(data['updateNumbersRequestBody']) : '{}';
+    const body: RequestBody = data['assignNumbersRequestBody']
+      ? JSON.stringify(data['assignNumbersRequestBody']) : '{}';
     const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/configuration/numbers`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
