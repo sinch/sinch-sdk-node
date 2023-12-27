@@ -4,7 +4,7 @@ import {
   CallsApiFixture,
   GetCallResponseObj,
   GetCallResultRequestData,
-  ManageCallWithCallLegRequestData,
+  ManageWithCallLegRequestData,
   SvamlAction,
   SvamlActionHangup,
   SvamlInstruction,
@@ -44,13 +44,13 @@ describe('CallsApi', () => {
       };
 
       // When
-      fixture.getCallResult.mockResolvedValue(expectedResponse);
-      callsApi.getCallResult = fixture.getCallResult;
-      const response = await callsApi.getCallResult(requestData);
+      fixture.get.mockResolvedValue(expectedResponse);
+      callsApi.get = fixture.get;
+      const response = await callsApi.get(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.getCallResult).toHaveBeenCalledWith(requestData);
+      expect(fixture.get).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -65,7 +65,7 @@ describe('CallsApi', () => {
       const action: SvamlAction = {
         name: 'hangup',
       } as SvamlActionHangup;
-      const requestData: ManageCallWithCallLegRequestData = {
+      const requestData: ManageWithCallLegRequestData = {
         callId: 'callId',
         callLeg: 'caller',
         svamlRequestBody: {
@@ -77,13 +77,13 @@ describe('CallsApi', () => {
       };
 
       // When
-      fixture.manageCallWithCallLeg.mockResolvedValue();
-      callsApi.manageCallWithCallLeg = fixture.manageCallWithCallLeg;
-      const response = await callsApi.manageCallWithCallLeg(requestData);
+      fixture.manageWithCallLeg.mockResolvedValue();
+      callsApi.manageWithCallLeg = fixture.manageWithCallLeg;
+      const response = await callsApi.manageWithCallLeg(requestData);
 
       // Then
       expect(response).toBeUndefined();
-      expect(fixture.manageCallWithCallLeg).toHaveBeenCalledWith(requestData);
+      expect(fixture.manageWithCallLeg).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -105,16 +105,16 @@ describe('CallsApi', () => {
           ],
           action,
         },
-      };;
+      };
 
       // When
-      fixture.updateCall.mockResolvedValue();
-      callsApi.updateCall = fixture.updateCall;
-      const response = await callsApi.updateCall(requestData);
+      fixture.update.mockResolvedValue();
+      callsApi.update = fixture.update;
+      const response = await callsApi.update(requestData);
 
       // Then
       expect(response).toBeUndefined();
-      expect(fixture.updateCall).toHaveBeenCalledWith(requestData);
+      expect(fixture.update).toHaveBeenCalledWith(requestData);
     });
   });
 });

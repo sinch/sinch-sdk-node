@@ -1,1 +1,1 @@
-export type { ManageCallWithCallLegCallLegEnum } from './calls';
+export type { CallLegEnum } from './calls';

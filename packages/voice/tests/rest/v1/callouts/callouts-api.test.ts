@@ -1,9 +1,9 @@
 import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
 import {
   CalloutsApi,
-  CalloutsApiFixture,
-  CalloutsRequestData,
+  CalloutsApiFixture, ConferenceCalloutRequestData, CustomCalloutRequestData,
   GetCalloutResponseObj,
+  TtsCalloutRequestData,
 } from '../../../../src';
 
 describe('CalloutsApi', () => {
@@ -19,19 +19,20 @@ describe('CalloutsApi', () => {
     calloutsApi = new CalloutsApi(apiClientOptions);
   });
 
-  describe ('callouts', () => {
-    it('should make a POST request to make a call out to a phone number', async () => {
+  describe ('TTS callouts', () => {
+    it('should make a POST request to make a TTS callout to a phone number', async () => {
       // Given
-      const requestData: CalloutsRequestData = {
-        calloutRequestBody: {
+      const requestData: TtsCalloutRequestData = {
+        ttsCalloutRequestBody: {
           method: 'ttsCallout',
           ttsCallout: {
+            cli: '+14045001000',
             destination: {
               type: 'number',
-              endpoint: '+33444555666',
+              endpoint: '+14045005000',
             },
             domain: 'pstn',
-            text: 'test to speech'
+            text: 'text to speech',
           },
         },
       };
@@ -40,13 +41,75 @@ describe('CalloutsApi', () => {
       };
 
       // When
-      fixture.callouts.mockResolvedValue(expectedResponse);
-      calloutsApi.callouts = fixture.callouts;
-      const response = await calloutsApi.callouts(requestData);
+      fixture.tts.mockResolvedValue(expectedResponse);
+      calloutsApi.tts = fixture.tts;
+      const response = await calloutsApi.tts(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.callouts).toHaveBeenCalledWith(requestData);
+      expect(fixture.tts).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('Conference callouts', () => {
+    it('should make a POST request to make a conference callout to a phone number', async () => {
+      // Given
+      const requestData: ConferenceCalloutRequestData = {
+        conferenceCalloutRequestBody: {
+          method: 'conferenceCallout',
+          conferenceCallout: {
+            cli: '+14045001000',
+            conferenceId: 'conferenceId',
+            destination: {
+              type: 'number',
+              endpoint: '+14045005000',
+            },
+            domain: 'pstn',
+          },
+        },
+      };
+      const expectedResponse: GetCalloutResponseObj = {
+        callId: 'callId',
+      };
+
+      // When
+      fixture.conference.mockResolvedValue(expectedResponse);
+      calloutsApi.conference = fixture.conference;
+      const response = await calloutsApi.conference(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.conference).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('Custom callouts', () => {
+    it('should make a POST request to make a Custom callout to a phone number', async () => {
+      // Given
+      const requestData: CustomCalloutRequestData = {
+        customCalloutRequestBody: {
+          method: 'customCallout',
+          customCallout: {
+            cli: '+14045001000',
+            destination: {
+              type: 'number',
+              endpoint: '+14045005000',
+            },
+          },
+        },
+      };
+      const expectedResponse: GetCalloutResponseObj = {
+        callId: 'callId',
+      };
+
+      // When
+      fixture.custom.mockResolvedValue(expectedResponse);
+      calloutsApi.custom = fixture.custom;
+      const response = await calloutsApi.custom(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.custom).toHaveBeenCalledWith(requestData);
     });
   });
 });

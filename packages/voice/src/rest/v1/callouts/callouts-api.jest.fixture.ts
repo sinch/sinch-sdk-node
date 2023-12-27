@@ -1,11 +1,26 @@
 import { GetCalloutResponseObj } from '../../../models';
-import { CalloutsApi, CalloutsRequestData } from './callouts-api';
+import {
+  CalloutsApi,
+  ConferenceCalloutRequestData,
+  CustomCalloutRequestData,
+  TtsCalloutRequestData,
+} from './callouts-api';
 
 export class CalloutsApiFixture implements Partial<Readonly<CalloutsApi>> {
 
   /**
-   * Fixture associated to function callouts
+   * Fixture associated to function tts
    */
-  public callouts: jest.Mock<Promise<GetCalloutResponseObj>, [CalloutsRequestData]> = jest.fn();
+  public tts: jest.Mock<Promise<GetCalloutResponseObj>, [TtsCalloutRequestData]> = jest.fn();
+
+  /**
+   * Fixture associated to function tts
+   */
+  public conference: jest.Mock<Promise<GetCalloutResponseObj>, [ConferenceCalloutRequestData]> = jest.fn();
+
+  /**
+   * Fixture associated to function tts
+   */
+  public custom: jest.Mock<Promise<GetCalloutResponseObj>, [CustomCalloutRequestData]> = jest.fn();
 }
 

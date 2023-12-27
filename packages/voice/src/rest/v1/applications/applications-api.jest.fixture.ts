@@ -1,5 +1,5 @@
 import { GetCallbacks, GetNumbersResponseObj, GetQueryNumber } from '../../../models';
-import { ApplicationsApi, QueryNumberRequestData, GetCallbackURLsRequestData, GetNumbersRequestData, UnassignNumberRequestData, UpdateCallbackURLsRequestData, UpdateNumbersRequestData } from './applications-api';
+import { ApplicationsApi, QueryNumberRequestData, GetCallbackURLsRequestData, GetNumbersRequestData, UnassignNumberRequestData, UpdateCallbackURLsRequestData, AssignNumbersRequestData } from './applications-api';
 
 export class ApplicationsApiFixture implements Partial<Readonly<ApplicationsApi>> {
 
@@ -24,8 +24,8 @@ export class ApplicationsApiFixture implements Partial<Readonly<ApplicationsApi>
    */
   public updateCallbackURLs: jest.Mock<Promise<void>, [UpdateCallbackURLsRequestData]> = jest.fn();
   /**
-   * Fixture associated to function updateNumbers
+   * Fixture associated to function assignNumbers
    */
-  public updateNumbers: jest.Mock<Promise<void>, [UpdateNumbersRequestData]> = jest.fn();
+  public assignNumbers: jest.Mock<Promise<void>, [AssignNumbersRequestData]> = jest.fn();
 }
 

@@ -1,13 +1,12 @@
 import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
 import {
-  ConferenceCalloutsRequestData,
   ConferencesApi,
   ConferencesApiFixture,
-  GetCalloutResponseObj,
-  GetConferenceInfoRequestData,
   GetConferenceInfoResponse,
-  KickConferenceAllRequestData,
-  KickConferenceParticipantRequestData, ManageConferenceParticipantRequestData,
+  GetInfoRequestData,
+  KickAllRequestData,
+  KickParticipantRequestData,
+  ManageParticipantRequestData,
 } from '../../../../src';
 
 
@@ -27,7 +26,7 @@ describe('ConferencesApi', () => {
   describe ('getConferenceInfo', () => {
     it('should make a GET request to ...', async () => {
       // Given
-      const requestData: GetConferenceInfoRequestData = {
+      const requestData: GetInfoRequestData = {
         conferenceId: 'conferenceId',
       };
       const expectedResponse: GetConferenceInfoResponse = {
@@ -50,105 +49,73 @@ describe('ConferencesApi', () => {
       };
 
       // When
-      fixture.getConferenceInfo.mockResolvedValue(expectedResponse);
-      conferencesApi.getConferenceInfo = fixture.getConferenceInfo;
-      const response = await conferencesApi.getConferenceInfo(requestData);
+      fixture.get.mockResolvedValue(expectedResponse);
+      conferencesApi.get = fixture.get;
+      const response = await conferencesApi.get(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.getConferenceInfo).toHaveBeenCalledWith(requestData);
+      expect(fixture.get).toHaveBeenCalledWith(requestData);
     });
   });
 
   describe ('kickConferenceAll', () => {
     it('should make a DELETE request to remove all participants from a conference', async () => {
       // Given
-      const requestData: KickConferenceAllRequestData = {
+      const requestData: KickAllRequestData = {
         conferenceId: 'conferenceId',
       };
 
       // When
-      fixture.kickConferenceAll.mockResolvedValue();
-      conferencesApi.kickConferenceAll = fixture.kickConferenceAll;
-      const response = await conferencesApi.kickConferenceAll(requestData);
+      fixture.kickAll.mockResolvedValue();
+      conferencesApi.kickAll = fixture.kickAll;
+      const response = await conferencesApi.kickAll(requestData);
 
       // Then
       expect(response).toBeUndefined();
-      expect(fixture.kickConferenceAll).toHaveBeenCalledWith(requestData);
+      expect(fixture.kickAll).toHaveBeenCalledWith(requestData);
     });
   });
 
   describe ('kickConferenceParticipant', () => {
     it('should make a DELETE request to remove the specified participant from a conference', async () => {
       // Given
-      const requestData: KickConferenceParticipantRequestData = {
+      const requestData: KickParticipantRequestData = {
         conferenceId: 'conferenceId',
         callId: 'callId',
       };
 
       // When
-      fixture.kickConferenceParticipant.mockResolvedValue();
-      conferencesApi.kickConferenceParticipant = fixture.kickConferenceParticipant;
-      const response = await conferencesApi.kickConferenceParticipant(requestData);
+      fixture.kickParticipant.mockResolvedValue();
+      conferencesApi.kickParticipant = fixture.kickParticipant;
+      const response = await conferencesApi.kickParticipant(requestData);
 
       // Then
       expect(response).toBeUndefined();
-      expect(fixture.kickConferenceParticipant).toHaveBeenCalledWith(requestData);
+      expect(fixture.kickParticipant).toHaveBeenCalledWith(requestData);
     });
   });
 
   describe ('manageConferenceParticipant', () => {
     it('should make a PATCH request to manage a conference participant', async () => {
       // Given
-      const requestData: ManageConferenceParticipantRequestData = {
+      const requestData: ManageParticipantRequestData = {
         callId: 'callId',
         conferenceId: 'conferenceId',
-        manageConferenceParticipantRequestBody: {
+        manageParticipantRequestBody: {
           command: 'mute',
           moh: 'ring',
         },
       };
 
       // When
-      fixture.manageConferenceParticipant.mockResolvedValue();
-      conferencesApi.manageConferenceParticipant = fixture.manageConferenceParticipant;
-      const response = await conferencesApi.manageConferenceParticipant(requestData);
+      fixture.kickParticipant.mockResolvedValue();
+      conferencesApi.kickParticipant = fixture.kickParticipant;
+      const response = await conferencesApi.kickParticipant(requestData);
 
       // Then
       expect(response).toBeUndefined();
-      expect(fixture.manageConferenceParticipant).toHaveBeenCalledWith(requestData);
-    });
-  });
-
-  describe ('callouts', () => {
-    it('should make a POST request to make a call out to a phone number', async () => {
-      // Given
-      const requestData: ConferenceCalloutsRequestData = {
-        calloutRequestBody: {
-          method: 'ttsCallout',
-          ttsCallout: {
-            cli: '+14045001000',
-            destination: {
-              type: 'number',
-              endpoint: '+14045005000',
-            },
-            locale: 'en-US',
-            text: 'Hello, this is a call from Sinch.',
-          },
-        },
-      };
-      const expectedResponse: GetCalloutResponseObj = {
-        callId: 'adf92089-df2a-4f14-a377-1e975f588fe4',
-      };
-
-      // When
-      fixture.callouts.mockResolvedValue(expectedResponse);
-      conferencesApi.callouts = fixture.callouts;
-      const response = await conferencesApi.callouts(requestData);
-
-      // Then
-      expect(response).toEqual(expectedResponse);
-      expect(fixture.callouts).toHaveBeenCalledWith(requestData);
+      expect(fixture.kickParticipant).toHaveBeenCalledWith(requestData);
     });
   });
 });
