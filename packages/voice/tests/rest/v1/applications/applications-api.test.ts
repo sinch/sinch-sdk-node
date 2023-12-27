@@ -1,7 +1,7 @@
 import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
 import {
   ApplicationsApi,
-  ApplicationsApiFixture,
+  ApplicationsApiFixture, AssignNumbersRequestData,
   GetCallbacks,
   GetCallbackURLsRequestData,
   GetNumbersRequestData,
@@ -10,7 +10,6 @@ import {
   QueryNumberRequestData,
   UnassignNumberRequestData,
   UpdateCallbackURLsRequestData,
-  UpdateNumbersRequestData,
 } from '../../../../src';
 
 describe('ApplicationsApi', () => {
@@ -151,8 +150,8 @@ describe('ApplicationsApi', () => {
   describe ('updateNumbers', () => {
     it('should make a POST request to assign some numbers to an application', async () => {
       // Given
-      const requestData: UpdateNumbersRequestData = {
-        updateNumbersRequestBody: {
+      const requestData: AssignNumbersRequestData = {
+        assignNumbersRequestBody: {
           numbers: [
             '+33444555666',
             '+33777888999',
@@ -163,13 +162,13 @@ describe('ApplicationsApi', () => {
       };
 
       // When
-      fixture.updateNumbers.mockResolvedValue();
-      applicationsApi.updateNumbers = fixture.updateNumbers;
-      const response = await applicationsApi.updateNumbers(requestData);
+      fixture.assignNumbers.mockResolvedValue();
+      applicationsApi.assignNumbers = fixture.assignNumbers;
+      const response = await applicationsApi.assignNumbers(requestData);
 
       // Then
       expect(response).toBeUndefined();
-      expect(fixture.updateNumbers).toHaveBeenCalledWith(requestData);
+      expect(fixture.assignNumbers).toHaveBeenCalledWith(requestData);
     });
   });
 });

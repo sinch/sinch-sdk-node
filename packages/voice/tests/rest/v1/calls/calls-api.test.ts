@@ -105,7 +105,7 @@ describe('CallsApi', () => {
           ],
           action,
         },
-      };;
+      };
 
       // When
       fixture.updateCall.mockResolvedValue();
