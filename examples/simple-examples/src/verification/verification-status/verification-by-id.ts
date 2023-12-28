@@ -2,7 +2,7 @@ import { VerificationStatusByIdRequestData } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getVerificationIdFromConfig,
-  initVerificationClient,
+  initApplicationClient,
   printFullResponse,
 } from '../../config';
 
@@ -21,7 +21,7 @@ import {
     id: verificationId,
   };
 
-  const sinchClient = initVerificationClient();
+  const sinchClient = initApplicationClient();
   let response;
   try {
     response = await sinchClient.verification.verificationStatus.getById(requestData);

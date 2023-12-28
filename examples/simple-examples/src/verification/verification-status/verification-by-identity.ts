@@ -1,5 +1,5 @@
 import { VerificationStatusByIdentityRequestData } from '@sinch/sdk-core';
-import { getPrintFormat, getVerificationIdentityFromConfig, initVerificationClient, printFullResponse } from '../../config';
+import { getPrintFormat, getVerificationIdentityFromConfig, initApplicationClient, printFullResponse } from '../../config';
 
 (async () => {
   console.log('********************************');
@@ -18,7 +18,7 @@ import { getPrintFormat, getVerificationIdentityFromConfig, initVerificationClie
     method: 'sms',
   };
 
-  const sinchClient = initVerificationClient();
+  const sinchClient = initApplicationClient();
   let response;
   try {
     response = await sinchClient.verification.verificationStatus.getByIdentity(requestData);

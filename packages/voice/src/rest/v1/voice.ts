@@ -4,7 +4,7 @@
  * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
  *
  */
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, VoiceRegion } from '@sinch/sdk-client';
 import { ApplicationsApi } from './applications';
 import { ConferencesApi } from './conferences';
 import { CallsApi } from './calls';
@@ -33,5 +33,9 @@ export class Voice {
     this.conferences.setBasePath(basePath);
     this.calls.setBasePath(basePath);
     this.callouts.setBasePath(basePath);
+  }
+
+  public setRegion(region: VoiceRegion) {
+    this.applications.setRegion(region);
   }
 }
