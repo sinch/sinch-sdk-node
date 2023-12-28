@@ -25,7 +25,7 @@ describe('AvailableRegionsApi', () => {
     it('should make a GET request to list all regions for numbers type provided for the project ID', async () => {
       // Given
       const requestData: ListAvailableRegionsRequestData = {
-        types: 'LOCAL',
+        types: ['LOCAL'],
       };
       const expectedResponse: ListAvailableRegionsResponse = {
         availableRegions: [

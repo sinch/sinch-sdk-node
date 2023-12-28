@@ -11,7 +11,7 @@ export const initClient = () => {
 export const initSmsClient = () => {
   const servicePlanId = process.env.SINCH_SERVICE_PLAN_ID || '';
   const apiToken = process.env.SINCH_API_TOKEN || '';
-  const region = getRegion(process.env.SINCH_PROJECT_ID) || Region.UNITED_STATES;
+  const region = getRegion(process.env.SMS_REGION) || Region.UNITED_STATES;
   return new SinchClient({ servicePlanId, apiToken, region });
 };
 
@@ -34,7 +34,7 @@ export const getPhoneNumberFromConfig = (): string | undefined => {
 };
 
 export const getServicePlanIdFromConfig = (): string | undefined => {
-  return process.env.SERVICE_PLAN_ID;
+  return process.env.SINCH_SERVICE_PLAN_ID;
 };
 
 export const getApplicationKeyFromConfig = (): string | undefined => {

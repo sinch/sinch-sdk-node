@@ -9,7 +9,7 @@ import { getPrintFormat, initClient, printFullResponse } from '../../config';
   const requestData: GetCallbackConfigurationRequestData = {};
 
   const sinchClient = initClient();
-  const response = await sinchClient.numbers.callbackConfiguration.get(requestData);
+  const response = await sinchClient.numbers.callbacks.get(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

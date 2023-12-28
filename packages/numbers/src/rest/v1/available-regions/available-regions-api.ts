@@ -14,7 +14,7 @@ export interface ListAvailableRegionsRequestData {
    * - LOCAL: Numbers that are assigned to a specific geographic region.
    * - TOLL_FREE: Number that are free of charge for the calling party but billed for all arriving calls.
    */
-  types?: RegionNumberTypeEnum;
+  types?: Array<RegionNumberTypeEnum>;
 }
 
 export class AvailableRegionsApi extends NumbersApi {
@@ -54,7 +54,7 @@ export class AvailableRegionsApi extends NumbersApi {
       headers,
       body || undefined,
     );
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams, true);
 
     return this.client.processCall<ListAvailableRegionsResponse>({
       url,

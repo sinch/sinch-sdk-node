@@ -1,5 +1,9 @@
 export type { TypeEnum as BadRequestTypeEnum } from './bad-request/bad-request';
 export type {
+  EventTypeEnum as CallbackPayloadEventTypeEnum,
+  FailureCodeEnum as CallbackPayloadFailureCodeEnum,
+} from './callback-payload/callback-payload';
+export type {
   CodeEnum as InternalErrorErrorCodeEnum,
   StatusEnum as InternalErrorErrorStatusEnum,
 } from './internal-error-error/internal-error-error';

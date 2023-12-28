@@ -7,7 +7,7 @@ import { getPrintFormat, initClient, printFullResponse } from '../../config';
   console.log('**************************************');
 
   const requestData: ListAvailableRegionsRequestData = {
-    types: 'LOCAL',
+    types: ['LOCAL','MOBILE'],
   };
 
   const sinchClient = initClient();
