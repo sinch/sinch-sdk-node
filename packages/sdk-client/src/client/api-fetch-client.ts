@@ -1,8 +1,6 @@
-import {
-  ExceptionResponse,
-  ResponsePlugin,
-  VersionRequest,
-} from '../plugins';
+import { ResponsePlugin } from '../plugins/core/response-plugin';
+import { VersionRequest } from '../plugins/version/version.request';
+import { ExceptionResponse } from '../plugins/exception/exception.response';
 import {
   ApiClient,
   ApiClientOptions,

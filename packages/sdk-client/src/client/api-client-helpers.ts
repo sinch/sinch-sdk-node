@@ -1,8 +1,8 @@
 import {
-  Oauth2TokenRequest,
   RequestOptions,
   RequestPlugin,
-} from '../plugins';
+  RequestPluginEnum,
+} from '../plugins/core/request-plugin';
 import { ApiCallParameters, ApiCallParametersWithPagination, ErrorContext, GenericError } from '../api';
 
 export const manageExpiredToken = async (
@@ -51,10 +51,10 @@ export async function invalidateAndRegenerateJwt(
   errorContext: ErrorContext,
 ): Promise<RequestOptions> {
   const oauth2Plugin = requestPlugins?.find(
-    (plugin) => plugin instanceof Oauth2TokenRequest,
-  ) as Oauth2TokenRequest;
+    (plugin) => plugin.getName() === RequestPluginEnum.OAUTH2_TOKEN_REQUEST,
+  );
   if (oauth2Plugin) {
-    oauth2Plugin.invalidateToken();
+    (oauth2Plugin as any).invalidateToken();
     return oauth2Plugin.load().transform(options);
   } else {
     const errorMessage

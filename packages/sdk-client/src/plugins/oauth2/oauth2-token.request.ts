@@ -1,4 +1,5 @@
-import { PluginRunner, RequestOptions, RequestPlugin } from '../core';
+import { PluginRunner } from '../core';
+import { RequestOptions, RequestPlugin, RequestPluginEnum } from '../core/request-plugin';
 import { AdditionalHeadersRequest } from '../additional-headers';
 import { ApiClient } from '../../api';
 import { OAuth2Api } from './oauth2-api';
@@ -9,6 +10,10 @@ export class Oauth2TokenRequest implements RequestPlugin {
   private readonly apiClient: ApiClient;
 
   private token: AccessToken | undefined;
+
+  getName(): string {
+    return RequestPluginEnum.OAUTH2_TOKEN_REQUEST;
+  }
 
   constructor(
     clientId: string,
@@ -90,7 +95,7 @@ interface AccessToken {
   status: TokenStatus;
 }
 
-export enum TokenStatus {
+enum TokenStatus {
   INVALID,
   VALID,
 }
