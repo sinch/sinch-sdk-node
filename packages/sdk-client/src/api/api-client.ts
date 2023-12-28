@@ -1,4 +1,4 @@
-import { RequestBody, RequestOptions } from '../plugins';
+import { RequestBody, RequestOptions } from '../plugins/core/request-plugin';
 import { ApiClientOptions } from './api-client-options';
 import { Headers } from 'node-fetch';
 

@@ -6,7 +6,7 @@ import {
   PaginatedApiProperties,
   PaginationEnum,
 } from '../api';
-import { RequestOptions } from '../plugins';
+import { RequestOptions } from '../plugins/core/request-plugin';
 
 class SinchIterator<T> implements AsyncIterator<T> {
 

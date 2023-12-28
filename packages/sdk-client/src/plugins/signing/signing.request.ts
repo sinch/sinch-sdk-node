@@ -1,4 +1,5 @@
-import { PluginRunner, RequestOptions, RequestPlugin } from '../core';
+import { PluginRunner } from '../core';
+import { RequestOptions, RequestPlugin, RequestPluginEnum } from '../core/request-plugin';
 import * as crypto from 'crypto';
 
 export const calculateMD5 = (body: string): string => {
@@ -36,6 +37,10 @@ export class SigningRequest implements RequestPlugin {
   constructor(applicationId: string, applicationSecret: string) {
     this.applicationId = applicationId;
     this.applicationSecret = applicationSecret;
+  }
+
+  getName(): string {
+    return RequestPluginEnum.SIGNING_REQUEST;
   }
 
   public load(): PluginRunner<RequestOptions, RequestOptions> {
