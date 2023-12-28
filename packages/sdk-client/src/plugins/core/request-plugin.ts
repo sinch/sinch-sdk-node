@@ -4,6 +4,16 @@ import FormData = require('form-data');
 
 export type RequestBody = string | FormData;
 
+export enum RequestPluginEnum {
+  ADDITIONAL_HEADER_REQUEST = 'AdditionalHeadersRequest',
+  API_TOKEN_REQUEST = 'ApiTokenRequest',
+  BASIC_AUTHENTICATION_REQUEST = 'BasicAuthenticationRequest',
+  OAUTH2_TOKEN_REQUEST = 'Oauth2TokenRequest',
+  SIGNING_REQUEST = 'SigningRequest',
+  VERSION_REQUEST = 'VersionRequest',
+  X_TIMESTAMP_REQUEST = 'XTimestampRequest'
+}
+
 export interface RequestOptions extends RequestInit {
   /** Query Parameters */
   queryParams?: { [key: string]: string };

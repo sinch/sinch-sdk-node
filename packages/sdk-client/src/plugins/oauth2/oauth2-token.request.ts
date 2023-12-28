@@ -1,5 +1,5 @@
 import { PluginRunner } from '../core';
-import { RequestOptions, RequestPlugin } from '../core/request-plugin';
+import { RequestOptions, RequestPlugin, RequestPluginEnum } from '../core/request-plugin';
 import { AdditionalHeadersRequest } from '../additional-headers';
 import { ApiClient } from '../../api';
 import { OAuth2Api } from './oauth2-api';
@@ -12,7 +12,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
   private token: AccessToken | undefined;
 
   getName(): string {
-    return 'Oauth2TokenRequest';
+    return RequestPluginEnum.OAUTH2_TOKEN_REQUEST;
   }
 
   constructor(
@@ -95,7 +95,7 @@ interface AccessToken {
   status: TokenStatus;
 }
 
-export enum TokenStatus {
+enum TokenStatus {
   INVALID,
   VALID,
 }

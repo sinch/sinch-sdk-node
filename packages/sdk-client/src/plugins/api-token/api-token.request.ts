@@ -1,5 +1,5 @@
 import { PluginRunner } from '../core';
-import { RequestOptions, RequestPlugin } from '../core/request-plugin';
+import { RequestOptions, RequestPlugin, RequestPluginEnum } from '../core/request-plugin';
 
 export class ApiTokenRequest implements RequestPlugin {
   private readonly apiToken: string;
@@ -9,7 +9,7 @@ export class ApiTokenRequest implements RequestPlugin {
   }
 
   getName(): string {
-    return 'ApiTokenRequest';
+    return RequestPluginEnum.API_TOKEN_REQUEST;
   }
 
   public load(): PluginRunner<RequestOptions, RequestOptions> {

@@ -1,5 +1,5 @@
 import { PluginRunner } from '../core';
-import { RequestOptions, RequestPlugin } from '../core/request-plugin';
+import { RequestOptions, RequestPlugin, RequestPluginEnum } from '../core/request-plugin';
 
 export class BasicAuthenticationRequest implements RequestPlugin {
   private readonly userName: string;
@@ -11,7 +11,7 @@ export class BasicAuthenticationRequest implements RequestPlugin {
   }
 
   getName(): string {
-    return 'BasicAuthenticationRequest';
+    return RequestPluginEnum.BASIC_AUTHENTICATION_REQUEST;
   }
 
   public load(): PluginRunner<RequestOptions, RequestOptions> {

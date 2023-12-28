@@ -1,6 +1,7 @@
 import {
   RequestOptions,
   RequestPlugin,
+  RequestPluginEnum,
 } from '../plugins/core/request-plugin';
 import { ApiCallParameters, ApiCallParametersWithPagination, ErrorContext, GenericError } from '../api';
 
@@ -50,7 +51,7 @@ export async function invalidateAndRegenerateJwt(
   errorContext: ErrorContext,
 ): Promise<RequestOptions> {
   const oauth2Plugin = requestPlugins?.find(
-    (plugin) => plugin.getName() === 'Oauth2TokenRequest',
+    (plugin) => plugin.getName() === RequestPluginEnum.OAUTH2_TOKEN_REQUEST,
   );
   if (oauth2Plugin) {
     (oauth2Plugin as any).invalidateToken();
