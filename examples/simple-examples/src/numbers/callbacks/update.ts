@@ -16,7 +16,7 @@ import * as process from 'process';
   };
 
   const sinchClient = initClient();
-  const response = await sinchClient.numbers.callbackConfiguration.update(requestData);
+  const response = await sinchClient.numbers.callbacks.update(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

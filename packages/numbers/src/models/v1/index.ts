@@ -7,6 +7,7 @@ export * from './available-region';
 export * from './bad-request';
 export * from './callback-configuration';
 export * from './callback-configuration-update';
+export * from './callback-payload';
 export * from './field-violation';
 export * from './internal-error';
 export * from './internal-error-error';

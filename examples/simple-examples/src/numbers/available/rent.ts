@@ -7,9 +7,9 @@ import {
   printFullResponse,
 } from '../../config';
 import {
+  RentNumberRequest,
   RentNumberRequestData,
 } from '@sinch/sdk-core';
-import { RentNumberRequest } from '@sinch/numbers/src';
 
 (async () => {
   console.log('****************************');

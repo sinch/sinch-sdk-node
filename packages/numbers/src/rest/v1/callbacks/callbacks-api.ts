@@ -11,7 +11,7 @@ export interface UpdateCallbackConfigurationRequestData {
   callbackConfigurationUpdateRequestBody?: CallbackConfigurationUpdate;
 }
 
-export class CallbackConfigurationApi extends NumbersApi {
+export class CallbacksApi extends NumbersApi {
 
   /**
    * Initialize your interface with the provided API client.
@@ -19,7 +19,7 @@ export class CallbackConfigurationApi extends NumbersApi {
    * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
    */
   constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'CallbackConfigurationApi');
+    super(sinchClientParameters, 'CallbacksApi');
   }
 
   /**

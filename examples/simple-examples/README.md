@@ -36,6 +36,7 @@ SINCH_KEY_SECRET=access-key-secret found at access-key creation time
 # Credentials for legacy SMS API usage
 SINCH_SERVICE_PLAN_ID=service-plan-id found at https://dashboard.sinch.com/sms/api/services
 SINCH_API_TOKEN=api-token found at https://dashboard.sinch.com/sms/api/services
+SMS_REGION=Value to determine according to your use case (default will be 'us')
 # Application credentials for Verification and Voice APIs
 SINCH_APPLICATION_KEY=application-key found at https://dashboard.sinch.com/verification/apps
 SINCH_APPLICATION_SECRET=application-secret found at https://dashboard.sinch.com/verification/apps
@@ -86,8 +87,8 @@ yarn run numbers:regions:list
 |              |                     | [./src/numbers/active/get.ts](./src/numbers/active/get.ts)                                                                                 | `PHONE_NUMBER`                                                                  |
 |              |                     | [./src/numbers/active/update.ts](./src/numbers/active/update.ts)                                                                           | `PHONE_NUMBER`                                                                  |
 |              |                     | [./src/numbers/active/release.ts](./src/numbers/active/release.ts)                                                                         | `PHONE_NUMBER`                                                                  |
-|              | Callback            | [./src/numbers/callback/get.ts](./src/numbers/callback/get.ts)                                                                             |                                                                                 |
-|              |                     | [./src/numbers/callback/update.ts](./src/numbers/callback/update.ts)                                                                       |                                                                                 |
+|              | Callbacks           | [./src/numbers/callbacks/get.ts](src/numbers/callbacks/get.ts)                                                                             |                                                                                 |
+|              |                     | [./src/numbers/callbacks/update.ts](src/numbers/callbacks/update.ts)                                                                       |                                                                                 |
 | SMS          | Groups              | [./src/sms/groups/list/list.ts](./src/sms/groups/list/list.ts)                                                                             |                                                                                 |
 |              |                     | [./src/sms/groups/create/create.ts](./src/sms/groups/create/create.ts)                                                                     |                                                                                 |
 |              |                     | [./src/sms/groups/get/get.ts](./src/sms/groups/get/get.ts)                                                                                 | `GROUP_ID`                                                                      |

@@ -26,4 +26,6 @@ export interface RentAnyNumberRequest {
   smsConfiguration?: RentAnyNumberRequestSmsConfiguration;
   /** @see RentAnyNumberRequestVoiceConfiguration */
   voiceConfiguration?: RentAnyNumberRequestVoiceConfiguration;
+  /** The active number's callback URL to be called for provisioning / deprovisioning updates */
+  callbackUrl?: string;
 }

@@ -18,4 +18,6 @@ export interface ActiveNumberRequest {
   smsConfiguration?: SMSConfiguration;
   /** @see VoiceConfiguration */
   voiceConfiguration?: VoiceConfiguration;
+  /** The active number's callback URL to be called for provisioning / deprovisioning updates */
+  callbackUrl?: string;
 }
