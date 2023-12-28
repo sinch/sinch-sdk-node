@@ -82,11 +82,7 @@ export const getVerificationCliFromConfig = (): string | undefined => {
 };
 
 export const getCallIdFromConfig = (): string => {
-  const callId = process.env.CALL_ID;
-  if (!callId) {
-    throw new Error('No "CALL_ID" has been provided. Please update your .env file.');
-  }
-  return callId;
+  return readVariable('CALL_ID');
 };
 
 export const getConferenceIdFromConfig = (): string => {
