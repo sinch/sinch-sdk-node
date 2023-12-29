@@ -7,10 +7,6 @@ import { GetActiveNumberRequestData } from '@sinch/sdk-core';
   console.log('*********************************');
 
   const phoneNumber = getPhoneNumberFromConfig();
-  if (!phoneNumber) {
-    throw new Error('No phone number has been provided. '
-      + 'Please update your .env file or edit the ./src/numbers/active/get.ts file');
-  }
 
   const requestData: GetActiveNumberRequestData= {
     phoneNumber,

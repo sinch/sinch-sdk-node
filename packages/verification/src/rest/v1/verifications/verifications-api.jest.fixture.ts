@@ -1,13 +1,12 @@
-import { VerificationsApi, ReportVerificationByIdRequestData, ReportVerificationByIdentityRequestData, StartVerificationRequestData } from './verifications-api';
 import { InitiateVerificationResponse, VerificationResponse } from '../../../models';
+import { VerificationsApi, ReportVerificationByIdRequestData, ReportVerificationByIdentityRequestData, StartVerificationRequestData } from './verifications-api';
 
 export class VerificationsApiFixture implements Partial<Readonly<VerificationsApi>> {
 
   /**
    * Fixture associated to function reportVerificationById
    */
-  public reportById: jest.Mock<Promise<VerificationResponse>, [ReportVerificationByIdRequestData]>
-    = jest.fn();
+  public reportById: jest.Mock<Promise<VerificationResponse>, [ReportVerificationByIdRequestData]> = jest.fn();
   /**
    * Fixture associated to function reportVerificationByIdentity
    */
@@ -16,6 +15,5 @@ export class VerificationsApiFixture implements Partial<Readonly<VerificationsAp
   /**
    * Fixture associated to function startVerification
    */
-  public start: jest.Mock<Promise<InitiateVerificationResponse>, [StartVerificationRequestData]>
-    = jest.fn();
+  public start: jest.Mock<Promise<InitiateVerificationResponse>, [StartVerificationRequestData]> = jest.fn();
 }

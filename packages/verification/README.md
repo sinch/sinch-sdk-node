@@ -51,7 +51,7 @@ const credentials: SinchClientParameters = {
 const sinch = new SinchClient(credentials);
 
 const requestData: StartVerificationRequestData = {
-  InitiateVerificationResource: {
+  initiateVerificationRequestBody: {
     identity: {
       type: 'number',
       endpoint: '+17813334444',
@@ -67,7 +67,7 @@ const verificationInitResponse: InitiateVerificationResponse
 
 ### Standalone
 
-The SDK can be used standalone if you need to use only the Verification APIs. You will need to import the `XTimestampRequest` and `SigningRequest` plugins from the `@sinch/sdk-client` package to manage the authentication.
+The SDK can be used standalone if you need to use only the Verification APIs.
 
 ```typescript
 import {
@@ -88,7 +88,7 @@ const credentials: SinchClientParameters = {
 const verification = new Verification(credentials);
 
 const requestData: StartVerificationRequestData = {
-  InitiateVerificationResource: {
+  initiateVerificationRequestBody: {
     identity: {
       type: 'number',
       endpoint: '+17813334444',

@@ -7,7 +7,7 @@ export * from './callout-verification-report-request-callout';
 export * from './callout-verification-report-response';
 export * from './data-initiate-verification-response';
 export * from './data-initiate-verification-response-seamless';
-export * from './error';
+export * from './verification-error';
 export * from './flash-call-initiate-verification-response';
 export * from './flash-call-initiate-verification-response-flash-call';
 export * from './flash-call-request-event-response';

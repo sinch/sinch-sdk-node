@@ -137,7 +137,7 @@ export const createNextPageMethod = <T>(
       page: nextPageValue,
     };
   } else {
-    throw new Error();
+    throw new Error(`Error: the pagination method (${context.pagination}) is not supported`);
   }
   const pageResultPromise = updateQueryParamsAndSendRequest<T>(apiClient, newParams, requestOptions, context);
 

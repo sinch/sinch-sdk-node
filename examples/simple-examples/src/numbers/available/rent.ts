@@ -1,8 +1,8 @@
 import {
-  getApplicationKeyFromConfig,
+  readApplicationKey,
   getPhoneNumberFromConfig,
   getPrintFormat,
-  getServicePlanIdFromConfig,
+  readServicePlanId,
   initClient,
   printFullResponse,
 } from '../../config';
@@ -16,15 +16,8 @@ import {
   console.log('* NumberService_RentNumber *');
   console.log('****************************');
 
-  // Use the phone number from the .env file
-  const phoneNumber = getPhoneNumberFromConfig();
-  if (!phoneNumber) {
-    throw new Error('No phone number has been provided. '
-      + 'Please update your .env file or edit the ./src/numbers/available/rent.ts file');
-  }
-
-  const servicePlanId = getServicePlanIdFromConfig();
-  const appId = getApplicationKeyFromConfig();
+  const servicePlanId = readServicePlanId();
+  const appId = readApplicationKey();
 
   let rentNumberRequest: RentNumberRequest = {
     smsConfiguration: servicePlanId ? { servicePlanId } : undefined,
@@ -34,9 +27,11 @@ import {
   if (!rentNumberRequest.smsConfiguration && !rentNumberRequest.voiceConfiguration) {
     rentNumberRequest = {};
     console.error('Warning: no configuration has been provided for sms and voice configuration.'
-      + 'You may want to check the value of "SERVICE_PLAN_ID" and "APPLICATION_KEY" in the .env file');
+      + 'You may want to check the value of "SINCH_SERVICE_PLAN_ID" and "SINCH_APPLICATION_KEY" in the .env file');
   }
 
+  const phoneNumber = getPhoneNumberFromConfig();
+  
   const requestData: RentNumberRequestData = {
     phoneNumber,
     rentNumberRequestBody: rentNumberRequest,

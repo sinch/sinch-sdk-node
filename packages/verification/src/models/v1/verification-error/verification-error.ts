@@ -1,12 +1,12 @@
 /**
- * Model: Error
+ * Model: VerificationError
  *
  * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
  *
  */
 
 
-export interface Error {
+export interface VerificationError {
 
   /** A summary of the HTTP error code and error type. */
   status?: string;
