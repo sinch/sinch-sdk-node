@@ -7,10 +7,6 @@ import { GetBatchMessageRequestData } from '@sinch/sdk-core';
   console.log('*******************');
 
   const batchId = getBatchIdFromConfig();
-  if (!batchId) {
-    throw new Error('No batch id has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/batches/get.ts file');
-  }
 
   const requestData: GetBatchMessageRequestData= {
     batch_id: batchId,

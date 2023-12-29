@@ -62,9 +62,11 @@ export class ApplicationsApi extends VoiceApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/calling/query/number/${data['number']}`;
+    const path = `/v1/calling/query/number/${data['number']}`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions= await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
+    const requestOptions
+        = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<GetQueryNumber>({
@@ -89,9 +91,11 @@ export class ApplicationsApi extends VoiceApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/configuration/callbacks/applications/${data['applicationkey']}`;
+    const path = `/v1/configuration/callbacks/applications/${data['applicationkey']}`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body);
+    const requestOptions
+        = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<GetCallbacks>({
@@ -116,9 +120,11 @@ export class ApplicationsApi extends VoiceApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/configuration/numbers`;
+    const path = `/v1/configuration/numbers`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body);
+    const requestOptions
+        = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<GetNumbersResponseObj>({
@@ -139,14 +145,16 @@ export class ApplicationsApi extends VoiceApi {
     const getParams = this.client.extractQueryParams<UnassignNumberRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
-      'Accept': '',
+      'Accept': 'application/json',
     };
 
     const body: RequestBody = data['unassignNumbersRequestBody']
       ? JSON.stringify(data['unassignNumbersRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/configuration/numbers`;
+    const path = `/v1/configuration/numbers`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body);
+    const requestOptions
+        = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<void>({
@@ -167,14 +175,16 @@ export class ApplicationsApi extends VoiceApi {
     const getParams = this.client.extractQueryParams<UpdateCallbackURLsRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
-      'Accept': '',
+      'Accept': 'application/json',
     };
 
     const body: RequestBody = data['updateCallbacksRequestBody']
       ? JSON.stringify(data['updateCallbacksRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/configuration/callbacks/applications/${data['applicationkey']}`;
+    const path = `/v1/configuration/callbacks/applications/${data['applicationkey']}`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body);
+    const requestOptions
+        = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<void>({
@@ -195,14 +205,16 @@ export class ApplicationsApi extends VoiceApi {
     const getParams = this.client.extractQueryParams<AssignNumbersRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
-      'Accept': '',
+      'Accept': 'application/json',
     };
 
     const body: RequestBody = data['assignNumbersRequestBody']
       ? JSON.stringify(data['assignNumbersRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/configuration/numbers`;
+    const path = `/v1/configuration/numbers`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
+    const requestOptions
+        = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<void>({

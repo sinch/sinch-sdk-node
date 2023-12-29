@@ -34,13 +34,24 @@ describe('CallsApi', () => {
       };
       const expectedResponse: GetCallResponseObj = {
         callId: 'callId',
-        from: '33444555666',
-        to: '33777888999',
+        to: {
+          type: 'Number',
+          endpoint: '33777888999',
+        },
         domain: 'pstn',
         duration: 30,
+        status: 'FINAL',
         result: 'ANSWERED',
         reason: 'CALLERHANGUP',
         timestamp: new Date(),
+        userRate: {
+          currencyId: 'EUR',
+          amount: 0.1758,
+        },
+        debit: {
+          currencyId: 'EUR',
+          amount: 0.1758,
+        },
       };
 
       // When

@@ -3,7 +3,7 @@ import {
   ConferencesApi,
   ConferencesApiFixture,
   GetConferenceInfoResponse,
-  GetInfoRequestData,
+  GetConferenceInfoRequestData,
   KickAllRequestData,
   KickParticipantRequestData,
   ManageParticipantRequestData,
@@ -26,7 +26,7 @@ describe('ConferencesApi', () => {
   describe ('getConferenceInfo', () => {
     it('should make a GET request to ...', async () => {
       // Given
-      const requestData: GetInfoRequestData = {
+      const requestData: GetConferenceInfoRequestData = {
         conferenceId: 'conferenceId',
       };
       const expectedResponse: GetConferenceInfoResponse = {

@@ -12,10 +12,6 @@ import { GetInboundMessageRequestData } from '@sinch/sdk-core';
   console.log('**************************');
 
   const inboundId = getInboundIdFromConfig();
-  if (!inboundId) {
-    throw new Error('No inbound id has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/inbounds/get.ts file');
-  }
 
   const requestData: GetInboundMessageRequestData = {
     inbound_id: inboundId,

@@ -13,22 +13,8 @@ import { BinaryRequest, ReplaceBatchMessageRequestData, textToHex } from '@sinch
   console.log('****************');
 
   const batchIdInTheFuture = getBatchIdFromConfig();
-  if (!batchIdInTheFuture) {
-    throw new Error('No batch id has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/batches/replace.ts file');
-  }
-
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
-  if (!recipientPhoneNumber) {
-    throw new Error('No recipient phone number has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/batches/replace.ts file');
-  }
-
   const senderPhoneNumber = getPhoneNumberFromConfig();
-  if (!senderPhoneNumber) {
-    throw new Error('No sender phone number has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/batches/replace.ts file');
-  }
 
   const requestData: ReplaceBatchMessageRequestData= {
     batch_id: batchIdInTheFuture,
