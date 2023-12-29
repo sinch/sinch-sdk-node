@@ -1,1 +1,6 @@
-export type { GetCallResponseObj } from './get-call-response-obj';
+export type {
+  GetCallResponseObj,
+  GetCallResponseTo,
+  GetCallResponseUserRate,
+  GetCallResponseDebit,
+} from './get-call-response-obj';
