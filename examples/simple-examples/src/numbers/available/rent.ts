@@ -30,8 +30,10 @@ import {
       + 'You may want to check the value of "SINCH_SERVICE_PLAN_ID" and "SINCH_APPLICATION_KEY" in the .env file');
   }
 
+  const phoneNumber = getPhoneNumberFromConfig();
+  
   const requestData: RentNumberRequestData = {
-    phoneNumber: getPhoneNumberFromConfig(),
+    phoneNumber,
     rentNumberRequestBody: rentNumberRequest,
   };
 
