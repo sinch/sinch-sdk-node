@@ -8,10 +8,6 @@ import { GetAvailableNumberRequestData } from '@sinch/sdk-core';
 
   // Use the phone number from the .env file
   const phoneNumber = getPhoneNumberFromConfig();
-  if (!phoneNumber) {
-    throw new Error('No phone number has been provided. '
-      + 'Please update your .env file or edit the ./src/numbers/available/checkAvailability.ts file');
-  }
 
   const requestData: GetAvailableNumberRequestData= {
     phoneNumber,

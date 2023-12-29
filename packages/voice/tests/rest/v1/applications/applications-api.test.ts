@@ -29,14 +29,19 @@ describe('ApplicationsApi', () => {
     it('should make a GET request to get information about the requested number', async () => {
       // Given
       const requestData: QueryNumberRequestData = {
-        number: '+33444555666',
+        number: '+14151112223333',
       };
       const expectedResponse: GetQueryNumber = {
-        method: '',
-        numberItem: {
-          numberType: 'Unknown',
-          countryId: 'FR',
-          normalizedNumber: '444555666',
+        method: 'numberItem',
+        number: {
+          countryId: 'US',
+          numberType: 'Mobile',
+          normalizedNumber: '+14151112223333',
+          restricted: false,
+          rate: {
+            currencyId: 'USD',
+            amount: 0.368,
+          },
         },
       };
 

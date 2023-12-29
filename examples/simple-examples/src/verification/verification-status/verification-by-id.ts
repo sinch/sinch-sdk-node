@@ -2,7 +2,7 @@ import { VerificationStatusByIdRequestData } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getVerificationIdFromConfig,
-  initVerificationClient,
+  initApplicationClient,
   printFullResponse,
 } from '../../config';
 
@@ -12,16 +12,12 @@ import {
   console.log('**************************');
 
   const verificationId = getVerificationIdFromConfig();
-  if (!verificationId) {
-    throw new Error('No verification id has been provided. '
-      + 'Please update your .env file or edit the ./src/verification/verification-status/verification-by-id.ts file');
-  }
 
   const requestData: VerificationStatusByIdRequestData = {
     id: verificationId,
   };
 
-  const sinchClient = initVerificationClient();
+  const sinchClient = initApplicationClient();
   let response;
   try {
     response = await sinchClient.verification.verificationStatus.getById(requestData);

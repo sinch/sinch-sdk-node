@@ -8,10 +8,6 @@ import { getVerificationIdentityFromConfig } from '../../../config';
   console.log('********************************');
 
   const verificationIdentity = getVerificationIdentityFromConfig();
-  if (!verificationIdentity) {
-    throw new Error('No verification identity has been provided. '
-      + 'Please update your .env file or edit the ./src/verification/verifications/seamless/start-seamless.ts file');
-  }
 
   const requestData: StartVerificationRequestData = {
     initiateVerificationRequestBody: {

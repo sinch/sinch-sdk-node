@@ -24,12 +24,7 @@ const populateInboundMessagesList = (
   const oneWeekAgo = new Date();
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
   oneWeekAgo.setHours(0, 0, 0, 0);
-
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
-  if (!recipientPhoneNumber) {
-    throw new Error('No recipient phone number has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/inbounds/list.ts file');
-  }
 
   const requestData: ListInboundMessagesRequestData= {
     start_date: oneWeekAgo,
