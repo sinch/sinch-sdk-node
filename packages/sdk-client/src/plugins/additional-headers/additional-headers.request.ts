@@ -1,4 +1,5 @@
-import { PluginRunner, RequestOptions, RequestPlugin } from '../core';
+import { PluginRunner } from '../core';
+import { RequestOptions, RequestPlugin, RequestPluginEnum } from '../core/request-plugin';
 
 export interface AdditionalHeaders {
   headers: Promise<{ [key: string]: string }>;
@@ -9,6 +10,10 @@ export class AdditionalHeadersRequest implements RequestPlugin {
 
   constructor(additionalHeaders: AdditionalHeaders) {
     this.additionalHeaders = additionalHeaders;
+  }
+
+  getName(): string {
+    return RequestPluginEnum.ADDITIONAL_HEADER_REQUEST;
   }
 
   public load(): PluginRunner<RequestOptions, RequestOptions> {

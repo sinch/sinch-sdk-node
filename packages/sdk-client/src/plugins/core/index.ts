@@ -1,3 +1,2 @@
 export * from './plugin';
-export * from './request-plugin';
-export * from './response-plugin';
+export type { RequestBody } from './request-plugin';

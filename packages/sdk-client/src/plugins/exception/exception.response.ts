@@ -1,5 +1,6 @@
 import { EmptyResponseError, RequestFailedError } from '../../api';
-import { PluginRunner, ResponsePlugin, ResponsePluginContext } from '../core';
+import { PluginRunner } from '../core';
+import { ResponsePlugin, ResponsePluginContext } from '../core/response-plugin';
 
 /**
  * Plugin to fire an exception on wrong response / data

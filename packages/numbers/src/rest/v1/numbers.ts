@@ -6,19 +6,19 @@
  */
 import { SinchClientParameters } from '@sinch/sdk-client';
 import { AvailableRegionsApi } from './available-regions';
-import { CallbackConfigurationApi } from './callback-configuration';
+import { CallbacksApi } from './callbacks';
 import { AvailableNumberApi } from './available-number';
 import { ActiveNumberApi } from './active-number';
 
 export class Numbers {
   public readonly availableRegions: AvailableRegionsApi;
-  public readonly callbackConfiguration: CallbackConfigurationApi;
+  public readonly callbacks: CallbacksApi;
   public readonly availableNumber: AvailableNumberApi;
   public readonly activeNumber: ActiveNumberApi;
 
   constructor(params: SinchClientParameters) {
     this.availableRegions = new AvailableRegionsApi(params);
-    this.callbackConfiguration = new CallbackConfigurationApi(params);
+    this.callbacks = new CallbacksApi(params);
     this.availableNumber = new AvailableNumberApi(params);
     this.activeNumber = new ActiveNumberApi(params);
   }
@@ -32,6 +32,6 @@ export class Numbers {
     this.activeNumber.setBasePath(basePath);
     this.availableNumber.setBasePath(basePath);
     this.availableRegions.setBasePath(basePath);
-    this.callbackConfiguration.setBasePath(basePath);
+    this.callbacks.setBasePath(basePath);
   }
 }

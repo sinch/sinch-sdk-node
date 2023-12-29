@@ -1,9 +1,13 @@
-import { PluginRunner, RequestOptions, RequestPlugin } from '../core';
+import { PluginRunner } from '../core';
+import { RequestOptions, RequestPlugin, RequestPluginEnum } from '../core/request-plugin';
 import * as process from 'process';
-// import version from '../../getVersion';
 import { sdkCoreVersion } from '../../getVersion';
 
 export class VersionRequest implements RequestPlugin {
+
+  getName(): string {
+    return RequestPluginEnum.VERSION_REQUEST;
+  }
   public load(): PluginRunner<RequestOptions, RequestOptions> {
     const sdkVersion = sdkCoreVersion;
     const languageVersion = process.version;
