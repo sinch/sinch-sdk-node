@@ -50,6 +50,8 @@ VERIFICATION_IDENTITY=verification-identity to fill with the identity of the use
 VERIFICATION_REFERENCE=verification-reference to add when starting a verification or getting its status
 VERIFICATION_CODE=verification-code received for a verification via SMS or callout
 VERIFICATION_CLI=verification-cli received for a verification via flashCall
+CALL_ID=call_id to fill with one of the callouts created with the Voice API
+CONFERENCE_ID=unique identifier of the conference you want to interact with
 ```
 
 **Note**: If you prefer using environment variables, the sample app is also supporting them: they take precedence over the value from the `.env` file.
@@ -112,3 +114,20 @@ yarn run numbers:regions:list
 |              | Verification-status | [./src/verification/verification-status/verification-by-id.ts](./src/verification/verification-status/verification-by-id.ts)               | `VERIFICATION_ID`                                                               |
 |              |                     | [./src/verification/verification-status/verification-by-identity.ts](./src/verification/verification-status/verification-by-identity.ts)   | `VERIFICATION_IDENTITY`                                                         |
 |              |                     | [./src/verification/verification-status/verification-by-reference.ts](./src/verification/verification-status/verification-by-reference.ts) | `VERIFICATION_REFERENCE`                                                        |
+| Voice        | Applications        | [./src/voice/applications/assignNumbers.ts](./src/voice/applications/assignNumbers.ts)                                                     | `PHONE_NUMBER` + `SINCH_APPLICATION_KEY`                                        |
+|              |                     | [./src/voice/applications/getCallbackURLs.ts](./src/voice/applications/getCallbackURLs.ts)                                                 | `SINCH_APPLICATION_KEY`                                                         |
+|              |                     | [./src/voice/applications/getNumbers.ts](./src/voice/applications/getNumbers.ts)                                                           |                                                                                 |
+|              |                     | [./src/voice/applications/queryNumber.ts](./src/voice/applications/queryNumber.ts)                                                         | `PHONE_NUMBER`                                                                  |
+|              |                     | [./src/voice/applications/unassignNumber.ts](./src/voice/applications/unassignNumber.ts)                                                   | `PHONE_NUMBER` + `SINCH_APPLICATION_KEY`                                        |
+|              |                     | [./src/voice/applications/updateCallbackURLs.ts](./src/voice/applications/updateCallbackURLs.ts)                                           | `SINCH_APPLICATION_KEY`                                                         |
+|              | Callouts            | [./src/voice/callouts/conference.ts](./src/voice/callouts/conference.ts)                                                                   | `PHONE_NUMBER` + `RECIPIENT_PHONE_NUMBER` + `CONFERENCE_ID`                     |
+|              |                     | [./src/voice/callouts/custom.ts](./src/voice/callouts/custom.ts)                                                                           | `PHONE_NUMBER` + `RECIPIENT_PHONE_NUMBER`                                       |
+|              |                     | [./src/voice/callouts/tts.ts](./src/voice/callouts/tts.ts)                                                                                 | `PHONE_NUMBER` + `RECIPIENT_PHONE_NUMBER`                                       |
+|              | Calls               | [./src/voice/calls/get.ts](./src/voice/calls/get.ts)                                                                                       | `CALL_ID`                                                                       |
+|              |                     | [./src/voice/calls/manageWithCallLeg.ts](./src/voice/calls/manageWithCallLeg.ts)                                                           | `CALL_ID`                                                                       |
+|              |                     | [./src/voice/calls/update.ts](./src/voice/calls/update.ts)                                                                                 | `CALL_ID`                                                                       |
+|              | Conferences         | [./src/voice/conferences/get.ts](./src/voice/conferences/get.ts)                                                                           | `CONFERENCE_ID`                                                                 |
+|              |                     | [./src/voice/conferences/kickAll.ts](./src/voice/conferences/kickAll.ts)                                                                   | `CONFERENCE_ID`                                                                 |
+|              |                     | [./src/voice/conferences/kickParticipant.ts](./src/voice/conferences/kickParticipant.ts)                                                   | `CONFERENCE_ID` + `CALL_ID`                                                     |
+|              |                     | [./src/voice/conferences/manageParticipant.ts](./src/voice/conferences/manageParticipant.ts)                                               | `CONFERENCE_ID` + `CALL_ID`                                                     |
+
