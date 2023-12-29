@@ -13,16 +13,7 @@ import { UpdateActiveNumberRequestData } from '@sinch/sdk-core';
   console.log('************************************');
 
   const phoneNumber = getPhoneNumberFromConfig();
-  if (!phoneNumber) {
-    throw new Error('No phone number has been provided. '
-      + 'Please update your .env file or edit the ./src/numbers/active/update.ts file');
-  }
-
   const servicePlanId = getServicePlanIdFromConfig();
-  if (!servicePlanId) {
-    throw new Error('No servicePlanId has been provided. '
-      + 'Please update your .env file or edit the ./src/numbers/active/update.ts file');
-  }
 
   const requestData: UpdateActiveNumberRequestData= {
     phoneNumber,

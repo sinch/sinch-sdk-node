@@ -30,6 +30,8 @@ export interface ApplicationCredentials {
   applicationKey: string;
   /** Your Application secret. You can find this on your [Dashboard](https://dashboard.sinch.com/verification/apps)*/
   applicationSecret: string;
+  /** The region for the Voice API. Default is empty */
+  voiceRegion?: VoiceRegion;
 }
 
 export const isUnifiedCredentials = (credentials: any): credentials is UnifiedCredentials => {
@@ -66,3 +68,25 @@ export function getRegion(value: string | undefined): Region | undefined {
   console.error(`No region exist for the value '${value}'`);
   return undefined;
 }
+
+export enum VoiceRegion {
+  DEFAULT = '',
+  UNITED_STATES = '-use1',
+  EUROPE = '-euc1',
+  SOUTH_AMERICA = '-sae1',
+  SOUTHEAST_ASIA_1 = '-apse1',
+  SOUTHEAST_ASIA_2 = '-apse2'
+}
+
+export const getVoiceRegion = (value: string | undefined): VoiceRegion | undefined => {
+  if (!value) {
+    return undefined;
+  }
+  for(const region of Object.values(VoiceRegion)) {
+    if (region === value.toLowerCase())  {
+      return region as VoiceRegion;
+    }
+  }
+  console.error(`No region exist for the value '${value}'`);
+  return undefined;
+};

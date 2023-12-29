@@ -58,5 +58,5 @@ export * from './tts-callout-request';
 export * from './unassign-numbers';
 export * from './update-callbacks';
 export * from './update-callbacks-url';
-export * from './update-numbers';
+export * from './assign-numbers';
 export * from './enums';

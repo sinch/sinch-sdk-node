@@ -38,7 +38,7 @@ If you are using this SDK as part of the Sinch SDK (`@sinch/sdk-core`) you can a
 
 ```typescript
 import {
-  CalloutsRequestData,
+  TtsCalloutRequestData,
   GetCalloutResponseObj,
   SinchClient,
   SinchClientParameters,
@@ -50,8 +50,8 @@ const credentials: SinchClientParameters = {
 };
 const sinch = new SinchClient(credentials);
 
-const requestData: CalloutsRequestData = {
-  calloutRequestBody: {
+const requestData: TtsCalloutRequestData = {
+  ttsCalloutRequestBody: {
     method: 'ttsCallout',
     ttsCallout: {
       destination: {
@@ -67,7 +67,7 @@ const requestData: CalloutsRequestData = {
 
 // Access the 'voice' domain registered on the Sinch Client
 const calloutResponse: GetCalloutResponseObj 
-    = await sinch.voice.callouts.callouts(requestData);
+    = await sinch.voice.callouts.tts(requestData);
 ```
 
 ### Standalone
@@ -79,7 +79,7 @@ import {
   SinchClientParameters
  } from '@sinch/sdk-client';
 import {
-  CalloutsRequestData,
+  TtsCalloutRequestData,
   GetCalloutResponseObj,
   Voice,
 } from '@sinch/voice';
@@ -92,8 +92,8 @@ const credentials: SinchClientParameters = {
 // Declare the 'verification' in a standalone way
 const voice = new Voice(credentials);
 
-const requestData: CalloutsRequestData = {
-  calloutRequestBody: {
+const requestData: TtsCalloutRequestData = {
+  ttsCalloutRequestBody: {
     method: 'ttsCallout',
     ttsCallout: {
       destination: {
@@ -109,7 +109,7 @@ const requestData: CalloutsRequestData = {
 
 // Use the standalone declaration of the 'verification' domain
 const calloutResponse: GetCalloutResponseObj
-  = await voice.callouts.callouts(requestData);
+  = await voice.callouts.tts(requestData);
 ```
 
 ## Promises
@@ -120,16 +120,16 @@ All the methods that interact with the Sinch APIs use Promises. You can use `awa
 // Method 1: Wait for the Promise to complete
 let calloutResponse: GetCalloutResponseObj;
 try {
-  calloutResponse = await sinch.voice.callouts.callouts(requestData);
+  calloutResponse = await sinch.voice.callouts.tts(requestData);
   console.log(`callId = ${response.callId}`);
 } catch (error: any) {
-  console.error(`ERROR ${error.statusCode}: Impossible to make a call out to the number ${requestData.calloutRequestBody.ttsCallout.destination.endpoint}`);
+  console.error(`ERROR ${error.statusCode}: Impossible to make a TTS callout to the number ${requestData.ttsCalloutRequestBody.ttsCallout.destination.endpoint}`);
 }
 
 // Method 2: Resolve the promise
-sinch.voice.callouts.callouts(requestData)
+sinch.voice.callouts.tts(requestData)
   .then(response => console.log(`callId = ${response.callId}`))
-  .catch(error => console.error(`ERROR ${error.statusCode}: Impossible to make a call out to the number ${requestData.calloutRequestBody.ttsCallout.destination.endpoint}`));
+  .catch(error => console.error(`ERROR ${error.statusCode}: Impossible to make a TTS call out to the number ${requestData.ttsCalloutRequestBody.ttsCallout.destination.endpoint}`));
 ```
 
 ## Contact

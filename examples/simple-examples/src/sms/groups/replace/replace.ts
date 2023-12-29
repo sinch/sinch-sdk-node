@@ -7,10 +7,6 @@ export const replace = async(sinchClient: SinchClient) => {
   console.log('****************');
 
   const groupId = getGroupIdFromConfig();
-  if (!groupId) {
-    throw new Error('No group id has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/groups/replace.ts file');
-  }
 
   const requestData: ReplaceGroupRequestData = {
     group_id: groupId,

@@ -7,10 +7,6 @@ import { GetDeliveryReportByBatchIdRequestData, MessageDeliveryStatus } from '@s
   console.log('******************************');
 
   const batchId = getBatchIdFromConfig();
-  if (!batchId) {
-    throw new Error('No batch id has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/delivery-reports/getByBatchId.ts file');
-  }
 
   const requestData: GetDeliveryReportByBatchIdRequestData = {
     batch_id: batchId,

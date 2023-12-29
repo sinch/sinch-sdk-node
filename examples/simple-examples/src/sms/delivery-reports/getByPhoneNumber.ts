@@ -13,16 +13,7 @@ import { GetDeliveryReportByPhoneNumberRequestData } from '@sinch/sdk-core';
   console.log('**********************************');
 
   const batchId = getBatchIdFromConfig();
-  if (!batchId) {
-    throw new Error('No batch id has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/delivery-reports/getByPhoneNumber.ts file');
-  }
-
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
-  if (!recipientPhoneNumber) {
-    throw new Error('No recipient phone number has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/delivery-reports/getByPhoneNumber.ts file');
-  }
 
   const requestData: GetDeliveryReportByPhoneNumberRequestData = {
     batch_id: batchId,

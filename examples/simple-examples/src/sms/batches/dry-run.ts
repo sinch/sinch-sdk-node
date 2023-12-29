@@ -13,16 +13,7 @@ import { DryRunRequestData, TextRequest } from '@sinch/sdk-core';
   console.log('***********');
 
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
-  if (!recipientPhoneNumber) {
-    throw new Error('No recipient phone number has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/batches/dry-run.ts file');
-  }
-
   const senderPhoneNumber = getPhoneNumberFromConfig();
-  if (!senderPhoneNumber) {
-    throw new Error('No sender phone number has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/batches/dry-run.ts file');
-  }
 
   const requestData: DryRunRequestData= {
     dryRunRequestBody: {

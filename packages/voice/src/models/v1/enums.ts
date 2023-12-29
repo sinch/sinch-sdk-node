@@ -24,7 +24,7 @@ export type {
 } from './unassign-numbers/unassign-numbers';
 export type {
   CapabilityEnum as UpdateNumbersCapabilityEnum,
-} from './update-numbers/update-numbers';
+} from './assign-numbers/assign-numbers';
 export type {
   CommandEnum as ManageConferenceParticipantRequestCommandEnum,
   MohEnum as ManageConferenceParticipantRequestMohEnum,

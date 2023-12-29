@@ -126,7 +126,7 @@ export class BatchesApi extends SmsApi {
     const getParams = this.client.extractQueryParams<DeliveryFeedbackRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
-      'Accept': '',
+      'Accept': 'application/json',
     };
 
     const body: RequestBody

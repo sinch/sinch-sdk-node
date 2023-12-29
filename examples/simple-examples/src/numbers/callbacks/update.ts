@@ -8,10 +8,6 @@ import * as process from 'process';
   console.log('*******************************');
 
   const hmacSecret = getHmacSecretFromConfig();
-  if (!hmacSecret) {
-    console.log('No HMAC secret has been provided. '
-      + 'Please update your .env file or edit the ./src/numbers/callback/update.ts file');
-  }
 
   const requestData: UpdateCallbackConfigurationRequestData = {
     callbackConfigurationUpdateRequestBody: {
