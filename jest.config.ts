@@ -24,6 +24,11 @@ const config: Config.InitialOptions = {
       testMatch: ['<rootDir>/packages/verification/tests/**/*.test.ts'],
       coveragePathIgnorePatterns: ['node_modules', 'tests'],
     },
+    {
+      displayName: 'Voice',
+      testMatch: ['<rootDir>/packages/voice/tests/**/*.test.ts'],
+      coveragePathIgnorePatterns: ['node_modules', 'tests'],
+    },
   ],
   moduleNameMapper: {
     '@sinch/(.+)': '<rootDir>/packages/$1/src',

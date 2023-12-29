@@ -8,7 +8,7 @@ import {
 } from '@sinch/sdk-client';
 import { VoiceApi } from '../voice-api';
 
-export interface GetInfoRequestData {
+export interface GetConferenceInfoRequestData {
   /** The unique identifier of the conference. The user sets this value. */
   'conferenceId': string;
 }
@@ -45,20 +45,22 @@ export class ConferencesApi extends VoiceApi {
   /**
    * Get Conference Info
    * Returns information about a conference that matches the provided conference ID.
-   * @param { GetInfoRequestData } data - The data to provide to the API call.
+   * @param { GetConferenceInfoRequestData } data - The data to provide to the API call.
    */
-  public async get(data: GetInfoRequestData): Promise<GetConferenceInfoResponse> {
+  public async get(data: GetConferenceInfoRequestData): Promise<GetConferenceInfoResponse> {
     this.client = this.getSinchClient();
-    const getParams = this.client.extractQueryParams<GetInfoRequestData>(data, [] as never[]);
+    const getParams = this.client.extractQueryParams<GetConferenceInfoRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/calling/v1/conferences/id/${data['conferenceId']}`;
+    const path = `/calling/v1/conferences/id/${data['conferenceId']}`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body);
+    const requestOptions
+        = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<GetConferenceInfoResponse>({
@@ -79,13 +81,14 @@ export class ConferencesApi extends VoiceApi {
     const getParams = this.client.extractQueryParams<KickAllRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
-      'Accept': '',
+      'Accept': 'application/json',
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/calling/v1/conferences/id/${data['conferenceId']}`;
+    const path = `/calling/v1/conferences/id/${data['conferenceId']}`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body);
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<void>({
@@ -110,9 +113,10 @@ export class ConferencesApi extends VoiceApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/calling/v1/conferences/id/${data['conferenceId']}/${data['callId']}`;
+    const path = `/calling/v1/conferences/id/${data['conferenceId']}/${data['callId']}`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body);
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<void>({
@@ -138,9 +142,10 @@ export class ConferencesApi extends VoiceApi {
 
     const body: RequestBody = data['manageParticipantRequestBody']
       ? JSON.stringify(data['manageParticipantRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/calling/v1/conferences/id/${data['conferenceId']}/${data['callId']}`;
+    const path = `/calling/v1/conferences/id/${data['conferenceId']}/${data['callId']}`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'PATCH', getParams, headers, body);
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'PATCH', getParams, headers, body, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<void>({

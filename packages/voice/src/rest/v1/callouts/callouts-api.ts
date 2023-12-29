@@ -62,9 +62,10 @@ export class CalloutsApi extends VoiceApi {
     };
 
     const body: RequestBody = data['ttsCalloutRequestBody'] ? JSON.stringify(data['ttsCalloutRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/calling/v1/callouts`;
+    const path = `/calling/v1/callouts`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body);
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<GetCalloutResponseObj>({
@@ -90,9 +91,10 @@ export class CalloutsApi extends VoiceApi {
 
     const body: RequestBody
       = data['conferenceCalloutRequestBody'] ? JSON.stringify(data['conferenceCalloutRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/calling/v1/callouts`;
+    const path = `/calling/v1/callouts`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body);
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<GetCalloutResponseObj>({
@@ -118,9 +120,10 @@ export class CalloutsApi extends VoiceApi {
 
     const body: RequestBody
       = data['customCalloutRequestBody'] ? JSON.stringify(data['customCalloutRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/calling/v1/callouts`;
+    const path = `/calling/v1/callouts`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body);
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<GetCalloutResponseObj>({

@@ -1,8 +1,8 @@
 import { ReportVerificationByIdentityRequestData } from '@sinch/sdk-core';
-import { getPrintFormat, initVerificationClient, printFullResponse } from '../../config';
+import { getPrintFormat, initApplicationClient, printFullResponse } from '../../config';
 
 export const reportWithIdentity = async (requestData: ReportVerificationByIdentityRequestData) => {
-  const sinchClient = initVerificationClient();
+  const sinchClient = initApplicationClient();
   let response;
   try {
     response = await sinchClient.verification.verifications.reportByIdentity(requestData);

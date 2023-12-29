@@ -53,9 +53,11 @@ export class CallsApi extends VoiceApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/calling/v1/calls/id/${data['callId']}`;
+    const path = `/calling/v1/calls/id/${data['callId']}`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body);
+    const requestOptions
+        = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<GetCallResponseObj>({
@@ -80,9 +82,10 @@ export class CallsApi extends VoiceApi {
     };
 
     const body: RequestBody = data['svamlRequestBody'] ? JSON.stringify(data['svamlRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/calling/v1/calls/id/${data['callId']}/leg/${data['callLeg']}`;
+    const path = `/calling/v1/calls/id/${data['callId']}/leg/${data['callLeg']}`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'PATCH', getParams, headers, body);
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'PATCH', getParams, headers, body, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<void>({
@@ -103,13 +106,14 @@ export class CallsApi extends VoiceApi {
     const getParams = this.client.extractQueryParams<UpdateCallRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
-      'Accept': '',
+      'Accept': 'application/json',
     };
 
     const body: RequestBody = data['svamlRequestBody'] ? JSON.stringify(data['svamlRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/calling/v1/calls/id/${data['callId']}`;
+    const path = `/calling/v1/calls/id/${data['callId']}`;
+    const basePathUrl = this.client.apiClientOptions.basePath + path;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'PATCH', getParams, headers, body);
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'PATCH', getParams, headers, body, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<void>({

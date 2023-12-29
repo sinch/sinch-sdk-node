@@ -2,7 +2,7 @@ import { VerificationStatusByReferenceRequestData } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getVerificationReferenceFromConfig,
-  initVerificationClient,
+  initApplicationClient,
   printFullResponse,
 } from '../../config';
 
@@ -12,17 +12,12 @@ import {
   console.log('*********************************');
 
   const verificationReference = getVerificationReferenceFromConfig();
-  if (!verificationReference) {
-    throw new Error('No verification reference has been provided. '
-      + 'Please update your .env file '
-      + 'or edit the ./src/verification/verification-status/verification-by-reference.ts file');
-  }
 
   const requestData: VerificationStatusByReferenceRequestData = {
     reference: verificationReference,
   };
 
-  const sinchClient = initVerificationClient();
+  const sinchClient = initApplicationClient();
   let response;
   try {
     response = await sinchClient.verification.verificationStatus.getByReference(requestData);

@@ -3,7 +3,7 @@ import {
 } from '../../../models';
 import {
   ConferencesApi,
-  GetInfoRequestData,
+  GetConferenceInfoRequestData,
   KickAllRequestData,
   KickParticipantRequestData,
   ManageParticipantRequestData,
@@ -14,7 +14,7 @@ export class ConferencesApiFixture implements Partial<Readonly<ConferencesApi>> 
   /**
    * Fixture associated to function get
    */
-  public get: jest.Mock<Promise<GetConferenceInfoResponse>, [GetInfoRequestData]> = jest.fn();
+  public get: jest.Mock<Promise<GetConferenceInfoResponse>, [GetConferenceInfoRequestData]> = jest.fn();
   /**
    * Fixture associated to function kickAll
    */

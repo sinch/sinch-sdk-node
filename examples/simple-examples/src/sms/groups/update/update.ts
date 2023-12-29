@@ -7,10 +7,6 @@ export const update = async(sinchClient: SinchClient) => {
   console.log('***************');
 
   const groupId = getGroupIdFromConfig();
-  if (!groupId) {
-    throw new Error('No group id has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/groups/update.ts file');
-  }
 
   const requestData: UpdateGroupRequestData = {
     group_id: groupId,

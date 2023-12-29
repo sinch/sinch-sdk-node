@@ -1,9 +1,9 @@
 import {
-  getApplicationKeyFromConfig,
   getPrintFormat,
-  getServicePlanIdFromConfig,
   initClient,
   printFullResponse,
+  readApplicationKey,
+  readServicePlanId,
 } from '../../config';
 import {
   RentAnyNumberRequest,
@@ -15,12 +15,12 @@ import {
   console.log('* NumberService_RentAnyNumber *');
   console.log('*******************************');
 
-  const servicePlanId = getServicePlanIdFromConfig();
-  const appId = getApplicationKeyFromConfig();
+  const servicePlanId = readServicePlanId();
+  const appId = readApplicationKey();
 
   if (!servicePlanId && !appId) {
     console.error('Warning: no configuration has been provided for sms and voice configuration.'
-      + 'You may want to check the value of "SERVICE_PLAN_ID" and "APPLICATION_KEY" in the .env file');
+      + 'You may want to check the value of "SINCH_SERVICE_PLAN_ID" and "SINCH_APPLICATION_KEY" in the .env file');
   }
 
   const rentAnyNumberRequest: RentAnyNumberRequest = {

@@ -13,16 +13,7 @@ import { SendSMSRequestData, TextRequest } from '@sinch/sdk-core';
   console.log('***********');
 
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
-  if (!recipientPhoneNumber) {
-    throw new Error('No recipient phone number has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/batches/send.ts file');
-  }
-
   const senderPhoneNumber = getPhoneNumberFromConfig();
-  if (!senderPhoneNumber) {
-    throw new Error('No sender phone number has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/batches/send.ts file');
-  }
 
   const oneDayLater = new Date();
   oneDayLater.setDate(oneDayLater.getDate() +1);

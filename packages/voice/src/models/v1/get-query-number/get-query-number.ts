@@ -12,7 +12,7 @@ export interface GetQueryNumber {
   /** The type of method. */
   method?: string;
   /** @see GetQueryNumberNumberItem */
-  numberItem?: GetQueryNumberNumberItem;
+  number?: GetQueryNumberNumberItem;
 }
 
 

@@ -93,7 +93,12 @@ export class VoiceApi implements Api {
   }
 
   private buildBasePath(region: VoiceRegion) {
-    return `https://calling${region}.api.sinch.com`;
+    switch (this.apiName) {
+    case 'ApplicationsApi':
+      return `https://callingapi.sinch.com`;
+    default:
+      return `https://calling${region}.api.sinch.com`;
+    }
   }
 
 }
