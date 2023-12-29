@@ -11,8 +11,10 @@ import { GetCallResultRequestData, VoiceRegion } from '@sinch/sdk-core';
   console.log('* GetCallResult *');
   console.log('******************');
 
+  const callId = getCallIdFromConfig();
+
   const requestData: GetCallResultRequestData = {
-    callId: getCallIdFromConfig(),
+    callId,
   };
 
   const sinchClient = initApplicationClient();

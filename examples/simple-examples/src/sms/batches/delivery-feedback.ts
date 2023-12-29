@@ -7,16 +7,7 @@ import { DeliveryFeedbackRequestData } from '@sinch/sdk-core';
   console.log('********************');
 
   const batchIdInTheFuture = getBatchIdFromConfig();
-  if (!batchIdInTheFuture) {
-    throw new Error('No batch id has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/batches/delivery-feedback.ts file');
-  }
-
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
-  if (!recipientPhoneNumber) {
-    throw new Error('No recipient phone number has been provided. '
-      + 'Please update your .env file or edit the ./src/sms/batches/delivery-feedback.ts file');
-  }
 
   const requestData: DeliveryFeedbackRequestData= {
     batch_id: batchIdInTheFuture,

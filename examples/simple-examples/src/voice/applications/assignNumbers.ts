@@ -6,10 +6,13 @@ import { AssignNumbersRequestData } from '@sinch/sdk-core';
   console.log('* UpdateNumbers *');
   console.log('*****************');
 
+  const phoneNumber = getPhoneNumberFromConfig();
+  const applicationKey = getApplicationKeyFromConfig();
+
   const requestData: AssignNumbersRequestData = {
     assignNumbersRequestBody: {
-      numbers: [getPhoneNumberFromConfig()],
-      applicationkey: getApplicationKeyFromConfig(),
+      numbers: [phoneNumber],
+      applicationkey: applicationKey,
       capability: 'voice',
     },
   };

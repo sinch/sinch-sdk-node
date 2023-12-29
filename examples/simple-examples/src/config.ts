@@ -33,52 +33,60 @@ export const getPhoneNumberFromConfig = (): string => {
   return readVariable('PHONE_NUMBER');
 };
 
-export const getServicePlanIdFromConfig = (): string | undefined => {
+export const readServicePlanId = (): string | undefined => {
   return process.env.SERVICE_PLAN_ID;
+};
+
+export const readApplicationKey = (): string | undefined => {
+  return process.env.SINCH_APPLICATION_KEY;
+};
+
+export const getServicePlanIdFromConfig = (): string => {
+  return readVariable('SERVICE_PLAN_ID');
 };
 
 export const getApplicationKeyFromConfig = (): string => {
   return readVariable('SINCH_APPLICATION_KEY');
 };
 
-export const getGroupIdFromConfig = (): string | undefined => {
-  return process.env.GROUP_ID;
+export const getGroupIdFromConfig = (): string => {
+  return readVariable('GROUP_ID');
 };
 
 export const getRecipientPhoneNumberFromConfig = (): string => {
   return readVariable('RECIPIENT_PHONE_NUMBER');
 };
 
-export const getBatchIdFromConfig = (): string | undefined => {
-  return process.env.BATCH_ID;
+export const getBatchIdFromConfig = (): string => {
+  return readVariable('BATCH_ID');
 };
 
-export const getInboundIdFromConfig = (): string | undefined => {
-  return process.env.INBOUND_ID;
+export const getInboundIdFromConfig = (): string => {
+  return readVariable('INBOUND_ID');
 };
 
-export const getHmacSecretFromConfig = (): string | undefined => {
-  return process.env.HMAC_SECRET;
+export const getHmacSecretFromConfig = (): string => {
+  return readVariable('HMAC_SECRET');
 };
 
-export const getVerificationIdFromConfig = (): string | undefined => {
-  return process.env.VERIFICATION_ID;
+export const getVerificationIdFromConfig = (): string => {
+  return readVariable('VERIFICATION_ID');
 };
 
-export const getVerificationIdentityFromConfig = (): string | undefined => {
-  return process.env.VERIFICATION_IDENTITY;
+export const getVerificationIdentityFromConfig = (): string => {
+  return readVariable('VERIFICATION_IDENTITY');
 };
 
-export const getVerificationReferenceFromConfig = (): string | undefined => {
-  return process.env.VERIFICATION_REFERENCE;
+export const getVerificationReferenceFromConfig = (): string => {
+  return readVariable('VERIFICATION_REFERENCE');
 };
 
-export const getVerificationCodeFromConfig = (): string | undefined => {
-  return process.env.VERIFICATION_CODE;
+export const getVerificationCodeFromConfig = (): string => {
+  return readVariable('VERIFICATION_CODE');
 };
 
-export const getVerificationCliFromConfig = (): string | undefined => {
-  return process.env.VERIFICATION_CLI;
+export const getVerificationCliFromConfig = (): string => {
+  return readVariable('VERIFICATION_CLI');
 };
 
 export const getCallIdFromConfig = (): string => {

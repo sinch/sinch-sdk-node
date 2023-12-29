@@ -12,15 +12,19 @@ import { ConferenceCalloutRequestData, VoiceRegion } from '@sinch/sdk-core';
   console.log('* Callouts - Conference *');
   console.log('*************************');
 
+  const callingNumber = getPhoneNumberFromConfig();
+  const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
+  const conferenceId = getConferenceIdFromConfig();
+
   const requestData: ConferenceCalloutRequestData = {
     conferenceCalloutRequestBody: {
       method: 'conferenceCallout',
       conferenceCallout: {
-        conferenceId: getConferenceIdFromConfig(),
-        cli: getRecipientPhoneNumberFromConfig(),
+        conferenceId,
+        cli: callingNumber,
         destination: {
           type: 'number',
-          endpoint: getPhoneNumberFromConfig(),
+          endpoint: recipientPhoneNumber,
         },
         locale: 'en-US',
       },

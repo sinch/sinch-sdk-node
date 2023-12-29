@@ -10,9 +10,12 @@ import { KickParticipantRequestData, VoiceRegion } from '@sinch/sdk-core';
   console.log('* KickConferenceParticipant *');
   console.log('*****************************');
 
+  const conferenceId = getConferenceIdFromConfig();
+  const callId = getCallIdFromConfig();
+
   const requestData: KickParticipantRequestData = {
-    conferenceId: getConferenceIdFromConfig(),
-    callId: getCallIdFromConfig(),
+    conferenceId,
+    callId,
   };
 
   const sinchClient = initApplicationClient();

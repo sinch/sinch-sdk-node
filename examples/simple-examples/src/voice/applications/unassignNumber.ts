@@ -6,10 +6,13 @@ import { UnassignNumberRequestData } from '@sinch/sdk-core';
   console.log('* UnassignNumber *');
   console.log('******************');
 
+  const phoneNumber = getPhoneNumberFromConfig();
+  const applicationKey = getApplicationKeyFromConfig();
+
   const requestData: UnassignNumberRequestData = {
     unassignNumbersRequestBody: {
-      number: getPhoneNumberFromConfig(),
-      applicationkey: getApplicationKeyFromConfig(),
+      number: phoneNumber,
+      applicationkey: applicationKey,
       capability: 'voice',
     },
   };

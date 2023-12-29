@@ -10,9 +10,12 @@ import { ManageParticipantRequestData, VoiceRegion } from '@sinch/sdk-core';
   console.log('* ManageConferenceParticipant *');
   console.log('*******************************');
 
+  const conferenceId = getConferenceIdFromConfig();
+  const callId = getCallIdFromConfig();
+
   const requestData: ManageParticipantRequestData = {
-    conferenceId: getConferenceIdFromConfig(),
-    callId: getCallIdFromConfig(),
+    conferenceId,
+    callId,
     manageParticipantRequestBody: {
       command: 'mute',
       moh: 'music1',

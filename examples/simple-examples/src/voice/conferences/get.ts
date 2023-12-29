@@ -11,8 +11,10 @@ import { GetConferenceInfoRequestData, VoiceRegion } from '@sinch/sdk-core';
   console.log('* GetConferenceInfo *');
   console.log('*********************');
 
+  const conferenceId = getConferenceIdFromConfig();
+
   const requestData: GetConferenceInfoRequestData = {
-    conferenceId: getConferenceIdFromConfig(),
+    conferenceId,
   };
 
   const sinchClient = initApplicationClient();

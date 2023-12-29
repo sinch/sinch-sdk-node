@@ -12,11 +12,6 @@ import {
   console.log('*********************************');
 
   const verificationReference = getVerificationReferenceFromConfig();
-  if (!verificationReference) {
-    throw new Error('No verification reference has been provided. '
-      + 'Please update your .env file '
-      + 'or edit the ./src/verification/verification-status/verification-by-reference.ts file');
-  }
 
   const requestData: VerificationStatusByReferenceRequestData = {
     reference: verificationReference,

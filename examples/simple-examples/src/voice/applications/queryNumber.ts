@@ -6,8 +6,10 @@ import { QueryNumberRequestData } from '@sinch/sdk-core';
   console.log('* Calling_QueryNumber *');
   console.log('***********************');
 
+  const phoneNumber = getPhoneNumberFromConfig();
+
   const requestData: QueryNumberRequestData = {
-    number: getPhoneNumberFromConfig(),
+    number: phoneNumber,
   };
 
   const sinchClient = initApplicationClient();

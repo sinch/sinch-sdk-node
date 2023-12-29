@@ -11,16 +11,7 @@ import { reportWithIdentity } from '../report-with-identity';
   console.log('*********************************************');
 
   const verificationIdentity = getVerificationIdentityFromConfig();
-  if (!verificationIdentity) {
-    throw new Error('No verification identity has been provided. Please update your .env file '
-      + 'or edit the ./src/verification/verifications/flashcall/report-with-identity_flashcall.ts file');
-  }
-
   const verificationCli = getVerificationCliFromConfig();
-  if (!verificationCli) {
-    throw new Error('No verification CLI has been provided. Please update your .env file '
-      + 'or edit the ./src/verification/verifications/flashcall/report-with-identity_flashcall.ts file');
-  }
 
   const requestData: ReportVerificationByIdentityRequestData = {
     endpoint: verificationIdentity,

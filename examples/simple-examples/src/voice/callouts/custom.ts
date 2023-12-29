@@ -12,14 +12,17 @@ import { CustomCalloutRequestData, VoiceRegion } from '@sinch/sdk-core';
   console.log('* Callouts - Custom *');
   console.log('*********************');
 
+  const callingNumber = getPhoneNumberFromConfig();
+  const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
+
   const requestData: CustomCalloutRequestData = {
     customCalloutRequestBody: {
       method: 'customCallout',
       customCallout: {
-        cli: getPhoneNumberFromConfig(),
+        cli: callingNumber,
         destination: {
           type: 'number',
-          endpoint: getRecipientPhoneNumberFromConfig(),
+          endpoint: recipientPhoneNumber,
         },
       },
     },

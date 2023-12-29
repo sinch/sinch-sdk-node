@@ -7,11 +7,6 @@ import { getPrintFormat, getVerificationIdentityFromConfig, initApplicationClien
   console.log('********************************');
 
   const verificationIdentity = getVerificationIdentityFromConfig();
-  if (!verificationIdentity) {
-    throw new Error('No verification identity has been provided. '
-      + 'Please update your .env file '
-      + 'or edit the ./src/verification/verification-status/verification-by-identity.ts file');
-  }
 
   const requestData: VerificationStatusByIdentityRequestData = {
     endpoint: verificationIdentity,

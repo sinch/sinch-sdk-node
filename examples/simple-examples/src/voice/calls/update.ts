@@ -9,8 +9,10 @@ import { UpdateCallRequestData, VoiceRegion } from '@sinch/sdk-core';
   console.log('* UpdateCall *');
   console.log('**************');
 
+  const callId = getCallIdFromConfig();
+
   const requestData: UpdateCallRequestData = {
-    callId: getCallIdFromConfig(),
+    callId,
     svamlRequestBody: {
       instructions: [
         {

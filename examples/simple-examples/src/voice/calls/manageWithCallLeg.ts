@@ -9,8 +9,10 @@ import { ManageWithCallLegRequestData, VoiceRegion } from '@sinch/sdk-core';
   console.log('* ManageCallWithCallLeg *');
   console.log('*************************');
 
+  const callId = getCallIdFromConfig();
+
   const requestData: ManageWithCallLegRequestData = {
-    callId: getCallIdFromConfig(),
+    callId,
     callLeg: 'callee',
     svamlRequestBody: {
       instructions: [

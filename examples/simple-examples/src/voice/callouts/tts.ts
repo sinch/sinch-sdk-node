@@ -12,14 +12,17 @@ import { TtsCalloutRequestData, VoiceRegion } from '@sinch/sdk-core';
   console.log('* Callouts - TTS *');
   console.log('******************');
 
+  const callingNumber = getPhoneNumberFromConfig();
+  const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
+
   const requestData: TtsCalloutRequestData = {
     ttsCalloutRequestBody: {
       method: 'ttsCallout',
       ttsCallout: {
-        cli: getPhoneNumberFromConfig(),
+        cli: callingNumber,
         destination: {
           type: 'number',
-          endpoint: getRecipientPhoneNumberFromConfig(),
+          endpoint: recipientPhoneNumber,
         },
         locale: 'en-US',
         text: 'Hello, this is a call from Sinch',

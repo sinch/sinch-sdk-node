@@ -12,10 +12,6 @@ import {
   console.log('**************************');
 
   const verificationId = getVerificationIdFromConfig();
-  if (!verificationId) {
-    throw new Error('No verification id has been provided. '
-      + 'Please update your .env file or edit the ./src/verification/verification-status/verification-by-id.ts file');
-  }
 
   const requestData: VerificationStatusByIdRequestData = {
     id: verificationId,

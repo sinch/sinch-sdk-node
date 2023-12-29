@@ -11,8 +11,10 @@ import { GetCallbackURLsRequestData } from '@sinch/sdk-core';
   console.log('* GetCallbackURLs *');
   console.log('*******************');
 
+  const applicationKey = getApplicationKeyFromConfig();
+
   const requestData: GetCallbackURLsRequestData = {
-    applicationkey: getApplicationKeyFromConfig(),
+    applicationkey: applicationKey,
   };
 
   const sinchClient = initApplicationClient();

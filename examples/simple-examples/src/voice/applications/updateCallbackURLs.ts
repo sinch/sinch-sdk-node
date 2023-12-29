@@ -9,8 +9,10 @@ import { UpdateCallbackURLsRequestData } from '@sinch/sdk-core';
   console.log('* UpdateCallbackURLs *');
   console.log('**********************');
 
+  const applicationKey = getApplicationKeyFromConfig();
+
   const requestData: UpdateCallbackURLsRequestData = {
-    applicationkey: getApplicationKeyFromConfig(),
+    applicationkey: applicationKey,
     updateCallbacksRequestBody: {
       url: {
         primary: 'https://new-primary-callback-url.com',
