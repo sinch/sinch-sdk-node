@@ -13,7 +13,7 @@ import { PieRequestMenuResult } from '../pie-request-menu-result';
 export interface PieRequest {
 
   /** Must have the value `pie`. */
-  event?: string;
+  event?: 'pie';
   /** The unique ID assigned to this call. */
   callId?: string;
   /** The timestamp in UTC format. */

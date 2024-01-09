@@ -13,7 +13,7 @@ import { AceRequestAmd } from '../ace-request-amd';
 export interface AceRequest {
 
   /** Must have the value `ace`. */
-  event?: string;
+  event?: 'ace';
   /** The unique ID assigned to this call. */
   callId?: string;
   /** The timestamp in UTC format. */
