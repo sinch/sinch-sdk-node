@@ -9,7 +9,7 @@
 export interface GetCallResponseObj {
 
   /** Contains the caller information. */
-  from?: string;
+  from?: GetCallResponseFrom;
   /** Contains the callee information. */
   to?: GetCallResponseTo;
   /** Must be `pstn` for PSTN. */
@@ -27,7 +27,7 @@ export interface GetCallResponseObj {
   /** The date and time of the call. */
   timestamp?: Date;
   /** An object that can be used to pass custom information related to the call. */
-  custom?: object;
+  custom?: string;
   /** The rate per minute that was charged for the call. */
   userRate?: GetCallResponseUserRate;
   /** The total amount charged for the call. */
@@ -37,9 +37,17 @@ export interface GetCallResponseObj {
 export interface GetCallResponseTo {
   /** The type of the destination. */
   type?: string;
-  /** The phone number, user name, or other identifier of the destination. */
+  /** The phone number, username, or other identifier of the destination. */
   endpoint?: string;
 }
+
+export interface GetCallResponseFrom {
+  /** The type of the destination. */
+  type?: string;
+  /** The phone number, username, or other identifier of the destination. */
+  endpoint?: string;
+}
+
 export interface GetCallResponseUserRate {
   /** The currency in which the call is charged. */
   currencyId?: string;
