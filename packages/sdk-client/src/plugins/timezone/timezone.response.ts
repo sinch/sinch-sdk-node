@@ -24,7 +24,7 @@ implements ResponsePlugin<V | Record<string, any>> {
               const buggyKey = buggyFields[context.operationId];
               if (key === buggyKey && typeof res[buggyKey] === 'string') {
                 const timestampValue = res[key] as string;
-                const timeZoneRegex = /([+-]\d{2}:?\d{2}|Z)$/;
+                const timeZoneRegex = /([+-]\d{2}(:\d{2})?|Z)$/;
                 if (!timeZoneRegex.test(timestampValue)) {
                   res[key] = timestampValue + 'Z';
                 }
