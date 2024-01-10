@@ -4,5 +4,6 @@ export * from './basicAuthentication';
 export * from './exception';
 export * from './oauth2';
 export * from './signing';
+export * from './timezone';
 export * from './version';
 export * from './x-timestamp';

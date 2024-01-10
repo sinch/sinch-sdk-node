@@ -30,7 +30,6 @@ import { GetCallResultRequestData, VoiceRegion } from '@sinch/sdk-core';
   const printFormat = getPrintFormat(process.argv);
 
   if (printFormat === 'pretty') {
-    // TODO: Add a post process on the response to fix the missing timezone in the timestamp
     console.log(`The call '${response.callId}' was from '${response.from}' to '${response.to?.endpoint}' and lasted ${response.duration} seconds
     Rate: ${response.userRate?.amount} ${response.userRate?.currencyId} - Debit: ${response.debit?.amount} ${response.debit?.currencyId}`);
   } else {
