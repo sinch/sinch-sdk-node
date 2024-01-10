@@ -31,6 +31,17 @@ describe('Timezone response plugin', () => {
     expect(result.timestamp).toBe(TIMESTAMP_WITH_TIMEZONE);
   });
 
+  it('should NOT update the timestamp if the timezone is already there', async () => {
+    const apiResponse = {
+      timestamp: TIMESTAMP_WITH_TIMEZONE,
+    };
+    const plugin = new TimezoneResponse();
+    const runner = plugin.load(context);
+    const result = await runner.transform(apiResponse);
+
+    expect(result.timestamp).toBe(TIMESTAMP_WITH_TIMEZONE);
+  });
+
   it('should NOT update the timestamp if the operationId if not listed', async () => {
     context.operationId = 'notListedAsBuggy';
     const apiResponse = {
