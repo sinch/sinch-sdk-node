@@ -1,5 +1,6 @@
 export type {
   GetCallResponseObj,
+  GetCallResponseFrom,
   GetCallResponseTo,
   GetCallResponseUserRate,
   GetCallResponseDebit,
