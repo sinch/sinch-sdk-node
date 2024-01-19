@@ -7,8 +7,6 @@ export type {
 export type {
   DomainEnum as GetCallResponseObjDomainEnum,
   StatusEnum as GetCallResponseObjStatusEnum,
-  ResultEnum as GetCallResponseObjResultEnum,
-  ReasonEnum as GetCallResponseObjReasonEnum,
 } from './get-call-response-obj/get-call-response-obj';
 export type {
   CapabilityEnum as GetNumbersResponseObjNumbersInnerCapabilityEnum,
@@ -29,3 +27,15 @@ export type {
   CommandEnum as ManageConferenceParticipantRequestCommandEnum,
   MohEnum as ManageConferenceParticipantRequestMohEnum,
 } from './manage-conference-participant-request/manage-conference-participant-request';
+
+export type ResultEnum = 'N/A' | 'ANSWERED' | 'BUSY' | 'NOANSWER' | 'FAILED';
+
+export type ReasonEnum = 'N/A'
+  | 'TIMEOUT'
+  | 'CALLERHANGUP'
+  | 'CALLEEHANGUP'
+  | 'BLOCKED'
+  | 'NOCREDITPARTNER'
+  | 'MANAGERHANGUP'
+  | 'CANCEL'
+  | 'GENERALERROR';

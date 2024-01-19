@@ -12,9 +12,9 @@
 export interface NotifyRequest {
 
   /** Must have the value `notify`. */
-  event?: string;
+  event?: 'notify';
   /** The unique ID assigned to this call. */
-  callId?: string;
+  callid?: string;
   /** The current API version. */
   version?: number;
   /** The type of information communicated in the notification. */

@@ -13,15 +13,17 @@ import { PieRequestMenuResult } from '../pie-request-menu-result';
 export interface PieRequest {
 
   /** Must have the value `pie`. */
-  event?: string;
+  event?: 'pie';
   /** The unique ID assigned to this call. */
-  callId?: string;
+  callid?: string;
   /** The timestamp in UTC format. */
   timestamp?: Date;
   /** @see PieRequestMenuResult */
   menuResult?: PieRequestMenuResult;
   /** The current API version. */
   version?: number;
+  /** A string that can be used to pass custom information related to the call. */
+  custom?: string;
   /** The unique application key. You can find it in the Sinch [dashboard](https://dashboard.sinch.com/voice/apps). */
   applicationKey?: string;
 }

@@ -1,4 +1,4 @@
-import { parseEventNotification } from '../../../../src';
+import { parseNumbersEventNotification } from '../../../../src';
 
 describe('Callback Webhook', () => {
 
@@ -13,7 +13,7 @@ describe('Callback Webhook', () => {
       status: 'FAILED',
       failureCode: 'CAMPAIGN_NOT_AVAILABLE',
     };
-    const parsedPayload = parseEventNotification(payload);
+    const parsedPayload = parseNumbersEventNotification(payload);
     expect(parsedPayload.timestamp instanceof Date).toBeTruthy();
     const expectedDate = new Date('2023-06-06T07:45:27.785357Z');
     expect(parsedPayload.timestamp).toEqual(expectedDate);
@@ -30,7 +30,7 @@ describe('Callback Webhook', () => {
       status: 'FAILED',
       failureCode: 'CAMPAIGN_NOT_AVAILABLE',
     };
-    const parsedPayload = parseEventNotification(payload);
+    const parsedPayload = parseNumbersEventNotification(payload);
     expect(parsedPayload.timestamp instanceof Date).toBeTruthy();
     const expectedDate = new Date('2023-06-06T07:45:27.785357Z');
     expect(parsedPayload.timestamp).toEqual(expectedDate);

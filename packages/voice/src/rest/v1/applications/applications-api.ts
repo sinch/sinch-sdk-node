@@ -62,7 +62,7 @@ export class ApplicationsApi extends VoiceApi {
     };
 
     const body: RequestBody = '';
-    const path = `/v1/calling/query/number/${data['number']}`;
+    const path = `/v1/calling/query/number/${data['number'].split(" ").join("")}`;
     const basePathUrl = this.client.apiClientOptions.basePath + path;
 
     const requestOptions

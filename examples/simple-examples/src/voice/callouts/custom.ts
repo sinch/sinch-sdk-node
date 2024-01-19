@@ -5,7 +5,7 @@ import {
   initApplicationClient,
   printFullResponse,
 } from '../../config';
-import { CustomCalloutRequestData, VoiceRegion } from '@sinch/sdk-core';
+import { AceResponse, CustomCalloutRequestData, IceResponse } from '@sinch/sdk-core';
 
 (async () => {
   console.log('*********************');
@@ -24,12 +24,50 @@ import { CustomCalloutRequestData, VoiceRegion } from '@sinch/sdk-core';
           type: 'number',
           endpoint: recipientPhoneNumber,
         },
+        custom: 'Custom text',
+        ice: JSON.stringify({
+          action: {
+            name: 'connectPstn',
+            number: recipientPhoneNumber,
+            cli: callingNumber,
+          },
+        } as IceResponse),
+        ace: JSON.stringify({
+          action: {
+            name: 'runMenu',
+            locale: 'Kimberly',
+            enableVoice: true,
+            menus: [
+              {
+                id: 'main',
+                mainPrompt: '#tts[Welcome to the main menu. Press 1 to confirm order or 4 to cancel]',
+                repeatPrompt: '#tts[Incorrect value, please try again]',
+                timeoutMills: 5000,
+                options: [
+                  {
+                    dtmf: '1',
+                    action: 'menu(confirm)',
+                  },
+                  {
+                    dtmf: '4',
+                    action: 'return(cancel)',
+                  },
+                ],
+              },
+              {
+                id: 'confirm',
+                mainPrompt: '#tts[Thank you for confirming your order. Enter your 4-digit PIN.]',
+                maxDigits: 4,
+              },
+            ],
+          },
+        } as AceResponse),
+        pie: "https://21cb-92-95-245-242.ngrok-free.app",
       },
     },
   };
 
   const sinchClient = initApplicationClient();
-  sinchClient.voice.setRegion(VoiceRegion.EUROPE);
   let response;
   try {
     response = await sinchClient.voice.callouts.custom(requestData);

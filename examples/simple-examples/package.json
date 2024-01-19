@@ -39,12 +39,16 @@
     "sms:delivery-reports:getByPhoneNumber": "ts-node src/sms/delivery-reports/getByPhoneNumber.ts",
     "sms:inbounds:list": "ts-node src/sms/inbounds/list.ts",
     "sms:inbounds:get": "ts-node src/sms/inbounds/get.ts",
-    "verification:verifications:start-sms": "ts-node src/verification/verifications/start-sms.ts",
-    "verification:verifications:start-callout": "ts-node src/verification/verifications/start-callout.ts",
-    "verification:verifications:start-flashcall": "ts-node src/verification/verifications/start-flashcall.ts",
-    "verification:verifications:start-seamless": "ts-node src/verification/verifications/start-seamless.ts",
-    "verification:verifications:report-with-id": "ts-node src/verification/verifications/report-with-id.ts",
-    "verification:verifications:report-with-identity": "ts-node src/verification/verifications/report-with-identity.ts",
+    "verification:verifications:start-sms": "ts-node src/verification/verifications/sms/start-sms.ts",
+    "verification:verifications:start-callout": "ts-node src/verification/verifications/callout/start-callout.ts",
+    "verification:verifications:start-flashcall": "ts-node src/verification/verifications/flashcall/start-flashcall.ts",
+    "verification:verifications:start-seamless": "ts-node src/verification/verifications/seamless/start-seamless.ts",
+    "verification:verifications:report-with-id:sms": "ts-node src/verification/verifications/sms/report-with-id_sms.ts",
+    "verification:verifications:report-with-id:callout": "ts-node src/verification/verifications/callout/report-with-id_callout.ts",
+    "verification:verifications:report-with-id:flashcall": "ts-node src/verification/verifications/flashcall/report-with-id_flashcall.ts",
+    "verification:verifications:report-with-identity:sms": "ts-node src/verification/verifications/sms/report-with-identity.ts",
+    "verification:verifications:report-with-identity:callout": "ts-node src/verification/verifications/callout/report-with-identity.ts",
+    "verification:verifications:report-with-identity:flashcall": "ts-node src/verification/verifications/flashcall/report-with-identity.ts",
     "verification:verification-status:verification-by-id": "ts-node src/verification/verification-status/verification-by-id.ts",
     "verification:verification-status:verification-by-identity": "ts-node src/verification/verification-status/verification-by-identity.ts",
     "verification:verification-status:verification-by-reference": "ts-node src/verification/verification-status/verification-by-reference.ts",
@@ -67,11 +71,11 @@
   },
   "dependencies": {
     "@sinch/sdk-core": "^0.0.0",
-    "@types/node": "^20.8.7",
-    "dotenv": "^16.3.1",
-    "typescript": "^5.2.2"
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
-    "ts-node": "^10.9.1"
+    "@types/node": "^20.8.7",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
   }
 }

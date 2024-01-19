@@ -31,8 +31,8 @@ import { SendSMSRequestData, TextRequest } from '@sinch/sdk-core';
         },
       },
       body: 'Hi ${name}!',
-      send_at: oneDayLater,
-      delivery_report: 'none',
+      // send_at: oneDayLater,
+      delivery_report: 'full',
       type: 'mt_text',
     } as TextRequest,
   };

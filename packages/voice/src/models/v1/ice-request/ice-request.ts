@@ -15,9 +15,9 @@ import { IceRequestUserRate } from '../ice-request-user-rate';
 export interface IceRequest {
 
   /** Must have the value `ice`. */
-  event?: string;
+  event?: 'ice';
   /** The unique ID assigned to this call. */
-  callId?: string;
+  callid?: string;
   /** The path of the API resource. */
   callResourceUrl?: string;
   /** The timestamp in UTC format. */
