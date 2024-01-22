@@ -1,6 +1,6 @@
 {
   "name": "@sinch/voice",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Sinch Voice API",
   "homepage": "",
   "repository": {
@@ -28,7 +28,7 @@
     "compile": "tsc -p tsconfig.build.json && tsc -p tsconfig.tests.json && rimraf dist/tests tsconfig.build.tsbuildinfo"
   },
   "dependencies": {
-    "@sinch/sdk-client": "^0.0.0"
+    "@sinch/sdk-client": "^0.0.1"
   },
   "devDependencies": {},
   "publishConfig": {
