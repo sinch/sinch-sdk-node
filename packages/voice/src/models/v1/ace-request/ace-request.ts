@@ -15,7 +15,7 @@ export interface AceRequest {
   /** Must have the value `ace`. */
   event?: 'ace';
   /** The unique ID assigned to this call. */
-  callId?: string;
+  callid?: string;
   /** The timestamp in UTC format. */
   timestamp?: Date;
   /** The current API version. */
@@ -24,6 +24,8 @@ export interface AceRequest {
   custom?: string;
   /** @see AceRequestAmd */
   amd?: AceRequestAmd;
+  /** The unique application key. You can find it in the Sinch [dashboard](https://dashboard.sinch.com/voice/apps). */
+  applicationKey?: string;
 }
 
 

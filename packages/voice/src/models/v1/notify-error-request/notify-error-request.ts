@@ -12,13 +12,13 @@
 export interface NotifyErrorRequest {
 
   /** Must have the value `notify`. */
-  event?: string;
+  event?: 'notify';
   /** The current API version. */
   version?: number;
   /** The type of information communicated in the notification. Must have the value `callingerror`. */
   type?: string;
   /** The unique ID assigned to this call. */
-  callId?: string;
+  callid?: string;
   /** The error code of the error. */
   errorCode?: number;
   /** The error message of the error. */

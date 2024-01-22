@@ -1,6 +1,8 @@
 import { CallbackPayload } from '../../../models';
 
-export const parseEventNotification = (eventBody: any): CallbackPayload => {
+export type NumbersCallback = CallbackPayload;
+
+export const parseNumbersEventNotification = (eventBody: any): NumbersCallback => {
   // There is a bug in the API which doesn't send the timezone along with the timestamp
   // As the server formats the timestamp as GMT, we check if the timezone is missing and add it if needed
   const timestamp = eventBody.timestamp;

@@ -62,7 +62,8 @@ export class ApplicationsApi extends VoiceApi {
     };
 
     const body: RequestBody = '';
-    const path = `/v1/calling/query/number/${data['number']}`;
+    // Remove the spaces in the phone number in order to not have inconsistencies in the way the URL is encoded in the SDK and server side when calculating the request signature
+    const path = `/v1/calling/query/number/${data['number'].split(" ").join("")}`;
     const basePathUrl = this.client.apiClientOptions.basePath + path;
 
     const requestOptions

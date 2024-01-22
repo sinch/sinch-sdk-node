@@ -53,6 +53,7 @@ VERIFICATION_CODE=verification-code received for a verification via SMS or callo
 VERIFICATION_CLI=verification-cli received for a verification via flashCall
 CALL_ID=call_id to fill with one of the callouts created with the Voice API
 CONFERENCE_ID=unique identifier of the conference you want to interact with
+VOICE_CALLBACK_URL=URL found in the Voice dashboard to handle webhooks
 ```
 
 **Note**: If you prefer using environment variables, the sample app is also supporting them: they take precedence over the value from the `.env` file.
@@ -122,7 +123,7 @@ yarn run numbers:regions:list
 |              |                     | [./src/voice/applications/unassignNumber.ts](./src/voice/applications/unassignNumber.ts)                                                   | `PHONE_NUMBER` + `SINCH_APPLICATION_KEY`                                        |
 |              |                     | [./src/voice/applications/updateCallbackURLs.ts](./src/voice/applications/updateCallbackURLs.ts)                                           | `SINCH_APPLICATION_KEY`                                                         |
 |              | Callouts            | [./src/voice/callouts/conference.ts](./src/voice/callouts/conference.ts)                                                                   | `PHONE_NUMBER` + `RECIPIENT_PHONE_NUMBER` + `CONFERENCE_ID`                     |
-|              |                     | [./src/voice/callouts/custom.ts](./src/voice/callouts/custom.ts)                                                                           | `PHONE_NUMBER` + `RECIPIENT_PHONE_NUMBER`                                       |
+|              |                     | [./src/voice/callouts/custom.ts](./src/voice/callouts/custom.ts)                                                                           | `PHONE_NUMBER` + `RECIPIENT_PHONE_NUMBER` + `VOICE_CALLBACK_URL`                |
 |              |                     | [./src/voice/callouts/tts.ts](./src/voice/callouts/tts.ts)                                                                                 | `PHONE_NUMBER` + `RECIPIENT_PHONE_NUMBER`                                       |
 |              | Calls               | [./src/voice/calls/get.ts](./src/voice/calls/get.ts)                                                                                       | `CALL_ID`                                                                       |
 |              |                     | [./src/voice/calls/manageWithCallLeg.ts](./src/voice/calls/manageWithCallLeg.ts)                                                           | `CALL_ID`                                                                       |

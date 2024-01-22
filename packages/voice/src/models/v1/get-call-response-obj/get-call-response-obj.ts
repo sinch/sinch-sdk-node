@@ -4,7 +4,7 @@
  * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
  *
  */
-
+import { ReasonEnum, ResultEnum } from '../enums';
 
 export interface GetCallResponseObj {
 
@@ -64,14 +64,3 @@ export interface GetCallResponseDebit {
 
 export type DomainEnum = 'pstn';
 export type StatusEnum = 'ONGOING' | 'FINAL';
-export type ResultEnum = 'N/A' | 'ANSWERED' | 'BUSY' | 'NOANSWER' | 'FAILED';
-export type ReasonEnum = 'N/A'
-    | 'TIMEOUT'
-    | 'CALLERHANGUP'
-    | 'CALLEEHANGUP'
-    | 'BLOCKED'
-    | 'NOCREDITPARTNER'
-    | 'MANAGERHANGUP'
-    | 'CANCEL'
-    | 'GENERALERROR';
-

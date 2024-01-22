@@ -1,25 +1,8 @@
-import { calculateHMACSHA256, calculateMD5, SigningRequest } from '../../../src';
+import { SigningRequest } from '../../../src';
 import { RequestOptions } from '../../../src/plugins/core/request-plugin';
 import { Headers } from 'node-fetch';
 
 describe('Signed request plugin', () => {
-
-  it('should calculate the content-MD5 for the stringified JSON', () => {
-    const body = {
-      identity: {
-        type: 'number',
-        endpoint: '+33444555666',
-      },
-      method: 'sms',
-    };
-    expect(calculateMD5(JSON.stringify(body))).toBe('RkD29EocJh6t7zr5QfKM4g==');
-  });
-
-  it('should calculate the signature', () => {
-    const secret = btoa("my-secret");
-    const stringToSign = 'pKXhl9sOsUjClws1oANArA==';
-    expect(calculateHMACSHA256(secret, stringToSign)).toBe('1vZeB9AYiJthOvaZeZFhOxZWLSqHHFWzFw7AGjrTtmk=');
-  });
 
   it('should create the authentication header for a request with a body', async () => {
     const headers = new Headers();

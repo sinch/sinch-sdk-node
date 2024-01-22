@@ -9,7 +9,7 @@ import { CallHeader } from '../call-header';
 import { DiceRequestDebit } from '../dice-request-debit';
 import { DiceRequestUserRate } from '../dice-request-user-rate';
 import { IceRequestTo } from '../ice-request-to';
-import { GetCallResponseObjReasonEnum, GetCallResponseObjResultEnum } from '../enums';
+import { ReasonEnum, ResultEnum } from '../enums';
 
 /**
  * The request body of a Disconnected Call Event.
@@ -19,13 +19,13 @@ export interface DiceRequest {
   /** Must have the value `dice`. */
   event?: 'dice';
   /** The unique ID assigned to this call. */
-  callId?: string;
+  callid?: string;
   /** The timestamp in UTC format. */
   timestamp?: Date;
   /** The reason the call was disconnected. */
-  reason?: GetCallResponseObjReasonEnum;
+  reason?: ReasonEnum;
   /** The result of the call. */
-  result?: GetCallResponseObjResultEnum;
+  result?: ResultEnum;
   /** The current API version. */
   version?: number;
   /** A string that can be used to pass custom information related to the call. */

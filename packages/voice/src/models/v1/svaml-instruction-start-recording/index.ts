@@ -1,1 +1,5 @@
-export type { SvamlInstructionStartRecording } from './svaml-instruction-start-recording';
+export type {
+  SvamlInstructionStartRecording,
+  StartRecordingOptions,
+  TranscriptionOptions,
+} from './svaml-instruction-start-recording';
