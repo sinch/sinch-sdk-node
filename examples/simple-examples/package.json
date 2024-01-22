@@ -70,7 +70,7 @@
     "voice:conferences:kickAll": "ts-node src/voice/conferences/kickAll.ts"
   },
   "dependencies": {
-    "@sinch/sdk-core": "^0.0.0",
+    "@sinch/sdk-core": "^0.0.1",
     "dotenv": "^16.3.1"
   },
   "devDependencies": {
