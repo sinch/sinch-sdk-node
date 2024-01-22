@@ -63,6 +63,9 @@ export const validateAuthenticationHeader = (
 
   const authorization = getHeader(normalizedHeaders.authorization);
   const authParts = checkAuthorizationHeaderFormat(authorization);
+  if (null === authParts) {
+    return false;
+  }
 
   const authorizationScheme = authParts[0].toLowerCase();
   const authorizationValue = authParts[1];
@@ -81,7 +84,8 @@ export const validateAuthenticationHeader = (
     );
   }
   // Other schemes than 'basic' or 'application' are not supported
-  throw new Error(`Scheme is not valid: ${authParts[0]}`);
+  console.error(`Scheme is not valid: ${authParts[0]}`);
+  return false;
 };
 
 const validateApplicationAuth = (
@@ -95,10 +99,12 @@ const validateApplicationAuth = (
 ): boolean => {
   const authKeyAndSecret = authorizationValue.split(':');
   if(authKeyAndSecret.length !== 2) {
-    throw new Error('Invalid authorization value format provided');
+    console.error('Invalid authorization value format provided');
+    return false;
   }
   if(authKeyAndSecret[0] !== applicationKey) {
-    throw new Error('Application Key is not valid');
+    console.error('Application Key is not valid');
+    return false;
   }
 
   const contentType = getHeader(normalizedHeaders['content-type']);
@@ -114,7 +120,8 @@ const validateApplicationAuth = (
   const signature = calculateSignature(applicationSecret, stringToSign);
 
   if(authKeyAndSecret[1] !== signature) {
-    throw new Error('Invalid signature');
+    console.error('Invalid signature');
+    return false;
   }
 
   return true;
@@ -124,7 +131,8 @@ const checkAuthorizationHeaderFormat = (authorizationHeader: string) => {
   const authParts = authorizationHeader.split(' ');
   if(authParts.length !== 2) {
     // The authorization header must be in 2 part: scheme and authorization value
-    throw new Error('Invalid authorization format provided');
+    console.error('Invalid authorization format provided');
+    return null;
   }
   return authParts;
 };
@@ -136,10 +144,12 @@ const validateBasicAuth = (
 ): boolean => {
   const authKeyAndSecret = authorization.split(':');
   if(authKeyAndSecret.length !== 2) {
-    throw new Error('Invalid authorization value format provided');
+    console.error('Invalid authorization value format provided');
+    return false;
   }
   if(authKeyAndSecret[0] !== applicationKey || authKeyAndSecret[1] !== applicationSecret) {
-    throw new Error('Invalid credentials provided');
+    console.error('Invalid credentials provided');
+    return false;
   }
   return true;
 };

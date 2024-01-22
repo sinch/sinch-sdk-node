@@ -1,7 +1,7 @@
 import {
   getPhoneNumberFromConfig,
   getPrintFormat,
-  getRecipientPhoneNumberFromConfig,
+  getRecipientPhoneNumberFromConfig, getVoiceCallBackUrl,
   initApplicationClient,
   printFullResponse,
 } from '../../config';
@@ -14,6 +14,7 @@ import { AceResponse, CustomCalloutRequestData, IceResponse } from '@sinch/sdk-c
 
   const callingNumber = getPhoneNumberFromConfig();
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
+  const callbackUrl = getVoiceCallBackUrl();
 
   const requestData: CustomCalloutRequestData = {
     customCalloutRequestBody: {
@@ -62,7 +63,7 @@ import { AceResponse, CustomCalloutRequestData, IceResponse } from '@sinch/sdk-c
             ],
           },
         } as AceResponse),
-        pie: "https://21cb-92-95-245-242.ngrok-free.app",
+        pie: callbackUrl,
       },
     },
   };

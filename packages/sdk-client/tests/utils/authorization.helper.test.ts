@@ -89,7 +89,7 @@ describe('Authorization validation', () => {
       'x-timestamp': X_TIMESTAMP,
       'authorization': 'Unknown app-key:p7hUz20oz16Fhfogs4Z0X+VA/Nhuu505I1alXYqwlKw=',
     };
-    const validationFunctionResult = () => validateAuthenticationHeader(
+    const validated = validateAuthenticationHeader(
       APPLICATION_KEY,
       APPLICATION_SECRET,
       headers,
@@ -98,7 +98,7 @@ describe('Authorization validation', () => {
       METHOD,
     );
 
-    expect(validationFunctionResult).toThrow('Scheme is not valid: Unknown');
+    expect(validated).toBeFalsy();
   });
 
   it('should throw an exception when trying to validate a malformatted authorization header', () => {
@@ -107,7 +107,7 @@ describe('Authorization validation', () => {
       'x-timestamp': X_TIMESTAMP,
       'authorization': `Application  ${APPLICATION_KEY}:${APPLICATION_SECRET}`,
     };
-    const validationFunctionResult = () => validateAuthenticationHeader(
+    const validated = validateAuthenticationHeader(
       APPLICATION_KEY,
       APPLICATION_SECRET,
       headers,
@@ -116,7 +116,7 @@ describe('Authorization validation', () => {
       METHOD,
     );
 
-    expect(validationFunctionResult).toThrow('Invalid authorization format provided');
+    expect(validated).toBeFalsy();
   });
 
   it('should throw an exception when trying to validate a malformed value in the authorization header', () => {
@@ -125,7 +125,7 @@ describe('Authorization validation', () => {
       'x-timestamp': X_TIMESTAMP,
       'authorization': `Application ${APPLICATION_KEY}${APPLICATION_SECRET}`,
     };
-    const validationFunctionResult = () => validateAuthenticationHeader(
+    const validated = validateAuthenticationHeader(
       APPLICATION_KEY,
       APPLICATION_SECRET,
       headers,
@@ -134,7 +134,7 @@ describe('Authorization validation', () => {
       METHOD,
     );
 
-    expect(validationFunctionResult).toThrow('Invalid authorization value format provided');
+    expect(validated).toBeFalsy();
   });
 
   it('should throw an exception when trying to validate a malformed value in the basic authorization header', () => {
@@ -143,7 +143,7 @@ describe('Authorization validation', () => {
       'x-timestamp': X_TIMESTAMP,
       'authorization': `Basic ${APPLICATION_KEY}${APPLICATION_SECRET}`,
     };
-    const validationFunctionResult = () => validateAuthenticationHeader(
+    const validated = validateAuthenticationHeader(
       APPLICATION_KEY,
       APPLICATION_SECRET,
       headers,
@@ -152,7 +152,7 @@ describe('Authorization validation', () => {
       METHOD,
     );
 
-    expect(validationFunctionResult).toThrow('Invalid authorization value format provided');
+    expect(validated).toBeFalsy();
   });
 
   it('should throw an exception when trying to validate an basic authorization with a wrong value', () => {
@@ -161,7 +161,7 @@ describe('Authorization validation', () => {
       'x-timestamp': X_TIMESTAMP,
       'authorization': `Basic ${APPLICATION_KEY}:wrong-app-secret`,
     };
-    const validationFunctionResult = () => validateAuthenticationHeader(
+    const validated = validateAuthenticationHeader(
       APPLICATION_KEY,
       APPLICATION_SECRET,
       headers,
@@ -170,7 +170,7 @@ describe('Authorization validation', () => {
       METHOD,
     );
 
-    expect(validationFunctionResult).toThrow('Invalid credentials provided');
+    expect(validated).toBeFalsy();
   });
 
 });

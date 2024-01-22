@@ -97,6 +97,10 @@ export const getConferenceIdFromConfig = (): string => {
   return readVariable('CONFERENCE_ID');
 };
 
+export const getVoiceCallBackUrl = (): string => {
+  return readVariable('VOICE_CALLBACK_URL');
+};
+
 const readVariable = ( name: string): string => {
   const value = process.env[name];
   if (!value) {
