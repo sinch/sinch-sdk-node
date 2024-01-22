@@ -56,10 +56,9 @@ export class AppController {
     // console.log(request.headers);
     // console.log(request.body);
     // console.log(request['rawBody']);
-    try {
-      validateAuthenticationHeader(SINCH_APPLICATION_KEY, SINCH_APPLICATION_SECRET,
-        request.headers, request.path, request['rawBody'], request.method);
-    } catch (error) {
+    const validated = validateAuthenticationHeader(SINCH_APPLICATION_KEY, SINCH_APPLICATION_SECRET,
+      request.headers, request.path, request['rawBody'], request.method);
+    if (!validated) {
       res.status(401).send('Invalid authorization');
       return;
     }
@@ -77,10 +76,9 @@ export class AppController {
     // console.log(request.headers);
     // console.log(request.body);
     // console.log(request['rawBody']);
-    try {
-      validateAuthenticationHeader(SINCH_APPLICATION_KEY, SINCH_APPLICATION_SECRET,
+    const validated = validateAuthenticationHeader(SINCH_APPLICATION_KEY, SINCH_APPLICATION_SECRET,
         request.headers, request.path, request['rawBody'], request.method);
-    } catch (error) {
+    if (!validated) {
       res.status(401).send('Invalid authorization');
       return;
     }
