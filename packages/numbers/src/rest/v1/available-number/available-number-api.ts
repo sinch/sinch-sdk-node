@@ -122,7 +122,7 @@ export class AvailableNumberApi extends NumbersApi {
       headers,
       body || undefined,
     );
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams, false, ';');
 
     return this.client.processCall<AvailableNumbersResponse>({
       url,

@@ -77,7 +77,7 @@ export class ApiClient {
           const prop = data[name];
           acc[name] = typeof prop.toJSON === 'function'
             ? prop.toJSON()
-            : Array.isArray(prop) ? prop.join(';') : prop.toString();
+            : Array.isArray(prop) ? prop.join(',') : prop.toString();
           return acc;
         },
         {} as { [p in keyof T]: string },
@@ -128,16 +128,18 @@ export class ApiClient {
    * @param {string} url - The base url to be used.
    * @param {Object.<string, string|undefined>} queryParameters - Key-value pair with the parameters. If the value is undefined, the key is dropped.
    * @param {boolean} repeatParamArray - create as many single parameters with each value of the array
+   * @param {string} unexplodedSeparator - the separator to use between values when `explode` is false (default is ',')
    * @return {string} The prepared URL as a string.
    */
   prepareUrl(
     url: string,
     queryParameters: { [key: string]: string | undefined } = {},
     repeatParamArray?: boolean,
+    unexplodedSeparator?: string,
   ): string {
     const queryPart = Object.keys(queryParameters)
       .filter((name) => typeof queryParameters[name] !== 'undefined')
-      .map((name) => this.formatQueryParameter(name, queryParameters, repeatParamArray))
+      .map((name) => this.formatQueryParameter(name, queryParameters, repeatParamArray, unexplodedSeparator))
       .join('&');
 
     const paramsPrefix = url.indexOf('?') > -1 ? '&' : '?';
@@ -150,20 +152,24 @@ export class ApiClient {
    * @param {string} name - The parameter name
    * @param {Object.<string, string|undefined>} queryParameters - Key-value pair with the parameters. If the value is undefined, the key is dropped.
    * @param {boolean}repeatParamArray - Create as many single parameters with each value of the array
+   * @param {string} unexplodedSeparator - the separator to use between values when `explode` is false (default is `,`)
    * @return {string} The query parameter formatted as required by the API
    */
   private formatQueryParameter = (
     name: string,
     queryParameters: { [key: string]: string | undefined } = {},
     repeatParamArray?: boolean,
+    unexplodedSeparator?: string,
   ): string => {
     const defaultFormat = `${name}=${queryParameters[name]!}`;
     if(repeatParamArray) {
       const parameterValue = queryParameters[name];
-      if (parameterValue && parameterValue.indexOf(';') > 0) {
-        const parameterValues = parameterValue.split(';');
+      if (parameterValue && parameterValue.indexOf(',') > 0) {
+        const parameterValues = parameterValue.split(',');
         return parameterValues.map((value) => `${name}=${value}`).join('&');
       }
+    } else if (unexplodedSeparator !== undefined) {
+      return defaultFormat.replaceAll(',', unexplodedSeparator);
     }
     return defaultFormat;
   };

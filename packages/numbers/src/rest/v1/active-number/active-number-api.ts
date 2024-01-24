@@ -139,7 +139,9 @@ export class ActiveNumberApi extends NumbersApi {
     const listPromise = buildPageResultPromise<ActiveNumber>(
       this.client,
       requestOptionsPromise,
-      operationProperties);
+      operationProperties,
+      false,
+      ';');
 
     // Add properties to the Promise to offer the possibility to use it as an iterator
     Object.assign(

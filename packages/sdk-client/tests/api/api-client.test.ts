@@ -26,10 +26,21 @@ describe('API client', () => {
     const url = 'https://example.com';
     const parameters = {
       foo: 'fooValue',
-      bar: '1;2',
+      bar: '1,2',
       baz: undefined,
     };
     const formattedUrl = apiClient.prepareUrl(url, parameters);
+    expect(formattedUrl).toBe('https://example.com?foo=fooValue&bar=1,2');
+  });
+
+  it('should format the URL with array parameters and a custom separator', () => {
+    const url = 'https://example.com';
+    const parameters = {
+      foo: 'fooValue',
+      bar: '1,2',
+      baz: undefined,
+    };
+    const formattedUrl = apiClient.prepareUrl(url, parameters, false, ';');
     expect(formattedUrl).toBe('https://example.com?foo=fooValue&bar=1;2');
   });
 
@@ -37,7 +48,7 @@ describe('API client', () => {
     const url = 'https://example.com';
     const parameters = {
       foo: 'fooValue',
-      bar: '1;2',
+      bar: '1,2',
       baz: undefined,
     };
     const formattedUrl = apiClient.prepareUrl(url, parameters, true);
