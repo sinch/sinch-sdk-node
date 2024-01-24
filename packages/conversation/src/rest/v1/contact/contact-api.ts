@@ -55,9 +55,9 @@ export interface UpdateContactRequestData {
   /** The unique ID of the contact. */
   'contact_id': string;
   /** The updated contact. */
-  'contactBody': Contact;
+  'updateContactBody': Contact;
   /** The set of field mask paths. */
-  'update_mask.paths'?: Array<string>;
+  'update_mask'?: Array<string>;
 }
 
 export class ContactApi extends ConversationDomainApi {
@@ -76,7 +76,7 @@ export class ContactApi extends ConversationDomainApi {
    * Most Conversation API contacts are [created automatically](/docs/conversation/contact-management/) when a message is sent to a new recipient. You can also create a new contact manually using this API call.
    * @param { CreateContactRequestData } data - The data to provide to the API call.
    */
-  public async createContact(data: CreateContactRequestData): Promise<Contact> {
+  public async create(data: CreateContactRequestData): Promise<Contact> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<CreateContactRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -104,7 +104,7 @@ export class ContactApi extends ConversationDomainApi {
    * Delete a contact as specified by the contact ID.
    * @param { DeleteContactRequestData } data - The data to provide to the API call.
    */
-  public async deleteContact(data: DeleteContactRequestData): Promise<any> {
+  public async delete(data: DeleteContactRequestData): Promise<any> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteContactRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -160,7 +160,7 @@ export class ContactApi extends ConversationDomainApi {
    * Returns a specific contact as specified by the contact ID. Note that, if a WhatsApp contact is returned, the &#x60;display_name&#x60; field of that contact may be populated with the WhatsApp display name (if the name is already stored on the server and the &#x60;display_name&#x60; field has not been overwritten by the user).
    * @param { GetContactRequestData } data - The data to provide to the API call.
    */
-  public async getContact(data: GetContactRequestData): Promise<Contact> {
+  public async get(data: GetContactRequestData): Promise<Contact> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetContactRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -188,7 +188,7 @@ export class ContactApi extends ConversationDomainApi {
    * @param { ListContactsRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<Contact>}
    */
-  public listContacts(data: ListContactsRequestData): ApiListPromise<Contact> {
+  public list(data: ListContactsRequestData): ApiListPromise<Contact> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListContactsRequestData>(
       data,
@@ -258,7 +258,7 @@ export class ContactApi extends ConversationDomainApi {
    * Updates a contact as specified by the contact ID.
    * @param { UpdateContactRequestData } data - The data to provide to the API call.
    */
-  public async updateContact(data: UpdateContactRequestData): Promise<Contact> {
+  public async update(data: UpdateContactRequestData): Promise<Contact> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateContactRequestData>(data, ['update_mask.paths']);
     const headers: { [key: string]: string | undefined } = {
@@ -266,7 +266,7 @@ export class ContactApi extends ConversationDomainApi {
       'Accept': 'application/json',
     };
 
-    const body: RequestBody = data['contactBody'] ? JSON.stringify(data['contactBody']) : '{}';
+    const body: RequestBody = data['updateContactBody'] ? JSON.stringify(data['updateContactBody']) : '{}';
     const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/contacts/${data['contact_id']}`;
 
     const requestOptions
