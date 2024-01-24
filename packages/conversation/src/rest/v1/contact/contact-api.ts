@@ -260,7 +260,7 @@ export class ContactApi extends ConversationDomainApi {
    */
   public async update(data: UpdateContactRequestData): Promise<Contact> {
     this.client = this.getSinchClient();
-    const getParams = this.client.extractQueryParams<UpdateContactRequestData>(data, ['update_mask.paths']);
+    const getParams = this.client.extractQueryParams<UpdateContactRequestData>(data, ['update_mask']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
