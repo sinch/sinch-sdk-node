@@ -159,7 +159,7 @@ export function hasMore(
   context: PaginationContext,
 ): boolean {
   if (context.pagination === PaginationEnum.TOKEN) {
-    return !!response.nextPageToken;
+    return !!response['nextPageToken'] || !!response['next_page_token'];
   }
   if (context.pagination === PaginationEnum.PAGE) {
     const requestedPageSize = context.requestOptions.queryParams?.page_size;
@@ -174,7 +174,7 @@ export function calculateNextPage(
   context: PaginationContext,
 ): string {
   if (context.pagination === PaginationEnum.TOKEN) {
-    return response['nextPageToken'];
+    return response['nextPageToken'] || response['next_page_token'];
   }
   if (context.pagination === PaginationEnum.PAGE) {
     const currentPage: number = response.page || 0;

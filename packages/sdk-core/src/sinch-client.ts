@@ -3,10 +3,12 @@ import { Sms } from '@sinch/sms';
 import { Verification } from '@sinch/verification';
 import { SinchClientParameters } from '@sinch/sdk-client';
 import { Voice } from '@sinch/voice';
+import { ConversationDomain } from '@sinch/conversation';
 
 /** Sinch Client to declare and initialize the supported APIs */
 export class SinchClient {
 
+  public readonly conversation: ConversationDomain;
   public readonly numbers: Numbers;
   public readonly sms: Sms;
   public readonly verification: Verification;
@@ -18,6 +20,9 @@ export class SinchClient {
    * @param {SinchClientParameters} params - The object containing the Sinch credentials.
    */
   constructor(params: SinchClientParameters) {
+    // Initialize the "Conversation" API
+    this.conversation = new ConversationDomain(params);
+
     // Initialize the "Numbers" API
     this.numbers = new Numbers(params);
 
