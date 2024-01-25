@@ -266,7 +266,9 @@ export class ContactApi extends ConversationDomainApi {
       'Accept': 'application/json',
     };
 
-    const body: RequestBody = data['updateContactRequestBody'] ? JSON.stringify(data['updateContactRequestBody']) : '{}';
+    const body: RequestBody = data['updateContactRequestBody']
+      ? JSON.stringify(data['updateContactRequestBody'])
+      : '{}';
     const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/contacts/${data['contact_id']}`;
 
     const requestOptions
