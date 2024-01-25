@@ -55,7 +55,6 @@ export class AppApi extends ConversationDomainApi {
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
     const body: RequestBody = data['appCreateRequestBody'] ? JSON.stringify(data['appCreateRequestBody']) : '{}';
@@ -83,7 +82,6 @@ export class AppApi extends ConversationDomainApi {
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
     const body: RequestBody = '';
@@ -112,7 +110,6 @@ export class AppApi extends ConversationDomainApi {
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
     const body: RequestBody = '';
@@ -140,7 +137,6 @@ export class AppApi extends ConversationDomainApi {
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
     const body: RequestBody = '';
@@ -168,7 +164,6 @@ export class AppApi extends ConversationDomainApi {
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
     const body: RequestBody = data['appUpdateRequestBody'] ? JSON.stringify(data['appUpdateRequestBody']) : '{}';

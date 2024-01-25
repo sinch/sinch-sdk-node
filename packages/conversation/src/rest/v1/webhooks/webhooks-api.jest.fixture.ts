@@ -5,24 +5,24 @@ import { WebhooksApi, CreateWebhookRequestData, DeleteWebhookRequestData, GetWeb
 export class WebhooksApiFixture implements Partial<Readonly<WebhooksApi>> {
 
   /**
-   * Fixture associated to function createWebhook
+   * Fixture associated to function create
    */
-  public createWebhook: jest.Mock<Promise<Webhook>, [CreateWebhookRequestData]> = jest.fn();
+  public create: jest.Mock<Promise<Webhook>, [CreateWebhookRequestData]> = jest.fn();
   /**
-   * Fixture associated to function deleteWebhook
+   * Fixture associated to function delete
    */
-  public deleteWebhook: jest.Mock<Promise<any>, [DeleteWebhookRequestData]> = jest.fn();
+  public delete: jest.Mock<Promise<any>, [DeleteWebhookRequestData]> = jest.fn();
   /**
-   * Fixture associated to function getWebhook
+   * Fixture associated to function get
    */
-  public getWebhook: jest.Mock<Promise<Webhook>, [GetWebhookRequestData]> = jest.fn();
+  public get: jest.Mock<Promise<Webhook>, [GetWebhookRequestData]> = jest.fn();
   /**
-   * Fixture associated to function listWebhooks
+   * Fixture associated to function list
    */
-  public listWebhooks: jest.Mock<Promise<ListWebhooksResponse>, [ListWebhooksRequestData]> = jest.fn();
+  public list: jest.Mock<Promise<ListWebhooksResponse>, [ListWebhooksRequestData]> = jest.fn();
   /**
-   * Fixture associated to function updateWebhook
+   * Fixture associated to function update
    */
-  public updateWebhook: jest.Mock<Promise<Webhook>, [UpdateWebhookRequestData]> = jest.fn();
+  public update: jest.Mock<Promise<Webhook>, [UpdateWebhookRequestData]> = jest.fn();
 }
 

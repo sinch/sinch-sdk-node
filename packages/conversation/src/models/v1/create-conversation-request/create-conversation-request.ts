@@ -13,8 +13,6 @@ export interface CreateConversationRequest {
   app_id: string;
   /** The ID of the participating contact. */
   contact_id: string;
-  /** The ID of the conversation. */
-  id?: string;
   /** Arbitrary data set by the Conversation API clients. Up to 1024 characters long. */
   metadata?: string;
   /** Arbitrary data set by the Conversation API clients and/or provided in the `conversation_metadata` field of a SendMessageRequest. A valid JSON object. */

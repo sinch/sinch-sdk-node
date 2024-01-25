@@ -5,32 +5,32 @@ import { ApiListPromise } from '@sinch/sdk-client';
 export class ConversationApiFixture implements Partial<Readonly<ConversationApi>> {
 
   /**
-   * Fixture associated to function createConversation
+   * Fixture associated to function create
    */
-  public createConversation: jest.Mock<Promise<Conversation>, [CreateConversationRequestData]> = jest.fn();
+  public create: jest.Mock<Promise<Conversation>, [CreateConversationRequestData]> = jest.fn();
   /**
-   * Fixture associated to function deleteConversation
+   * Fixture associated to function delete
    */
-  public deleteConversation: jest.Mock<Promise<any>, [DeleteConversationRequestData]> = jest.fn();
+  public delete: jest.Mock<Promise<any>, [DeleteConversationRequestData]> = jest.fn();
   /**
-   * Fixture associated to function getConversation
+   * Fixture associated to function get
    */
-  public getConversation: jest.Mock<Promise<Conversation>, [GetConversationRequestData]> = jest.fn();
+  public get: jest.Mock<Promise<Conversation>, [GetConversationRequestData]> = jest.fn();
   /**
    * Fixture associated to function injectMessage
    */
   public injectMessage: jest.Mock<Promise<any>, [InjectMessageRequestData]> = jest.fn();
   /**
-   * Fixture associated to function listConversations
+   * Fixture associated to function list
    */
-  public listConversations: jest.Mock<ApiListPromise<Conversation>, [ListConversationsRequestData]> = jest.fn();
+  public list: jest.Mock<ApiListPromise<Conversation>, [ListConversationsRequestData]> = jest.fn();
   /**
-   * Fixture associated to function stopActiveConversation
+   * Fixture associated to function stopActive
    */
-  public stopActiveConversation: jest.Mock<Promise<any>, [StopActiveConversationRequestData]> = jest.fn();
+  public stopActive: jest.Mock<Promise<any>, [StopActiveConversationRequestData]> = jest.fn();
   /**
-   * Fixture associated to function updateConversation
+   * Fixture associated to function update
    */
-  public updateConversation: jest.Mock<Promise<Conversation>, [UpdateConversationRequestData]> = jest.fn();
+  public update: jest.Mock<Promise<Conversation>, [UpdateConversationRequestData]> = jest.fn();
 }
 

@@ -69,7 +69,7 @@ export * from './processing-mode';
 export * from './processing-strategy';
 export * from './product';
 export * from './error-detail';
-export * from './query-capability';
+export * from './lookup-capability';
 export * from './query-capability-response';
 export * from './queue-stats';
 export * from './rate-limits';

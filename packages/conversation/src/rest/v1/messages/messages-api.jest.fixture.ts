@@ -6,20 +6,20 @@ import { ApiListPromise } from '@sinch/sdk-client';
 export class MessagesApiFixture implements Partial<Readonly<MessagesApi>> {
 
   /**
-   * Fixture associated to function deleteMessage
+   * Fixture associated to function delete
    */
-  public deleteMessage: jest.Mock<Promise<any>, [DeleteMessageRequestData]> = jest.fn();
+  public delete: jest.Mock<Promise<any>, [DeleteMessageRequestData]> = jest.fn();
   /**
-   * Fixture associated to function getMessage
+   * Fixture associated to function get
    */
-  public getMessage: jest.Mock<Promise<ConversationMessage>, [GetMessageRequestData]> = jest.fn();
+  public get: jest.Mock<Promise<ConversationMessage>, [GetMessageRequestData]> = jest.fn();
   /**
-   * Fixture associated to function listMessages
+   * Fixture associated to function list
    */
-  public listMessages: jest.Mock<ApiListPromise<ConversationMessage>, [ListMessagesRequestData]> = jest.fn();
+  public list: jest.Mock<ApiListPromise<ConversationMessage>, [ListMessagesRequestData]> = jest.fn();
   /**
-   * Fixture associated to function sendMessage
+   * Fixture associated to function send
    */
-  public sendMessage: jest.Mock<Promise<SendMessageResponse>, [SendMessageRequestData]> = jest.fn();
+  public send: jest.Mock<Promise<SendMessageResponse>, [SendMessageRequestData]> = jest.fn();
 }
 

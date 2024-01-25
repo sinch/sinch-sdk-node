@@ -12,4 +12,9 @@ export interface AppMessage {
   explicit_channel_message?: object;
   /** @see AppMessageAdditionalProperties */
   additionalProperties?: AppMessageAdditionalProperties;
+
+  /** TBC: Not documented */
+  agent?: any | null;
+  /** TBC: Not documented */
+  explicit_channel_omni_message?: object;
 }

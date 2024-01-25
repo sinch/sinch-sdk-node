@@ -152,7 +152,7 @@ export class ApiFetchClient extends ApiClient {
     // Build the PageResult object
     const nextPage = calculateNextPage(result, buildPaginationContext(apiCallParameters));
     return {
-      data: responseData,
+      data: responseData || [],
       hasNextPage: hasMore(result, buildPaginationContext(apiCallParameters)),
       nextPageValue: nextPage,
       nextPage: () => createNextPageMethod<T>(
