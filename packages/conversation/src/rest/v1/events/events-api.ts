@@ -29,13 +29,12 @@ export class EventsApi extends ConversationDomainApi {
    * Sends an event to the referenced contact from the referenced app. Note that this operation enqueues the event in a queue so a successful response only indicates that the event has been queued.
    * @param { SendEventRequestData } data - The data to provide to the API call.
    */
-  public async sendEvent(data: SendEventRequestData): Promise<SendEventResponse> {
+  public async send(data: SendEventRequestData): Promise<SendEventResponse> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<SendEventRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
     const body: RequestBody = data['sendEventRequestBody'] ? JSON.stringify(data['sendEventRequestBody']) : '{}';

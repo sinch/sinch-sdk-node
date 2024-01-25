@@ -35,7 +35,6 @@ export class TranscodingApi extends ConversationDomainApi {
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
     const body: RequestBody

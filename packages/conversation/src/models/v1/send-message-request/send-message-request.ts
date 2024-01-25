@@ -1,9 +1,9 @@
-import { AppMessage } from '../app-message';
 import { ConversationChannel } from '../conversation-channel';
 import { MessageQueue } from '../message-queue';
 import { Recipient } from '../recipient';
 import { ProcessingStrategy } from '../processing-strategy';
 import { ConversationMetadataUpdateStrategy } from '../conversation-metadata-update-strategy';
+import { AppMessageMessage } from '../app-message-message';
 
 /**
  * This is the request body for sending a message. `app_id`, `recipient`, and `message` are all required fields.
@@ -19,7 +19,7 @@ export interface SendMessageRequest {
   /** Channel-specific properties. The key in the map must point to a valid channel property key as defined by the enum ChannelPropertyKeys. The maximum allowed property value length is 1024 characters. */
   channel_properties?: { [key: string]: string; };
   /** @see AppMessage */
-  message: AppMessage;
+  message: AppMessageMessage;
   /** Metadata that should be associated with the message. Returned in the `metadata` field of a [Message Delivery Receipt](https://developers.sinch.com/docs/conversation/callbacks/#message-delivery-receipt). Up to 1024 characters long. */
   message_metadata?: string;
   /** Metadata that should be associated with the conversation. This metadata will be propagated on MO callbacks associated with this conversation. Up to 1024 characters long. Note that the MO callback will always use the last metadata available in the conversation. Important notes:   - If you send a message with the `conversation_metadata` field populated, and then send another message without populating the `conversation_metadata` field, the original metadata will continue be propagated on the related MO callbacks.  - If you send a message with the `conversation_metadata` field populated, and then send another message with a different value for `conversation_metadata` in the same conversation, the latest metadata value overwrites the existing one. So, future MO callbacks will include the new metadata.  - The `conversation_metadata` only accepts json objects.  Currently only returned in the `message_metadata` field of an [Inbound Message](/docs/conversation/callbacks/#inbound-message) callback. */

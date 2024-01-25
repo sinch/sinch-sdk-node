@@ -21,4 +21,6 @@ export interface Conversation {
   metadata?: string;
   /** Arbitrary data set by the Conversation API clients and/or provided in the `conversation_metadata` field of a SendMessageRequest. A valid JSON object. */
   metadata_json?: object;
+  /** Up to 128 characters long */
+  correlation_id?: string;
 }

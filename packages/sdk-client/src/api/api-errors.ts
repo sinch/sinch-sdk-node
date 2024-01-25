@@ -45,7 +45,7 @@ export class RequestFailedError<T> extends GenericError {
   /**
    * Data decoded from the response body
    */
-  public data?: T;
+  public data?: string;
 
   constructor(
     message: string,
@@ -55,7 +55,7 @@ export class RequestFailedError<T> extends GenericError {
   ) {
     super(`[status: ${statusCode}] ${message}`, errorContext);
     this.statusCode = statusCode;
-    this.data = data;
+    this.data = JSON.stringify(data, null, 2);
   }
 }
 
@@ -66,11 +66,11 @@ export class EmptyResponseError<T> extends GenericError {
   /**
    * Data decoded from the response body
    */
-  public data?: T;
+  public data?: string;
 
   constructor(message: string, errorContext: ErrorContext, data?: T) {
     super(`[Empty response] ${message}`, errorContext);
-    this.data = data;
+    this.data = JSON.stringify(data, null, 2);
   }
 }
 

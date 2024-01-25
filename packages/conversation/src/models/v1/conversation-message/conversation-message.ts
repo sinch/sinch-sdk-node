@@ -2,6 +2,7 @@ import { AppMessage } from '../app-message';
 import { ChannelIdentity } from '../channel-identity';
 import { ContactMessage } from '../contact-message';
 import { ConversationDirection } from '../conversation-direction';
+import { ProcessingMode } from '../processing-mode';
 
 /**
  * A message on a particular channel.
@@ -28,4 +29,11 @@ export interface ConversationMessage {
   metadata?: string;
   /** Flag for whether this message was injected. */
   injected?: boolean;
+
+  /** TBC: Not documented */
+  sender_id?: string;
+  /** TBC: Not documented */
+  processing_mode?: ProcessingMode;
+  /** TBC: Not documented */
+  message_status?: any | null;
 }

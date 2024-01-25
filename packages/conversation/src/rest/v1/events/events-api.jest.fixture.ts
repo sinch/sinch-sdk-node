@@ -4,8 +4,8 @@ import { EventsApi, SendEventRequestData } from './events-api';
 export class EventsApiFixture implements Partial<Readonly<EventsApi>> {
 
   /**
-   * Fixture associated to function sendEvent
+   * Fixture associated to function send
    */
-  public sendEvent: jest.Mock<Promise<SendEventResponse>, [SendEventRequestData]> = jest.fn();
+  public send: jest.Mock<Promise<SendEventResponse>, [SendEventRequestData]> = jest.fn();
 }
 

@@ -55,7 +55,7 @@ export interface UpdateContactRequestData {
   /** The unique ID of the contact. */
   'contact_id': string;
   /** The updated contact. */
-  'updateContactBody': Contact;
+  'updateContactRequestBody': Contact;
   /** The set of field mask paths. */
   'update_mask'?: Array<string>;
 }
@@ -266,7 +266,7 @@ export class ContactApi extends ConversationDomainApi {
       'Accept': 'application/json',
     };
 
-    const body: RequestBody = data['updateContactBody'] ? JSON.stringify(data['updateContactBody']) : '{}';
+    const body: RequestBody = data['updateContactRequestBody'] ? JSON.stringify(data['updateContactRequestBody']) : '{}';
     const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/contacts/${data['contact_id']}`;
 
     const requestOptions

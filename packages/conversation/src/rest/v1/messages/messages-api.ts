@@ -76,14 +76,13 @@ export class MessagesApi extends ConversationDomainApi {
    * Delete a specific message by its ID.  Note: Removing all messages of a conversation will not automatically delete the conversation.
    * @param { DeleteMessageRequestData } data - The data to provide to the API call.
    */
-  public async deleteMessage(data: DeleteMessageRequestData): Promise<any> {
+  public async delete(data: DeleteMessageRequestData): Promise<any> {
     this.client = this.getSinchClient();
     data['messages_source'] = data['messages_source'] !== undefined ? data['messages_source'] : 'CONVERSATION_SOURCE';
     const getParams = this.client.extractQueryParams<DeleteMessageRequestData>(data, ['messages_source']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
     const body: RequestBody = '';
@@ -106,14 +105,13 @@ export class MessagesApi extends ConversationDomainApi {
    * Retrieves a specific message by its ID.
    * @param { GetMessageRequestData } data - The data to provide to the API call.
    */
-  public async getMessage(data: GetMessageRequestData): Promise<ConversationMessage> {
+  public async get(data: GetMessageRequestData): Promise<ConversationMessage> {
     this.client = this.getSinchClient();
     data['messages_source'] = data['messages_source'] !== undefined ? data['messages_source'] : 'CONVERSATION_SOURCE';
     const getParams = this.client.extractQueryParams<GetMessageRequestData>(data, ['messages_source']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
     const body: RequestBody = '';
@@ -136,7 +134,7 @@ export class MessagesApi extends ConversationDomainApi {
    * @param { ListMessagesRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<ConversationMessage>}
    */
-  public listMessages(data: ListMessagesRequestData): ApiListPromise<ConversationMessage> {
+  public list(data: ListMessagesRequestData): ApiListPromise<ConversationMessage> {
     this.client = this.getSinchClient();
     data['messages_source'] = data['messages_source'] !== undefined ? data['messages_source'] : 'CONVERSATION_SOURCE';
     const getParams = this.client.extractQueryParams<ListMessagesRequestData>(data, [
@@ -156,7 +154,6 @@ export class MessagesApi extends ConversationDomainApi {
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
     const body: RequestBody = '';
@@ -192,13 +189,12 @@ export class MessagesApi extends ConversationDomainApi {
    * You can send a message from a Conversation app to a contact associated with that app. If the recipient is not associated with an existing contact, a new contact will be created.  The message is added to the active conversation with the contact if a conversation already exists. If no active conversation exists a new one is started automatically.  You can find all of your IDs and authentication credentials on the [Sinch Customer Dashboard](https://dashboard.sinch.com/convapi/overview).
    * @param { SendMessageRequestData } data - The data to provide to the API call.
    */
-  public async sendMessage(data: SendMessageRequestData): Promise<SendMessageResponse> {
+  public async send(data: SendMessageRequestData): Promise<SendMessageResponse> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<SendMessageRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
     const body: RequestBody = data['sendMessageRequestBody'] ? JSON.stringify(data['sendMessageRequestBody']) : '{}';

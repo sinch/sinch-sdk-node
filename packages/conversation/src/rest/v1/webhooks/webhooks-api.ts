@@ -10,7 +10,7 @@ import { ConversationDomainApi } from '../conversation-domain-api';
 
 export interface CreateWebhookRequestData {
   /** Required. The Webhook to create */
-  'webhookBody': Webhook;
+  'webhookCreateRequestBody': Webhook;
 }
 export interface DeleteWebhookRequestData {
   /** The unique ID of the webhook. */
@@ -28,9 +28,9 @@ export interface UpdateWebhookRequestData {
   /** The unique ID of the webhook. */
   'webhook_id': string;
   /** Required. The Webhook to update */
-  'webhookBody': Webhook;
+  'webhookUpdateRequestBody': Webhook;
   /** The set of field mask paths. */
-  'update_mask.paths'?: Array<string>;
+  'update_mask'?: Array<string>;
 }
 
 export class WebhooksApi extends ConversationDomainApi {
@@ -49,16 +49,17 @@ export class WebhooksApi extends ConversationDomainApi {
    * Creates a webhook for receiving callbacks on specific triggers. You can create up to 5 webhooks per app.
    * @param { CreateWebhookRequestData } data - The data to provide to the API call.
    */
-  public async createWebhook(data: CreateWebhookRequestData): Promise<Webhook> {
+  public async create(data: CreateWebhookRequestData): Promise<Webhook> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<CreateWebhookRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
-    const body: RequestBody = data['webhookBody'] ? JSON.stringify(data['webhookBody']) : '{}';
+    const body: RequestBody = data['webhookCreateRequestBody']
+      ? JSON.stringify(data['webhookCreateRequestBody'])
+      : '{}';
     const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/webhooks`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
@@ -77,13 +78,12 @@ export class WebhooksApi extends ConversationDomainApi {
    * Deletes a webhook as specified by the webhook ID.
    * @param { DeleteWebhookRequestData } data - The data to provide to the API call.
    */
-  public async deleteWebhook(data: DeleteWebhookRequestData): Promise<any> {
+  public async delete(data: DeleteWebhookRequestData): Promise<any> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteWebhookRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
     const body: RequestBody = '';
@@ -106,13 +106,12 @@ export class WebhooksApi extends ConversationDomainApi {
    * Get a webhook as specified by the webhook ID.
    * @param { GetWebhookRequestData } data - The data to provide to the API call.
    */
-  public async getWebhook(data: GetWebhookRequestData): Promise<Webhook> {
+  public async get(data: GetWebhookRequestData): Promise<Webhook> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetWebhookRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
     const body: RequestBody = '';
@@ -134,13 +133,12 @@ export class WebhooksApi extends ConversationDomainApi {
    * List all webhooks for a given app as specified by the App ID.
    * @param { ListWebhooksRequestData } data - The data to provide to the API call.
    */
-  public async listWebhooks(data: ListWebhooksRequestData): Promise<ListWebhooksResponse> {
+  public async list(data: ListWebhooksRequestData): Promise<ListWebhooksResponse> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListWebhooksRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
     const body: RequestBody = '';
@@ -162,16 +160,17 @@ export class WebhooksApi extends ConversationDomainApi {
    * Updates an existing webhook as specified by the webhook ID.
    * @param { UpdateWebhookRequestData } data - The data to provide to the API call.
    */
-  public async updateWebhook(data: UpdateWebhookRequestData): Promise<Webhook> {
+  public async update(data: UpdateWebhookRequestData): Promise<Webhook> {
     this.client = this.getSinchClient();
-    const getParams = this.client.extractQueryParams<UpdateWebhookRequestData>(data, ['update_mask.paths']);
+    const getParams = this.client.extractQueryParams<UpdateWebhookRequestData>(data, ['update_mask']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-
     };
 
-    const body: RequestBody = data['webhookBody'] ? JSON.stringify(data['webhookBody']) : '{}';
+    const body: RequestBody = data['webhookUpdateRequestBody']
+      ? JSON.stringify(data['webhookUpdateRequestBody'])
+      : '{}';
     const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/webhooks/${data['webhook_id']}`;
 
     const requestOptions
