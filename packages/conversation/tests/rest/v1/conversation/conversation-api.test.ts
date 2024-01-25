@@ -42,13 +42,13 @@ describe('ConversationApi', () => {
       };
 
       // When
-      fixture.createConversation.mockResolvedValue(expectedResponse);
-      conversationApi.createConversation = fixture.createConversation;
-      const response = await conversationApi.createConversation(requestData);
+      fixture.create.mockResolvedValue(expectedResponse);
+      conversationApi.create = fixture.create;
+      const response = await conversationApi.create(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.createConversation).toHaveBeenCalledWith(requestData);
+      expect(fixture.create).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -61,13 +61,13 @@ describe('ConversationApi', () => {
       const expectedResponse: any = {};
 
       // When
-      fixture.deleteConversation.mockResolvedValue(expectedResponse);
-      conversationApi.deleteConversation = fixture.deleteConversation;
-      const response = await conversationApi.deleteConversation(requestData);
+      fixture.delete.mockResolvedValue(expectedResponse);
+      conversationApi.delete = fixture.delete;
+      const response = await conversationApi.delete(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.deleteConversation).toHaveBeenCalledWith(requestData);
+      expect(fixture.delete).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -82,13 +82,13 @@ describe('ConversationApi', () => {
       };
 
       // When
-      fixture.getConversation.mockResolvedValue(expectedResponse);
-      conversationApi.getConversation = fixture.getConversation;
-      const response = await conversationApi.getConversation(requestData);
+      fixture.get.mockResolvedValue(expectedResponse);
+      conversationApi.get = fixture.get;
+      const response = await conversationApi.get(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.getConversation).toHaveBeenCalledWith(requestData);
+      expect(fixture.get).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -96,8 +96,8 @@ describe('ConversationApi', () => {
     it('should make a POST request to inject a conversation message in to a specific conversation', async () => {
       // Given
       const requestData: InjectMessageRequestData = {
-        'message.conversation_id': 'conversation_id',
-        conversationMessageInjectedBody: {
+        conversation_id: 'conversation_id',
+        injectMessageRequestBody: {
           app_message: {
             message: {
               card_message: {
@@ -142,14 +142,14 @@ describe('ConversationApi', () => {
       };
 
       // When
-      fixture.listConversations.mockResolvedValue(expectedResponse);
-      conversationApi.listConversations = fixture.listConversations;
-      const response = await conversationApi.listConversations(requestData);
+      fixture.list.mockResolvedValue(expectedResponse);
+      conversationApi.list = fixture.list;
+      const response = await conversationApi.list(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
       expect(response.data).toBeDefined();
-      expect(fixture.listConversations).toHaveBeenCalledWith(requestData);
+      expect(fixture.list).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -162,13 +162,13 @@ describe('ConversationApi', () => {
       const expectedResponse: any = {};
 
       // When
-      fixture.stopActiveConversation.mockResolvedValue(expectedResponse);
-      conversationApi.stopActiveConversation = fixture.stopActiveConversation;
-      const response = await conversationApi.stopActiveConversation(requestData);
+      fixture.stopActive.mockResolvedValue(expectedResponse);
+      conversationApi.stopActive = fixture.stopActive;
+      const response = await conversationApi.stopActive(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.stopActiveConversation).toHaveBeenCalledWith(requestData);
+      expect(fixture.stopActive).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -178,7 +178,7 @@ describe('ConversationApi', () => {
       const requestData: UpdateConversationRequestData = {
         conversation_id: 'conversation_id',
         metadata_update_strategy: 'REPLACE',
-        conversationBody: {
+        updateConversationRequestBody: {
           app_id: 'app_id',
           metadata: 'Some metadata',
           metadata_json: {
@@ -192,13 +192,13 @@ describe('ConversationApi', () => {
       };
 
       // When
-      fixture.updateConversation.mockResolvedValue(expectedResponse);
-      conversationApi.updateConversation = fixture.updateConversation;
-      const response = await conversationApi.updateConversation(requestData);
+      fixture.update.mockResolvedValue(expectedResponse);
+      conversationApi.update = fixture.update;
+      const response = await conversationApi.update(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.updateConversation).toHaveBeenCalledWith(requestData);
+      expect(fixture.update).toHaveBeenCalledWith(requestData);
     });
   });
 });

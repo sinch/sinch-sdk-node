@@ -42,13 +42,13 @@ describe('EventsApi', () => {
       };
 
       // When
-      fixture.sendEvent.mockResolvedValue(expectedResponse);
-      eventsApi.sendEvent = fixture.sendEvent;
-      const response = await eventsApi.sendEvent(requestData);
+      fixture.send.mockResolvedValue(expectedResponse);
+      eventsApi.send = fixture.send;
+      const response = await eventsApi.send(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.sendEvent).toHaveBeenCalledWith(requestData);
+      expect(fixture.send).toHaveBeenCalledWith(requestData);
     });
   });
 });

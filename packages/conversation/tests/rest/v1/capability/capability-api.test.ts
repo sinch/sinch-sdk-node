@@ -1,5 +1,5 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
-import { QueryCapabilityRequestData, QueryCapabilityResponse } from '../../../../src';
+import { LookupCapabilityRequestData, QueryCapabilityResponse } from '../../../../src';
 import { CapabilityApi, CapabilityApiFixture } from '../../../../src';
 
 describe('CapabilityApi', () => {
@@ -21,8 +21,8 @@ describe('CapabilityApi', () => {
   describe ('queryCapability', () => {
     it('should make a POST request to ...', async () => {
       // Given
-      const requestData: QueryCapabilityRequestData = {
-        queryCapabilityBody: {
+      const requestData: LookupCapabilityRequestData = {
+        lookupCapabilityRequestBody: {
           app_id: 'app_id',
           recipient: {
             identified_by: {
@@ -41,13 +41,13 @@ describe('CapabilityApi', () => {
       };
 
       // When
-      fixture.queryCapability.mockResolvedValue(expectedResponse);
-      capabilityApi.queryCapability = fixture.queryCapability;
-      const response = await capabilityApi.queryCapability(requestData);
+      fixture.lookup.mockResolvedValue(expectedResponse);
+      capabilityApi.lookup = fixture.lookup;
+      const response = await capabilityApi.lookup(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.queryCapability).toHaveBeenCalledWith(requestData);
+      expect(fixture.lookup).toHaveBeenCalledWith(requestData);
     });
   });
 });

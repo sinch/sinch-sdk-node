@@ -24,7 +24,11 @@ describe('TranscodingApi', () => {
       const requestData: TranscodeMessageRequestData = {
         transcodeMessageRequestBody: {
           app_id: 'app_id',
-          app_message: {},
+          app_message: {
+            text_message: {
+              text: 'Text message to be transcoded',
+            },
+          },
           channels: [
             'WHATSAPP',
           ],

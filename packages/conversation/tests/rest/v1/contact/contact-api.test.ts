@@ -194,7 +194,7 @@ describe('ContactApi', () => {
       // Given
       const requestData: UpdateContactRequestData = {
         contact_id: 'contact_id',
-        updateContactBody: {
+        updateContactRequestBody: {
           language: 'EN_GB',
         },
       };

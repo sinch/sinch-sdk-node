@@ -28,7 +28,7 @@ describe('WebhooksApi', () => {
     it('should make a POST request to create a webhook for receiving callbacks on specific triggers', async () => {
       // Given
       const requestData: CreateWebhookRequestData = {
-        webhookBody: {
+        webhookCreateRequestBody: {
           app_id: 'app_id',
           target: 'target',
           triggers: [
@@ -53,13 +53,13 @@ describe('WebhooksApi', () => {
       };
 
       // When
-      fixture.createWebhook.mockResolvedValue(expectedResponse);
-      webhooksApi.createWebhook = fixture.createWebhook;
-      const response = await webhooksApi.createWebhook(requestData);
+      fixture.create.mockResolvedValue(expectedResponse);
+      webhooksApi.create = fixture.create;
+      const response = await webhooksApi.create(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.createWebhook).toHaveBeenCalledWith(requestData);
+      expect(fixture.create).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -72,13 +72,13 @@ describe('WebhooksApi', () => {
       const expectedResponse: any = {};
 
       // When
-      fixture.deleteWebhook.mockResolvedValue(expectedResponse);
-      webhooksApi.deleteWebhook = fixture.deleteWebhook;
-      const response = await webhooksApi.deleteWebhook(requestData);
+      fixture.delete.mockResolvedValue(expectedResponse);
+      webhooksApi.delete = fixture.delete;
+      const response = await webhooksApi.delete(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.deleteWebhook).toHaveBeenCalledWith(requestData);
+      expect(fixture.delete).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -105,13 +105,13 @@ describe('WebhooksApi', () => {
       };
 
       // When
-      fixture.getWebhook.mockResolvedValue(expectedResponse);
-      webhooksApi.getWebhook = fixture.getWebhook;
-      const response = await webhooksApi.getWebhook(requestData);
+      fixture.get.mockResolvedValue(expectedResponse);
+      webhooksApi.get = fixture.get;
+      const response = await webhooksApi.get(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.getWebhook).toHaveBeenCalledWith(requestData);
+      expect(fixture.get).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -142,13 +142,13 @@ describe('WebhooksApi', () => {
       };
 
       // When
-      fixture.listWebhooks.mockResolvedValue(expectedResponse);
-      webhooksApi.listWebhooks = fixture.listWebhooks;
-      const response = await webhooksApi.listWebhooks(requestData);
+      fixture.list.mockResolvedValue(expectedResponse);
+      webhooksApi.list = fixture.list;
+      const response = await webhooksApi.list(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.listWebhooks).toHaveBeenCalledWith(requestData);
+      expect(fixture.list).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -157,7 +157,7 @@ describe('WebhooksApi', () => {
       // Given
       const requestData: UpdateWebhookRequestData = {
         webhook_id: 'webhook_id',
-        webhookBody: {
+        webhookUpdateRequestBody: {
           app_id: 'app_id',
           target: 'target',
           triggers: [
@@ -182,13 +182,13 @@ describe('WebhooksApi', () => {
       };
 
       // When
-      fixture.updateWebhook.mockResolvedValue(expectedResponse);
-      webhooksApi.updateWebhook = fixture.updateWebhook;
-      const response = await webhooksApi.updateWebhook(requestData);
+      fixture.update.mockResolvedValue(expectedResponse);
+      webhooksApi.update = fixture.update;
+      const response = await webhooksApi.update(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.updateWebhook).toHaveBeenCalledWith(requestData);
+      expect(fixture.update).toHaveBeenCalledWith(requestData);
     });
   });
 });

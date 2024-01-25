@@ -33,13 +33,13 @@ describe('MessagesApi', () => {
       const expectedResponse: any = {};
 
       // When
-      fixture.deleteMessage.mockResolvedValue(expectedResponse);
-      messagesApi.deleteMessage = fixture.deleteMessage;
-      const response = await messagesApi.deleteMessage(requestData);
+      fixture.delete.mockResolvedValue(expectedResponse);
+      messagesApi.delete = fixture.delete;
+      const response = await messagesApi.delete(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.deleteMessage).toHaveBeenCalledWith(requestData);
+      expect(fixture.delete).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -119,13 +119,13 @@ describe('MessagesApi', () => {
       };
 
       // When
-      fixture.getMessage.mockResolvedValue(expectedResponse);
-      messagesApi.getMessage = fixture.getMessage;
-      const response = await messagesApi.getMessage(requestData);
+      fixture.get.mockResolvedValue(expectedResponse);
+      messagesApi.get = fixture.get;
+      const response = await messagesApi.get(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.getMessage).toHaveBeenCalledWith(requestData);
+      expect(fixture.get).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -200,14 +200,14 @@ describe('MessagesApi', () => {
       };
 
       // When
-      fixture.listMessages.mockResolvedValue(expectedResponse);
-      messagesApi.listMessages = fixture.listMessages;
-      const response = await messagesApi.listMessages(requestData);
+      fixture.list.mockResolvedValue(expectedResponse);
+      messagesApi.list = fixture.list;
+      const response = await messagesApi.list(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
       expect(response.data).toBeDefined();
-      expect(fixture.listMessages).toHaveBeenCalledWith(requestData);
+      expect(fixture.list).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -221,10 +221,8 @@ describe('MessagesApi', () => {
             contact_id: 'contact_id',
           },
           message: {
-            message: {
-              text_message: {
-                text: 'text',
-              },
+            text_message: {
+              text: 'text',
             },
           },
         },
@@ -235,13 +233,13 @@ describe('MessagesApi', () => {
       };
 
       // When
-      fixture.sendMessage.mockResolvedValue(expectedResponse);
-      messagesApi.sendMessage = fixture.sendMessage;
-      const response = await messagesApi.sendMessage(requestData);
+      fixture.send.mockResolvedValue(expectedResponse);
+      messagesApi.send = fixture.send;
+      const response = await messagesApi.send(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.sendMessage).toHaveBeenCalledWith(requestData);
+      expect(fixture.send).toHaveBeenCalledWith(requestData);
     });
   });
 });
