@@ -10,6 +10,11 @@ const config: Config.InitialOptions = {
       coveragePathIgnorePatterns: ['node_modules', 'tests'],
     },
     {
+      displayName: 'Conversation',
+      testMatch: ['<rootDir>/packages/conversation/tests/**/*.test.ts'],
+      coveragePathIgnorePatterns: ['node_modules', 'tests'],
+    },
+    {
       displayName: 'Numbers',
       testMatch: ['<rootDir>/packages/numbers/tests/**/*.test.ts'],
       coveragePathIgnorePatterns: ['node_modules', 'tests'],

@@ -1,0 +1,66 @@
+import { Contact, ListContactsRequestData, PageResult } from '@sinch/sdk-core';
+import { getPrintFormat, initClient, printFullResponse } from '../../config';
+
+const populateContactsList = (
+  contactPage: PageResult<Contact>,
+  contactList: Contact[],
+  contactDetailsList: string[],
+) => {
+  contactPage.data?.map((contact: Contact) => {
+    contactList.push(contact);
+    contactDetailsList.push(`${contact.id} - ${contact.display_name}`);
+  });
+};
+
+(async () => {
+  console.log('************************');
+  console.log('* Contact_ListContacts *');
+  console.log('************************');
+
+  const requestData: ListContactsRequestData = {
+    page_size: 2,
+  };
+
+  const sinchClient = initClient();
+
+  // ----------------------------------------------
+  // Method 1: Fetch the data page by page manually
+  // ----------------------------------------------
+  let response = await sinchClient.conversation.contact.list(requestData);
+
+  const contactList: Contact[] = [];
+  const contactDetailsList: string[] = [];
+
+  // Loop on all the pages to get all the active numbers
+  let reachedEndOfPages = false;
+  while (!reachedEndOfPages) {
+    populateContactsList(response, contactList, contactDetailsList);
+    if (response.hasNextPage) {
+      response = await response.nextPage();
+    } else {
+      reachedEndOfPages = true;
+    }
+  }
+
+  const printFormat = getPrintFormat(process.argv);
+
+  if (printFormat === 'pretty') {
+    console.log(contactDetailsList.length > 0
+      ? 'List of contacts:\n' + contactDetailsList.join('\n')
+      : 'Sorry, no contacts were found.');
+  } else {
+    printFullResponse(contactList);
+  }
+
+  // ---------------------------------------------------------------------
+  // Method 2: Use the iterator and fetch data on more pages automatically
+  // ---------------------------------------------------------------------
+  for await (const contact of sinchClient.conversation.contact.list(requestData)) {
+    if (printFormat === 'pretty') {
+      console.log(`${contact.id} - ${contact.display_name}`);
+    } else {
+      console.log(contact);
+    }
+  }
+
+})();
