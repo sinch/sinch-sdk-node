@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import { IncomingHttpHeaders } from 'http';
 import { RequestBody } from '../plugins';
+import * as console from 'console';
 
 export const calculateMD5 = (body: string): string => {
   // Content-MD5 = Base64 ( MD5 ( UTF8 ( [BODY] ) ) )
@@ -46,6 +47,43 @@ export const generateAuthorizationHeader = (
   return `Application ${applicationKey}:${signature}`;
 };
 
+export const validateWebhookSignature = (
+  secret: string,
+  headers: IncomingHttpHeaders,
+  body: string,
+): boolean => {
+  const normalizedHeaders = normalizeHeaders(headers);
+  const nonce = getHeader(normalizedHeaders['x-sinch-webhook-signature-nonce']);
+  const timestamp = getHeader(normalizedHeaders['x-sinch-webhook-signature-timestamp']);
+
+  let bodyAsString = body;
+  if (typeof body === 'object' && body !== null) {
+    bodyAsString = JSON.stringify(body);
+  }
+
+  const signedData = computeSignedData(bodyAsString, nonce, timestamp);
+  const signature = calculateWebhookSignature(signedData, secret);
+
+  const headerSignature = normalizedHeaders['x-sinch-webhook-signature'];
+
+  return headerSignature === signature;
+};
+
+export const computeSignedData = (
+  body: string,
+  nonce: string,
+  timestamp: string,
+): string => {
+  return `${body}.${nonce}.${timestamp}`;
+};
+
+export const calculateWebhookSignature = (
+  signedData: string,
+  secret: string,
+): string => {
+  return crypto.createHmac('sha256', secret).update(signedData).digest('base64');
+};
+
 export const validateAuthenticationHeader = (
   applicationKey: string,
   applicationSecret: string,
@@ -54,12 +92,7 @@ export const validateAuthenticationHeader = (
   body: any,
   method: string,
 ): boolean => {
-  const normalizedHeaders = Object.fromEntries(
-    Object.entries(headers)
-      .map(([key, value]) => [key.toLowerCase(), value])
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .filter(([_, value]) => value !== undefined),
-  ) as { [p: string]: string | string[] };
+  const normalizedHeaders = normalizeHeaders(headers);
 
   const authorization = getHeader(normalizedHeaders.authorization);
   const authParts = checkAuthorizationHeaderFormat(authorization);
@@ -87,6 +120,18 @@ export const validateAuthenticationHeader = (
   console.error(`Scheme is not valid: ${authParts[0]}`);
   return false;
 };
+
+const normalizeHeaders = (
+  headers: IncomingHttpHeaders,
+): { [p: string]: string | string[] } => {
+  return Object.fromEntries(
+    Object.entries(headers)
+      .map(([key, value]) => [key.toLowerCase(), value])
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .filter(([_, value]) => value !== undefined),
+  );
+};
+
 
 const validateApplicationAuth = (
   authorizationValue: string,

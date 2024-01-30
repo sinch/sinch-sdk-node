@@ -31,7 +31,7 @@ import {
           channel: 'WHATSAPP',
         },
       ],
-      channel_priority: ['WHATSAPP'],
+      channel_priority: ['MESSENGER'],
       language: 'EN_US',
     },
   };

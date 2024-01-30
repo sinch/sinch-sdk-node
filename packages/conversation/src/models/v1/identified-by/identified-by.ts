@@ -9,5 +9,5 @@ export interface IdentifiedBy {
 export interface IdentifiedByItem {
 
   /** @see IdentifiedBy */
-  channel_identities?: [ChannelRecipientIdentity];
+  channel_identities: ChannelRecipientIdentity[];
 }

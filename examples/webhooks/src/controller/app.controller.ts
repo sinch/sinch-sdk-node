@@ -1,19 +1,25 @@
 import { Body, Controller, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { NumbersService } from '../services/numbers.service';
 import {
+  parseConversationEventNotification,
   parseNumbersEventNotification,
   parseSmsEventNotification,
   parseVerificationEventNotification,
   parseVoiceEventNotification,
   validateAuthenticationHeader,
+  validateWebhookSignature,
 } from '@sinch/sdk-core';
+import { NumbersService } from '../services/numbers.service';
 import { SmsService } from '../services/sms.service';
 import { VerificationService } from '../services/verification.service';
 import { VoiceService } from '../services/voice.service';
 import { ConversationService } from '../services/conversation.service';
 require('dotenv').config();
 
+// Const for Conversation API
+const SINCH_CONVERSATION_APP_SECRET = process.env.SINCH_CONVERSATION_APP_SECRET || '';
+
+// Const for Voice and Verification APIs
 const SINCH_APPLICATION_KEY = process.env.SINCH_APPLICATION_KEY || '';
 const SINCH_APPLICATION_SECRET = process.env.SINCH_APPLICATION_SECRET || '';
 
@@ -26,6 +32,26 @@ export class AppController {
     private readonly smsService: SmsService,
     private readonly verificationService: VerificationService,
     private readonly voiceService: VoiceService) {}
+
+  @Post('/conversation')
+  public conversation(@Req() request: Request, @Res() res: Response) {
+    // console.log(request.headers);
+    // console.log(JSON.stringify(request.body, null, 2));
+    // console.log(request['rawBody']);
+    const validated = validateWebhookSignature(SINCH_CONVERSATION_APP_SECRET, request.headers, request['rawBody']);
+    if (!validated) {
+      res.status(401).send('Invalid webhook signature');
+      return;
+    }
+    try {
+      const event = parseConversationEventNotification(request.body);
+      this.conversationService.handleEvent(event);
+      res.status(200).send();
+    } catch (error) {
+      console.error(error);
+      res.status(500).send();
+    }
+  }
 
   @Post('/numbers')
   public numbers(@Body() eventBody: any, @Res() res: Response) {
@@ -76,7 +102,7 @@ export class AppController {
   @Post('/voice')
   public voice (@Req() request: Request, @Res() res: Response) {
     // console.log(request.headers);
-    // console.log(request.body);
+    // console.log(JSON.stringify(request.body, null, 2));
     // console.log(request['rawBody']);
     const validated = validateAuthenticationHeader(SINCH_APPLICATION_KEY, SINCH_APPLICATION_SECRET,
         request.headers, request.path, request['rawBody'], request.method);
@@ -94,9 +120,4 @@ export class AppController {
     }
   }
 
-  @Post('/conversation')
-  public conversation(@Body() requestBody: any, @Res() res: Response) {
-    this.conversationService.handleEvent(JSON.stringify(requestBody));
-    res.status(200).send();
-  }
 }

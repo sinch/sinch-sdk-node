@@ -68,4 +68,5 @@ export type ContactLanguage =
   | 'UR'
   | 'UZ'
   | 'VI'
-  | 'ZU';
+  | 'ZU'
+  | 'UNSPECIFIED';
