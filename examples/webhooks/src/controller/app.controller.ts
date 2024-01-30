@@ -11,6 +11,7 @@ import {
 import { SmsService } from '../services/sms.service';
 import { VerificationService } from '../services/verification.service';
 import { VoiceService } from '../services/voice.service';
+import { ConversationService } from '../services/conversation.service';
 require('dotenv').config();
 
 const SINCH_APPLICATION_KEY = process.env.SINCH_APPLICATION_KEY || '';
@@ -20,6 +21,7 @@ const SINCH_APPLICATION_SECRET = process.env.SINCH_APPLICATION_SECRET || '';
 export class AppController {
 
   constructor(
+    private readonly conversationService: ConversationService,
     private readonly numbersService: NumbersService,
     private readonly smsService: SmsService,
     private readonly verificationService: VerificationService,
@@ -90,5 +92,11 @@ export class AppController {
       console.error(error);
       res.status(500).send();
     }
+  }
+
+  @Post('/conversation')
+  public conversation(@Body() requestBody: any, @Res() res: Response) {
+    this.conversationService.handleEvent(JSON.stringify(requestBody));
+    res.status(200).send();
   }
 }
