@@ -1,5 +1,6 @@
 import { ChannelIdentity } from '../channel-identity';
 import { ContactMessage } from '../contact-message';
+import { ProcessingMode } from '../processing-mode';
 
 export interface MessageInboundEventItem {
 
@@ -22,7 +23,7 @@ export interface MessageInboundEventItem {
   /** The sender ID to which the contact sent the message, if applicable. For example, originator msisdn/short code for SMS and MMS. */
   sender_id?: string;
   /** Whether or not Conversation API should store contacts and conversations for the app. For more information, see [Processing Modes](../../../../../conversation/processing-modes/). */
-  processing_mode?: string;
+  processing_mode?: ProcessingMode;
   /** Flag for whether this message was injected. */
   injected?: boolean;
 }
