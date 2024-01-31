@@ -26,7 +26,7 @@ describe('Conversation API', () => {
     expect(conversationApi.client?.apiClientOptions.basePath).toBe('https://eu.conversation.api.sinch.com');
   });
 
-  it('should throw an error when using an unsupported region', async () => {
+  it('should log a warning when using an unsupported region', async () => {
     params.region = Region.CANADA;
     conversationApi = new ConversationApi(params);
     const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
