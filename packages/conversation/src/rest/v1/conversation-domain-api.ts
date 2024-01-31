@@ -3,8 +3,10 @@ import {
   ApiClient,
   ApiClientOptions,
   ApiFetchClient,
-  SinchClientParameters,
+  ConversationRegion,
   Oauth2TokenRequest,
+  Region,
+  SinchClientParameters,
   UnifiedCredentials,
 } from '@sinch/sdk-client';
 
@@ -59,9 +61,13 @@ export class ConversationDomainApi implements Api {
    */
   public getSinchClient(): ApiClient {
     if (!this.client) {
+      const region = this.sinchClientParameters.region || Region.UNITED_STATES;
+      if(!Object.values(ConversationRegion).includes((region as unknown) as ConversationRegion)) {
+        throw new Error(`The region '${region}' is not supported for the Conversation API`);
+      }
       const apiClientOptions = this.buildApiClientOptions(this.sinchClientParameters);
       this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.basePath = 'https://us.conversation.api.sinch.com';
+      this.client.apiClientOptions.basePath = `https://${region}.conversation.api.sinch.com`;
     }
     return this.client;
   }
