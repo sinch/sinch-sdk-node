@@ -63,7 +63,7 @@ export class ConversationDomainApi implements Api {
     if (!this.client) {
       const region = this.sinchClientParameters.region || Region.UNITED_STATES;
       if(!Object.values(ConversationRegion).includes((region as unknown) as ConversationRegion)) {
-        throw new Error(`The region '${region}' is not supported for the Conversation API`);
+        console.warn(`The region '${region}' is not supported for the Conversation API`);
       }
       const apiClientOptions = this.buildApiClientOptions(this.sinchClientParameters);
       this.client = new ApiFetchClient(apiClientOptions);

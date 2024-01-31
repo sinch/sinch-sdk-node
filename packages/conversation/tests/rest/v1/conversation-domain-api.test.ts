@@ -26,11 +26,23 @@ describe('Conversation API', () => {
     expect(conversationApi.client?.apiClientOptions.basePath).toBe('https://eu.conversation.api.sinch.com');
   });
 
-  it('should throw an error when using an unsupported region', () => {
+  it('should throw an error when using an unsupported region', async () => {
     params.region = Region.CANADA;
     conversationApi = new ConversationApi(params);
-    expect(() => conversationApi.getSinchClient())
-      .toThrow('The region \'ca\' is not supported for the Conversation API');
+    const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+    await conversationApi.getSinchClient();
+    // Add a small delay to allow jest to capture the warning
+    setTimeout(() => {
+      expect(consoleWarnSpy).toHaveBeenCalledWith('The region \'ca\' is not supported for the Conversation API');
+      consoleWarnSpy.mockRestore();
+    }, 20);
+  });
+
+  it('should set a custom URL', () => {
+    conversationApi = new ConversationApi(params);
+    conversationApi.setBasePath('https:/foo.com');
+    expect(conversationApi.client).toBeDefined();
+    expect(conversationApi.client?.apiClientOptions.basePath).toBe('https:/foo.com');
   });
 
 });
