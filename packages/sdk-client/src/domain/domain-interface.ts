@@ -78,6 +78,12 @@ export enum VoiceRegion {
   SOUTHEAST_ASIA_2 = '-apse2'
 }
 
+export enum ConversationRegion {
+  UNITED_STATES = 'us',
+  EUROPE = 'eu',
+  BRAZIL = 'br'
+}
+
 export const getVoiceRegion = (value: string | undefined): VoiceRegion | undefined => {
   if (!value) {
     return undefined;

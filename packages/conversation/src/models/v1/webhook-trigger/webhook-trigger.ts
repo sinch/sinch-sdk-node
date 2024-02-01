@@ -8,28 +8,35 @@
  * - `CONVERSATION_STOP`: Subscribe to an event that is triggered when a active conversation has been stopped.
  * - `CONTACT_CREATE`: Subscribe to an event that is triggered when a new contact has been created.
  * - `CONTACT_DELETE`: Subscribe to an event that is triggered when a contact has been deleted.
- * - `CONTACT_MERGE`: Subscribe to an event that is triggered when a two contacts are merged.
+ * - `CONTACT_MERGE`: Subscribe to an event that is triggered when two contacts are merged.
  * - `CONTACT_UPDATE`: Subscribe to an event that is triggered when a contact is updated.
  * - `UNSUPPORTED`: Subscribe to callbacks that are not natively supported by the Conversation API.
- * - `OPT_IN`: Subscribe to opt_ins. - `OPT_OUT`: Subscribe to opt_outs.
+ * - `OPT_IN`: Subscribe to opt_ins.
+ * - `OPT_OUT`: Subscribe to opt_outs.
  * - `CAPABILITY`: Subscribe to see get capability results.
+ * - `CHANNEL_EVENT`: Subscribe to channel event notifications.
  * - `CONVERSATION_DELETE`: Subscribe to get an event when a conversation is deleted.
  * - `CONTACT_IDENTITIES_DUPLICATION`: Subscribe to get an event when contact identity duplications are found during message or event processing.
+ * - `SMART_CONVERSATIONS`: Subscribe to smart conversations callback
  */
 export type WebhookTrigger = 'UNSPECIFIED_TRIGGER'
   | 'MESSAGE_DELIVERY'
-  | 'EVENT_DELIVERY'
+  | 'MESSAGE_SUBMIT'
   | 'MESSAGE_INBOUND'
+  | 'EVENT_DELIVERY'
   | 'EVENT_INBOUND'
+  | 'SMART_CONVERSATIONS'
+  | 'MESSAGE_INBOUND_SMART_CONVERSATION_REDACTION'
   | 'CONVERSATION_START'
   | 'CONVERSATION_STOP'
+  | 'CONVERSATION_DELETE'
   | 'CONTACT_CREATE'
   | 'CONTACT_DELETE'
   | 'CONTACT_MERGE'
   | 'CONTACT_UPDATE'
+  | 'CONTACT_IDENTITIES_DUPLICATION'
   | 'UNSUPPORTED'
   | 'OPT_IN'
   | 'OPT_OUT'
-  | 'CAPABILITY'
-  | 'CONVERSATION_DELETE'
-  | 'CONTACT_IDENTITIES_DUPLICATION';
+  | 'CHANNEL_EVENT'
+  | 'CAPABILITY';

@@ -1,4 +1,5 @@
 export * from './app';
+export * from './callbacks';
 export * from './capability';
 export * from './contact';
 export * from './conversation';

@@ -1,5 +1,5 @@
 /**
- * The identifier of the channel you want to include. Must be one of the enum values.
+ * The identifier of the channel you want to include. Must be one of the enum values except 'CHANNEL_UNSPECIFIED'.
  */
 export type ConversationChannel =
   'WHATSAPP'
@@ -14,4 +14,5 @@ export type ConversationChannel =
   | 'KAKAOTALK'
   | 'KAKAOTALKCHAT'
   | 'LINE'
-  | 'WECHAT';
+  | 'WECHAT'
+  | 'CHANNEL_UNSPECIFIED';
