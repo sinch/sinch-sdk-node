@@ -1,9 +1,10 @@
 import { ConversationChannel } from '../conversation-channel';
+import { ConversationEvent } from '../conversation-event';
 
 /**
  * When using the Smart Conversations functionality, Machine Learning and Artificial Intelligence analyses are delivered through specific callbacks on the Conversation API.
  */
-export interface SmartConversationsEvent {
+export interface SmartConversationsEvent extends ConversationEvent{
 
   /** Id of the subscribed app. */
   app_id?: string;
@@ -19,7 +20,7 @@ export interface SmartConversationsEvent {
   correlation_id?: string;
   /** @see SmartConversationNotification */
   smart_conversation_notification?: SmartConversationNotification;
-
+  /** Name of the trigger responsible for this event. */
   trigger: 'SMART_CONVERSATIONS';
 }
 

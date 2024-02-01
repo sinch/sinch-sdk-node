@@ -1,9 +1,10 @@
 import { MessageInboundEventItem } from '../message-inbound-event-item';
+import { ConversationEvent } from '../conversation-event';
 
 /**
  * This callback delivers contact (end-user) messages to the API clients.
  */
-export interface MessageInboundEvent {
+export interface MessageInboundEvent extends ConversationEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;
@@ -19,6 +20,6 @@ export interface MessageInboundEvent {
   correlation_id?: string;
   /** @see MessageInboundEventItem */
   message?: MessageInboundEventItem;
-
+  /** Name of the trigger responsible for this event. */
   trigger: 'MESSAGE_INBOUND';
 }

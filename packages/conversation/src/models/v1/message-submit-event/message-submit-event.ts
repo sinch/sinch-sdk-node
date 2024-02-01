@@ -1,11 +1,12 @@
 import { ChannelIdentity } from '../channel-identity';
 import { ContactMessage } from '../contact-message';
 import { ProcessingMode } from '../processing-mode';
+import { ConversationEvent } from '../conversation-event';
 
 /**
  * This callback provides a notification to the API clients that the corresponding app message was submitted to a channel. This notification is created before any confirmation from Delivery Receipts.
  */
-export interface MessageSubmitEvent {
+export interface MessageSubmitEvent extends ConversationEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;
@@ -21,7 +22,7 @@ export interface MessageSubmitEvent {
   correlation_id?: string;
   /** @see MessageSubmitEventMessageSubmitNotification */
   message_submit_notification?: MessageSubmitNotification;
-
+  /** Name of the trigger responsible for this event. */
   trigger: 'MESSAGE_SUBMIT';
 }
 

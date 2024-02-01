@@ -1,10 +1,11 @@
 import { ConversationChannel } from '../conversation-channel';
 import { ProcessingMode } from '../processing-mode';
+import { ConversationEvent } from '../conversation-event';
 
 /**
  * This callback is used to deliver opt-out notifications from the channels.
  */
-export interface OptOutEvent {
+export interface OptOutEvent extends ConversationEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;
@@ -20,7 +21,7 @@ export interface OptOutEvent {
   correlation_id?: string;
   /** @see OptOutNotification */
   opt_out_notification?: OptOutNotification;
-
+  /** Name of the trigger responsible for this event. */
   trigger: 'OPT_OUT';
 }
 

@@ -1,10 +1,11 @@
 import { ConversationChannel } from '../conversation-channel';
 import { ProcessingMode } from '../processing-mode';
+import { ConversationEvent } from '../conversation-event';
 
 /**
  * This callback is used to deliver opt-in notifications from the channels.
  */
-export interface OptInEvent {
+export interface OptInEvent extends ConversationEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;
@@ -20,7 +21,7 @@ export interface OptInEvent {
   correlation_id?: string;
   /** @see OptInNotification */
   opt_in_notification?: OptInNotification;
-
+  /** Name of the trigger responsible for this event. */
   trigger: 'OPT_IN';
 }
 

@@ -1,7 +1,8 @@
 import { ProcessingMode } from '../processing-mode';
 import { ChannelIdentity } from '../channel-identity';
+import { ConversationEvent } from '../conversation-event';
 
-export interface EventInbound {
+export interface EventInbound extends ConversationEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;
@@ -17,7 +18,7 @@ export interface EventInbound {
   correlation_id?: string;
   /** @see EventInboundEvent */
   event?: EventInboundEvent;
-
+  /** Name of the trigger responsible for this event. */
   trigger: 'EVENT_INBOUND';
 }
 

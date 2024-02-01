@@ -1,9 +1,10 @@
 import { ConversationChannel } from '../conversation-channel';
+import { ConversationEvent } from '../conversation-event';
 
 /**
  * This callback is sent when duplicates of channel identities are found between multiple contacts in the contact database during message and event processing.
  */
-export interface ContactIdentitiesDuplicationEvent {
+export interface ContactIdentitiesDuplicationEvent extends ConversationEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;
@@ -19,7 +20,7 @@ export interface ContactIdentitiesDuplicationEvent {
   correlation_id?: string;
   /** @see DuplicatedIdentitiesEvent */
   duplicated_contact_identities_notification: DuplicatedIdentitiesEvent;
-
+  /** Name of the trigger responsible for this event. */
   trigger: 'CONTACT_IDENTITIES_DUPLICATION';
 }
 

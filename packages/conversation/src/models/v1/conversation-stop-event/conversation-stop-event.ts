@@ -1,9 +1,10 @@
 import { Conversation } from '../conversation';
+import { ConversationEvent } from '../conversation-event';
 
 /**
  * This callback is sent when a conversation between the subscribed app and a contact is stopped.
  */
-export interface ConversationStopEvent {
+export interface ConversationStopEvent extends ConversationEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;
@@ -19,7 +20,7 @@ export interface ConversationStopEvent {
   correlation_id?: string;
   /** @see Conversation */
   conversation_stop_notification?: ConversationNotification;
-
+  /** Name of the trigger responsible for this event. */
   trigger: 'CONVERSATION_STOP';
 }
 

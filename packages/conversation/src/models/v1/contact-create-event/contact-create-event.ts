@@ -1,9 +1,10 @@
 import { ContactNotification } from '../contact-notification';
+import { ConversationEvent } from '../conversation-event';
 
 /**
  * This callback is sent when a new contact is created.
  */
-export interface ContactCreateEvent {
+export interface ContactCreateEvent extends ConversationEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;
@@ -19,6 +20,6 @@ export interface ContactCreateEvent {
   correlation_id?: string;
   /** @see ContactNotification */
   contact_create_notification?: ContactNotification;
-
+  /** Name of the trigger responsible for this event. */
   trigger: 'CONTACT_CREATE';
 }

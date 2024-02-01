@@ -2,11 +2,12 @@ import { ChannelIdentity } from '../channel-identity';
 import { Reason } from '../reason';
 import { ProcessingMode } from '../processing-mode';
 import { DeliveryStatus } from '../delivery-status';
+import { ConversationEvent } from '../conversation-event';
 
 /**
  * This callback notifies the API clients about status changes of already sent app message.
  */
-export interface MessageDeliveryReceiptEvent {
+export interface MessageDeliveryReceiptEvent extends ConversationEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;
@@ -22,7 +23,7 @@ export interface MessageDeliveryReceiptEvent {
   correlation_id?: string;
   /** @see MessageDeliveryReceiptEventMessageDeliveryReport */
   message_delivery_report?: MessageDeliveryReport;
-
+  /** Name of the trigger responsible for this event. */
   trigger: 'MESSAGE_DELIVERY';
 }
 

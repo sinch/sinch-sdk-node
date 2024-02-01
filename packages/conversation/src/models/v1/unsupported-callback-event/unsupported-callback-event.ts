@@ -1,11 +1,12 @@
 import { ConversationChannel } from '../conversation-channel';
 import { ProcessingMode } from '../processing-mode';
 import { ChannelIdentity } from '../channel-identity';
+import { ConversationEvent } from '../conversation-event';
 
 /**
  * Some of the callbacks received from the underlying channels might be specific to a single channel or may not have a proper mapping in Conversation API yet.
  */
-export interface UnsupportedCallbackEvent {
+export interface UnsupportedCallbackEvent extends ConversationEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;
@@ -21,7 +22,7 @@ export interface UnsupportedCallbackEvent {
   correlation_id?: string;
   /** @see UnsupportedCallback */
   unsupported_callback?: UnsupportedCallback;
-
+  /** Name of the trigger responsible for this event. */
   trigger: 'UNSUPPORTED';
 }
 

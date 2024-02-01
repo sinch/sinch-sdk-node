@@ -1,9 +1,10 @@
 import { Conversation } from '../conversation';
+import { ConversationEvent } from '../conversation-event';
 
 /**
  * This callback is sent when a new conversation between the subscribed app and a contact is started.
  */
-export interface ConversationStartEvent {
+export interface ConversationStartEvent extends ConversationEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;
@@ -19,7 +20,7 @@ export interface ConversationStartEvent {
   correlation_id?: string;
   /** @see Conversation */
   conversation_start_notification?: ConversationNotification;
-
+  /** Name of the trigger responsible for this event. */
   trigger: 'CONVERSATION_START';
 }
 

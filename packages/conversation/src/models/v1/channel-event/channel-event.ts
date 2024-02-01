@@ -1,9 +1,10 @@
 import { ConversationChannel } from '../conversation-channel';
+import { ConversationEvent } from '../conversation-event';
 
 /**
  * This callback is used to deliver notifications regarding channel-specific information and updates. For example, if your are using the WhatsApp channel of the Conversation API, and your quality rating has been changed to GREEN, a POST would be made to the CHANNEL_EVENT webhook.
  */
-export interface ChannelEvent {
+export interface ChannelEvent extends ConversationEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;
@@ -19,7 +20,7 @@ export interface ChannelEvent {
   correlation_id?: string;
   /** @see ChannelEventNotification */
   channel_event_notification?: ChannelEventNotification;
-
+  /** Name of the trigger responsible for this event. */
   trigger: 'CHANNEL_EVENT';
 }
 

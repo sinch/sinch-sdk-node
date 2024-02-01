@@ -1,9 +1,10 @@
 import { Conversation } from '../conversation';
+import { ConversationEvent } from '../conversation-event';
 
 /**
  * This callback is sent when a conversation between the subscribed app and a contact is deleted.
  */
-export interface ConversationDeleteEvent {
+export interface ConversationDeleteEvent extends ConversationEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;
@@ -19,7 +20,7 @@ export interface ConversationDeleteEvent {
   correlation_id?: string;
   /** @see ConversationNotification */
   conversation_delete_notification?: ConversationNotification;
-
+  /** Name of the trigger responsible for this event. */
   trigger: 'CONVERSATION_DELETE';
 }
 
