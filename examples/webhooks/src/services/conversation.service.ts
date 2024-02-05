@@ -4,7 +4,6 @@ import {
   ConversationWebhookEventParsed,
   ContactMessage,
   MediaMessage,
-  FallbackMessage,
   TextMessage,
   SendMessageRequestData,
 } from '@sinch/sdk-core';
@@ -71,7 +70,9 @@ export class ConversationService {
         break;
       case 'MESSAGE_INBOUND_SMART_CONVERSATION_REDACTION':
         console.log('\n## MESSAGE_INBOUND_SMART_CONVERSATION_REDACTION');
-        console.log(`A.I. analyzed and redacted message:\n${event.message_redaction.contact_message.text_message.text}`);
+        if ('text_message' in event.message_redaction.contact_message) {
+          console.log(`A.I. analyzed and redacted message:\n${event.message_redaction.contact_message.text_message.text}`);
+        }
         break;
       case 'MESSAGE_SUBMIT':
         console.log('\n## MESSAGE_SUBMIT');
