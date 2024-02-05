@@ -39,7 +39,10 @@ import {
   if (printFormat === 'pretty') {
     console.log(`App updated! New name: '${response.display_name}'.`);
     const token = getMessengerTokenFormConfig();
-    console.log(`Verifying the token (it should be unchanged):\nOLD: '${token}'\nNEW: '${response.channel_credentials?.[0].static_token?.token}'`);
+    const channelCredentials = response.channel_credentials?.[0];
+    if(channelCredentials?.channel === 'MESSENGER') {
+      console.log(`Verifying the token (it should be unchanged):\nOLD: '${token}'\nNEW: '${channelCredentials.static_token?.token}'`);
+    }
   } else {
     printFullResponse(response);
   }
