@@ -34,23 +34,41 @@ export interface AppResponse {
   /** @see QueueStats */
   queue_stats?: QueueStats;
 
-  /** TBC: Not documented */
-  persist_message_status?: Enabled;
-  /** TBC: Not documented */
-  message_search?: Enabled;
-  /** TBC: Not documented @see CallbackSettings */
+  /** Message status persistence configuration. */
+  persist_message_status?: PersistMessageStatus;
+  /** Message search configuration */
+  message_search?: MessageSearch;
+  /** Additional callback configuration. */
   callback_settings?: CallbackSettings;
-  /** TBC: Not documented */
+  /** Fallback upon no positive delivery report configuration. */
   delivery_report_based_fallback?: DeliveryReportBasedFallback | null;
-  /** TBC: Not documented */
-  message_retry_settings?: null;
+  /** TBC: Message retry time configuration. */
+  message_retry_settings?: MessageRetrySettings | null;
 }
 
-export interface Enabled {
+export interface PersistMessageStatus {
+  /** A flag specifying whether message status for this app should be persisted. */
+  enabled?: boolean;
+}
+
+export interface MessageSearch {
+  /** A flag specifying whether this app has enabled Message Search services. */
   enabled?: boolean;
 }
 
 export interface DeliveryReportBasedFallback {
+  /** A flag specifying whether this app has enabled fallback upon no positive delivery report feature. Disabled by default */
   enabled?: boolean;
+  /** The time, in seconds, after which a message without a positive delivery report will fallback to the next channel. The valid values for this field are [60 - 259200]. */
   delivery_report_waiting_time?: number;
+}
+
+export interface MessageRetrySettings {
+  /**
+   * The maximum duration, in seconds, for which to retry sending a message in case of a temporary processing failure. Time is counted after the first message processing failure. At least one retry is guaranteed.
+   * Subsequent retry times are randomized with exponential backoff. If the next retry timestamp exceeds the configured time, one last retry will be performed on the cut-off time.
+   * If the message has a  configured fallback channel, a switch_on_channel will be triggered.
+   * The valid values for this field are [30 - 3600]. Default value is 3600 (seconds - 1 hour).
+   */
+  retry_duration?: number;
 }

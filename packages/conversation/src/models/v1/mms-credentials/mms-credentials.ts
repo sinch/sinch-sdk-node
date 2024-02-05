@@ -10,5 +10,7 @@ export interface MMSCredentials {
   /** MMS API Key. */
   api_key: string;
   /** @see BasicAuthCredential */
-  basic_auth?: BasicAuthCredential;
+  basic_auth: BasicAuthCredential;
+  /** Default Sender (shortcode or longnumber), will be used when {{YOUR_MMS_SENDER}} in a message is empty */
+  default_sender?: string;
 }

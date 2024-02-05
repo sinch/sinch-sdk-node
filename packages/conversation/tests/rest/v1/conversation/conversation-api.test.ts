@@ -99,12 +99,10 @@ describe('ConversationApi', () => {
         conversation_id: 'conversation_id',
         injectMessageRequestBody: {
           app_message: {
-            message: {
-              card_message: {
-                choices: [],
-                title: 'title',
-                description: 'description',
-              },
+            card_message: {
+              choices: [],
+              title: 'title',
+              description: 'description',
             },
           },
         },

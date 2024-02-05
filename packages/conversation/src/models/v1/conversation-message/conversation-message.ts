@@ -9,7 +9,7 @@ import { ProcessingMode } from '../processing-mode';
  */
 export interface ConversationMessage {
 
-  /** The time Conversation API processed the message. */
+  /** Output only. The time Conversation API processed the message. */
   accept_time?: Date;
   /** @see AppMessage */
   app_message?: AppMessage;
@@ -27,13 +27,31 @@ export interface ConversationMessage {
   id?: string;
   /** Optional. Metadata associated with the contact. Up to 1024 characters long. */
   metadata?: string;
-  /** Flag for whether this message was injected. */
+  /** Output only. Flag for whether this message was injected. */
   injected?: boolean;
-
-  /** TBC: Not documented */
+  /** For Contact Messages the sender ID that the contact sent the message to. For App Messages the sender that was used to send the message, if applicable. */
   sender_id?: string;
-  /** TBC: Not documented */
+  /** Output only. The processing mode. */
   processing_mode?: ProcessingMode;
-  /** TBC: Not documented */
-  message_status?: any | null;
+  /** The status of the message, eventTime of the status and reason if status is failed */
+  message_status?: MessageStatus | null;
 }
+
+export interface MessageStatus {
+  /** Status of the message */
+  status: Status;
+  /** Timestamp at which the current status occurred */
+  event_time: Date;
+  /** If status is FAILED, reason of failure */
+  reason?: string
+}
+
+export type Status =
+  'STATUS_UNSPECIFIED'
+  | 'QUEUED'
+  | 'QUEUED_ON_CHANNEL'
+  | 'DELIVERED'
+  | 'READ'
+  | 'FAILED'
+  | 'SWITCHING_CHANNEL'
+  | 'RECEIVED';

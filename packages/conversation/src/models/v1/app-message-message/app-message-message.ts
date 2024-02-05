@@ -7,6 +7,7 @@ import { TextMessage } from '../text-message';
 import { ListMessage } from '../list-message';
 import { TemplateMessage } from '../template-message';
 
+/** The content of the message */
 export type AppMessageMessage =
   CardMessage
   | CarouselMessage

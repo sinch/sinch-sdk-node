@@ -9,20 +9,45 @@ import { TextMessageItem } from '../text-message';
 /**
  * Message originating from a contact
  */
-export interface ContactMessage {
+export type ContactMessage =
+  ContactMessageChoiceResponseMessage
+  | ContactMessageFallbackMessage
+  | ContactMessageLocationMessage
+  | ContactMessageMediaCardMessage
+  | ContactMessageMediaMessage
+  | ContactMessageTextMessage;
 
+interface ContactMessageChoiceResponseMessage extends ContactMessageBase {
   /** @see ChoiceResponseMessage */
   choice_response_message?: ChoiceResponseMessage;
+}
+
+interface ContactMessageFallbackMessage extends ContactMessageBase {
   /** @see FallbackMessage */
   fallback_message?: FallbackMessage;
-  /** @see LocationMessage */
+}
+
+interface ContactMessageLocationMessage extends ContactMessageBase {
+  /** @see LocationMessageItem */
   location_message?: LocationMessageItem;
+}
+
+interface ContactMessageMediaCardMessage extends ContactMessageBase {
   /** @see MediaCardMessage */
   media_card_message?: MediaCardMessage;
-  /** @see MediaMessage */
+}
+
+interface ContactMessageMediaMessage extends ContactMessageBase {
+  /** @see MediaMessageItem */
   media_message?: MediaMessageItem;
-  /** @see ReplyTo */
-  reply_to?: ReplyTo;
+}
+
+interface ContactMessageTextMessage extends ContactMessageBase {
   /** @see TextMessageItem */
   text_message?: TextMessageItem;
+}
+
+interface ContactMessageBase {
+  /** @see ReplyTo */
+  reply_to?: ReplyTo;
 }

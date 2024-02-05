@@ -1,1 +1,1 @@
-export type { ConversationChannelCredential, AppState } from './conversation-channel-credential';
+export type { ConversationChannelCredential, ChannelIntegrationState } from './conversation-channel-credential';

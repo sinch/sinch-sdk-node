@@ -9,9 +9,9 @@ import {
 
 
 (async () => {
-  console.log('***********************************');
+  console.log('******************************');
   console.log('* Conversation_InjectMessage *');
-  console.log('***********************************');
+  console.log('******************************');
 
   const conversationId = getConversationIdFromConfig();
   const messengerUserId = getMessengerUserIdFromConfig();
@@ -22,10 +22,8 @@ import {
     conversation_id: conversationId,
     injectMessageRequestBody: {
       app_message: {
-        message: {
-          text_message: {
-            text: 'test',
-          },
+        text_message: {
+          text: 'test',
         },
       },
       direction: 'TO_CONTACT',

@@ -15,4 +15,5 @@ export type ConversationChannel =
   | 'KAKAOTALKCHAT'
   | 'LINE'
   | 'WECHAT'
+  | 'APPLEBC'
   | 'CHANNEL_UNSPECIFIED';

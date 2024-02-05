@@ -52,16 +52,14 @@ describe('MessagesApi', () => {
       const expectedResponse: ConversationMessage = {
         accept_time: new Date('2019-08-24T14:15:22Z'),
         app_message: {
-          message: {
-            card_message: {
-              choices: [],
-              description: 'description',
-              height: 'UNSPECIFIED_HEIGHT',
-              media_message: {
-                url: 'url',
-              },
-              title: 'title',
+          card_message: {
+            choices: [],
+            description: 'description',
+            height: 'UNSPECIFIED_HEIGHT',
+            media_message: {
+              url: 'url',
             },
+            title: 'title',
           },
           explicit_channel_message: {},
           additionalProperties: {
@@ -137,39 +135,37 @@ describe('MessagesApi', () => {
         {
           accept_time: new Date('2019-08-24T14:15:22Z'),
           app_message: {
-            message: {
-              card_message: {
-                choices: [
-                  {
-                    call_message: {
-                      title: 'title',
-                      phone_number: 'number',
-                    },
-                    location_message: {
-                      coordinates: {
-                        latitude: 0,
-                        longitude: 0,
-                      },
-                      title: 'title',
-                      label: 'label',
-                    },
-                    postback_data: 'data',
-                    text_message: {
-                      text: 'text',
-                    },
-                    url_message: {
-                      url: 'url',
-                      title: 'title',
-                    },
+            card_message: {
+              choices: [
+                {
+                  call_message: {
+                    title: 'title',
+                    phone_number: 'number',
                   },
-                ],
-                description: 'description',
-                height: 'UNSPECIFIED_HEIGHT',
-                media_message: {
-                  url: 'url',
+                  location_message: {
+                    coordinates: {
+                      latitude: 0,
+                      longitude: 0,
+                    },
+                    title: 'title',
+                    label: 'label',
+                  },
+                  postback_data: 'data',
+                  text_message: {
+                    text: 'text',
+                  },
+                  url_message: {
+                    url: 'url',
+                    title: 'title',
+                  },
                 },
-                title: 'title',
+              ],
+              description: 'description',
+              height: 'UNSPECIFIED_HEIGHT',
+              media_message: {
+                url: 'url',
               },
+              title: 'title',
             },
             explicit_channel_message: {},
             additionalProperties: {
