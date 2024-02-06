@@ -8,7 +8,7 @@ This package contains the Sinch Verification SDK for Node.js for use with [Sinch
 
 ## Installation
 
-We recommend to use this SDK as part of the `@sinch/sdk-core` package as it will take care about the authentication plugins to use.
+We recommend to use this SDK as part of the [`@sinch/sdk-core`](../../packages/sdk-core) package in order to make the most out of all the Sinch products.
 
 However, it's still possible to use this SDK standalone is you need to access the Verification API only.
 
@@ -41,10 +41,10 @@ import {
   InitiateVerificationResponse,
   StartVerificationRequestData,
   SinchClient,
-  SinchClientParameters,
+  ApplicationCredentials,
 } from '@sinch/sdk-core';
 
-const credentials: SinchClientParameters = {
+const credentials: ApplicationCredentials = {
   applicationKey: 'APPLICATION_ID',
   applicationSecret: 'APPLICATION_SECRET',
 };
@@ -60,7 +60,7 @@ const requestData: StartVerificationRequestData = {
   },
 };
 
-// Access the 'verification' domain registered on the Sinch Client
+// Access the 'verification' controller registered on the Sinch Client
 const verificationInitResponse: InitiateVerificationResponse 
     = await sinch.verification.verifications.start(requestData);
 ```
@@ -71,7 +71,7 @@ The SDK can be used standalone if you need to use only the Verification APIs.
 
 ```typescript
 import {
-  SinchClientParameters
+  ApplicationCredentials
  } from '@sinch/sdk-client';
 import { 
   InitiateVerificationResponse,
@@ -79,12 +79,12 @@ import {
   Verification,
 } from '@sinch/verification';
 
-const credentials: SinchClientParameters = {
+const credentials: ApplicationCredentials = {
   applicationKey: 'APPLICATION_ID',
   applicationSecret: 'APPLICATION_SECRET',
 };
 
-// Declare the 'verification' in a standalone way
+// Declare the 'verification' controller in a standalone way
 const verification = new Verification(credentials);
 
 const requestData: StartVerificationRequestData = {
@@ -97,29 +97,29 @@ const requestData: StartVerificationRequestData = {
   },
 };
 
-// Use the standalone declaration of the 'verification' domain
+// Use the standalone declaration of the 'verification' controller
 const verificationInitResponse: InitiateVerificationResponse 
     = await verification.verifications.start(requestData);
 ```
 
 ## Promises
 
-All the methods that interact with the Sinch APIs use Promises. You can use `await` in an `async` method to wait for the response or you can resolve them yourself with `then()` / `catch()`.
+All the methods that interact with the Sinch APIs use Promises. You can use `await` in an `async` method to wait for the response, or you can resolve them yourself with `then()` / `catch()`.
 
 ```typescript
-// Method 1: Wait for the Promise to complete
+// Method 1: Wait for the Promise to complete (you need to be in an 'async' method)
 let verificationInitResponse: InitiateVerificationResponse;
 try {
   verificationInitResponse = await sinch.verification.verifications.start(requestData);
-  console.log(`Verification ID = ${response.id}`);
+  console.log(`Verification ID = ${verificationInitResponse.id}`);
 } catch (error: any) {
-  console.error(`ERROR ${error.statusCode}: Impossible to start the verification for the number ${requestData.InitiateVerificationResource.identity.endpoint}`);
+  console.error(`ERROR ${error.statusCode}: Impossible to start the verification for the number ${requestData.initiateVerificationRequestBody.identity.endpoint}`);
 }
 
 // Method 2: Resolve the promise
 sinch.verification.verifications.start(requestData)
   .then(response => console.log(`Verification ID = ${response.id}`))
-  .catch(error => console.error(`ERROR ${error.statusCode}: Impossible to start the verification for the number ${requestData.InitiateVerificationResource.identity.endpoint}`));
+  .catch(error => console.error(`ERROR ${error.statusCode}: Impossible to start the verification for the number ${requestData.initiateVerificationRequestBody.identity.endpoint}`));
 ```
 
 ## Contact
