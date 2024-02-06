@@ -42,7 +42,7 @@ export interface AppResponse {
   callback_settings?: CallbackSettings;
   /** Fallback upon no positive delivery report configuration. */
   delivery_report_based_fallback?: DeliveryReportBasedFallback | null;
-  /** TBC: Message retry time configuration. */
+  /** Message retry time configuration. */
   message_retry_settings?: MessageRetrySettings | null;
 }
 

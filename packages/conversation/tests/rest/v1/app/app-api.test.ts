@@ -4,10 +4,24 @@ import {
   CreateAppRequestData,
   DeleteAppRequestData,
   GetAppRequestData,
-  ListAppsRequestData, UpdateAppRequestData,
+  ListAppsRequestData,
+  UpdateAppRequestData,
+  ChannelCredentialsAppleBC,
+  ChannelCredentialsInstagram,
+  ChannelCredentialsKakaoTalk,
+  ChannelCredentialsKakaoTalkChat,
+  ChannelCredentialsLine,
+  ChannelCredentialsMessenger,
+  ChannelCredentialsMms,
+  ChannelCredentialsRcs,
+  ChannelCredentialsSms,
+  ListAppsResponse,
+  AppApi,
+  AppApiFixture,
+  ChannelCredentialsTelegram,
+  ChannelCredentialsViber,
+  ChannelCredentialsViberBM, ChannelCredentialsWeChat, ChannelCredentialsWhatsApp,
 } from '../../../../src';
-import { ListAppsResponse } from '../../../../src';
-import { AppApi, AppApiFixture } from '../../../../src';
 
 describe('AppApi', () => {
   let appApi: AppApi;
@@ -28,17 +42,135 @@ describe('AppApi', () => {
   describe ('createApp', () => {
     it('should make a POST request to create a new Conversation App', async () => {
       // Given
+      const channelCredentialsAppleBC: ChannelCredentialsAppleBC = {
+        channel: 'APPLEBC',
+        applebc_credentials: {
+          business_chat_account_id: 'apple_business_chat_account_id',
+          merchant_id: 'merchant_id',
+          apple_pay_certificate_reference: 'apple_pay_certificate_reference',
+          apple_pay_certificate_password: 'apple_pay_certificate_password',
+        },
+      };
+      const channelCredentialsInstagram: ChannelCredentialsInstagram = {
+        channel: 'INSTAGRAM',
+        instagram_credentials: {
+          token: 'instagram_channel_token',
+          business_account_id: 'instagram_business_account_id',
+        },
+      };
+      const channelCredentialsKakaoTalk: ChannelCredentialsKakaoTalk = {
+        channel: 'KAKAOTALK',
+        kakaotalk_credentials: {
+          kakaotalk_plus_friend_id: 'kakaotalk_friend_id',
+          kakaotalk_sender_key: 'kakaotalk_sender_key',
+        },
+      };
+      const channelCredentialsKakaoTalkChat: ChannelCredentialsKakaoTalkChat = {
+        channel: 'KAKAOTALKCHAT',
+        kakaotalkchat_credentials: {
+          kakaotalk_plus_friend_id: 'kakaotalk_friend_id',
+          api_key: 'info_bank_api_key',
+        },
+      };
+      const channelCredentialsLine: ChannelCredentialsLine = {
+        channel: 'LINE',
+        line_credentials: {
+          token: 'line_token',
+          secret: 'line_secret',
+        },
+      };
+      const channelCredentialsMms: ChannelCredentialsMms = {
+        channel: 'MMS',
+        mms_credentials: {
+          account_id: 'mms_account_id',
+          api_key: 'mms_api_key',
+          basic_auth: {
+            username: 'username',
+            password: 'password',
+          },
+          default_sender: 'default_sender',
+        },
+      };
+      const channelCredentialsMessenger: ChannelCredentialsMessenger = {
+        channel: 'MESSENGER',
+        static_token: {
+          token: 'messenger_static_token',
+        },
+      };
+      const channelCredentialsRcs: ChannelCredentialsRcs = {
+        channel: 'RCS',
+        static_bearer: {
+          claimed_identity: 'rcs_claimed_identity',
+          token: 'rcs_token',
+        },
+      };
+      const channelCredentialsSms: ChannelCredentialsSms = {
+        channel: 'SMS',
+        static_bearer: {
+          claimed_identity: 'sms_claimed_identity',
+          token: 'sms_token',
+        },
+      };
+      // const channelCredentialsSmsWithAppId: ChannelCredentialsSms = {
+      //   channel: 'SMS',
+      //   sms_credentials: {
+      //     sms_app_id: 'sms_app_id',
+      //   },
+      // };
+      const channelCredentialsTelegram: ChannelCredentialsTelegram = {
+        channel: 'TELEGRAM',
+        telegram_credentials: {
+          token: 'telegram_token',
+        },
+      };
+      const channelCredentialsViber: ChannelCredentialsViber = {
+        channel: 'VIBER',
+        static_token: {
+          token: 'viber_token',
+        },
+      };
+      const channelCredentialsViberBM: ChannelCredentialsViberBM = {
+        channel: 'VIBERBM',
+        static_bearer: {
+          claimed_identity: 'viberbm_claimed_identity',
+          token: 'viberbm_token',
+        },
+      };
+      const channelCredentialsWeChat: ChannelCredentialsWeChat = {
+        channel: 'WECHAT',
+        wechat_credentials: {
+          app_id: 'wechat_app_id',
+          app_secret: 'wechat_app_secret',
+          token: 'wechat_token',
+          aes_key: 'wechat_aes_key',
+        },
+      };
+      const channelCredetialsWhatsApp: ChannelCredentialsWhatsApp = {
+        channel: 'WHATSAPP',
+        static_bearer: {
+          claimed_identity: 'whatsapp_claimed_identity',
+          token: 'whatsapp_token',
+        },
+      };
       const requestData: CreateAppRequestData = {
         appCreateRequestBody: {
           display_name: 'Test App',
           channel_credentials: [
-            {
-              channel: 'WHATSAPP',
-              static_bearer: {
-                claimed_identity: 'identity',
-                token: 'token',
-              },
-            },
+            channelCredentialsAppleBC,
+            channelCredentialsInstagram,
+            channelCredentialsKakaoTalk,
+            channelCredentialsKakaoTalkChat,
+            channelCredentialsLine,
+            channelCredentialsMms,
+            channelCredentialsMessenger,
+            channelCredentialsRcs,
+            channelCredentialsSms,
+            // channelCredentialsSmsWithAppId,
+            channelCredentialsTelegram,
+            channelCredentialsViber,
+            channelCredentialsViberBM,
+            channelCredentialsWeChat,
+            channelCredetialsWhatsApp,
           ],
         },
       };
