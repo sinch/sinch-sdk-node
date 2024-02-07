@@ -171,7 +171,7 @@ export class AppApi extends ConversationDomainApi {
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'PATCH', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams, false, ',');
+    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
     return this.client.processCall<AppResponse>({
       url,

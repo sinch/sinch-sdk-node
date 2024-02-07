@@ -128,18 +128,16 @@ export class ApiClient {
    * @param {string} url - The base url to be used.
    * @param {Object.<string, string|undefined>} queryParameters - Key-value pair with the parameters. If the value is undefined, the key is dropped.
    * @param {boolean} repeatParamArray - create as many single parameters with each value of the array
-   * @param {string} unexplodedSeparator - the separator to use between values when `explode` is false (default is ',')
    * @return {string} The prepared URL as a string.
    */
   prepareUrl(
     url: string,
     queryParameters: { [key: string]: string | undefined } = {},
     repeatParamArray?: boolean,
-    unexplodedSeparator?: string,
   ): string {
     const queryPart = Object.keys(queryParameters)
       .filter((name) => typeof queryParameters[name] !== 'undefined')
-      .map((name) => this.formatQueryParameter(name, queryParameters, repeatParamArray, unexplodedSeparator))
+      .map((name) => this.formatQueryParameter(name, queryParameters, repeatParamArray))
       .join('&');
 
     const paramsPrefix = url.indexOf('?') > -1 ? '&' : '?';
@@ -152,14 +150,12 @@ export class ApiClient {
    * @param {string} name - The parameter name
    * @param {Object.<string, string|undefined>} queryParameters - Key-value pair with the parameters. If the value is undefined, the key is dropped.
    * @param {boolean}repeatParamArray - Create as many single parameters with each value of the array
-   * @param {string} unexplodedSeparator - the separator to use between values when `explode` is false (default is `,`)
    * @return {string} The query parameter formatted as required by the API
    */
   private formatQueryParameter = (
     name: string,
     queryParameters: { [key: string]: string | undefined } = {},
     repeatParamArray?: boolean,
-    unexplodedSeparator?: string,
   ): string => {
     const parameterValue = JSON.parse(queryParameters[name] || '');
     if (Array.isArray(parameterValue)) {
