@@ -30,8 +30,8 @@ export interface ListActiveNumbersRequestData {
   'numberPattern.pattern'?: string;
   /** Search pattern to apply. The options are, `START`, `CONTAIN`, and `END`. */
   'numberPattern.searchPattern'?: SearchPatternEnum;
-  /** Number capabilities to filter by, `SMS` and/or `VOICE`. */
-  capability?: Array<CapabilitiesEnum>;
+  /** Number capabilities to filter by, `SMS` or `VOICE`. */
+  capability?: CapabilitiesEnum;
   /** The maximum number of items to return. */
   pageSize?: number;
   /** The next page token value returned from a previous List request, if any. */
@@ -139,7 +139,8 @@ export class ActiveNumberApi extends NumbersApi {
     const listPromise = buildPageResultPromise<ActiveNumber>(
       this.client,
       requestOptionsPromise,
-      operationProperties);
+      operationProperties,
+    );
 
     // Add properties to the Promise to offer the possibility to use it as an iterator
     Object.assign(

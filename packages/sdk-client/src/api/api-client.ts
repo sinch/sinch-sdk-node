@@ -75,9 +75,9 @@ export class ApiClient {
       .reduce(
         (acc, name) => {
           const prop = data[name];
-          acc[name] = typeof prop.toJSON === 'function'
-            ? prop.toJSON()
-            : Array.isArray(prop) ? prop.join(';') : prop.toString();
+          acc[name] = typeof prop.toJSON === 'object'
+            ? JSON.stringify(prop.toJSON())
+            : JSON.stringify(prop);
           return acc;
         },
         {} as { [p in keyof T]: string },
@@ -157,15 +157,16 @@ export class ApiClient {
     queryParameters: { [key: string]: string | undefined } = {},
     repeatParamArray?: boolean,
   ): string => {
-    const defaultFormat = `${name}=${queryParameters[name]!}`;
-    if(repeatParamArray) {
-      const parameterValue = queryParameters[name];
-      if (parameterValue && parameterValue.indexOf(';') > 0) {
-        const parameterValues = parameterValue.split(';');
-        return parameterValues.map((value) => `${name}=${value}`).join('&');
+    const parameterValue = JSON.parse(queryParameters[name] || '');
+    if (Array.isArray(parameterValue)) {
+      if (repeatParamArray) {
+        return parameterValue.map((value: string) => `${name}=${value}`).join('&');
+      } else {
+        return `${name}=${parameterValue.join(',')}`;
       }
+    } else {
+      return `${name}=${parameterValue}`;
     }
-    return defaultFormat;
   };
 
   /**

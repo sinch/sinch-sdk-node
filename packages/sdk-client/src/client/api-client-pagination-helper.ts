@@ -206,10 +206,12 @@ export const buildPageResultPromise = async  <T>(
   client: ApiClient,
   requestOptionsPromise: Promise<RequestOptions>,
   operationProperties: PaginatedApiProperties,
+  repeatParamArray?: boolean,
 ): Promise<PageResult<T>> => {
   // Await the promise in this async method and store the result in client so that they can be reused
   const requestOptions = await requestOptionsPromise;
-  const url = client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+  const url = client.prepareUrl(
+    requestOptions.basePath, requestOptions.queryParams, repeatParamArray);
 
   return client.processCallWithPagination<T>({
     url,
