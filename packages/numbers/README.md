@@ -7,7 +7,7 @@ This package contains the Sinch Numbers SDK for Node.js for use with [Sinch APIs
 
 ## Installation
 
-We recommend to use this SDK as part of the `@sinch/sdk-core` package as it will take care about the authentication plugins to use.
+We recommend to use this SDK as part of the [`@sinch/sdk-core`](../../packages/sdk-core) package in order to make the most out of all the Sinch products.
 
 However, it's still possible to use this SDK standalone is you need to access the Numbers API only.
 
@@ -41,10 +41,10 @@ import {
   AvailableNumber,
   GetAvailableNumberRequestData,
   SinchClient,
-  SinchClientParameters,
+  UnifiedCredentials,
 } from '@sinch/sdk-core';
 
-const credentials: SinchClientParameters = {
+const credentials: UnifiedCredentials = {
   projectId: 'PROJECT_ID',
   keyId: 'KEY_ID',
   keySecret: 'KEY_SECRET',
@@ -67,39 +67,38 @@ The SDK can be used standalone if you need to use only the Numbers APIs.
 
 ```typescript
 import {
-  SinchClientParameters,
+  UnifiedCredentials,
 } from '@sinch/sdk-client';
 import { 
   AvailableNumber,
   GetAvailableNumberRequestData,
   Numbers,
-  SinchClientParameters,
 } from '@sinch/numbers';
 
-const credentials: SinchClientParameters = {
+const credentials: UnifiedCredentials = {
   projectId: 'PROJECT_ID',
   keyId: 'KEY_ID',
   keySecret: 'KEY_SECRET',
 };
 
-// Declare the 'numbers' service in a standalone way
-const numbers = new Numbers(options);
+// Declare the 'numbers' controller in a standalone way
+const numbers = new Numbers(credentials);
 
 const requestData: GetAvailableNumberRequestData = {
   phoneNumber: '+17813334444',
 };
 
-// Use the standalone declaration of the 'numbers' domain
+// Use the standalone declaration of the 'numbers' controller
 const availabilityResult: AvailableNumber 
     = await numbers.availableNumber.checkAvailability(requestData);
 ```
 
 ## Promises
 
-All the methods that interact with the Sinch APIs use Promises. You can use `await` in an `async` method to wait for the response or you can resolve them yourself with `then()` / `catch()`.
+All the methods that interact with the Sinch APIs use Promises. You can use `await` in an `async` method to wait for the response, or you can resolve them yourself with `then()` / `catch()`.
 
 ```typescript
-// Method 1: Wait for the Promise to complete
+// Method 1: Wait for the Promise to complete (you need to be in an 'async' method)
 let availabilityResult: AvailableNumber;
 try {
   availabilityResult = await sinch.numbers.availableNumber.checkAvailability(requestData);

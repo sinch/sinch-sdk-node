@@ -8,9 +8,9 @@ This package contains the Sinch Voice SDK for Node.js for use with [Sinch APIs](
 
 ## Installation
 
-We recommend to use this SDK as part of the `@sinch/sdk-core` package as it will take care about the authentication plugins to use.
+We recommend to use this SDK as part of the [`@sinch/sdk-core`](../../packages/sdk-core) package in order to make the most out of all the Sinch products.
 
-However, it's still possible to use this SDK standalone is you need to access the Verification API only.
+However, it's still possible to use this SDK standalone is you need to access the Voice API only.
 
 ### With NPM
 
@@ -41,10 +41,10 @@ import {
   TtsCalloutRequestData,
   GetCalloutResponseObj,
   SinchClient,
-  SinchClientParameters,
+  ApplicationCredentials,
 } from '@sinch/sdk-core';
 
-const credentials: SinchClientParameters = {
+const credentials: ApplicationCredentials = {
   applicationKey: 'APPLICATION_ID',
   applicationSecret: 'APPLICATION_SECRET',
 };
@@ -65,7 +65,7 @@ const requestData: TtsCalloutRequestData = {
   },
 };
 
-// Access the 'voice' domain registered on the Sinch Client
+// Access the 'voice' controller registered on the Sinch Client
 const calloutResponse: GetCalloutResponseObj 
     = await sinch.voice.callouts.tts(requestData);
 ```
@@ -76,7 +76,7 @@ The SDK can be used standalone if you need to use only the Voice APIs.
 
 ```typescript
 import {
-  SinchClientParameters
+  ApplicationCredentials
  } from '@sinch/sdk-client';
 import {
   TtsCalloutRequestData,
@@ -84,12 +84,12 @@ import {
   Voice,
 } from '@sinch/voice';
 
-const credentials: SinchClientParameters = {
+const credentials: ApplicationCredentials = {
   applicationKey: 'APPLICATION_ID',
   applicationSecret: 'APPLICATION_SECRET',
 };
 
-// Declare the 'verification' in a standalone way
+// Declare the 'voice' controller in a standalone way
 const voice = new Voice(credentials);
 
 const requestData: TtsCalloutRequestData = {
@@ -107,21 +107,21 @@ const requestData: TtsCalloutRequestData = {
   },
 };
 
-// Use the standalone declaration of the 'verification' domain
+// Use the standalone declaration of the 'voice' controller
 const calloutResponse: GetCalloutResponseObj
   = await voice.callouts.tts(requestData);
 ```
 
 ## Promises
 
-All the methods that interact with the Sinch APIs use Promises. You can use `await` in an `async` method to wait for the response or you can resolve them yourself with `then()` / `catch()`.
+All the methods that interact with the Sinch APIs use Promises. You can use `await` in an `async` method to wait for the response, or you can resolve them yourself with `then()` / `catch()`.
 
 ```typescript
-// Method 1: Wait for the Promise to complete
+// Method 1: Wait for the Promise to complete (you need to be in an 'async' method)
 let calloutResponse: GetCalloutResponseObj;
 try {
   calloutResponse = await sinch.voice.callouts.tts(requestData);
-  console.log(`callId = ${response.callId}`);
+  console.log(`callId = ${calloutResponse.callId}`);
 } catch (error: any) {
   console.error(`ERROR ${error.statusCode}: Impossible to make a TTS callout to the number ${requestData.ttsCalloutRequestBody.ttsCallout.destination.endpoint}`);
 }

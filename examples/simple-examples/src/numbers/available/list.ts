@@ -9,6 +9,7 @@ import { ListAvailableNumbersRequestData } from '@sinch/sdk-core';
   const requestData: ListAvailableNumbersRequestData= {
     regionCode: 'US',
     type: 'LOCAL',
+    capabilities: ['SMS', 'VOICE'],
   };
 
   const sinchClient = initClient();

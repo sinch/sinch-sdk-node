@@ -21,6 +21,7 @@ const populateActiveNumbersList = (
   const requestData: ListActiveNumbersRequestData = {
     regionCode: 'US',
     type: 'LOCAL',
+    capability: 'SMS',
     pageSize: 2,
   };
 
