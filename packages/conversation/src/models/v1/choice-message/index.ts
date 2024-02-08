@@ -1,1 +1,1 @@
-export type { ChoiceMessage } from './choice-message';
+export type { ChoiceMessage, ChoiceMessageItem } from './choice-message';

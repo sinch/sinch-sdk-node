@@ -1,1 +1,8 @@
-export type { Choice } from './choice';
+export type {
+  Choice,
+  ChoiceBase,
+  CallMessageChoice,
+  LocationMessageChoice,
+  TextMessageChoice,
+  UrlMessageChoice,
+} from './choice';

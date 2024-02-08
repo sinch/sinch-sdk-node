@@ -1,4 +1,4 @@
-import { CardMessage } from '../card-message';
+import { CardMessageItem } from '../card-message';
 import { Choice } from '../choice';
 
 /**
@@ -13,7 +13,7 @@ export interface CarouselMessage {
 export interface CarouselMessageItem {
 
   /** A list of up to 10 cards. */
-  cards: CardMessage[];
+  cards: CardMessageItem[];
   /** Optional. Outer choices on the carousel level. The number of outer choices is limited to 3. */
   choices?: Choice[];
 }

@@ -1,1 +1,1 @@
-export type { ChoiceItem } from './choice-item';
+export type { ChoiceItem, ChoiceItemItem } from './choice-item';

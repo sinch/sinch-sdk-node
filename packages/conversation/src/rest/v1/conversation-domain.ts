@@ -7,6 +7,8 @@ import { TranscodingApi } from './transcoding';
 import { CapabilityApi } from './capability';
 import { ConversationApi } from './conversation';
 import { WebhooksApi } from './webhooks';
+import { TemplatesV1Api } from './templates-v1';
+import { TemplatesV2Api } from './templates-v2';
 
 export class ConversationDomain {
   public readonly contact: ContactApi;
@@ -17,6 +19,9 @@ export class ConversationDomain {
   public readonly capability: CapabilityApi;
   public readonly conversation: ConversationApi;
   public readonly webhooks: WebhooksApi;
+  public readonly templatesV1: TemplatesV1Api;
+  public readonly templatesV2: TemplatesV2Api;
+
 
   constructor(params: SinchClientParameters) {
     this.contact = new ContactApi(params);
@@ -27,6 +32,8 @@ export class ConversationDomain {
     this.capability = new CapabilityApi(params);
     this.conversation = new ConversationApi(params);
     this.webhooks = new WebhooksApi(params);
+    this.templatesV1 = new TemplatesV1Api(params);
+    this.templatesV2 = new TemplatesV2Api(params);
   }
 
   /**
@@ -43,5 +50,7 @@ export class ConversationDomain {
     this.capability.setBasePath(basePath);
     this.conversation.setBasePath(basePath);
     this.webhooks.setBasePath(basePath);
+    this.templatesV1.setBasePath(basePath);
+    this.templatesV2.setBasePath(basePath);
   }
 }

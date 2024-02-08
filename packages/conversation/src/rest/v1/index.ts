@@ -5,6 +5,8 @@ export * from './contact';
 export * from './conversation';
 export * from './events';
 export * from './messages';
+export * from './templates-v1';
+export * from './templates-v2';
 export * from './transcoding';
 export * from './webhooks';
 export * from './enums';

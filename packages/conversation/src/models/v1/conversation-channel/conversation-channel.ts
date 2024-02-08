@@ -17,3 +17,13 @@ export type ConversationChannel =
   | 'WECHAT'
   | 'APPLEBC'
   | 'CHANNEL_UNSPECIFIED';
+
+export type TemplateChannel =
+  'UNSPECIFIED'
+  | 'CONVERSATION'
+  | 'MESSENGER'
+  | 'WHATSAPP'
+  | 'RCS'
+  | 'SMS'
+  | 'VIBER'
+  | 'VIBERBM';

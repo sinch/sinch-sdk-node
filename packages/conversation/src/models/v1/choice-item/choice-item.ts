@@ -1,6 +1,10 @@
 import { MediaMessage } from '../media-message';
 
 export interface ChoiceItem {
+  choice: ChoiceItemItem;
+}
+
+export interface ChoiceItemItem {
 
   /** Required parameter. Title for the choice item. */
   title: string;

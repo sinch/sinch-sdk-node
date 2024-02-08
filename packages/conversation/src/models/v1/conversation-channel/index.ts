@@ -1,1 +1,1 @@
-export type { ConversationChannel } from './conversation-channel';
+export type { ConversationChannel, TemplateChannel } from './conversation-channel';
