@@ -1,0 +1,26 @@
+import { V2GetTemplateRequestData } from '@sinch/sdk-core';
+import { getPrintFormat, getTemplateIdFromConfig, initClient, printFullResponse } from '../../config';
+
+(async () => {
+  console.log('****************************');
+  console.log('* Templates_v2_GetTemplate *');
+  console.log('****************************');
+
+  const templateId = getTemplateIdFromConfig();
+
+  const requestData: V2GetTemplateRequestData = {
+    template_id: templateId,
+  };
+
+  const sinchClient = initClient();
+  const response = await sinchClient.conversation.templatesV2.get(requestData);
+
+  const printFormat = getPrintFormat(process.argv);
+
+  if (printFormat === 'pretty') {
+    console.log(`Template retrieved from id '${response.id}'.\nDefault translation: ${response.default_translation} - Version: ${response.version}\nList of translations: ${response.translations?.map((translation) => translation.language_code).join(', ')}`);
+  } else {
+    printFullResponse(response);
+  }
+
+})();

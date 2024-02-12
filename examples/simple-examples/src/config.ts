@@ -133,6 +133,10 @@ export const getWebhookTargetFromConfig = () => {
   return readVariable('WEBHOOK_TARGET');
 };
 
+export const getTemplateIdFromConfig = () => {
+  return readVariable('TEMPLATE_ID');
+};
+
 const readVariable = ( name: string): string => {
   const value = process.env[name];
   if (!value) {

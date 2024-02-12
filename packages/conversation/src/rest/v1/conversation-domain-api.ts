@@ -25,8 +25,24 @@ export class ConversationDomainApi implements Api {
    * @param {string} basePath - The new base path to use for the APIs.
    */
   public setBasePath(basePath: string) {
-    this.client = this.getSinchClient();
-    this.client.apiClientOptions.basePath = basePath;
+    try {
+      this.client = this.getSinchClient();
+      this.client.apiClientOptions.basePath = basePath;
+    } catch (error) {
+      console.error('Impossible to set a new base path, the credentials need to be provided first.');
+      throw error;
+    }
+  }
+
+  /**
+   * Update the region in the basePath
+   * @param {Region} region - The new region to send the requests to
+   */
+  public setRegion(region: Region) {
+    this.sinchClientParameters.region = region;
+    if (this.client) {
+      this.client.apiClientOptions.basePath = this.buildBasePath(region);
+    }
   }
 
   /**
@@ -67,7 +83,7 @@ export class ConversationDomainApi implements Api {
       }
       const apiClientOptions = this.buildApiClientOptions(this.sinchClientParameters);
       this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.basePath = `https://${region}.conversation.api.sinch.com`;
+      this.client.apiClientOptions.basePath = this.buildBasePath(region);
     }
     return this.client;
   }
@@ -82,6 +98,16 @@ export class ConversationDomainApi implements Api {
       requestPlugins: [new Oauth2TokenRequest( params.keyId,  params.keySecret)],
       useServicePlanId: false,
     };
+  }
+
+  private buildBasePath(region: Region) {
+    switch (this.apiName) {
+    case 'TemplatesV1Api':
+    case 'TemplatesV2Api':
+      return `https://${region}.template.api.sinch.com`;
+    default:
+      return `https://${region}.conversation.api.sinch.com`;
+    }
   }
 
 }
