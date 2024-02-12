@@ -7,14 +7,17 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import { VerificationStatusApi } from './verification-status';
 import { VerificationsApi } from './verifications';
+import { CallbackWebhooks } from './callbacks';
 
 export class Verification {
   public readonly verificationStatus: VerificationStatusApi;
   public readonly verifications: VerificationsApi;
+  public readonly callbacks: CallbackWebhooks;
 
   constructor(params: SinchClientParameters) {
     this.verificationStatus = new VerificationStatusApi(params);
     this.verifications = new VerificationsApi(params);
+    this.callbacks = new CallbackWebhooks(params);
   }
 
   /**

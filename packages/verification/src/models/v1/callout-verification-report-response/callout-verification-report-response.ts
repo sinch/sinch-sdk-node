@@ -1,11 +1,4 @@
-/**
- * Model: CalloutVerificationReportResponse
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-import { FlashcallVerificationReportResponsePrice } from '../flashcall-verification-report-response-price';
+import { VerificationReportResponsePrice } from '../verification-report-response-price';
 import { VerificationStatusEnum } from '../enums';
 import { Identity } from '../identity';
 
@@ -14,7 +7,7 @@ export interface CalloutVerificationReportResponse {
   /** The unique ID of the verification request. */
   id?: string;
   /** The method of the verification request. This will always be `callout`. */
-  method?: MethodEnum;
+  method?: 'callout';
   /** The status of the verification request. */
   status?: VerificationStatusEnum;
   /** Displays the reason why a verification has `FAILED`, was `DENIED`, or was `ABORTED`. */
@@ -23,8 +16,8 @@ export interface CalloutVerificationReportResponse {
   callComplete?: boolean;
   /** The reference ID that was optionally passed together with the verification request. */
   reference?: string;
-  /** @see FlashcallVerificationReportResponsePrice */
-  price?: FlashcallVerificationReportResponsePrice;
+  /** @see VerificationReportResponsePrice */
+  price?: VerificationReportResponsePrice;
   /** */
   identity?: Identity;
   /** */
@@ -35,7 +28,6 @@ export interface CalloutVerificationReportResponse {
   callResult?: string;
 }
 
-export type MethodEnum = 'callout';
 export type ReasonEnum = 'Fraud'
   | 'Not enough credit'
   | 'Blocked'

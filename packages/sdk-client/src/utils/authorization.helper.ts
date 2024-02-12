@@ -2,28 +2,17 @@ import crypto from 'crypto';
 import { IncomingHttpHeaders } from 'http';
 import { RequestBody } from '../plugins';
 
-export const calculateMD5 = (body: string): string => {
-  // Content-MD5 = Base64 ( MD5 ( UTF8 ( [BODY] ) ) )
-  return crypto.createHash('md5').update(Buffer.from(body, 'utf-8')).digest('base64');
-};
-
-export const calculateSignature = (secret: string, stringToSign: string): string => {
-  // Signature = Base64 ( HMAC-SHA256 ( Base64-Decode ( ApplicationSecret ), UTF8 ( StringToSign ) ) );
-  return crypto.createHmac('sha256', Buffer.from(secret, 'base64'))
-    .update(Buffer.from(stringToSign, 'utf-8'))
-    .digest('base64');
-};
-
-const buildStringToSign = (
-  httpVerb: string,
-  contentMD5: string,
-  contentType: string,
-  canonicalizedHeaders: string,
-  canonicalizedResource: string,
-): string => {
-  return `${httpVerb}\n${contentMD5}\n${contentType}\n${canonicalizedHeaders}\n${canonicalizedResource}`;
-};
-
+/**
+ * Generate authorization header for application-signed requests (Verification and Voice)
+ * @param {string} httpVerb - request's HTTP method
+ * @param {RequestBody | undefined} body - request's body (undefined in case of GET request)
+ * @param {string} contentType - content-type header value
+ * @param {string} canonicalizedHeaders - x-timestamp header
+ * @param {string} canonicalizedResource - request's path
+ * @param {string} applicationKey - application key (from dashboard)
+ * @param {string} applicationSecret - application secret (from dashboard)
+ * @return {string} - Application signed header value for HTTP authorization header
+ */
 export const generateAuthorizationHeader = (
   httpVerb: string,
   body: RequestBody | undefined,
@@ -46,6 +35,16 @@ export const generateAuthorizationHeader = (
   return `Application ${applicationKey}:${signature}`;
 };
 
+/**
+ * Validate authorization header for callback request on application-signed protected endpoints (Verification and Voice webhooks)
+ * @param {string} applicationKey - application key (from dashboard) related to the event
+ * @param {string} applicationSecret - application secret (from dashboard) related to the event
+ * @param {IncomingHttpHeaders} headers - Incoming request's headers
+ * @param {string} path - Incoming request's path
+ * @param {any} body - Incoming request's body
+ * @param {string} method - Incoming request's HTTP method
+ * @return {boolean} - true if the authorization header is valid
+ */
 export const validateAuthenticationHeader = (
   applicationKey: string,
   applicationSecret: string,
@@ -88,6 +87,9 @@ export const validateAuthenticationHeader = (
   return false;
 };
 
+// ////////////////
+// UTILITY METHODS
+
 const validateApplicationAuth = (
   authorizationValue: string,
   normalizedHeaders: {[p: string]: string | string[]},
@@ -125,6 +127,28 @@ const validateApplicationAuth = (
   }
 
   return true;
+};
+
+export const calculateMD5 = (body: string): string => {
+  // Content-MD5 = Base64 ( MD5 ( UTF8 ( [BODY] ) ) )
+  return crypto.createHash('md5').update(Buffer.from(body, 'utf-8')).digest('base64');
+};
+
+export const calculateSignature = (secret: string, stringToSign: string): string => {
+  // Signature = Base64 ( HMAC-SHA256 ( Base64-Decode ( ApplicationSecret ), UTF8 ( StringToSign ) ) );
+  return crypto.createHmac('sha256', Buffer.from(secret, 'base64'))
+    .update(Buffer.from(stringToSign, 'utf-8'))
+    .digest('base64');
+};
+
+const buildStringToSign = (
+  httpVerb: string,
+  contentMD5: string,
+  contentType: string,
+  canonicalizedHeaders: string,
+  canonicalizedResource: string,
+): string => {
+  return `${httpVerb}\n${contentMD5}\n${contentType}\n${canonicalizedHeaders}\n${canonicalizedResource}`;
 };
 
 const checkAuthorizationHeaderFormat = (authorizationHeader: string) => {

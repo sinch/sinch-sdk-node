@@ -4,9 +4,9 @@ import { NumbersService } from '../services/numbers.service';
 import {
   parseNumbersEventNotification,
   parseSmsEventNotification,
-  parseVerificationEventNotification,
   parseVoiceEventNotification,
   validateAuthenticationHeader,
+  SinchClient,
 } from '@sinch/sdk-core';
 import { SmsService } from '../services/sms.service';
 import { VerificationService } from '../services/verification.service';
@@ -56,14 +56,18 @@ export class AppController {
     // console.log(request.headers);
     // console.log(request.body);
     // console.log(request['rawBody']);
-    const validated = validateAuthenticationHeader(SINCH_APPLICATION_KEY, SINCH_APPLICATION_SECRET,
+    const sinchClient = new SinchClient({
+      applicationKey: SINCH_APPLICATION_KEY,
+      applicationSecret: SINCH_APPLICATION_SECRET
+    });
+    const validated = sinchClient.verification.callbacks.validateAuthorizationHeader(
       request.headers, request.path, request['rawBody'], request.method);
     if (!validated) {
       res.status(401).send('Invalid authorization');
       return;
     }
     try {
-      const event = parseVerificationEventNotification(request.body);
+      const event = sinchClient.verification.callbacks.parseVerificationEventNotification(request.body);
       this.verificationService.handleEvent(event, res);
     } catch (error) {
       console.error(error);

@@ -1,12 +1,4 @@
 /**
- * Model: Identity
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-
-/**
  * Specifies the type of endpoint that will be verified and the particular endpoint. `number` is currently the only supported endpoint type.
  */
 export interface Identity {

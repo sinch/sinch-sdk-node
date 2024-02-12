@@ -1,9 +1,11 @@
-import { ReportVerificationByIdentityRequestData } from '@sinch/sdk-core';
+import { verificationsHelper } from '@sinch/sdk-core';
 import {
+  getPrintFormat,
   getVerificationCliFromConfig,
   getVerificationIdentityFromConfig,
+  initApplicationClient,
+  printFullResponse,
 } from '../../../config';
-import { reportWithIdentity } from '../report-with-identity';
 
 (async () => {
   console.log('*********************************************');
@@ -13,15 +15,18 @@ import { reportWithIdentity } from '../report-with-identity';
   const verificationIdentity = getVerificationIdentityFromConfig();
   const verificationCli = getVerificationCliFromConfig();
 
-  const requestData: ReportVerificationByIdentityRequestData = {
-    endpoint: verificationIdentity,
-    verificationReportRequestBody: {
-      method: 'flashCall',
-      flashCall: {
-        cli: verificationCli,
-      },
-    },
-  };
+  const requestData = verificationsHelper.buildReportFlashCallVerificationByIdentityRequest(
+    verificationIdentity, verificationCli);
 
-  await reportWithIdentity(requestData);
+  const sinchClient = initApplicationClient();
+  const response = await sinchClient.verification.verifications.reportFlashCallByIdentity(requestData);
+
+  const printFormat = getPrintFormat(process.argv);
+
+  if (printFormat === 'pretty') {
+    console.log(`FlashCall verification status: ${response.status}${response.status === 'SUCCESSFUL'?'':' - Reason: ' + response.reason}`);
+  } else {
+    printFullResponse(response);
+  }
+
 })();

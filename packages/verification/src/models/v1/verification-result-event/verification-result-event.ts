@@ -1,10 +1,3 @@
-/**
- * Model: VerificationResultEvent
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { Identity } from '../identity';
 import { VerificationStatusEnum } from '../enums';
 
@@ -31,6 +24,7 @@ export interface VerificationResultEvent {
 }
 
 export type MethodEnum = 'sms' | 'flashcall' | 'callout' | 'seamless';
+
 export type ReasonEnum = 'Fraud'
   | 'Not enough credit'
   | 'Blocked'
@@ -45,5 +39,5 @@ export type ReasonEnum = 'Fraud'
   | 'Invalid code'
   | 'Expired'
   | 'Hung up without entering valid code';
-export type SourceEnum = 'intercepted' | 'manual';
 
+export type SourceEnum = 'intercepted' | 'manual';

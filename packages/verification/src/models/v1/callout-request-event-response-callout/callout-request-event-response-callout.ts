@@ -1,10 +1,3 @@
-/**
- * Model: CalloutRequestEventResponseCallout
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { CalloutRequestEventResponseCalloutSpeech } from '../callout-request-event-response-callout-speech';
 
 export interface CalloutRequestEventResponseCallout {
@@ -14,5 +7,3 @@ export interface CalloutRequestEventResponseCallout {
   /** @see CalloutRequestEventResponseCalloutSpeech */
   speech?: CalloutRequestEventResponseCalloutSpeech;
 }
-
-

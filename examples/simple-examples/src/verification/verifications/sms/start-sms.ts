@@ -1,6 +1,10 @@
-import { StartVerificationRequestData } from '@sinch/sdk-core';
-import { startVerification } from '../start';
-import { getVerificationIdentityFromConfig } from '../../../config';
+import { verificationsHelper } from '@sinch/sdk-core';
+import {
+  getPrintFormat,
+  getVerificationIdentityFromConfig,
+  initApplicationClient,
+  printFullResponse,
+} from '../../../config';
 
 (async () => {
   console.log('***************************');
@@ -9,16 +13,21 @@ import { getVerificationIdentityFromConfig } from '../../../config';
 
   const verificationIdentity = getVerificationIdentityFromConfig();
 
-  const requestData: StartVerificationRequestData = {
-    initiateVerificationRequestBody: {
-      identity: {
-        type: 'number',
-        endpoint: verificationIdentity,
-      },
-      method: 'sms',
-      reference: `test-reference-for-sms-verification_${verificationIdentity}`,
-    },
-  };
+  const requestData = verificationsHelper.buildStartSmsVerificationRequest(
+    verificationIdentity,
+    `test-reference-for-sms-verification_${verificationIdentity}`,
+  );
 
-  await startVerification(requestData);
+  const sinchClient = initApplicationClient();
+  const response = await sinchClient.verification.verifications.startSms(requestData);
+
+  const printFormat = getPrintFormat(process.argv);
+
+  if (printFormat === 'pretty') {
+    console.log(`Verification ID = ${response.id}`);
+    console.log(`SMS verification specific field: template = ${response.sms?.template}`);
+  } else {
+    printFullResponse(response);
+  }
+
 })();

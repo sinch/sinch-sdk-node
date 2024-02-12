@@ -1,20 +1,13 @@
-/**
- * Model: SMSVerificationReportResponse
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-import { SMSVerificationReportResponsePrice } from '../sms-verification-report-response-price';
 import { VerificationStatusEnum } from '../enums';
 import { Identity } from '../identity';
+import { SMSVerificationReportResponsePrice } from '../verification-report-response-price';
 
 export interface SMSVerificationReportResponse {
 
   /** The unique ID of the verification request. */
   id?: string;
   /** The method of the verification request. This will always be `sms`. */
-  method?: MethodEnum;
+  method?: 'sms';
   /** The status of the verification request. */
   status?: VerificationStatusEnum;
   /** Displays the reason why a verification has `FAILED`, was `DENIED`, or was `ABORTED`. */
@@ -32,7 +25,7 @@ export interface SMSVerificationReportResponse {
   /** */
   verificationTimestamp?: Date;
 }
-export type MethodEnum = 'sms';
+
 export type ReasonEnum = 'Fraud'
   | 'Not enough credit'
   | 'Blocked'
@@ -47,5 +40,6 @@ export type ReasonEnum = 'Fraud'
   | 'Invalid code'
   | 'Expired'
   | 'Hung up without entering valid code';
+
 export type SourceEnum = 'intercepted' | 'manual';
 

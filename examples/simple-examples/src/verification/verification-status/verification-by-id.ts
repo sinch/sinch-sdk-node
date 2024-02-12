@@ -18,13 +18,7 @@ import {
   };
 
   const sinchClient = initApplicationClient();
-  let response;
-  try {
-    response = await sinchClient.verification.verificationStatus.getById(requestData);
-  } catch (error) {
-    console.log(`Impossible to get the verification status for the id ${requestData.id}`);
-    throw error;
-  }
+  const response = await sinchClient.verification.verificationStatus.getById(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

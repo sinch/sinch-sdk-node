@@ -1,6 +1,10 @@
-import { StartVerificationRequestData } from '@sinch/sdk-core';
-import { startVerification } from '../start';
-import { getVerificationIdentityFromConfig } from '../../../config';
+import { verificationsHelper } from '@sinch/sdk-core';
+import {
+  getPrintFormat,
+  getVerificationIdentityFromConfig,
+  initApplicationClient,
+  printFullResponse,
+} from '../../../config';
 
 (async () => {
   console.log('*******************************');
@@ -9,16 +13,19 @@ import { getVerificationIdentityFromConfig } from '../../../config';
 
   const verificationIdentity = getVerificationIdentityFromConfig();
 
-  const requestData: StartVerificationRequestData = {
-    initiateVerificationRequestBody: {
-      identity: {
-        type: 'number',
-        endpoint: verificationIdentity,
-      },
-      method: 'callout',
-      reference: `test-reference-for-callout-verification_${verificationIdentity}`,
-    },
-  };
+  const requestData = verificationsHelper.buildStartCalloutVerificationRequest(
+    verificationIdentity,
+    `test-reference-for-callout-verification_${verificationIdentity}`,
+  );
 
-  await startVerification(requestData);
+  const sinchClient = initApplicationClient();
+  const response = await sinchClient.verification.verifications.startCallout(requestData);
+
+  const printFormat = getPrintFormat(process.argv);
+
+  if (printFormat === 'pretty') {
+    console.log(`Verification ID = ${response.id}`);
+  } else {
+    printFullResponse(response);
+  }
 })();

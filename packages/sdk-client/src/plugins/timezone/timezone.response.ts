@@ -3,10 +3,16 @@ import { PluginRunner } from '../core';
 
 const buggyOperationIds: string[] = [
   'GetCallResult',
+  'VerificationStatusById',
+  'VerificationStatusByIdentity',
+  'VerificationStatusByReference',
 ];
 
 const buggyFields: Record<string, string>  = {
   'GetCallResult': 'timestamp',
+  'VerificationStatusById': 'verificationTimestamp',
+  'VerificationStatusByIdentity': 'verificationTimestamp',
+  'VerificationStatusByReference': 'verificationTimestamp',
 };
 
 export class TimezoneResponse<V extends Record<string, any> | undefined = Record<string, any>>
@@ -23,11 +29,19 @@ implements ResponsePlugin<V | Record<string, any>> {
             if (Object.prototype.hasOwnProperty.call(res, key)) {
               const buggyKey = buggyFields[context.operationId];
               if (key === buggyKey && typeof res[buggyKey] === 'string') {
-                const timestampValue = res[key] as string;
-                const timeZoneRegex = /([+-]\d{2}(:\d{2})?|Z)$/;
+                let timestampValue = res[key] as string;
+                // Check the formats +XX:XX, +XX and Z
+                const timeZoneRegex = /([+-]\d{2}(:\d{2})|Z)$/;
                 if (!timeZoneRegex.test(timestampValue)) {
-                  res[key] = timestampValue + 'Z';
+                  const hourMinutesTimezoneRegex = /([+-]\d{2})$/;
+                  // A timestamp with no minutes in the timezone cannot be converted into a Date => assume it's :00
+                  if (hourMinutesTimezoneRegex.test(timestampValue)) {
+                    timestampValue = timestampValue + ':00';
+                  } else {
+                    timestampValue = timestampValue + 'Z';
+                  }
                 }
+                res[key] = new Date(timestampValue);
               }
             }
           }

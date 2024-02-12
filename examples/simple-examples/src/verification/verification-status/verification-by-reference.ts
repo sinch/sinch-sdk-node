@@ -18,13 +18,7 @@ import {
   };
 
   const sinchClient = initApplicationClient();
-  let response;
-  try {
-    response = await sinchClient.verification.verificationStatus.getByReference(requestData);
-  } catch (error) {
-    console.log(`Impossible to get the verification status for the reference ${requestData.reference}`);
-    throw error;
-  }
+  const response = await sinchClient.verification.verificationStatus.getByReference(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 
