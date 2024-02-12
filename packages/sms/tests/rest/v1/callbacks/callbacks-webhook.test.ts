@@ -1,13 +1,19 @@
-import { parseSmsEventNotification } from '../../../../src';
+import { SmsCallbackWebhooks } from '../../../../src';
 
 describe('SMS Callback Webhook', () => {
+  let callbackWebhooks: SmsCallbackWebhooks;
+
+  beforeEach(() => {
+    callbackWebhooks = new SmsCallbackWebhooks();
+  });
+
 
   it('should not throw an error when parsing the \'mo_text\' event', () => {
     const payload = {
       type:  'mo_text',
       body: 'This is the SMS body',
     };
-    const parsedResultFunction = () => parseSmsEventNotification(payload);
+    const parsedResultFunction = () => callbackWebhooks.parseSmsEventNotification(payload);
     expect(parsedResultFunction).not.toThrow();
   });
 
@@ -17,7 +23,7 @@ describe('SMS Callback Webhook', () => {
       body: 'VGhpcyBpcyB0aGUgU01TIGJvZHk=',
       udh: '5573657244617461486561646572',
     };
-    const parsedResultFunction = () => parseSmsEventNotification(payload);
+    const parsedResultFunction = () => callbackWebhooks.parseSmsEventNotification(payload);
     expect(parsedResultFunction).not.toThrow();
   });
 
@@ -37,7 +43,7 @@ describe('SMS Callback Webhook', () => {
         },
       ],
     };
-    const parsedResultFunction = () => parseSmsEventNotification(payload);
+    const parsedResultFunction = () => callbackWebhooks.parseSmsEventNotification(payload);
     expect(parsedResultFunction).not.toThrow();
   });
 
@@ -57,7 +63,7 @@ describe('SMS Callback Webhook', () => {
         },
       ],
     };
-    const parsedResultFunction = () => parseSmsEventNotification(payload);
+    const parsedResultFunction = () => callbackWebhooks.parseSmsEventNotification(payload);
     expect(parsedResultFunction).not.toThrow();
   });
 
@@ -65,7 +71,7 @@ describe('SMS Callback Webhook', () => {
     const payload = {
       unknownProperty: 'anyValue',
     };
-    const parsedResultFunction = () => parseSmsEventNotification(payload);
+    const parsedResultFunction = () => callbackWebhooks.parseSmsEventNotification(payload);
     expect(parsedResultFunction).toThrow('Unknown SMS event');
   });
 
@@ -73,7 +79,7 @@ describe('SMS Callback Webhook', () => {
     const payload = {
       type: 'unknown',
     };
-    const parsedResultFunction = () => parseSmsEventNotification(payload);
+    const parsedResultFunction = () => callbackWebhooks.parseSmsEventNotification(payload);
     expect(parsedResultFunction).toThrow('Unknown SMS event type: unknown');
   });
 

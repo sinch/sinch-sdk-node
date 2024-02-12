@@ -1,8 +1,8 @@
-import { CallbackWebhooks } from '../../../../src';
+import { VerificationCallbackWebhooks } from '../../../../src';
 import { SinchClientParameters } from '@sinch/sdk-client';
 
 describe('Verification Callback Webhook', () => {
-  let callbackWebhooks: CallbackWebhooks;
+  let callbackWebhooks: VerificationCallbackWebhooks;
   let sinchClientParameters: SinchClientParameters;
 
   const CONTENT_TYPE = 'application/json; charset=utf-8';
@@ -16,7 +16,7 @@ describe('Verification Callback Webhook', () => {
       applicationKey: 'app-key',
       applicationSecret: 'app-secret',
     };
-    callbackWebhooks = new CallbackWebhooks(sinchClientParameters);
+    callbackWebhooks = new VerificationCallbackWebhooks(sinchClientParameters);
   });
 
   it('should authorize a valid authorization header', () => {

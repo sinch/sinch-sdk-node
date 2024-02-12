@@ -4,9 +4,9 @@ import { IncomingHttpHeaders } from 'http';
 
 export type VerificationCallback = VerificationRequestEvent | VerificationResultEvent;
 
-export class CallbackWebhooks {
+export class VerificationCallbackWebhooks {
 
-  private sinchClientParameters: SinchClientParameters;
+  private readonly sinchClientParameters: SinchClientParameters;
 
   constructor(sinchClientParameters: SinchClientParameters) {
     this.sinchClientParameters = sinchClientParameters;

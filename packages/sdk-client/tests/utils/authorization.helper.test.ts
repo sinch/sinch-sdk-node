@@ -2,7 +2,7 @@ import {
   calculateMD5,
   calculateSignature,
   generateAuthorizationHeader,
-  validateAuthenticationHeader,
+  validateAuthenticationHeader, validateSignatureHeader,
 } from '../../src';
 
 describe('Authorization validation', () => {
@@ -170,6 +170,46 @@ describe('Authorization validation', () => {
       METHOD,
     );
 
+    expect(validated).toBeFalsy();
+  });
+
+  it('should validate the signature header when valid', () => {
+    const headers = {
+      'X-Sinch-Signature': 'b93021e0182c2772dbcdf4e8983ae8f409e78c3b',
+    };
+    const secret = 'my-callback-secret';
+    const stringToSign = `{"eventId":"01hpa0mww4m79q8j2dwn3ggbgz","timestamp":"2024-02-10T17:22:09.412722588","projectId":"37b62a7b-0177-abcd-efgh-e10f848de123","resourceId":"+17818510001","resourceType":"ACTIVE_NUMBER","eventType":"DEPROVISIONING_FROM_VOICE_PLATFORM","status":"SUCCEEDED","failureCode":null}`;
+    const validated = validateSignatureHeader(
+      secret,
+      headers,
+      stringToSign,
+    );
+    expect(validated).toBeTruthy();
+  });
+
+  it('should reject the signature header when missing', () => {
+    const headers = {};
+    const secret = 'my-callback-secret';
+    const stringToSign = `{"eventId":"01hpa0mww4m79q8j2dwn3ggbgz","timestamp":"2024-02-10T17:22:09.412722588","projectId":"37b62a7b-0177-abcd-efgh-e10f848de123","resourceId":"+17818510001","resourceType":"ACTIVE_NUMBER","eventType":"DEPROVISIONING_FROM_VOICE_PLATFORM","status":"SUCCEEDED","failureCode":null}`;
+    const validated = validateSignatureHeader(
+      secret,
+      headers,
+      stringToSign,
+    );
+    expect(validated).toBeFalsy();
+  });
+
+  it('should reject the signature header when invalid', () => {
+    const headers = {
+      'X-Sinch-Signature': 'invalid-signature',
+    };
+    const secret = 'my-callback-secret';
+    const stringToSign = `{"eventId":"01hpa0mww4m79q8j2dwn3ggbgz","timestamp":"2024-02-10T17:22:09.412722588","projectId":"37b62a7b-0177-abcd-efgh-e10f848de123","resourceId":"+17818510001","resourceType":"ACTIVE_NUMBER","eventType":"DEPROVISIONING_FROM_VOICE_PLATFORM","status":"SUCCEEDED","failureCode":null}`;
+    const validated = validateSignatureHeader(
+      secret,
+      headers,
+      stringToSign,
+    );
     expect(validated).toBeFalsy();
   });
 

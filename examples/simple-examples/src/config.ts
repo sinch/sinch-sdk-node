@@ -33,6 +33,10 @@ export const getPhoneNumberFromConfig = (): string => {
   return readVariable('PHONE_NUMBER');
 };
 
+export const getNumberCallbackUrlFromConfig= (): string => {
+  return readVariable('NUMBER_CALLBACK_URL');
+};
+
 export const readServicePlanId = (): string | undefined => {
   return process.env.SINCH_SERVICE_PLAN_ID;
 };

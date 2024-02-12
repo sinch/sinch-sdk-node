@@ -53,14 +53,12 @@ export const validateAuthenticationHeader = (
   body: any,
   method: string,
 ): boolean => {
-  const normalizedHeaders = Object.fromEntries(
-    Object.entries(headers)
-      .map(([key, value]) => [key.toLowerCase(), value])
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .filter(([_, value]) => value !== undefined),
-  ) as { [p: string]: string | string[] };
+  const normalizedHeaders = normalizeHeaders(headers);
 
   const authorization = getHeader(normalizedHeaders.authorization);
+  if (typeof authorization === 'undefined') {
+    return false;
+  }
   const authParts = checkAuthorizationHeaderFormat(authorization);
   if (null === authParts) {
     return false;
@@ -87,8 +85,42 @@ export const validateAuthenticationHeader = (
   return false;
 };
 
+/**
+ * Validate signature headers for Numbers callback. Note: a callbackURL must be associated to the number
+ * @param {string} callbackSecret - secret associated to the rented number
+ * @param {IncomingHttpHeaders} headers - Incoming request's headers
+ * @param {any} body - Incoming request's body
+ * @return {boolean} - true if the signature header is valid
+ */
+export const validateSignatureHeader = (
+  callbackSecret: string,
+  headers: IncomingHttpHeaders,
+  body: any,
+): boolean => {
+  const normalizedHeaders = normalizeHeaders(headers);
+  const signature = getHeader(normalizedHeaders['x-sinch-signature']);
+  if (typeof signature === 'undefined') {
+    return false;
+  }
+  const expectedSignature = computeHmacSignature(body, callbackSecret);
+  return signature === expectedSignature;
+};
+
 // ////////////////
 // UTILITY METHODS
+
+const normalizeHeaders = (headers: IncomingHttpHeaders) => {
+  return Object.fromEntries(
+    Object.entries(headers)
+      .map(([key, value]) => [key.toLowerCase(), value])
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .filter(([_, value]) => value !== undefined),
+  ) as { [p: string]: string | string[] };
+};
+
+const computeHmacSignature = (body: string, secret: string): string => {
+  return crypto.createHmac('sha1', secret).update(body).digest('hex');
+};
 
 const validateApplicationAuth = (
   authorizationValue: string,
