@@ -56,8 +56,8 @@ describe('Authorization validation', () => {
       APPLICATION_KEY,
       APPLICATION_SECRET,
       headers,
-      PATH,
       BODY,
+      PATH,
       METHOD,
     );
 

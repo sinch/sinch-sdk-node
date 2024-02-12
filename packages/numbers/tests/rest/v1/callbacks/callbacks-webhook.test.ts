@@ -15,7 +15,7 @@ describe('Callback Webhook', () => {
     const headers = {
       'X-Sinch-Signature': 'dcf80daac2f232f4b23d5f719db3aa0fdca6af43',
     };
-    const validationStatus = callbackWebhooks.validateRequestIntegrity(
+    const validationStatus = callbackWebhooks.validateAuthenticationHeader(
       headers, BODY,
     );
     return expect(validationStatus).toBeTruthy();
@@ -32,7 +32,7 @@ describe('Callback Webhook', () => {
       status: 'FAILED',
       failureCode: 'CAMPAIGN_NOT_AVAILABLE',
     };
-    const parsedPayload = callbackWebhooks.parseNumbersEventNotification(payload);
+    const parsedPayload = callbackWebhooks.parseEvent(payload);
     expect(parsedPayload.timestamp instanceof Date).toBeTruthy();
     const expectedDate = new Date('2023-06-06T07:45:27.785357Z');
     expect(parsedPayload.timestamp).toEqual(expectedDate);
@@ -49,7 +49,7 @@ describe('Callback Webhook', () => {
       status: 'FAILED',
       failureCode: 'CAMPAIGN_NOT_AVAILABLE',
     };
-    const parsedPayload = callbackWebhooks.parseNumbersEventNotification(payload);
+    const parsedPayload = callbackWebhooks.parseEvent(payload);
     expect(parsedPayload.timestamp instanceof Date).toBeTruthy();
     const expectedDate = new Date('2023-06-06T07:45:27.785357Z');
     expect(parsedPayload.timestamp).toEqual(expectedDate);

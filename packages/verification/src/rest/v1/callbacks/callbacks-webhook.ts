@@ -1,10 +1,10 @@
 import { VerificationRequestEvent, VerificationResultEvent } from '../../../models';
-import { SinchClientParameters, validateAuthenticationHeader } from '@sinch/sdk-client';
+import { CallbackProcessor, SinchClientParameters, validateAuthenticationHeader } from '@sinch/sdk-client';
 import { IncomingHttpHeaders } from 'http';
 
 export type VerificationCallback = VerificationRequestEvent | VerificationResultEvent;
 
-export class VerificationCallbackWebhooks {
+export class VerificationCallbackWebhooks implements CallbackProcessor<VerificationCallback>{
 
   private readonly sinchClientParameters: SinchClientParameters;
 
@@ -15,15 +15,15 @@ export class VerificationCallbackWebhooks {
   /**
    * Validate authorization header for callback request
    * @param {IncomingHttpHeaders} headers - Incoming request's headers
-   * @param {string} path - Incoming request's path
    * @param {any} body - Incoming request's body
+   * @param {string} path - Incoming request's path
    * @param {string} method - Incoming request's HTTP method
    * @return {boolean} - true if the authorization header is valid
    */
-  public validateAuthorizationHeader(
+  public validateAuthenticationHeader(
     headers: IncomingHttpHeaders,
-    path: string,
     body: any,
+    path: string,
     method: string,
   ): boolean {
     if (!this.sinchClientParameters.applicationKey || !this.sinchClientParameters.applicationSecret) {
@@ -32,7 +32,7 @@ export class VerificationCallbackWebhooks {
     return validateAuthenticationHeader(
       this.sinchClientParameters.applicationKey,
       this.sinchClientParameters.applicationSecret,
-      headers, path, body, method);
+      headers, body, path, method);
   }
 
   /**
@@ -41,7 +41,7 @@ export class VerificationCallbackWebhooks {
    * @param {any} eventBody - The event body containing the verification event notification.
    * @return {VerificationCallback} - The parsed verification event object.
    */
-  public parseVerificationEventNotification(eventBody: any): VerificationCallback {
+  public parseEvent(eventBody: any): VerificationCallback {
     if (eventBody.event) {
       switch (eventBody.event) {
       case 'VerificationRequestEvent':

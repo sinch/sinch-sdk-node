@@ -25,8 +25,8 @@ describe('Verification Callback Webhook', () => {
       'x-timestamp': X_TIMESTAMP,
       'authorization': 'Application app-key:wC8XcoLQ22cxrOsUqqbWk+LHJ82wtqR/IgeIp9NG8LY=',
     };
-    const validationStatus = callbackWebhooks.validateAuthorizationHeader(
-      headers, PATH, BODY, METHOD,
+    const validationStatus = callbackWebhooks.validateAuthenticationHeader(
+      headers, BODY, PATH, METHOD,
     );
     expect(validationStatus).toBeTruthy();
   });
@@ -37,8 +37,8 @@ describe('Verification Callback Webhook', () => {
       'x-timestamp': X_TIMESTAMP,
       'authorization': 'Application app-key:invalid-signature',
     };
-    const validationStatus = callbackWebhooks.validateAuthorizationHeader(
-      headers, PATH, BODY, METHOD,
+    const validationStatus = callbackWebhooks.validateAuthenticationHeader(
+      headers, BODY, PATH, METHOD,
     );
     expect(validationStatus).toBeFalsy();
   });
@@ -53,7 +53,7 @@ describe('Verification Callback Webhook', () => {
         endpoint: '+1234567890',
       },
     };
-    const parsedResultFunction = () => callbackWebhooks.parseVerificationEventNotification(payload);
+    const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
     expect(parsedResultFunction).not.toThrow();
   });
 
@@ -68,7 +68,7 @@ describe('Verification Callback Webhook', () => {
       },
       status: 'status',
     };
-    const parsedResultFunction = () => callbackWebhooks.parseVerificationEventNotification(payload);
+    const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
     expect(parsedResultFunction).not.toThrow();
   });
 
@@ -76,7 +76,7 @@ describe('Verification Callback Webhook', () => {
     const payload = {
       unknownProperty: 'anyValue',
     };
-    const parsedResultFunction = () => callbackWebhooks.parseVerificationEventNotification(payload);
+    const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
     expect(parsedResultFunction).toThrow('Unknown Verification event');
   });
 
@@ -84,7 +84,7 @@ describe('Verification Callback Webhook', () => {
     const payload = {
       event: 'unknown',
     };
-    const parsedResultFunction = () => callbackWebhooks.parseVerificationEventNotification(payload);
+    const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
     expect(parsedResultFunction).toThrow('Unknown Verification event type: unknown');
   });
 

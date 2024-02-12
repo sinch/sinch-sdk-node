@@ -40,8 +40,8 @@ export const generateAuthorizationHeader = (
  * @param {string} applicationKey - application key (from dashboard) related to the event
  * @param {string} applicationSecret - application secret (from dashboard) related to the event
  * @param {IncomingHttpHeaders} headers - Incoming request's headers
- * @param {string} path - Incoming request's path
  * @param {any} body - Incoming request's body
+ * @param {string} path - Incoming request's path
  * @param {string} method - Incoming request's HTTP method
  * @return {boolean} - true if the authorization header is valid
  */
@@ -49,8 +49,8 @@ export const validateAuthenticationHeader = (
   applicationKey: string,
   applicationSecret: string,
   headers: IncomingHttpHeaders,
-  path: string,
   body: any,
+  path: string,
   method: string,
 ): boolean => {
   const normalizedHeaders = normalizeHeaders(headers);

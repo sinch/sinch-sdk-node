@@ -1,10 +1,10 @@
 import { AceRequest, DiceRequest, IceRequest, NotifyRequest, PieRequest } from '../../../models';
-import { SinchClientParameters, validateAuthenticationHeader } from '@sinch/sdk-client';
+import { CallbackProcessor, SinchClientParameters, validateAuthenticationHeader } from '@sinch/sdk-client';
 import { IncomingHttpHeaders } from 'http';
 
 export type VoiceCallback = IceRequest | AceRequest | DiceRequest | PieRequest | NotifyRequest;
 
-export class VoiceCallbackWebhooks {
+export class VoiceCallbackWebhooks implements CallbackProcessor<VoiceCallback>{
   private readonly sinchClientParameters: SinchClientParameters;
 
   constructor(sinchClientParameters: SinchClientParameters) {
@@ -14,15 +14,15 @@ export class VoiceCallbackWebhooks {
   /**
    * Validate authorization header for callback request
    * @param {IncomingHttpHeaders} headers - Incoming request's headers
-   * @param {string} path - Incoming request's path
    * @param {any} body - Incoming request's body
+   * @param {string} path - Incoming request's path
    * @param {string} method - Incoming request's HTTP method
    * @return {boolean} - true if the authorization header is valid
    */
-  public validateAuthorizationHeader(
+  public validateAuthenticationHeader(
     headers: IncomingHttpHeaders,
-    path: string,
     body: any,
+    path: string,
     method: string,
   ): boolean {
     if (!this.sinchClientParameters.applicationKey || !this.sinchClientParameters.applicationSecret) {
@@ -31,7 +31,7 @@ export class VoiceCallbackWebhooks {
     return validateAuthenticationHeader(
       this.sinchClientParameters.applicationKey,
       this.sinchClientParameters.applicationSecret,
-      headers, path, body, method);
+      headers, body, path, method);
   }
 
   /**
@@ -40,7 +40,10 @@ export class VoiceCallbackWebhooks {
    * @param {any} eventBody - The event body containing the voice event notification.
    * @return {VoiceCallback} - The parsed voice event object.
    */
-  public parseVoiceEventNotification(eventBody: any): VoiceCallback {
+  public parseEvent(eventBody: any): VoiceCallback {
+    if (eventBody.timestamp) {
+      eventBody.timestamp = new Date(eventBody.timestamp);
+    }
     if (eventBody.event) {
       switch (eventBody.event) {
       case 'ice':

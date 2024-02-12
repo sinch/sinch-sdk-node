@@ -69,8 +69,8 @@ Note that in order to not mix events, the Nest.js controller is listening on the
 ```
 
 Once you received an event, there are 2 things you must do before delegating its handling to a service:
- - `validateRequestIntegrity()`: Verify the request has not been tampered with
- - `parseNumbersEventNotification()`: Revive the event: the request body needs to be parsed and revived. In the case of numbers, there is a bug in the backend that doesn't set the timezone for date fields. The SDK method will fix that for you.
+ - `validateAuthenticationHeader()`: Verify the request has not been tampered with. This method will use the `hmacSecret` you cna find with the `numbers.callbacks.get()` action
+ - `parseEvent()`: Revive the event: the request body needs to be parsed and revived. In the case of numbers, there is a bug in the backend that doesn't set the timezone for date fields. The SDK method will fix that for you.
 
 You can then safely handle the event. An example is proposed in the [numbers.service.ts](./src/services/numbers.service.ts)
 
@@ -89,7 +89,7 @@ https://your-own-id.ngrok-free.app/sms
 ```
 
 Once you receive an event, there is 1 thing you must do before delegating its handling to a service (there no request validation for this API):
-- `parseSmsEventNotification()`: Revive the event: the request body needs to be parsed and revived. In the case of SMS API, this method will just ensure the event type is valid.
+- `parseEvent()`: Revive the event: the request body needs to be parsed and revived. In the case of SMS API, this method will ensure the event type is valid and revive the `Date` types.
 
 You can then safely handle the event. An example is proposed in the [sms.service.ts](./src/services/sms.service.ts)
 
@@ -106,8 +106,8 @@ https://your-own-id.ngrok-free.app/verification
 ```
 
 Once you received an event, there are 2 things you must do before delegating its handling to a service:
- - `validateAuthorizationHeader()`: Verify the authorization header value to make sure the request has not been tampered with and is intended to your Application (you'll need your application credentials to calculate the signature hash)
- - `parseVerificationEventNotification()`: Revive the event: the request body needs to be parsed and revived. In the case of Verification API, this method will just ensure the event type is valid.
+ - `validateAuthenticationHeader()`: Verify the authorization header value to make sure the request has not been tampered with and is intended to your Application (you'll need your application credentials to calculate the signature hash)
+ - `parseEvent()`: Revive the event: the request body needs to be parsed and revived. In the case of Verification API, this method will just ensure the event type is valid.
 
 You can then safely handle the event. An example is proposed in the [verification.service.ts](./src/services/verification.service.ts)
 
@@ -127,7 +127,7 @@ https://your-own-id.ngrok-free.app/voice
 ```
 
 Once you received an event, there are 2 things you must do before delegating its handling to a service:
-- `validateAuthorizationHeader()`: Verify the authorization header value to make sure the request has not been tampered with and is intended to your Application (you'll need your application credentials to calculate the signature hash)
-- `parseVoiceEventNotification()`: Revive the event: the request body needs to be parsed and revived. In the case of Voice API, this method will just ensure the event type is valid.
+- `validateAuthenticationHeader()`: Verify the authorization header value to make sure the request has not been tampered with and is intended to your Application (you'll need your application credentials to calculate the signature hash)
+- `parseEvent()`: Revive the event: the request body needs to be parsed and revived. In the case of Voice API, this method will ensure the event type is valid and revive the `Date` types.
 
 You can then safely handle the event. An example is proposed in the [voice.service.ts](./src/services/voice.service.ts)
