@@ -1,6 +1,7 @@
 import { Body, Controller, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import {
+  ConversationCallbackWebhooks,
   NumbersCallbackWebhooks,
   SmsCallbackWebhooks,
   VerificationCallbackWebhooks,
@@ -35,13 +36,18 @@ export class AppController {
 
   @Post('/conversation')
   public conversation(@Req() request: Request, @Res() res: Response) {
-    const validated = validateWebhookSignature(SINCH_CONVERSATION_APP_SECRET, request.headers, request['rawBody']);
+    // Initialize the class that will be used to validate the request and parse it
+    const conversationCallbackWebhook = new ConversationCallbackWebhooks(SINCH_CONVERSATION_APP_SECRET);
+    // 1 - The first thing to do is to verify the request is legit and has not been tampered with
+    const validated = conversationCallbackWebhook.validateAuthenticationHeader(request.headers, request['rawBody']);
     if (!validated) {
       res.status(401).send('Invalid webhook signature');
       return;
     }
     try {
-      const event = parseConversationEventNotification(request.body);
+      // 2 - Before acting on the request, it must be parsed to verify it's supported and to revive its content
+      const event = conversationCallbackWebhook.parseEvent(request.body);
+      // 3 - Once steps 1 and 2 are ok, delegate the event management to the Conversation service
       this.conversationService.handleEvent(event);
       res.status(200).send();
     } catch (error) {

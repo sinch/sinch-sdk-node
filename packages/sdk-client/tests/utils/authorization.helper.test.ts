@@ -4,7 +4,9 @@ import {
   calculateWebhookSignature,
   computeSignedData,
   generateAuthorizationHeader,
-  validateAuthenticationHeader, validateSignatureHeader,
+  validateAuthenticationHeader,
+  validateSignatureHeader,
+  validateWebhookSignature,
 } from '../../src';
 
 describe('Authorization validation', () => {
@@ -219,6 +221,12 @@ describe('Authorization validation', () => {
 
 describe('Webhook signature (Conversation API)', () => {
 
+  const CONVERSATION_BODY = `{"app_id":"","accepted_time":"2021-10-18T17:49:13.813615Z","project_id":"e2df3a34-a71b-4448-9db5-a8d2baad28e4","contact_create_notification":{"contact":{"id":"01FJA8B466Y0R2GNXD78MD9SM1","channel_identities":[{"channel":"SMS","identity":"48123456789","app_id":""}],"display_name":"New Test Contact","email":"new.contact@email.com","external_id":"","metadata":"","language":"EN_US"}},"message_metadata":""}`;
+  const NONCE = '01FJA8B4A7BM43YGWSG9GBV067';
+  const TIMESTAMP = '1634579353';
+  const APP_SECRET = 'foo_secret1234';
+  const VALID_SIGNATURE = '6bpJoRmFoXVjfJIVglMoJzYXxnoxRujzR4k2GOXewOE=';
+
   it('should compute the signed data', () => {
     const body = 'body';
     const nonce = 'nonce';
@@ -228,15 +236,50 @@ describe('Webhook signature (Conversation API)', () => {
   });
 
   it('should calculate the right signature', () => {
-    // eslint-disable-next-line max-len
-    const body = '{"app_id":"","accepted_time":"2021-10-18T17:49:13.813615Z","project_id":"e2df3a34-a71b-4448-9db5-a8d2baad28e4","contact_create_notification":{"contact":{"id":"01FJA8B466Y0R2GNXD78MD9SM1","channel_identities":[{"channel":"SMS","identity":"48123456789","app_id":""}],"display_name":"New Test Contact","email":"new.contact@email.com","external_id":"","metadata":"","language":"EN_US"}},"message_metadata":""}';
-    const nonce = '01FJA8B4A7BM43YGWSG9GBV067';
-    const timestamp= '1634579353';
-    const signedData = computeSignedData(body, nonce, timestamp);
-    const secret = 'foo_secret1234';
-    const signature = calculateWebhookSignature(signedData, secret);
+    const signedData = computeSignedData(CONVERSATION_BODY, NONCE, TIMESTAMP);
+    const signature = calculateWebhookSignature(signedData, APP_SECRET);
 
-    expect(signature).toEqual('6bpJoRmFoXVjfJIVglMoJzYXxnoxRujzR4k2GOXewOE=');
+    expect(signature).toEqual(VALID_SIGNATURE);
+  });
+
+  it('should validate the signature header when valid', () => {
+    const headers = {
+      'x-sinch-webhook-signature': VALID_SIGNATURE,
+      'x-sinch-webhook-signature-algorithm': 'HmacSHA256',
+      'x-sinch-webhook-signature-nonce': NONCE,
+      'x-sinch-webhook-signature-timestamp': TIMESTAMP,
+    };
+    const validated = validateWebhookSignature(
+      APP_SECRET,
+      headers,
+      CONVERSATION_BODY,
+    );
+    expect(validated).toBeTruthy();
+  });
+
+  it('should reject the signature header when missing', () => {
+    const headers = {};
+    const validated = validateWebhookSignature(
+      APP_SECRET,
+      headers,
+      CONVERSATION_BODY,
+    );
+    expect(validated).toBeFalsy();
+  });
+
+  it('should reject the signature header when invalid', () => {
+    const headers = {
+      'x-sinch-webhook-signature': 'invalid-signature',
+      'x-sinch-webhook-signature-algorithm': 'HmacSHA256',
+      'x-sinch-webhook-signature-nonce': NONCE,
+      'x-sinch-webhook-signature-timestamp': TIMESTAMP,
+    };
+    const validated = validateWebhookSignature(
+      APP_SECRET,
+      headers,
+      CONVERSATION_BODY,
+    );
+    expect(validated).toBeFalsy();
   });
 
 });
