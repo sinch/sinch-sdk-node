@@ -1,28 +1,21 @@
-/**
- * Model: FlashcallVerificationReportResponse
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-import { FlashcallVerificationReportResponsePrice } from '../flashcall-verification-report-response-price';
+import { VerificationReportResponsePrice } from '../verification-report-response-price';
 import { VerificationStatusEnum } from '../enums';
 import { Identity } from '../identity';
 
-export interface FlashcallVerificationReportResponse {
+export interface FlashCallVerificationReportResponse {
 
   /** The unique ID of the verification request. */
   id?: string;
-  /** The method of the verification request. This will always be `flashCall`. */
-  method?: MethodEnum;
+  /** The method of the verification request. This will always be `flashcall`. */
+  method?: 'flashcall';
   /** The status of the verification request. */
   status?: VerificationStatusEnum;
   /** Displays the reason why a verification has `FAILED`, was `DENIED`, or was `ABORTED`. */
   reason?: ReasonEnum;
   /** The reference ID that was optionally passed together with the verification request. */
   reference?: string;
-  /** @see FlashcallVerificationReportResponsePrice */
-  price?: FlashcallVerificationReportResponsePrice;
+  /** @see VerificationReportResponsePrice */
+  price?: VerificationReportResponsePrice;
   /** Free text that the client is sending, used to show if the call/SMS was intercepted or not. */
   source?: SourceEnum;
   /** */
@@ -37,7 +30,6 @@ export interface FlashcallVerificationReportResponse {
   callResult?: string;
 }
 
-export type MethodEnum = 'flashcall';
 export type ReasonEnum = 'Fraud'
   | 'Not enough credit'
   | 'Blocked'

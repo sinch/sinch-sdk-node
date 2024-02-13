@@ -1,1 +1,1 @@
-export type { FlashcallVerificationReportResponse } from './flashcall-verification-report-response';
+export type { FlashCallVerificationReportResponse } from './flashcall-verification-report-response';

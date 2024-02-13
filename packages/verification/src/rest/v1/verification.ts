@@ -1,9 +1,3 @@
-/**
- * Domain: verification
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
 import { SinchClientParameters } from '@sinch/sdk-client';
 import { VerificationStatusApi } from './verification-status';
 import { VerificationsApi } from './verifications';

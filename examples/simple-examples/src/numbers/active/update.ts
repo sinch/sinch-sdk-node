@@ -1,4 +1,5 @@
 import {
+  getNumberCallbackUrlFromConfig,
   getPhoneNumberFromConfig,
   getPrintFormat,
   getServicePlanIdFromConfig,
@@ -14,6 +15,7 @@ import { UpdateActiveNumberRequestData } from '@sinch/sdk-core';
 
   const phoneNumber = getPhoneNumberFromConfig();
   const servicePlanId = getServicePlanIdFromConfig();
+  const callbackUrl = getNumberCallbackUrlFromConfig();
 
   const requestData: UpdateActiveNumberRequestData= {
     phoneNumber,
@@ -22,6 +24,7 @@ import { UpdateActiveNumberRequestData } from '@sinch/sdk-core';
       smsConfiguration: {
         servicePlanId,
       },
+      callbackUrl,
     },
   };
 

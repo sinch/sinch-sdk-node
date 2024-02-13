@@ -42,6 +42,7 @@ SINCH_APPLICATION_KEY=application-key found at https://dashboard.sinch.com/verif
 SINCH_APPLICATION_SECRET=application-secret found at https://dashboard.sinch.com/verification/apps
 # The phone number you will use for your tests
 PHONE_NUMBER=phone-number to fill with one of your numbers rented with the Numbers API
+NUMBER_CALLBACK_URL=URL to receive callbacks relative a number you own
 # Generally, you phone number to interact with the API
 RECIPIENT_PHONE_NUMBER=phone-number to fill with the number to which you want to send a batch with the SMS API
 ## SMS API
@@ -98,11 +99,11 @@ yarn run numbers:regions:list
 | Regions             | [./src/numbers/regions/list.ts](./src/numbers/regions/list.ts)                                                                             |                                                                                            |
 | Available           | [./src/numbers/available/list.ts](./src/numbers/available/list.ts)                                                                         |                                                                                            |
 |                     | [./src/numbers/available/checkAvailability.ts](./src/numbers/available/checkAvailability.ts)                                               | `PHONE_NUMBER`                                                                             |
-|                     | [./src/numbers/available/rent.ts](./src/numbers/available/rent.ts)                                                                         | `PHONE_NUMBER`                                                                             |
-|                     | [./src/numbers/available/rentAny.ts](./src/numbers/available/rentAny.ts)                                                                   |                                                                                            |
+|                     | [./src/numbers/available/rent.ts](./src/numbers/available/rent.ts)                                                                         | `PHONE_NUMBER` + `NUMBER_CALLBACK_URL` + `SINCH_SERVICE_PLAN_ID` + `SINCH_APPLICATION_KEY` |
+|                     | [./src/numbers/available/rentAny.ts](./src/numbers/available/rentAny.ts)                                                                   | `NUMBER_CALLBACK_URL` + `SINCH_SERVICE_PLAN_ID` + `SINCH_APPLICATION_KEY`                  |
 | Active              | [./src/numbers/active/list.ts](./src/numbers/active/list.ts)                                                                               |                                                                                            |
 |                     | [./src/numbers/active/get.ts](./src/numbers/active/get.ts)                                                                                 | `PHONE_NUMBER`                                                                             |
-|                     | [./src/numbers/active/update.ts](./src/numbers/active/update.ts)                                                                           | `PHONE_NUMBER`                                                                             |
+|                     | [./src/numbers/active/update.ts](./src/numbers/active/update.ts)                                                                           | `PHONE_NUMBER` + `SINCH_SERVICE_PLAN_ID` + `NUMBER_CALLBACK_URL`                           |
 |                     | [./src/numbers/active/release.ts](./src/numbers/active/release.ts)                                                                         | `PHONE_NUMBER`                                                                             |
 | Callbacks           | [./src/numbers/callbacks/get.ts](src/numbers/callbacks/get.ts)                                                                             |                                                                                            |
 |                     | [./src/numbers/callbacks/update.ts](src/numbers/callbacks/update.ts)                                                                       |                                                                                            |
@@ -134,14 +135,20 @@ yarn run numbers:regions:list
 
 ### Verification
 
-| Service             | Sample application name and location                                                                                                       | Required parameters                                                                        |
-|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
-| Verifications       | [./src/verification/verifications/start.ts](./src/verification/verifications/start.ts)                                                     | `VERIFICATION_IDENTITY` + `VERIFICATION_REFERENCE`                                         |
-|                     | [./src/verification/verifications/report-with-id_.ts](./src/verification/verifications/report-with-id.ts)                                  | `VERIFICATION_ID` + `VERIFICATION_CODE` or `VERIFICATION_CLI` (flashCall)                  |
-|                     | [./src/verification/verifications/report-with-identity.ts](./src/verification/verifications/report-with-identity.ts)                       | `VERIFICATION_IDENTITY` + `VERIFICATION_CODE` or `VERIFICATION_CLI` (flashCall)            |
-| Verification-status | [./src/verification/verification-status/verification-by-id.ts](./src/verification/verification-status/verification-by-id.ts)               | `VERIFICATION_ID`                                                                          |
-|                     | [./src/verification/verification-status/verification-by-identity.ts](./src/verification/verification-status/verification-by-identity.ts)   | `VERIFICATION_IDENTITY`                                                                    |
-|                     | [./src/verification/verification-status/verification-by-reference.ts](./src/verification/verification-status/verification-by-reference.ts) | `VERIFICATION_REFERENCE`                                                                   |
+| Service             | Sample application name and location                                                                                                                         | Required parameters                                                                        |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| Verifications       | [./src/verification/verifications/sms/start-sms.ts](./src/verification/verifications/sms/start-sms.ts)                                                       | `VERIFICATION_IDENTITY`                                                                    |
+|                     | [./src/verification/verifications/sms/report-with-id_sms.ts](./src/verification/verifications/sms/report-with-id_sms.ts)                                     | `VERIFICATION_ID` + `VERIFICATION_CODE`                                                    |
+|                     | [./src/verification/verifications/sms/report-with-identity_sms.ts](./src/verification/verifications/sms/report-with-identity_sms.ts)                         | `VERIFICATION_IDENTITY` + `VERIFICATION_CODE`                                              |
+|                     | [./src/verification/verifications/flashcall/start-flashcall.ts](./src/verification/verifications/flashcall/start-flashcall.ts)                               | `VERIFICATION_IDENTITY`                                                                    |
+|                     | [./src/verification/verifications/flashcall/report-with-id_flashcall.ts](./src/verification/verifications/flashcall/report-with-id_flashcall.ts)             | `VERIFICATION_ID` + `VERIFICATION_CLI`                                                     |
+|                     | [./src/verification/verifications/flashcall/report-with-identity_flashcall.ts](./src/verification/verifications/flashcall/report-with-identity_flashcall.ts) | `VERIFICATION_IDENTITY` + `VERIFICATION_CLI`                                               |
+|                     | [./src/verification/verifications/callout/start-callout.ts](./src/verification/verifications/callout/start-callout.ts)                                       | `VERIFICATION_IDENTITY`                                                                    |
+|                     | [./src/verification/verifications/callout/report-with-id_callout.ts](./src/verification/verifications/callout/report-with-id_callout.ts)                     | `VERIFICATION_ID` + `VERIFICATION_CODE`                                                    |
+|                     | [./src/verification/verifications/callout/report-with-identity_callout.ts](./src/verification/verifications/callout/report-with-identity_callout.ts)         | `VERIFICATION_IDENTITY` + `VERIFICATION_CODE`                                              |
+| Verification-status | [./src/verification/verification-status/verification-by-id.ts](./src/verification/verification-status/verification-by-id.ts)                                 | `VERIFICATION_ID`                                                                          |
+|                     | [./src/verification/verification-status/verification-by-identity.ts](./src/verification/verification-status/verification-by-identity.ts)                     | `VERIFICATION_IDENTITY`                                                                    |
+|                     | [./src/verification/verification-status/verification-by-reference.ts](./src/verification/verification-status/verification-by-reference.ts)                   | `VERIFICATION_REFERENCE`                                                                   |
 
 ### Voice
 

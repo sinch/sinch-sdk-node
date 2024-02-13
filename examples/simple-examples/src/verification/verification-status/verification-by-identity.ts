@@ -14,13 +14,7 @@ import { getPrintFormat, getVerificationIdentityFromConfig, initApplicationClien
   };
 
   const sinchClient = initApplicationClient();
-  let response;
-  try {
-    response = await sinchClient.verification.verificationStatus.getByIdentity(requestData);
-  } catch (error) {
-    console.log(`Impossible to get the verification status for the identity ${requestData.endpoint}`);
-    throw error;
-  }
+  const response = await sinchClient.verification.verificationStatus.getByIdentity(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 
