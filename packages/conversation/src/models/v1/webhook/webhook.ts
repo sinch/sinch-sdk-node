@@ -1,6 +1,6 @@
 import { ClientCredentials } from '../client-credentials';
-import { WebhookTargetType } from '../webhook-target-type';
 import { WebhookTrigger } from '../webhook-trigger';
+import { WebhookTargetType } from '../enums';
 
 /**
  * Represents a destination for receiving callbacks from the Conversation API.

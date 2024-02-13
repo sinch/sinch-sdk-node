@@ -1,9 +1,7 @@
 import { ConversationChannel } from '../conversation-channel';
-import { MessageQueue } from '../message-queue';
 import { Recipient } from '../recipient';
-import { ProcessingStrategy } from '../processing-strategy';
-import { ConversationMetadataUpdateStrategy } from '../conversation-metadata-update-strategy';
 import { AppMessageMessage } from '../app-message-message';
+import { ConversationMetadataUpdateStrategy, MessageQueue, ProcessingStrategy } from '../enums';
 
 /**
  * This is the request body for sending a message. `app_id`, `recipient`, and `message` are all required fields.

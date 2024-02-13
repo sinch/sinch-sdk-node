@@ -1,13 +1,13 @@
 import { ChannelIdentity } from '../channel-identity';
 import { ContactMessage } from '../contact-message';
-import { ProcessingMode } from '../processing-mode';
+import { ProcessingMode } from '../enums';
 
 export interface MessageInboundEventItem {
 
   /** The message ID. */
   id?: string;
   /** The direction of the message, it\'s always TO_APP for contact messages. */
-  direction?: DirectionEnum;
+  direction?: 'TO_APP';
   /** @see ContactMessage */
   contact_message?: ContactMessage;
   /** @see ChannelIdentity */
@@ -27,4 +27,3 @@ export interface MessageInboundEventItem {
   /** Flag for whether this message was injected. */
   injected?: boolean;
 }
-export type DirectionEnum = 'TO_APP';

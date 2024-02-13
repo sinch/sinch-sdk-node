@@ -1,6 +1,6 @@
-import { CardHeight } from '../card-height';
 import { MediaCarouselMessage } from '../media-carousel-message';
 import { Choice } from '../choice';
+import { CardHeight } from '../enums';
 
 /**
  * Message containing text, media and choices.

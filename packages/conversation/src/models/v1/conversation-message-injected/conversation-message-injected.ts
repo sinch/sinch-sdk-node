@@ -1,7 +1,7 @@
 import { AppMessage } from '../app-message';
 import { ChannelIdentity } from '../channel-identity';
 import { ContactMessage } from '../contact-message';
-import { ConversationDirection } from '../conversation-direction';
+import { ConversationDirection } from '../enums';
 
 /**
  * A message on a particular channel.

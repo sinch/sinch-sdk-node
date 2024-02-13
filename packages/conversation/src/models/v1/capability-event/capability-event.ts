@@ -36,10 +36,9 @@ export interface CapabilityNotification {
   /** The channel identity. For example, a phone number for SMS, WhatsApp, and Viber Business. */
   identity?: string;
   /** Status indicating the recipient\'s capability on the channel. */
-  capability_status?: CapabilityStatusEnum;
+  capability_status?: 'CAPABILITY_UNKNOWN' | 'CAPABILITY_FULL' | 'CAPABILITY_PARTIAL' | 'NO_CAPABILITY';
   /** When capability_status is set to CAPABILITY_PARTIAL, this field includes a list of the supported channel-specific capabilities reported by the channel. */
   channel_capabilities?: string[];
   /** @see Reason */
   reason?: Reason;
 }
-export type CapabilityStatusEnum = 'CAPABILITY_UNKNOWN' | 'CAPABILITY_FULL' | 'CAPABILITY_PARTIAL' | 'NO_CAPABILITY';

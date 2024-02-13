@@ -1,7 +1,7 @@
 import { ChannelIdentity } from '../channel-identity';
 import { ContactMessage } from '../contact-message';
-import { ProcessingMode } from '../processing-mode';
 import { ConversationEvent } from '../conversation-event';
+import { ProcessingMode } from '../enums';
 
 /**
  * This callback provides a notification to the API clients that the corresponding app message was submitted to a channel. This notification is created before any confirmation from Delivery Receipts.

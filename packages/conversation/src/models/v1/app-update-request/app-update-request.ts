@@ -1,10 +1,9 @@
 import { CallbackSettings } from '../callback-settings';
 import { ConversationChannelCredential } from '../conversation-channel-credential';
-import { ConversationMetadataReportView } from '../conversation-metadata-report-view';
 import { DispatchRetentionPolicy } from '../dispatch-retention-policy';
 import { RetentionPolicy } from '../retention-policy';
 import { SmartConversation } from '../smart-conversation';
-import { ProcessingMode } from '../processing-mode';
+import { ConversationMetadataReportView, ProcessingMode } from '../enums';
 
 /**
  * The request sent to the API endpoint to update the configuration of an app.

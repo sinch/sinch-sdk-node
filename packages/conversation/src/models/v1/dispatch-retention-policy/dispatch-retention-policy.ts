@@ -1,4 +1,4 @@
-import { DispatchRetentionPolicyType } from '../dispatch-retention-policy-type';
+import { DispatchRetentionPolicyType } from '../enums';
 
 /**
  * The retention policy configured for messages in [Dispatch Mode](../../../../../conversation/processing-modes/). Currently only `MESSAGE_EXPIRE_POLICY` is available. For more information about retention policies, see [Retention Policy](/docs/conversation/keyconcepts/#retention-policy).

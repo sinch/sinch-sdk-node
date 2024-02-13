@@ -8,6 +8,6 @@ export interface IdentifiedBy {
 }
 export interface IdentifiedByItem {
 
-  /** @see IdentifiedBy */
+  /** A list of specific channel identities. The API will use these identities when sending to specific channels. */
   channel_identities: ChannelRecipientIdentity[];
 }

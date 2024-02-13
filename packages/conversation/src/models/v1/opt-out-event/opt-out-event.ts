@@ -1,6 +1,6 @@
 import { ConversationChannel } from '../conversation-channel';
-import { ProcessingMode } from '../processing-mode';
 import { ConversationEvent } from '../conversation-event';
+import { ProcessingMode } from '../enums';
 
 /**
  * This callback is used to deliver opt-out notifications from the channels.
@@ -36,13 +36,12 @@ export interface OptOutNotification {
   /** The channel identity. For example, a phone number for SMS, WhatsApp and Viber Business. */
   identity?: string;
   /** Status of the opt-out registration. */
-  status?: StatusEnum;
+  status?: 'OPT_OUT_SUCCEEDED' | 'OPT_OUT_FAILED' | 'OPT_OUT_STATUS_UNSPECIFIED';
   /** @see OptOutNotificationErrorDetails */
   error_details?: OptOutNotificationErrorDetails;
   /** @see ProcessingMode */
   processing_mode?: ProcessingMode;
 }
-export type StatusEnum = 'OPT_OUT_SUCCEEDED' | 'OPT_OUT_FAILED' | 'OPT_OUT_STATUS_UNSPECIFIED';
 
 /**
  * This field is populated if the opt-out failed.

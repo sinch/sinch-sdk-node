@@ -1,7 +1,7 @@
 import { ConversationChannel } from '../conversation-channel';
-import { ProcessingMode } from '../processing-mode';
 import { ChannelIdentity } from '../channel-identity';
 import { ConversationEvent } from '../conversation-event';
+import { ProcessingMode } from '../enums';
 
 /**
  * Some of the callbacks received from the underlying channels might be specific to a single channel or may not have a proper mapping in Conversation API yet.

@@ -1,7 +1,7 @@
 import { AppEvent } from '../app-event';
 import { ConversationChannel } from '../conversation-channel';
-import { MessageQueue } from '../message-queue';
 import { Recipient } from '../recipient';
+import { MessageQueue } from '../enums';
 
 export interface SendEventRequest {
 

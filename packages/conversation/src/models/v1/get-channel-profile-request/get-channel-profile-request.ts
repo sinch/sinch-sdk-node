@@ -1,5 +1,5 @@
-import { GetChannelProfileConversationChannel } from '../get-channel-profile-conversation-channel';
 import { Recipient } from '../recipient';
+import { GetChannelProfileConversationChannel } from '../enums';
 
 export interface GetChannelProfileRequest {
 

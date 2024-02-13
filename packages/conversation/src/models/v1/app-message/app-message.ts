@@ -1,4 +1,3 @@
-import { AppMessageAdditionalProperties } from '../app-message-additional-properties';
 import { AppMessageMessage } from '../app-message-message';
 import { Agent } from '../agent';
 import { LocationMessageItem } from '../location-message';
@@ -72,4 +71,13 @@ interface AppMessageBase {
   agent?: Agent | null;
   /** */
   explicit_channel_omni_message?: { [key: string]: AppMessageMessage; };
+}
+
+/**
+ * Additional properties of the message.
+ */
+export interface AppMessageAdditionalProperties {
+
+  /** The `display_name` of the newly created contact in case it doesn't exist. */
+  contact_name?: string;
 }

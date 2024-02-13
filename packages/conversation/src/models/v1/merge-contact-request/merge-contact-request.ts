@@ -1,4 +1,5 @@
-import { ConversationMergeStrategy } from '../conversation-merge-strategy';
+import { ConversationMergeStrategy } from '../enums';
+
 
 export interface MergeContactRequest {
 

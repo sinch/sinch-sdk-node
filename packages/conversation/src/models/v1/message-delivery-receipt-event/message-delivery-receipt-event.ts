@@ -1,8 +1,7 @@
 import { ChannelIdentity } from '../channel-identity';
 import { Reason } from '../reason';
-import { ProcessingMode } from '../processing-mode';
-import { DeliveryStatus } from '../delivery-status';
 import { ConversationEvent } from '../conversation-event';
+import { DeliveryStatus, ProcessingMode } from '../enums';
 
 /**
  * This callback notifies the API clients about status changes of already sent app message.

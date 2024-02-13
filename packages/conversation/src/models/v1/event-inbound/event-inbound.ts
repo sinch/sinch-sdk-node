@@ -1,6 +1,6 @@
-import { ProcessingMode } from '../processing-mode';
 import { ChannelIdentity } from '../channel-identity';
 import { ConversationEvent } from '../conversation-event';
+import { ProcessingMode } from '../enums';
 
 export interface EventInbound extends ConversationEvent {
 
@@ -27,7 +27,7 @@ export interface EventInboundEvent {
   /** The event ID. */
   id?: string;
   /** The direction of the event. It\'s always TO_APP for contact events. */
-  direction?: DirectionEnum;
+  direction?: 'TO_APP';
   /** @see ContactEvent */
   contact_event?: ContactEvent;
   /** @see ContactMessageEvent */
@@ -43,8 +43,6 @@ export interface EventInboundEvent {
   /** @see ProcessingMode */
   processing_mode?: ProcessingMode;
 }
-
-export type DirectionEnum = 'TO_APP';
 
 export interface ContactEvent {
 
@@ -63,13 +61,12 @@ export interface CommentEvent {
   /** Comment\'s text */
   text?: string;
   /** Either LIVE or FEED. Indicates the type of media on which the comment was made. */
-  comment_type?: CommentTypeEnum;
+  comment_type?: 'FEED' | 'LIVE';
   /** Instagram\'s URL of the live broadcast or the post on which the comment was made (permalink). */
   commented_on?: string;
   /** Username of the account that commented in the live broadcast or post. */
   user?: string;
 }
-export type CommentTypeEnum = 'FEED' | 'LIVE';
 
 /**
  * The content of the event when contact_event is not populated. Note that this object is currently only available to select customers for beta testing. Mutually exclusive with contact_event.

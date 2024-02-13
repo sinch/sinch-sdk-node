@@ -1,6 +1,6 @@
 import { ConversationChannel } from '../conversation-channel';
-import { ProcessingMode } from '../processing-mode';
 import { ConversationEvent } from '../conversation-event';
+import { ProcessingMode } from '../enums';
 
 /**
  * This callback is used to deliver opt-in notifications from the channels.
@@ -36,13 +36,12 @@ export interface OptInNotification {
   /** The channel identity. For example, a phone number for SMS, WhatsApp and Viber Business. */
   identity?: string;
   /** Status of the opt-in registration. */
-  status?: StatusEnum;
+  status?: 'OPT_IN_SUCCEEDED' | 'OPT_IN_FAILED' | 'OPT_IN_STATUS_UNSPECIFIED';
   /** @see OptInNotificationErrorDetails */
   error_details?:OptInNotificationErrorDetails;
   /** @see ProcessingMode */
   processing_mode?: ProcessingMode;
 }
-export type StatusEnum = 'OPT_IN_SUCCEEDED' | 'OPT_IN_FAILED' | 'OPT_IN_STATUS_UNSPECIFIED';
 
 /**
  * This field is populated if the opt-in failed.
