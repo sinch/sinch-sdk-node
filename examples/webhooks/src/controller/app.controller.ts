@@ -2,17 +2,17 @@ import { Body, Controller, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { NumbersService } from '../services/numbers.service';
 import {
-  parseNumbersEventNotification,
-  parseSmsEventNotification,
-  parseVerificationEventNotification,
-  parseVoiceEventNotification,
-  validateAuthenticationHeader,
+  NumbersCallbackWebhooks,
+  SmsCallbackWebhooks,
+  VerificationCallbackWebhooks,
+  VoiceCallbackWebhooks,
 } from '@sinch/sdk-core';
 import { SmsService } from '../services/sms.service';
 import { VerificationService } from '../services/verification.service';
 import { VoiceService } from '../services/voice.service';
 require('dotenv').config();
 
+const SINCH_NUMBERS_CALLBACK_SECRET = process.env.SINCH_NUMBERS_CALLBACK_SECRET || '';
 const SINCH_APPLICATION_KEY = process.env.SINCH_APPLICATION_KEY || '';
 const SINCH_APPLICATION_SECRET = process.env.SINCH_APPLICATION_SECRET || '';
 
@@ -26,10 +26,20 @@ export class AppController {
     private readonly voiceService: VoiceService) {}
 
   @Post('/numbers')
-  public numbers(@Body() eventBody: any, @Res() res: Response) {
-    // console.log(eventBody);
+  public numbers(@Req() request: Request, @Res() res: Response) {
+    // Initialize the class that will be used to validate the request and parse it
+    const numbersCallbackWebhook = new NumbersCallbackWebhooks(SINCH_NUMBERS_CALLBACK_SECRET);
+    // 1 - The first thing to do is to verify the request is legit and has not been tampered
+    const validated = numbersCallbackWebhook.validateAuthenticationHeader(
+      request.headers, request['rawBody']);
+    if (!validated) {
+      res.status(401).send('Invalid signature');
+      return;
+    }
     try {
-      const event = parseNumbersEventNotification(eventBody);
+      // 2 - Before acting on the request, it must be parsed to verify it's supported and to revive its content
+      const event = numbersCallbackWebhook.parseEvent(request.body);
+      // 3 - Once steps 1 and 2 are ok, delegate the event management to the Numbers service
       this.numbersService.handleEvent(event);
       res.status(200).send();
     } catch (error) {
@@ -40,9 +50,11 @@ export class AppController {
 
   @Post('/sms')
   public sms(@Body() eventBody: any, @Res() res: Response) {
-    // console.log(eventBody);
+    const smsCallbackWebhooks = new SmsCallbackWebhooks();
     try {
-      const event = parseSmsEventNotification(eventBody);
+      // There is no request validation for the SMS API, so we can parse it and revive its content directly
+      const event = smsCallbackWebhooks.parseEvent(eventBody);
+      // Once the request has been revived, delegate the event management to the SMS service
       this.smsService.handleEvent(event);
       res.status(200).send();
     } catch (error) {
@@ -53,17 +65,22 @@ export class AppController {
 
   @Post('/verification')
   public verification(@Req() request: Request, @Res() res: Response) {
-    // console.log(request.headers);
-    // console.log(request.body);
-    // console.log(request['rawBody']);
-    const validated = validateAuthenticationHeader(SINCH_APPLICATION_KEY, SINCH_APPLICATION_SECRET,
-      request.headers, request.path, request['rawBody'], request.method);
+    // Initialize the class that will be used to validate the request and parse it
+    const verificationCallbackWebhooks = new VerificationCallbackWebhooks({
+      applicationKey: SINCH_APPLICATION_KEY,
+      applicationSecret: SINCH_APPLICATION_SECRET
+    });
+    // 1 - The first thing to do is to verify the request is legit and has not been tampered
+    const validated = verificationCallbackWebhooks.validateAuthenticationHeader(
+      request.headers, request['rawBody'], request.path, request.method);
     if (!validated) {
       res.status(401).send('Invalid authorization');
       return;
     }
     try {
-      const event = parseVerificationEventNotification(request.body);
+      // 2 - Before acting on the request, it must be parsed to verify it's supported and to revive its content
+      const event = verificationCallbackWebhooks.parseEvent(request.body);
+      // 3 - Once steps 1 and 2 are ok, delegate the event management to the Verifications service
       this.verificationService.handleEvent(event, res);
     } catch (error) {
       console.error(error);
@@ -73,18 +90,22 @@ export class AppController {
 
   @Post('/voice')
   public voice (@Req() request: Request, @Res() res: Response) {
-    // console.log(request.headers);
-    // console.log(request.body);
-    // console.log(request['rawBody']);
-    const validated = validateAuthenticationHeader(SINCH_APPLICATION_KEY, SINCH_APPLICATION_SECRET,
-        request.headers, request.path, request['rawBody'], request.method);
+    // Initialize the class that will be used to validate the request and parse it
+    const voiceCallbackWebhooks = new VoiceCallbackWebhooks({
+      applicationKey: SINCH_APPLICATION_KEY,
+      applicationSecret: SINCH_APPLICATION_SECRET
+    });
+    // 1 - The first thing to do is to verify the request is legit and has not been tampered
+    const validated = voiceCallbackWebhooks.validateAuthenticationHeader(
+      request.headers, request['rawBody'], request.path, request.method);
     if (!validated) {
       res.status(401).send('Invalid authorization');
       return;
     }
-
     try {
-      const event = parseVoiceEventNotification(request.body);
+      // 2 - Before acting on the request, it must be parsed to verify it's supported and to revive its content
+      const event = voiceCallbackWebhooks.parseEvent(request.body);
+      // 3 - Once steps 1 and 2 are ok, delegate the event management to the Voice service
       this.voiceService.handleEvent(event, res);
     } catch (error) {
       console.error(error);

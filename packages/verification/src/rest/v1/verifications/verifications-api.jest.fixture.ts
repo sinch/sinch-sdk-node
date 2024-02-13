@@ -1,19 +1,85 @@
-import { InitiateVerificationResponse, VerificationResponse } from '../../../models';
-import { VerificationsApi, ReportVerificationByIdRequestData, ReportVerificationByIdentityRequestData, StartVerificationRequestData } from './verifications-api';
+import {
+  StartCalloutVerificationResponse, CalloutVerificationReportResponse,
+  StartSeamlessVerificationResponse,
+  StartFlashCallVerificationResponse, FlashCallVerificationReportResponse,
+  StartSmsVerificationResponse, SMSVerificationReportResponse,
+} from '../../../models';
+import {
+  VerificationsApi,
+  StartSmsVerificationRequestData,
+  StartFlashCallVerificationRequestData,
+  StartCalloutVerificationRequestData,
+  StartSeamlessVerificationRequestData,
+  ReportSmsVerificationByIdRequestData,
+  ReportCalloutVerificationByIdRequestData,
+  ReportFlashCallVerificationByIdRequestData,
+  ReportSmsVerificationByIdentityRequestData,
+  ReportFlashCallVerificationByIdentityRequestData, ReportCalloutVerificationByIdentityRequestData,
+} from './verifications-api';
 
 export class VerificationsApiFixture implements Partial<Readonly<VerificationsApi>> {
 
   /**
-   * Fixture associated to function reportVerificationById
+   * Fixture associated to function reportSmsById
    */
-  public reportById: jest.Mock<Promise<VerificationResponse>, [ReportVerificationByIdRequestData]> = jest.fn();
+  public reportSmsById: jest.Mock<Promise<
+    SMSVerificationReportResponse>,
+    [ReportSmsVerificationByIdRequestData]> = jest.fn();
   /**
-   * Fixture associated to function reportVerificationByIdentity
+   * Fixture associated to function reportFlashCallById
    */
-  public reportByIdentity:
-    jest.Mock<Promise<VerificationResponse>, [ReportVerificationByIdentityRequestData]> = jest.fn();
+  public reportFlashCallById: jest.Mock<Promise<
+    FlashCallVerificationReportResponse>,
+    [ReportFlashCallVerificationByIdRequestData]> = jest.fn();
   /**
-   * Fixture associated to function startVerification
+   * Fixture associated to function reportCalloutById
    */
-  public start: jest.Mock<Promise<InitiateVerificationResponse>, [StartVerificationRequestData]> = jest.fn();
+  public reportCalloutById: jest.Mock<Promise<
+    CalloutVerificationReportResponse>,
+    [ReportCalloutVerificationByIdRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function reportSmsByIdentity
+   */
+  public reportSmsByIdentity:
+    jest.Mock<Promise<
+      SMSVerificationReportResponse>,
+      [ReportSmsVerificationByIdentityRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function reportFlashCallByIdentity
+   */
+  public reportFlashCallByIdentity:
+    jest.Mock<Promise<
+      FlashCallVerificationReportResponse>,
+      [ReportFlashCallVerificationByIdentityRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function reportCalloutByIdentity
+   */
+  public reportCalloutByIdentity:
+    jest.Mock<Promise<
+      CalloutVerificationReportResponse>,
+      [ReportCalloutVerificationByIdentityRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function startSms
+   */
+  public startSms: jest.Mock<Promise<
+    StartSmsVerificationResponse>,
+    [StartSmsVerificationRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function startFlashCall
+   */
+  public startFlashCall: jest.Mock<
+    Promise<StartFlashCallVerificationResponse>,
+    [StartFlashCallVerificationRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function startCallout
+   */
+  public startCallout: jest.Mock<Promise<
+    StartCalloutVerificationResponse>,
+    [StartCalloutVerificationRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function startSeamless
+   */
+  public startSeamless: jest.Mock<
+    Promise<StartSeamlessVerificationResponse>,
+    [StartSeamlessVerificationRequestData]> = jest.fn();
 }

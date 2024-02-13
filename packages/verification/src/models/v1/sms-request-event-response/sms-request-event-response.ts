@@ -1,18 +1,17 @@
-/**
- * Model: SMSRequestEventResponse
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-import { SMSRequestEventResponseSms } from '../sms-request-event-response-sms';
-
 export interface SMSRequestEventResponse {
 
   /** Determines whether the verification can be executed. */
   action?: ActionEnum;
-  /** @see SMSRequestEventResponseSms */
-  sms?: SMSRequestEventResponseSms;
+  /** @see SmsContent */
+  sms?: SmsContent;
+}
+
+interface SmsContent {
+
+  /** The SMS PIN that should be used. By default, the Sinch dashboard will automatically generate PIN codes for SMS verification. If you want to set your own PIN, you can specify it in the response to the Verification Request Event. */
+  code?: string;
+  /** List of strings */
+  acceptLanguage?: string[];
 }
 
 export type ActionEnum = 'allow' | 'deny';

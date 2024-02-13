@@ -4,7 +4,7 @@ import {
   getPrintFormat,
   readServicePlanId,
   initClient,
-  printFullResponse,
+  printFullResponse, getNumberCallbackUrlFromConfig,
 } from '../../config';
 import {
   RentNumberRequest,
@@ -16,12 +16,14 @@ import {
   console.log('* NumberService_RentNumber *');
   console.log('****************************');
 
+  const callbackUrl = getNumberCallbackUrlFromConfig();
   const servicePlanId = readServicePlanId();
   const appId = readApplicationKey();
 
   let rentNumberRequest: RentNumberRequest = {
     smsConfiguration: servicePlanId ? { servicePlanId } : undefined,
     voiceConfiguration: appId ? { appId } : undefined,
+    callbackUrl,
   };
 
   if (!rentNumberRequest.smsConfiguration && !rentNumberRequest.voiceConfiguration) {
@@ -31,7 +33,7 @@ import {
   }
 
   const phoneNumber = getPhoneNumberFromConfig();
-  
+
   const requestData: RentNumberRequestData = {
     phoneNumber,
     rentNumberRequestBody: rentNumberRequest,

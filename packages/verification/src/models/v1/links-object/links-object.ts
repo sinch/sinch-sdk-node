@@ -1,12 +1,4 @@
 /**
- * Model: LinksObject
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-
-/**
  * Available methods and actions which can be done after a successful Verification
  */
 export interface LinksObject {

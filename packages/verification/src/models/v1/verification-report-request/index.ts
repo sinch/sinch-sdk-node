@@ -1,1 +1,5 @@
-export type { VerificationReportRequest } from './verification-report-request';
+export type {
+  SmsVerificationReportRequest,
+  FlashCallVerificationReportRequest,
+  CalloutVerificationReportRequest,
+} from './verification-report-request';

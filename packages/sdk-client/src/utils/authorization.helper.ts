@@ -2,28 +2,17 @@ import crypto from 'crypto';
 import { IncomingHttpHeaders } from 'http';
 import { RequestBody } from '../plugins';
 
-export const calculateMD5 = (body: string): string => {
-  // Content-MD5 = Base64 ( MD5 ( UTF8 ( [BODY] ) ) )
-  return crypto.createHash('md5').update(Buffer.from(body, 'utf-8')).digest('base64');
-};
-
-export const calculateSignature = (secret: string, stringToSign: string): string => {
-  // Signature = Base64 ( HMAC-SHA256 ( Base64-Decode ( ApplicationSecret ), UTF8 ( StringToSign ) ) );
-  return crypto.createHmac('sha256', Buffer.from(secret, 'base64'))
-    .update(Buffer.from(stringToSign, 'utf-8'))
-    .digest('base64');
-};
-
-const buildStringToSign = (
-  httpVerb: string,
-  contentMD5: string,
-  contentType: string,
-  canonicalizedHeaders: string,
-  canonicalizedResource: string,
-): string => {
-  return `${httpVerb}\n${contentMD5}\n${contentType}\n${canonicalizedHeaders}\n${canonicalizedResource}`;
-};
-
+/**
+ * Generate authorization header for application-signed requests (Verification and Voice)
+ * @param {string} httpVerb - request's HTTP method
+ * @param {RequestBody | undefined} body - request's body (undefined in case of GET request)
+ * @param {string} contentType - content-type header value
+ * @param {string} canonicalizedHeaders - x-timestamp header
+ * @param {string} canonicalizedResource - request's path
+ * @param {string} applicationKey - application key (from dashboard)
+ * @param {string} applicationSecret - application secret (from dashboard)
+ * @return {string} - Application signed header value for HTTP authorization header
+ */
 export const generateAuthorizationHeader = (
   httpVerb: string,
   body: RequestBody | undefined,
@@ -46,22 +35,30 @@ export const generateAuthorizationHeader = (
   return `Application ${applicationKey}:${signature}`;
 };
 
+/**
+ * Validate authorization header for callback request on application-signed protected endpoints (Verification and Voice webhooks)
+ * @param {string} applicationKey - application key (from dashboard) related to the event
+ * @param {string} applicationSecret - application secret (from dashboard) related to the event
+ * @param {IncomingHttpHeaders} headers - Incoming request's headers
+ * @param {any} body - Incoming request's body
+ * @param {string} path - Incoming request's path
+ * @param {string} method - Incoming request's HTTP method
+ * @return {boolean} - true if the authorization header is valid
+ */
 export const validateAuthenticationHeader = (
   applicationKey: string,
   applicationSecret: string,
   headers: IncomingHttpHeaders,
-  path: string,
   body: any,
+  path: string,
   method: string,
 ): boolean => {
-  const normalizedHeaders = Object.fromEntries(
-    Object.entries(headers)
-      .map(([key, value]) => [key.toLowerCase(), value])
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .filter(([_, value]) => value !== undefined),
-  ) as { [p: string]: string | string[] };
+  const normalizedHeaders = normalizeHeaders(headers);
 
   const authorization = getHeader(normalizedHeaders.authorization);
+  if (typeof authorization === 'undefined') {
+    return false;
+  }
   const authParts = checkAuthorizationHeaderFormat(authorization);
   if (null === authParts) {
     return false;
@@ -86,6 +83,43 @@ export const validateAuthenticationHeader = (
   // Other schemes than 'basic' or 'application' are not supported
   console.error(`Scheme is not valid: ${authParts[0]}`);
   return false;
+};
+
+/**
+ * Validate signature headers for Numbers callback. Note: a callbackURL must be associated to the number
+ * @param {string} callbackSecret - secret associated to the rented number
+ * @param {IncomingHttpHeaders} headers - Incoming request's headers
+ * @param {any} body - Incoming request's body
+ * @return {boolean} - true if the signature header is valid
+ */
+export const validateSignatureHeader = (
+  callbackSecret: string,
+  headers: IncomingHttpHeaders,
+  body: any,
+): boolean => {
+  const normalizedHeaders = normalizeHeaders(headers);
+  const signature = getHeader(normalizedHeaders['x-sinch-signature']);
+  if (typeof signature === 'undefined') {
+    return false;
+  }
+  const expectedSignature = computeHmacSignature(body, callbackSecret);
+  return signature === expectedSignature;
+};
+
+// ////////////////
+// UTILITY METHODS
+
+const normalizeHeaders = (headers: IncomingHttpHeaders) => {
+  return Object.fromEntries(
+    Object.entries(headers)
+      .map(([key, value]) => [key.toLowerCase(), value])
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .filter(([_, value]) => value !== undefined),
+  ) as { [p: string]: string | string[] };
+};
+
+const computeHmacSignature = (body: string, secret: string): string => {
+  return crypto.createHmac('sha1', secret).update(body).digest('hex');
 };
 
 const validateApplicationAuth = (
@@ -125,6 +159,28 @@ const validateApplicationAuth = (
   }
 
   return true;
+};
+
+export const calculateMD5 = (body: string): string => {
+  // Content-MD5 = Base64 ( MD5 ( UTF8 ( [BODY] ) ) )
+  return crypto.createHash('md5').update(Buffer.from(body, 'utf-8')).digest('base64');
+};
+
+export const calculateSignature = (secret: string, stringToSign: string): string => {
+  // Signature = Base64 ( HMAC-SHA256 ( Base64-Decode ( ApplicationSecret ), UTF8 ( StringToSign ) ) );
+  return crypto.createHmac('sha256', Buffer.from(secret, 'base64'))
+    .update(Buffer.from(stringToSign, 'utf-8'))
+    .digest('base64');
+};
+
+const buildStringToSign = (
+  httpVerb: string,
+  contentMD5: string,
+  contentType: string,
+  canonicalizedHeaders: string,
+  canonicalizedResource: string,
+): string => {
+  return `${httpVerb}\n${contentMD5}\n${contentType}\n${canonicalizedHeaders}\n${canonicalizedResource}`;
 };
 
 const checkAuthorizationHeaderFormat = (authorizationHeader: string) => {

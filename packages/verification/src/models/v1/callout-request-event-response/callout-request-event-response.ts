@@ -1,10 +1,3 @@
-/**
- * Model: CalloutRequestEventResponse
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { CalloutRequestEventResponseCallout } from '../callout-request-event-response-callout';
 
 export interface CalloutRequestEventResponse {
@@ -16,4 +9,3 @@ export interface CalloutRequestEventResponse {
 }
 
 export type ActionEnum = 'allow' | 'deny';
-

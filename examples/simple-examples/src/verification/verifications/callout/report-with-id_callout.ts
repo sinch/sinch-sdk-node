@@ -1,9 +1,11 @@
-import { ReportVerificationByIdRequestData } from '@sinch/sdk-core';
+import { verificationsHelper } from '@sinch/sdk-core';
 import {
+  getPrintFormat,
   getVerificationCodeFromConfig,
   getVerificationIdFromConfig,
+  initApplicationClient,
+  printFullResponse,
 } from '../../../config';
-import { reportWithId } from '../report-with-id';
 
 (async () => {
   console.log('************************************');
@@ -13,15 +15,18 @@ import { reportWithId } from '../report-with-id';
   const verificationId = getVerificationIdFromConfig();
   const verificationCode = getVerificationCodeFromConfig();
 
-  const requestData: ReportVerificationByIdRequestData = {
-    id: verificationId,
-    verificationReportRequestBody: {
-      method: 'callout',
-      callout: {
-        code: verificationCode,
-      },
-    },
-  };
+  const requestData = verificationsHelper.buildReportCalloutVerificationByIdRequest(
+    verificationId, verificationCode);
 
-  await reportWithId(requestData);
+  const sinchClient = initApplicationClient();
+  const response = await sinchClient.verification.verifications.reportCalloutById(requestData);
+
+  const printFormat = getPrintFormat(process.argv);
+
+  if (printFormat === 'pretty') {
+    console.log(`Phone call verification status: ${response.status}${response.status === 'SUCCESSFUL'?'':' - Reason: ' + response.reason}`);
+  } else {
+    printFullResponse(response);
+  }
+
 })();

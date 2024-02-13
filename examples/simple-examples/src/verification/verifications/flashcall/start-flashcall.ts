@@ -1,6 +1,10 @@
-import { StartVerificationRequestData } from '@sinch/sdk-core';
-import { startVerification } from '../start';
-import { getVerificationIdentityFromConfig } from '../../../config';
+import { verificationsHelper } from '@sinch/sdk-core';
+import {
+  getPrintFormat,
+  getVerificationIdentityFromConfig,
+  initApplicationClient,
+  printFullResponse,
+} from '../../../config';
 
 (async () => {
   console.log('*********************************');
@@ -9,19 +13,21 @@ import { getVerificationIdentityFromConfig } from '../../../config';
 
   const verificationIdentity = getVerificationIdentityFromConfig();
 
-  const requestData: StartVerificationRequestData = {
-    initiateVerificationRequestBody: {
-      identity: {
-        type: 'number',
-        endpoint: verificationIdentity,
-      },
-      method: 'flashCall',
-      reference: `test-reference-for-flashCall-verification_${verificationIdentity}`,
-      flashCallOptions: {
-        dialTimeout: 20,
-      },
-    },
-  };
+  const requestData = verificationsHelper.buildStartFlashCallVerificationRequest(
+    verificationIdentity,
+    `test-reference-for-flashCall-verification_${verificationIdentity}`,
+    20,
+  );
 
-  await startVerification(requestData);
+  const sinchClient = initApplicationClient();
+  const response = await sinchClient.verification.verifications.startFlashCall(requestData);
+
+  const printFormat = getPrintFormat(process.argv);
+
+  if (printFormat === 'pretty') {
+    console.log(`Verification ID = ${response.id}`);
+    console.log(`FlashCall verification specific field: cliFilter = ${response.flashCall?.cliFilter}`);
+  } else {
+    printFullResponse(response);
+  }
 })();

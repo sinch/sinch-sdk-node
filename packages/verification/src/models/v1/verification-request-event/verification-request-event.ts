@@ -1,12 +1,5 @@
-/**
- * Model: VerificationRequestEvent
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { Identity } from '../identity';
-import { VerificationRequestEventPrice } from '../verification-request-event-price';
+import { Price } from '../price';
 
 export interface VerificationRequestEvent {
 
@@ -18,10 +11,10 @@ export interface VerificationRequestEvent {
   method: MethodEnum;
   /** @see Identity */
   identity: Identity;
-  /** @see VerificationRequestEventPrice */
-  price?: VerificationRequestEventPrice;
-  /** */
-  rate?: VerificationRequestEventPrice;
+  /** The amount of money and currency of the verification request. */
+  price?: Price;
+  /** The amount of money and currency of the verification request. */
+  rate?: Price;
   /** Used to pass your own reference in the request for tracking purposes. */
   reference?: string;
   /** Can be used to pass custom data in the request. */
