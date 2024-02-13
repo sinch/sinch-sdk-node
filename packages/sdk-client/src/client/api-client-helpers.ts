@@ -62,3 +62,34 @@ export async function invalidateAndRegenerateJwt(
     throw new GenericError(errorMessage, errorContext);
   }
 }
+
+/**
+ * Go through all an object's properties and transform to date the values that match the right format
+ * @param {any} input - the response object after all the response plugins have been run
+ * @return {any} - the response where the values matching a date are revived as Date objects
+ */
+export const reviveDates = (input: any): any => {
+  if (Array.isArray(input)) {
+    // Process array elements recursively
+    return input.map((item) => reviveDates(item));
+  } else if (typeof input === 'object' && input !== null) {
+    // Process object properties recursively
+    const newObj: any = {};
+    for (const key in input) {
+      if (Object.prototype.hasOwnProperty.call(input, key)) {
+        newObj[key] = reviveDates(input[key]);
+      }
+    }
+    return newObj;
+  } else if (isDateString(input)) {
+    // Convert string date to Date object
+    return new Date(input);
+  } else {
+    // Return other types as-is
+    return input;
+  }
+};
+
+const isDateString = (value: any): boolean => {
+  return typeof value === 'string' && !isNaN(Date.parse(value));
+};

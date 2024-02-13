@@ -87,14 +87,13 @@ const updateQueryParamsAndSendRequest = <T>(
     ...requestOptions.queryParams,
     ...newParams,
   };
-  const extractedParams = apiClient.extractQueryParams(newQueryParams, Object.keys(newQueryParams));
   const newRequestOptions: RequestOptions = {
     ...requestOptions,
-    queryParams: extractedParams,
+    queryParams: newQueryParams,
   };
   const newUrl = apiClient.prepareUrl(
     requestOptions.basePath,
-    extractedParams,
+    newQueryParams,
   );
   return apiClient.processCallWithPagination<T>({
     url: newUrl,

@@ -12,7 +12,7 @@ import {
   ResponseJSONParseError, ApiCallParametersWithPagination, PageResult,
 } from '../api';
 import fetch, { Response, Headers } from 'node-fetch';
-import { buildErrorContext, manageExpiredToken } from './api-client-helpers';
+import { buildErrorContext, manageExpiredToken, reviveDates } from './api-client-helpers';
 import {
   buildPaginationContext,
   calculateNextPage,
@@ -94,8 +94,8 @@ export class ApiFetchClient extends ApiClient {
       throw exception;
     }
 
-    // If everything went fine, we return the transformed API response
-    return transformedResponse;
+    // If everything went fine, we apply a last transformation to revive the dates, and we return the transformed API response
+    return reviveDates(transformedResponse);
   }
 
   private async sinchFetch(
@@ -125,13 +125,15 @@ export class ApiFetchClient extends ApiClient {
     const errorContext: ErrorContext = buildErrorContext(props, origin);
 
     // Execute call
-    return this.sinchFetchWithPagination<T>(props, errorContext);
+    return this.sinchFetchWithPagination<T>(props, errorContext, origin);
   };
 
   private async sinchFetchWithPagination<T>(
     apiCallParameters: ApiCallParametersWithPagination,
     errorContext: ErrorContext,
+    origin: string | null,
   ): Promise<PageResult<T>> {
+    let exception: Error | undefined;
     const response = await fetch(apiCallParameters.url, apiCallParameters.requestOptions);
     if (
       response.status === 401
@@ -146,14 +148,46 @@ export class ApiFetchClient extends ApiClient {
     }
     // When handling pagination, we won't return the raw response but a PageResult
     const body = await response.text();
-    const result = JSON.parse(body);
+    let result;
+    try {
+      // Try to parse the body if there is one
+      result = body ? JSON.parse(body) : undefined;
+    } catch (error: any) {
+      exception = new ResponseJSONParseError(
+        error.message || 'Fail to parse response body',
+        (response && response.status) || 0,
+        errorContext,
+        body,
+      );
+    }
+
+    // Load and invoke the response plugins to transform the response
+    const responsePlugins = this.loadResponsePlugins(
+      this.apiClientOptions.responsePlugins,
+      apiCallParameters,
+      response,
+      exception,
+      origin);
+    let transformedResponse = result;
+    for (const pluginRunner of responsePlugins) {
+      transformedResponse = await pluginRunner.transform(transformedResponse);
+    }
+
+    // Revive Date objects
+    transformedResponse = reviveDates(transformedResponse);
+
+    // If there has been an error at some point in the process, throw it
+    if (exception) {
+      throw exception;
+    }
+
     // Read the elements' array with its key
-    const responseData: Array<T> = result[apiCallParameters.dataKey];
+    const responseData: Array<T> = transformedResponse[apiCallParameters.dataKey];
     // Build the PageResult object
-    const nextPage = calculateNextPage(result, buildPaginationContext(apiCallParameters));
+    const nextPage = JSON.stringify(calculateNextPage(transformedResponse, buildPaginationContext(apiCallParameters)));
     return {
       data: responseData || [],
-      hasNextPage: hasMore(result, buildPaginationContext(apiCallParameters)),
+      hasNextPage: hasMore(transformedResponse, buildPaginationContext(apiCallParameters)),
       nextPageValue: nextPage,
       nextPage: () => createNextPageMethod<T>(
         this, buildPaginationContext(apiCallParameters), apiCallParameters.requestOptions, nextPage),
