@@ -1,11 +1,11 @@
 export type {
   PaymentStatusEnum as PaymentStatusUpdateEventPaymentStatusEnum,
   PaymentTransactionStatusEnum as PaymentStatusUpdateEventPaymentTransactionStatusEnum,
-} from './event-inbound/event-inbound';
+} from './mod-callback-events/event-inbound/event-inbound';
 export type {
   SentimentResult as MachineLearningSentimentEnum,
   EvaluationEnum as OffensiveAnalysisEvaluationEnum,
-} from './smart-conversations-event/smart-conversations-event';
+} from './mod-callback-events/smart-conversations-event/smart-conversations-event';
 
 export type ConversationMetadataReportView = 'NONE' | 'FULL';
 

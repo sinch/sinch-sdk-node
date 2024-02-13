@@ -1,15 +1,17 @@
 import { ConversationChannel } from '../conversation-channel';
-import { KakaoTalkCredentials } from '../kakaotalk-credentials';
-import { KakaoTalkChatCredentials } from '../kakaotalkchat-credentials';
-import { LineCredentials } from '../line-credentials';
-import { MMSCredentials } from '../mms-credentials';
-import { SMSCredentials } from '../sms-credentials';
-import { StaticBearerCredential } from '../static-bearer-credential';
-import { StaticTokenCredential } from '../static-token-credential';
-import { TelegramCredentials } from '../telegram-credentials';
-import { WeChatCredentials } from '../wechat-credentials';
-import { InstagramCredentials } from '../instagram-credentials';
-import { AppleBcCredentials } from '../applebc-credentials';
+import {
+  AppleBcCredentials,
+  InstagramCredentials,
+  KakaoTalkChatCredentials,
+  KakaoTalkCredentials,
+  LineCredentials,
+  MMSCredentials,
+  SMSCredentials,
+  StaticBearerCredential,
+  StaticTokenCredential,
+  TelegramCredentials,
+  WeChatCredentials,
+} from '../mod-credentials';
 
 /**
  * Enables access to the underlying messaging channel.
