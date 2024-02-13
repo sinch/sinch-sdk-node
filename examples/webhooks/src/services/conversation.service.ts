@@ -3,9 +3,8 @@ import {
   SinchClient,
   ConversationWebhookEventParsed,
   ContactMessage,
-  MediaMessage,
-  TextMessage,
   SendMessageRequestData,
+  messageBuilder,
 } from '@sinch/sdk-core';
 
 @Injectable()
@@ -26,25 +25,19 @@ export class ConversationService {
 
   private buildTextMessage(contactMessage: ContactMessage) {
     if ('text_message' in contactMessage) {
-      return {
-        text_message: {
-          text: `Parrot mode 🦜: ${contactMessage.text_message.text}`,
-        }
-      } as TextMessage;
+      return messageBuilder.text({
+        text: `Parrot mode 🦜: ${contactMessage.text_message.text}`,
+      });
     }
     if ('media_message' in contactMessage) {
-      return {
-        media_message: {
-          url: contactMessage.media_message.url,
-        }
-      } as MediaMessage;
+      return messageBuilder.media({
+        url: contactMessage.media_message.url,
+      });
     }
     if ('fallback_message' in contactMessage) {
-      return {
-        text_message: {
-          text: `Error: ${contactMessage.fallback_message.reason.code} (${contactMessage.fallback_message.reason.sub_code})\n${contactMessage.fallback_message.reason.description}`
-        }
-      } as TextMessage
+      return messageBuilder.text({
+        text: `Error: ${contactMessage.fallback_message.reason.code} (${contactMessage.fallback_message.reason.sub_code})\n${contactMessage.fallback_message.reason.description}`
+      });
     }
   }
 

@@ -10,7 +10,7 @@ import {
   V2TemplateTranslation,
   MessageType,
   templateV1Helper,
-  templateV2Helper,
+  templateV2Helper, messageBuilder,
 } from '../../../src';
 
 const textItem: TextMessageItem = {
@@ -372,6 +372,48 @@ describe('Conversation models helpers', () => {
       const filteredTranslations = templateV2Helper.getPreviousTranslations(translations);
       expect(filteredTranslations.length).toBe(1);
       expect(filteredTranslations[0].version).toBe('1');
+    });
+  });
+
+  describe('Message builder helper', () => {
+    it('should build a TextMessage', () => {
+      const builtTextMessage = messageBuilder.text(textItem);
+      expect(builtTextMessage).toEqual(textMessage);
+    });
+
+    it('should build a CardMessage', () => {
+      const builtTextMessage = messageBuilder.card(cardMessageItem);
+      expect(builtTextMessage).toEqual(cardMessage);
+    });
+
+    it('should build a CarouselMessage', () => {
+      const builtMessage = messageBuilder.carousel(carouselMessageItem);
+      expect(builtMessage).toEqual(carouselMessage);
+    });
+
+    it('should build a ChoiceMessage', () => {
+      const builtMessage = messageBuilder.choice(choiceMessageItem);
+      expect(builtMessage).toEqual(choiceMessage);
+    });
+
+    it('should build a LocationMessage', () => {
+      const builtMessage = messageBuilder.location(locationMessageItem);
+      expect(builtMessage).toEqual(locationMessage);
+    });
+
+    it('should build a MediaMessage', () => {
+      const builtMessage = messageBuilder.media(mediaMessageItem);
+      expect(builtMessage).toEqual(mediaMessage);
+    });
+
+    it('should build a TemplateMessage', () => {
+      const builtMessage = messageBuilder.template(templateMessageItem);
+      expect(builtMessage).toEqual(templateMessage);
+    });
+
+    it('should build a ListMessage', () => {
+      const builtMessage = messageBuilder.list(listMessageItem);
+      expect(builtMessage).toEqual(listMessage);
     });
   });
 

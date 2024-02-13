@@ -1,97 +1,108 @@
 import { TextMessage, TextMessageItem } from './text-message';
 import { CardMessage, CardMessageItem } from './card-message';
 import { CarouselMessage, CarouselMessageItem } from './carousel-message';
-import { ChoiceMessage, ChoiceMessageItem } from './choice-message/choice-message';
+import { ChoiceMessage, ChoiceMessageItem } from './choice-message';
 import { LocationMessage, LocationMessageItem } from './location-message';
 import { MediaMessage, MediaMessageItem } from './media-message';
 import { TemplateMessage, TemplateMessageItem } from './template-message';
 import { ListMessage, ListMessageItem } from './list-message';
 import { V2TemplateTranslation } from './v2-template-translation';
 
+export const messageBuilder = {
+  card: (cardMessageItem: CardMessageItem): CardMessage => {
+    return {
+      card_message: cardMessageItem,
+    } as CardMessage;
+  },
+  carousel: (carouselMessageItem: CarouselMessageItem): CarouselMessage => {
+    return {
+      carousel_message: carouselMessageItem,
+    } as CarouselMessage;
+  },
+  choice: (choiceMessageItem: ChoiceMessageItem): ChoiceMessage => {
+    return {
+      choice_message: choiceMessageItem,
+    } as ChoiceMessage;
+  },
+  list: (listMessageItem: ListMessageItem): ListMessage => {
+    return {
+      list_message: listMessageItem,
+    } as ListMessage;
+  },
+  location: (locationMessageItem: LocationMessageItem): LocationMessage => {
+    return {
+      location_message: locationMessageItem,
+    } as LocationMessage;
+  },
+  media: (mediaMessageItem: MediaMessageItem): MediaMessage => {
+    return {
+      media_message: mediaMessageItem,
+    } as MediaMessage;
+  },
+  template: (templateMessageItem: TemplateMessageItem): TemplateMessage => {
+    return {
+      template_message: templateMessageItem,
+    } as TemplateMessage;
+  },
+  text: (textMessageItem: TextMessageItem): TextMessage => {
+    return {
+      text_message: textMessageItem,
+    } as TextMessage;
+  },
+};
+
 export const templateV1Helper = {
   buildTextMessageContent: (textMessageItem: TextMessageItem): string => {
-    return JSON.stringify({
-      text_message: textMessageItem,
-    } as TextMessage);
+    return JSON.stringify(messageBuilder.text(textMessageItem));
   },
   buildCardMessageContent: (cardMessageItem: CardMessageItem): string => {
-    return JSON.stringify({
-      card_message: cardMessageItem,
-    } as CardMessage);
+    return JSON.stringify(messageBuilder.card(cardMessageItem));
   },
   buildCarouselMessageContent: (carouselMessageItem: CarouselMessageItem): string => {
-    return JSON.stringify({
-      carousel_message: carouselMessageItem,
-    } as CarouselMessage);
+    return JSON.stringify(messageBuilder.carousel(carouselMessageItem));
   },
   buildChoiceMessageContent: (choiceMessageItem: ChoiceMessageItem): string => {
-    return JSON.stringify({
-      choice_message: choiceMessageItem,
-    } as ChoiceMessage);
+    return JSON.stringify(messageBuilder.choice(choiceMessageItem));
   },
   buildLocationMessageContent: (locationMessageItem: LocationMessageItem): string => {
-    return JSON.stringify({
-      location_message: locationMessageItem,
-    } as LocationMessage);
+    return JSON.stringify(messageBuilder.location(locationMessageItem));
   },
   buildMediaMessageContent: (mediaMessageItem: MediaMessageItem): string => {
-    return JSON.stringify({
-      media_message: mediaMessageItem,
-    } as MediaMessage);
+    return JSON.stringify(messageBuilder.media(mediaMessageItem));
   },
   buildTemplateMessageContent: (templateMessageItem: TemplateMessageItem): string => {
-    return JSON.stringify({
-      template_message: templateMessageItem,
-    } as TemplateMessage);
+    return JSON.stringify(messageBuilder.template(templateMessageItem));
   },
   buildListMessageContent: (listMessageItem: ListMessageItem): string => {
-    return JSON.stringify({
-      list_message: listMessageItem,
-    } as ListMessage);
+    return JSON.stringify(messageBuilder.list(listMessageItem));
   },
 };
 
 export const templateV2Helper = {
   // Template V2
   buildTextMessageContent: (textMessageItem: TextMessageItem): TextMessage => {
-    return {
-      text_message: textMessageItem,
-    } as TextMessage;
+    return messageBuilder.text(textMessageItem);
   },
   buildCardMessageContent: (cardMessageItem: CardMessageItem): CardMessage => {
-    return {
-      card_message: cardMessageItem,
-    } as CardMessage;
+    return messageBuilder.card(cardMessageItem);
   },
   buildCarouselMessageContent: (carouselMessageItem: CarouselMessageItem): CarouselMessage => {
-    return {
-      carousel_message: carouselMessageItem,
-    } as CarouselMessage;
+    return messageBuilder.carousel(carouselMessageItem);
   },
   buildChoiceMessageContent: (choiceMessageItem: ChoiceMessageItem): ChoiceMessage => {
-    return {
-      choice_message: choiceMessageItem,
-    } as ChoiceMessage;
+    return messageBuilder.choice(choiceMessageItem);
   },
   buildLocationMessageContent: (locationMessageItem: LocationMessageItem): LocationMessage => {
-    return {
-      location_message: locationMessageItem,
-    } as LocationMessage;
+    return messageBuilder.location(locationMessageItem);
   },
   buildMediaMessageContent: (mediaMessageItem: MediaMessageItem): MediaMessage => {
-    return {
-      media_message: mediaMessageItem,
-    } as MediaMessage;
+    return messageBuilder.media(mediaMessageItem);
   },
   buildTemplateMessageContent: (templateMessageItem: TemplateMessageItem): TemplateMessage => {
-    return {
-      template_message: templateMessageItem,
-    } as TemplateMessage;
+    return messageBuilder.template(templateMessageItem);
   },
   buildListMessageContent: (listMessageItem: ListMessageItem): ListMessage => {
-    return {
-      list_message: listMessageItem,
-    } as ListMessage;
+    return messageBuilder.list(listMessageItem);
   },
   getMessageFromTranslation: (translation: V2TemplateTranslation) => {
     if('text_message' in translation) {

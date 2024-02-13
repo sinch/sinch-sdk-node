@@ -1,4 +1,4 @@
-import { MediaMessage } from '../media-message';
+import { MediaMessageItem } from '../media-message';
 
 export interface ChoiceItem {
   choice: ChoiceItemItem;
@@ -10,8 +10,8 @@ export interface ChoiceItemItem {
   title: string;
   /** Optional parameter. The description (or subtitle) of this choice item. */
   description?: string;
-  /** @see MediaMessage */
-  media?: MediaMessage;
+  /** @see MediaMessageItem */
+  media_message?: MediaMessageItem;
   /** Optional parameter. Postback data that will be returned in the MO if the user selects this option. */
   postback_data?: string;
 }
