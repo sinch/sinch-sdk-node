@@ -1,4 +1,5 @@
 import {
+  getNumberCallbackUrlFromConfig,
   getPrintFormat,
   initClient,
   printFullResponse,
@@ -17,6 +18,7 @@ import {
 
   const servicePlanId = readServicePlanId();
   const appId = readApplicationKey();
+  const callbackUrl = getNumberCallbackUrlFromConfig();
 
   if (!servicePlanId && !appId) {
     console.error('Warning: no configuration has been provided for sms and voice configuration.'
@@ -30,6 +32,7 @@ import {
       searchPattern: 'START',
       pattern: '+1781',
     },
+    callbackUrl,
   };
 
   if (servicePlanId) {
