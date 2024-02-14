@@ -6,7 +6,7 @@ import {
   RequestBody,
   SinchClientParameters,
 } from '@sinch/sdk-client';
-import { VoiceApi } from '../voice-api';
+import { VoiceDomainApi } from '../voice-domain-api';
 
 export type CallLegEnum = 'caller' | 'callee' | 'both';
 export interface GetCallResultRequestData {
@@ -28,7 +28,7 @@ export interface UpdateCallRequestData {
   'svamlRequestBody'?: SVAMLRequestBody;
 }
 
-export class CallsApi extends VoiceApi {
+export class CallsApi extends VoiceDomainApi {
 
   /**
    * Initialize your interface

@@ -38,4 +38,5 @@ export type ReasonEnum = 'N/A'
   | 'NOCREDITPARTNER'
   | 'MANAGERHANGUP'
   | 'CANCEL'
-  | 'GENERALERROR';
+  | 'GENERALERROR'
+  | 'INVALIDSVAMLACTION';

@@ -1,8 +1,8 @@
-import { NumbersApi } from '../../../src/rest/v1/numbers-api';
+import { NumbersDomainApi } from '../../../src/rest/v1/numbers-domain-api';
 import { SinchClientParameters } from '@sinch/sdk-client';
 
 describe('Numbers API', () => {
-  let numbersApi: NumbersApi;
+  let numbersApi: NumbersDomainApi;
   let params: SinchClientParameters;
 
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe('Numbers API', () => {
   });
 
   it('should initialize the client', () => {
-    numbersApi = new NumbersApi(params, 'dummy');
+    numbersApi = new NumbersDomainApi(params, 'dummy');
     numbersApi.getSinchClient();
     expect(numbersApi.client).toBeDefined();
     expect(numbersApi.client?.apiClientOptions.projectId).toBe('PROJECT_ID');
@@ -23,13 +23,13 @@ describe('Numbers API', () => {
 
   it('should update the basePath', () => {
     const newPath = 'https://new.base.path';
-    numbersApi = new NumbersApi(params, 'dummy');
+    numbersApi = new NumbersDomainApi(params, 'dummy');
     numbersApi.setBasePath(newPath);
     expect(numbersApi.client?.apiClientOptions.basePath).toBe(newPath);
   });
 
   it('should update the credentials', () => {
-    numbersApi = new NumbersApi(params, 'dummy');
+    numbersApi = new NumbersDomainApi(params, 'dummy');
     numbersApi.setCredentials({
       projectId: 'NEW_PROJECT_ID',
       keyId: 'NEW_KEY_ID',

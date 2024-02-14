@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import { IncomingHttpHeaders } from 'http';
 import { RequestBody } from '../plugins';
+import * as console from 'console';
 
 /**
  * Generate authorization header for application-signed requests (Verification and Voice)
@@ -33,6 +34,35 @@ export const generateAuthorizationHeader = (
 
   const signature = calculateSignature(applicationSecret, stringToSign);
   return `Application ${applicationKey}:${signature}`;
+};
+
+/**
+ * Validate webhook signature headers for Conversation callback.
+ * @param {string} secret - secret associated to the Conversation app
+ * @param {IncomingHttpHeaders} headers - Incoming request's headers
+ * @param {any} body - Incoming request's body
+ * @return {boolean} - true if the signature header is valid
+ */
+export const validateWebhookSignature = (
+  secret: string,
+  headers: IncomingHttpHeaders,
+  body: any,
+): boolean => {
+  const normalizedHeaders = normalizeHeaders(headers);
+  const nonce = getHeader(normalizedHeaders['x-sinch-webhook-signature-nonce']);
+  const timestamp = getHeader(normalizedHeaders['x-sinch-webhook-signature-timestamp']);
+
+  let bodyAsString = body;
+  if (typeof body === 'object' && body !== null) {
+    bodyAsString = JSON.stringify(body);
+  }
+
+  const signedData = computeSignedData(bodyAsString, nonce, timestamp);
+  const signature = calculateWebhookSignature(signedData, secret);
+
+  const headerSignature = normalizedHeaders['x-sinch-webhook-signature'];
+
+  return headerSignature === signature;
 };
 
 /**
@@ -120,6 +150,21 @@ const normalizeHeaders = (headers: IncomingHttpHeaders) => {
 
 const computeHmacSignature = (body: string, secret: string): string => {
   return crypto.createHmac('sha1', secret).update(body).digest('hex');
+};
+
+export const computeSignedData = (
+  body: string,
+  nonce: string,
+  timestamp: string,
+): string => {
+  return `${body}.${nonce}.${timestamp}`;
+};
+
+export const calculateWebhookSignature = (
+  signedData: string,
+  secret: string,
+): string => {
+  return crypto.createHmac('sha256', secret).update(signedData).digest('base64');
 };
 
 const validateApplicationAuth = (

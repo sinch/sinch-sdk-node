@@ -3,4 +3,4 @@ export * from './available-number';
 export * from './available-regions';
 export * from './callbacks';
 export * from './callbacks-webhook';
-export * from './numbers';
+export * from './numbers-service';

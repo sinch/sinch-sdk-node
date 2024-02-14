@@ -1,8 +1,8 @@
 import { Region, ServicePlanIdCredentials, UnifiedCredentials } from '../../../src';
-import { SmsApi } from '../../../src/rest/v1/sms-api';
+import { SmsDomainApi } from '../../../src/rest/v1/sms-domain-api';
 
 describe('SMS API', () => {
-  let smsApi: SmsApi;
+  let smsApi: SmsDomainApi;
   let paramsWithServicePlanId: ServicePlanIdCredentials;
   let paramsWithProjectId: UnifiedCredentials;
 
@@ -19,7 +19,7 @@ describe('SMS API', () => {
   });
 
   it('should initialize the client with unified credentials and use the "zt." URL', () => {
-    smsApi = new SmsApi(paramsWithProjectId, 'dummy');
+    smsApi = new SmsDomainApi(paramsWithProjectId, 'dummy');
     smsApi.getSinchClient();
     expect(smsApi.client).toBeDefined();
     expect(smsApi.client?.apiClientOptions.projectId).toBe('PROJECT_ID');
@@ -27,7 +27,7 @@ describe('SMS API', () => {
   });
 
   it('should initialize the client with servicePlanId credentials and use standard URL', () => {
-    smsApi = new SmsApi(paramsWithServicePlanId, 'dummy');
+    smsApi = new SmsDomainApi(paramsWithServicePlanId, 'dummy');
     smsApi.getSinchClient();
     expect(smsApi.client).toBeDefined();
     expect(smsApi.client?.apiClientOptions.projectId).toBe('SERVICE_PLAN_ID');
@@ -36,20 +36,20 @@ describe('SMS API', () => {
 
   it('should change the URL when specifying a different region', () => {
     paramsWithServicePlanId.region = Region.CANADA;
-    smsApi = new SmsApi(paramsWithServicePlanId, 'dummy');
+    smsApi = new SmsDomainApi(paramsWithServicePlanId, 'dummy');
     smsApi.getSinchClient();
     expect(smsApi.client?.apiClientOptions.basePath).toBe('https://ca.sms.api.sinch.com');
   });
 
   it('should update the base path', () => {
     const newPath = 'https://new.base.path';
-    smsApi = new SmsApi(paramsWithServicePlanId, 'dummy');
+    smsApi = new SmsDomainApi(paramsWithServicePlanId, 'dummy');
     smsApi.setBasePath(newPath);
     expect(smsApi.client?.apiClientOptions.basePath).toBe(newPath);
   });
 
   it('should not update the credentials when adding servicePlanId credentials on default region', () => {
-    smsApi = new SmsApi(paramsWithProjectId, 'dummy');
+    smsApi = new SmsDomainApi(paramsWithProjectId, 'dummy');
     smsApi.getSinchClient();
     expect(smsApi.client?.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(smsApi.client?.apiClientOptions.basePath).toBe('https://zt.us.sms.api.sinch.com');
@@ -59,7 +59,7 @@ describe('SMS API', () => {
   });
 
   it('should update the credentials and URL when forcing servicePlanId credentials', () => {
-    smsApi = new SmsApi(paramsWithProjectId, 'dummy');
+    smsApi = new SmsDomainApi(paramsWithProjectId, 'dummy');
     smsApi.getSinchClient();
     expect(smsApi.client?.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(smsApi.client?.apiClientOptions.basePath).toBe('https://zt.us.sms.api.sinch.com');
@@ -72,7 +72,7 @@ describe('SMS API', () => {
   });
 
   it('should update the credentials and URL when adding servicePlanId credentials on BR region', () => {
-    smsApi = new SmsApi(paramsWithProjectId, 'dummy');
+    smsApi = new SmsDomainApi(paramsWithProjectId, 'dummy');
     smsApi.getSinchClient();
     expect(smsApi.client?.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(smsApi.client?.apiClientOptions.basePath).toBe('https://zt.us.sms.api.sinch.com');

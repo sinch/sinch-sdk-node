@@ -12,7 +12,7 @@ import {
   RequestBody,
   SinchClientParameters,
 } from '@sinch/sdk-client';
-import { VerificationApi } from '../verification-api';
+import { VerificationDomainApi } from '../verification-domain-api';
 
 interface ReportVerificationByIdRequestDataBase {
   /** The ID of the verification. */
@@ -74,7 +74,7 @@ export interface StartSeamlessVerificationRequestData {
   'startSeamlessVerificationRequestBody': StartSeamlessVerification;
 }
 
-export class VerificationsApi extends VerificationApi {
+export class VerificationsApi extends VerificationDomainApi {
 
   /**
    * Initialize your interface

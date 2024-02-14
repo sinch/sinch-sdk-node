@@ -105,6 +105,42 @@ export const getVoiceCallBackUrl = (): string => {
   return readVariable('VOICE_CALLBACK_URL');
 };
 
+export const getAppIdFromConfig = () => {
+  return readVariable('CONVERSATION_APP_ID');
+};
+
+export const getContactIdFromConfig = () => {
+  return readVariable('CONVERSATION_CONTACT_ID');
+};
+
+export const getMessengerTokenFormConfig = () => {
+  return readVariable('MESSENGER_TOKEN');
+};
+
+export const getMessengerUserIdFromConfig = () => {
+  return readVariable('MESSENGER_USER_ID');
+};
+
+export const getConversationIdFromConfig = () => {
+  return readVariable('CONVERSATION_ID');
+};
+
+export const getMessageIdFromConfig = () => {
+  return readVariable('MESSAGE_ID');
+};
+
+export const getWebhookIdFromConfig = () => {
+  return readVariable('WEBHOOK_ID');
+};
+
+export const getWebhookTargetFromConfig = () => {
+  return readVariable('WEBHOOK_TARGET');
+};
+
+export const getTemplateIdFromConfig = () => {
+  return readVariable('TEMPLATE_ID');
+};
+
 const readVariable = ( name: string): string => {
   const value = process.env[name];
   if (!value) {

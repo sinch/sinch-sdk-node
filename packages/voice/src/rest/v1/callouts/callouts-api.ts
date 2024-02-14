@@ -8,7 +8,7 @@ import {
   RequestBody,
   SinchClientParameters,
 } from '@sinch/sdk-client';
-import { VoiceApi } from '../voice-api';
+import { VoiceDomainApi } from '../voice-domain-api';
 
 export interface TtsCalloutRequestData {
   'ttsCalloutRequestBody': {
@@ -37,7 +37,7 @@ export interface CustomCalloutRequestData {
   }
 }
 
-export class CalloutsApi extends VoiceApi {
+export class CalloutsApi extends VoiceDomainApi {
 
   /**
    * Initialize your interface

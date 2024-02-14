@@ -1,8 +1,8 @@
-import { VerificationApi } from '../../../src/rest/v1/verification-api';
+import { VerificationDomainApi } from '../../../src/rest/v1/verification-domain-api';
 import { ApplicationCredentials, SigningRequest } from '@sinch/sdk-client';
 
 describe('Verification API', () => {
-  let verificationApi: VerificationApi;
+  let verificationApi: VerificationDomainApi;
   let params: ApplicationCredentials;
 
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('Verification API', () => {
   });
 
   it('should initialize the client', () => {
-    verificationApi = new VerificationApi(params, 'dummy');
+    verificationApi = new VerificationDomainApi(params, 'dummy');
     verificationApi.getSinchClient();
     expect(verificationApi.client).toBeDefined();
     expect(verificationApi.client?.apiClientOptions.projectId).toBeUndefined();
@@ -23,13 +23,13 @@ describe('Verification API', () => {
 
   it('should update the base path', () => {
     const newPath = 'https://new.base.path';
-    verificationApi = new VerificationApi(params, 'dummy');
+    verificationApi = new VerificationDomainApi(params, 'dummy');
     verificationApi.setBasePath(newPath);
     expect(verificationApi.client?.apiClientOptions.basePath).toBe('https://new.base.path');
   });
 
   it('should update the credentials', () => {
-    verificationApi = new VerificationApi(params, 'dummy');
+    verificationApi = new VerificationDomainApi(params, 'dummy');
     verificationApi.setApplication({
       applicationKey: 'NEW_APPLICATION_KEY',
       applicationSecret: 'NEW_APPLICATION_SECRET',

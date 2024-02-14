@@ -1,16 +1,18 @@
-import { Numbers } from '@sinch/numbers';
-import { Sms } from '@sinch/sms';
-import { Verification } from '@sinch/verification';
+import { ConversationService } from '@sinch/conversation';
+import { NumbersService } from '@sinch/numbers';
+import { SmsService } from '@sinch/sms';
+import { VerificationService } from '@sinch/verification';
+import { VoiceService } from '@sinch/voice';
 import { SinchClientParameters } from '@sinch/sdk-client';
-import { Voice } from '@sinch/voice';
 
 /** Sinch Client to declare and initialize the supported APIs */
 export class SinchClient {
 
-  public readonly numbers: Numbers;
-  public readonly sms: Sms;
-  public readonly verification: Verification;
-  public readonly voice: Voice;
+  public readonly conversation: ConversationService;
+  public readonly numbers: NumbersService;
+  public readonly sms: SmsService;
+  public readonly verification: VerificationService;
+  public readonly voice: VoiceService;
 
   /**
    * Initialize your API Client instance with the provided credentials.
@@ -18,16 +20,19 @@ export class SinchClient {
    * @param {SinchClientParameters} params - The object containing the Sinch credentials.
    */
   constructor(params: SinchClientParameters) {
+    // Initialize the "Conversation" API
+    this.conversation = new ConversationService(params);
+
     // Initialize the "Numbers" API
-    this.numbers = new Numbers(params);
+    this.numbers = new NumbersService(params);
 
     // Initialize the "SMS" API.
-    this.sms = new Sms(params);
+    this.sms = new SmsService(params);
 
     // Initialize the "Verification" API
-    this.verification = new Verification(params);
+    this.verification = new VerificationService(params);
 
     // Initialize the "Voice" API
-    this.voice = new Voice(params);
+    this.voice = new VoiceService(params);
   }
 }

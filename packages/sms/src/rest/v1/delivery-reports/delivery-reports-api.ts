@@ -12,7 +12,7 @@ import {
   buildPageResultPromise,
   createIteratorMethodsForPagination,
 } from '@sinch/sdk-client';
-import { SmsApi } from '../sms-api';
+import { SmsDomainApi } from '../sms-domain-api';
 
 export type GetDeliveryReportByBatchIdTypeEnum = 'summary' | 'full';
 export interface GetDeliveryReportByBatchIdRequestData {
@@ -48,7 +48,7 @@ export interface GetDeliveryReportsRequestData {
   'client_reference'?: string;
 }
 
-export class DeliveryReportsApi extends SmsApi {
+export class DeliveryReportsApi extends SmsDomainApi {
 
   /**
    * Initialize your interface

@@ -4,7 +4,7 @@ import { CallbackProcessor, validateSignatureHeader } from '@sinch/sdk-client';
 
 export type NumbersCallback = CallbackPayload;
 
-export class NumbersCallbackWebhooks implements CallbackProcessor<CallbackPayload>{
+export class NumbersCallbackWebhooks implements CallbackProcessor<CallbackPayload> {
 
   private readonly callbackSecret: string;
 

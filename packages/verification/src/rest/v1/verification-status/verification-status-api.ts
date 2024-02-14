@@ -3,7 +3,7 @@ import {
   SinchClientParameters,
 } from '@sinch/sdk-client';
 import { VerificationReportResponse } from '../../../models';
-import { VerificationApi } from '../verification-api';
+import { VerificationDomainApi } from '../verification-domain-api';
 
 export interface VerificationStatusByIdRequestData {
   /** The ID of the verification. */
@@ -20,7 +20,7 @@ export interface VerificationStatusByReferenceRequestData {
   'reference': string;
 }
 
-export class VerificationStatusApi extends VerificationApi {
+export class VerificationStatusApi extends VerificationDomainApi {
 
   /**
    * Initialize your interface

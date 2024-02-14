@@ -29,6 +29,7 @@
     "compile": "tsc --build --verbose"
   },
   "dependencies": {
+    "@sinch/conversation": "^0.0.1",
     "@sinch/numbers": "^0.0.1",
     "@sinch/sms": "^0.0.1",
     "@sinch/verification": "^0.0.1",

@@ -3,7 +3,7 @@ import {
   RequestBody,
   SinchClientParameters,
 } from '@sinch/sdk-client';
-import { NumbersApi } from '../numbers-api';
+import { NumbersDomainApi } from '../numbers-domain-api';
 
 export type RegionNumberTypeEnum = 'NUMBER_TYPE_UNSPECIFIED' | 'MOBILE' | 'LOCAL' | 'TOLL_FREE';
 
@@ -17,7 +17,7 @@ export interface ListAvailableRegionsRequestData {
   types?: Array<RegionNumberTypeEnum>;
 }
 
-export class AvailableRegionsApi extends NumbersApi {
+export class AvailableRegionsApi extends NumbersDomainApi {
 
   /**
    * Initialize your interface with the provided API client.
