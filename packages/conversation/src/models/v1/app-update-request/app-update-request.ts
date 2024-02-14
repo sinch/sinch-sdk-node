@@ -15,7 +15,7 @@ export interface AppUpdateRequest {
   /** @see ConversationMetadataReportView */
   conversation_metadata_report_view?: ConversationMetadataReportView;
   /** The display name for the app. */
-  display_name: string;
+  display_name?: string;
   /** @see RetentionPolicy */
   retention_policy?: RetentionPolicy;
   /** @see DispatchRetentionPolicy */
