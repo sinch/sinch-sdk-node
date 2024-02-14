@@ -10,4 +10,4 @@ export * from './templates-v2';
 export * from './transcoding';
 export * from './webhooks';
 export * from './enums';
-export * from './conversation-domain';
+export * from './conversation-service';

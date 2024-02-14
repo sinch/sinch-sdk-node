@@ -16,7 +16,7 @@ import {
   buildPageResultPromise,
   createIteratorMethodsForPagination,
 } from '@sinch/sdk-client';
-import { SmsApi } from '../sms-api';
+import { SmsDomainApi } from '../sms-domain-api';
 
 export interface CreateGroupRequestData {
   /**  */
@@ -53,7 +53,7 @@ export interface UpdateGroupRequestData {
   'updateGroupRequestBody'?: UpdateGroupRequest;
 }
 
-export class GroupsApi extends SmsApi {
+export class GroupsApi extends SmsDomainApi {
 
   /**
    * Initialize your interface

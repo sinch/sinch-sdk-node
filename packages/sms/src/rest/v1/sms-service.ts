@@ -1,9 +1,3 @@
-/**
- * Domain: sms
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
 import {
   SinchClientParameters,
 } from '@sinch/sdk-client';
@@ -12,7 +6,7 @@ import { DeliveryReportsApi } from './delivery-reports';
 import { BatchesApi } from './batches';
 import { InboundsApi } from './inbounds';
 
-export class Sms {
+export class SmsService {
   public readonly groups: GroupsApi;
   public readonly deliveryReports: DeliveryReportsApi;
   public readonly batches: BatchesApi;

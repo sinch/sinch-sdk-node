@@ -14,7 +14,7 @@ import {
   buildPageResultPromise,
   createIteratorMethodsForPagination,
 } from '@sinch/sdk-client';
-import { NumbersApi } from '../numbers-api';
+import { NumbersDomainApi } from '../numbers-domain-api';
 
 export interface GetActiveNumberRequestData {
   /** Output only. The phone number in <a href=\"https://community.sinch.com/t5/Glossary/E-164/ta-p/7537\" target=\"_blank\">E.164</a> format with leading `+`. */
@@ -50,7 +50,7 @@ export interface UpdateActiveNumberRequestData {
   activeNumberRequestBody?: ActiveNumberRequest;
 }
 
-export class ActiveNumberApi extends NumbersApi {
+export class ActiveNumberApi extends NumbersDomainApi {
 
   /**
    * Initialize your interface with the provided API client.

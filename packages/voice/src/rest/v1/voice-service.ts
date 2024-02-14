@@ -1,16 +1,10 @@
-/**
- * Domain: calling
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
 import { SinchClientParameters, VoiceRegion } from '@sinch/sdk-client';
 import { ApplicationsApi } from './applications';
 import { ConferencesApi } from './conferences';
 import { CallsApi } from './calls';
 import { CalloutsApi } from './callouts';
 
-export class Voice {
+export class VoiceService {
   public readonly applications: ApplicationsApi;
   public readonly conferences: ConferencesApi;
   public readonly calls: CallsApi;

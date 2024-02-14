@@ -1,12 +1,12 @@
 import {
   Api,
-  ApiClient,
+  ApiClient, ApiClientOptions,
   ApiFetchClient,
   SinchClientParameters,
-  SigningRequest, XTimestampRequest, ApplicationCredentials,
+  Oauth2TokenRequest, UnifiedCredentials,
 } from '@sinch/sdk-client';
 
-export class VerificationApi implements Api {
+export class NumbersDomainApi implements Api {
   public readonly apiName: string;
   public client?: ApiClient;
   private sinchClientParameters: SinchClientParameters;
@@ -26,10 +26,10 @@ export class VerificationApi implements Api {
   }
 
   /**
-   * Updates the application credentials used to authenticate API requests
-   * @param {ApplicationCredentials} credentials
+   * Updates the credentials used to authenticate API requests
+   * @param {UnifiedCredentials} credentials
    */
-  public setApplication(credentials: ApplicationCredentials) {
+  public setCredentials(credentials: UnifiedCredentials) {
     const parametersBackup = { ...this.sinchClientParameters };
     this.sinchClientParameters = {
       ...parametersBackup,
@@ -39,7 +39,7 @@ export class VerificationApi implements Api {
     try {
       this.getSinchClient();
     } catch (error) {
-      console.error('Impossible to assign the new application to the Verification API');
+      console.error('Impossible to assign the new credentials to the Numbers API');
       this.sinchClientParameters = parametersBackup;
       throw error;
     }
@@ -57,19 +57,22 @@ export class VerificationApi implements Api {
    */
   public getSinchClient(): ApiClient {
     if (!this.client) {
-      if (!this.sinchClientParameters.applicationKey || !this.sinchClientParameters.applicationSecret) {
-        throw new Error('Invalid configuration for the Verification API: '
-          + '"applicationKey" and "applicationSecret" values must be provided');
-      }
-      const apiClientOptions = {
-        requestPlugins: [
-          new XTimestampRequest(),
-          new SigningRequest(this.sinchClientParameters.applicationKey, this.sinchClientParameters.applicationSecret),
-        ],
-      };
+      const apiClientOptions = this.buildApiClientOptions(this.sinchClientParameters);
       this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.basePath = 'https://verification.api.sinch.com';
+      this.client.apiClientOptions.basePath = 'https://numbers.api.sinch.com';
     }
     return this.client;
+  }
+
+  private buildApiClientOptions(params: SinchClientParameters): ApiClientOptions {
+    if (!params.projectId || !params.keyId || !params.keySecret) {
+      throw new Error('Invalid configuration for the Numbers API: '
+        + '"projectId", "keyId" and "keySecret" values must be provided');
+    }
+    return {
+      projectId: params.projectId,
+      requestPlugins: [new Oauth2TokenRequest( params.keyId,  params.keySecret)],
+      useServicePlanId: false,
+    };
   }
 }

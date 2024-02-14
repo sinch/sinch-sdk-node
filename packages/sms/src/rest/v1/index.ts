@@ -5,4 +5,4 @@ export * from './groups';
 export * from './inbounds';
 export * from './enums';
 export * from './fixtures.jest';
-export * from './sms';
+export * from './sms-service';

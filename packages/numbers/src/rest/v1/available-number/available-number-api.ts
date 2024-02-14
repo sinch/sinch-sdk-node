@@ -12,7 +12,7 @@ import {
   RequestBody,
   SinchClientParameters,
 } from '@sinch/sdk-client';
-import { NumbersApi } from '../numbers-api';
+import { NumbersDomainApi } from '../numbers-domain-api';
 
 export interface GetAvailableNumberRequestData {
   /** Output only. The phone number in <a href=\"https://community.sinch.com/t5/Glossary/E-164/ta-p/7537\" target=\"_blank\">E.164</a> format with leading `+`. */
@@ -43,7 +43,7 @@ export interface RentNumberRequestData {
   rentNumberRequestBody: RentNumberRequest;
 }
 
-export class AvailableNumberApi extends NumbersApi {
+export class AvailableNumberApi extends NumbersDomainApi {
 
   /**
    * Initialize your interface with the provided API client.

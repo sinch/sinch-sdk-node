@@ -10,7 +10,7 @@ import {
   RequestBody,
   SinchClientParameters,
 } from '@sinch/sdk-client';
-import { VoiceApi } from '../voice-api';
+import { VoiceDomainApi } from '../voice-domain-api';
 
 export interface QueryNumberRequestData {
   /** The phone number you want to query. */
@@ -37,7 +37,7 @@ export interface AssignNumbersRequestData {
   'assignNumbersRequestBody'?: AssignNumbers;
 }
 
-export class ApplicationsApi extends VoiceApi {
+export class ApplicationsApi extends VoiceDomainApi {
 
   /**
    * Initialize your interface

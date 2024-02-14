@@ -2,7 +2,7 @@ import { SinchClientParameters } from '@sinch/sdk-client';
 import { VerificationStatusApi } from './verification-status';
 import { VerificationsApi } from './verifications';
 
-export class Verification {
+export class VerificationService {
   public readonly verificationStatus: VerificationStatusApi;
   public readonly verifications: VerificationsApi;
 

@@ -10,7 +10,7 @@ import { WebhooksApi } from './webhooks';
 import { TemplatesV1Api } from './templates-v1';
 import { TemplatesV2Api } from './templates-v2';
 
-export class ConversationDomain {
+export class ConversationService {
   public readonly contact: ContactApi;
   public readonly app: AppApi;
   public readonly events: EventsApi;

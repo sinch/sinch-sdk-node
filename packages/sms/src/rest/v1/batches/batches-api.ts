@@ -19,7 +19,7 @@ import {
   buildPageResultPromise,
   createIteratorMethodsForPagination,
 } from '@sinch/sdk-client';
-import { SmsApi } from '../sms-api';
+import { SmsDomainApi } from '../sms-domain-api';
 
 export interface CancelBatchMessageRequestData {
   /** The batch ID you received from sending a message. */
@@ -74,7 +74,7 @@ export interface UpdateBatchMessageRequestData {
   'updateBatchMessageRequestBody'?: UpdateBatchMessageRequest;
 }
 
-export class BatchesApi extends SmsApi {
+export class BatchesApi extends SmsDomainApi {
 
   /**
    * Initialize your interface

@@ -8,7 +8,7 @@ import {
   XTimestampRequest,
 } from '@sinch/sdk-client';
 
-export class VoiceApi implements Api {
+export class VoiceDomainApi implements Api {
   public readonly apiName: string;
   public client?: ApiClient;
   private sinchClientParameters: SinchClientParameters;

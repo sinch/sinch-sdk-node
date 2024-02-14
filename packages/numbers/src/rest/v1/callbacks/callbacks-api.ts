@@ -3,7 +3,7 @@ import {
   RequestBody,
   SinchClientParameters,
 } from '@sinch/sdk-client';
-import { NumbersApi } from '../numbers-api';
+import { NumbersDomainApi } from '../numbers-domain-api';
 
 export interface GetCallbackConfigurationRequestData {}
 export interface UpdateCallbackConfigurationRequestData {
@@ -11,7 +11,7 @@ export interface UpdateCallbackConfigurationRequestData {
   callbackConfigurationUpdateRequestBody?: CallbackConfigurationUpdate;
 }
 
-export class CallbacksApi extends NumbersApi {
+export class CallbacksApi extends NumbersDomainApi {
 
   /**
    * Initialize your interface with the provided API client.

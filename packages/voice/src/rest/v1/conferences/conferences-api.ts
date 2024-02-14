@@ -6,7 +6,7 @@ import {
   RequestBody,
   SinchClientParameters,
 } from '@sinch/sdk-client';
-import { VoiceApi } from '../voice-api';
+import { VoiceDomainApi } from '../voice-domain-api';
 
 export interface GetConferenceInfoRequestData {
   /** The unique identifier of the conference. The user sets this value. */
@@ -31,7 +31,7 @@ export interface ManageParticipantRequestData {
   'manageParticipantRequestBody'?: ManageConferenceParticipantRequest;
 }
 
-export class ConferencesApi extends VoiceApi {
+export class ConferencesApi extends VoiceDomainApi {
 
   /**
    * Initialize your interface

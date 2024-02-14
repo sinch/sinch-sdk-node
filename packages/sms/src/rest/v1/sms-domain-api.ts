@@ -9,7 +9,7 @@ import {
   Oauth2TokenRequest, UnifiedCredentials, ServicePlanIdCredentials,
 } from '@sinch/sdk-client';
 
-export class SmsApi implements Api {
+export class SmsDomainApi implements Api {
   public readonly apiName: string;
   public client?: ApiClient;
   private sinchClientParameters: SinchClientParameters;

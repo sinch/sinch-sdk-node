@@ -10,7 +10,7 @@ import {
   buildPageResultPromise,
   createIteratorMethodsForPagination,
 } from '@sinch/sdk-client';
-import { SmsApi } from '../sms-api';
+import { SmsDomainApi } from '../sms-domain-api';
 
 export interface ListInboundMessagesRequestData {
   /** The page number starting from 0. */
@@ -31,7 +31,7 @@ export interface GetInboundMessageRequestData {
   'inbound_id': string;
 }
 
-export class InboundsApi extends SmsApi {
+export class InboundsApi extends SmsDomainApi {
 
   /**
    * Initialize your interface

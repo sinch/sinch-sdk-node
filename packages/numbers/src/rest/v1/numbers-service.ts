@@ -1,16 +1,10 @@
-/**
- * Domain: numbers
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
 import { SinchClientParameters } from '@sinch/sdk-client';
 import { AvailableRegionsApi } from './available-regions';
 import { CallbacksApi } from './callbacks';
 import { AvailableNumberApi } from './available-number';
 import { ActiveNumberApi } from './active-number';
 
-export class Numbers {
+export class NumbersService {
   public readonly availableRegions: AvailableRegionsApi;
   public readonly callbacks: CallbacksApi;
   public readonly availableNumber: AvailableNumberApi;
