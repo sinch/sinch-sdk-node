@@ -14,7 +14,7 @@ import { ManageWithCallLegRequestData, VoiceRegion } from '@sinch/sdk-core';
   const requestData: ManageWithCallLegRequestData = {
     callId,
     callLeg: 'callee',
-    svamlRequestBody: {
+    manageWithCallLegRequestBody: {
       instructions: [
         {
           name: 'say',

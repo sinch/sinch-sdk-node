@@ -11,7 +11,7 @@ import { GetNumbersRequestData } from '@sinch/sdk-core';
   const sinchClient = initApplicationClient();
   let response;
   try {
-    response = await sinchClient.voice.applications.getNumbers(requestData);
+    response = await sinchClient.voice.applications.listNumbers(requestData);
   } catch (error) {
     console.log(`Impossible to get information about your numbers`);
     throw error;

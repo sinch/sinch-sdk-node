@@ -1,7 +1,7 @@
 import {
   ConferenceCalloutRequest,
   CustomCalloutRequest,
-  GetCalloutResponseObj,
+  CalloutResponse,
   TtsCalloutRequest,
 } from '../../../models';
 import {
@@ -53,7 +53,7 @@ export class CalloutsApi extends VoiceDomainApi {
    * Makes a text-to-speech callout to a phone number.
    * @param { TtsCalloutRequestData } data - The data to provide to the API call.
    */
-  public async tts(data: TtsCalloutRequestData): Promise<GetCalloutResponseObj> {
+  public async tts(data: TtsCalloutRequestData): Promise<CalloutResponse> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<TtsCalloutRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -68,7 +68,7 @@ export class CalloutsApi extends VoiceDomainApi {
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
-    return this.client.processCall<GetCalloutResponseObj>({
+    return this.client.processCall<CalloutResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -81,7 +81,7 @@ export class CalloutsApi extends VoiceDomainApi {
    * Makes a conference callout to a phone number.
    * @param { ConferenceCalloutRequestData } data - The data to provide to the API call.
    */
-  public async conference(data: ConferenceCalloutRequestData): Promise<GetCalloutResponseObj> {
+  public async conference(data: ConferenceCalloutRequestData): Promise<CalloutResponse> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ConferenceCalloutRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -97,7 +97,7 @@ export class CalloutsApi extends VoiceDomainApi {
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
-    return this.client.processCall<GetCalloutResponseObj>({
+    return this.client.processCall<CalloutResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -110,7 +110,7 @@ export class CalloutsApi extends VoiceDomainApi {
    * Makes a conference callout to a phone number.
    * @param { CustomCalloutRequestData } data - The data to provide to the API call.
    */
-  public async custom(data: CustomCalloutRequestData): Promise<GetCalloutResponseObj> {
+  public async custom(data: CustomCalloutRequestData): Promise<CalloutResponse> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<CustomCalloutRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -126,7 +126,7 @@ export class CalloutsApi extends VoiceDomainApi {
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
-    return this.client.processCall<GetCalloutResponseObj>({
+    return this.client.processCall<CalloutResponse>({
       url,
       requestOptions,
       apiName: this.apiName,

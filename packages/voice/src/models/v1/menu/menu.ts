@@ -1,10 +1,3 @@
-/**
- * Model: Menu
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { Option } from '../option';
 
 /**

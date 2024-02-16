@@ -1,7 +1,7 @@
 import {
   GetCallbacks,
-  GetNumbersResponseObj,
-  GetQueryNumber,
+  ListNumbersResponse,
+  QueryNumberResponse,
   UnassignNumbers,
   UpdateCallbacks,
   AssignNumbers,
@@ -53,7 +53,7 @@ export class ApplicationsApi extends VoiceDomainApi {
    * Returns information about the requested number.
    * @param { QueryNumberRequestData } data - The data to provide to the API call.
    */
-  public async queryNumber(data: QueryNumberRequestData): Promise<GetQueryNumber> {
+  public async queryNumber(data: QueryNumberRequestData): Promise<QueryNumberResponse> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<QueryNumberRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -70,7 +70,7 @@ export class ApplicationsApi extends VoiceDomainApi {
         = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
-    return this.client.processCall<GetQueryNumber>({
+    return this.client.processCall<QueryNumberResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -112,7 +112,7 @@ export class ApplicationsApi extends VoiceDomainApi {
    * Get information about your numbers. It returns a list of numbers that you own, as well as their capability (voice or SMS). For the ones that are assigned to an app, it returns the application key of the app.
    * @param { GetNumbersRequestData } data - The data to provide to the API call.
    */
-  public async getNumbers(data: GetNumbersRequestData): Promise<GetNumbersResponseObj> {
+  public async listNumbers(data: GetNumbersRequestData): Promise<ListNumbersResponse> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetNumbersRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -128,7 +128,7 @@ export class ApplicationsApi extends VoiceDomainApi {
         = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
-    return this.client.processCall<GetNumbersResponseObj>({
+    return this.client.processCall<ListNumbersResponse>({
       url,
       requestOptions,
       apiName: this.apiName,

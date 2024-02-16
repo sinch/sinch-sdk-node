@@ -2,7 +2,7 @@ import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
 import {
   CalloutsApi,
   CalloutsApiFixture, ConferenceCalloutRequestData, CustomCalloutRequestData,
-  GetCalloutResponseObj,
+  CalloutResponse,
   TtsCalloutRequestData,
 } from '../../../../src';
 
@@ -36,7 +36,7 @@ describe('CalloutsApi', () => {
           },
         },
       };
-      const expectedResponse: GetCalloutResponseObj = {
+      const expectedResponse: CalloutResponse = {
         callId: 'callId',
       };
 
@@ -68,7 +68,7 @@ describe('CalloutsApi', () => {
           },
         },
       };
-      const expectedResponse: GetCalloutResponseObj = {
+      const expectedResponse: CalloutResponse = {
         callId: 'callId',
       };
 
@@ -98,7 +98,7 @@ describe('CalloutsApi', () => {
           },
         },
       };
-      const expectedResponse: GetCalloutResponseObj = {
+      const expectedResponse: CalloutResponse = {
         callId: 'callId',
       };
 

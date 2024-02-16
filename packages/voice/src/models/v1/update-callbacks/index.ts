@@ -1,1 +1,1 @@
-export type { UpdateCallbacks } from './update-callbacks';
+export type { UpdateCallbacks, CallbacksUrl } from './update-callbacks';

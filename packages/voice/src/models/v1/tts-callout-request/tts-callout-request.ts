@@ -1,10 +1,3 @@
-/**
- * Model: TtsCalloutRequest
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { Destination } from '../destination';
 
 /**
@@ -14,12 +7,12 @@ export interface TtsCalloutRequest {
 
   /** The number that will be displayed as the incoming caller. To set your own CLI, you may use your verified number or your Dashboard number. The number must be in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format. */
   cli?: string;
-  /** @see Destination */
+  /** The type of device and number or endpoint to call. */
   destination: Destination;
   /** When the destination picks up, this DTMF tones will be played to the callee. Valid characters in the string are "0"-"9", "#", and "w". A "w" will render a 500 ms pause. For example, "ww1234#w#" will render a 1s pause, the DTMF tones "1", "2", "3", "4" and "#" followed by a 0.5s pause and finally the DTMF tone for "#". This can be used if the callout destination for instance require a conference PIN code or an extension to be entered. */
   dtmf?: string;
   /** Can be either `pstn` for PSTN endpoint or `mxp` for data (app or web) clients. */
-  domain?: DomainEnum;
+  domain?: 'pstn' | 'mxp';
   /** Can be used to input custom data. */
   custom?: string;
   /** The voice and language you want to use for the text-to-speech message. This can either be defined by the ISO 639 locale and language code or by specifying a particular voice. Supported languages and voices are detailed [here](../../../voice-locales/). */
@@ -35,6 +28,3 @@ export interface TtsCalloutRequest {
   /** <b>Note:</b> PIE callbacks are not available for DATA Calls; only PSTN and SIP calls.  If `enablePie` is set to `true` and the application has a callback URL specified, you will receive a PIE callback after the `runMenu` action executes and after the configured menu timeout has elapsed with no input. If it's set to `false`, no PIE events will be sent to your backend. */
   enablePie?: boolean;
 }
-
-export type DomainEnum = 'pstn' | 'mxp';
-

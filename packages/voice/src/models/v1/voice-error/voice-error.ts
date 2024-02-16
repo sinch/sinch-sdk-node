@@ -1,11 +1,3 @@
-/**
- * Model: VerificationError
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-
 export interface VoiceError {
 
   /** A summary of the HTTP error code and error type. */
@@ -17,5 +9,3 @@ export interface VoiceError {
   /** If applicable, a reference ID for support to use with diagnosing the error. */
   reference?: string;
 }
-
-

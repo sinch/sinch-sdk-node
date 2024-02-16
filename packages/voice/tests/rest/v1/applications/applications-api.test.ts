@@ -5,8 +5,8 @@ import {
   GetCallbacks,
   GetCallbackURLsRequestData,
   GetNumbersRequestData,
-  GetNumbersResponseObj,
-  GetQueryNumber,
+  ListNumbersResponse,
+  QueryNumberResponse,
   QueryNumberRequestData,
   UnassignNumberRequestData,
   UpdateCallbackURLsRequestData,
@@ -31,7 +31,7 @@ describe('ApplicationsApi', () => {
       const requestData: QueryNumberRequestData = {
         number: '+14151112223333',
       };
-      const expectedResponse: GetQueryNumber = {
+      const expectedResponse: QueryNumberResponse = {
         method: 'numberItem',
         number: {
           countryId: 'US',
@@ -84,7 +84,7 @@ describe('ApplicationsApi', () => {
     it('should make a GET request to get information about your numbers', async () => {
       // Given
       const requestData: GetNumbersRequestData = {};
-      const expectedResponse: GetNumbersResponseObj = {
+      const expectedResponse: ListNumbersResponse = {
         numbers: [
           {
             number: '33444555666',
@@ -95,13 +95,13 @@ describe('ApplicationsApi', () => {
       };
 
       // When
-      fixture.getNumbers.mockResolvedValue(expectedResponse);
-      applicationsApi.getNumbers = fixture.getNumbers;
-      const response = await applicationsApi.getNumbers(requestData);
+      fixture.listNumbers.mockResolvedValue(expectedResponse);
+      applicationsApi.listNumbers = fixture.listNumbers;
+      const response = await applicationsApi.listNumbers(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.getNumbers).toHaveBeenCalledWith(requestData);
+      expect(fixture.listNumbers).toHaveBeenCalledWith(requestData);
     });
   });
 

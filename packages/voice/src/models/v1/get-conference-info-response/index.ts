@@ -1,1 +1,1 @@
-export type { GetConferenceInfoResponse } from './get-conference-info-response';
+export type { GetConferenceInfoResponse, ParticipantDetails } from './get-conference-info-response';
