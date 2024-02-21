@@ -81,7 +81,9 @@ export class CallsApi extends VoiceDomainApi {
       'Accept': 'application/json',
     };
 
-    const body: RequestBody = data['manageWithCallLegRequestBody'] ? JSON.stringify(data['manageWithCallLegRequestBody']) : '{}';
+    const body: RequestBody = data['manageWithCallLegRequestBody']
+      ? JSON.stringify(data['manageWithCallLegRequestBody'])
+      : '{}';
     const path = `/calling/v1/calls/id/${data['callId']}/leg/${data['callLeg']}`;
     const basePathUrl = this.client.apiClientOptions.basePath + path;
 
