@@ -15,7 +15,7 @@ export interface SendMessageRequest {
   /** Explicitly define the channels and order in which they are tried when sending the message. All channels provided in this field must be configured in the corresponding Conversation API app, or the request will be rejected. Which channels the API will try and their priority is defined by: 1. `channel_priority_order` if available. 2. `recipient.identified_by.channel_identities` if available. 3. When recipient is a `contact_id`:     - if a conversation with the contact exists: the active channel of the conversation is tried first.     - the existing channels for the contact are ordered by contact channel preferences if given.     - lastly the existing channels for the contact are ordered by the app priority. */
   channel_priority_order?: ConversationChannel[];
   /** Channel-specific properties. The key in the map must point to a valid channel property key as defined by the enum ChannelPropertyKeys. The maximum allowed property value length is 1024 characters. */
-  channel_properties?: { [key: string]: string; };
+  channel_properties?: Partial<{ [K in ChannelPropertyKey]: string; }>;
   /** @see AppMessage */
   message: AppMessageMessage;
   /** Metadata that should be associated with the message. Returned in the `metadata` field of a [Message Delivery Receipt](https://developers.sinch.com/docs/conversation/callbacks/#message-delivery-receipt). Up to 1024 characters long. */
@@ -35,3 +35,19 @@ export interface SendMessageRequest {
   /** Update strategy for the `conversation_metadata` field. */
   conversation_metadata_update_strategy?: ConversationMetadataUpdateStrategy;
 }
+
+export type ChannelPropertyKey =
+  'MESSENGER_MESSAGING_TYPE'
+  | 'MESSENGER_MESSAGE_TAG'
+  | 'MESSENGER_NOTIFICATION_TYPE'
+  | 'VIBER_SENDER_NAME'
+  | 'VIBER_SENDER_AVATAR'
+  | 'SMS_FLASH_MESSAGE'
+  | 'MMS_SENDER'
+  | 'TELEGRAM_DISABLE_LINK_PREVIEW'
+  | 'SMS_SENDER'
+  | 'INSTAGRAM_MESSAGE_TAG'
+  | 'MMS_STRICT_VALIDATION'
+  | 'KAKAOTALK_AUTHENTICATION'
+  | 'LINE_VIDEO_TRACKING_ID';
+
