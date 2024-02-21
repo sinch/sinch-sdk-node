@@ -1,4 +1,5 @@
 import { Destination } from '../destination';
+import { TtsVoice } from '../enums';
 
 /**
  * The text-to-speech callout calls a phone number and plays a synthesized text messages or pre-recorded sound files.
@@ -16,7 +17,7 @@ export interface TtsCalloutRequest {
   /** Can be used to input custom data. */
   custom?: string;
   /** The voice and language you want to use for the text-to-speech message. This can either be defined by the ISO 639 locale and language code or by specifying a particular voice. Supported languages and voices are detailed [here](../../../voice-locales/). */
-  locale?: string;
+  locale?: TtsVoice;
   /** The text that will be spoken in the text-to-speech message.  _Every application's default maximum characters allowed in text-to-speech is 600 characters. Contact support if you wish this limit to be changed._  */
   text?: string;
   /** An advanced alternative to using ```text```.  __TTS__ _Text To Speech:_ The equivalent of text but within the prompt property.  Example: _```#tts[Hello from Sinch]```_  __TTS with SSML__ _Text To Speech with Speech Synthesis Markup Language (SSML)._ This is an XML-based markup language for assisting the generation of synthetic speech in the Web and other applications. AWS Polly supports a sub-set of SSML. This allows us to use SSML-enhanced text for additional control over how Polly generates speech from the text. Details and examples of supported tags are [here](https://docs.aws.amazon.com/polly/latest/dg/supportedtags.html)    __Externally hosted media:__ Provide a URL to your own hosted media.  Please check [here](../../../supported-audio-formats/#limits) to read about audio content type and usage limits.  _Every application's default maximum allowed in TTS or TTS SSML is 600 characters. Contact support if you wish this limit to be changed._ _Several prompts can be used, separated by a semi-colon_ ```;```  Example: _```#tts[Hello from Sinch];#ssml[<speak><break time="250ms"/>Have a great day!</speak>]```_  */

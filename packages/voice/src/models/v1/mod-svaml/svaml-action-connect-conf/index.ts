@@ -1,1 +1,1 @@
-export type { SvamlActionConnectConf } from './svaml-action-connect-conf';
+export type { SvamlActionConnectConf, ConnectConfProps } from './svaml-action-connect-conf';

@@ -1,1 +1,1 @@
-export type { SvamlActionConnectSip, SipDestination } from './svaml-action-connect-sip';
+export type { SvamlActionConnectSip, SipDestination, ConnectSipProps } from './svaml-action-connect-sip';

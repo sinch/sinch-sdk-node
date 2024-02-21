@@ -28,3 +28,5 @@ export interface TranscriptionOptions {
   /** The locale of the transcription (e.g.: 'en-US') */
   locale?: string;
 }
+
+export type StartRecordingProps = Omit<SvamlInstructionStartRecording, 'name'>;

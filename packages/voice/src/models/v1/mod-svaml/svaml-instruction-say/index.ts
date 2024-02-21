@@ -1,1 +1,1 @@
-export type { SvamlInstructionSay } from './svaml-instruction-say';
+export type { SvamlInstructionSay, SayProps } from './svaml-instruction-say';

@@ -1,1 +1,1 @@
-export type { PieResponse, PieSvamlAction } from './pie-response';
+export type { PieResponse, PieSvamlAction, PieSvamlInstruction } from './pie-response';

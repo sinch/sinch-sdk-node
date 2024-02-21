@@ -20,7 +20,7 @@ export interface SvamlActionConnectPstn {
   /** A string that determines the DTMF tones to play to the callee when the call is picked up. Valid characters are: `0-9`, `#`, and `w`. `w` renders a 500ms pause. For example, the string `ww1234#w#`, plays a 1-second pause, the DTMF tones for `1`, `2`, `3`, `4`, and `#`, followed by a 500ms pause and finally the `#` tone. This is useful if the callout destination requires a conference PIN code or an extension. If there is a calling party, it will hear progress while the DTMF is sent. */
   dtmf?: string;
   /** The locale's tone to play while ringing. */
-  indications?: string;
+  indications?: Indication;
   /** An optional property used to enable [Answering Machine Detection](/docs/voice/api-reference/amd_v2) (AMD). */
   amd?: EnableAmd;
 }
@@ -31,3 +31,8 @@ export interface EnableAmd {
   enabled?: boolean;
 }
 
+type Indication = 'at' | 'au' | 'bg' | 'br' | 'be' | 'ch' | 'cl' | 'cn' | 'cz' | 'de' | 'dk' | 'ee' | 'es'
+  | 'fi' | 'fr' | 'gr' | 'hu' | 'il' | 'in' | 'it' | 'lt' | 'jp' | 'mx' | 'my' | 'nl' | 'no' | 'nz' | 'ph'
+  | 'pl' | 'pt' | 'ru' | 'se' | 'sg' | 'th' | 'uk' | 'us' | 'tw' | 've' | 'za';
+
+export type ConnectPstnProps = Omit<SvamlActionConnectPstn, 'name'>;

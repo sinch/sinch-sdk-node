@@ -1,1 +1,1 @@
-export type { SvamlInstructionSendDtmf } from './svaml-instruction-send-dtmf';
+export type { SvamlInstructionSendDtmf, SendDtmfProps } from './svaml-instruction-send-dtmf';

@@ -1,1 +1,1 @@
-export type { IceResponse, IceSvamlAction } from './ice-response';
+export type { IceResponse, IceSvamlAction, IceSvamlInstruction } from './ice-response';

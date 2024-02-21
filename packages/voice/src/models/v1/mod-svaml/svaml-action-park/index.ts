@@ -1,1 +1,1 @@
-export type { SvamlActionPark } from './svaml-action-park';
+export type { SvamlActionPark, ParkProps } from './svaml-action-park';

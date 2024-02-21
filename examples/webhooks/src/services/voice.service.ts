@@ -1,14 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import {
+  aceActionHelper,
   AceRequest,
-  AceResponse,
+  AceSvamletBuilder,
   DiceRequest,
+  iceActionHelper,
+  iceInstructionHelper,
   IceRequest,
-  IceResponse,
+  IceSvamletBuilder,
   NotifyRequest,
+  pieActionHelper,
+  pieInstructionHelper,
   PieRequest,
-  PieResponse,
+  PieSvamletBuilder,
   VoiceCallback,
 } from '@sinch/sdk-core';
 
@@ -40,25 +45,17 @@ export class VoiceService {
 
   private handleIceRequest(event: IceRequest, res: Response) {
     console.log(`ICE request: CLI = ${event.cli} - To = ${event.to.endpoint} (${event.to.type})`)
-    const iceResponse: IceResponse = {
-      action: {
-        name: 'hangup'
-      },
-      instructions: [
-        {
-          name: 'say',
-          text: 'Thank you for calling Sinch! This call will now end.'
-        }
-      ]
-    };
+    const iceResponse = new IceSvamletBuilder()
+      .setAction(iceActionHelper.hangup())
+      .addInstruction(iceInstructionHelper.say('Thank you for calling Sinch! This call will now end.', 'en-US'))
+      .build()
     res.status(200).json(iceResponse);
   }
 
   private handleAceRequest(event: AceRequest, res: Response) {
-    console.log(`ACE request: Call answered at '${event.timestamp}'`);
-    const aceResponse: AceResponse = {
-      action: {
-        name: 'runMenu',
+    console.log(`ACE request: Call answered at '${event.timestamp.toISOString()}'`);
+    const aceResponse = new AceSvamletBuilder()
+      .setAction(aceActionHelper.runMenu({
         barge: true,
         menus: [
           {
@@ -81,36 +78,28 @@ export class VoiceService {
             repeatPrompt: '#tts[Please enter your 4-digit pin.]',
             repeats: 3,
             maxDigits: 4
-          }
-        ]
-      }
-    };
+          },
+        ],
+      }))
+      .build();
     res.status(200).json(aceResponse);
   }
 
   private handleDiceRequest(event: DiceRequest, res: Response) {
-    console.log(`DICE request: Call disconnected at '${event.timestamp}' with the reason '${event.reason}'.`);
+    console.log(`DICE request: Call disconnected at '${event.timestamp.toISOString()}' with the reason '${event.reason}'.`);
     res.status(200).send();
   }
 
   private handlePieRequest(event: PieRequest, res: Response) {
     console.log(`PIE request: IVR menu choice: '${event.menuResult?.value}'`);
-    const pieResponse: PieResponse = {
-      action: {
-        name: 'hangup'
-      },
-      instructions: [
-        {
-          name: 'say',
-          text: 'Thanks for your input. The call will now end.'
-        }
-      ]
-    }
+    const pieResponse = new PieSvamletBuilder()
+      .setAction(pieActionHelper.hangup())
+      .addInstruction(pieInstructionHelper.say('Thanks for your input. The call will now end.'))
     res.status(200).send(pieResponse);
   }
 
   private handleNotifyRequest(event: NotifyRequest, res: Response) {
-    console.log(`Notification received: "${event.type}"`)
+    console.log(`Notification received: "${event.type}"`);
     res.status(200).send();
   }
 }
