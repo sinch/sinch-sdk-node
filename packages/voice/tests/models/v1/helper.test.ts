@@ -60,7 +60,7 @@ const CALL_HEADERS: CallHeader[] = [
 
 const RECORDING_OPTIONS: StartRecordingOptions = {
   destinationUrl: 'azure://my-account/test-container/my-recording.mp3',
-  credentials: 'AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+Pw==',
+  credentials: 'dummyAzureCredentials',
   format: 'mp3',
   notificationEvents: true,
   transcriptionOptions: {
