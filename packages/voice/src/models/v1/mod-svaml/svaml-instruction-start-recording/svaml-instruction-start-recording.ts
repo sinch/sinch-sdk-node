@@ -26,7 +26,50 @@ export interface TranscriptionOptions {
   /** Enable / disable the transcription */
   enabled?: boolean;
   /** The locale of the transcription (e.g.: 'en-US') */
-  locale?: string;
+  locale?: TranscriptionLocale;
 }
+
+type TranscriptionLocale =
+  'af-ZA'
+  | 'ar-AE'
+  | 'ar-SA'
+  | 'zh-CN'
+  | 'zh-TW'
+  | 'da-DK'
+  | 'nl-NL'
+  | 'en-AU'
+  | 'en-GB'
+  | 'en-IN'
+  | 'en-IE'
+  | 'en-NZ'
+  | 'en-AB'
+  | 'en-ZA'
+  | 'en-US'
+  | 'en-WL'
+  | 'fr-FR'
+  | 'fr-CA'
+  | 'fa-IR'
+  | 'gd_GB'
+  | 'de-DE'
+  | 'de-CH'
+  | 'he-IL'
+  | 'hi-IN'
+  | 'id-ID'
+  | 'ga-IE'
+  | 'it-IT'
+  | 'ja-JP'
+  | 'ko-KR'
+  | 'ms-MY'
+  | 'pt-PT'
+  | 'pt-BR'
+  | 'ru-RU'
+  | 'es-ES'
+  | 'es-US'
+  | 'sv-SE'
+  | 'ta-IN'
+  | 'te-IN'
+  | 'th-TH'
+  | 'tr-TR'
+  | 'vi-VN';
 
 export type StartRecordingProps = Omit<SvamlInstructionStartRecording, 'name'>;

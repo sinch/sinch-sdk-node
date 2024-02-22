@@ -29,6 +29,8 @@ export interface EnableAmd {
 
   /** Sets whether AMD is enabled. */
   enabled?: boolean;
+  /** To be set to 'true' in order to be notified when the beep is detected */
+  async?: boolean;
 }
 
 type Indication = 'at' | 'au' | 'bg' | 'br' | 'be' | 'ch' | 'cl' | 'cn' | 'cz' | 'de' | 'dk' | 'ee' | 'es'

@@ -49,7 +49,7 @@ export class VoiceService {
     const iceResponse = new IceSvamletBuilder()
       .setAction(iceActionHelper.hangup())
       .addInstruction(iceInstructionHelper.say('Thank you for calling Sinch! This call will now end.', 'en-US'))
-      .build()
+      .build();
     res.status(200).json(iceResponse);
   }
 
