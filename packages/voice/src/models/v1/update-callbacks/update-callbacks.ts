@@ -1,16 +1,16 @@
-/**
- * Model: UpdateCallbacks
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-import { UpdateCallbacksUrl } from '../update-callbacks-url';
-
 export interface UpdateCallbacks {
 
-  /** @see UpdateCallbacksUrl */
-  url?: UpdateCallbacksUrl;
+  /** Contains primary and/or fallback callback URLs */
+  url?: CallbacksUrl;
 }
 
+/**
+ * Contains primary and or fallback callback URLs
+ */
+export interface CallbacksUrl {
 
+  /** Your primary callback URL */
+  primary?: string;
+  /** Your fallback callback URL */
+  fallback?: string;
+}

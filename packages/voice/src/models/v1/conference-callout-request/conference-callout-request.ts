@@ -1,12 +1,5 @@
-/**
- * Model: ConferenceCalloutRequest
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-import { ConferenceCalloutRequestConferenceDtmfOptions } from '../conference-callout-request-conference-dtmf-options';
 import { Destination } from '../destination';
+import { ConferenceDtmfOptions } from '../conference-dtmf-options';
 
 /**
  * The conference callout calls a phone number or a user. When the call is answered, it's connected to a conference room.
@@ -19,8 +12,8 @@ export interface ConferenceCalloutRequest {
   destination: Destination;
   /** The conferenceId of the conference to which you want the callee to join. If the conferenceId doesn't exist a conference room will be created. */
   conferenceId: string;
-  /** @see ConferenceCalloutRequestConferenceDtmfOptions */
-  conferenceDtmfOptions?: ConferenceCalloutRequestConferenceDtmfOptions;
+  /** Options to control how DTMF signals are used by the participant in the conference. For information on how to use this feature, read more [here](../../../conference-dtmf). */
+  conferenceDtmfOptions?: ConferenceDtmfOptions;
   /** When the destination picks up, this DTMF tones will be played to the callee. Valid characters in the string are "0"-"9", "#" and "w". A "w" will render a 500 ms pause. Example: "ww1234#w#" will render a 1s pause, the DTMF tones "1", "2", "3", "4" and "#" followed by a 0.5s pause and finally the DTMF tone for "#". This can be used if the callout destination for instance require a conference PIN code or an extension to be entered. */
   dtmf?: string;
   maxDuration?: number;
@@ -41,5 +34,3 @@ export interface ConferenceCalloutRequest {
   /** can be either “pstn” for PSTN endpoint or “mxp” for data (app or web) clients. */
   domain?: string;
 }
-
-

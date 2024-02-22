@@ -46,7 +46,7 @@
     "conversation:templatev1:delete": "ts-node src/conversation/templates-v1/delete.ts",
     "conversation:templatev2:create": "ts-node src/conversation/templates-v2/create.ts",
     "conversation:templatev2:get": "ts-node src/conversation/templates-v2/get.ts",
-    "conversation:templatev2:list": "ts-node src/conversation/templates-v2/list.ts pretty",
+    "conversation:templatev2:list": "ts-node src/conversation/templates-v2/list.ts",
     "conversation:templatev2:listTranslations": "ts-node src/conversation/templates-v2/list-translations.ts pretty",
     "conversation:templatev2:update": "ts-node src/conversation/templates-v2/update.ts",
     "conversation:templatev2:delete": "ts-node src/conversation/templates-v2/delete.ts",

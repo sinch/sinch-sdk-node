@@ -1,4 +1,4 @@
-import { GetCallbacks, GetNumbersResponseObj, GetQueryNumber } from '../../../models';
+import { GetCallbacks, ListNumbersResponse, QueryNumberResponse } from '../../../models';
 import { ApplicationsApi, QueryNumberRequestData, GetCallbackURLsRequestData, GetNumbersRequestData, UnassignNumberRequestData, UpdateCallbackURLsRequestData, AssignNumbersRequestData } from './applications-api';
 
 export class ApplicationsApiFixture implements Partial<Readonly<ApplicationsApi>> {
@@ -6,7 +6,7 @@ export class ApplicationsApiFixture implements Partial<Readonly<ApplicationsApi>
   /**
    * Fixture associated to function queryNumber
    */
-  public queryNumber: jest.Mock<Promise<GetQueryNumber>, [QueryNumberRequestData]> = jest.fn();
+  public queryNumber: jest.Mock<Promise<QueryNumberResponse>, [QueryNumberRequestData]> = jest.fn();
   /**
    * Fixture associated to function getCallbackURLs
    */
@@ -14,7 +14,7 @@ export class ApplicationsApiFixture implements Partial<Readonly<ApplicationsApi>
   /**
    * Fixture associated to function getNumbers
    */
-  public getNumbers: jest.Mock<Promise<GetNumbersResponseObj>, [GetNumbersRequestData]> = jest.fn();
+  public listNumbers: jest.Mock<Promise<ListNumbersResponse>, [GetNumbersRequestData]> = jest.fn();
   /**
    * Fixture associated to function unassignNumber
    */

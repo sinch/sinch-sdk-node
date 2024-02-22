@@ -1,1 +1,1 @@
-export type { GetCallbacks } from './get-callbacks';
+export type { GetCallbacks, GetCallbacksUrl } from './get-callbacks';

@@ -1,33 +1,3 @@
-export type {
-  MethodEnum as CalloutRequestMethodEnum,
-} from './callout-request/callout-request';
-export type {
-  TypeEnum as DestinationTypeEnum,
-} from './destination/destination';
-export type {
-  DomainEnum as GetCallResponseObjDomainEnum,
-  StatusEnum as GetCallResponseObjStatusEnum,
-} from './get-call-response-obj/get-call-response-obj';
-export type {
-  CapabilityEnum as GetNumbersResponseObjNumbersInnerCapabilityEnum,
-} from './get-numbers-response-obj-numbers-inner/get-numbers-response-obj-numbers-inner';
-export type {
-  NumberTypeEnum as GetQueryNumberNumberItemNumberTypeEnum,
-} from './get-query-number-number-item/get-query-number-number-item';
-export type {
-  DomainEnum as TtsCalloutRequestDomainEnum,
-} from './tts-callout-request/tts-callout-request';
-export type {
-  CapabilityEnum as UnassignNumbersCapabilityEnum,
-} from './unassign-numbers/unassign-numbers';
-export type {
-  CapabilityEnum as UpdateNumbersCapabilityEnum,
-} from './assign-numbers/assign-numbers';
-export type {
-  CommandEnum as ManageConferenceParticipantRequestCommandEnum,
-  MohEnum as ManageConferenceParticipantRequestMohEnum,
-} from './manage-conference-participant-request/manage-conference-participant-request';
-
 export type ResultEnum = 'N/A' | 'ANSWERED' | 'BUSY' | 'NOANSWER' | 'FAILED';
 
 export type ReasonEnum = 'N/A'
@@ -40,3 +10,61 @@ export type ReasonEnum = 'N/A'
   | 'CANCEL'
   | 'GENERALERROR'
   | 'INVALIDSVAMLACTION';
+
+export type TtsVoice = 'arb' | 'arb/female' | 'Zeina'
+  | 'az-AZ' | 'az-AZ/female' | 'az-AZ/male' |'Banu' | 'Babek'
+  | 'ca-ES' | 'ca-ES/female' | 'Arlet'
+  | 'zh-HK' | 'zh-HK/female' | 'zh-HK/male' | 'HiuGaai' | 'HiuMaan' | 'WanLung'
+  | 'cmn-CN' | 'cmn-CN/female' | 'Zhiyu'
+  | 'hr-HR' | 'hr-HR/female' | 'hr-HR/male' | 'Gabrijela' | 'Srecko'
+  | 'cs-CZ' | 'cs-CZ/female' | 'cs-CZ/male' | 'Vlasta' | 'Antonin'
+  | 'da-DK' | 'da-DK/female' | 'da-DK/male' | 'Naja' | 'Mads'
+  | 'nl-NL' | 'nl-NL/female' | 'nl-NL/male' | 'Lotte' | 'Ruben'
+  | 'en-AU' | 'en-AU/female' | 'en-AU/male' | 'Nicole' | 'Olivia' | 'Russell'
+  | 'en-GB' | 'en-GB/female' | 'en-GB/male' | 'Amy' | 'Emma' | 'Brian' | 'Arthur'
+  | 'en-IN' | 'en-IN/female' | 'Aditi' | 'Raveena' | 'Kajal'
+  | 'en-NZ' | 'en-NZ/female' | 'Aria'
+  | 'en-ZA' | 'en-ZA/female' | 'Ayanda'
+  | 'en-US' | 'en-US/female' | 'en-US/male' | 'Ivy' | 'Joanna' | 'Kendra' | 'Kimberly'
+            | 'Salli' | 'Joey' | 'Justin' | 'Kevin' | 'Matthew'
+  | 'en-GB-WLS' | 'en-GB-WLS/male' | 'Geraint'
+  | 'et-EE' | 'et-EE/female' | 'et-EE/male' | 'Anu' | 'Kert'
+  | 'fil-PH' | 'fil-PH/female' | 'fil-PH/male' | 'Angelo' | 'Blessica'
+  | 'fi-FI' | 'fi-FI/female' | 'Suvi'
+  | 'fr-FR' | 'fr-FR/female' | 'fr-FR/male' | 'Céline' | 'Celine' | 'Léa' | 'Mathieu'
+  | 'fr-CA' | 'fr-CA/female' | 'fr-CA/male' | 'Chantal' | 'Gabrielle' | 'Liam'
+  | 'ka-GE' | 'ka-GE/female' | 'ka-GE/male' | 'Eka' | 'Giorgi'
+  | 'de-DE' | 'de-DE/female' | 'de-DE/male' | 'Marlene' | 'Vicki' | 'Hans' | 'Daniel'
+  | 'de-AT' | 'de-AT/female' | 'Hannah'
+  | 'el-GR' | 'el-GR/female' | 'el-GR/male' | 'Athina' | 'Nestoras'
+  | 'hi-IN' | 'hi-IN/female' | 'Aditi' | 'Kajal'
+  | 'hu-HU' | 'hu-HU/female' | 'hu-HU/male' | 'Noemi' | 'Tamas'
+  | 'is-IS' | 'is-IS/female' | 'is-IS/male' | 'Dóra' | 'Dora' | 'Karl'
+  | 'id-ID' | 'id-ID/female' | 'id-ID/male' | 'Ardi' | 'Gadis'
+  | 'it-IT' | 'it-IT/female' | 'it-IT/male' | 'Carla' | 'Bianca' | 'Giorgio'
+  | 'ja-JP' | 'ja-JP/female' | 'ja-JP/male' | 'Mizuki' | 'Takumi'
+  | 'ko-KR' | 'ko-KR/female' | 'Seoyeon'
+  | 'mt-MT' | 'mt-MT/female' | 'mt-MT/male' | 'Grace' | 'Joseph'
+  | 'ms-MY' | 'ms-MY/female' | 'ms-MY/male' | 'Osman' | 'Yasmin'
+  | 'nb-NO' | 'nb-NO/female' | 'Liv'
+  | 'lv-LV' | 'lv-LV/female' | 'lv-LV/male' | 'Everita' | 'Nils'
+  | 'lt-LT' | 'lt-LT/female' | 'lt-LT/male' | 'Ona' | 'Leonas'
+  | 'pl-PL' | 'pl-PL/female' | 'pl-PL/male' | 'Ewa' | 'Maja' | 'Jacek' | 'Jan'
+  | 'pt-BR' | 'pt-BR/female' | 'pt-BR/male' | 'Camila' | 'Vitória' | 'Vitoria' | 'Ricardo'
+  | 'pt-PT' | 'pt-PT/female' | 'pt-PT/male' | 'Inês' | 'Ines' | 'Cristiano'
+  | 'ro-RO' | 'ro-RO/female' | 'Carmen'
+  | 'ru-RU' | 'ru-RU/female' | 'ru-RU/male' | 'Tatyana' | 'Maxim'
+  | 'es-ES' | 'es-ES/female' | 'es-ES/male' | 'Conchita' | 'Lucia' | 'Enrique'
+  | 'es-MX' | 'es-MX/female' | 'Mia'
+  | 'es-US' | 'es-US/female' | 'es-US/male' | 'Lupe' | 'Penélope' | 'Penelope' | 'Miguel' | 'Pedro'
+  | 'sk-SK' | 'sk-SK/female' | 'sk-SK/male' | 'Viktoria' | 'Lukas'
+  | 'sl-SI' | 'sl-SI/female' | 'sl-SI/male' | 'Petra' | 'Rok'
+  | 'sv-SE' | 'sv-SE/female' | 'Astrid'
+  | 'th-TH' | 'th-TH/female' | 'th-TH/male' | 'Achara' | 'Niwat' | 'Premwadee'
+  | 'tr-TR' | 'tr-TR/male' | 'Filiz'
+  | 'uk-UA' | 'uk-UA/female' | 'uk-UA/male' | 'Polina' | 'Ostap'
+  | 'uz-UZ' | 'uz-UZ/female' | 'uz-UZ/male' | 'Madina' | 'Sardor'
+  | 'vi-VN' | 'vi-VN/female' | 'vi-VN/male' | 'HoaiMy' | 'NamMinh'
+  | 'cy-GB' | 'cy-GB/female' | 'Gwyneth'
+
+export type MusicOnHold = 'ring' | 'music1' | 'music2' | 'music3';

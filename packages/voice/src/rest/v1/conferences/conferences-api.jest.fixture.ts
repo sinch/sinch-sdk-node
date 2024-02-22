@@ -1,4 +1,5 @@
 import {
+  CalloutResponse,
   GetConferenceInfoResponse,
 } from '../../../models';
 import {
@@ -8,9 +9,14 @@ import {
   KickParticipantRequestData,
   ManageParticipantRequestData,
 } from './conferences-api';
+import { ConferenceCalloutRequestData } from '../callouts';
 
 export class ConferencesApiFixture implements Partial<Readonly<ConferencesApi>> {
 
+  /**
+   * Fixture associated to function call
+   */
+  public call: jest.Mock<Promise<CalloutResponse>, [ConferenceCalloutRequestData]> = jest.fn();
   /**
    * Fixture associated to function get
    */

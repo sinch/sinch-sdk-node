@@ -13,7 +13,7 @@ import { UpdateCallRequestData, VoiceRegion } from '@sinch/sdk-core';
 
   const requestData: UpdateCallRequestData = {
     callId,
-    svamlRequestBody: {
+    updateCallRequestBody: {
       instructions: [
         {
           name: 'sendDtmf',
