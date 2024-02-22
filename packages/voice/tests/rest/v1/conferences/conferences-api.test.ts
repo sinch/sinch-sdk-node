@@ -7,6 +7,8 @@ import {
   KickAllRequestData,
   KickParticipantRequestData,
   ManageParticipantRequestData,
+  ConferenceCalloutRequestData,
+  CalloutResponse,
 } from '../../../../src';
 
 
@@ -24,7 +26,7 @@ describe('ConferencesApi', () => {
   });
 
   describe ('getConferenceInfo', () => {
-    it('should make a GET request to ...', async () => {
+    it('should make a GET request to get information about a conference', async () => {
       // Given
       const requestData: GetConferenceInfoRequestData = {
         conferenceId: 'conferenceId',
@@ -56,6 +58,38 @@ describe('ConferencesApi', () => {
       // Then
       expect(response).toEqual(expectedResponse);
       expect(fixture.get).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('Conference callouts', () => {
+    it('should make a POST request to make a conference callout to a phone number', async () => {
+      // Given
+      const requestData: ConferenceCalloutRequestData = {
+        conferenceCalloutRequestBody: {
+          method: 'conferenceCallout',
+          conferenceCallout: {
+            cli: '+14045001000',
+            conferenceId: 'conferenceId',
+            destination: {
+              type: 'number',
+              endpoint: '+14045005000',
+            },
+            domain: 'pstn',
+          },
+        },
+      };
+      const expectedResponse: CalloutResponse = {
+        callId: 'callId',
+      };
+
+      // When
+      fixture.call.mockResolvedValue(expectedResponse);
+      conferencesApi.call = fixture.call;
+      const response = await conferencesApi.call(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.call).toHaveBeenCalledWith(requestData);
     });
   });
 
