@@ -30,27 +30,16 @@ With the credentials found on the Sinch dashboards, you will have to fill the fi
 
 ```properties
 # Credentials for APIs using OAuth2 authentication
-PROJECT_ID=project-id found at https://dashboard.sinch.com/account/access-keys
-KEY_ID=access-key-id found at https://dashboard.sinch.com/account/access-keys
-KEY_SECRET=access-key-secret found at access-key creation time
+SINCH_PROJECT_ID=project-id found at https://dashboard.sinch.com/account/access-keys
+SINCH_KEY_ID=access-key-id found at https://dashboard.sinch.com/account/access-keys
+SINCH_KEY_SECRET=access-key-secret found at access-key creation time
+
+# Application credentials for Verification and Voice APIs
+SINCH_APPLICATION_KEY=application-key found at https://dashboard.sinch.com/verification/apps
+SINCH_APPLICATION_SECRET=application-secret found at https://dashboard.sinch.com/verification/apps
 ```
 
 **Note**: If you prefer using environment variables, the sample app is also supporting them: they take precedence over the value from the `.env` file.
-
-## Execution
-You will find all the scripts in the `package.json` file to run the samples.
-
-### With NPM
-
-```bash
-npm run numbers:app
-```
-
-### With Yarn
-
-```bash
-yarn run numbers:app
-```
 
 ## Available flows
 
@@ -66,3 +55,31 @@ This app will try to rent a number or type `LOCAL` and manage it. the following 
    - Another possibility is to list our active numbers and check if the numbers we have rented are part of the list. This example illustrates the pagination.
  - The next request will update some properties of our numbers
  - Finally, we will release our numbers to not be charged for more than 1 month.
+
+Run the flow:
+```bash
+# With NPM
+npm run numbers:app
+# With Yarn
+yarn run numbers:app
+```
+
+### Verification
+
+This app will perform a phone number verification in an interactive flow:
+ - the user chooses which verification method to use: SMS, Callout, Flash call or Seamless
+ - the user inputs the phone number to verify
+ - an API call is made to start the verification flow according to the chosen method
+ - except for a seamless verification, the user is asked to input:
+   - the OTP received by SMS for an SMS verification
+   - the OTP received by dictation for a Callout verification
+   - the Caller ID displayed on the phone for a Flash Call verification
+ - once the code is submitted, another API call is made to report the verification and the returned status is displayed
+
+Run the flow:
+```bash
+# With NPM
+npm run verification:app
+# With Yarn
+yarn run verification:app
+```
