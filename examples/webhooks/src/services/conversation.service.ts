@@ -55,6 +55,10 @@ export class ConversationService {
               contact_id: event.message.contact_id,
             },
             message: this.buildTextMessage(contactMessage),
+            ttl: '5s',
+            channel_properties: {
+              MESSENGER_NOTIFICATION_TYPE: 'NO_PUSH',
+            }
           },
         };
         this.sinchClient.conversation.messages.send(requestData)
@@ -80,7 +84,7 @@ export class ConversationService {
           console.log(`The sentiment of the message is '${analysisResult.ml_sentiment_result[0].sentiment}' with a score of ${analysisResult.ml_sentiment_result[0].score}`);
         }
         if (analysisResult.ml_nlu_result) {
-          console.log(`The intent of the message is '${analysisResult.ml_nlu_result[0].intent}' with a score of ${analysisResult.ml_nlu_result[0].score}. Other intents are\n:${analysisResult.ml_nlu_result[0].results.map((result) => '- ' + result.intent + ': ' + result.score).join('\n')}`);
+          console.log(`The intent of the message is '${analysisResult.ml_nlu_result[0].intent}' with a score of ${analysisResult.ml_nlu_result[0].score}. Other intents are:\n${analysisResult.ml_nlu_result[0].results.map((result) => '- ' + result.intent + ': ' + result.score).join('\n')}`);
         }
         if (analysisResult.ml_pii_result) {
           console.log(`Message with masked PII:\n${analysisResult.ml_pii_result[0].masked}`);
@@ -188,7 +192,7 @@ export class ConversationService {
       case 'CHANNEL_EVENT':
         console.log('\n## CHANNEL_EVENT')
         const channelEvent = event.channel_event_notification;
-        console.log(`The event '${channelEvent.event_type}' occurred on the channel '${channelEvent.channel}'.`);
+        console.log(`The event '${channelEvent.channel_event.event_type}' occurred on the channel '${channelEvent.channel_event.channel}'.`);
         if ('additional_data' in channelEvent) {
           console.log(`Additional data:\n${JSON.stringify(channelEvent.additional_data, null, 2)}`);
         }
