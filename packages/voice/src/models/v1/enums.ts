@@ -67,4 +67,4 @@ export type TtsVoice = 'arb' | 'arb/female' | 'Zeina'
   | 'vi-VN' | 'vi-VN/female' | 'vi-VN/male' | 'HoaiMy' | 'NamMinh'
   | 'cy-GB' | 'cy-GB/female' | 'Gwyneth'
 
-
+export type MusicOnHold = 'ring' | 'music1' | 'music2' | 'music3';

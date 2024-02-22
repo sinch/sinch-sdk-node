@@ -14,7 +14,6 @@ export * from './query-number-response';
 export * from './participant';
 export * from './manage-conference-participant-request';
 export * from './menu';
-export * from './music-on-hold';
 export * from './option';
 export * from './svaml-request-body';
 export * from './tts-callout-request';

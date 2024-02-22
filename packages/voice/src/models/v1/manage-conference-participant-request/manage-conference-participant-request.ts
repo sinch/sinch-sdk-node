@@ -1,4 +1,4 @@
-import { MusicOnHold } from '../music-on-hold';
+import { MusicOnHold } from '../enums';
 
 /**
  *

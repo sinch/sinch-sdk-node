@@ -1,5 +1,5 @@
 import { ConferenceDtmfOptions } from '../../conference-dtmf-options';
-import { MusicOnHold } from '../../music-on-hold';
+import { MusicOnHold } from '../../enums';
 
 /**
  * Connects an incoming call to a conference. Available to use in a response to an [Incoming Call Event](../../voice/tag/Callbacks/#tag/Callbacks/operation/ice) callback.
