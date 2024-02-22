@@ -8,7 +8,8 @@ import {
   RegionNumberTypeEnum, ReleaseNumberRequestData, RentAnyNumberRequestData,
   RentNumberRequestData, UpdateActiveNumberRequestData,
 } from '@sinch/sdk-core';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 (async() => {
 
@@ -18,9 +19,9 @@ require('dotenv').config();
   // We'll then verify they are part of our active numbers, update their configuration and finally release them.
   // The final step will be to verify the numbers are not listed as active anymore
 
-  const keyId = process.env.KEY_ID || '';
-  const keySecret = process.env.KEY_SECRET || '';
-  const projectId = process.env.PROJECT_ID || '';
+  const projectId = process.env.SINCH_PROJECT_ID || '';
+  const keyId = process.env.SINCH_KEY_ID || '';
+  const keySecret = process.env.SINCH_KEY_SECRET || '';
   const sinchClient = new SinchClient({ projectId, keyId, keySecret });
 
   const regionType: RegionNumberTypeEnum = 'LOCAL';

@@ -2,7 +2,7 @@ import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
 import {
   CallsApi,
   CallsApiFixture,
-  CallObject,
+  GetCallInformation,
   GetCallResultRequestData,
   ManageWithCallLegRequestData,
   SvamlAction,
@@ -32,7 +32,7 @@ describe('CallsApi', () => {
       const requestData: GetCallResultRequestData = {
         callId: 'callId',
       };
-      const expectedResponse: CallObject = {
+      const expectedResponse: GetCallInformation = {
         callId: 'callId',
         to: {
           type: 'Number',

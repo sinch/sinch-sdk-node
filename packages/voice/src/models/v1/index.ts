@@ -5,7 +5,7 @@ export * from './custom-callout-request';
 export * from './destination';
 export * from './voice-price';
 export * from './voice-error';
-export * from './call-object';
+export * from './get-call-information';
 export * from './get-callbacks';
 export * from './callout-response';
 export * from './get-conference-info-response';

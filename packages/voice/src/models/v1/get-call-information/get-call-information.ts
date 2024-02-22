@@ -2,7 +2,7 @@ import { ReasonEnum, ResultEnum } from '../enums';
 import { VoicePrice } from '../voice-price';
 import { Participant } from '../participant';
 
-export interface CallObject {
+export interface GetCallInformation {
 
   /** Contains the caller information. */
   from?: Participant;
