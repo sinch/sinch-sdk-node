@@ -25,7 +25,10 @@ export interface ChannelEvent extends ConversationEvent {
 }
 
 export interface ChannelEventNotification {
+  channel_event: ChannelEventItem
+}
 
+export interface ChannelEventItem {
   /** @see ConversationChannel */
   channel?: ConversationChannel;
   /** The type of event being reported. */
