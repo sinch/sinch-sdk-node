@@ -141,7 +141,7 @@ export const svamlInstructionHelper = {
       name: 'answer',
     };
   },
-  buildPlayFiles: (ids: string[], locale: TtsVoice): SvamlInstructionPlayFiles => {
+  buildPlayFiles: (ids: string[], locale?: TtsVoice): SvamlInstructionPlayFiles => {
     // TODO - check for server limitations
     return {
       name: 'playFiles',

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import {
   aceActionHelper,
+  aceInstructionHelper,
   AceRequest,
   AceSvamletBuilder,
   DiceRequest,
@@ -94,7 +95,9 @@ export class VoiceService {
     console.log(`PIE request: IVR menu choice: '${event.menuResult?.value}'`);
     const pieResponse = new PieSvamletBuilder()
       .setAction(pieActionHelper.hangup())
-      .addInstruction(pieInstructionHelper.say('Thanks for your input. The call will now end.'))
+      .addInstruction(pieInstructionHelper.say('Thanks for your input. The call will end after some music.'))
+      .addInstruction(pieInstructionHelper.playFiles(['https://samples-files.com/samples/Audio/mp3/sample-file-4.mp3']))
+      .build();
     res.status(200).send(pieResponse);
   }
 
