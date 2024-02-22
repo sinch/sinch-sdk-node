@@ -11,7 +11,7 @@ export interface SvamlActionConnectMxp {
   /** Allows you to specify or override the final destination of the call. If the final destination of the call is not dialed, this is a required parameter. */
   destination?: Destination;
   /** An optional parameter that allows you to specify or override call headers provided to the receiving Sinch SDK client. Read more about call headers [here](../../call-headers/). */
-  callheaders?: CallHeader[];
+  callHeaders?: CallHeader[];
 }
 
-
+export type ConnectMxpProps = Omit<SvamlActionConnectMxp, 'name'>;

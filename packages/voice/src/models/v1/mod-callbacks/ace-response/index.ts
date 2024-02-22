@@ -1,1 +1,1 @@
-export type { AceResponse, AceSvamlAction } from './ace-response';
+export type { AceResponse, AceSvamlAction, AceSvamlInstruction } from './ace-response';

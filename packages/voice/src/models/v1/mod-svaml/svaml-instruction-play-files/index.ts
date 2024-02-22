@@ -1,1 +1,1 @@
-export type { SvamlInstructionPlayFiles } from './svaml-instruction-play-files';
+export type { SvamlInstructionPlayFiles, PlayFilesProps } from './svaml-instruction-play-files';

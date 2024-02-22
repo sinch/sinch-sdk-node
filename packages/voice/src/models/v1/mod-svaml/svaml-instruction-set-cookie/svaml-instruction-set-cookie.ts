@@ -10,3 +10,5 @@ export interface SvamlInstructionSetCookie {
   /** The value of the cookie you want to set. */
   value?: string;
 }
+
+export type SetCookieProps = Omit<SvamlInstructionSetCookie, 'name'>;

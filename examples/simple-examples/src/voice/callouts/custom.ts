@@ -1,11 +1,18 @@
 import {
   getPhoneNumberFromConfig,
   getPrintFormat,
-  getRecipientPhoneNumberFromConfig, getVoiceCallBackUrl,
+  getRecipientPhoneNumberFromConfig,
+  getVoiceCallBackUrl,
   initApplicationClient,
   printFullResponse,
 } from '../../config';
-import { AceResponse, CustomCalloutRequestData, IceResponse } from '@sinch/sdk-core';
+import {
+  aceActionHelper,
+  customCalloutHelper,
+  CustomCalloutRequestData,
+  iceActionHelper,
+  iceInstructionHelper,
+} from '@sinch/sdk-core';
 
 (async () => {
   console.log('*********************');
@@ -26,23 +33,27 @@ import { AceResponse, CustomCalloutRequestData, IceResponse } from '@sinch/sdk-c
           endpoint: recipientPhoneNumber,
         },
         custom: 'Custom text',
-        ice: JSON.stringify({
-          action: {
-            name: 'connectPstn',
+        ice: customCalloutHelper.formatIceResponse(
+          iceActionHelper.connectPstn({
             number: recipientPhoneNumber,
             cli: callingNumber,
-          },
-        } as IceResponse),
-        ace: JSON.stringify({
-          action: {
-            name: 'runMenu',
+          }),
+          iceInstructionHelper.say('Welcome to Sinch.', 'en-US/male'),
+          iceInstructionHelper.startRecording({
+            destinationUrl: 'To specify',
+            credentials: 'To specify',
+          }),
+        ),
+        ace: customCalloutHelper.formatAceResponse(
+          aceActionHelper.runMenu({
             locale: 'Kimberly',
             enableVoice: true,
+            barge: true,
             menus: [
               {
                 id: 'main',
-                mainPrompt: '#tts[Welcome to the main menu. Press 1 to confirm order or 4 to cancel]',
-                repeatPrompt: '#tts[Incorrect value, please try again]',
+                mainPrompt: '#tts[Welcome to the main menu. Press 1 to confirm order or 2 to cancel]',
+                repeatPrompt: '#tts[We didn\'t get your input, please try again]',
                 timeoutMills: 5000,
                 options: [
                   {
@@ -50,7 +61,7 @@ import { AceResponse, CustomCalloutRequestData, IceResponse } from '@sinch/sdk-c
                     action: 'menu(confirm)',
                   },
                   {
-                    dtmf: '4',
+                    dtmf: '2',
                     action: 'return(cancel)',
                   },
                 ],
@@ -61,8 +72,8 @@ import { AceResponse, CustomCalloutRequestData, IceResponse } from '@sinch/sdk-c
                 maxDigits: 4,
               },
             ],
-          },
-        } as AceResponse),
+          }),
+        ),
         pie: callbackUrl,
       },
     },

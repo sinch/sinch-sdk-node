@@ -1,1 +1,1 @@
-export type { SvamlActionConnectMxp } from './svaml-action-connect-mxp';
+export type { SvamlActionConnectMxp, ConnectMxpProps } from './svaml-action-connect-mxp';

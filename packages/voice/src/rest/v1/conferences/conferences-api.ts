@@ -1,4 +1,5 @@
 import {
+  CalloutResponse,
   GetConferenceInfoResponse,
   ManageConferenceParticipantRequest,
 } from '../../../models/';
@@ -7,6 +8,7 @@ import {
   SinchClientParameters,
 } from '@sinch/sdk-client';
 import { VoiceDomainApi } from '../voice-domain-api';
+import { CalloutsApi, ConferenceCalloutRequestData } from '../callouts';
 
 export interface GetConferenceInfoRequestData {
   /** The unique identifier of the conference. The user sets this value. */
@@ -33,6 +35,8 @@ export interface ManageParticipantRequestData {
 
 export class ConferencesApi extends VoiceDomainApi {
 
+  private calloutApi: CalloutsApi;
+
   /**
    * Initialize your interface
    *
@@ -40,6 +44,16 @@ export class ConferencesApi extends VoiceDomainApi {
    */
   constructor(sinchClientParameters: SinchClientParameters) {
     super(sinchClientParameters, 'ConferencesApi');
+    this.calloutApi = new CalloutsApi(sinchClientParameters);
+  }
+
+  /**
+   * Conference Callout Request
+   * Makes a conference callout to a phone number.
+   * @param { ConferenceCalloutRequestData } data - The data to provide to the API call.
+   */
+  public async call(data: ConferenceCalloutRequestData): Promise<CalloutResponse> {
+    return this.calloutApi.conference(data);
   }
 
   /**

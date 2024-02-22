@@ -1,1 +1,1 @@
-export type { SvamlActionConnectPstn, EnableAmd } from './svaml-action-connect-pstn';
+export type { SvamlActionConnectPstn, EnableAmd, ConnectPstnProps } from './svaml-action-connect-pstn';

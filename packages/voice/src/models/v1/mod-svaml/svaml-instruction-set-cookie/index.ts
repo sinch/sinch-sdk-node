@@ -1,1 +1,1 @@
-export type { SvamlInstructionSetCookie } from './svaml-instruction-set-cookie';
+export type { SvamlInstructionSetCookie, SetCookieProps } from './svaml-instruction-set-cookie';

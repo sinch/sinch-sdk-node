@@ -24,7 +24,7 @@ import { TtsCalloutRequestData, VoiceRegion } from '@sinch/sdk-core';
           type: 'number',
           endpoint: recipientPhoneNumber,
         },
-        locale: 'en-US',
+        locale: 'en-US/male',
         text: 'Hello, this is a call from Sinch',
       },
     },
