@@ -6,6 +6,8 @@ import { RetentionPolicy } from '../retention-policy';
 import { SmartConversation } from '../smart-conversation';
 import { CallbackSettings } from '../callback-settings';
 import { ConversationMetadataReportView, ProcessingMode } from '../enums';
+import { DeliveryReportBasedFallback } from '../delivery-report-based-fallback';
+import { MessageRetrySettings } from '../message-retry-settings';
 
 /**
  * The response showing information about the app.
@@ -53,21 +55,4 @@ export interface PersistMessageStatus {
 export interface MessageSearch {
   /** A flag specifying whether this app has enabled Message Search services. */
   enabled?: boolean;
-}
-
-export interface DeliveryReportBasedFallback {
-  /** A flag specifying whether this app has enabled fallback upon no positive delivery report feature. Disabled by default */
-  enabled?: boolean;
-  /** The time, in seconds, after which a message without a positive delivery report will fallback to the next channel. The valid values for this field are [60 - 259200]. */
-  delivery_report_waiting_time?: number;
-}
-
-export interface MessageRetrySettings {
-  /**
-   * The maximum duration, in seconds, for which to retry sending a message in case of a temporary processing failure. Time is counted after the first message processing failure. At least one retry is guaranteed.
-   * Subsequent retry times are randomized with exponential backoff. If the next retry timestamp exceeds the configured time, one last retry will be performed on the cut-off time.
-   * If the message has a  configured fallback channel, a switch_on_channel will be triggered.
-   * The valid values for this field are [30 - 3600]. Default value is 3600 (seconds - 1 hour).
-   */
-  retry_duration?: number;
 }

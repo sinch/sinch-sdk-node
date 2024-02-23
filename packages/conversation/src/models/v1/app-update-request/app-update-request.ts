@@ -1,9 +1,11 @@
 import { CallbackSettings } from '../callback-settings';
-import { ConversationChannelCredential } from '../conversation-channel-credential';
+import { ConversationChannelCredentialRequest } from '../conversation-channel-credential';
 import { DispatchRetentionPolicy } from '../dispatch-retention-policy';
 import { RetentionPolicy } from '../retention-policy';
 import { SmartConversation } from '../smart-conversation';
 import { ConversationMetadataReportView, ProcessingMode } from '../enums';
+import { MessageRetrySettings } from '../message-retry-settings';
+import { DeliveryReportBasedFallback } from '../delivery-report-based-fallback';
 
 /**
  * The request sent to the API endpoint to update the configuration of an app.
@@ -11,7 +13,7 @@ import { ConversationMetadataReportView, ProcessingMode } from '../enums';
 export interface AppUpdateRequest {
 
   /** An array of channel credentials. The order of the credentials defines the app channel priority. */
-  channel_credentials?: ConversationChannelCredential[];
+  channel_credentials?: ConversationChannelCredentialRequest[];
   /** @see ConversationMetadataReportView */
   conversation_metadata_report_view?: ConversationMetadataReportView;
   /** The display name for the app. */
@@ -26,4 +28,8 @@ export interface AppUpdateRequest {
   smart_conversation?: SmartConversation;
   /** @see CallbackSettings */
   callback_settings?: CallbackSettings;
+  /** @see MessageRetrySettings */
+  message_retry_settings?: MessageRetrySettings;
+  /** @see DeliveryReportBasedFallback */
+  delivery_report_based_fallback?: DeliveryReportBasedFallback;
 }

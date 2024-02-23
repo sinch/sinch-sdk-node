@@ -1,5 +1,5 @@
 import { WebhookTrigger } from '../../webhook-trigger';
 
-export interface ConversationEvent {
+export interface ConversationCallbackEvent {
   trigger: WebhookTrigger;
 }

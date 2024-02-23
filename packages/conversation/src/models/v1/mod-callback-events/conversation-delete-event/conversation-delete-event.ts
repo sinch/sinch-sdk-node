@@ -1,10 +1,10 @@
 import { Conversation } from '../../conversation';
-import { ConversationEvent } from '../conversation-event';
+import { ConversationCallbackEvent } from '../conversation-callback-event';
 
 /**
  * This callback is sent when a conversation between the subscribed app and a contact is deleted.
  */
-export interface ConversationDeleteEvent extends ConversationEvent {
+export interface ConversationDeleteEvent extends ConversationCallbackEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;

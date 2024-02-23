@@ -3,10 +3,13 @@ import {
   ConversationMessage,
   DeleteMessageRequestData,
   GetMessageRequestData,
-  ListMessagesRequestData, SendMessageRequestData,
+  ListMessagesRequestData,
+  MessagesApi,
+  MessagesApiFixture,
+  SendMessageRequestData,
+  SendMessageResponse,
+  UpdateMessageRequestData,
 } from '../../../../src';
-import { SendMessageResponse } from '../../../../src';
-import { MessagesApi, MessagesApiFixture } from '../../../../src';
 
 describe('MessagesApi', () => {
   let messagesApi: MessagesApi;
@@ -62,9 +65,6 @@ describe('MessagesApi', () => {
             title: 'title',
           },
           explicit_channel_message: {},
-          additionalProperties: {
-            contact_name: 'contactName',
-          },
         },
         channel_identity: {
           app_id: 'app_id',
@@ -168,9 +168,6 @@ describe('MessagesApi', () => {
               title: 'title',
             },
             explicit_channel_message: {},
-            additionalProperties: {
-              contact_name: 'contact_name',
-            },
           },
           channel_identity: {
             identity: 'identity',
@@ -236,6 +233,71 @@ describe('MessagesApi', () => {
       // Then
       expect(response).toEqual(expectedResponse);
       expect(fixture.send).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('updateMessageMetadata', () => {
+    it('should make a PATCH request to update a message', async () => {
+      // Given
+      const requestData: UpdateMessageRequestData = {
+        message_id: 'message_id',
+        messages_source: 'CONVERSATION_SOURCE',
+        updateMessageRequestBody: {
+          metadata: 'new_metadata',
+        },
+      };
+      const expectedResponse: ConversationMessage = {
+        app_message: {
+          card_message: {
+            choices: [],
+            description: 'description',
+            height: 'UNSPECIFIED_HEIGHT',
+            media_message: {
+              url: 'url',
+            },
+            title: 'title',
+          },
+          explicit_channel_message: {},
+          explicit_channel_omni_message: {
+            property1: {
+              card_message: {},
+            },
+            property2: {
+              text_message: {
+                text: 'text message',
+              },
+            },
+          },
+          agent: {
+            display_name: 'agent_name',
+            type: 'UNKNOWN_AGENT_TYPE',
+            picture_url: 'picture_url',
+          },
+        },
+        accept_time: new Date('2019-08-24T14:15:22Z'),
+        channel_identity: {
+          identity: 'identity',
+          channel: 'WHATSAPP',
+          app_id: 'app_id',
+        },
+        contact_id: 'contact_id',
+        conversation_id: 'conversation_id',
+        direction: 'UNDEFINED_DIRECTION',
+        id: 'message_id',
+        metadata: 'new_metadata',
+        injected: true,
+        sender_id: 'sender_id',
+        processing_mode: 'CONVERSATION',
+      };
+
+      // When
+      fixture.update.mockResolvedValue(expectedResponse);
+      messagesApi.update = fixture.update;
+      const response = await messagesApi.update(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.update).toHaveBeenCalledWith(requestData);
     });
   });
 });
