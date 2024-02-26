@@ -74,7 +74,7 @@ export class ServicesApi extends FaxDomainApi {
     const body: RequestBody = data['createServiceRequestBody']
       ? JSON.stringify(data['createServiceRequestBody'])
       : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/services`;
+    const basePathUrl = `${this.client.apiClientOptions.basePath}/v3/projects/${this.client.apiClientOptions.projectId}/services`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
@@ -101,7 +101,7 @@ export class ServicesApi extends FaxDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/services/${data['serviceId']}`;
+    const basePathUrl = `${this.client.apiClientOptions.basePath}/v3/projects/${this.client.apiClientOptions.projectId}/services/${data['serviceId']}`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
@@ -130,7 +130,7 @@ export class ServicesApi extends FaxDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/services/${data['serviceId']}/numbers`;
+    const basePathUrl = `${this.client.apiClientOptions.basePath}/v3/projects/${this.client.apiClientOptions.projectId}/services/${data['serviceId']}/numbers`;
 
     const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
 
@@ -173,7 +173,7 @@ export class ServicesApi extends FaxDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/services`;
+    const basePathUrl = `${this.client.apiClientOptions.basePath}/v3/projects/${this.client.apiClientOptions.projectId}/services`;
 
     const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
 
@@ -214,7 +214,7 @@ export class ServicesApi extends FaxDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/services/${data['serviceId']}`;
+    const basePathUrl = `${this.client.apiClientOptions.basePath}/v3/projects/${this.client.apiClientOptions.projectId}/services/${data['serviceId']}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body || undefined);
@@ -244,7 +244,7 @@ export class ServicesApi extends FaxDomainApi {
     const body: RequestBody = data['updateServiceRequestBody']
       ? JSON.stringify(data['updateServiceRequestBody'])
       : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/services/${data['serviceId']}`;
+    const basePathUrl = `${this.client.apiClientOptions.basePath}/v3/projects/${this.client.apiClientOptions.projectId}/services/${data['serviceId']}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'PATCH', getParams, headers, body || undefined);

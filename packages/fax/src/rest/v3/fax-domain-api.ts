@@ -61,7 +61,7 @@ export class FaxDomainApi implements Api {
     if (!this.client) {
       const apiClientOptions = this.buildApiClientOptions(this.sinchClientParameters);
       this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.basePath = 'https://fax.api.sinch.com/v3/projects/YOUR_project_id';
+      this.client.apiClientOptions.basePath = 'https://fax.api.sinch.com';
     }
     return this.client;
   }
