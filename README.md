@@ -126,8 +126,8 @@ Here is the list of the Sinch products and their level of support by the Node.js
 | API Category           | API Name                            | Status |
 |------------------------|-------------------------------------|:------:|
 | Messaging              | SMS API                             |   ✅    |
-|                        | Conversation API                    |   🚧   |
-|                        | Fax API                             |   ❌    |
+|                        | Conversation API                    |   ✅    |
+|                        | Fax API                             |   🚧   |
 |                        | RCS API                             |   ❌    |
 |                        | MMS API                             |   ❌    |
 |                        | Provisioning API                    |   ❌    |

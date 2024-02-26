@@ -7,8 +7,8 @@ This package contains the HTTP client used by the Sinch SDK client. It uses the 
    - request plugins will modify the request: for the moment, they are all about adding some headers (for authentication, for tracking the SDK usage).
    - response plugins will modify the response, e.g.: response content is checked and transformed into an exception if the content is empty.
 
-<span style="color:red; font-weight:bold">Warning:</span>
-**This SDK is currently available for preview purposes only. It should not be used in production environments.**
+> <span style="color:red; font-weight:bold">Warning:</span>
+> **This SDK is currently available to selected developers for preview use only. It is being provided for the purpose of collecting feedback, and should not be used in production environments.**
 
 ## Architecture
 TODO: schema
