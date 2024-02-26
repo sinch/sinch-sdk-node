@@ -6,6 +6,7 @@ import { MediaMessage } from '../media-message';
 import { TextMessage } from '../text-message';
 import { ListMessage } from '../list-message';
 import { TemplateMessage } from '../template-message';
+import { ContactInfoMessage } from '../contact-info-message';
 
 /** The content of the message */
 export type AppMessageMessage =
@@ -16,4 +17,5 @@ export type AppMessageMessage =
   | MediaMessage
   | TemplateMessage
   | TextMessage
-  | ListMessage;
+  | ListMessage
+  | ContactInfoMessage;

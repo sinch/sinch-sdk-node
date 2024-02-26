@@ -1,10 +1,10 @@
 import { Contact } from '../../contact';
-import { ConversationEvent } from '../conversation-event';
+import { ConversationCallbackEvent } from '../conversation-callback-event';
 
 /**
  * This callback is sent when two contacts are merged.
  */
-export interface ContactMergeEvent extends ConversationEvent {
+export interface ContactMergeEvent extends ConversationCallbackEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;

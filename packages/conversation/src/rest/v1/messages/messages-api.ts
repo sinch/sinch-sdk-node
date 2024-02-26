@@ -13,6 +13,7 @@ import {
   ConversationMessagesView,
   SendMessageRequest,
   SendMessageResponse,
+  UpdateMessageRequest,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
 import { MessageSource } from '../enums';
@@ -58,6 +59,14 @@ export interface ListMessagesRequestData {
 export interface SendMessageRequestData {
   /** This is the request body for sending a message. `app_id`, `recipient`, and `message` are all required fields. */
   'sendMessageRequestBody': SendMessageRequest;
+}
+export interface UpdateMessageRequestData {
+  /** The unique ID of the message. */
+  'message_id': string;
+  /** Update message metadata request. */
+  'updateMessageRequestBody': UpdateMessageRequest;
+  /** Specifies the message source for which the request will be processed. Used for operations on messages in Dispatch Mode. For more information, see [Processing Modes](../../../../../conversation/processing-modes/). */
+  'messages_source'?: 'CONVERSATION_SOURCE' | 'DISPATCH_SOURCE';
 }
 
 export class MessagesApi extends ConversationDomainApi {
@@ -208,6 +217,37 @@ export class MessagesApi extends ConversationDomainApi {
       requestOptions,
       apiName: this.apiName,
       operationId: 'SendMessage',
+    });
+  }
+
+  /**
+   * Update message metadata
+   * Update a specific message metadata by its ID.
+   * @param { UpdateMessageRequestData } data - The data to provide to the API call.
+   */
+  public async update(data: UpdateMessageRequestData): Promise<ConversationMessage> {
+    this.client = this.getSinchClient();
+    data['messages_source'] = data['messages_source'] !== undefined ? data['messages_source'] : 'CONVERSATION_SOURCE';
+    const getParams = this.client.extractQueryParams<UpdateMessageRequestData>(data, ['messages_source']);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = data['updateMessageRequestBody']
+      ? JSON.stringify(data['updateMessageRequestBody'])
+      : '{}';
+    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/messages/${data['message_id']}`;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'PATCH', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+
+    return this.client.processCall<ConversationMessage>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'UpdateMessageMetadata',
     });
   }
 

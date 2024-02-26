@@ -18,6 +18,7 @@ import { OptOutEvent } from '../opt-out-event';
 import { ChannelEvent } from '../channel-event';
 import { UnsupportedCallbackEvent } from '../unsupported-callback-event';
 import { SmartConversationsEvent } from '../smart-conversations-event';
+import { RecordNotificationEvent } from '../record-notification';
 
 export type ConversationWebhookEvent =
   MessageInboundEvent
@@ -39,4 +40,5 @@ export type ConversationWebhookEvent =
   | OptOutEvent
   | ChannelEvent
   | SmartConversationsEvent
+  | RecordNotificationEvent
   | UnsupportedCallbackEvent;

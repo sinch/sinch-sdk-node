@@ -1,5 +1,16 @@
-import { Conversation } from '../../../models';
-import { ConversationApi, CreateConversationRequestData, DeleteConversationRequestData, GetConversationRequestData, InjectMessageRequestData, ListConversationsRequestData, StopActiveConversationRequestData, UpdateConversationRequestData } from './conversation-api';
+import { Conversation, ConversationRecentMessage, InjectEventResponse } from '../../../models';
+import {
+  ConversationApi,
+  CreateConversationRequestData,
+  DeleteConversationRequestData,
+  GetConversationRequestData,
+  InjectEventRequestData,
+  InjectMessageRequestData,
+  ListConversationsRequestData,
+  ListRecentConversationsRequestData,
+  StopActiveConversationRequestData,
+  UpdateConversationRequestData,
+} from './conversation-api';
 import { ApiListPromise } from '@sinch/sdk-client';
 
 export class ConversationApiFixture implements Partial<Readonly<ConversationApi>> {
@@ -17,6 +28,10 @@ export class ConversationApiFixture implements Partial<Readonly<ConversationApi>
    */
   public get: jest.Mock<Promise<Conversation>, [GetConversationRequestData]> = jest.fn();
   /**
+   * Fixture associated to function injectEvent
+   */
+  public injectEvent: jest.Mock<Promise<InjectEventResponse>, [InjectEventRequestData]> = jest.fn();
+  /**
    * Fixture associated to function injectMessage
    */
   public injectMessage: jest.Mock<Promise<any>, [InjectMessageRequestData]> = jest.fn();
@@ -24,6 +39,11 @@ export class ConversationApiFixture implements Partial<Readonly<ConversationApi>
    * Fixture associated to function list
    */
   public list: jest.Mock<ApiListPromise<Conversation>, [ListConversationsRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function list
+   */
+  public listRecent: jest.Mock<ApiListPromise<ConversationRecentMessage>, [ListRecentConversationsRequestData]>
+    = jest.fn();
   /**
    * Fixture associated to function stopActive
    */
