@@ -34,7 +34,7 @@ export type ConversationChannelCredentialRequest =
 /**
  * Enables access to the underlying messaging channel.
  */
-export type ConversationChannelCredential =
+export type ConversationChannelCredentialResponse =
   ChannelCredentialsAppleBCResponse
   | ChannelCredentialsInstagramResponse
   | ChannelCredentialsKakaoTalkResponse

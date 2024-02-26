@@ -1,5 +1,5 @@
 export type {
-  ConversationChannelCredential,
+  ConversationChannelCredentialResponse,
   ChannelIntegrationState,
   ChannelCredentialsAppleBC,
   ChannelCredentialsInstagram,

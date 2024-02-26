@@ -1,4 +1,4 @@
-import { ConversationChannelCredential } from '../conversation-channel-credential';
+import { ConversationChannelCredentialResponse } from '../conversation-channel-credential';
 import { DispatchRetentionPolicy } from '../dispatch-retention-policy';
 import { QueueStats } from '../queue-stats';
 import { RateLimits } from '../rate-limits';
@@ -15,7 +15,7 @@ import { MessageRetrySettings } from '../message-retry-settings';
 export interface AppResponse {
 
   /** An array of channel credentials. The order of the credentials defines the app channel priority. */
-  channel_credentials?: ConversationChannelCredential[];
+  channel_credentials?: ConversationChannelCredentialResponse[];
   /** @see ConversationMetadataReportView */
   conversation_metadata_report_view?: ConversationMetadataReportView;
   /** The display name for the app. */
