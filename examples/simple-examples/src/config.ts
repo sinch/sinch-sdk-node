@@ -145,6 +145,10 @@ export const getEventIdFromConfig = () => {
   return readVariable('EVENT_ID');
 };
 
+export const getFaxServiceIdFromConfig = () => {
+  return readVariable('FAX_SERVICE_ID');
+};
+
 const readVariable = ( name: string): string => {
   const value = process.env[name];
   if (!value) {

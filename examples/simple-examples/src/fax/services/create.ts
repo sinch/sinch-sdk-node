@@ -1,13 +1,26 @@
 import { CreateServiceRequestData } from '@sinch/sdk-core';
-import { getPrintFormat, initClient, printFullResponse } from '../../config';
+import { getPhoneNumberFromConfig, getPrintFormat, initClient, printFullResponse } from '../../config';
 
 (async () => {
   console.log('*****************');
   console.log('* createService *');
   console.log('*****************');
 
-  const requestData: CreateServiceRequestData = {
+  const phoneNumber = getPhoneNumberFromConfig();
 
+  const requestData: CreateServiceRequestData = {
+    createServiceRequestBody: {
+      name: 'New service with the Node.js SDK',
+      incomingWebhookUrl: 'https://yourserver/incomingFax',
+      webhookContentType: 'multipart/form-data',
+      defaultForProject: false,
+      defaultFrom: phoneNumber,
+      numberOfRetries: 3,
+      retryDelaySeconds: 60,
+      imageConversionMethod: 'HALFTONE',
+      saveOutboundFaxDocuments: true,
+      saveInboundFaxDocuments: true,
+    },
   };
 
   const sinchClient = initClient();
@@ -16,7 +29,7 @@ import { getPrintFormat, initClient, printFullResponse } from '../../config';
   const printFormat = getPrintFormat(process.argv);
 
   if (printFormat === 'pretty') {
-    console.log(`New service created with the id '${response.id}'`);
+    console.log(`New service created with the id '${response.id}' - Name: ${response.name}`);
   } else {
     printFullResponse(response);
   }

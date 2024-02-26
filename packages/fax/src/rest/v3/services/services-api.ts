@@ -36,7 +36,7 @@ export interface ListServicesRequestData {
   /** Optional. The page to fetch. If not specified, the first page will be returned. */
   'page'?: string;
 }
-export interface RemoveServiceRequestData {
+export interface DeleteServiceRequestData {
   /** The serviceId you want to remove from your project. */
   'serviceId': string;
 }
@@ -203,11 +203,11 @@ export class ServicesApi extends FaxDomainApi {
   /**
    * Remove a service
    * Removes a service from your project.
-   * @param { RemoveServiceRequestData } data - The data to provide to the API call.
+   * @param { DeleteServiceRequestData } data - The data to provide to the API call.
    */
-  public async delete(data: RemoveServiceRequestData): Promise<void> {
+  public async delete(data: DeleteServiceRequestData): Promise<void> {
     this.client = this.getSinchClient();
-    const getParams = this.client.extractQueryParams<RemoveServiceRequestData>(data, [] as never[]);
+    const getParams = this.client.extractQueryParams<DeleteServiceRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

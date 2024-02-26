@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@sinch/conversation": "^0.0.2",
+    "@sinch/fax": "^0.0.2",
     "@sinch/numbers": "^0.0.2",
     "@sinch/sms": "^0.0.2",
     "@sinch/verification": "^0.0.2",

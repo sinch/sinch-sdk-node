@@ -4,7 +4,7 @@ import {
   GetServiceRequestData,
   ListNumbersForServiceRequestData,
   ListServicesRequestData,
-  RemoveServiceRequestData,
+  DeleteServiceRequestData,
   ServicePhoneNumber,
   ServiceResponse,
   ServicesApi,
@@ -182,7 +182,7 @@ describe('ServicesApi', () => {
   describe ('removeService', () => {
     it('should make a DELETE request to remove a service from a project', async () => {
       // Given
-      const requestData: RemoveServiceRequestData = {
+      const requestData: DeleteServiceRequestData = {
         serviceId: 'serviceId',
       };
       const expectedResponse: void = undefined;

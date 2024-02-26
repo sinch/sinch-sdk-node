@@ -70,6 +70,8 @@ MESSAGE_ID=message_id to fill with one of the messages sent or injected with the
 TEMPLATE_ID=template_id to fill with one of the templates created with the Templates API (v1 or v2)
 WEBHOOK_ID=webhook_id to fill with one of the webhooks created with the Conversation API or the Dashboard
 WEBHOOK_TARGET=target URL where the events should be sent to
+## Fax API
+FAX_SERVICE_ID=serviceId to fill with one the fax services created with the Fax API
 ```
 
 **Note**: If you prefer using environment variables, the sample app is also supporting them: they take precedence over the value from the `.env` file.
@@ -225,3 +227,13 @@ yarn run numbers:regions:list
 |              | [./src/conversation/webhooks/list.ts](./src/conversation/webhooks/list.ts)                                   | `CONVERSATION_APP_ID`                                                                      |
 |              | [./src/conversation/webhooks/update.ts](./src/conversation/webhooks/update.ts)                               | `CONVERSATION_APP_ID` + `WEBHOOK_ID`                                                       |
 
+### Fax
+
+| Service  | Sample application name and location                                   | Required parameters |
+|----------|------------------------------------------------------------------------|---------------------|
+| Services | [./src/fax/services/create.ts](./src/fax/services/create.ts)           | `PHONE_NUMBER`      |
+|          | [./src/fax/services/get.ts](./src/fax/services/get.ts)                 | `FAX_SERVICE_ID`    |
+|          | [./src/fax/services/list.ts](./src/fax/services/list.ts)               |                     |
+|          | [./src/fax/services/listNumbers.ts](./src/fax/services/listNumbers.ts) | `FAX_SERVICE_ID`    |
+|          | [./src/fax/services/update.ts](./src/fax/services/update.ts)           | `FAX_SERVICE_ID`    |
+|          | [./src/fax/services/delete.ts](./src/fax/services/delete.ts)           | `FAX_SERVICE_ID`    |
