@@ -1,0 +1,37 @@
+{
+  "name": "@sinch/fax",
+  "version": "0.0.1",
+  "description": "Sinch Fax API",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "Apache-2.0",
+  "author": "Sinch",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "directories": {
+    "src": "dist",
+    "test": "tests"
+  },
+  "files": ["/dist"],
+  "scripts": {
+    "build": "yarn run clean && yarn run compile",
+    "clean": "rimraf dist tsconfig.tsbuildinfo",
+    "compile": "tsc -p tsconfig.build.json && tsc -p tsconfig.tests.json && rimraf dist/tests && rimraf tsconfig.build.tsbuildinfo"
+  },
+  "dependencies": {
+    "@sinch/sdk-client": "^0.0.1"
+  },
+  "devDependencies": {},
+  "publishConfig": {
+    "directory": "dist"
+  }
+}

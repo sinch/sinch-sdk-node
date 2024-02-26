@@ -15,6 +15,11 @@ const config: Config.InitialOptions = {
       coveragePathIgnorePatterns: ['node_modules', 'tests'],
     },
     {
+      displayName: 'Fax',
+      testMatch: ['<rootDir>/packages/fax/tests/**/*.test.ts'],
+      coveragePathIgnorePatterns: ['node_modules', 'tests'],
+    },
+    {
       displayName: 'Numbers',
       testMatch: ['<rootDir>/packages/numbers/tests/**/*.test.ts'],
       coveragePathIgnorePatterns: ['node_modules', 'tests'],
