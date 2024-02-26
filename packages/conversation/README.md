@@ -2,8 +2,8 @@
 
 This package contains the Sinch Conversation SDK for Node.js for use with [Sinch APIs](https://developers.sinch.com/). To use it, you will need a Sinch account. Please [sign up](https://dashboard.sinch.com/signup) or [log in](https://dashboard.sinch.com/login) if you already have one.
 
-<span style="color:red; font-weight:bold">Warning:</span>
-**This SDK is currently available for preview purposes only. It should not be used in production environments.**
+> <span style="color:red; font-weight:bold">Warning:</span>
+> **This SDK is currently available to selected developers for preview use only. It is being provided for the purpose of collecting feedback, and should not be used in production environments.**
 
 ## Installation
 
@@ -50,12 +50,23 @@ const credentials: SinchClientParameters = {
 
 const sinch = new SinchClient(credentials);
 
-const requestData: any = {
+const requestData: SendMessageRequestData = {
+  sendMessageRequestBody: {
+    app_id: 'CONVERSATION_APP_ID',
+    message: {
+      text_message: {
+        text: 'Text message from Sinch',
+      },
+    },
+    recipient: {
+      contact_id: 'CONTACT_ID',
+    },
+  },
 };
 
 // Access the 'conversation' domain registered on the Sinch Client
-const result: any
-    = await sinch.conversation.tag.method(requestData);
+const result: SendMessageResponse
+    = await sinch.conversation.messages.send(requestData);
 ```
 
 ### Standalone
@@ -77,14 +88,25 @@ const credentials: SinchClientParameters = {
 };
 
 // Declare the 'conversation' service in a standalone way
-  const conversation = new Conversation(options);
+const conversation = new Conversation(options);
 
-const requestData: any = {
+const requestData: SendMessageRequestData = {
+  sendMessageRequestBody: {
+    app_id: 'CONVERSATION_APP_ID',
+    message: {
+      text_message: {
+        text: 'Text message from Sinch',
+      },
+    },
+    recipient: {
+      contact_id: 'CONTACT_ID',
+    },
+  },
 };
 
 // Use the standalone declaration of the 'conversation' domain
-const result: any
-    = await sinch.conversation.tag.method(requestData);
+const result: SendMessageResponse
+    = await conversation.messages.send(requestData);
 ```
 
 ## Promises
@@ -93,17 +115,17 @@ All the methods that interact with the Sinch APIs use Promises. You can use `awa
 
 ```typescript
 // Method 1: Wait for the Promise to complete
-let result: any;
+let result: SendMessageResponse;
 try {
-  result = await sinch.conversation.tag.method(requestData);
-  console.log(``);
+  result = await sinch.conversation.messages.send(requestData);
+  console.log(`Message sent successfully. Message Id: ${result.id}`);
 } catch (error: any) {
   console.error(`ERROR ${error.statusCode}: `);
 }
 
 // Method 2: Resolve the promise
-sinch.conversation.tag.method(requestData)
-  .then(response => console.log(``))
+sinch.conversation.messages.send(requestData)
+  .then(response => console.log(`Message sent successfully. Message Id: ${result.id}`))
   .catch(error => console.error(`ERROR ${error.statusCode}: `));
 ```
 

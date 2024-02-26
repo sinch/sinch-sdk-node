@@ -10,6 +10,10 @@ import {
   ListConversationsRequestData,
   StopActiveConversationRequestData,
   UpdateConversationRequestData,
+  ListRecentConversationsRequestData,
+  ConversationRecentMessage,
+  InjectEventRequestData,
+  InjectEventResponse,
 } from '../../../../src';
 
 describe('ConversationApi', () => {
@@ -92,6 +96,48 @@ describe('ConversationApi', () => {
     });
   });
 
+  describe ('injectEvent', () => {
+    it('should make a POST request to inject a conversation event into a specific conversation', async () => {
+      // Given
+      const requestData: InjectEventRequestData = {
+        conversation_id: 'conversation_id',
+        injectConversationEventRequestBody: {
+          app_event: {
+            agent_joined_event: {
+              agent: {
+                display_name: 'agent_name',
+                type: 'BOT',
+                picture_url: 'picture_url',
+              },
+            },
+          },
+          conversation_id: 'conversation_id',
+          contact_id: 'contact_id',
+          channel_identity: {
+            channel: 'MESSENGER',
+            identity: 'identity',
+            app_id: 'app_id',
+          },
+          accept_time: new Date('2019-08-24T14:15:22Z'),
+          processing_mode: 'CONVERSATION',
+        },
+      };
+      const expectedResponse: InjectEventResponse = {
+        event_id: 'event_id',
+        accepted_time: new Date('2019-08-24T14:15:22Z'),
+      };
+
+      // When
+      fixture.injectEvent.mockResolvedValue(expectedResponse);
+      conversationApi.injectEvent = fixture.injectEvent;
+      const response = await conversationApi.injectEvent(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.injectEvent).toHaveBeenCalledWith(requestData);
+    });
+  });
+
   describe ('injectMessage', () => {
     it('should make a POST request to inject a conversation message in to a specific conversation', async () => {
       // Given
@@ -148,6 +194,90 @@ describe('ConversationApi', () => {
       expect(response).toEqual(expectedResponse);
       expect(response.data).toBeDefined();
       expect(fixture.list).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('listRecentConversations', () => {
+    it('should make a GET request to list conversations and their most recent message', async () => {
+      // Given
+      const requestData: ListRecentConversationsRequestData = {
+        app_id: 'app_id',
+        order: 'ASC',
+      };
+      const mockData: ConversationRecentMessage[] = [
+        {
+          conversation: {
+            active: true,
+            active_channel: 'WHATSAPP',
+            app_id: 'app_id',
+            contact_id: 'contact_id',
+            id: 'conversation_id',
+            last_received: new Date('2019-08-24T14:15:22Z'),
+            metadata: 'metadata',
+            metadata_json: {},
+            correlation_id: 'correlation_id',
+          },
+          last_message: {
+            app_message: {
+              card_message: {
+                choices: [],
+                description: 'description',
+                height: 'UNSPECIFIED_HEIGHT',
+                media_message: {
+                  url: 'url',
+                },
+                title: 'title',
+              },
+              explicit_channel_message: {},
+              explicit_channel_omni_message: {
+                property1: {
+                  card_message: {},
+                },
+                property2: {
+                  text_message: {
+                    text: 'text message',
+                  },
+                },
+              },
+              agent: {
+                display_name: 'agent_name',
+                type: 'UNKNOWN_AGENT_TYPE',
+                picture_url: 'picture_url',
+              },
+            },
+            accept_time: new Date('2019-08-24T14:15:22Z'),
+            channel_identity: {
+              identity: 'identity',
+              channel: 'WHATSAPP',
+              app_id: 'app_id',
+            },
+            contact_id: 'contact_id',
+            conversation_id: 'conversation_id',
+            direction: 'UNDEFINED_DIRECTION',
+            id: 'message_id',
+            metadata: 'metadata',
+            injected: true,
+            sender_id: 'sender_id',
+            processing_mode: 'CONVERSATION',
+          },
+        },
+      ];
+      const expectedResponse = {
+        data: mockData,
+        hasNextPage: false,
+        nextPageValue: '',
+        nextPage: jest.fn(),
+      };
+
+      // When
+      fixture.listRecent.mockResolvedValue(expectedResponse);
+      conversationApi.listRecent = fixture.listRecent;
+      const response = await conversationApi.listRecent(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(response.data).toBeDefined();
+      expect(fixture.listRecent).toHaveBeenCalledWith(requestData);
     });
   });
 

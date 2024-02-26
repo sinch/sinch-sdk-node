@@ -1,11 +1,11 @@
 import { ConversationChannel } from '../../conversation-channel';
-import { ConversationEvent } from '../conversation-event';
+import { ConversationCallbackEvent } from '../conversation-callback-event';
 import { ProcessingMode } from '../../enums';
 
 /**
  * This callback is used to deliver opt-in notifications from the channels.
  */
-export interface OptInEvent extends ConversationEvent {
+export interface OptInEvent extends ConversationCallbackEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;

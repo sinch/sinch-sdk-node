@@ -2,6 +2,7 @@
 
  - [Feat.] Add interface `CallbackProcessor` to be implemented by each API defining webhooks for callbacks.
  - [Feat.] Add `validateSignatureHeader` function to check whether a callback event with a `X-Sinch-Signature` header has been tampered with or not
+ - [Feat.] Add `Date` reviver for API responses
 
 ## Version 0.0.1
 

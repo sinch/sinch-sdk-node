@@ -1,12 +1,12 @@
 import { ChannelIdentity } from '../../channel-identity';
 import { Reason } from '../../reason';
-import { ConversationEvent } from '../conversation-event';
+import { ConversationCallbackEvent } from '../conversation-callback-event';
 import { DeliveryStatus, ProcessingMode } from '../../enums';
 
 /**
  * This callback notifies the API clients about status changes of already sent app message.
  */
-export interface MessageDeliveryReceiptEvent extends ConversationEvent {
+export interface MessageDeliveryReceiptEvent extends ConversationCallbackEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;

@@ -1,10 +1,10 @@
 import { ConversationChannel } from '../../conversation-channel';
-import { ConversationEvent } from '../conversation-event';
+import { ConversationCallbackEvent } from '../conversation-callback-event';
 
 /**
  * This callback is sent when duplicates of channel identities are found between multiple contacts in the contact database during message and event processing.
  */
-export interface ContactIdentitiesDuplicationEvent extends ConversationEvent {
+export interface ContactIdentitiesDuplicationEvent extends ConversationCallbackEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;

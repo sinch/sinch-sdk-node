@@ -1,10 +1,10 @@
 import { Conversation } from '../../conversation';
-import { ConversationEvent } from '../conversation-event';
+import { ConversationCallbackEvent } from '../conversation-callback-event';
 
 /**
  * This callback is sent when a new conversation between the subscribed app and a contact is started.
  */
-export interface ConversationStartEvent extends ConversationEvent {
+export interface ConversationStartEvent extends ConversationCallbackEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;

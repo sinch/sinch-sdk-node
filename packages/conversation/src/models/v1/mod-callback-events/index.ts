@@ -17,6 +17,7 @@ export * from './message-inbound-event-item';
 export * from './message-inbound-smart-conversation-redaction-event';
 export * from './opt-in-event';
 export * from './opt-out-event';
+export * from './record-notification';
 export * from './message-delivery-receipt-event';
 export * from './message-submit-event';
 export * from './smart-conversations-event';

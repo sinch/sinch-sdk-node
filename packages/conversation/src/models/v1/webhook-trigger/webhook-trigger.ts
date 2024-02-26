@@ -39,4 +39,5 @@ export type WebhookTrigger = 'UNSPECIFIED_TRIGGER'
   | 'OPT_IN'
   | 'OPT_OUT'
   | 'CHANNEL_EVENT'
-  | 'CAPABILITY';
+  | 'CAPABILITY'
+  | 'RECORD_NOTIFICATION';
