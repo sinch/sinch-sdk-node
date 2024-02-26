@@ -1,8 +1,10 @@
 import { ChannelIdentity } from '../../channel-identity';
-import { ConversationEvent } from '../conversation-event';
+import { ConversationCallbackEvent } from '../conversation-callback-event';
 import { ProcessingMode } from '../../enums';
+import { ContactEvent } from '../../contact-event';
+import { ContactMessageEvent } from '../../contact-message-event';
 
-export interface EventInbound extends ConversationEvent {
+export interface EventInbound extends ConversationCallbackEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;
@@ -43,65 +45,3 @@ export interface EventInboundEvent {
   /** @see ProcessingMode */
   processing_mode?: ProcessingMode;
 }
-
-export interface ContactEvent {
-
-  /** Empty object denoting the contact is composing a message. */
-  composing_event?: object;
-  /** @see CommentEvent */
-  comment_event?: CommentEvent;
-}
-
-/**
- * Object which contains information of a comment made by a user outside  the main conversation context. Currently only supported on Instagram channel, see Instagram Private Replies for more details
- */
-export interface CommentEvent {
-  /** Event\'s ID */
-  id?: string;
-  /** Comment\'s text */
-  text?: string;
-  /** Either LIVE or FEED. Indicates the type of media on which the comment was made. */
-  comment_type?: 'FEED' | 'LIVE';
-  /** Instagram\'s URL of the live broadcast or the post on which the comment was made (permalink). */
-  commented_on?: string;
-  /** Username of the account that commented in the live broadcast or post. */
-  user?: string;
-}
-
-/**
- * The content of the event when contact_event is not populated. Note that this object is currently only available to select customers for beta testing. Mutually exclusive with contact_event.
- */
-export interface ContactMessageEvent {
-
-  /** @see ContactMessageEventPaymentStatusUpdateEvent */
-  payment_status_update_event?: PaymentStatusUpdateEvent;
-}
-
-/**
- * Object reflecting the current state of a particular payment flow.
- */
-export interface PaymentStatusUpdateEvent {
-
-  /** Unique identifier for the corresponding payment of a particular order. */
-  reference_id?: string;
-  /** The stage the payment has reached within the payment flow. */
-  payment_status?: PaymentStatusEnum;
-  /** The status of the stage detailed in payment_status. */
-  payment_transaction_status?: PaymentTransactionStatusEnum;
-  /** Unique identifier of the payment_transaction_status. */
-  payment_transaction_id?: string;
-}
-export type PaymentStatusEnum =
-  'PAYMENT_STATUS_UNKNOWN'
-  | 'PAYMENT_STATUS_NEW'
-  | 'PAYMENT_STATUS_PENDING'
-  | 'PAYMENT_STATUS_CAPTURED'
-  | 'PAYMENT_STATUS_CANCELED'
-  | 'PAYMENT_STATUS_FAILED';
-
-export type PaymentTransactionStatusEnum =
-  'PAYMENT_STATUS_TRANSACTION_UNKNOWN'
-  | 'PAYMENT_STATUS_TRANSACTION_PENDING'
-  | 'PAYMENT_STATUS_TRANSACTION_FAILED'
-  | 'PAYMENT_STATUS_TRANSACTION_SUCCESS'
-  | 'PAYMENT_STATUS_TRANSACTION_CANCELED';

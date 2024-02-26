@@ -1,6 +1,12 @@
-import { ConversationMessage } from '../../../models';
-import { SendMessageResponse } from '../../../models';
-import { MessagesApi, DeleteMessageRequestData, GetMessageRequestData, ListMessagesRequestData, SendMessageRequestData } from './messages-api';
+import { ConversationMessage, SendMessageResponse } from '../../../models';
+import {
+  MessagesApi,
+  DeleteMessageRequestData,
+  GetMessageRequestData,
+  ListMessagesRequestData,
+  SendMessageRequestData,
+  UpdateMessageRequestData,
+} from './messages-api';
 import { ApiListPromise } from '@sinch/sdk-client';
 
 export class MessagesApiFixture implements Partial<Readonly<MessagesApi>> {
@@ -21,5 +27,8 @@ export class MessagesApiFixture implements Partial<Readonly<MessagesApi>> {
    * Fixture associated to function send
    */
   public send: jest.Mock<Promise<SendMessageResponse>, [SendMessageRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function update
+   */
+  public update: jest.Mock<Promise<ConversationMessage>, [UpdateMessageRequestData]> = jest.fn();
 }
-

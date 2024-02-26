@@ -1,8 +1,4 @@
 export type {
-  PaymentStatusEnum as PaymentStatusUpdateEventPaymentStatusEnum,
-  PaymentTransactionStatusEnum as PaymentStatusUpdateEventPaymentTransactionStatusEnum,
-} from './mod-callback-events/event-inbound/event-inbound';
-export type {
   SentimentResult as MachineLearningSentimentEnum,
   EvaluationEnum as OffensiveAnalysisEvaluationEnum,
 } from './mod-callback-events/smart-conversations-event/smart-conversations-event';

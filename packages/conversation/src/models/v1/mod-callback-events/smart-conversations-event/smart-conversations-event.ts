@@ -1,10 +1,10 @@
 import { ConversationChannel } from '../../conversation-channel';
-import { ConversationEvent } from '../conversation-event';
+import { ConversationCallbackEvent } from '../conversation-callback-event';
 
 /**
  * When using the Smart Conversations functionality, Machine Learning and Artificial Intelligence analyses are delivered through specific callbacks on the Conversation API.
  */
-export interface SmartConversationsEvent extends ConversationEvent{
+export interface SmartConversationsEvent extends ConversationCallbackEvent{
 
   /** Id of the subscribed app. */
   app_id?: string;

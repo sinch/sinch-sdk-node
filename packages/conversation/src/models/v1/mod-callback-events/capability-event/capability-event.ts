@@ -1,11 +1,11 @@
 import { ConversationChannel } from '../../conversation-channel';
 import { Reason } from '../../reason';
-import { ConversationEvent } from '../conversation-event';
+import { ConversationCallbackEvent } from '../conversation-callback-event';
 
 /**
  * This callback is used to deliver the results of the asynchronous capability checks.
  */
-export interface CapabilityEvent extends ConversationEvent {
+export interface CapabilityEvent extends ConversationCallbackEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;

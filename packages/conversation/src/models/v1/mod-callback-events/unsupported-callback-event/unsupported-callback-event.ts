@@ -1,12 +1,12 @@
 import { ConversationChannel } from '../../conversation-channel';
 import { ChannelIdentity } from '../../channel-identity';
-import { ConversationEvent } from '../conversation-event';
+import { ConversationCallbackEvent } from '../conversation-callback-event';
 import { ProcessingMode } from '../../enums';
 
 /**
  * Some of the callbacks received from the underlying channels might be specific to a single channel or may not have a proper mapping in Conversation API yet.
  */
-export interface UnsupportedCallbackEvent extends ConversationEvent {
+export interface UnsupportedCallbackEvent extends ConversationCallbackEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;
