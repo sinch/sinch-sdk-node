@@ -2,8 +2,8 @@
 
 This package contains the Sinch Client SDK for Node.js. To use it, you will need a Sinch account. Please [sign up](https://dashboard.sinch.com/signup) or [log in](https://dashboard.sinch.com/login) if you already have one.
 
-<span style="color:red; font-weight:bold">Warning:</span>
-**This SDK is currently available for preview purposes only. It should not be used in production environments.**
+> <span style="color:red; font-weight:bold">Warning:</span>
+> **This SDK is currently available to selected developers for preview use only. It is being provided for the purpose of collecting feedback, and should not be used in production environments.**
 
 ## Installation
 
@@ -95,11 +95,12 @@ Here is the list of the Sinch API and there level of support by the Node.js SDK:
 | API Category           | API Name                            | Status |
 |------------------------|-------------------------------------|:------:|
 | Messaging              | SMS API                             |   ✅    |
-|                        | Conversation API                    |   ❌    |
+|                        | Conversation API                    |   ✅    |
+|                        | Fax API                             |   🚧   |
 |                        | RCS API                             |   ❌    |
 |                        | MMS API                             |   ❌    |
 |                        | Provisioning API                    |   ❌    |
-| Voice and Video        | Voice API                           |   ❌    |
+| Voice and Video        | Voice API                           |   ✅    |
 |                        | Elastic SIP Trunking                |   ❌    |
 | Numbers & Connectivity | Numbers API                         |   ✅    |
 |                        | Brand and Campaign Registration API |   ❌    |
