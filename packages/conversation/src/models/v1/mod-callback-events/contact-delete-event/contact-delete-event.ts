@@ -1,10 +1,10 @@
 import { ContactNotification } from '../contact-notification';
-import { ConversationEvent } from '../conversation-event';
+import { ConversationCallbackEvent } from '../conversation-callback-event';
 
 /**
  * This callback is sent when a new contact is deleted.
  */
-export interface ContactDeleteEvent extends ConversationEvent {
+export interface ContactDeleteEvent extends ConversationCallbackEvent {
 
   /** Id of the subscribed app. */
   app_id?: string;

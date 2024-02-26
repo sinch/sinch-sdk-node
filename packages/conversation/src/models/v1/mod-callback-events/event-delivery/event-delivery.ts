@@ -1,9 +1,9 @@
 import { ChannelIdentity } from '../../channel-identity';
 import { Reason } from '../../reason';
-import { ConversationEvent } from '../conversation-event';
+import { ConversationCallbackEvent } from '../conversation-callback-event';
 import { DeliveryStatus, ProcessingMode } from '../../enums';
 
-export interface EventDelivery extends ConversationEvent{
+export interface EventDelivery extends ConversationCallbackEvent{
 
   /** Id of the subscribed app. */
   app_id?: string;

@@ -141,6 +141,10 @@ export const getTemplateIdFromConfig = () => {
   return readVariable('TEMPLATE_ID');
 };
 
+export const getEventIdFromConfig = () => {
+  return readVariable('EVENT_ID');
+};
+
 const readVariable = ( name: string): string => {
   const value = process.env[name];
   if (!value) {

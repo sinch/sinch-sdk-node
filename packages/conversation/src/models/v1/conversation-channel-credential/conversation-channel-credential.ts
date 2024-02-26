@@ -1,4 +1,3 @@
-import { ConversationChannel } from '../conversation-channel';
 import {
   AppleBcCredentials,
   InstagramCredentials,
@@ -16,7 +15,7 @@ import {
 /**
  * Enables access to the underlying messaging channel.
  */
-export type ConversationChannelCredential =
+export type ConversationChannelCredentialRequest =
   ChannelCredentialsAppleBC
   | ChannelCredentialsInstagram
   | ChannelCredentialsKakaoTalk
@@ -32,103 +31,171 @@ export type ConversationChannelCredential =
   | ChannelCredentialsWeChat
   | ChannelCredentialsWhatsApp;
 
-export interface ChannelCredentialsWhatsApp extends ConversationChannelCredentialBase {
+/**
+ * Enables access to the underlying messaging channel.
+ */
+export type ConversationChannelCredentialResponse =
+  ChannelCredentialsAppleBCResponse
+  | ChannelCredentialsInstagramResponse
+  | ChannelCredentialsKakaoTalkResponse
+  | ChannelCredentialsKakaoTalkChatResponse
+  | ChannelCredentialsLineResponse
+  | ChannelCredentialsMessengerResponse
+  | ChannelCredentialsMmsResponse
+  | ChannelCredentialsRcsResponse
+  | ChannelCredentialsSmsResponse
+  | ChannelCredentialsTelegramResponse
+  | ChannelCredentialsViberResponse
+  | ChannelCredentialsViberBMResponse
+  | ChannelCredentialsWeChatResponse
+  | ChannelCredentialsWhatsAppResponse;
+
+export interface ChannelCredentialsWhatsApp extends ConversationChannelCredentialRequestBase {
   channel: 'WHATSAPP';
   /** @see StaticBearerCredential */
   static_bearer: StaticBearerCredential;
 }
 
-export interface ChannelCredentialsRcs extends ConversationChannelCredentialBase {
+export interface ChannelCredentialsWhatsAppResponse
+  extends ChannelCredentialsWhatsApp, ConversationChannelCredentialResponseBase {}
+
+export interface ChannelCredentialsRcs extends ConversationChannelCredentialRequestBase {
   channel: 'RCS';
   /** @see StaticBearerCredential */
   static_bearer: StaticBearerCredential;
 }
 
+export interface ChannelCredentialsRcsResponse
+  extends ChannelCredentialsRcs, ConversationChannelCredentialResponseBase {}
+
 export type ChannelCredentialsSms = ChannelCredentialsSmsWithBearer | ChannelCredentialsSmsWithAppId;
 
-export interface ChannelCredentialsSmsWithBearer extends ConversationChannelCredentialBase {
+export type ChannelCredentialsSmsResponse
+  = ChannelCredentialsSmsWithBearerResponse | ChannelCredentialsSmsWithAppIdResponse;
+
+export interface ChannelCredentialsSmsWithBearer extends ConversationChannelCredentialRequestBase {
   channel: 'SMS';
   /** @see StaticBearerCredential */
   static_bearer: StaticBearerCredential;
 }
 
-export interface ChannelCredentialsSmsWithAppId extends ConversationChannelCredentialBase {
+export interface ChannelCredentialsSmsWithBearerResponse
+  extends ChannelCredentialsSmsWithBearer, ConversationChannelCredentialResponseBase {}
+
+export interface ChannelCredentialsSmsWithAppId extends ConversationChannelCredentialRequestBase {
   channel: 'SMS';
   /** @see SMSCredentials */
   sms_credentials: SMSCredentials;
 }
 
-export interface ChannelCredentialsMessenger extends ConversationChannelCredentialBase {
+export interface ChannelCredentialsSmsWithAppIdResponse
+  extends ChannelCredentialsSmsWithAppId, ConversationChannelCredentialResponseBase {}
+
+export interface ChannelCredentialsMessenger extends ConversationChannelCredentialRequestBase {
   channel: 'MESSENGER';
   /** @see StaticTokenCredential */
   static_token: StaticTokenCredential;
 }
 
-export interface ChannelCredentialsViber extends ConversationChannelCredentialBase {
+export interface ChannelCredentialsMessengerResponse
+  extends ChannelCredentialsMessenger, ConversationChannelCredentialResponseBase {}
+
+export interface ChannelCredentialsViber extends ConversationChannelCredentialRequestBase {
   channel: 'VIBER';
   /** @see StaticTokenCredential */
   static_token: StaticTokenCredential;
 }
 
-export interface ChannelCredentialsViberBM extends ConversationChannelCredentialBase {
+export interface ChannelCredentialsViberResponse
+  extends ChannelCredentialsViber, ConversationChannelCredentialResponseBase {}
+
+export interface ChannelCredentialsViberBM extends ConversationChannelCredentialRequestBase {
   channel: 'VIBERBM';
   /** @see StaticBearerCredential */
   static_bearer: StaticBearerCredential;
 }
 
-export interface ChannelCredentialsMms extends ConversationChannelCredentialBase {
+export interface ChannelCredentialsViberBMResponse
+  extends ChannelCredentialsViberBM, ConversationChannelCredentialResponseBase {}
+
+export interface ChannelCredentialsMms extends ConversationChannelCredentialRequestBase {
   channel: 'MMS';
   /** @see MMSCredentials */
   mms_credentials: MMSCredentials;
 }
 
-export interface ChannelCredentialsInstagram extends ConversationChannelCredentialBase {
+export interface ChannelCredentialsMmsResponse
+  extends ChannelCredentialsMms, ConversationChannelCredentialResponseBase {}
+
+export interface ChannelCredentialsInstagram extends ConversationChannelCredentialRequestBase {
   channel: 'INSTAGRAM';
   /** @see InstagramCredentials */
   instagram_credentials: InstagramCredentials;
 }
 
-export interface ChannelCredentialsTelegram extends ConversationChannelCredentialBase {
+export interface ChannelCredentialsInstagramResponse
+  extends ChannelCredentialsInstagram, ConversationChannelCredentialResponseBase {}
+
+export interface ChannelCredentialsTelegram extends ConversationChannelCredentialRequestBase {
   channel: 'TELEGRAM';
   /** @see TelegramCredentials */
   telegram_credentials: TelegramCredentials;
 }
 
-export interface ChannelCredentialsKakaoTalk extends ConversationChannelCredentialBase {
+export interface ChannelCredentialsTelegramResponse
+  extends ChannelCredentialsTelegram, ConversationChannelCredentialResponseBase {}
+
+export interface ChannelCredentialsKakaoTalk extends ConversationChannelCredentialRequestBase {
   channel: 'KAKAOTALK';
   /** @see KakaoTalkCredentials */
   kakaotalk_credentials: KakaoTalkCredentials;
 }
 
-export interface ChannelCredentialsKakaoTalkChat extends ConversationChannelCredentialBase {
+export interface ChannelCredentialsKakaoTalkResponse
+  extends ChannelCredentialsKakaoTalk, ConversationChannelCredentialResponseBase {}
+
+export interface ChannelCredentialsKakaoTalkChat extends ConversationChannelCredentialRequestBase {
   channel: 'KAKAOTALKCHAT';
   /** @see KakaoTalkCredentials */
   kakaotalkchat_credentials: KakaoTalkChatCredentials;
 }
 
-export interface ChannelCredentialsLine extends ConversationChannelCredentialBase {
+export interface ChannelCredentialsKakaoTalkChatResponse
+  extends ChannelCredentialsKakaoTalkChat, ConversationChannelCredentialResponseBase {}
+
+export interface ChannelCredentialsLine extends ConversationChannelCredentialRequestBase {
   channel: 'LINE';
   /** @see LineCredentials */
   line_credentials: LineCredentials;
 }
 
-export interface ChannelCredentialsWeChat extends ConversationChannelCredentialBase {
+export interface ChannelCredentialsLineResponse
+  extends ChannelCredentialsLine, ConversationChannelCredentialResponseBase {}
+
+export interface ChannelCredentialsWeChat extends ConversationChannelCredentialRequestBase {
   channel: 'WECHAT';
   /** @see WeChatCredentials */
   wechat_credentials: WeChatCredentials;
 }
 
-export interface ChannelCredentialsAppleBC extends ConversationChannelCredentialBase {
+export interface ChannelCredentialsWeChatResponse
+  extends ChannelCredentialsWeChat, ConversationChannelCredentialResponseBase {}
+
+export interface ChannelCredentialsAppleBC extends ConversationChannelCredentialRequestBase {
   channel: 'APPLEBC';
   /** @see AppleBcCredentials */
   applebc_credentials: AppleBcCredentials;
 }
 
-interface ConversationChannelCredentialBase {
-  /** @see ConversationChannel */
-  channel: ConversationChannel;
+export interface ChannelCredentialsAppleBCResponse
+  extends ChannelCredentialsAppleBC, ConversationChannelCredentialResponseBase {}
+
+interface ConversationChannelCredentialRequestBase {
   /** The secret used to verify the channel callbacks for channels which support callback verification. The callback verification is not needed for Sinch-managed channels because the callbacks are not leaving Sinch internal networks. Max length is 256 characters. Note: leaving channel_callback_secret empty for channels with callback verification will disable the verification. */
   callback_secret?: string;
+}
+
+interface ConversationChannelCredentialResponseBase {
   /**
    * Output only. The state of the channel credentials integration.
    * When a channel is activated, the user is prompted for credentials that must be validated and in some cases exchanged by a long-lived token (Instagram).

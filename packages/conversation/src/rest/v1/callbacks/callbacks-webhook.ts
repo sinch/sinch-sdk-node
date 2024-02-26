@@ -17,6 +17,7 @@ import {
   MessageSubmitEvent,
   OptInEvent,
   OptOutEvent,
+  RecordNotificationEvent,
   SmartConversationsEvent,
   UnsupportedCallbackEvent,
   WebhookTrigger,
@@ -185,6 +186,11 @@ export class ConversationCallbackWebhooks implements CallbackProcessor<Conversat
         ...eventBody,
         trigger: 'SMART_CONVERSATIONS',
       } as SmartConversationsEvent;
+    } else if ('record_notification' in eventBody) { // TBC: need confirmation about the property name
+      return {
+        ...eventBody,
+        trigger: 'RECORD_NOTIFICATION',
+      } as RecordNotificationEvent;
     } else {
       throw new Error('Unknown Conversation event to parse');
     }

@@ -6,18 +6,15 @@ import { ConversationDirection, ProcessingMode } from '../enums';
 /**
  * A message on a particular channel.
  */
-export interface ConversationMessage {
+export type ConversationMessage = ConversationAppMessage | ConversationContactMessage;
 
+interface ConversationMessageBase {
   /** Output only. The time Conversation API processed the message. */
   accept_time?: Date;
-  /** @see AppMessage */
-  app_message?: AppMessage;
   /** @see ChannelIdentity */
   channel_identity?: ChannelIdentity;
   /** The ID of the contact. */
   contact_id?: string;
-  /** @see ContactMessage */
-  contact_message?: ContactMessage;
   /** The ID of the conversation. */
   conversation_id?: string;
   /** @see ConversationDirection */
@@ -28,7 +25,7 @@ export interface ConversationMessage {
   metadata?: string;
   /** Output only. Flag for whether this message was injected. */
   injected?: boolean;
-  /** For Contact Messages the sender ID that the contact sent the message to. For App Messages the sender that was used to send the message, if applicable. */
+  /** For Contact Messages the sender ID is the contact sent the message to. For App Messages the sender that was used to send the message, if applicable. */
   sender_id?: string;
   /** Output only. The processing mode. */
   processing_mode?: ProcessingMode;
@@ -36,7 +33,7 @@ export interface ConversationMessage {
   message_status?: MessageStatus | null;
 }
 
-export interface MessageStatus {
+interface MessageStatus {
   /** Status of the message */
   status: Status;
   /** Timestamp at which the current status occurred */
@@ -45,7 +42,7 @@ export interface MessageStatus {
   reason?: string
 }
 
-export type Status =
+type Status =
   'STATUS_UNSPECIFIED'
   | 'QUEUED'
   | 'QUEUED_ON_CHANNEL'
@@ -54,3 +51,13 @@ export type Status =
   | 'FAILED'
   | 'SWITCHING_CHANNEL'
   | 'RECEIVED';
+
+interface ConversationAppMessage extends ConversationMessageBase {
+  /** @see AppMessage */
+  app_message?: AppMessage;
+}
+
+interface ConversationContactMessage extends ConversationMessageBase {
+  /** @see ContactMessage */
+  contact_message?: ContactMessage;
+}

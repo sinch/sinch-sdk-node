@@ -3,7 +3,7 @@
  */
 export interface KakaoTalkChatCredentials {
 
-  /** KakaoTalk Business Channel ID. */
+  /** KakaoTalk Plus friend ID. */
   kakaotalk_plus_friend_id: string;
   /** InfoBank API KEY. */
   api_key?: string

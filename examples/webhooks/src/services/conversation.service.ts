@@ -197,6 +197,9 @@ export class ConversationService {
           console.log(`Additional data:\n${JSON.stringify(channelEvent.additional_data, null, 2)}`);
         }
         break;
+      case 'RECORD_NOTIFICATION':
+        console.log('\n## RECORD_NOTIFICATION');
+        break;
       case 'UNSUPPORTED':
         console.log('\n## UNSUPPORTED')
         const unsupportedCallback = event.unsupported_callback;

@@ -17,10 +17,15 @@ export interface Conversation {
   id?: string;
   /** The timestamp of the latest message in the conversation. The timestamp will be Thursday January 01, 1970 00:00:00 UTC if the conversation contains no messages. */
   last_received?: Date;
-  /** Arbitrary data set by the Conversation API clients. Up to 1024 characters long. */
+  /**
+   * Arbitrary data set by the Conversation API clients. Up to 1024 characters long.
+   * NOTE: This field has been deprecated due to changes in the system architecture or functionality.
+   * It is no longer actively maintained and may be removed in future versions. Please avoid relying on this field in new code.
+   * @deprecated
+   */
   metadata?: string;
   /** Arbitrary data set by the Conversation API clients and/or provided in the `conversation_metadata` field of a SendMessageRequest. A valid JSON object. */
   metadata_json?: object;
-  /** Up to 128 characters long */
+  /** Arbitrary correlation ID related to the MT message set by the Conversation API user. Up to 128 characters long. */
   correlation_id?: string;
 }
