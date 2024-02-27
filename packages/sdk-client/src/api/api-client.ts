@@ -5,7 +5,8 @@ import { Headers } from 'node-fetch';
 export enum PaginationEnum {
   NONE,
   TOKEN,
-  PAGE
+  PAGE,
+  PAGE3
 }
 export interface ApiListPromise<T> extends Promise<PageResult<T>>, AsyncIterableIterator<T> {
 }

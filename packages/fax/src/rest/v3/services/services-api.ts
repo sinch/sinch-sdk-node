@@ -135,7 +135,7 @@ export class ServicesApi extends FaxDomainApi {
     const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
 
     const operationProperties: PaginatedApiProperties = {
-      pagination: PaginationEnum.PAGE,
+      pagination: PaginationEnum.PAGE3,
       apiName: this.apiName,
       operationId: 'ListNumbersForService',
       dataKey: 'numbers',
@@ -178,7 +178,7 @@ export class ServicesApi extends FaxDomainApi {
     const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
 
     const operationProperties: PaginatedApiProperties = {
-      pagination: PaginationEnum.PAGE,
+      pagination: PaginationEnum.PAGE3,
       apiName: this.apiName,
       operationId: 'ListServices',
       dataKey: 'services',

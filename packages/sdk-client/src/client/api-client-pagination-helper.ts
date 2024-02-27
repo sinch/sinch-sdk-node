@@ -1,5 +1,6 @@
 import {
-  ApiCallParametersWithPagination, ApiClient,
+  ApiCallParametersWithPagination,
+  ApiClient,
   ApiListPromise,
   AutoPaginationMethods,
   PageResult,
@@ -166,6 +167,9 @@ export function hasMore(
     const pageSize: number = requestedPageSize ? parseInt(requestedPageSize) : response.page_size;
     return checkIfThereAreMorePages(response, pageSize);
   }
+  if (context.pagination === PaginationEnum.PAGE3) {
+    return response.pageNumber < response.totalPages;
+  }
   throw new Error(`The operation ${context.operationId} is not meant to be paginated.`);
 }
 
@@ -178,6 +182,11 @@ export function calculateNextPage(
   }
   if (context.pagination === PaginationEnum.PAGE) {
     const currentPage: number = response.page || 0;
+    const nextPage = currentPage + 1;
+    return nextPage.toString();
+  }
+  if (context.pagination === PaginationEnum.PAGE3) {
+    const currentPage: number = response.pageNumber || 1;
     const nextPage = currentPage + 1;
     return nextPage.toString();
   }
