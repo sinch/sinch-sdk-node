@@ -63,9 +63,6 @@ export class AppController {
   @Post('/fax')
   @UseInterceptors(FileInterceptor('file'))
   public fax(@UploadedFile() file: Express.Multer.File, @Req() request: Request, @Res() res: Response) {
-    console.log(request.headers);
-    console.log(request.body);
-    console.log(file);
     // Initialize the class that will be used to validate the request and parse it
     const faxCallbackWebhook = new FaxCallbackWebhooks();
     try {
