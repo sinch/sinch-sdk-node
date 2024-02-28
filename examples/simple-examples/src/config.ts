@@ -149,6 +149,14 @@ export const getFaxServiceIdFromConfig = () => {
   return readVariable('FAX_SERVICE_ID');
 };
 
+export const getFaxIdFromConfig = () => {
+  return readVariable('FAX_ID');
+};
+
+export const getFaxCallbackUrlFromConfig = () => {
+  return readVariable('FAX_CALLBACK_URL');
+};
+
 const readVariable = ( name: string): string => {
   const value = process.env[name];
   if (!value) {

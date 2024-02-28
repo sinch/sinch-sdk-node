@@ -1,6 +1,8 @@
 import { RequestBody, RequestOptions } from '../plugins/core/request-plugin';
 import { ApiClientOptions } from './api-client-options';
 import { Headers } from 'node-fetch';
+import FormData = require('form-data');
+import { FileBuffer } from './api-interface';
 
 export enum PaginationEnum {
   NONE,
@@ -183,7 +185,7 @@ export class ApiClient {
   }
 
   /**
-   * Process HTTP call
+   * Process HTTP call with Pagination
    * @abstract
    * @template T
    * @param {ApiCallParametersWithPagination} _httpCallParameters - Parameters for the HTTP call.
@@ -194,6 +196,29 @@ export class ApiClient {
     throw new Error('Abstract method must be implemented');
   }
 
+  /**
+   * Process HTTP call to download a PDF file
+   * @abstract
+   * @template T
+   * @param {ApiCallParameters} _httpCallParameters - Parameters for the HTTP call.
+   * @return {Promise<T>} A promise that resolves to the result of the HTTP call.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  processFileCall(_httpCallParameters: ApiCallParameters): Promise<FileBuffer> {
+    throw new Error('Abstract method must be implemented');
+  }
+
+  /**
+   * Receives an object containing key/value pairs
+   * Encodes this object to match application/x-www-urlencoded or multipart/form-data
+   * @abstract
+   * @param {any} _data
+   * @param {string} _type
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  processFormData(_data: any, _type: string): FormData | string {
+    throw new Error('Abstract method must be implemented');
+  }
 
 }
 

@@ -91,5 +91,9 @@ export const reviveDates = (input: any): any => {
 };
 
 const isDateString = (value: any): boolean => {
-  return typeof value === 'string' && !isNaN(Date.parse(value));
+  if (typeof value === 'string' && value.length >= 10) {
+    const date = new Date(value);
+    return !isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value.slice(0,10);
+  }
+  return false;
 };
