@@ -16,6 +16,7 @@ export * from './fax-content-url';
 // export * from './generic-event';
 export * from './fax-money';
 export * from './fax-request';
+export * from './mod-events';
 // export * from './pagination';
 // export * from './quota-failure';
 // export * from './quota-failure-detail';

@@ -1,7 +1,9 @@
-import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
 import {
   ConversationCallbackWebhooks,
+  FaxCallbackWebhooks,
   NumbersCallbackWebhooks,
   SmsCallbackWebhooks,
   VerificationCallbackWebhooks,
@@ -12,6 +14,7 @@ import { SmsService } from '../services/sms.service';
 import { VerificationService } from '../services/verification.service';
 import { VoiceService } from '../services/voice.service';
 import { ConversationService } from '../services/conversation.service';
+import { FaxService } from '../services/fax.service';
 require('dotenv').config();
 
 // Const for Conversation API
@@ -29,6 +32,7 @@ export class AppController {
 
   constructor(
     private readonly conversationService: ConversationService,
+    private readonly faxService: FaxService,
     private readonly numbersService: NumbersService,
     private readonly smsService: SmsService,
     private readonly verificationService: VerificationService,
@@ -49,6 +53,27 @@ export class AppController {
       const event = conversationCallbackWebhook.parseEvent(request.body);
       // 3 - Once steps 1 and 2 are ok, delegate the event management to the Conversation service
       this.conversationService.handleEvent(event);
+      res.status(200).send();
+    } catch (error) {
+      console.error(error);
+      res.status(500).send();
+    }
+  }
+
+  @Post('/fax')
+  @UseInterceptors(FileInterceptor('file'))
+  public fax(@UploadedFile() file: Express.Multer.File, @Req() request: Request, @Res() res: Response) {
+    console.log(request.headers);
+    console.log(request.body);
+    console.log(file);
+    // Initialize the class that will be used to validate the request and parse it
+    const faxCallbackWebhook = new FaxCallbackWebhooks();
+    try {
+      // There is no request validation for the SMS API, so we can parse it and revive its content directly
+      const event = faxCallbackWebhook.parseEvent(request.body);
+      // Once the request has been revived, delegate the event management to the SMS service
+      const contentType = request.headers['content-type'];
+      this.faxService.handleEvent(event, contentType, file);
       res.status(200).send();
     } catch (error) {
       console.error(error);

@@ -30,3 +30,7 @@ export type ErrorType =
   | 'FATAL_ERROR'
   | 'GENERAL_ERROR'
   | 'LINE_ERROR';
+
+export type FaxBase64FileType = 'DOC' | 'DOCX' | 'PDF' | 'TIF' | 'JPG' | 'ODT' | 'TXT' | 'HTML' | 'PNG';
+
+export type FaxWebhookEvent = 'INCOMING_FAX' | 'FAX_COMPLETED';
