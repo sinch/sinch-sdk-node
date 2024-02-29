@@ -1,5 +1,11 @@
 import { UpdateServiceRequestData } from '@sinch/sdk-core';
-import { getFaxServiceIdFromConfig, getPrintFormat, initClient, printFullResponse } from '../../config';
+import {
+  getFaxCallbackUrlFromConfig,
+  getFaxServiceIdFromConfig,
+  getPrintFormat,
+  initClient,
+  printFullResponse,
+} from '../../config';
 
 (async () => {
   console.log('*****************');
@@ -7,17 +13,22 @@ import { getFaxServiceIdFromConfig, getPrintFormat, initClient, printFullRespons
   console.log('*****************');
 
   const serviceId = getFaxServiceIdFromConfig();
+  const webhookUrl = getFaxCallbackUrlFromConfig();
 
   const requestData: UpdateServiceRequestData = {
     serviceId,
     updateServiceRequestBody: {
       name: 'Updated name with the Node.js SDK',
-      incomingWebhookUrl: 'https://yourserver/incomingFax',
+      incomingWebhookUrl: webhookUrl,
       webhookContentType: 'application/json',
       defaultForProject: true,
       imageConversionMethod: 'MONOCHROME',
       saveOutboundFaxDocuments: true,
       saveInboundFaxDocuments: true,
+      emailSettings: {
+        pdfPassword: 'pwd',
+        useBodyAsCoverPage: true,
+      },
     },
   };
 

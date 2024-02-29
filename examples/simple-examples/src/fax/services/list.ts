@@ -51,7 +51,7 @@ const populateServicesList = (
       ? `List of services:\n${servicesList.join('\n')}`
       : 'Sorry, no services were found');
   } else {
-    printFullResponse(response);
+    printFullResponse(fullServicesList);
   }
 
   // ---------------------------------------------------------------------

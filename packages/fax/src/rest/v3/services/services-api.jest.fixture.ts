@@ -1,5 +1,14 @@
 import { ServicePhoneNumber, ServiceResponse } from '../../../models';
-import { ServicesApi, CreateServiceRequestData, GetServiceRequestData, ListNumbersForServiceRequestData, ListServicesRequestData, DeleteServiceRequestData, UpdateServiceRequestData } from './services-api';
+import {
+  ServicesApi,
+  CreateServiceRequestData,
+  GetServiceRequestData,
+  ListNumbersForServiceRequestData,
+  ListServicesRequestData,
+  DeleteServiceRequestData,
+  UpdateServiceRequestData,
+  ListEmailsForNumberRequestData,
+} from './services-api';
 import { ApiListPromise } from '@sinch/sdk-client';
 
 export class ServicesApiFixture implements Partial<Readonly<ServicesApi>> {
@@ -12,6 +21,10 @@ export class ServicesApiFixture implements Partial<Readonly<ServicesApi>> {
    * Fixture associated to function get
    */
   public get: jest.Mock<Promise<ServiceResponse>, [GetServiceRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function listEmailsForNumber
+   */
+  public listEmailsForNumber: jest.Mock<ApiListPromise<string>, [ListEmailsForNumberRequestData]> = jest.fn();
   /**
    * Fixture associated to function listNumbers
    */

@@ -54,7 +54,7 @@ const populateNumbersList = (
       ? `List of numbers:\n${numbersList.join('\n')}`
       : 'Sorry, no numbers were found');
   } else {
-    printFullResponse(response);
+    printFullResponse(fullNumbersList);
   }
 
   // ---------------------------------------------------------------------
