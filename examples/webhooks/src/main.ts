@@ -11,8 +11,8 @@ async function bootstrap() {
       req.rawBody = buf.toString(encoding || 'utf8');
     }
   };
-  app.use(bodyParser.urlencoded({verify: rawBodyBuffer, extended: true }));
-  app.use(bodyParser.json({ verify: rawBodyBuffer }));
+  app.use(bodyParser.urlencoded({verify: rawBodyBuffer, extended: true, limit: '10mb' }));
+  app.use(bodyParser.json({ verify: rawBodyBuffer, limit: '10mb' }));
 
   await app.listen(3000);
 }
