@@ -26,7 +26,7 @@ const populateFaxesList = (
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response= await sinchClient.fax.faxes.list(requestData);
+  let response = await sinchClient.fax.faxes.list(requestData);
 
   // Init data structure to hold the response content
   const fullFaxesList: Fax[] = [];

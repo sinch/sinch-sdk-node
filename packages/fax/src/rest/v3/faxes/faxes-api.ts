@@ -242,15 +242,8 @@ export class FaxesApi extends FaxDomainApi {
       const requestData = data.sendFaxRequestBody as FaxRequestFormData;
       if( requestData.to ) { formParams['to'] = requestData.to; }
       if( requestData.file ) { formParams['file'] = requestData.file; }
-      if( requestData.direction ) { formParams['direction'] = requestData.direction; }
       if( requestData.from ) { formParams['from'] = requestData.from; }
       if( requestData.contentUrl ) { formParams['contentUrl'] = requestData.contentUrl; }
-      if( requestData.numberOfPages ) { formParams['numberOfPages'] = requestData.numberOfPages; }
-      if( requestData.status ) { formParams['status'] = requestData.status; }
-      if( requestData.price ) { formParams['price'] = requestData.price; }
-      if( requestData.barCodes ) { formParams['barCodes'] = requestData.barCodes; }
-      if( requestData.createTime ) { formParams['createTime'] = requestData.createTime; }
-      if( requestData.completedTime ) { formParams['completedTime'] = requestData.completedTime; }
       if( requestData.headerText ) { formParams['headerText'] = requestData.headerText; }
       if( requestData.headerPageNumbers ) { formParams['headerPageNumbers'] = requestData.headerPageNumbers; }
       if( requestData.headerTimeZone ) { formParams['headerTimeZone'] = requestData.headerTimeZone; }
@@ -259,13 +252,8 @@ export class FaxesApi extends FaxDomainApi {
       if( requestData.callbackUrl ) { formParams['callbackUrl'] = requestData.callbackUrl; }
       if( requestData.callbackContentType ) { formParams['callbackContentType'] = requestData.callbackContentType; }
       if( requestData.imageConversionMethod ) {formParams['imageConversionMethod'] = requestData.imageConversionMethod;}
-      if( requestData.errorType ) { formParams['errorType'] = requestData.errorType; }
-      if( requestData.errorId ) { formParams['errorId'] = requestData.errorId; }
-      if( requestData.errorCode ) { formParams['errorCode'] = requestData.errorCode; }
       if( requestData.serviceId ) { formParams['serviceId'] = requestData.serviceId; }
       if( requestData.maxRetries ) { formParams['maxRetries'] = requestData.maxRetries; }
-      if( requestData.retryCount ) { formParams['retryCount'] = requestData.retryCount; }
-      if( requestData.hasFile ) { formParams['hasFile'] = requestData.hasFile; }
       body = this.client.processFormData(formParams, 'multipart/form-data');
     }
 
