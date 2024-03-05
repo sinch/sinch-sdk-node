@@ -26,7 +26,7 @@ const populateEmailsList = (
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response= await sinchClient.fax.emails.list(requestData);
+  let response = await sinchClient.fax.emails.list(requestData);
 
   // Init data structure to hold the response content
   const fullEmailsList: Email[] = [];

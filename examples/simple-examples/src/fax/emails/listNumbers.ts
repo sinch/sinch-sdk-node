@@ -33,7 +33,7 @@ const populateServiceNumbersList = (
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response= await sinchClient.fax.emails.listNumbers(requestData);
+  let response = await sinchClient.fax.emails.listNumbers(requestData);
 
   // Init data structure to hold the response content
   const fullServiceNumbersList: ServicePhoneNumber[] = [];

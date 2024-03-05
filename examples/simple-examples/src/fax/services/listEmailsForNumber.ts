@@ -26,7 +26,7 @@ import {
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response= await sinchClient.fax.services.listEmailsForNumber(requestData);
+  let response = await sinchClient.fax.services.listEmailsForNumber(requestData);
 
   // Init data structure to hold the response content
   const emailsList: string[] = [];
