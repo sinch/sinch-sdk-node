@@ -1,4 +1,4 @@
-import { ContactId, SendEventRequestData } from '@sinch/sdk-core';
+import { ContactId, SendComposingEndEventRequestData } from '@sinch/sdk-core';
 import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullResponse } from '../../config';
 
 (async () => {
@@ -9,24 +9,20 @@ import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullRespon
   const appId = getAppIdFromConfig();
   const contactId = getContactIdFromConfig();
 
-  const requestData: SendEventRequestData<ContactId> = {
+  const requestData: SendComposingEndEventRequestData<ContactId> = {
     sendEventRequestBody: {
       app_id: appId,
       recipient: {
         contact_id: contactId,
       },
       event: {
-        generic_event: {
-          payload: {
-            key: 'value for the generic event',
-          },
-        },
+        composing_end_event: {},
       },
     },
   };
 
   const sinchClient = initClient();
-  const response = await sinchClient.conversation.events.send(requestData);
+  const response = await sinchClient.conversation.events.sendComposingEndEvent(requestData);
 
   printFullResponse(response);
 

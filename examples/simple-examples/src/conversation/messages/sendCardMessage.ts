@@ -1,20 +1,22 @@
-import { ContactId, SendMessageRequestData } from '@sinch/sdk-core';
+import { ContactId, SendCardMessageRequestData } from '@sinch/sdk-core';
 import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullResponse } from '../../config';
 
 (async () => {
-  console.log('************************');
-  console.log('* Messages_SendMessage *');
-  console.log('************************');
+  console.log('****************************');
+  console.log('* Messages_SendCardMessage *');
+  console.log('****************************');
 
   const appId = getAppIdFromConfig();
   const contactId = getContactIdFromConfig();
 
-  const requestData: SendMessageRequestData<ContactId> = {
+  const requestData: SendCardMessageRequestData<ContactId> = {
     sendMessageRequestBody: {
       app_id: appId,
       message: {
-        text_message: {
-          text: 'Text message from Sinch',
+        card_message: {
+          title: 'Card message title',
+          description: 'Card message description',
+          height: 'MEDIUM',
         },
       },
       recipient: {
@@ -28,7 +30,7 @@ import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullRespon
   };
 
   const sinchClient = initClient();
-  const response = await sinchClient.conversation.messages.send(requestData);
+  const response = await sinchClient.conversation.messages.sendCardMessage(requestData);
 
   printFullResponse(response);
 

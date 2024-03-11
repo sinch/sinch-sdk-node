@@ -8,6 +8,7 @@ import { LocationMessage } from '../location-message';
 import { MediaMessage } from '../media-message';
 import { TemplateMessage } from '../template-message';
 import { ListMessage } from '../list-message';
+import { ContactInfoMessage } from '../contact-info-message';
 
 export type V2TemplateTranslation =
   V2TemplateTranslationCardMessage
@@ -17,7 +18,8 @@ export type V2TemplateTranslation =
   | V2TemplateTranslationLocationMessage
   | V2TemplateTranslationMediaMessage
   | V2TemplateTranslationTemplateMessage
-  | V2TemplateTranslationTextMessage;
+  | V2TemplateTranslationTextMessage
+  | V2TemplateTranslationContactInfoMessage;
 
 export interface V2TemplateTranslationBase {
 
@@ -43,3 +45,4 @@ export type V2TemplateTranslationLocationMessage = V2TemplateTranslationBase & L
 export type V2TemplateTranslationMediaMessage = V2TemplateTranslationBase & MediaMessage;
 export type V2TemplateTranslationTemplateMessage = V2TemplateTranslationBase & TemplateMessage;
 export type V2TemplateTranslationListMessage = V2TemplateTranslationBase & ListMessage;
+export type V2TemplateTranslationContactInfoMessage = V2TemplateTranslationBase & ContactInfoMessage;
