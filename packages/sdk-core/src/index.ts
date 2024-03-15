@@ -1,5 +1,6 @@
 export * from './sinch-client';
 export * from '@sinch/conversation';
+export * from '@sinch/fax';
 export * from '@sinch/numbers';
 export * from '@sinch/sms';
 export * from '@sinch/verification';
