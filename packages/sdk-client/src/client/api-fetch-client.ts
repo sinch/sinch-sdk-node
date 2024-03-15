@@ -9,9 +9,13 @@ import {
   ErrorContext,
   GenericError,
   ApiCallParameters,
-  ResponseJSONParseError, ApiCallParametersWithPagination, PageResult,
+  ResponseJSONParseError,
+  ApiCallParametersWithPagination,
+  PageResult,
+  FileBuffer,
 } from '../api';
 import fetch, { Response, Headers } from 'node-fetch';
+import FormData = require('form-data');
 import { buildErrorContext, manageExpiredToken, reviveDates } from './api-client-helpers';
 import {
   buildPaginationContext,
@@ -226,5 +230,76 @@ export class ApiFetchClient extends ApiClient {
         }),
       )
       : [];
+  }
+
+  /** @inheritdoc */
+  public async processFileCall(
+    props: ApiCallParameters,
+  ): Promise<FileBuffer> {
+    // Read the "Origin" header if existing, for logging purposes
+    const origin = (props.requestOptions.headers as Headers).get('Origin');
+    const errorContext: ErrorContext = buildErrorContext(props, origin);
+
+    // Declare variables
+    let response: Response | undefined;
+    let body: Buffer | undefined;
+    let fileName: string | undefined;
+
+    // Execute call
+    try {
+      // Send the request with the refresh token mechanism
+      response = await this.sinchFetch(props, errorContext);
+      body = await response.buffer();
+      fileName = this.extractFileName(response.headers);
+    } catch (error: any) {
+      this.buildFetchError(error, errorContext);
+    }
+
+    if (!body || !fileName) {
+      throw new Error('An error occurred while downloading the file');
+    }
+
+    return {
+      fileName,
+      buffer: body,
+    };
+  }
+
+  private extractFileName(headers: Headers) {
+    const contentDisposition = headers.get('content-disposition');
+    let fileName = 'default-name.pdf';
+    if (contentDisposition) {
+      const match = contentDisposition.match(/filename="([^"]+)"/);
+      if (match && match[1]) {
+        fileName = match[1];
+      }
+    }
+    return fileName;
+  }
+
+  /** @inheritDoc */
+  public processFormData(data: any, type: string): FormData | string {
+
+    let encodedData: FormData | string;
+
+    if (type === 'multipart/form-data') {
+      const formData: FormData = new FormData();
+      for (const i in data) {
+        if (Object.prototype.hasOwnProperty.call(data, i)) {
+          formData.append(i, data[i]);
+        }
+      }
+      encodedData = formData;
+    } else {
+      const formData: string[] = [];
+      for (const i in data) {
+        if (Object.prototype.hasOwnProperty.call(data, i)) {
+          formData.push(`${i}=${encodeURIComponent(data[i])}`);
+        }
+      }
+      encodedData = formData.join('&');
+    }
+
+    return encodedData;
   }
 }
