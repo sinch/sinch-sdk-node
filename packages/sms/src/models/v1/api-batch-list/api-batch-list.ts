@@ -1,11 +1,4 @@
-/**
- * Model: ApiBatchList
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-import { ApiBatchListBatchesInner } from '../api-batch-list-batches-inner';
+import { SendSMSResponse } from '../send-sms-response';
 
 export interface ApiBatchList {
 
@@ -14,9 +7,7 @@ export interface ApiBatchList {
   /** The requested page. */
   page?: number;
   /** The page of batches matching the given filters. */
-  batches?: ApiBatchListBatchesInner[];
+  batches?: SendSMSResponse[];
   /** The number of entries returned in this request. */
   page_size?: number;
 }
-
-

@@ -1,9 +1,10 @@
 import { getPrintFormat, initSmsClient, printFullResponse } from '../../config';
-import { ApiBatchListBatchesInner, ListBatchesRequestData, PageResult } from '@sinch/sdk-core';
+import { ListBatchesRequestData, PageResult } from '@sinch/sdk-core';
+import { SendSMSResponse } from '@sinch/sms/src';
 
 const populateBatchesList = (
-  batchListPage: PageResult<ApiBatchListBatchesInner>,
-  fullBatchesList: ApiBatchListBatchesInner[],
+  batchListPage: PageResult<SendSMSResponse>,
+  fullBatchesList: SendSMSResponse[],
   batchesList: string[],
 ) => {
   fullBatchesList.push(...batchListPage.data);
@@ -33,7 +34,7 @@ const populateBatchesList = (
   // ----------------------------------------------
   let response = await sinchClient.sms.batches.list(requestData);
 
-  const fullBatchesList: ApiBatchListBatchesInner[] = [];
+  const fullBatchesList: SendSMSResponse[] = [];
   const batchesList: string[] = [];
 
   // Loop on all the pages to get all the batches

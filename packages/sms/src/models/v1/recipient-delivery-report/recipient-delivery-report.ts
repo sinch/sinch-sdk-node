@@ -1,9 +1,3 @@
-/**
- * Model: RecipientDeliveryReport
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
 import { DeliveryReportStatusEnum } from '../enums';
 
 
@@ -20,7 +14,7 @@ export interface RecipientDeliveryReport {
   /** The detailed status code. */
   code: number;
   /** Applied encoding for message. Present only if smart encoding is enabled. */
-  encoding?: EncodingEnum;
+  encoding?: 'GSM' | 'UNICODE';
   /** The number of parts the message was split into. Present only if `max_number_of_message_parts` parameter was set. */
   number_of_message_parts?: number;
   /** The operator that was used for delivering the message to this recipient, if enabled on the account by Sinch. */
@@ -32,9 +26,5 @@ export interface RecipientDeliveryReport {
   /** The simplified status as described in _Delivery Report Statuses_. */
   status: DeliveryReportStatusEnum;
   /** The recipient delivery report type. */
-  type: TypeEnum;
+  type: 'recipient_delivery_report_sms' | 'recipient_delivery_report_mms';
 }
-
-export type EncodingEnum = 'GSM' | 'UNICODE';
-export type TypeEnum = 'recipient_delivery_report_sms' | 'recipient_delivery_report_mms';
-

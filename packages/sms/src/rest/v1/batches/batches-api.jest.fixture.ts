@@ -1,5 +1,5 @@
 import { BatchesApi, CancelBatchMessageRequestData, DeliveryFeedbackRequestData, DryRunRequestData, GetBatchMessageRequestData, ListBatchesRequestData, ReplaceBatchMessageRequestData, SendSMSRequestData, UpdateBatchMessageRequestData } from './batches-api';
-import { ApiBatchListBatchesInner, DryRunResponse, SendSMSResponse } from '../../../models';
+import { DryRunResponse, SendSMSResponse } from '../../../models';
 import { ApiListPromise } from '@sinch/sdk-client';
 
 export class BatchesApiFixture implements Partial<Readonly<BatchesApi>> {
@@ -23,7 +23,7 @@ export class BatchesApiFixture implements Partial<Readonly<BatchesApi>> {
   /**
     * Fixture associated to function list
     */
-  public list: jest.Mock<ApiListPromise<ApiBatchListBatchesInner>, [ListBatchesRequestData]> = jest.fn();
+  public list: jest.Mock<ApiListPromise<SendSMSResponse>, [ListBatchesRequestData]> = jest.fn();
   /**
     * Fixture associated to function replace
     */

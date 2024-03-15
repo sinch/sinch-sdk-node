@@ -1,10 +1,3 @@
-/**
- * Model: ApiUpdateTextMtMessage
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { ParameterObj } from '../parameter-obj';
 import { DeliveryReportEnum } from '../enums';
 
@@ -13,7 +6,7 @@ export interface ApiUpdateTextMtMessage {
   /** Sender number. Must be valid phone number, short code or alphanumeric. */
   from?: string;
   /** Regular SMS */
-  type?: TypeEnum;
+  type?: 'mt_text';
   /** List of phone numbers and group IDs to add to the batch. */
   to_add?: string[];
   /** List of phone numbers and group IDs to remove from the batch. */
@@ -31,6 +24,3 @@ export interface ApiUpdateTextMtMessage {
   /** The message content */
   body?: string;
 }
-
-export type TypeEnum = 'mt_text' | 'mt_binary' | 'mt_media';
-

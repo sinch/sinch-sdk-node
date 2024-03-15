@@ -1,5 +1,4 @@
 export * from './api-batch-list';
-export * from './api-batch-list-batches-inner';
 export * from './delivery-feedback-request';
 export * from './api-inbound-list';
 export * from './inbound-message-response';

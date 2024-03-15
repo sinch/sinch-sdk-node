@@ -1,10 +1,3 @@
-/**
- * Model: DeliveryReport
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { MessageDeliveryStatus } from '../message-delivery-status';
 
 export interface DeliveryReport {
@@ -18,8 +11,5 @@ export interface DeliveryReport {
   /** The total number of messages in the batch. */
   total_message_count: number;
   /** The delivery report type. */
-  type: TypeEnum;
+  type: 'delivery_report_sms' | 'delivery_report_mms';
 }
-
-export type TypeEnum = 'delivery_report_sms' | 'delivery_report_mms';
-

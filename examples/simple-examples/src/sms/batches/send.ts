@@ -5,7 +5,7 @@ import {
   initSmsClient,
   printFullResponse,
 } from '../../config';
-import { SendSMSRequestData, TextRequest } from '@sinch/sdk-core';
+import { SendSMSRequestData } from '@sinch/sdk-core';
 
 (async () => {
   console.log('***********');
@@ -20,6 +20,7 @@ import { SendSMSRequestData, TextRequest } from '@sinch/sdk-core';
 
   const requestData: SendSMSRequestData= {
     sendSMSRequestBody: {
+      type: 'mt_text',
       to: [
         recipientPhoneNumber,
       ],
@@ -33,8 +34,7 @@ import { SendSMSRequestData, TextRequest } from '@sinch/sdk-core';
       body: 'Hi ${name}!',
       // send_at: oneDayLater,
       delivery_report: 'full',
-      type: 'mt_text',
-    } as TextRequest,
+    },
   };
 
   const sinchClient = initSmsClient();
