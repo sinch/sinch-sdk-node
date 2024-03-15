@@ -1,4 +1,5 @@
 import { ImageConversionMethod, WebhookContentType } from '../enums';
+import { ServiceEmailSettings } from '../service-email-settings';
 
 /**
  * You can use the default created service, or create multiple services within the same project to have different default behavior for all your different faxing use cases.
@@ -25,6 +26,8 @@ export interface ServiceRequest {
   saveOutboundFaxDocuments?: boolean;
   /** Save fax documents with sinch when you receive faxes */
   saveInboundFaxDocuments?: boolean;
+  /** @see ServiceEmailSettings */
+  emailSettings?: ServiceEmailSettings;
 }
 
 export interface ServiceResponse extends ServiceRequest {

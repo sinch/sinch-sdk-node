@@ -22,6 +22,16 @@ export interface GetServiceRequestData {
   /** The service ID you want to update. */
   'serviceId': string;
 }
+export interface ListEmailsForNumberRequestData {
+  /** The phone number you want to get emails for. */
+  'phoneNumber': string;
+  /** The serviceId containing the numbers you want to list. */
+  'serviceId': string;
+  /** Number of items to return on each page. */
+  'pageSize'?: number;
+  /** Optional. The page to fetch. If not specified, the first page will be returned. */
+  'page'?: string;
+}
 export interface ListNumbersForServiceRequestData {
   /** The serviceId containing the numbers you want to list. */
   'serviceId': string;
@@ -112,6 +122,48 @@ export class ServicesApi extends FaxDomainApi {
       apiName: this.apiName,
       operationId: 'GetService',
     });
+  }
+
+  /**
+   * List emails for a number
+   * List any emails for a number.
+   * @param { ListEmailsForNumberRequestData } data - The data to provide to the API call.
+   * @return {ApiListPromise<string>} - The list of emails for a given number
+   */
+  public listEmailsForNumber(data: ListEmailsForNumberRequestData): ApiListPromise<string> {
+    this.client = this.getSinchClient();
+    const getParams = this.client.extractQueryParams<ListEmailsForNumberRequestData>(data, ['pageSize', 'page']);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = '';
+    const basePathUrl = `${this.client.apiClientOptions.basePath}/v3/projects/${this.client.apiClientOptions.projectId}/services/${data['serviceId']}/numbers/${data['phoneNumber']}/emails`;
+
+    const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
+
+    const operationProperties: PaginatedApiProperties = {
+      pagination: PaginationEnum.PAGE3,
+      apiName: this.apiName,
+      operationId: 'GetEmailsForNumber',
+      dataKey: 'emails',
+    };
+
+    // Create the promise containing the response wrapped as a PageResult
+    const listPromise = buildPageResultPromise<string>(
+      this.client,
+      requestOptionsPromise,
+      operationProperties);
+
+    // Add properties to the Promise to offer the possibility to use it as an iterator
+    Object.assign(
+      listPromise,
+      createIteratorMethodsForPagination<string>(
+        this.client, requestOptionsPromise, listPromise, operationProperties),
+    );
+
+    return listPromise as ApiListPromise<string>;
   }
 
   /**

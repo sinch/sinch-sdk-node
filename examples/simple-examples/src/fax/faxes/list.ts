@@ -51,7 +51,7 @@ const populateFaxesList = (
       ? `List of faxes:\n${faxesList.join('\n')}`
       : 'Sorry, no faxes were found');
   } else {
-    printFullResponse(response);
+    printFullResponse(fullFaxesList);
   }
 
   // ---------------------------------------------------------------------

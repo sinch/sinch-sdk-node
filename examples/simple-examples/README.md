@@ -74,6 +74,7 @@ WEBHOOK_TARGET=target URL where the events should be sent to
 FAX_SERVICE_ID=serviceId to fill with one the fax services created with the Fax API
 FAX_ID=id from a sendFax response
 FAX_CALLBACK_URL=callback url to override the one defined in the default service or specified service
+FAX_EMAIL=email to associate with a phone number to use the fax-to-email functionality
 ```
 
 **Note**: If you prefer using environment variables, the sample app is also supporting them: they take precedence over the value from the `.env` file.
@@ -231,16 +232,23 @@ yarn run numbers:regions:list
 
 ### Fax
 
-| Service  | Sample application name and location                                     | Required parameters |
-|----------|--------------------------------------------------------------------------|---------------------|
-| Services | [./src/fax/services/create.ts](./src/fax/services/create.ts)             | `PHONE_NUMBER`      |
-|          | [./src/fax/services/get.ts](./src/fax/services/get.ts)                   | `FAX_SERVICE_ID`    |
-|          | [./src/fax/services/list.ts](./src/fax/services/list.ts)                 |                     |
-|          | [./src/fax/services/listNumbers.ts](./src/fax/services/listNumbers.ts)   | `FAX_SERVICE_ID`    |
-|          | [./src/fax/services/update.ts](./src/fax/services/update.ts)             | `FAX_SERVICE_ID`    |
-|          | [./src/fax/services/delete.ts](./src/fax/services/delete.ts)             | `FAX_SERVICE_ID`    |
-| Faxes    | [./src/fax/faxes/send.ts](./src/fax/faxes/send.ts)                       | `PHONE_NUMBER`      |
-|          | [./src/fax/faxes/get.ts](./src/fax/faxes/get.ts)                         | `FAX_ID`            |
-|          | [./src/fax/faxes/list.ts](./src/fax/faxes/list.ts)                       |                     |
-|          | [./src/fax/faxes/downloadContent.ts](./src/fax/faxes/downloadContent.ts) | `FAX_ID`            |
-|          | [./src/fax/faxes/deleteContent.ts](./src/fax/faxes/deleteContent.ts)     | `FAX_ID`            |
+| Service  | Sample application name and location                                                   | Required parameters               |
+|----------|----------------------------------------------------------------------------------------|-----------------------------------|
+| Services | [./src/fax/services/create.ts](./src/fax/services/create.ts)                           | `PHONE_NUMBER`                    |
+|          | [./src/fax/services/get.ts](./src/fax/services/get.ts)                                 | `FAX_SERVICE_ID`                  |
+|          | [./src/fax/services/list.ts](./src/fax/services/list.ts)                               |                                   |
+|          | [./src/fax/services/listNumbers.ts](./src/fax/services/listNumbers.ts)                 | `FAX_SERVICE_ID`                  |
+|          | [./src/fax/services/listEmailsForNumber.ts](./src/fax/services/listEmailsForNumber.ts) | `PHONE_NUMBER` + `FAX_SERVICE_ID` |
+|          | [./src/fax/services/update.ts](./src/fax/services/update.ts)                           | `FAX_SERVICE_ID`                  |
+|          | [./src/fax/services/delete.ts](./src/fax/services/delete.ts)                           | `FAX_SERVICE_ID`                  |
+| Faxes    | [./src/fax/faxes/send.ts](./src/fax/faxes/send.ts)                                     | `PHONE_NUMBER`                    |
+|          | [./src/fax/faxes/get.ts](./src/fax/faxes/get.ts)                                       | `FAX_ID`                          |
+|          | [./src/fax/faxes/list.ts](./src/fax/faxes/list.ts)                                     |                                   |
+|          | [./src/fax/faxes/downloadContent.ts](./src/fax/faxes/downloadContent.ts)               | `FAX_ID`                          |
+|          | [./src/fax/faxes/deleteContent.ts](./src/fax/faxes/deleteContent.ts)                   | `FAX_ID`                          |
+| Emails   | [./src/fax/emails/add.ts](./src/fax/emails/add.ts)                                     | `FAX_EMAIL` + `PHONE_NUMBER`      |
+|          | [./src/fax/emails/list.ts](./src/fax/emails/list.ts)                                   |                                   |
+|          | [./src/fax/emails/listNumbers.ts](./src/fax/emails/listNumbers.ts)                     | `FAX_EMAIL`                       |
+|          | [./src/fax/emails/update.ts](./src/fax/emails/update.ts)                               | `FAX_EMAIL` + `PHONE_NUMBER`      |
+|          | [./src/fax/emails/delete.ts](./src/fax/emails/delete.ts)                               | `FAX_EMAIL`                       |
+

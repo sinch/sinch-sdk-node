@@ -10,6 +10,7 @@ import {
   ServicesApi,
   ServicesApiFixture,
   UpdateServiceRequestData,
+  ListEmailsForNumberRequestData,
 } from '../../../../src';
 
 describe('ServicesApi', () => {
@@ -100,6 +101,35 @@ describe('ServicesApi', () => {
       // Then
       expect(response).toEqual(expectedResponse);
       expect(fixture.get).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('listEmailsForNumber', () => {
+    it('should make a GET request to list any emails for a number', async () => {
+      // Given
+      const requestData: ListEmailsForNumberRequestData = {
+        serviceId: 'serviceId',
+        phoneNumber: '+15551235656',
+      };
+      const mockData: string[] = [
+        'user@example.com',
+      ];
+      const expectedResponse = {
+        data: mockData,
+        hasNextPage: false,
+        nextPageValue: '',
+        nextPage: jest.fn(),
+      };
+
+      // When
+      fixture.listEmailsForNumber.mockResolvedValue(expectedResponse);
+      servicesApi.listEmailsForNumber = fixture.listEmailsForNumber;
+      const response = await servicesApi.listEmailsForNumber(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(response.data).toBeDefined();
+      expect(fixture.listEmailsForNumber).toHaveBeenCalledWith(requestData);
     });
   });
 
