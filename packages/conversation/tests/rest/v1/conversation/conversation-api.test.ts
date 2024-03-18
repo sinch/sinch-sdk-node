@@ -230,10 +230,10 @@ describe('ConversationApi', () => {
               },
               explicit_channel_message: {},
               explicit_channel_omni_message: {
-                property1: {
+                WHATSAPP: {
                   card_message: {},
                 },
-                property2: {
+                KAKAOTALK: {
                   text_message: {
                     text: 'text message',
                   },

@@ -4,12 +4,10 @@ import { Coordinates } from '../coordinates';
  * Message containing geographic location.
  */
 export interface LocationMessage {
-
   /** Message containing geographic location. */
   location_message: LocationMessageItem;
 }
 export interface LocationMessageItem {
-
   /** @see Coordinates */
   coordinates: Coordinates;
   /** Label or name for the position. */

@@ -72,43 +72,6 @@ describe('MessagesApi', () => {
           identity: 'identity',
         },
         contact_id: 'contact_id',
-        contact_message: {
-          choice_response_message: {
-            message_id: 'message_id',
-            postback_data: 'postback-data',
-          },
-          fallback_message: {
-            raw_message: 'raw',
-            reason: {
-              code: 'UNKNOWN',
-              description: 'description',
-              sub_code: 'UNSPECIFIED_SUB_CODE',
-            },
-          },
-          location_message: {
-            title: 'title',
-            label: 'label',
-            coordinates: {
-              latitude: 0,
-              longitude: 0,
-            },
-          },
-          media_card_message: {
-            url: 'url',
-            caption: 'caption',
-          },
-          media_message: {
-            url: 'url',
-            filename_override: 'filename',
-            thumbnail_url: 'thumbnail',
-          },
-          reply_to: {
-            message_id: 'message_id',
-          },
-          text_message: {
-            text: 'text',
-          },
-        },
         conversation_id: 'conversation_id',
         direction: 'UNDEFINED_DIRECTION',
         id: 'id',
@@ -142,22 +105,7 @@ describe('MessagesApi', () => {
                     title: 'title',
                     phone_number: 'number',
                   },
-                  location_message: {
-                    coordinates: {
-                      latitude: 0,
-                      longitude: 0,
-                    },
-                    title: 'title',
-                    label: 'label',
-                  },
                   postback_data: 'data',
-                  text_message: {
-                    text: 'text',
-                  },
-                  url_message: {
-                    url: 'url',
-                    title: 'title',
-                  },
                 },
               ],
               description: 'description',
@@ -175,9 +123,6 @@ describe('MessagesApi', () => {
             channel: 'WHATSAPP',
           },
           contact_id: 'contact_id',
-          contact_message: {
-
-          },
           conversation_id: 'conversation_id',
           direction: 'UNDEFINED_DIRECTION',
           id: 'id',
@@ -259,10 +204,10 @@ describe('MessagesApi', () => {
           },
           explicit_channel_message: {},
           explicit_channel_omni_message: {
-            property1: {
+            WHATSAPP: {
               card_message: {},
             },
-            property2: {
+            KAKAOTALK: {
               text_message: {
                 text: 'text message',
               },

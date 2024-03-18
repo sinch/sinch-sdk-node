@@ -30,14 +30,15 @@ describe('TranscodingApi', () => {
             },
           },
           channels: [
-            'WHATSAPP',
+            'APPLEBC',
+            'VIBER',
           ],
         },
       };
       const expectedResponse: TranscodeMessageResponse = {
         transcoded_message: {
-          property1: 'string',
-          property2: 'string',
+          APPLEBC: 'string',
+          VIBER: 'string',
         },
       };
 
