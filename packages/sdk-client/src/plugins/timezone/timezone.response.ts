@@ -41,7 +41,7 @@ implements ResponsePlugin<V | Record<string, any>> {
                     timestampValue = timestampValue + 'Z';
                   }
                 }
-                res[key] = new Date(timestampValue);
+                res[key] = timestampValue;
               }
             }
           }

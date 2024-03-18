@@ -30,7 +30,7 @@ describe('Timezone response plugin', () => {
     const runner = plugin.load(context);
     const result = await runner.transform(apiResponse);
 
-    expect(result.timestamp).toStrictEqual(new Date(TIMESTAMP_WITH_TIMEZONE));
+    expect(result.timestamp).toBe(TIMESTAMP_WITH_TIMEZONE);
   });
 
   it('should NOT update the timestamp if the timezone is already there with "Z" format', async () => {
@@ -41,7 +41,7 @@ describe('Timezone response plugin', () => {
     const runner = plugin.load(context);
     const result = await runner.transform(apiResponse);
 
-    expect(result.timestamp).toStrictEqual(new Date(TIMESTAMP_WITH_TIMEZONE));
+    expect(result.timestamp).toBe(TIMESTAMP_WITH_TIMEZONE);
   });
 
   it('should update the timestamp if the timezone is already there but with "+XX format"', async () => {
@@ -52,7 +52,7 @@ describe('Timezone response plugin', () => {
     const runner = plugin.load(context);
     const result = await runner.transform(apiResponse);
 
-    expect(result.timestamp).toStrictEqual(new Date(TIMESTAMP_WITH_TIMEZONE_HOURS_MINUTES));
+    expect(result.timestamp).toBe(TIMESTAMP_WITH_TIMEZONE_HOURS_MINUTES);
   });
 
   it('should NOT update the timestamp if the timezone is already there with "+XX:XX format"', async () => {
@@ -63,7 +63,7 @@ describe('Timezone response plugin', () => {
     const runner = plugin.load(context);
     const result = await runner.transform(apiResponse);
 
-    expect(result.timestamp).toStrictEqual(new Date(TIMESTAMP_WITH_TIMEZONE_HOURS_MINUTES));
+    expect(result.timestamp).toBe(TIMESTAMP_WITH_TIMEZONE_HOURS_MINUTES);
   });
 
   it('should NOT update the timestamp if the operationId if not listed', async () => {
