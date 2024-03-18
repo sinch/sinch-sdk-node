@@ -8,6 +8,7 @@ import { LocationMessage } from '../location-message';
 import { MediaMessage } from '../media-message';
 import { TemplateMessage } from '../template-message';
 import { ListMessage } from '../list-message';
+import { ContactInfoMessage } from '../contact-info-message';
 
 export type V2TemplateTranslation =
   V2TemplateTranslationCardMessage
@@ -17,7 +18,8 @@ export type V2TemplateTranslation =
   | V2TemplateTranslationLocationMessage
   | V2TemplateTranslationMediaMessage
   | V2TemplateTranslationTemplateMessage
-  | V2TemplateTranslationTextMessage;
+  | V2TemplateTranslationTextMessage
+  | V2TemplateTranslationContactInfoMessage;
 
  interface V2TemplateTranslationBase {
   /** The BCP-47 language code, such as `en-US` or `sr-Latn`. For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
@@ -38,6 +40,7 @@ interface V2TemplateTranslationCardMessage extends V2TemplateTranslationBase, Ca
   // Exclude other template translation types
   carousel_message?: never;
   choice_message?: never;
+  contact_info_message?: never;
   list_message?: never;
   location_message?: never;
   media_message?: never;
@@ -48,6 +51,7 @@ interface V2TemplateTranslationCarouselMessage extends V2TemplateTranslationBase
   // Exclude other template translation types
   card_message?: never;
   choice_message?: never;
+  contact_info_message?: never;
   list_message?: never;
   location_message?: never;
   media_message?: never;
@@ -58,6 +62,18 @@ interface V2TemplateTranslationChoiceMessage extends V2TemplateTranslationBase, 
   // Exclude other template translation types
   card_message?: never;
   carousel_message?: never;
+  contact_info_message?: never;
+  list_message?: never;
+  location_message?: never;
+  media_message?: never;
+  template_message?: never;
+  text_message?: never;
+}
+interface V2TemplateTranslationContactInfoMessage extends V2TemplateTranslationBase, ContactInfoMessage {
+  // Exclude other template translation types
+  card_message?: never;
+  carousel_message?: never;
+  choice_message?: never;
   list_message?: never;
   location_message?: never;
   media_message?: never;
@@ -69,6 +85,7 @@ interface V2TemplateTranslationListMessage extends V2TemplateTranslationBase, Li
   card_message?: never;
   carousel_message?: never;
   choice_message?: never;
+  contact_info_message?: never;
   location_message?: never;
   media_message?: never;
   template_message?: never;
@@ -79,6 +96,7 @@ interface V2TemplateTranslationLocationMessage extends V2TemplateTranslationBase
   card_message?: never;
   carousel_message?: never;
   choice_message?: never;
+  contact_info_message?: never;
   list_message?: never;
   media_message?: never;
   template_message?: never;
@@ -89,6 +107,7 @@ interface V2TemplateTranslationMediaMessage extends V2TemplateTranslationBase, M
   card_message?: never;
   carousel_message?: never;
   choice_message?: never;
+  contact_info_message?: never;
   list_message?: never;
   location_message?: never;
   template_message?: never;
@@ -99,6 +118,7 @@ interface V2TemplateTranslationTemplateMessage extends V2TemplateTranslationBase
   card_message?: never;
   carousel_message?: never;
   choice_message?: never;
+  contact_info_message?: never;
   list_message?: never;
   location_message?: never;
   media_message?: never;
@@ -109,6 +129,7 @@ interface V2TemplateTranslationTextMessage extends V2TemplateTranslationBase, Te
   card_message?: never;
   carousel_message?: never;
   choice_message?: never;
+  contact_info_message?: never;
   list_message?: never;
   location_message?: never;
   media_message?: never;
