@@ -3,7 +3,6 @@ import { ContactMessage } from '../../contact-message';
 import { ProcessingMode } from '../../enums';
 
 export interface MessageInboundEventItem {
-
   /** The message ID. */
   id?: string;
   /** The direction of the message, it's always TO_APP for contact messages. */
