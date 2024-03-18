@@ -38,7 +38,7 @@
     "conversation:events:get": "ts-node src/conversation/events/get.ts",
     "conversation:events:list": "ts-node src/conversation/events/list.ts",
     "conversation:events:delete": "ts-node src/conversation/events/delete.ts",
-    "conversation:transcoding:transcode": "ts-node src/conversation/transcoding/transcode.ts",
+    "conversation:transcoding:transcode": "ts-node src/conversation/transcoding/transcode.ts pretty",
     "conversation:capability:lookup": "ts-node src/conversation/capability/lookup.ts",
     "conversation:webhooks:create": "ts-node src/conversation/webhooks/create.ts",
     "conversation:webhooks:get": "ts-node src/conversation/webhooks/get.ts",
