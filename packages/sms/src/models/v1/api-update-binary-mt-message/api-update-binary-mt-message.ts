@@ -1,9 +1,3 @@
-/**
- * Model: ApiUpdateBinaryMtMessage
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
 import { DeliveryReportEnum } from '../enums';
 
 
@@ -12,7 +6,7 @@ export interface ApiUpdateBinaryMtMessage {
   /** Sender number. Must be valid phone number, short code or alphanumeric. */
   from?: string;
   /** SMS in binary format */
-  type?: TypeEnum;
+  type?: 'mt_binary';
   /** List of phone numbers and group IDs to add to the batch. */
   to_add?: string[];
   /** List of phone numbers and group IDs to remove from the batch. */
@@ -30,6 +24,3 @@ export interface ApiUpdateBinaryMtMessage {
   /** The UDH header of a binary message HEX encoded. Max 140 bytes together with body. */
   udh?: string;
 }
-
-export type TypeEnum = 'mt_binary';
-

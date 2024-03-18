@@ -32,10 +32,14 @@ interface InjectMessageRequestBase {
 
 interface InjectAppMessageRequest extends InjectMessageRequestBase {
   /** @see AppMessage */
-  app_message?: AppMessage;
+  app_message: AppMessage;
+  // Exclude other message types
+  contact_message?: never;
 }
 
 interface InjectContactMessageRequest extends InjectMessageRequestBase {
   /** @see ContactMessage */
-  contact_message?: ContactMessage;
+  contact_message: ContactMessage;
+  // Exclude other message types
+  app_message?: never;
 }

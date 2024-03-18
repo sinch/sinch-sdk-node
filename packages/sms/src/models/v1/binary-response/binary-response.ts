@@ -1,11 +1,4 @@
-/**
- * Model: BinaryResponse
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
 import { DeliveryReportEnum } from '../enums';
-
 
 export interface BinaryResponse {
 
@@ -22,7 +15,7 @@ export interface BinaryResponse {
   /** The <a href=\"https://community.sinch.com/t5/Glossary/UDH-User-Data-Header/ta-p/7776\" target=\"_blank\">UDH</a> header of a binary message HEX encoded. Max 140 bytes including the `body`. */
   udh?: string;
   /** SMS in <a href=\"https://community.sinch.com/t5/Glossary/Binary-SMS/ta-p/7470\" target=\"_blank\">binary</a> format. */
-  type?: TypeEnum;
+  type?: 'mt_binary';
   /** Timestamp for when batch was created.   Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601). For example: `YYYY-MM-DDThh:mm:ss.SSSZ`. */
   created_at?: Date;
   /** Timestamp for when batch was last updated.   Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601). For example: `YYYY-MM-DDThh:mm:ss.SSSZ`. */
@@ -50,6 +43,3 @@ export interface BinaryResponse {
   /** Number Plan Indicator for the sender number. */
   from_npi?: number;
 }
-
-export type TypeEnum = 'mt_binary';
-

@@ -14,15 +14,14 @@ import {
 } from '@sinch/sdk-client';
 import { SmsDomainApi } from '../sms-domain-api';
 
-export type GetDeliveryReportByBatchIdTypeEnum = 'summary' | 'full';
 export interface GetDeliveryReportByBatchIdRequestData {
   /** The batch ID you received from sending a message. */
   'batch_id': string;
   /** The type of delivery report.  - A `summary` will count the number of messages sent per status.  - A `full` report give that of a `summary` report but in addition, lists phone numbers. */
-  'type'?: GetDeliveryReportByBatchIdTypeEnum;
+  'type'?: 'summary' | 'full';
   /** Comma separated list of delivery_report_statuses to include */
   'status'?: DeliveryReportStatusEnum[];
-  /** Comma separated list of delivery_receipt_error_codes to include\" */
+  /** Comma separated list of delivery_receipt_error_codes to include */
   'code'?: string;
 }
 export interface GetDeliveryReportByPhoneNumberRequestData {

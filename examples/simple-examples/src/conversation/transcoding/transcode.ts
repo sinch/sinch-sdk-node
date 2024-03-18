@@ -1,4 +1,4 @@
-import { TranscodeMessageRequestData } from '@sinch/sdk-core';
+import { ConversationChannel, TranscodeMessageRequestData } from '@sinch/sdk-core';
 import { getAppIdFromConfig, getPrintFormat, initClient, printFullResponse } from '../../config';
 
 (async () => {
@@ -36,11 +36,11 @@ import { getAppIdFromConfig, getPrintFormat, initClient, printFullResponse } fro
 
   if (printFormat === 'pretty') {
     if (response.transcoded_message) {
-      console.log(`Transcoded messages:\n - ${Object.keys(response.transcoded_message)
-        .map((key: string) => {
-          const transcodedMessage = JSON.parse(response.transcoded_message![key]);
-          return key + ': ' + JSON.stringify(transcodedMessage.message);
-        })}`);
+      console.log(`Transcoded messages:\n`);
+      Object.entries(response.transcoded_message).forEach(([channel, transcodedValue]) => {
+        const transcodedMessage = JSON.parse(transcodedValue);
+        console.log(channel + ': ' + JSON.stringify(transcodedMessage.message));
+      });
     } else {
       console.log('No transcoded messages returned.');
     }

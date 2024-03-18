@@ -1,9 +1,8 @@
 import { Agent } from '../agent';
 
 export interface AgentLeftEvent {
-
   /** @see AgentLeftEventType */
-  agent_left_event?: AgentLeftEventType;
+  agent_left_event: AgentLeftEventType;
 }
 
 export interface AgentLeftEventType {

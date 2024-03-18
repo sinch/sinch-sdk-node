@@ -5,7 +5,7 @@ import {
   initSmsClient,
   printFullResponse,
 } from '../../config';
-import { DryRunRequestData, TextRequest } from '@sinch/sdk-core';
+import { DryRunRequestData } from '@sinch/sdk-core';
 
 (async () => {
   console.log('***********');
@@ -17,6 +17,7 @@ import { DryRunRequestData, TextRequest } from '@sinch/sdk-core';
 
   const requestData: DryRunRequestData= {
     dryRunRequestBody: {
+      type: 'mt_text',
       to: [
         recipientPhoneNumber,
       ],
@@ -29,8 +30,7 @@ import { DryRunRequestData, TextRequest } from '@sinch/sdk-core';
       },
       body: 'Hi ${name}!',
       delivery_report: 'none',
-      type: 'mt_text',
-    } as TextRequest,
+    },
   };
 
   const sinchClient = initSmsClient();

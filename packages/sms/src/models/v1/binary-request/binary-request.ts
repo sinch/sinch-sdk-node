@@ -1,9 +1,3 @@
-/**
- * Model: BinaryRequest
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
 import { DeliveryReportEnum } from '../enums';
 
 
@@ -18,7 +12,7 @@ export interface BinaryRequest {
   /** The UDH header of a binary message HEX encoded. Max 140 bytes including the `body`. */
   udh: string;
   /** SMS in <a href=\"https://community.sinch.com/t5/Glossary/Binary-SMS/ta-p/7470\" target=\"_blank\">binary</a> format. */
-  type?: TypeEnum;
+  type?: 'mt_binary';
   /** Request delivery report callback. Note that delivery reports can be fetched from the API regardless of this setting.  */
   delivery_report?: DeliveryReportEnum;
   /** If set in the future the message will be delayed until `send_at` occurs.   Must be before `expire_at`.   If set in the past, messages will be sent immediately.   Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601). For example: `YYYY-MM-DDThh:mm:ss.SSSZ`. */
@@ -42,6 +36,3 @@ export interface BinaryRequest {
   /** Number Plan Indicator for the sender number. Use to override the automatic detection. */
   from_npi?: number;
 }
-
-export type TypeEnum = 'mt_binary';
-

@@ -19,20 +19,36 @@ export interface ChoiceBase {
 
 export interface CallMessageChoice extends ChoiceBase {
   /** @see CallMessage */
-  call_message?: CallMessage;
+  call_message: CallMessage;
+  // Exclude other choice types
+  location_message?: never;
+  text_message?: never;
+  url_message?: never;
 }
 
 export interface LocationMessageChoice extends ChoiceBase {
-  /** @see LocationMessage */
-  location_message?: LocationMessageItem;
+  /** @see LocationMessageItem */
+  location_message: LocationMessageItem;
+  // Exclude other choice types
+  call_message?: never;
+  text_message?: never;
+  url_message?: never;
 }
 
 export interface TextMessageChoice extends ChoiceBase {
   /** @see TextMessageItem */
-  text_message?: TextMessageItem;
+  text_message: TextMessageItem;
+  // Exclude other choice types
+  call_message?: never;
+  location_message?: never;
+  url_message?: never;
 }
 
 export interface UrlMessageChoice extends ChoiceBase {
   /** @see UrlMessage */
-  url_message?: UrlMessage;
+  url_message: UrlMessage;
+  // Exclude other choice types
+  call_message?: never;
+  location_message?: never;
+  text_message?: never;
 }

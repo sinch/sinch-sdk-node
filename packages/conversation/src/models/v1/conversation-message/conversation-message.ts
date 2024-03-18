@@ -54,10 +54,14 @@ type Status =
 
 interface ConversationAppMessage extends ConversationMessageBase {
   /** @see AppMessage */
-  app_message?: AppMessage;
+  app_message: AppMessage;
+  // Exclude other message types
+  contact_message?: never;
 }
 
 interface ConversationContactMessage extends ConversationMessageBase {
   /** @see ContactMessage */
-  contact_message?: ContactMessage;
+  contact_message: ContactMessage;
+  // Exclude other message types
+  app_message?: never;
 }

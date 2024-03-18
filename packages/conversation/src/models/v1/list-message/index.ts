@@ -1,1 +1,1 @@
-export type { ListMessage, ListMessageItem } from './list-message';
+export type { ListMessage, ListMessageItem, ListMessageItemProperties } from './list-message';

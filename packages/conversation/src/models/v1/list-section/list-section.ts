@@ -9,5 +9,5 @@ export interface ListSection {
   /** Optional parameter. Title for list section. */
   title?: string;
   /** List of ListItems */
-  items?: (ChoiceItem | Product)[];
+  items?: ChoiceItem[] | Product[];
 }

@@ -10,12 +10,120 @@ import { ContactInfoMessage } from '../contact-info-message';
 
 /** The content of the message */
 export type AppMessageMessage =
-  CardMessage
-  | CarouselMessage
-  | ChoiceMessage
-  | LocationMessage
-  | MediaMessage
-  | TemplateMessage
-  | TextMessage
-  | ListMessage
-  | ContactInfoMessage;
+  AppMessageCardMessage
+  | AppMessageCarouselMessage
+  | AppMessageChoiceMessage
+  | AppMessageLocationMessage
+  | AppMessageMediaMessage
+  | AppMessageTemplateMessage
+  | AppMessageTextMessage
+  | AppMessageListMessage
+  | AppMessageContactInfoMessage;
+
+interface AppMessageCardMessage extends CardMessage {
+  // Exclude other message types
+  carousel_message?: never;
+  choice_message?: never;
+  location_message?: never;
+  media_message?: never;
+  template_message?: never;
+  text_message?: never;
+  list_message?: never;
+  contact_info_message?: never;
+}
+
+interface AppMessageCarouselMessage extends CarouselMessage {
+  // Exclude other message types
+  card_message?: never;
+  choice_message?: never;
+  location_message?: never;
+  media_message?: never;
+  template_message?: never;
+  text_message?: never;
+  list_message?: never;
+  contact_info_message?: never;
+}
+
+interface AppMessageChoiceMessage extends ChoiceMessage {
+  // Exclude other message types
+  card_message?: never;
+  carousel_message?: never;
+  location_message?: never;
+  media_message?: never;
+  template_message?: never;
+  text_message?: never;
+  list_message?: never;
+  contact_info_message?: never;
+}
+
+interface AppMessageLocationMessage extends LocationMessage {
+  // Exclude other message types
+  card_message?: never;
+  carousel_message?: never;
+  choice_message?: never;
+  media_message?: never;
+  template_message?: never;
+  text_message?: never;
+  list_message?: never;
+  contact_info_message?: never;
+}
+
+interface AppMessageMediaMessage extends MediaMessage {
+  // Exclude other message types
+  card_message?: never;
+  carousel_message?: never;
+  choice_message?: never;
+  location_message?: never;
+  template_message?: never;
+  text_message?: never;
+  list_message?: never;
+  contact_info_message?: never;
+}
+
+interface AppMessageTemplateMessage extends TemplateMessage {
+  // Exclude other message types
+  card_message?: never;
+  carousel_message?: never;
+  choice_message?: never;
+  location_message?: never;
+  media_message?: never;
+  text_message?: never;
+  list_message?: never;
+  contact_info_message?: never;
+}
+
+interface AppMessageTextMessage extends TextMessage {
+  // Exclude other message types
+  card_message?: never;
+  carousel_message?: never;
+  choice_message?: never;
+  location_message?: never;
+  media_message?: never;
+  template_message?: never;
+  list_message?: never;
+  contact_info_message?: never;
+}
+
+interface AppMessageListMessage extends ListMessage {
+  // Exclude other message types
+  card_message?: never;
+  carousel_message?: never;
+  choice_message?: never;
+  location_message?: never;
+  media_message?: never;
+  template_message?: never;
+  text_message?: never;
+  contact_info_message?: never;
+}
+
+interface AppMessageContactInfoMessage extends ContactInfoMessage {
+  // Exclude other message types
+  card_message?: never;
+  carousel_message?: never;
+  choice_message?: never;
+  location_message?: never;
+  media_message?: never;
+  template_message?: never;
+  text_message?: never;
+  list_message?: never;
+}

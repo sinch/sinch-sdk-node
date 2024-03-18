@@ -6,7 +6,7 @@ import { ProcessingMode } from '../enums';
 /**
  * Inject Event request
  */
-export type InjectConversationEventRequest = InjectConversationAppEvent | InjectConversationContactEvent;
+export type InjectConversationEventRequest = InjectConversationAppEvent | InjectConversationContactEvent; // TODO: add contact_message_event DEVEXP-345
 
 interface InjectConversationEventBase {
   /** Optional. The ID of the event\'s conversation. Will not be present for apps in Dispatch Mode. */
@@ -24,9 +24,13 @@ interface InjectConversationEventBase {
 interface InjectConversationAppEvent extends InjectConversationEventBase {
   /** @see AppEvent */
   app_event: AppEvent;
+  // Exclude other event types
+  contact_event?: never;
 }
 
 interface InjectConversationContactEvent extends InjectConversationEventBase {
   /** @see AppEvent */
-  contact_event: ContactEvent
+  contact_event: ContactEvent;
+  // Exclude other event types
+  app_event?: never;
 }
