@@ -1,6 +1,5 @@
 import { SinchClientParameters, textToHex } from '@sinch/sdk-client';
 import {
-  ApiBatchListBatchesInner,
   ApiUpdateTextMtMessage,
   BatchesApi,
   BatchesApiFixture,
@@ -14,7 +13,6 @@ import {
   DryRunRequestData,
   SendSMSRequestData,
   SendSMSResponse,
-  TextRequest,
   UpdateBatchMessageRequestData,
 } from '../../../../src';
 
@@ -158,7 +156,7 @@ describe('BatchesApi', () => {
     it('should make a GET request to list the existing batches', async () => {
       // Given
       const requestData: ListBatchesRequestData = {};
-      const mockData: ApiBatchListBatchesInner[] = [
+      const mockData: SendSMSResponse[] = [
         {
           id: '01HF28S9AAGRKWP2CY92BJB569',
           to: [
@@ -253,6 +251,7 @@ describe('BatchesApi', () => {
       // Given
       const requestData: SendSMSRequestData = {
         sendSMSRequestBody: {
+          type: 'mt_text',
           to: [
             '+33444555666',
           ],
@@ -265,9 +264,8 @@ describe('BatchesApi', () => {
           },
           body: 'Hi ${name}!',
           delivery_report: 'none',
-          type: 'mt_text',
           send_at: new Date('2023-11-20T12:34:56.789Z'),
-        } as TextRequest,
+        },
       };
       const expectedResponse: SendSMSResponse = {
         id: '01HF4WG1TAVS351YYD7Q84K8HA',

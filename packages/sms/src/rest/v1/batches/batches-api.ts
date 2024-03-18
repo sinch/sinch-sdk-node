@@ -1,5 +1,4 @@
 import {
-  ApiBatchListBatchesInner,
   CancelBatchMessageResponse,
   DeliveryFeedbackRequest,
   DryRunResponse,
@@ -208,9 +207,9 @@ export class BatchesApi extends SmsDomainApi {
    * List Batches
    * With the list operation you can list batch messages created in the last 14 days that you have created. This operation supports pagination.
    * @param { ListBatchesRequestData } data - The data to provide to the API call.
-   * @return {ApiListPromise<ApiBatchListBatchesInner>}
+   * @return {ApiListPromise<SendSMSResponse>}
   */
-  public list(data: ListBatchesRequestData): ApiListPromise<ApiBatchListBatchesInner> {
+  public list(data: ListBatchesRequestData): ApiListPromise<SendSMSResponse> {
     this.client = this.getSinchClient();
     data['page_size'] = data['page_size'] !== undefined ? data['page_size'] : 30;
     const getParams = this.client.extractQueryParams<ListBatchesRequestData>(
@@ -236,7 +235,7 @@ export class BatchesApi extends SmsDomainApi {
     };
 
     // Create the promise containing the response wrapped as a PageResult
-    const listPromise = buildPageResultPromise<ApiBatchListBatchesInner>(
+    const listPromise = buildPageResultPromise<SendSMSResponse>(
       this.client,
       requestOptionsPromise,
       operationProperties);
@@ -244,11 +243,11 @@ export class BatchesApi extends SmsDomainApi {
     // Add properties to the Promise to offer the possibility to use it as an iterator
     Object.assign(
       listPromise,
-      createIteratorMethodsForPagination<ApiBatchListBatchesInner>(
+      createIteratorMethodsForPagination<SendSMSResponse>(
         this.client, requestOptionsPromise, listPromise, operationProperties),
     );
 
-    return listPromise as ApiListPromise<ApiBatchListBatchesInner>;
+    return listPromise as ApiListPromise<SendSMSResponse>;
   }
 
   /**

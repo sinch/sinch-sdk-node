@@ -2,8 +2,7 @@
  * Message containing contact information.
  */
 export interface ContactInfoMessage {
-
-  /** @see ContactInfoMessageContactInfoMessage */
+  /** @see ContactInfoMessageItem */
   contact_info_message?: ContactInfoMessageItem;
 }
 

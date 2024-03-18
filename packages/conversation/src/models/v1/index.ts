@@ -52,7 +52,6 @@ export * from './inject-event-response';
 export * from './inject-message-request';
 export * from './list-apps-response';
 export * from './list-message';
-export * from './list-message-message-properties';
 export * from './list-section';
 export * from './list-webhooks-response';
 export * from './location-message';

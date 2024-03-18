@@ -1,4 +1,5 @@
 import { ConversationService } from '@sinch/conversation';
+import { FaxService } from '@sinch/fax';
 import { NumbersService } from '@sinch/numbers';
 import { SmsService } from '@sinch/sms';
 import { VerificationService } from '@sinch/verification';
@@ -9,6 +10,7 @@ import { SinchClientParameters } from '@sinch/sdk-client';
 export class SinchClient {
 
   public readonly conversation: ConversationService;
+  public readonly fax: FaxService;
   public readonly numbers: NumbersService;
   public readonly sms: SmsService;
   public readonly verification: VerificationService;
@@ -22,6 +24,9 @@ export class SinchClient {
   constructor(params: SinchClientParameters) {
     // Initialize the "Conversation" API
     this.conversation = new ConversationService(params);
+
+    // Initialize the "Fax" API
+    this.fax = new FaxService(params);
 
     // Initialize the "Numbers" API
     this.numbers = new NumbersService(params);

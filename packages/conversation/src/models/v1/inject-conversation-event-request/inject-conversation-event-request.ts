@@ -2,11 +2,15 @@ import { ChannelIdentity } from '../channel-identity';
 import { AppEvent } from '../app-event';
 import { ContactEvent } from '../contact-event';
 import { ProcessingMode } from '../enums';
+import { ContactMessageEvent } from '../contact-message-event';
 
 /**
  * Inject Event request
  */
-export type InjectConversationEventRequest = InjectConversationAppEvent | InjectConversationContactEvent;
+export type InjectConversationEventRequest =
+  InjectConversationAppEvent
+  | InjectConversationContactEvent
+  | InjectConversationContactMessageEvent;
 
 interface InjectConversationEventBase {
   /** Optional. The ID of the event\'s conversation. Will not be present for apps in Dispatch Mode. */
@@ -24,9 +28,23 @@ interface InjectConversationEventBase {
 interface InjectConversationAppEvent extends InjectConversationEventBase {
   /** @see AppEvent */
   app_event: AppEvent;
+  // Exclude other event types
+  contact_event?: never;
+  contact_message_event?: never;
 }
 
 interface InjectConversationContactEvent extends InjectConversationEventBase {
   /** @see AppEvent */
-  contact_event: ContactEvent
+  contact_event: ContactEvent;
+  // Exclude other event types
+  app_event?: never;
+  contact_message_event?: never;
+}
+
+interface InjectConversationContactMessageEvent extends InjectConversationEventBase {
+  /** @see ContactMessageEvent */
+  contact_message_event: ContactMessageEvent;
+  // Exclude other event types
+  app_event?: never;
+  contact_event?: never;
 }

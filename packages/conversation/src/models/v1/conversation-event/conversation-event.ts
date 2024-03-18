@@ -31,12 +31,21 @@ interface ConversationEventBase {
 
 interface ConversationAppEvent extends ConversationEventBase {
   app_event: AppEvent;
+  // Exclude other event types
+  contact_event?: never;
+  contact_message_event?: never;
 }
 
 interface ConversationContactEvent extends ConversationEventBase {
   contact_event: ContactEvent;
+  // Exclude other event types
+  app_event?: never;
+  contact_message_event?: never;
 }
 
 interface ConversationContactMessageEvent extends ConversationEventBase {
   contact_message_event: ContactMessageEvent;
+  // Exclude other event types
+  app_event?: never;
+  contact_event?: never;
 }

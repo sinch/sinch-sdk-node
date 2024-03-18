@@ -1,10 +1,3 @@
-/**
- * Model: TextResponse
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { ParameterObj } from '../parameter-obj';
 import { DeliveryReportEnum } from '../enums';
 
@@ -23,7 +16,7 @@ export interface TextResponse {
   /** The message content */
   body?: string;
   /** Regular SMS */
-  type?: TypeEnum;
+  type?: 'mt_text';
   /** Timestamp for when batch was created. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601):`YYYY-MM-DDThh:mm:ss.SSSZ`. */
   created_at?: Date;
   /** Timestamp for when batch was last updated. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601):`YYYY-MM-DDThh:mm:ss.SSSZ`. */
@@ -51,6 +44,3 @@ export interface TextResponse {
   /** Number Plan Indicator for the sender number. Use to override the automatic detection. */
   from_npi?: number;
 }
-
-export type TypeEnum = 'mt_text' | 'mt_binary' | 'mt_media';
-

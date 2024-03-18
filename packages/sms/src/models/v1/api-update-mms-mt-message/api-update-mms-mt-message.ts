@@ -1,10 +1,3 @@
-/**
- * Model: ApiUpdateMmsMtMessage
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { MediaBody } from '../media-body';
 import { ParameterObj } from '../parameter-obj';
 import { DeliveryReportEnum } from '../enums';
@@ -14,7 +7,7 @@ export interface ApiUpdateMmsMtMessage {
   /** Sender number. Must be valid phone number, short code or alphanumeric. */
   from?: string;
   /** MMS */
-  type?: TypeEnum;
+  type?: 'mt_media';
   /** List of phone numbers and group IDs to add to the batch. */
   to_add?: string[];
   /** List of phone numbers and group IDs to remove from the batch. */
@@ -34,6 +27,3 @@ export interface ApiUpdateMmsMtMessage {
   /** Whether or not you want the media included in your message to be checked against [Sinch MMS channel best practices](/docs/mms/bestpractices/). If set to true, your message will be rejected if it doesn\'t conform to the listed recommendations, otherwise no validation will be performed.  */
   strict_validation?: boolean;
 }
-
-export type TypeEnum = 'mt_media';
-

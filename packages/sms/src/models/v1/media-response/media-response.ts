@@ -1,10 +1,3 @@
-/**
- * Model: MediaResponse
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { MediaBody } from '../media-body';
 import { ParameterObj } from '../parameter-obj';
 import { DeliveryReportEnum } from '../enums';
@@ -24,7 +17,7 @@ export interface MediaResponse {
   /** @see ParameterObj */
   parameters?: ParameterObj;
   /** Media message */
-  type?: TypeEnum;
+  type?: 'mt_media';
   /** Timestamp for when batch was created.     YYYY-MM-DDThh:mm:ss.SSSZ format */
   created_at?: Date;
   /** Timestamp for when batch was last updated.     YYYY-MM-DDThh:mm:ss.SSSZ format */
@@ -44,6 +37,3 @@ export interface MediaResponse {
   /** Whether or not you want the media included in your message to be checked against [Sinch MMS channel best practices](/docs/mms/bestpractices/). If set to true, your message will be rejected if it doesn\'t conform to the listed recommendations, otherwise no validation will be performed.  */
   strict_validation?: boolean;
 }
-
-export type TypeEnum = 'mt_media';
-
