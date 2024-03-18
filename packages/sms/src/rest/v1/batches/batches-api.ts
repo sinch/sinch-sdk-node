@@ -8,6 +8,12 @@ import {
   SendSMSResponse,
   SendSMSRequest,
   UpdateBatchMessageRequest,
+  TextRequest,
+  BinaryRequest,
+  MediaRequest,
+  BinaryResponse,
+  TextResponse,
+  MediaResponse,
 } from '../../../models';
 import {
   RequestBody,
@@ -65,6 +71,15 @@ export interface ReplaceBatchMessageRequestData {
 export interface SendSMSRequestData {
   /** Default schema is Text if type is not specified. */
   'sendSMSRequestBody'?: SendSMSRequest;
+}
+export interface SendTextMessageRequestData {
+  'sendSMSRequestBody'?: TextRequest;
+}
+export interface SendBinaryMessageRequestData {
+  'sendSMSRequestBody'?: BinaryRequest;
+}
+export interface SendMediaMessageRequestData {
+  'sendSMSRequestBody'?: MediaRequest;
 }
 export interface UpdateBatchMessageRequestData {
   /** The batch ID you received from sending a message. */
@@ -280,8 +295,12 @@ export class BatchesApi extends SmsDomainApi {
   }
 
   /**
-   * Send
-   * Send a message or a batch of messages.  Depending on the length of the body, one message might be split into multiple parts and charged accordingly.  Any groups targeted in a scheduled batch will be evaluated at the time of sending. If a group is deleted between batch creation and scheduled date, it will be considered empty.  Be sure to use the correct &lt;a href&#x3D;\&quot;/docs/sms/api-reference/#base-url\&quot; target&#x3D;\&quot;_blank\&quot;&gt;region&lt;/a&gt; in the server URL.
+   * Send Text Message
+   * Send a text message or a batch of text messages.
+   * Depending on the length of the body, one message might be split into multiple parts and charged accordingly.
+   * Any groups targeted in a scheduled batch will be evaluated at the time of sending.
+   * If a group is deleted between batch creation and scheduled date, it will be considered empty.
+   * Be sure to use the correct region in the server URL.
    * @param { SendSMSRequestData } data - The data to provide to the API call.
    */
   public async send(data: SendSMSRequestData): Promise<SendSMSResponse> {
@@ -305,6 +324,48 @@ export class BatchesApi extends SmsDomainApi {
       apiName: this.apiName,
       operationId: 'SendSMS',
     });
+  }
+
+  /**
+   * Send Text Message
+   * Send a text message or a batch of text messages.
+   * Depending on the length of the body, one message might be split into multiple parts and charged accordingly.
+   * Any groups targeted in a scheduled batch will be evaluated at the time of sending.
+   * If a group is deleted between batch creation and scheduled date, it will be considered empty.
+   * Be sure to use the correct region in the server URL.
+   * @param { SendTextMessageRequestData } data - The data to provide to the API call.
+   */
+  public async sendTextMessage(data: SendTextMessageRequestData): Promise<TextResponse> {
+    const response = await this.send(data);
+    return response as TextResponse;
+  }
+
+  /**
+   * Send Binary Message
+   * Send a binary message or a batch of binary messages.
+   * Depending on the length of the body, one message might be split into multiple parts and charged accordingly.
+   * Any groups targeted in a scheduled batch will be evaluated at the time of sending.
+   * If a group is deleted between batch creation and scheduled date, it will be considered empty.
+   * Be sure to use the correct region in the server URL.
+   * @param { SendBinaryMessageRequestData } data - The data to provide to the API call.
+   */
+  public async sendBinaryMessage(data: SendBinaryMessageRequestData): Promise<BinaryResponse> {
+    const response = await this.send(data);
+    return response as BinaryResponse;
+  }
+
+  /**
+   * Send Media Message
+   * Send a media message or a batch of media messages.
+   * Depending on the length of the body, one message might be split into multiple parts and charged accordingly.
+   * Any groups targeted in a scheduled batch will be evaluated at the time of sending.
+   * If a group is deleted between batch creation and scheduled date, it will be considered empty.
+   * Be sure to use the correct region in the server URL.
+   * @param { SendMediaMessageRequestData } data - The data to provide to the API call.
+   */
+  public async sendMediaMessage(data: SendMediaMessageRequestData): Promise<MediaResponse> {
+    const response = await this.send(data);
+    return response as MediaResponse;
   }
 
   /**
