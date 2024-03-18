@@ -6,7 +6,6 @@ import { DeliveryReportEnum } from '../enums';
  * Only available in the US. Contact support if you wish to send MMS.
  */
 export interface MediaRequest {
-
   /** List of Phone numbers and group IDs that will receive the batch. <a href=\"https://community.sinch.com/t5/Glossary/MSISDN/ta-p/7628\" target=\"_blank\">More info</a> */
   to: string[];
   /** Sender number. Must be valid phone number, short code or alphanumeric. Required if Automatic Default Originator not configured. */
@@ -19,9 +18,11 @@ export interface MediaRequest {
   type?: 'mt_media';
   /** Request delivery report callback. Note that delivery reports can be fetched from the API regardless of this setting. */
   delivery_report?: DeliveryReportEnum;
-  /** If set in the future, the message will be delayed until `send_at` occurs. Must be before `expire_at`. If set in the past, messages will be sent immediately. Formatted as <a href=\"https://en.wikipedia.org/wiki/ISO_8601\" target=\"_blank\">ISO-8601</a>: `YYYY-MM-DDThh:mm:ss.SSSZ`.  */
+  /** If set in the future, the message will be delayed until `send_at` occurs.
+   *  Must be before `expire_at`. If set in the past, messages will be sent immediately. Formatted as <a href=\"https://en.wikipedia.org/wiki/ISO_8601\" target=\"_blank\">ISO-8601</a>: `YYYY-MM-DDThh:mm:ss.SSSZ`.  */
   send_at?: Date;
-  /** If set, the system will stop trying to deliver the message at this point. Must be after `send_at`. Default and max is 3 days after `send_at`. Formatted as <a href=\"https://en.wikipedia.org/wiki/ISO_8601\" target=\"_blank\">ISO-8601</a>: `YYYY-MM-DDThh:mm:ss.SSSZ`.  */
+  /** If set, the system will stop trying to deliver the message at this point.
+   * Must be after `send_at`. Default and max is 3 days after `send_at`. Formatted as <a href=\"https://en.wikipedia.org/wiki/ISO_8601\" target=\"_blank\">ISO-8601</a>: `YYYY-MM-DDThh:mm:ss.SSSZ`.  */
   expire_at?: Date;
   /** Override the default callback URL for this batch. Must be valid URL. */
   callback_url?: string;
