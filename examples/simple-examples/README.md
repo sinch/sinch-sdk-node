@@ -116,28 +116,31 @@ yarn run numbers:regions:list
 
 ### SMS
 
-| Service             | Sample application name and location                                                                                                       | Required parameters                                                                        |
-|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
-| Groups              | [./src/sms/groups/list/list.ts](./src/sms/groups/list/list.ts)                                                                             |                                                                                            |
-|                     | [./src/sms/groups/create/create.ts](./src/sms/groups/create/create.ts)                                                                     |                                                                                            |
-|                     | [./src/sms/groups/get/get.ts](./src/sms/groups/get/get.ts)                                                                                 | `GROUP_ID`                                                                                 |
-|                     | [./src/sms/groups/getPhoneNumbers/getPhoneNumbers.ts](./src/sms/groups/getPhoneNumbers/getPhoneNumbers.ts)                                 | `GROUP_ID`                                                                                 |
-|                     | [./src/sms/groups/replace/replace.ts](./src/sms/groups/replace/replace.ts)                                                                 | `GROUP_ID`                                                                                 |
-|                     | [./src/sms/groups/update/update.ts](./src/sms/groups/update/update.ts)                                                                     | `GROUP_ID`                                                                                 |
-|                     | [./src/sms/groups/delete/delete.ts](./src/sms/groups/delete/delete.ts)                                                                     | `GROUP_ID`                                                                                 |
-| Batches             | [./src/sms/batches/send.ts](./src/sms/batches/send.ts)                                                                                     | `RECIPIENT_PHONE_NUMBER`                                                                   |
-|                     | [./src/sms/batches/list.ts](./src/sms/batches/list.ts)                                                                                     |                                                                                            |
-|                     | [./src/sms/batches/dry-run.ts](./src/sms/batches/dry-run.ts)                                                                               | `RECIPIENT_PHONE_NUMBER`                                                                   |
-|                     | [./src/sms/batches/get.ts](./src/sms/batches/get.ts)                                                                                       | `BATCH_ID`                                                                                 |
-|                     | [./src/sms/batches/update.ts](./src/sms/batches/update.ts)                                                                                 | `BATCH_ID`                                                                                 |
-|                     | [./src/sms/batches/replace.ts](./src/sms/batches/replace.ts)                                                                               | `BATCH_ID`                                                                                 |
-|                     | [./src/sms/batches/cancel.ts](./src/sms/batches/cancel.ts)                                                                                 | `BATCH_ID`                                                                                 |
-|                     | [./src/sms/batches/delivery-feedback.ts](./src/sms/batches/delivery-feedback.ts)                                                           | `BATCH_ID`                                                                                 |
-| DeliveryReports     | [./src/sms/delivery-reports/list.ts](./src/sms/delivery-reports/list.ts)                                                                   |                                                                                            |
-|                     | [./src/sms/delivery-reports/getByBatchId.ts](./src/sms/delivery-reports/getByBatchId.ts)                                                   | `BATCH_ID`                                                                                 |
-|                     | [./src/sms/delivery-reports/getByPhoneNumber.ts](./src/sms/delivery-reports/getByPhoneNumber.ts)                                           | `BATCH_ID`, `RECIPIENT_PHONE_NUMBER`                                                       |
-| Inbounds            | [./src/sms/inbounds/list.ts](./src/sms/inbounds/list.ts)                                                                                   |                                                                                            |
-|                     | [./src/sms/inbounds/get.ts](./src/sms/inbounds/get.ts)                                                                                     | `INBOUND_ID`                                                                               |
+| Service         | Sample application name and location                                                                       | Required parameters                            |
+|-----------------|------------------------------------------------------------------------------------------------------------|------------------------------------------------|
+| Groups          | [./src/sms/groups/list/list.ts](./src/sms/groups/list/list.ts)                                             |                                                |
+|                 | [./src/sms/groups/create/create.ts](./src/sms/groups/create/create.ts)                                     |                                                |
+|                 | [./src/sms/groups/get/get.ts](./src/sms/groups/get/get.ts)                                                 | `GROUP_ID`                                     |
+|                 | [./src/sms/groups/getPhoneNumbers/getPhoneNumbers.ts](./src/sms/groups/getPhoneNumbers/getPhoneNumbers.ts) | `GROUP_ID`                                     |
+|                 | [./src/sms/groups/replace/replace.ts](./src/sms/groups/replace/replace.ts)                                 | `GROUP_ID`                                     |
+|                 | [./src/sms/groups/update/update.ts](./src/sms/groups/update/update.ts)                                     | `GROUP_ID`                                     |
+|                 | [./src/sms/groups/delete/delete.ts](./src/sms/groups/delete/delete.ts)                                     | `GROUP_ID`                                     |
+| Batches         | [./src/sms/batches/send.ts](./src/sms/batches/send.ts)                                                     | `PHONE_NUMBER` + `RECIPIENT_PHONE_NUMBER`      |
+|                 | [./src/sms/batches/sendTextMessage.ts](./src/sms/batches/sendTextMessage.ts)                               | `PHONE_NUMBER` + `RECIPIENT_PHONE_NUMBER`      |
+|                 | [./src/sms/batches/sendBinaryMessage.ts](./src/sms/batches/sendBinaryMessage.ts)                           | `PHONE_NUMBER` + `RECIPIENT_PHONE_NUMBER`      |
+|                 | [./src/sms/batches/sendMediaMessage.ts](./src/sms/batches/sendMediaMessage.ts)                             | `PHONE_NUMBER` + `RECIPIENT_PHONE_NUMBER`      |
+|                 | [./src/sms/batches/list.ts](./src/sms/batches/list.ts)                                                     |                                                |
+|                 | [./src/sms/batches/dry-run.ts](./src/sms/batches/dry-run.ts)                                               | `RECIPIENT_PHONE_NUMBER`                       |
+|                 | [./src/sms/batches/get.ts](./src/sms/batches/get.ts)                                                       | `BATCH_ID`                                     |
+|                 | [./src/sms/batches/update.ts](./src/sms/batches/update.ts)                                                 | `BATCH_ID`                                     |
+|                 | [./src/sms/batches/replace.ts](./src/sms/batches/replace.ts)                                               | `BATCH_ID`                                     |
+|                 | [./src/sms/batches/cancel.ts](./src/sms/batches/cancel.ts)                                                 | `BATCH_ID`                                     |
+|                 | [./src/sms/batches/delivery-feedback.ts](./src/sms/batches/delivery-feedback.ts)                           | `BATCH_ID`                                     |
+| DeliveryReports | [./src/sms/delivery-reports/list.ts](./src/sms/delivery-reports/list.ts)                                   |                                                |
+|                 | [./src/sms/delivery-reports/getByBatchId.ts](./src/sms/delivery-reports/getByBatchId.ts)                   | `BATCH_ID`                                     |
+|                 | [./src/sms/delivery-reports/getByPhoneNumber.ts](./src/sms/delivery-reports/getByPhoneNumber.ts)           | `BATCH_ID`, `RECIPIENT_PHONE_NUMBER`           |
+| Inbounds        | [./src/sms/inbounds/list.ts](./src/sms/inbounds/list.ts)                                                   |                                                |
+|                 | [./src/sms/inbounds/get.ts](./src/sms/inbounds/get.ts)                                                     | `INBOUND_ID`                                   |
 
 ### Verification
 
