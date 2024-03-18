@@ -8,7 +8,6 @@ import { LocationMessage } from '../location-message';
 import { MediaMessage } from '../media-message';
 import { TemplateMessage } from '../template-message';
 import { ListMessage } from '../list-message';
-import { ContactInfoMessage } from '../contact-info-message';
 
 export type V2TemplateTranslation =
   V2TemplateTranslationCardMessage
@@ -18,8 +17,7 @@ export type V2TemplateTranslation =
   | V2TemplateTranslationLocationMessage
   | V2TemplateTranslationMediaMessage
   | V2TemplateTranslationTemplateMessage
-  | V2TemplateTranslationTextMessage
-  | V2TemplateTranslationContactInfoMessage;
+  | V2TemplateTranslationTextMessage;
 
  interface V2TemplateTranslationBase {
   /** The BCP-47 language code, such as `en-US` or `sr-Latn`. For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
