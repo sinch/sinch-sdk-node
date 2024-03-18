@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import {
   aceActionHelper,
-  aceInstructionHelper,
   AceRequest,
   AceSvamletBuilder,
   DiceRequest,
@@ -45,7 +44,7 @@ export class VoiceService {
   }
 
   private handleIceRequest(event: IceRequest, res: Response) {
-    console.log(`ICE request: CLI = ${event.cli} - To = ${event.to.endpoint} (${event.to.type})`)
+    console.log(`ICE request: CLI = ${event.cli} - To = ${event.to?.endpoint} (${event.to?.type})`)
     const iceResponse = new IceSvamletBuilder()
       .setAction(iceActionHelper.hangup())
       .addInstruction(iceInstructionHelper.say('Thank you for calling Sinch! This call will now end.', 'en-US'))
@@ -54,7 +53,7 @@ export class VoiceService {
   }
 
   private handleAceRequest(event: AceRequest, res: Response) {
-    console.log(`ACE request: Call answered at '${event.timestamp.toISOString()}'`);
+    console.log(`ACE request: Call answered at '${event.timestamp?.toISOString()}'`);
     const aceResponse = new AceSvamletBuilder()
       .setAction(aceActionHelper.runMenu({
         barge: true,
@@ -87,7 +86,7 @@ export class VoiceService {
   }
 
   private handleDiceRequest(event: DiceRequest, res: Response) {
-    console.log(`DICE request: Call disconnected at '${event.timestamp.toISOString()}' with the reason '${event.reason}'.`);
+    console.log(`DICE request: Call disconnected at '${event.timestamp?.toISOString()}' with the reason '${event.reason}'.`);
     res.status(200).send();
   }
 
