@@ -56,7 +56,7 @@ export class ConversationService {
           sendMessageRequestBody: {
             app_id: event.app_id!,
             recipient: {
-              contact_id: message.contact_id,
+              contact_id: message.contact_id!,
             },
             message: this.buildTextMessage(contactMessage),
             ttl: '5s',
