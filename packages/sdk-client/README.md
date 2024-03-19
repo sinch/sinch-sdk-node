@@ -104,6 +104,7 @@ const myResponse = await myApi.myApiOperation();
 | Plugin name | Description                                                                                                                                   |
 |-------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
 | exception   | Check the response content and converts it into an error if empty or if the status is not `ok`.<br>**Added by default to the ApiFetchClient** |
+| timezone    | Patch some response properties which are identified as returned without a timezone by the server                                              |
 
 ## Contact
 Developer Experience team: [devexp@sinch.com](mailto:devexp@sinch.com)
