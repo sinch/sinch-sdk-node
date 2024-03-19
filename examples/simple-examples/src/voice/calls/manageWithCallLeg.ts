@@ -1,6 +1,6 @@
 import {
   getCallIdFromConfig,
-  initApplicationClient,
+  initVoiceService,
 } from '../../config';
 import { ManageWithCallLegRequestData, VoiceRegion } from '@sinch/sdk-core';
 
@@ -27,10 +27,10 @@ import { ManageWithCallLegRequestData, VoiceRegion } from '@sinch/sdk-core';
     },
   };
 
-  const sinchClient = initApplicationClient();
-  sinchClient.voice.setRegion(VoiceRegion.EUROPE);
+  const voiceService = initVoiceService();
+  voiceService.setRegion(VoiceRegion.EUROPE);
   try {
-    await sinchClient.voice.calls.manageWithCallLeg(requestData);
+    await voiceService.calls.manageWithCallLeg(requestData);
   } catch (error) {
     console.log(`Impossible manage with call leg the call Id ${requestData.callId}`);
     throw error;

@@ -1,7 +1,7 @@
 import {
   getApplicationKeyFromConfig,
   getPrintFormat,
-  initApplicationClient,
+  initVoiceService,
   printFullResponse,
 } from '../../config';
 import { GetCallbackURLsRequestData } from '@sinch/sdk-core';
@@ -17,10 +17,10 @@ import { GetCallbackURLsRequestData } from '@sinch/sdk-core';
     applicationkey: applicationKey,
   };
 
-  const sinchClient = initApplicationClient();
+  const voiceService = initVoiceService();
   let response;
   try {
-    response = await sinchClient.voice.applications.getCallbackURLs(requestData);
+    response = await voiceService.applications.getCallbackURLs(requestData);
   } catch (error) {
     console.log(`Impossible to retrieve the callback URLs for the application '${requestData.applicationkey}'`);
     throw error;

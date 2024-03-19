@@ -1,7 +1,7 @@
 import {
   getCallIdFromConfig,
   getPrintFormat,
-  initApplicationClient,
+  initVoiceService,
   printFullResponse,
 } from '../../config';
 import { GetCallResultRequestData, VoiceRegion } from '@sinch/sdk-core';
@@ -17,11 +17,11 @@ import { GetCallResultRequestData, VoiceRegion } from '@sinch/sdk-core';
     callId,
   };
 
-  const sinchClient = initApplicationClient();
-  sinchClient.voice.setRegion(VoiceRegion.EUROPE);
+  const voiceService = initVoiceService();
+  voiceService.setRegion(VoiceRegion.EUROPE);
   let response;
   try {
-    response = await sinchClient.voice.calls.get(requestData);
+    response = await voiceService.calls.get(requestData);
   } catch (error) {
     console.log(`Impossible get information about call Id ${requestData.callId}`);
     throw error;
