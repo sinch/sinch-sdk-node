@@ -11,7 +11,7 @@ import {
 } from '@sinch/sdk-core';
 require('dotenv').config();
 
-export const initClient = (): Pick<SinchClient, 'conversation' | 'fax' | 'numbers' | 'sms'> => {
+const initClient = (): Pick<SinchClient, 'conversation' | 'fax' | 'numbers' | 'sms'> => {
   const keyId = process.env.SINCH_KEY_ID || '';
   const keySecret = process.env.SINCH_KEY_SECRET || '';
   const projectId = process.env.SINCH_PROJECT_ID || '';
@@ -34,7 +34,7 @@ export const initSmsServiceWithProjectId = (): SmsService => {
   return initClient().sms;
 };
 
-export const initSmsClient = (): Pick<SinchClient, 'sms'> => {
+const initSmsClient = (): Pick<SinchClient, 'sms'> => {
   const servicePlanId = process.env.SINCH_SERVICE_PLAN_ID || '';
   const apiToken = process.env.SINCH_API_TOKEN || '';
   const region = getRegion(process.env.SMS_REGION) || Region.UNITED_STATES;
@@ -45,7 +45,7 @@ export const initSmsServiceWithServicePlanId = (): SmsService => {
   return initSmsClient().sms;
 };
 
-export const initApplicationClient = (): Pick<SinchClient, 'verification' | 'voice'> => {
+const initApplicationClient = (): Pick<SinchClient, 'verification' | 'voice'> => {
   const applicationKey = process.env.SINCH_APPLICATION_KEY || '';
   const applicationSecret = process.env.SINCH_APPLICATION_SECRET || '';
   return new SinchClient({ applicationKey, applicationSecret });
