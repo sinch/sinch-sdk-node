@@ -104,7 +104,7 @@
     "sms:batches:delivery-feedback": "ts-node src/sms/batches/delivery-feedback.ts",
     "sms:delivery-reports:list": "ts-node src/sms/delivery-reports/list.ts",
     "sms:delivery-reports:getByBatchId": "ts-node src/sms/delivery-reports/getByBatchId.ts",
-    "sms:delivery-reports:getByPhoneNumber": "ts-node src/sms/delivery-reports/getByPhoneNumber.ts",
+    "sms:delivery-reports:getForNumber": "ts-node src/sms/delivery-reports/getForNumber.ts",
     "sms:inbounds:list": "ts-node src/sms/inbounds/list.ts",
     "sms:inbounds:get": "ts-node src/sms/inbounds/get.ts",
     "verification:verifications:start-sms": "ts-node src/verification/verifications/sms/start-sms.ts",

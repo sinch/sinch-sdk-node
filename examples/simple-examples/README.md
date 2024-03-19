@@ -138,7 +138,7 @@ yarn run numbers:regions:list
 |                 | [./src/sms/batches/delivery-feedback.ts](./src/sms/batches/delivery-feedback.ts)                           | `BATCH_ID`                                     |
 | DeliveryReports | [./src/sms/delivery-reports/list.ts](./src/sms/delivery-reports/list.ts)                                   |                                                |
 |                 | [./src/sms/delivery-reports/getByBatchId.ts](./src/sms/delivery-reports/getByBatchId.ts)                   | `BATCH_ID`                                     |
-|                 | [./src/sms/delivery-reports/getByPhoneNumber.ts](./src/sms/delivery-reports/getByPhoneNumber.ts)           | `BATCH_ID`, `RECIPIENT_PHONE_NUMBER`           |
+|                 | [./src/sms/delivery-reports/getForNumber.ts](./src/sms/delivery-reports/getForNumber.ts)                   | `BATCH_ID`, `RECIPIENT_PHONE_NUMBER`           |
 | Inbounds        | [./src/sms/inbounds/list.ts](./src/sms/inbounds/list.ts)                                                   |                                                |
 |                 | [./src/sms/inbounds/get.ts](./src/sms/inbounds/get.ts)                                                     | `INBOUND_ID`                                   |
 

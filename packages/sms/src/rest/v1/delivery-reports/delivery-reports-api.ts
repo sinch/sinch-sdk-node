@@ -30,7 +30,7 @@ export interface GetDeliveryReportByPhoneNumberRequestData {
   /** Phone number for which you to want to search. */
   'recipient_msisdn': string;
 }
-export interface GetDeliveryReportsRequestData {
+export interface ListDeliveryReportsRequestData {
   /** The page number starting from 0. */
   'page'?: number;
   /** Determines the size of a page. */
@@ -95,7 +95,7 @@ export class DeliveryReportsApi extends SmsDomainApi {
    * A recipient delivery report contains the message status for a single recipient phone number.
    * @param { GetDeliveryReportByPhoneNumberRequestData } data - The data to provide to the API call.
    */
-  public async getByPhoneNumber(data: GetDeliveryReportByPhoneNumberRequestData): Promise<RecipientDeliveryReport> {
+  public async getForNumber(data: GetDeliveryReportByPhoneNumberRequestData): Promise<RecipientDeliveryReport> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetDeliveryReportByPhoneNumberRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -121,14 +121,14 @@ export class DeliveryReportsApi extends SmsDomainApi {
   /**
    * Retrieve a list of delivery reports
    * Get a list of finished delivery reports.  This operation supports pagination.
-   * @param { GetDeliveryReportsRequestData } data - The data to provide to the API call.
+   * @param { ListDeliveryReportsRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<RecipientDeliveryReport>}
    */
-  public list(data: GetDeliveryReportsRequestData): ApiListPromise<RecipientDeliveryReport> {
+  public list(data: ListDeliveryReportsRequestData): ApiListPromise<RecipientDeliveryReport> {
     this.client = this.getSinchClient();
     data['page'] = data['page'] !== undefined ? data['page'] : 0;
     data['page_size'] = data['page_size'] !== undefined ? data['page_size'] : 30;
-    const getParams = this.client.extractQueryParams<GetDeliveryReportsRequestData>(
+    const getParams = this.client.extractQueryParams<ListDeliveryReportsRequestData>(
       data,
       ['page', 'page_size', 'start_date', 'end_date', 'status', 'code', 'client_reference'],
     );
