@@ -38,6 +38,7 @@ If you are using this SDK as part of the Sinch SDK (`@sinch/sdk-core`) you can a
 
 ```typescript
 import {
+  FaxService,
   SendFaxRequestData,
   SinchClient,
   UnifiedCredentials,
@@ -49,8 +50,11 @@ const credentials: UnifiedCredentials = {
   keySecret: 'KEY_SECRET',
 };
 
+// Access the 'fax' service registered on the Sinch Client
 const sinch = new SinchClient(credentials);
+const faxService: FaxService = sinch.fax;
 
+// Build the request data
 const requestData: SendFaxRequestData = {
   sendFaxRequestBody: {
     to: '+12015555555',
@@ -59,8 +63,8 @@ const requestData: SendFaxRequestData = {
   },
 };
 
-// Access the 'fax' domain registered on the Sinch Client
-const response = await sinchClient.fax.faxes.send(requestData);
+// Use the 'fax' service registered on the Sinch client
+const response = await faxService.faxes.send(requestData);
 ```
 
 ### Standalone
@@ -72,6 +76,7 @@ import {
   UnifiedCredentials,
 } from '@sinch/sdk-client';
 import {
+  FaxService,
   SendFaxRequestData,
 } from '@sinch/fax';
 
@@ -81,9 +86,10 @@ const credentials: UnifiedCredentials = {
   keySecret: 'KEY_SECRET',
 };
 
-// Declare the 'fax' controller in a standalone way
+// Declare the 'fax' service in a standalone way
 const faxService = new FaxService(credentials);
 
+// Build the request data
 const requestData: SendFaxRequestData = {
   sendFaxRequestBody: {
     to: '+12015555555',
@@ -104,14 +110,14 @@ All the methods that interact with the Sinch APIs use Promises. You can use `awa
 // Method 1: Wait for the Promise to complete (you need to be in an 'async' method)
 let sendFaxResult: Fax;
 try {
-  sendFaxResult = await sinch.fax.faxes.send(requestData);
+  sendFaxResult = await faxService.faxes.send(requestData);
   console.log(`Fax successfully created at '${sendFaxResult.createTime}'. Status = '${sendFaxResult.status}`);
 } catch (error: any) {
   console.error(`ERROR ${error.statusCode}: Impossible to crete the fax sent to ${requestdata.to}.`);
 }
 
 // Method 2: Resolve the promise
-sinch.fax.faxes.send(requestData)
+faxService.faxes.send(requestData)
   .then(response => console.log(`Fax successfully created at '${sendFaxResult.createTime}'. Status = '${sendFaxResult.status}`))
   .catch(error => console.error(`ERROR ${error.statusCode}: Impossible to crete the fax sent to ${requestdata.to}.`));
 ```

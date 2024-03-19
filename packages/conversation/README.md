@@ -38,18 +38,24 @@ If you are using this SDK as part of the Sinch SDK (`@sinch/sdk-core`) you can a
 
 ```typescript
 import {
+  ConversationService,
   SinchClient,
-  SinchClientParameters,
+  UnifiedCredentials,
+  SendMessageRequestData,
+  SendMessageResponse,
 } from '@sinch/sdk-core';
 
-const credentials: SinchClientParameters = {
+const credentials: UnifiedCredentials = {
   projectId: 'PROJECT_ID',
   keyId: 'KEY_ID',
   keySecret: 'KEY_SECRET',
 };
 
+// Access the 'conversation' service registered on the Sinch Client
 const sinch = new SinchClient(credentials);
+const conversationService: ConversationService = sinch.conversation;
 
+// Build the request data
 const requestData: SendMessageRequestData = {
   sendMessageRequestBody: {
     app_id: 'CONVERSATION_APP_ID',
@@ -61,12 +67,15 @@ const requestData: SendMessageRequestData = {
     recipient: {
       contact_id: 'CONTACT_ID',
     },
+    channel_priority_order: [
+      'WHASAPP',
+    ],
   },
 };
 
-// Access the 'conversation' domain registered on the Sinch Client
+// Use the 'conversation' service registered on the Sinch client
 const result: SendMessageResponse
-    = await sinch.conversation.messages.send(requestData);
+    = await conversationService.messages.send(requestData);
 ```
 
 ### Standalone
@@ -75,21 +84,24 @@ The SDK can be used standalone if you need to use only the Conversation APIs.
 
 ```typescript
 import {
-  SinchClientParameters,
+  UnifiedCredentials,
 } from '@sinch/sdk-client';
 import {
-
+  ConversationService,
+  SendMessageRequestData,
+  SendMessageResponse,
 } from '@sinch/conversation';
 
-const credentials: SinchClientParameters = {
+const credentials: UnifiedCredentials = {
   projectId: 'PROJECT_ID',
   keyId: 'KEY_ID',
   keySecret: 'KEY_SECRET',
 };
 
 // Declare the 'conversation' service in a standalone way
-const conversation = new Conversation(options);
+const conversationService = new ConversationService(options);
 
+// Build the request data
 const requestData: SendMessageRequestData = {
   sendMessageRequestBody: {
     app_id: 'CONVERSATION_APP_ID',
@@ -101,30 +113,33 @@ const requestData: SendMessageRequestData = {
     recipient: {
       contact_id: 'CONTACT_ID',
     },
+    channel_priority_order: [
+      'WHASAPP',
+    ],
   },
 };
 
-// Use the standalone declaration of the 'conversation' domain
+// Use the standalone declaration of the 'conversation' service
 const result: SendMessageResponse
-    = await conversation.messages.send(requestData);
+    = await conversationService.messages.send(requestData);
 ```
 
 ## Promises
 
-All the methods that interact with the Sinch APIs use Promises. You can use `await` in an `async` method to wait for the response or you can resolve them yourself with `then()` / `catch()`.
+All the methods that interact with the Sinch APIs use Promises. You can use `await` in an `async` method to wait for the response, or you can resolve them yourself with `then()` / `catch()`.
 
 ```typescript
 // Method 1: Wait for the Promise to complete
 let result: SendMessageResponse;
 try {
-  result = await sinch.conversation.messages.send(requestData);
+  result = await conversationService.messages.send(requestData);
   console.log(`Message sent successfully. Message Id: ${result.id}`);
 } catch (error: any) {
   console.error(`ERROR ${error.statusCode}: `);
 }
 
 // Method 2: Resolve the promise
-sinch.conversation.messages.send(requestData)
+conversationService.messages.send(requestData)
   .then(response => console.log(`Message sent successfully. Message Id: ${result.id}`))
   .catch(error => console.error(`ERROR ${error.statusCode}: `));
 ```
