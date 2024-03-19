@@ -1,5 +1,5 @@
 import { Fax, ListFaxesRequestData, PageResult } from '@sinch/sdk-core';
-import { getPrintFormat, initClient, printFullResponse } from '../../config';
+import { getPrintFormat, initFaxService, printFullResponse } from '../../config';
 
 const populateFaxesList = (
   faxPage: PageResult<Fax>,
@@ -21,12 +21,12 @@ const populateFaxesList = (
     pageSize: 2,
   };
 
-  const sinchClient = initClient();
+  const faxService = initFaxService();
 
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response = await sinchClient.fax.faxes.list(requestData);
+  let response = await faxService.faxes.list(requestData);
 
   // Init data structure to hold the response content
   const fullFaxesList: Fax[] = [];
@@ -57,7 +57,7 @@ const populateFaxesList = (
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const fax of sinchClient.fax.faxes.list(requestData)) {
+  for await (const fax of faxService.faxes.list(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`Fax ID: '${fax.id}' - Created at: '${fax.createTime}' - Status: '${fax.status}'`);
     } else {
