@@ -16,7 +16,7 @@ export type {
   ChannelCredentialsWeChat,
   ChannelCredentialsWhatsApp,
   ChannelCredentialsSmsWithBearer,
-  ChannelCredentialsSmsWithAppId,
+  // ChannelCredentialsSmsWithAppId,
   ConversationChannelCredentialRequest,
   ChannelCredentialsAppleBCResponse,
   ChannelCredentialsInstagramResponse,
@@ -33,5 +33,5 @@ export type {
   ChannelCredentialsWeChatResponse,
   ChannelCredentialsWhatsAppResponse,
   ChannelCredentialsSmsWithBearerResponse,
-  ChannelCredentialsSmsWithAppIdResponse,
+  // ChannelCredentialsSmsWithAppIdResponse,
 } from './conversation-channel-credential';
