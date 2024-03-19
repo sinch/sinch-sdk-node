@@ -3,7 +3,7 @@ import {
   getPhoneNumberFromConfig,
   getPrintFormat,
   getRecipientPhoneNumberFromConfig,
-  initSmsClient,
+  initSmsServiceWithServicePlanId,
   printFullResponse,
 } from '../../config';
 
@@ -37,8 +37,8 @@ import {
     },
   };
 
-  const sinchClient = initSmsClient();
-  const response = await sinchClient.sms.batches.sendMediaMessage(requestData);
+  const smsService = initSmsServiceWithServicePlanId();
+  const response = await smsService.batches.sendMediaMessage(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

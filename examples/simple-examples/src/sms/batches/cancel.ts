@@ -1,4 +1,9 @@
-import { getBatchIdFromConfig, getPrintFormat, initSmsClient, printFullResponse } from '../../config';
+import {
+  getBatchIdFromConfig,
+  getPrintFormat,
+  initSmsServiceWithServicePlanId,
+  printFullResponse,
+} from '../../config';
 import { CancelBatchMessageRequestData } from '@sinch/sdk-core';
 
 (async () => {
@@ -12,10 +17,10 @@ import { CancelBatchMessageRequestData } from '@sinch/sdk-core';
     batch_id: batchIdInTheFuture,
   };
 
-  const sinchClient = initSmsClient();
+  const smsService = initSmsServiceWithServicePlanId();
   let response;
   try {
-    response = await sinchClient.sms.batches.cancel(requestData);
+    response = await smsService.batches.cancel(requestData);
   } catch (error) {
     console.error(`ERROR: The batch could not be canceled`);
     throw error;

@@ -2,7 +2,7 @@ import {
   getPhoneNumberFromConfig,
   getPrintFormat,
   getRecipientPhoneNumberFromConfig,
-  initSmsClient,
+  initSmsServiceWithServicePlanId,
   printFullResponse,
 } from '../../config';
 import { DryRunRequestData } from '@sinch/sdk-core';
@@ -33,10 +33,10 @@ import { DryRunRequestData } from '@sinch/sdk-core';
     },
   };
 
-  const sinchClient = initSmsClient();
+  const smsService = initSmsServiceWithServicePlanId();
   let response;
   try {
-    response = await sinchClient.sms.batches.dryRun(requestData);
+    response = await smsService.batches.dryRun(requestData);
   } catch (error) {
     console.error(`ERROR: The dry run couldn't be performed`);
     throw error;

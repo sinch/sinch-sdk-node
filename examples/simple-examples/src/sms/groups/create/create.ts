@@ -1,7 +1,7 @@
-import { CreateGroupRequestData, SinchClient } from '@sinch/sdk-core';
+import { CreateGroupRequestData, SmsService } from '@sinch/sdk-core';
 import { getPrintFormat, printFullResponse } from '../../../config';
 
-export const create = async(sinchClient: SinchClient) => {
+export const create = async(smsService: SmsService) => {
   console.log('***************');
   console.log('* CreateGroup *');
   console.log('***************');
@@ -19,7 +19,7 @@ export const create = async(sinchClient: SinchClient) => {
 
   let response;
   try {
-    response = await sinchClient.sms.groups.create(requestData);
+    response = await smsService.groups.create(requestData);
   } catch (error) {
     console.error('ERROR: Impossible to create a new group');
     throw error;

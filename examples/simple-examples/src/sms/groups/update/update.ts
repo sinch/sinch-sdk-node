@@ -1,7 +1,7 @@
-import { SinchClient, UpdateGroupRequestData } from '@sinch/sdk-core';
+import { SmsService, UpdateGroupRequestData } from '@sinch/sdk-core';
 import { getGroupIdFromConfig, getPrintFormat, printFullResponse } from '../../../config';
 
-export const update = async(sinchClient: SinchClient) => {
+export const update = async(smsService: SmsService) => {
   console.log('***************');
   console.log('* UpdateGroup *');
   console.log('***************');
@@ -21,7 +21,7 @@ export const update = async(sinchClient: SinchClient) => {
 
   let response;
   try {
-    response = await sinchClient.sms.groups.update(requestData);
+    response = await smsService.groups.update(requestData);
   } catch (error) {
     console.error(`ERROR: Impossible to update the group ${requestData.group_id}`);
     throw error;

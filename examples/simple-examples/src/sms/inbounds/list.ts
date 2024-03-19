@@ -1,4 +1,9 @@
-import { getPrintFormat, getRecipientPhoneNumberFromConfig, initSmsClient, printFullResponse } from '../../config';
+import {
+  getPrintFormat,
+  getRecipientPhoneNumberFromConfig,
+  initSmsServiceWithServicePlanId,
+  printFullResponse,
+} from '../../config';
 import {
   InboundMessageResponse,
   ListInboundMessagesRequestData,
@@ -31,14 +36,14 @@ const populateInboundMessagesList = (
     to: recipientPhoneNumber,
   };
 
-  const sinchClient = initSmsClient();
+  const smsService = initSmsServiceWithServicePlanId();
 
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
   let response;
   try {
-    response = await sinchClient.sms.inbounds.list(requestData);
+    response = await smsService.inbounds.list(requestData);
   } catch (error) {
     console.error(`ERROR: Impossible to get the list the inbound messages for the numbers ${requestData.to}`);
     throw error;
@@ -75,7 +80,7 @@ const populateInboundMessagesList = (
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const inboundMessage of sinchClient.sms.inbounds.list(requestData)) {
+  for await (const inboundMessage of smsService.inbounds.list(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`Inbound message ID: ${inboundMessage.id} - Type: ${inboundMessage.type} - From: ${inboundMessage.from}`);
     } else {

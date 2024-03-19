@@ -1,7 +1,7 @@
 import {
   getInboundIdFromConfig,
   getPrintFormat,
-  initSmsClient,
+  initSmsServiceWithServicePlanId,
   printFullResponse,
 } from '../../config';
 import { GetInboundMessageRequestData } from '@sinch/sdk-core';
@@ -17,10 +17,10 @@ import { GetInboundMessageRequestData } from '@sinch/sdk-core';
     inbound_id: inboundId,
   };
 
-  const sinchClient = initSmsClient();
+  const smsService = initSmsServiceWithServicePlanId();
   let response;
   try {
-    response = await sinchClient.sms.inbounds.get(requestData);
+    response = await smsService.inbounds.get(requestData);
   } catch (error) {
     console.error(`ERROR: Impossible to retrieve the inbound message ${requestData.inbound_id}`);
     throw error;

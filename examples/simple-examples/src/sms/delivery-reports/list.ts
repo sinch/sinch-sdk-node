@@ -1,4 +1,4 @@
-import { getPrintFormat, initSmsClient, printFullResponse } from '../../config';
+import { getPrintFormat, initSmsServiceWithServicePlanId, printFullResponse } from '../../config';
 import {
   ListDeliveryReportsRequestData,
   PageResult,
@@ -29,14 +29,14 @@ const populateDeliveryReportsList = (
     start_date: oneWeekAgo,
   };
 
-  const sinchClient = initSmsClient();
+  const smsService = initSmsServiceWithServicePlanId();
 
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
   let response;
   try {
-    response = await sinchClient.sms.deliveryReports.list(requestData);
+    response = await smsService.deliveryReports.list(requestData);
   } catch (error) {
     console.error(`ERROR: Impossible to get the list of delivery reports starting at ${requestData.start_date}`);
     throw error;
@@ -69,7 +69,7 @@ const populateDeliveryReportsList = (
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const deliveryReport of sinchClient.sms.deliveryReports.list(requestData)) {
+  for await (const deliveryReport of smsService.deliveryReports.list(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`Delivery support status: ${deliveryReport.status} - Type: ${deliveryReport.type} - Batch ID: ${deliveryReport.batch_id}`);
     } else {

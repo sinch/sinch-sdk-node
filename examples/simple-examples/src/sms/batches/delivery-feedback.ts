@@ -1,4 +1,8 @@
-import { getBatchIdFromConfig, getRecipientPhoneNumberFromConfig, initSmsClient } from '../../config';
+import {
+  getBatchIdFromConfig,
+  getRecipientPhoneNumberFromConfig,
+  initSmsServiceWithServicePlanId,
+} from '../../config';
 import { DeliveryFeedbackRequestData } from '@sinch/sdk-core';
 
 (async () => {
@@ -18,10 +22,10 @@ import { DeliveryFeedbackRequestData } from '@sinch/sdk-core';
     },
   };
 
-  const sinchClient = initSmsClient();
+  const smsService = initSmsServiceWithServicePlanId();
 
   try {
-    await sinchClient.sms.batches.sendDeliveryFeedback(requestData);
+    await smsService.batches.sendDeliveryFeedback(requestData);
   } catch (error) {
     console.error(`ERROR: The delivery feedback could not be sent.`);
     throw error;

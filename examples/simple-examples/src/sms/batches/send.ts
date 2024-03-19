@@ -2,7 +2,7 @@ import {
   getPhoneNumberFromConfig,
   getPrintFormat,
   getRecipientPhoneNumberFromConfig,
-  initSmsClient,
+  initSmsServiceWithServicePlanId,
   printFullResponse,
 } from '../../config';
 import { SendSMSRequestData } from '@sinch/sdk-core';
@@ -37,10 +37,10 @@ import { SendSMSRequestData } from '@sinch/sdk-core';
     },
   };
 
-  const sinchClient = initSmsClient();
+  const smsService = initSmsServiceWithServicePlanId();
   let response;
   try {
-    response = await sinchClient.sms.batches.send(requestData);
+    response = await smsService.batches.send(requestData);
   } catch (error) {
     console.error(`ERROR: The SMS could not be sent`);
     throw error;

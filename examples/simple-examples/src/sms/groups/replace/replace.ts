@@ -1,7 +1,7 @@
-import { ReplaceGroupRequestData, SinchClient } from '@sinch/sdk-core';
+import { ReplaceGroupRequestData, SmsService } from '@sinch/sdk-core';
 import { getGroupIdFromConfig, getPrintFormat, printFullResponse } from '../../../config';
 
-export const replace = async(sinchClient: SinchClient) => {
+export const replace = async(smsService: SmsService) => {
   console.log('****************');
   console.log('* ReplaceGroup *');
   console.log('****************');
@@ -20,7 +20,7 @@ export const replace = async(sinchClient: SinchClient) => {
 
   let response;
   try {
-    response = await sinchClient.sms.groups.replace(requestData);
+    response = await smsService.groups.replace(requestData);
   } catch (error) {
     console.error(`ERROR: Impossible to replace the group ${requestData.group_id}`);
     throw error;
