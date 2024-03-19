@@ -5,7 +5,7 @@ import {
   DeliveryReportsApiFixture,
   GetDeliveryReportByBatchIdRequestData,
   GetDeliveryReportByPhoneNumberRequestData,
-  GetDeliveryReportsRequestData,
+  ListDeliveryReportsRequestData,
   RecipientDeliveryReport,
 } from '../../../../src';
 
@@ -74,20 +74,20 @@ describe('DeliveryReportsApi', () => {
       };
 
       // When
-      fixture.getByPhoneNumber.mockResolvedValue(expectedResponse);
-      deliveryReportsApi.getByPhoneNumber = fixture.getByPhoneNumber;
-      const response = await deliveryReportsApi.getByPhoneNumber(requestData);
+      fixture.getForNumber.mockResolvedValue(expectedResponse);
+      deliveryReportsApi.getForNumber = fixture.getForNumber;
+      const response = await deliveryReportsApi.getForNumber(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.getByPhoneNumber).toHaveBeenCalledWith(requestData);
+      expect(fixture.getForNumber).toHaveBeenCalledWith(requestData);
     });
   });
 
   describe ('getDeliveryReports', () => {
     it('should make a GET request to list the delivery reports', async () => {
       // Given
-      const requestData: GetDeliveryReportsRequestData = {};
+      const requestData: ListDeliveryReportsRequestData = {};
       const mockData: RecipientDeliveryReport[] = [
         {
           batch_id: '01HF28S9AAGRKWP2CY92BJB569',
