@@ -1,6 +1,7 @@
 import { getPrintFormat, initSmsClient, printFullResponse } from '../../config';
 import {
-  GetDeliveryReportsRequestData, PageResult,
+  ListDeliveryReportsRequestData,
+  PageResult,
   RecipientDeliveryReport,
 } from '@sinch/sdk-core';
 
@@ -24,7 +25,7 @@ const populateDeliveryReportsList = (
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
   oneWeekAgo.setHours(0, 0, 0, 0);
 
-  const requestData: GetDeliveryReportsRequestData= {
+  const requestData: ListDeliveryReportsRequestData= {
     start_date: oneWeekAgo,
   };
 
