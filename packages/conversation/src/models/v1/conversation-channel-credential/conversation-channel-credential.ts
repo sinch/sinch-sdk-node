@@ -5,7 +5,7 @@ import {
   KakaoTalkCredentials,
   LineCredentials,
   MMSCredentials,
-  SMSCredentials,
+  // SMSCredentials, // Not supported yet
   StaticBearerCredential,
   StaticTokenCredential,
   TelegramCredentials,
@@ -68,10 +68,11 @@ export interface ChannelCredentialsRcs extends ConversationChannelCredentialRequ
 export interface ChannelCredentialsRcsResponse
   extends ChannelCredentialsRcs, ConversationChannelCredentialResponseBase {}
 
-export type ChannelCredentialsSms = ChannelCredentialsSmsWithBearer | ChannelCredentialsSmsWithAppId;
+export type ChannelCredentialsSms = ChannelCredentialsSmsWithBearer; // | ChannelCredentialsSmsWithAppId; // Not supported yet
 
 export type ChannelCredentialsSmsResponse
-  = ChannelCredentialsSmsWithBearerResponse | ChannelCredentialsSmsWithAppIdResponse;
+  = ChannelCredentialsSmsWithBearerResponse;
+  // = ChannelCredentialsSmsWithBearerResponse | ChannelCredentialsSmsWithAppIdResponse; // Not supported yet
 
 export interface ChannelCredentialsSmsWithBearer extends ConversationChannelCredentialRequestBase {
   channel: 'SMS';
@@ -82,14 +83,14 @@ export interface ChannelCredentialsSmsWithBearer extends ConversationChannelCred
 export interface ChannelCredentialsSmsWithBearerResponse
   extends ChannelCredentialsSmsWithBearer, ConversationChannelCredentialResponseBase {}
 
-export interface ChannelCredentialsSmsWithAppId extends ConversationChannelCredentialRequestBase {
-  channel: 'SMS';
-  /** @see SMSCredentials */
-  sms_credentials: SMSCredentials;
-}
-
-export interface ChannelCredentialsSmsWithAppIdResponse
-  extends ChannelCredentialsSmsWithAppId, ConversationChannelCredentialResponseBase {}
+// export interface ChannelCredentialsSmsWithAppId extends ConversationChannelCredentialRequestBase {
+//   channel: 'SMS';
+//   /** @see SMSCredentials */
+//   sms_credentials: SMSCredentials;
+// }
+//
+// export interface ChannelCredentialsSmsWithAppIdResponse
+//   extends ChannelCredentialsSmsWithAppId, ConversationChannelCredentialResponseBase {}
 
 export interface ChannelCredentialsMessenger extends ConversationChannelCredentialRequestBase {
   channel: 'MESSENGER';
