@@ -1,5 +1,5 @@
 import { DeleteMessageRequestData } from '@sinch/sdk-core';
-import { getMessageIdFromConfig, initClient, printFullResponse } from '../../config';
+import { getMessageIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 
 (async () => {
@@ -13,8 +13,8 @@ import { getMessageIdFromConfig, initClient, printFullResponse } from '../../con
     message_id: messageId,
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.messages.delete(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.messages.delete(requestData);
 
   printFullResponse(response);
 

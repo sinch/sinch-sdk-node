@@ -4,7 +4,7 @@ import {
   getMessengerUserIdFromConfig,
   getPhoneNumberFromConfig,
   getPrintFormat,
-  initClient,
+  initConversationService,
   printFullResponse,
 } from '../../config';
 
@@ -36,8 +36,8 @@ import {
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.contact.create(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.contact.create(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

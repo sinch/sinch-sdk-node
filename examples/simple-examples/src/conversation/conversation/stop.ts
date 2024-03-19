@@ -1,5 +1,5 @@
 import { StopActiveConversationRequestData } from '@sinch/sdk-core';
-import { getConversationIdFromConfig, initClient, printFullResponse } from '../../config';
+import { getConversationIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 
 (async () => {
@@ -13,8 +13,8 @@ import { getConversationIdFromConfig, initClient, printFullResponse } from '../.
     conversation_id: conversationId,
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.conversation.stopActive(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.conversation.stopActive(requestData);
 
   printFullResponse(response);
 

@@ -2,7 +2,7 @@ import { GetChannelProfileRequestData } from '@sinch/sdk-core';
 import {
   getAppIdFromConfig,
   getMessengerUserIdFromConfig,
-  initClient,
+  initConversationService,
   printFullResponse,
 } from '../../config';
 
@@ -31,8 +31,8 @@ import {
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.contact.getChannelProfile(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.contact.getChannelProfile(requestData);
 
   printFullResponse(response);
 

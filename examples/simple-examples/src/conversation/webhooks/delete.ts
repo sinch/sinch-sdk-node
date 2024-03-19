@@ -1,5 +1,5 @@
 import { DeleteWebhookRequestData } from '@sinch/sdk-core';
-import { getWebhookIdFromConfig, initClient, printFullResponse } from '../../config';
+import { getWebhookIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 
 (async () => {
@@ -13,8 +13,8 @@ import { getWebhookIdFromConfig, initClient, printFullResponse } from '../../con
     webhook_id: webhookId,
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.webhooks.delete(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.webhooks.delete(requestData);
 
   printFullResponse(response);
 

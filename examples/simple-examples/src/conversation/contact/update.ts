@@ -1,4 +1,9 @@
-import { getContactIdFromConfig, getPrintFormat, initClient, printFullResponse } from '../../config';
+import {
+  getContactIdFromConfig,
+  getPrintFormat,
+  initConversationService,
+  printFullResponse,
+} from '../../config';
 import { UpdateContactRequestData } from '@sinch/sdk-core';
 
 (async () => {
@@ -18,8 +23,8 @@ import { UpdateContactRequestData } from '@sinch/sdk-core';
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.contact.update(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.contact.update(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

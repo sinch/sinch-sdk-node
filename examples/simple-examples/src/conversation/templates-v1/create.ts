@@ -1,5 +1,5 @@
 import { CreateTemplateRequestData, templateV1Helper } from '@sinch/sdk-core';
-import { getPrintFormat, initClient, printFullResponse } from '../../config';
+import { getPrintFormat, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
   console.log('****************************');
@@ -23,8 +23,8 @@ import { getPrintFormat, initClient, printFullResponse } from '../../config';
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.templatesV1.create(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.templatesV1.create(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 
