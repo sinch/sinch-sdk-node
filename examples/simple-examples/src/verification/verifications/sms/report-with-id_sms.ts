@@ -3,7 +3,7 @@ import {
   getPrintFormat,
   getVerificationCodeFromConfig,
   getVerificationIdFromConfig,
-  initApplicationClient,
+  initVerificationService,
   printFullResponse,
 } from '../../../config';
 
@@ -18,8 +18,8 @@ import {
   const requestData = verificationsHelper.buildReportSmsVerificationByIdRequest(
     verificationId, verificationCode);
 
-  const sinchClient = initApplicationClient();
-  const response = await sinchClient.verification.verifications.reportSmsById(requestData);
+  const verificationService = initVerificationService();
+  const response = await verificationService.verifications.reportSmsById(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 
