@@ -2,7 +2,6 @@ import { ParameterObj } from '../parameter-obj';
 import { DeliveryReportEnum } from '../enums';
 
 export interface TextRequest {
-
   /** List of Phone numbers and group IDs that will receive the batch. <a href=\"https://community.sinch.com/t5/Glossary/MSISDN/ta-p/7628\" target=\"_blank\">More info</a> */
   to: string[];
   /** Sender number. Must be valid phone number, short code or alphanumeric. Required if Automatic Default Originator not configured. */
@@ -15,9 +14,11 @@ export interface TextRequest {
   type?: 'mt_text';
   /** Request delivery report callback. Note that delivery reports can be fetched from the API regardless of this setting. */
   delivery_report?: DeliveryReportEnum;
-  /** If set in the future, the message will be delayed until `send_at` occurs. Must be before `expire_at`. If set in the past, messages will be sent immediately. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601): `YYYY-MM-DDThh:mm:ss.SSSZ`. */
+  /** If set in the future, the message will be delayed until `send_at` occurs.
+   * Must be before `expire_at`. If set in the past, messages will be sent immediately. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601): `YYYY-MM-DDThh:mm:ss.SSSZ`. */
   send_at?: Date;
-  /** If set, the system will stop trying to deliver the message at this point. Must be after `send_at`. Default and max is 3 days after `send_at`. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601): `YYYY-MM-DDThh:mm:ss.SSSZ`. */
+  /** If set, the system will stop trying to deliver the message at this point.
+   * Must be after `send_at`. Default and max is 3 days after `send_at`. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601): `YYYY-MM-DDThh:mm:ss.SSSZ`. */
   expire_at?: Date;
   /** Override the *default* callback URL for this batch. Must be a valid URL. Learn how to set a default callback URL <a href=\"https://community.sinch.com/t5/SMS/How-do-I-assign-a-callback-URL-to-an-SMS-service-plan/ta-p/8414\" target=\"_blank\">here</a>. */
   callback_url?: string;

@@ -23,7 +23,7 @@ import { GetDeliveryReportByPhoneNumberRequestData } from '@sinch/sdk-core';
   const sinchClient = initSmsClient();
   let response;
   try {
-    response = await sinchClient.sms.deliveryReports.getByPhoneNumber(requestData);
+    response = await sinchClient.sms.deliveryReports.getForNumber(requestData);
   } catch (error) {
     console.error(`ERROR: Impossible to retrieve the delivery report by batch ID ${requestData.batch_id} for the recipient ${requestData.recipient_msisdn}`);
     throw error;

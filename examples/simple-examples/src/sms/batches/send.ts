@@ -50,6 +50,15 @@ import { SendSMSRequestData } from '@sinch/sdk-core';
 
   if (printFormat === 'pretty') {
     console.log(`The SMS has been sent successfully. Here is the batch id: ${response.id}`);
+    if(response.type === 'mt_text') {
+      console.log(`The message was: '${response.body}'`);
+    }
+    if(response.type === 'mt_binary') {
+      console.log(`The message (decoded) was: '${atob(response.body!)}'`);
+    }
+    if(response.type === 'mt_media') {
+      console.log(`The message was: '${response.body?.message}'`);
+    }
   } else {
     printFullResponse(response);
   }

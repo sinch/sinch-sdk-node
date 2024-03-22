@@ -2,7 +2,6 @@ import { ParameterObj } from '../parameter-obj';
 import { DeliveryReportEnum } from '../enums';
 
 export interface TextResponse {
-
   /** Unique identifier for batch */
   id?: string;
   /** List of Phone numbers and group IDs that will receive the batch. [More info](https://community.sinch.com/t5/Glossary/MSISDN/ta-p/7628) */
@@ -23,9 +22,11 @@ export interface TextResponse {
   modified_at?: Date;
   /** Request delivery report callback. Note that delivery reports can be fetched from the API regardless of this setting.  */
   delivery_report?: DeliveryReportEnum;
-  /** If set in the future, the message will be delayed until `send_at` occurs. Must be before `expire_at`. If set in the past, messages will be sent immediately. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601): `YYYY-MM-DDThh:mm:ss.SSSZ`. */
+  /** If set in the future, the message will be delayed until `send_at` occurs.
+   * Must be before `expire_at`. If set in the past, messages will be sent immediately. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601): `YYYY-MM-DDThh:mm:ss.SSSZ`. */
   send_at?: Date;
-  /** If set, the system will stop trying to deliver the message at this point. Must be after `send_at`. Default and max is 3 days after `send_at`. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601): `YYYY-MM-DDThh:mm:ss.SSSZ`. */
+  /** If set, the system will stop trying to deliver the message at this point.
+   * Must be after `send_at`. Default and max is 3 days after `send_at`. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601): `YYYY-MM-DDThh:mm:ss.SSSZ`. */
   expire_at?: Date;
   /** Override the default callback URL for this batch. Must be valid URL. */
   callback_url?: string;

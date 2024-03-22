@@ -1,7 +1,6 @@
 import { DeliveryReportEnum } from '../enums';
 
 export interface BinaryResponse {
-
   /** Unique identifier for batch. */
   id?: string;
   /** A list of phone numbers and group IDs that have received the batch. [More info](https://community.sinch.com/t5/Glossary/MSISDN/ta-p/7628). */

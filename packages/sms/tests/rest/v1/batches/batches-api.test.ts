@@ -14,6 +14,12 @@ import {
   SendSMSRequestData,
   SendSMSResponse,
   UpdateBatchMessageRequestData,
+  SendTextMessageRequestData,
+  TextResponse,
+  SendMediaMessageRequestData,
+  MediaResponse,
+  SendBinaryMessageRequestData,
+  BinaryResponse,
 } from '../../../../src';
 
 describe('BatchesApi', () => {
@@ -247,6 +253,15 @@ describe('BatchesApi', () => {
   });
 
   describe ('sendSMS', () => {
+    const commonResponseData = {
+      canceled: false,
+      created_at: new Date('2023-11-16T12:34:56.789Z'),
+      modified_at: new Date('2023-11-16T12:34:56.789Z'),
+      send_at: new Date('2023-11-20T12:34:56.789Z'),
+      expire_at: new Date('2023-11-23T12:34:56.789Z'),
+      flash_message: false,
+    };
+
     it('should make a POST request to send a message', async () => {
       // Given
       const requestData: SendSMSRequestData = {
@@ -256,38 +271,21 @@ describe('BatchesApi', () => {
             '+33444555666',
           ],
           from: '+17818510001',
-          parameters: {
-            name: {
-              '+33612814258': 'Bob',
-              default: 'there',
-            },
-          },
-          body: 'Hi ${name}!',
+          body: 'Hello, this is a SMS from Sinch',
           delivery_report: 'none',
           send_at: new Date('2023-11-20T12:34:56.789Z'),
         },
       };
       const expectedResponse: SendSMSResponse = {
         id: '01HF4WG1TAVS351YYD7Q84K8HA',
+        type: 'mt_text',
         to: [
           '33444555666',
         ],
         from: '17818510001',
-        canceled: false,
-        parameters: {
-          name: {
-            '+33444555666': 'Bob',
-            default: 'there',
-          },
-        },
-        body: 'Hi ${name}!',
-        type: 'mt_text',
-        created_at: new Date('2023-11-16T12:34:56.789Z'),
-        modified_at: new Date('2023-11-16T12:34:56.789Z'),
+        body: 'Hello, this is a SMS from Sinch',
         delivery_report: 'none',
-        send_at: new Date('2023-11-20T12:34:56.789Z'),
-        expire_at: new Date('2023-11-23T12:34:56.789Z'),
-        flash_message: false,
+        ...commonResponseData,
       };
 
       // When
@@ -298,6 +296,125 @@ describe('BatchesApi', () => {
       // Then
       expect(response).toEqual(expectedResponse);
       expect(fixture.send).toHaveBeenCalledWith(requestData);
+    });
+
+    it('should make a POST request to send a text message', async () => {
+      // Given
+      const requestData: SendTextMessageRequestData = {
+        sendSMSRequestBody: {
+          type: 'mt_text',
+          to: [
+            '+33444555666',
+          ],
+          from: '+17818510001',
+          body: 'Hello, this is a SMS from Sinch',
+          delivery_report: 'none',
+          send_at: new Date('2023-11-20T12:34:56.789Z'),
+        },
+      };
+
+      const expectedResponse: TextResponse = {
+        id: '01HF4WG1TAVS351YYD7Q84K8HA',
+        type: 'mt_text',
+        to: [
+          '33444555666',
+        ],
+        from: '17818510001',
+        body: 'Hello, this is a SMS from Sinch',
+        delivery_report: 'none',
+        ...commonResponseData,
+      };
+
+      // When
+      fixture.sendTextMessage.mockResolvedValue(expectedResponse);
+      batchesApi.sendTextMessage = fixture.sendTextMessage;
+      const response = await batchesApi.sendTextMessage(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.sendTextMessage).toHaveBeenCalledWith(requestData);
+    });
+
+    it('should make a POST request to send a binary message', async () => {
+      // Given
+      const requestData: SendBinaryMessageRequestData = {
+        sendSMSRequestBody: {
+          type: 'mt_binary',
+          to: [
+            '+33444555666',
+          ],
+          from: '+17818510001',
+          body: 'SGVsbG8sIHRoaXMgaXMgYSBTTVMgZnJvbSBTaW5jaA==',
+          delivery_report: 'none',
+          udh: textToHex('UserDataHeader'),
+          send_at: new Date('2023-11-20T12:34:56.789Z'),
+        },
+      };
+
+      const expectedResponse: BinaryResponse = {
+        id: '01HF4WG1TAVS351YYD7Q84K8HA',
+        type: 'mt_binary',
+        to: [
+          '33444555666',
+        ],
+        from: '17818510001',
+        body: 'SGVsbG8sIHRoaXMgaXMgYSBTTVMgZnJvbSBTaW5jaA==',
+        delivery_report: 'none',
+        udh: textToHex('UserDataHeader'),
+        ...commonResponseData,
+      };
+
+      // When
+      fixture.sendBinaryMessage.mockResolvedValue(expectedResponse);
+      batchesApi.sendBinaryMessage = fixture.sendBinaryMessage;
+      const response = await batchesApi.sendBinaryMessage(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.sendBinaryMessage).toHaveBeenCalledWith(requestData);
+    });
+
+    it('should make a POST request to send a media message', async () => {
+      // Given
+      const requestData: SendMediaMessageRequestData = {
+        sendSMSRequestBody: {
+          type: 'mt_media',
+          to: [
+            '+33444555666',
+          ],
+          from: '+17818510001',
+          body: {
+            url: 'https://media.body.url',
+            message: 'Text message coming along with the media file',
+          },
+          delivery_report: 'none',
+          send_at: new Date('2023-11-20T12:34:56.789Z'),
+        },
+      };
+
+      const expectedResponse: MediaResponse= {
+        id: '01HF4WG1TAVS351YYD7Q84K8HA',
+        type: 'mt_media',
+        to: [
+          '33444555666',
+        ],
+        from: '17818510001',
+        body: {
+          url: 'https://media.body.url',
+          message: 'Text message coming along with the media file',
+        },
+        delivery_report: 'none',
+        ...commonResponseData,
+      };
+
+      // When
+      fixture.sendMediaMessage.mockResolvedValue(expectedResponse);
+      batchesApi.sendMediaMessage = fixture.sendMediaMessage;
+      const response = await batchesApi.sendMediaMessage(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.sendMediaMessage).toHaveBeenCalledWith(requestData);
     });
   });
 

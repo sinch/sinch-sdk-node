@@ -1,5 +1,18 @@
-import { BatchesApi, CancelBatchMessageRequestData, DeliveryFeedbackRequestData, DryRunRequestData, GetBatchMessageRequestData, ListBatchesRequestData, ReplaceBatchMessageRequestData, SendSMSRequestData, UpdateBatchMessageRequestData } from './batches-api';
-import { DryRunResponse, SendSMSResponse } from '../../../models';
+import {
+  BatchesApi,
+  CancelBatchMessageRequestData,
+  DeliveryFeedbackRequestData,
+  DryRunRequestData,
+  GetBatchMessageRequestData,
+  ListBatchesRequestData,
+  ReplaceBatchMessageRequestData,
+  SendBinaryMessageRequestData,
+  SendMediaMessageRequestData,
+  SendSMSRequestData,
+  SendTextMessageRequestData,
+  UpdateBatchMessageRequestData,
+} from './batches-api';
+import { BinaryResponse, DryRunResponse, MediaResponse, SendSMSResponse, TextResponse } from '../../../models';
 import { ApiListPromise } from '@sinch/sdk-client';
 
 export class BatchesApiFixture implements Partial<Readonly<BatchesApi>> {
@@ -32,6 +45,18 @@ export class BatchesApiFixture implements Partial<Readonly<BatchesApi>> {
     * Fixture associated to function send
     */
   public send: jest.Mock<Promise<SendSMSResponse>, [SendSMSRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function sendTextMessage
+   */
+  public sendTextMessage: jest.Mock<Promise<TextResponse>, [SendTextMessageRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function send
+   */
+  public sendBinaryMessage: jest.Mock<Promise<BinaryResponse>, [SendBinaryMessageRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function send
+   */
+  public sendMediaMessage: jest.Mock<Promise<MediaResponse>, [SendMediaMessageRequestData]> = jest.fn();
   /**
     * Fixture associated to function update
     */
