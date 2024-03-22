@@ -1,4 +1,9 @@
-import { getPhoneNumberFromConfig, getPrintFormat, initClient, printFullResponse } from '../../config';
+import {
+  getPhoneNumberFromConfig,
+  getPrintFormat,
+  initNumbersService,
+  printFullResponse,
+} from '../../config';
 import { GetAvailableNumberRequestData } from '@sinch/sdk-core';
 
 (async () => {
@@ -13,10 +18,10 @@ import { GetAvailableNumberRequestData } from '@sinch/sdk-core';
     phoneNumber,
   };
 
-  const sinchClient = initClient();
+  const numbersService = initNumbersService();
   let response;
   try {
-    response = await sinchClient.numbers.availableNumber.checkAvailability(requestData);
+    response = await numbersService.availableNumber.checkAvailability(requestData);
   } catch (error) {
     console.error(`ERROR: the phone number ${requestData.phoneNumber} is not available`);
   }

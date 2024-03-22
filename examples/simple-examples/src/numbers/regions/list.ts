@@ -1,5 +1,5 @@
 import { ListAvailableRegionsRequestData } from '@sinch/sdk-core';
-import { getPrintFormat, initClient, printFullResponse } from '../../config';
+import { getPrintFormat, initNumbersService, printFullResponse } from '../../config';
 
 (async () => {
   console.log('**************************************');
@@ -10,8 +10,8 @@ import { getPrintFormat, initClient, printFullResponse } from '../../config';
     types: ['LOCAL','MOBILE'],
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.numbers.availableRegions.list(requestData);
+  const numbersService = initNumbersService();
+  const response = await numbersService.availableRegions.list(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

@@ -2,7 +2,7 @@ import {
   getConferenceIdFromConfig, getPhoneNumberFromConfig,
   getPrintFormat,
   getRecipientPhoneNumberFromConfig,
-  initApplicationClient,
+  initVoiceService,
   printFullResponse,
 } from '../../config';
 import { ConferenceCalloutRequestData, VoiceRegion } from '@sinch/sdk-core';
@@ -31,11 +31,11 @@ import { ConferenceCalloutRequestData, VoiceRegion } from '@sinch/sdk-core';
     },
   };
 
-  const sinchClient = initApplicationClient();
-  sinchClient.voice.setRegion(VoiceRegion.EUROPE);
+  const voiceService = initVoiceService();
+  voiceService.setRegion(VoiceRegion.EUROPE);
   let response;
   try {
-    response = await sinchClient.voice.callouts.conference(requestData);
+    response = await voiceService.callouts.conference(requestData);
   } catch (error) {
     console.log(`Impossible to make a Conference callout to '${requestData.conferenceCalloutRequestBody?.conferenceCallout.destination.endpoint}'`);
     throw error;

@@ -3,7 +3,7 @@ import {
   getPhoneNumberFromConfig,
   getPrintFormat,
   getServicePlanIdFromConfig,
-  initClient,
+  initNumbersService,
   printFullResponse,
 } from '../../config';
 import { UpdateActiveNumberRequestData } from '@sinch/sdk-core';
@@ -28,8 +28,8 @@ import { UpdateActiveNumberRequestData } from '@sinch/sdk-core';
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.numbers.activeNumber.update(requestData);
+  const numbersService = initNumbersService();
+  const response = await numbersService.activeNumber.update(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

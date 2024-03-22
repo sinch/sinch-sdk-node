@@ -1,5 +1,10 @@
 import { CreateAppRequestData } from '@sinch/sdk-core';
-import { getMessengerTokenFormConfig, getPrintFormat, initClient, printFullResponse } from '../../config';
+import {
+  getMessengerTokenFormConfig,
+  getPrintFormat,
+  initConversationService,
+  printFullResponse,
+} from '../../config';
 
 (async () => {
   console.log('*****************');
@@ -27,8 +32,8 @@ import { getMessengerTokenFormConfig, getPrintFormat, initClient, printFullRespo
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.app.create(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.app.create(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

@@ -2,7 +2,7 @@ import { verificationsHelper } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getVerificationIdentityFromConfig,
-  initApplicationClient,
+  initVerificationService,
   printFullResponse,
 } from '../../../config';
 
@@ -19,8 +19,8 @@ import {
     20,
   );
 
-  const sinchClient = initApplicationClient();
-  const response = await sinchClient.verification.verifications.startFlashCall(requestData);
+  const verificationService = initVerificationService();
+  const response = await verificationService.verifications.startFlashCall(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

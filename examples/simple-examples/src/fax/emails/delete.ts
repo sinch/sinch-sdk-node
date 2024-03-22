@@ -1,5 +1,5 @@
 import { DeleteEmailRequestData } from '@sinch/sdk-core';
-import { getFaxEmailFromConfig, initClient } from '../../config';
+import { getFaxEmailFromConfig, initFaxService } from '../../config';
 
 (async () => {
   console.log('***************');
@@ -12,8 +12,8 @@ import { getFaxEmailFromConfig, initClient } from '../../config';
     email,
   };
 
-  const sinchClient = initClient();
-  await sinchClient.fax.emails.delete(requestData);
+  const faxService = initFaxService();
+  await faxService.emails.delete(requestData);
 
   console.log(`The email '${requestData.email}' has been successfully removed`);
 })();

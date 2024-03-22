@@ -1,7 +1,7 @@
 import {
   getConversationIdFromConfig,
   getPrintFormat,
-  initClient,
+  initConversationService,
   printFullResponse,
 } from '../../config';
 import { UpdateConversationRequestData } from '@sinch/sdk-core';
@@ -22,8 +22,8 @@ import { UpdateConversationRequestData } from '@sinch/sdk-core';
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.conversation.update(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.conversation.update(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

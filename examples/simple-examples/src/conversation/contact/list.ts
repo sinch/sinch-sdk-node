@@ -1,5 +1,5 @@
 import { Contact, ListContactsRequestData, PageResult } from '@sinch/sdk-core';
-import { getPrintFormat, initClient, printFullResponse } from '../../config';
+import { getPrintFormat, initConversationService, printFullResponse } from '../../config';
 
 const populateContactsList = (
   contactPage: PageResult<Contact>,
@@ -21,12 +21,12 @@ const populateContactsList = (
     page_size: 2,
   };
 
-  const sinchClient = initClient();
+  const conversationService = initConversationService();
 
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response = await sinchClient.conversation.contact.list(requestData);
+  let response = await conversationService.contact.list(requestData);
 
   const contactList: Contact[] = [];
   const contactDetailsList: string[] = [];
@@ -55,7 +55,7 @@ const populateContactsList = (
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const contact of sinchClient.conversation.contact.list(requestData)) {
+  for await (const contact of conversationService.contact.list(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`${contact.id} - ${contact.display_name}`);
     } else {

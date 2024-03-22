@@ -1,5 +1,10 @@
 import { UpdateCallbackConfigurationRequestData } from '@sinch/sdk-core';
-import { getHmacSecretFromConfig, getPrintFormat, initClient, printFullResponse } from '../../config';
+import {
+  getHmacSecretFromConfig,
+  getPrintFormat,
+  initNumbersService,
+  printFullResponse,
+} from '../../config';
 import * as process from 'process';
 
 (async () => {
@@ -15,8 +20,8 @@ import * as process from 'process';
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.numbers.callbacks.update(requestData);
+  const numbersService = initNumbersService();
+  const response = await numbersService.callbacks.update(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

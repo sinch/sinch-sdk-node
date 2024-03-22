@@ -3,7 +3,7 @@ import {
   getPrintFormat,
   getVerificationCliFromConfig,
   getVerificationIdFromConfig,
-  initApplicationClient,
+  initVerificationService,
   printFullResponse,
 } from '../../../config';
 
@@ -18,8 +18,8 @@ import {
   const requestData = verificationsHelper.buildReportFlashCallVerificationByIdRequest(
     verificationId, verificationCli);
 
-  const sinchClient = initApplicationClient();
-  const response = await sinchClient.verification.verifications.reportFlashCallById(requestData);
+  const verificationService = initVerificationService();
+  const response = await verificationService.verifications.reportFlashCallById(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

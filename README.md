@@ -94,12 +94,27 @@ where `sinchClientParameters` is an object containing the properties required to
    - `keySecret`
    - (For the SMS API, `region` is optional. Default is `US`).
 
+From this client, you have access to all the SDK services supporting the Sinch APIs:
+```typescript
+import {
+  SinchClient,
+} from '@sinch/sdk-core';
+
+const sinch = new SinchClient(sinchClientParameters);
+const conversationService = sinch.conversation;
+const faxService = sinch.fax;
+const numbersService = sinch.numbers;
+const smsService = sinch.sms;
+const verificationService = sinch.verification;
+const voiceService = sinch.voice;
+```
+
 ### Promises
 
 All the methods that interact with the Sinch APIs use Promises.
 
 ```typescript
-const response: SendSMSResponse = await sinchClient.sms.batches.send({
+const response: SendSMSResponse = await smsService.batches.send({
    sendSMSRequestBody: {
       to: [
          '+12223334444',
@@ -128,14 +143,8 @@ Here is the list of the Sinch products and their level of support by the Node.js
 | Messaging              | SMS API                             |   ✅    |
 |                        | Conversation API                    |   ✅    |
 |                        | Fax API                             |   🚧   |
-|                        | RCS API                             |   ❌    |
-|                        | MMS API                             |   ❌    |
-|                        | Provisioning API                    |   ❌    |
 | Voice and Video        | Voice API                           |   ✅    |
-|                        | Elastic SIP Trunking                |   ❌    |
 | Numbers & Connectivity | Numbers API                         |   ✅    |
-|                        | Brand and Campaign Registration API |   ❌    |
-|                        | Number Lookup API                   |   ❌    |
 | Verification           | Verification API                    |   ✅    |
 
 ### Packages
@@ -143,10 +152,11 @@ Here is the list of the Sinch products and their level of support by the Node.js
 The Sinch Node.js SDK is packaged in the following way:
  - [`@sinch/sdk-core`](./packages/sdk-core): package defining the `SinchClient` class and wrapping all the other packages.
  - [`@sinch/sms`](./packages/sms): package that contains SMS services: Batches, Delivery reports, Inbounds, Groups and Webhooks callbacks.
- - `@sinch/conversation`: IN-PROGRESS
+ - [`@sinch/conversation`](./packages/conversation): package that contains Conversation services: App, Capability, Contact, Conversation, Events, Messages, Templates V1 and V2, Transcoding, Webhooks management and Webhooks callbacks.
  - [`@sinch/voice`](./packages/voice): package that contains the Voice services: Callouts, Calls, Conferences, Applications management and Webhooks callbacks.
  - [`@sinch/numbers`](./packages/numbers): package that contains the Numbers services: Available number, Active number, Available regions, Callbacks management and Webhooks callbacks.
  - [`@sinch/verification`](./packages/verification): package that contains the Verification services: Verification start and report, Verification status and Webhooks callbacks.
+ - [`@sinch/fax`](./packages/fax): package that contains the Fax services: Services, Faxes and Faxes-on-emails
  - [`@sinch/sdk-client`](./packages/sdk-client): package included by all the other ones that contains the API client classes and helpers.
 
 ## Examples

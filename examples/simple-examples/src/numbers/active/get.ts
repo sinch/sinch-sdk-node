@@ -1,4 +1,9 @@
-import { getPhoneNumberFromConfig, getPrintFormat, initClient, printFullResponse } from '../../config';
+import {
+  getPhoneNumberFromConfig,
+  getPrintFormat,
+  initNumbersService,
+  printFullResponse,
+} from '../../config';
 import { GetActiveNumberRequestData } from '@sinch/sdk-core';
 
 (async () => {
@@ -12,10 +17,10 @@ import { GetActiveNumberRequestData } from '@sinch/sdk-core';
     phoneNumber,
   };
 
-  const sinchClient = initClient();
+  const numbersService = initNumbersService();
   let response;
   try {
-    response = await sinchClient.numbers.activeNumber.get(requestData);
+    response = await numbersService.activeNumber.get(requestData);
   } catch (error) {
     console.error(`ERROR: The phone number ${requestData.phoneNumber} is not active`);
     throw error;

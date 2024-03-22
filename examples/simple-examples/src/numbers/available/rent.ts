@@ -3,8 +3,9 @@ import {
   getPhoneNumberFromConfig,
   getPrintFormat,
   readServicePlanId,
-  initClient,
-  printFullResponse, getNumberCallbackUrlFromConfig,
+  printFullResponse,
+  getNumberCallbackUrlFromConfig,
+  initNumbersService,
 } from '../../config';
 import {
   RentNumberRequest,
@@ -39,8 +40,8 @@ import {
     rentNumberRequestBody: rentNumberRequest,
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.numbers.availableNumber.rent(requestData);
+  const numbersService = initNumbersService();
+  const response = await numbersService.availableNumber.rent(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

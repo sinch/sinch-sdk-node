@@ -1,5 +1,5 @@
 import { DeleteAppRequestData } from '@sinch/sdk-core';
-import { getAppIdFromConfig, initClient, printFullResponse } from '../../config';
+import { getAppIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
   console.log('*****************');
@@ -12,8 +12,8 @@ import { getAppIdFromConfig, initClient, printFullResponse } from '../../config'
     app_id: appId,
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.app.delete(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.app.delete(requestData);
 
   printFullResponse(response);
 

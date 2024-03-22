@@ -1,5 +1,5 @@
 import { ContactId, SendCommentReplyEventRequestData } from '@sinch/sdk-core';
-import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullResponse } from '../../config';
+import { getAppIdFromConfig, getContactIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
   console.log('********************');
@@ -23,8 +23,8 @@ import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullRespon
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.events.sendCommentReplyEvent(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.events.sendCommentReplyEvent(requestData);
 
   printFullResponse(response);
 

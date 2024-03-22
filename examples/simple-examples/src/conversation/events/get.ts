@@ -1,5 +1,5 @@
 import { GetEventRequestData } from '@sinch/sdk-core';
-import { getEventIdFromConfig, initClient, printFullResponse } from '../../config';
+import { getEventIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
   console.log('*******************');
@@ -12,8 +12,8 @@ import { getEventIdFromConfig, initClient, printFullResponse } from '../../confi
     event_id: eventId,
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.events.get(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.events.get(requestData);
 
   printFullResponse(response);
 

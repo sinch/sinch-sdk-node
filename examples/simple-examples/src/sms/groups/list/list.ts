@@ -1,7 +1,8 @@
 import {
-  SinchClient,
   CreateGroupResponse,
-  ListGroupsRequestData, PageResult,
+  ListGroupsRequestData,
+  PageResult,
+  SmsService,
 } from '@sinch/sdk-core';
 import { getPrintFormat, printFullResponse } from '../../../config';
 
@@ -18,7 +19,7 @@ const populateGroupsList = (
   });
 };
 
-export const list = async(sinchClient: SinchClient) => {
+export const list = async(smsService: SmsService) => {
   console.log('**************');
   console.log('* ListGroups *');
   console.log('**************');
@@ -32,7 +33,7 @@ export const list = async(sinchClient: SinchClient) => {
   // ----------------------------------------------
   let response;
   try {
-    response = await sinchClient.sms.groups.list(requestData);
+    response = await smsService.groups.list(requestData);
   } catch (error) {
     console.error(`ERROR: Impossible to list the groups associated to your service plan id`);
     throw error;
@@ -67,7 +68,7 @@ export const list = async(sinchClient: SinchClient) => {
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const group of sinchClient.sms.groups.list(requestData)) {
+  for await (const group of smsService.groups.list(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`Group ID: ${group.id} - Group name: ${group.name}`);
     } else {

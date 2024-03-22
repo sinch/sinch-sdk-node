@@ -1,4 +1,4 @@
-import { getPrintFormat, initApplicationClient, printFullResponse } from '../../config';
+import { getPrintFormat, initVoiceService, printFullResponse } from '../../config';
 import { GetNumbersRequestData } from '@sinch/sdk-core';
 
 (async () => {
@@ -8,10 +8,10 @@ import { GetNumbersRequestData } from '@sinch/sdk-core';
 
   const requestData: GetNumbersRequestData = {};
 
-  const sinchClient = initApplicationClient();
+  const voiceService = initVoiceService();
   let response;
   try {
-    response = await sinchClient.voice.applications.listNumbers(requestData);
+    response = await voiceService.applications.listNumbers(requestData);
   } catch (error) {
     console.log(`Impossible to get information about your numbers`);
     throw error;

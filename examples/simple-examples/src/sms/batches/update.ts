@@ -2,7 +2,7 @@ import {
   getBatchIdFromConfig,
   getPhoneNumberFromConfig,
   getPrintFormat, getRecipientPhoneNumberFromConfig,
-  initSmsClient,
+  initSmsServiceWithServicePlanId,
   printFullResponse,
 } from '../../config';
 import { ApiUpdateTextMtMessage, UpdateBatchMessageRequestData } from '@sinch/sdk-core';
@@ -32,10 +32,10 @@ import { ApiUpdateTextMtMessage, UpdateBatchMessageRequestData } from '@sinch/sd
     } as ApiUpdateTextMtMessage,
   };
 
-  const sinchClient = initSmsClient();
+  const smsService = initSmsServiceWithServicePlanId();
   let response;
   try {
-    response = await sinchClient.sms.batches.update(requestData);
+    response = await smsService.batches.update(requestData);
   } catch (error) {
     console.error(`ERROR: The batch could not be updated`);
     throw error;

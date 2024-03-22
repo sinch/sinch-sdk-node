@@ -1,4 +1,4 @@
-import { getPrintFormat, initClient, printFullResponse } from '../../config';
+import { getPrintFormat, initNumbersService, printFullResponse } from '../../config';
 import { ListAvailableNumbersRequestData } from '@sinch/sdk-core';
 
 (async () => {
@@ -12,8 +12,8 @@ import { ListAvailableNumbersRequestData } from '@sinch/sdk-core';
     capabilities: ['SMS', 'VOICE'],
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.numbers.availableNumber.list(requestData);
+  const numbersService = initNumbersService();
+  const response = await numbersService.availableNumber.list(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

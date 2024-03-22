@@ -3,7 +3,7 @@ import {
   getPrintFormat,
   getRecipientPhoneNumberFromConfig,
   getVoiceCallBackUrl,
-  initApplicationClient,
+  initVoiceService,
   printFullResponse,
 } from '../../config';
 import {
@@ -79,10 +79,10 @@ import {
     },
   };
 
-  const sinchClient = initApplicationClient();
+  const voiceService = initVoiceService();
   let response;
   try {
-    response = await sinchClient.voice.callouts.custom(requestData);
+    response = await voiceService.callouts.custom(requestData);
   } catch (error) {
     console.log(`Impossible to make a Custom callout to '${requestData.customCalloutRequestBody?.customCallout.destination?.endpoint}'`);
     throw error;

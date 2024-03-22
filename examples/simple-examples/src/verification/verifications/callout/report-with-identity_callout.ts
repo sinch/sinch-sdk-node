@@ -2,7 +2,7 @@ import { verificationsHelper } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getVerificationCodeFromConfig,
-  getVerificationIdentityFromConfig, initApplicationClient, printFullResponse,
+  getVerificationIdentityFromConfig, initVerificationService, printFullResponse,
 } from '../../../config';
 
 (async () => {
@@ -16,8 +16,8 @@ import {
   const requestData = verificationsHelper.buildReportCalloutVerificationByIdentityRequest(
     verificationIdentity, verificationCode);
 
-  const sinchClient = initApplicationClient();
-  const response = await sinchClient.verification.verifications.reportCalloutByIdentity(requestData);
+  const verificationService = initVerificationService();
+  const response = await verificationService.verifications.reportCalloutByIdentity(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

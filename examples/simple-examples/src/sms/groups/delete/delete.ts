@@ -1,7 +1,7 @@
-import { SinchClient, DeleteGroupRequestData } from '@sinch/sdk-core';
+import { DeleteGroupRequestData, SmsService } from '@sinch/sdk-core';
 import { getGroupIdFromConfig } from '../../../config';
 
-export const deleteGroup = async(sinchClient: SinchClient) => {
+export const deleteGroup = async(smsService: SmsService) => {
   console.log('***************');
   console.log('* deleteGroup *');
   console.log('***************');
@@ -13,7 +13,7 @@ export const deleteGroup = async(sinchClient: SinchClient) => {
   };
 
   try {
-    await sinchClient.sms.groups.delete(requestData);
+    await smsService.groups.delete(requestData);
   } catch (error) {
     console.error(`ERROR: Impossible to delete the group ${requestData.group_id}`);
     throw error;

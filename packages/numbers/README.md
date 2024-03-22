@@ -40,6 +40,7 @@ If you are using this SDK as part of the Sinch SDK (`@sinch/sdk-core`) you can a
 import { 
   AvailableNumber,
   GetAvailableNumberRequestData,
+  NumbersService,
   SinchClient,
   UnifiedCredentials,
 } from '@sinch/sdk-core';
@@ -50,15 +51,18 @@ const credentials: UnifiedCredentials = {
   keySecret: 'KEY_SECRET',
 };
 
+// Access the 'numbers' service registered on the Sinch Client
 const sinch = new SinchClient(credentials);
+const numbersService: NumbersService = sinch.numbers;
 
+// Build the request data
 const requestData: GetAvailableNumberRequestData = {
   phoneNumber: '+17813334444',
 };
 
-// Access the 'numbers' domain registered on the Sinch Client
+// Use the 'numbers' service registered on the Sinch client
 const availabilityResult: AvailableNumber 
-    = await sinch.numbers.availableNumber.checkAvailability(requestData);
+    = await numbersService.availableNumber.checkAvailability(requestData);
 ```
 
 ### Standalone
@@ -72,7 +76,7 @@ import {
 import { 
   AvailableNumber,
   GetAvailableNumberRequestData,
-  Numbers,
+  NumbersService,
 } from '@sinch/numbers';
 
 const credentials: UnifiedCredentials = {
@@ -81,16 +85,17 @@ const credentials: UnifiedCredentials = {
   keySecret: 'KEY_SECRET',
 };
 
-// Declare the 'numbers' controller in a standalone way
-const numbers = new Numbers(credentials);
+// Declare the 'numbers' service in a standalone way
+const numbersService = new NumbersService(credentials);
 
+// Build the request data
 const requestData: GetAvailableNumberRequestData = {
   phoneNumber: '+17813334444',
 };
 
-// Use the standalone declaration of the 'numbers' controller
+// Use the standalone declaration of the 'numbers' service
 const availabilityResult: AvailableNumber 
-    = await numbers.availableNumber.checkAvailability(requestData);
+    = await numbersService.availableNumber.checkAvailability(requestData);
 ```
 
 ## Promises
@@ -101,14 +106,14 @@ All the methods that interact with the Sinch APIs use Promises. You can use `awa
 // Method 1: Wait for the Promise to complete (you need to be in an 'async' method)
 let availabilityResult: AvailableNumber;
 try {
-  availabilityResult = await sinch.numbers.availableNumber.checkAvailability(requestData);
+  availabilityResult = await numbersService.availableNumber.checkAvailability(requestData);
   console.log(`Phone number: ${availabilityResult.phoneNumber} - Type: ${availabilityResult.type}`);
 } catch (error: any) {
   console.error(`ERROR ${error.statusCode}: the phone number ${requestData.phoneNumber} is not available`);
 }
 
 // Method 2: Resolve the promise
-sinch.numbers.availableNumber.checkAvailability(requestData)
+numbersService.availableNumber.checkAvailability(requestData)
   .then(response => console.log(`Phone number: ${response.phoneNumber} - Type: ${response.type}`))
   .catch(error => console.error(`ERROR ${error.statusCode}: the phone number ${requestData.phoneNumber} is not available`));
 ```

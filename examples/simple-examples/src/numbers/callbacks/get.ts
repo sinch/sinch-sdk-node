@@ -1,5 +1,5 @@
 import { GetCallbackConfigurationRequestData } from '@sinch/sdk-core';
-import { getPrintFormat, initClient, printFullResponse } from '../../config';
+import { getPrintFormat, initNumbersService, printFullResponse } from '../../config';
 
 (async () => {
   console.log('****************************');
@@ -8,8 +8,8 @@ import { getPrintFormat, initClient, printFullResponse } from '../../config';
 
   const requestData: GetCallbackConfigurationRequestData = {};
 
-  const sinchClient = initClient();
-  const response = await sinchClient.numbers.callbacks.get(requestData);
+  const numbersService = initNumbersService();
+  const response = await numbersService.callbacks.get(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

@@ -1,4 +1,8 @@
-import { getApplicationKeyFromConfig, getPhoneNumberFromConfig, initApplicationClient } from '../../config';
+import {
+  getApplicationKeyFromConfig,
+  getPhoneNumberFromConfig,
+  initVoiceService,
+} from '../../config';
 import { AssignNumbersRequestData } from '@sinch/sdk-core';
 
 (async () => {
@@ -17,9 +21,9 @@ import { AssignNumbersRequestData } from '@sinch/sdk-core';
     },
   };
 
-  const sinchClient = initApplicationClient();
+  const voiceService = initVoiceService();
   try {
-    await sinchClient.voice.applications.assignNumbers(requestData);
+    await voiceService.applications.assignNumbers(requestData);
   } catch (error) {
     console.log(`Impossible to assign the numbers '${requestData.assignNumbersRequestBody?.numbers}' to the application '${requestData.assignNumbersRequestBody?.applicationkey}'`);
     throw error;
