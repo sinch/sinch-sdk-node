@@ -72,13 +72,13 @@ export interface SendSMSRequestData {
   /** Default schema is Text if type is not specified. */
   'sendSMSRequestBody'?: SendSMSRequest;
 }
-export interface SendTextMessageRequestData {
+export interface SendTextSMSRequestData {
   'sendSMSRequestBody'?: TextRequest;
 }
-export interface SendBinaryMessageRequestData {
+export interface SendBinarySMSRequestData {
   'sendSMSRequestBody'?: BinaryRequest;
 }
-export interface SendMediaMessageRequestData {
+export interface SendMediaSMSRequestData {
   'sendSMSRequestBody'?: MediaRequest;
 }
 export interface UpdateBatchMessageRequestData {
@@ -333,9 +333,9 @@ export class BatchesApi extends SmsDomainApi {
    * Any groups targeted in a scheduled batch will be evaluated at the time of sending.
    * If a group is deleted between batch creation and scheduled date, it will be considered empty.
    * Be sure to use the correct region in the server URL.
-   * @param { SendTextMessageRequestData } data - The data to provide to the API call.
+   * @param { SendTextSMSRequestData } data - The data to provide to the API call.
    */
-  public async sendTextMessage(data: SendTextMessageRequestData): Promise<TextResponse> {
+  public async sendTextMessage(data: SendTextSMSRequestData): Promise<TextResponse> {
     const response = await this.send(data);
     return response as TextResponse;
   }
@@ -347,9 +347,9 @@ export class BatchesApi extends SmsDomainApi {
    * Any groups targeted in a scheduled batch will be evaluated at the time of sending.
    * If a group is deleted between batch creation and scheduled date, it will be considered empty.
    * Be sure to use the correct region in the server URL.
-   * @param { SendBinaryMessageRequestData } data - The data to provide to the API call.
+   * @param { SendBinarySMSRequestData } data - The data to provide to the API call.
    */
-  public async sendBinaryMessage(data: SendBinaryMessageRequestData): Promise<BinaryResponse> {
+  public async sendBinaryMessage(data: SendBinarySMSRequestData): Promise<BinaryResponse> {
     const response = await this.send(data);
     return response as BinaryResponse;
   }
@@ -361,9 +361,9 @@ export class BatchesApi extends SmsDomainApi {
    * Any groups targeted in a scheduled batch will be evaluated at the time of sending.
    * If a group is deleted between batch creation and scheduled date, it will be considered empty.
    * Be sure to use the correct region in the server URL.
-   * @param { SendMediaMessageRequestData } data - The data to provide to the API call.
+   * @param { SendMediaSMSRequestData } data - The data to provide to the API call.
    */
-  public async sendMediaMessage(data: SendMediaMessageRequestData): Promise<MediaResponse> {
+  public async sendMediaMessage(data: SendMediaSMSRequestData): Promise<MediaResponse> {
     const response = await this.send(data);
     return response as MediaResponse;
   }

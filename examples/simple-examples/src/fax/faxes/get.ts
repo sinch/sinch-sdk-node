@@ -1,5 +1,5 @@
 import { GetFaxRequestData } from '@sinch/sdk-core';
-import { getFaxIdFromConfig, getPrintFormat, initClient, printFullResponse } from '../../config';
+import { getFaxIdFromConfig, getPrintFormat, initFaxService, printFullResponse } from '../../config';
 
 (async () => {
   console.log('*******************');
@@ -12,8 +12,8 @@ import { getFaxIdFromConfig, getPrintFormat, initClient, printFullResponse } fro
     id: faxId,
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.fax.faxes.get(requestData);
+  const faxService = initFaxService();
+  const response = await faxService.faxes.get(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

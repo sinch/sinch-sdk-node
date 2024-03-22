@@ -1,5 +1,10 @@
 import { GetAppRequestData } from '@sinch/sdk-core';
-import { getAppIdFromConfig, getPrintFormat, initClient, printFullResponse } from '../../config';
+import {
+  getAppIdFromConfig,
+  getPrintFormat,
+  initConversationService,
+  printFullResponse,
+} from '../../config';
 
 (async () => {
   console.log('**************');
@@ -12,8 +17,8 @@ import { getAppIdFromConfig, getPrintFormat, initClient, printFullResponse } fro
     app_id: appId,
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.app.get(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.app.get(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

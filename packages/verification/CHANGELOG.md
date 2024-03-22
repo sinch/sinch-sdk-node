@@ -1,4 +1,11 @@
+## Version 0.0.4
+- [Tech] Update dependency `@sinch/sdk-client` to `0.0.4`
+
+## Version 0.0.3
+- [Tech] Update dependency `@sinch/sdk-client` to `0.0.3`
+
 ## Version 0.0.2
+- [Tech] Update dependency `@sinch/sdk-client` to `0.0.2`
 
 **Breaking changes**
  - Removal of the method `verifications.start()`, replaced by the methods:
@@ -19,10 +26,11 @@
    - Move the header validation to the domain with the method `validateAuthenticationHeader`
 
 ## Version 0.0.1
-
- - Update dependency to @sinch/sdk-client to `0.0.1`
- - Add the method `parseVerificationEventNotification` to call when receiving a callback event to transform it into the correct type
+ - [Tech] Update dependency `@sinch/sdk-client` to `0.0.1`
+ - [Feature] Add the method `parseVerificationEventNotification` to call when receiving a callback event to transform it into the correct type
 
 # Version 0.0.0
-
-- Initial version
+- Initial version. Support for:
+  - start verification
+  - report verification
+  - get verification status

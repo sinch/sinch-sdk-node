@@ -1,4 +1,9 @@
-import { getPhoneNumberFromConfig, getPrintFormat, initClient, printFullResponse } from '../../config';
+import {
+  getPhoneNumberFromConfig,
+  getPrintFormat,
+  initNumbersService,
+  printFullResponse,
+} from '../../config';
 import { ReleaseNumberRequestData } from '@sinch/sdk-core';
 
 (async () => {
@@ -12,8 +17,8 @@ import { ReleaseNumberRequestData } from '@sinch/sdk-core';
     phoneNumber,
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.numbers.activeNumber.release(requestData);
+  const numbersService = initNumbersService();
+  const response = await numbersService.activeNumber.release(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

@@ -1,6 +1,6 @@
 import {
   getCallIdFromConfig,
-  initApplicationClient,
+  initVoiceService,
 } from '../../config';
 import { UpdateCallRequestData, VoiceRegion } from '@sinch/sdk-core';
 
@@ -38,10 +38,10 @@ import { UpdateCallRequestData, VoiceRegion } from '@sinch/sdk-core';
     },
   };
 
-  const sinchClient = initApplicationClient();
-  sinchClient.voice.setRegion(VoiceRegion.EUROPE);
+  const voiceService = initVoiceService();
+  voiceService.setRegion(VoiceRegion.EUROPE);
   try {
-    await sinchClient.voice.calls.update(requestData);
+    await voiceService.calls.update(requestData);
   } catch (error) {
     console.log(`Impossible update the call Id '${requestData.callId}'`);
     throw error;

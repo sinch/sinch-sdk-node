@@ -1,5 +1,5 @@
 import { DeleteTemplateRequestData } from '@sinch/sdk-core';
-import { getTemplateIdFromConfig, initClient, printFullResponse } from '../../config';
+import { getTemplateIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
   console.log('****************************');
@@ -12,8 +12,8 @@ import { getTemplateIdFromConfig, initClient, printFullResponse } from '../../co
     template_id: templateId,
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.templatesV1.delete(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.templatesV1.delete(requestData);
 
   printFullResponse(response);
 

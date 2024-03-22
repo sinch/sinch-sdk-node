@@ -1,5 +1,5 @@
 import { DeleteEventRequestData } from '@sinch/sdk-core';
-import { getEventIdFromConfig, initClient, printFullResponse } from '../../config';
+import { getEventIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 
 (async () => {
@@ -13,8 +13,8 @@ import { getEventIdFromConfig, initClient, printFullResponse } from '../../confi
     event_id: eventId,
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.events.delete(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.events.delete(requestData);
 
   printFullResponse(response);
 

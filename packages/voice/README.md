@@ -41,15 +41,20 @@ import {
   TtsCalloutRequestData,
   GetCalloutResponseObj,
   SinchClient,
-  ApplicationCredentials,
+  ApplicationCredentials, 
+  VoiceService,
 } from '@sinch/sdk-core';
 
 const credentials: ApplicationCredentials = {
   applicationKey: 'APPLICATION_ID',
   applicationSecret: 'APPLICATION_SECRET',
 };
-const sinch = new SinchClient(credentials);
 
+// Access the 'voice' service registered on the Sinch Client
+const sinch = new SinchClient(credentials);
+const voiceService: VoiceService = sinch.voice;
+
+// Build the request data
 const requestData: TtsCalloutRequestData = {
   ttsCalloutRequestBody: {
     method: 'ttsCallout',
@@ -65,9 +70,9 @@ const requestData: TtsCalloutRequestData = {
   },
 };
 
-// Access the 'voice' controller registered on the Sinch Client
-const calloutResponse: GetCalloutResponseObj 
-    = await sinch.voice.callouts.tts(requestData);
+// Use the 'voice' service registered on the Sinch client
+const calloutResponse: GetCalloutResponseObj
+  = await voiceService.callouts.tts(requestData);
 ```
 
 ### Standalone
@@ -81,7 +86,7 @@ import {
 import {
   TtsCalloutRequestData,
   GetCalloutResponseObj,
-  Voice,
+  VoiceService,
 } from '@sinch/voice';
 
 const credentials: ApplicationCredentials = {
@@ -89,9 +94,10 @@ const credentials: ApplicationCredentials = {
   applicationSecret: 'APPLICATION_SECRET',
 };
 
-// Declare the 'voice' controller in a standalone way
-const voice = new Voice(credentials);
+// Declare the 'voice' service in a standalone way
+const voiceService = new VoiceService(credentials);
 
+// Build the request data
 const requestData: TtsCalloutRequestData = {
   ttsCalloutRequestBody: {
     method: 'ttsCallout',
@@ -107,9 +113,9 @@ const requestData: TtsCalloutRequestData = {
   },
 };
 
-// Use the standalone declaration of the 'voice' controller
+// Use the standalone declaration of the 'voice' service
 const calloutResponse: GetCalloutResponseObj
-  = await voice.callouts.tts(requestData);
+  = await voiceService.callouts.tts(requestData);
 ```
 
 ## Promises
@@ -120,14 +126,14 @@ All the methods that interact with the Sinch APIs use Promises. You can use `awa
 // Method 1: Wait for the Promise to complete (you need to be in an 'async' method)
 let calloutResponse: GetCalloutResponseObj;
 try {
-  calloutResponse = await sinch.voice.callouts.tts(requestData);
+  calloutResponse = await voiceService.callouts.tts(requestData);
   console.log(`callId = ${calloutResponse.callId}`);
 } catch (error: any) {
   console.error(`ERROR ${error.statusCode}: Impossible to make a TTS callout to the number ${requestData.ttsCalloutRequestBody.ttsCallout.destination.endpoint}`);
 }
 
 // Method 2: Resolve the promise
-sinch.voice.callouts.tts(requestData)
+voiceService.callouts.tts(requestData)
   .then(response => console.log(`callId = ${response.callId}`))
   .catch(error => console.error(`ERROR ${error.statusCode}: Impossible to make a TTS call out to the number ${requestData.ttsCalloutRequestBody.ttsCallout.destination.endpoint}`));
 ```

@@ -3,7 +3,7 @@ import {
   getAppIdFromConfig,
   getContactIdFromConfig,
   getPrintFormat,
-  initClient,
+  initConversationService,
   printFullResponse,
 } from '../../config';
 
@@ -31,8 +31,8 @@ import {
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.conversation.create(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.conversation.create(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

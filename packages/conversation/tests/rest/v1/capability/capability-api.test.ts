@@ -1,6 +1,14 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
-import { LookupCapabilityRequestData, QueryCapabilityResponse } from '../../../../src';
+import {
+  ContactId,
+  IdentifiedBy,
+  LookupCapabilityRequest,
+  LookupCapabilityRequestData,
+  LookupCapabilityResponse,
+  Recipient,
+} from '../../../../src';
 import { CapabilityApi, CapabilityApiFixture } from '../../../../src';
+import { recipientChannelIdentities, recipientContactId } from '../mocks';
 
 describe('CapabilityApi', () => {
   let capabilityApi: CapabilityApi;
@@ -19,35 +27,40 @@ describe('CapabilityApi', () => {
 
 
   describe ('queryCapability', () => {
-    it('should make a POST request to ...', async () => {
-      // Given
-      const requestData: LookupCapabilityRequestData = {
-        lookupCapabilityRequestBody: {
-          app_id: 'app_id',
-          recipient: {
-            identified_by: {
-              channel_identities: [
-                {
-                  identity: 'Whatsapp identity',
-                  channel: 'WHATSAPP',
-                },
-              ],
-            },
-          },
-        },
-      };
-      const expectedResponse: QueryCapabilityResponse = {
-        app_id: 'app_id',
-      };
+    // Given
+    const lookupCapabilityRequest: Omit<LookupCapabilityRequest<Recipient>, 'recipient'> = {
+      app_id: 'app_id',
+    };
+    const requestDataWithContactId: LookupCapabilityRequestData<ContactId> = {
+      lookupCapabilityRequestBody: {
+        ...lookupCapabilityRequest,
+        ...recipientContactId,
+      },
+    };
+    const requestDataWithChannelIdentity: LookupCapabilityRequestData<IdentifiedBy> = {
+      lookupCapabilityRequestBody: {
+        ...lookupCapabilityRequest,
+        ...recipientChannelIdentities,
+      },
+    };
+    const expectedResponse: LookupCapabilityResponse = {
+      app_id: 'app_id',
+    };
 
-      // When
-      fixture.lookup.mockResolvedValue(expectedResponse);
-      capabilityApi.lookup = fixture.lookup;
-      const response = await capabilityApi.lookup(requestData);
+    test.each([
+      ['contact ID', requestDataWithContactId, expectedResponse],
+      ['channel identities', requestDataWithChannelIdentity, expectedResponse],
+    ])('should make a POST request to trigger a CAPABILITY event for a recipient identified by its %s',
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      async (_identification, requestData, expectedResponse) => {
+        // When
+        fixture.lookup.mockResolvedValue(expectedResponse);
+        capabilityApi.lookup = fixture.lookup;
+        const response = await capabilityApi.lookup(requestData);
 
-      // Then
-      expect(response).toEqual(expectedResponse);
-      expect(fixture.lookup).toHaveBeenCalledWith(requestData);
-    });
+        // Then
+        expect(response).toEqual(expectedResponse);
+        expect(fixture.lookup).toHaveBeenCalledWith(requestData);
+      });
   });
 });

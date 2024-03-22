@@ -3,7 +3,7 @@ import {
   getAppIdFromConfig, getContactIdFromConfig,
   getConversationIdFromConfig,
   getMessengerUserIdFromConfig,
-  initClient,
+  initConversationService,
   printFullResponse,
 } from '../../config';
 
@@ -37,8 +37,8 @@ import {
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.conversation.injectMessage(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.conversation.injectMessage(requestData);
 
   printFullResponse(response);
 

@@ -2,7 +2,7 @@ import { VerificationStatusByReferenceRequestData } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getVerificationReferenceFromConfig,
-  initApplicationClient,
+  initVerificationService,
   printFullResponse,
 } from '../../config';
 
@@ -17,8 +17,8 @@ import {
     reference: verificationReference,
   };
 
-  const sinchClient = initApplicationClient();
-  const response = await sinchClient.verification.verificationStatus.getByReference(requestData);
+  const verificationService = initVerificationService();
+  const response = await verificationService.verificationStatus.getByReference(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

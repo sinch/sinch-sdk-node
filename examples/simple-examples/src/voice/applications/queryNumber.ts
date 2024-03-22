@@ -1,4 +1,9 @@
-import { getPhoneNumberFromConfig, getPrintFormat, initApplicationClient, printFullResponse } from '../../config';
+import {
+  getPhoneNumberFromConfig,
+  getPrintFormat,
+  initVoiceService,
+  printFullResponse,
+} from '../../config';
 import { QueryNumberRequestData } from '@sinch/sdk-core';
 
 (async () => {
@@ -12,10 +17,10 @@ import { QueryNumberRequestData } from '@sinch/sdk-core';
     number: phoneNumber,
   };
 
-  const sinchClient = initApplicationClient();
+  const voiceService = initVoiceService();
   let response;
   try {
-    response = await sinchClient.voice.applications.queryNumber(requestData);
+    response = await voiceService.applications.queryNumber(requestData);
   } catch (error) {
     console.log(`Impossible to get information about the number ${requestData.number}`);
     throw error;

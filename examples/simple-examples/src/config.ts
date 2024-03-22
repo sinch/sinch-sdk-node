@@ -1,24 +1,62 @@
-import { getRegion, SinchClient, Region } from '@sinch/sdk-core';
+import {
+  getRegion,
+  SinchClient,
+  Region,
+  ConversationService,
+  FaxService,
+  NumbersService,
+  SmsService,
+  VerificationService,
+  VoiceService,
+} from '@sinch/sdk-core';
 require('dotenv').config();
 
-export const initClient = () => {
+const initClient = (): Pick<SinchClient, 'conversation' | 'fax' | 'numbers' | 'sms'> => {
   const keyId = process.env.SINCH_KEY_ID || '';
   const keySecret = process.env.SINCH_KEY_SECRET || '';
   const projectId = process.env.SINCH_PROJECT_ID || '';
   return new SinchClient({ projectId, keyId, keySecret });
 };
 
-export const initSmsClient = () => {
+export const initConversationService = (): ConversationService => {
+  return initClient().conversation;
+};
+
+export const initFaxService = (): FaxService => {
+  return initClient().fax;
+};
+
+export const initNumbersService = (): NumbersService => {
+  return initClient().numbers;
+};
+
+export const initSmsServiceWithProjectId = (): SmsService => {
+  return initClient().sms;
+};
+
+const initSmsClient = (): Pick<SinchClient, 'sms'> => {
   const servicePlanId = process.env.SINCH_SERVICE_PLAN_ID || '';
   const apiToken = process.env.SINCH_API_TOKEN || '';
   const region = getRegion(process.env.SMS_REGION) || Region.UNITED_STATES;
   return new SinchClient({ servicePlanId, apiToken, region });
 };
 
-export const initApplicationClient = () => {
+export const initSmsServiceWithServicePlanId = (): SmsService => {
+  return initSmsClient().sms;
+};
+
+const initApplicationClient = (): Pick<SinchClient, 'verification' | 'voice'> => {
   const applicationKey = process.env.SINCH_APPLICATION_KEY || '';
   const applicationSecret = process.env.SINCH_APPLICATION_SECRET || '';
   return new SinchClient({ applicationKey, applicationSecret });
+};
+
+export const initVerificationService = (): VerificationService => {
+  return initApplicationClient().verification;
+};
+
+export const initVoiceService = (): VoiceService => {
+  return initApplicationClient().voice;
 };
 
 export const getPrintFormat = (args: string[]): 'pretty' | 'full' => {

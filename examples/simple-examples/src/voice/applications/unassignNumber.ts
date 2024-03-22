@@ -1,4 +1,8 @@
-import { getApplicationKeyFromConfig, getPhoneNumberFromConfig, initApplicationClient } from '../../config';
+import {
+  getApplicationKeyFromConfig,
+  getPhoneNumberFromConfig,
+  initVoiceService,
+} from '../../config';
 import { UnassignNumberRequestData } from '@sinch/sdk-core';
 
 (async () => {
@@ -17,9 +21,9 @@ import { UnassignNumberRequestData } from '@sinch/sdk-core';
     },
   };
 
-  const sinchClient = initApplicationClient();
+  const voiceService = initVoiceService();
   try {
-    await sinchClient.voice.applications.unassignNumber(requestData);
+    await voiceService.applications.unassignNumber(requestData);
   } catch (error) {
     console.log(`Impossible to unassign the number '${requestData.unassignNumbersRequestBody?.number}' from the application '${requestData.unassignNumbersRequestBody?.applicationkey}'`);
     throw error;

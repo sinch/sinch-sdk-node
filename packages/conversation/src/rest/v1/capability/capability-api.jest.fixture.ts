@@ -1,11 +1,15 @@
-import { QueryCapabilityResponse } from '../../../models';
+import { LookupCapabilityResponse, Recipient } from '../../../models';
 import { CapabilityApi, LookupCapabilityRequestData } from './capability-api';
 
 export class CapabilityApiFixture implements Partial<Readonly<CapabilityApi>> {
 
   /**
-   * Fixture associated to function lookup
+   * Fixture associated to function lookupForContactId
    */
-  public lookup: jest.Mock<Promise<QueryCapabilityResponse>, [LookupCapabilityRequestData]> = jest.fn();
+  public lookup: jest.Mock<
+    Promise<LookupCapabilityResponse>,
+    [LookupCapabilityRequestData<Recipient>]
+  > = jest.fn();
+
 }
 

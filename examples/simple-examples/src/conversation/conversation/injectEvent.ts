@@ -2,7 +2,7 @@ import { InjectEventRequestData } from '@sinch/sdk-core';
 import {
   getContactIdFromConfig,
   getConversationIdFromConfig,
-  initClient,
+  initConversationService,
   printFullResponse,
 } from '../../config';
 
@@ -27,8 +27,8 @@ import {
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.conversation.injectEvent(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.conversation.injectEvent(requestData);
 
   printFullResponse(response);
 

@@ -1,7 +1,7 @@
 import {
   getNumberCallbackUrlFromConfig,
   getPrintFormat,
-  initClient,
+  initNumbersService,
   printFullResponse,
   readApplicationKey,
   readServicePlanId,
@@ -47,8 +47,8 @@ import {
     rentAnyNumberRequestBody: rentAnyNumberRequest,
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.numbers.availableNumber.rentAny(requestData);
+  const numbersService = initNumbersService();
+  const response = await numbersService.availableNumber.rentAny(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

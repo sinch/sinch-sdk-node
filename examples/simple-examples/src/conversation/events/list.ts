@@ -3,7 +3,7 @@ import {
   getContactIdFromConfig,
   getConversationIdFromConfig,
   getPrintFormat,
-  initClient,
+  initConversationService,
   printFullResponse,
 } from '../../config';
 
@@ -31,12 +31,12 @@ const populateEventsList = (
     conversation_id: conversationId,
   };
 
-  const sinchClient = initClient();
+  const conversationService = initConversationService();
 
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response = await sinchClient.conversation.events.list(requestData);
+  let response = await conversationService.events.list(requestData);
 
   const eventsList: ConversationEvent[] = [];
   const eventsDetailsList: string[] = [];
@@ -65,7 +65,7 @@ const populateEventsList = (
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const event of sinchClient.conversation.events.list(requestData)) {
+  for await (const event of conversationService.events.list(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`${event.id} - ${event.accept_time}`);
     } else {

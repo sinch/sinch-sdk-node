@@ -3,7 +3,7 @@ import {
   getFaxServiceIdFromConfig,
   getPhoneNumberFromConfig,
   getPrintFormat,
-  initClient,
+  initFaxService,
   printFullResponse,
 } from '../../config';
 
@@ -21,12 +21,12 @@ import {
     pageSize: 2,
   };
 
-  const sinchClient = initClient();
+  const faxService = initFaxService();
 
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response = await sinchClient.fax.services.listEmailsForNumber(requestData);
+  let response = await faxService.services.listEmailsForNumber(requestData);
 
   // Init data structure to hold the response content
   const emailsList: string[] = [];
@@ -55,7 +55,7 @@ import {
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const email of sinchClient.fax.services.listEmailsForNumber(requestData)) {
+  for await (const email of faxService.services.listEmailsForNumber(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`Email: '${email}'`);
     } else {

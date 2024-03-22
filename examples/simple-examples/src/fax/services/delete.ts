@@ -1,5 +1,5 @@
 import { DeleteServiceRequestData } from '@sinch/sdk-core';
-import { getFaxServiceIdFromConfig, initClient } from '../../config';
+import { getFaxServiceIdFromConfig, initFaxService } from '../../config';
 
 (async () => {
   console.log('*****************');
@@ -12,8 +12,8 @@ import { getFaxServiceIdFromConfig, initClient } from '../../config';
     serviceId,
   };
 
-  const sinchClient = initClient();
-  await sinchClient.fax.services.delete(requestData);
+  const faxService = initFaxService();
+  await faxService.services.delete(requestData);
 
   console.log(`The service with the id '${requestData.serviceId}' has been successfully removed`);
 })();

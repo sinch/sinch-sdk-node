@@ -1,5 +1,5 @@
 import { Email, ListEmailsForProjectRequestData, PageResult } from '@sinch/sdk-core';
-import { getPrintFormat, initClient, printFullResponse } from '../../config';
+import { getPrintFormat, initFaxService, printFullResponse } from '../../config';
 
 const populateEmailsList = (
   emailsPage: PageResult<Email>,
@@ -21,12 +21,12 @@ const populateEmailsList = (
     pageSize: 2,
   };
 
-  const sinchClient = initClient();
+  const faxService = initFaxService();
 
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response = await sinchClient.fax.emails.list(requestData);
+  let response = await faxService.emails.list(requestData);
 
   // Init data structure to hold the response content
   const fullEmailsList: Email[] = [];
@@ -57,7 +57,7 @@ const populateEmailsList = (
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const email of sinchClient.fax.emails.list(requestData)) {
+  for await (const email of faxService.emails.list(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`Email '${email.email}' - Phone numbers: '${email.phoneNumbers?.join(', ')}'`);
     } else {

@@ -2,7 +2,7 @@ import { verificationsHelper } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getVerificationIdentityFromConfig,
-  initApplicationClient,
+  initVerificationService,
   printFullResponse,
 } from '../../../config';
 
@@ -18,8 +18,8 @@ import {
     `test-reference-for-sms-verification_${verificationIdentity}`,
   );
 
-  const sinchClient = initApplicationClient();
-  const response = await sinchClient.verification.verifications.startSms(requestData);
+  const verificationService = initVerificationService();
+  const response = await verificationService.verifications.startSms(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

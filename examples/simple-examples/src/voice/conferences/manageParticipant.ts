@@ -1,7 +1,7 @@
 import {
   getCallIdFromConfig,
   getConferenceIdFromConfig,
-  initApplicationClient,
+  initVoiceService,
 } from '../../config';
 import { ManageParticipantRequestData, VoiceRegion } from '@sinch/sdk-core';
 
@@ -22,10 +22,10 @@ import { ManageParticipantRequestData, VoiceRegion } from '@sinch/sdk-core';
     },
   };
 
-  const sinchClient = initApplicationClient();
-  sinchClient.voice.setRegion(VoiceRegion.EUROPE);
+  const voiceService = initVoiceService();
+  voiceService.setRegion(VoiceRegion.EUROPE);
   try {
-    await sinchClient.voice.conferences.manageParticipant(requestData);
+    await voiceService.conferences.manageParticipant(requestData);
   } catch (error) {
     console.log(`Impossible manage the participant '${requestData.callId}' with conference id '${requestData.conferenceId}'`);
     throw error;

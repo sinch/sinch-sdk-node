@@ -36,19 +36,24 @@ The `Verification` API uses the Application Signed Request to authenticate again
 If you are using this SDK as part of the Sinch SDK (`@sinch/sdk-core`) you can access it as the `verification` property of the client that you would have instantiated.
 
 ```typescript
-import { 
+import {
   InitiateVerificationResponse,
   StartVerificationRequestData,
   SinchClient,
-  ApplicationCredentials,
+  ApplicationCredentials, 
+  VerificationService,
 } from '@sinch/sdk-core';
 
 const credentials: ApplicationCredentials = {
   applicationKey: 'APPLICATION_ID',
   applicationSecret: 'APPLICATION_SECRET',
 };
-const sinch = new SinchClient(credentials);
 
+// Access the 'verification' service registered on the Sinch Client
+const sinch = new SinchClient(credentials);
+const verificationService: VerificationService = sinch.verification;
+
+// Build the request data
 const requestData: StartVerificationRequestData = {
   initiateVerificationRequestBody: {
     identity: {
@@ -59,9 +64,9 @@ const requestData: StartVerificationRequestData = {
   },
 };
 
-// Access the 'verification' controller registered on the Sinch Client
-const verificationInitResponse: InitiateVerificationResponse 
-    = await sinch.verification.verifications.start(requestData);
+// Use the 'verification' service registered on the Sinch client
+const verificationInitResponse: InitiateVerificationResponse
+  = await verificationService.verifications.start(requestData);
 ```
 
 ### Standalone
@@ -75,7 +80,7 @@ import {
 import { 
   InitiateVerificationResponse,
   StartVerificationRequestData,
-  Verification,
+  VerificationService,
 } from '@sinch/verification';
 
 const credentials: ApplicationCredentials = {
@@ -83,9 +88,10 @@ const credentials: ApplicationCredentials = {
   applicationSecret: 'APPLICATION_SECRET',
 };
 
-// Declare the 'verification' controller in a standalone way
-const verification = new Verification(credentials);
+// Declare the 'verification' service in a standalone way
+const verificationService = new VerificationService(credentials);
 
+// Build the request data
 const requestData: StartVerificationRequestData = {
   initiateVerificationRequestBody: {
     identity: {
@@ -96,9 +102,9 @@ const requestData: StartVerificationRequestData = {
   },
 };
 
-// Use the standalone declaration of the 'verification' controller
+// Use the standalone declaration of the 'verification' service
 const verificationInitResponse: InitiateVerificationResponse 
-    = await verification.verifications.start(requestData);
+    = await verificationService.verifications.start(requestData);
 ```
 
 ## Promises
@@ -109,14 +115,14 @@ All the methods that interact with the Sinch APIs use Promises. You can use `awa
 // Method 1: Wait for the Promise to complete (you need to be in an 'async' method)
 let verificationInitResponse: InitiateVerificationResponse;
 try {
-  verificationInitResponse = await sinch.verification.verifications.start(requestData);
+  verificationInitResponse = await verificationService.verifications.start(requestData);
   console.log(`Verification ID = ${verificationInitResponse.id}`);
 } catch (error: any) {
   console.error(`ERROR ${error.statusCode}: Impossible to start the verification for the number ${requestData.initiateVerificationRequestBody.identity.endpoint}`);
 }
 
 // Method 2: Resolve the promise
-sinch.verification.verifications.start(requestData)
+verificationService.verifications.start(requestData)
   .then(response => console.log(`Verification ID = ${response.id}`))
   .catch(error => console.error(`ERROR ${error.statusCode}: Impossible to start the verification for the number ${requestData.initiateVerificationRequestBody.identity.endpoint}`));
 ```

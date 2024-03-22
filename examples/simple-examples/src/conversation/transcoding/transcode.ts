@@ -1,5 +1,5 @@
-import { ConversationChannel, TranscodeMessageRequestData } from '@sinch/sdk-core';
-import { getAppIdFromConfig, getPrintFormat, initClient, printFullResponse } from '../../config';
+import { TranscodeMessageRequestData } from '@sinch/sdk-core';
+import { getAppIdFromConfig, getPrintFormat, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
   console.log('********************************');
@@ -29,8 +29,8 @@ import { getAppIdFromConfig, getPrintFormat, initClient, printFullResponse } fro
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.transcoding.transcodeMessage(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.transcoding.transcodeMessage(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

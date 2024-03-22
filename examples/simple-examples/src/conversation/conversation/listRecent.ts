@@ -3,7 +3,7 @@ import {
   ListRecentConversationsRequestData,
   PageResult,
 } from '@sinch/sdk-core';
-import { getAppIdFromConfig, getPrintFormat, initClient, printFullResponse } from '../../config';
+import { getAppIdFromConfig, getPrintFormat, initConversationService, printFullResponse } from '../../config';
 
 const populateConversationsList = (
   conversationPage: PageResult<ConversationRecentMessage>,
@@ -29,12 +29,12 @@ const populateConversationsList = (
     order: 'ASC',
   };
 
-  const sinchClient = initClient();
+  const conversationService = initConversationService();
 
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response = await sinchClient.conversation.conversation.listRecent(requestData);
+  let response = await conversationService.conversation.listRecent(requestData);
 
   const conversationList: ConversationRecentMessage[] = [];
   const conversationDetailsList: string[] = [];
@@ -63,7 +63,7 @@ const populateConversationsList = (
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const recentConversation of sinchClient.conversation.conversation.listRecent(requestData)) {
+  for await (const recentConversation of conversationService.conversation.listRecent(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`${recentConversation.conversation?.id} - ${recentConversation.conversation?.active_channel}\n - Latest message: ${recentConversation.last_message?.accept_time}`);
     } else {

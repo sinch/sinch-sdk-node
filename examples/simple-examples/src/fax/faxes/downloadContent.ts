@@ -1,5 +1,5 @@
 import { DownloadFaxContentRequestData } from '@sinch/sdk-core';
-import { getFaxIdFromConfig, initClient } from '../../config';
+import { getFaxIdFromConfig, initFaxService } from '../../config';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -15,8 +15,8 @@ import * as path from 'path';
     fileFormat: 'pdf',
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.fax.faxes.downloadContent(requestData);
+  const faxService = initFaxService();
+  const response = await faxService.faxes.downloadContent(requestData);
 
   const filePath = path.join('./fax-pdf', response.fileName);
   fs.writeFileSync(filePath, response.buffer);

@@ -1,6 +1,6 @@
 {
   "name": "@sinch/sdk-client",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Core services related to interacting with Sinch API",
   "homepage": "",
   "repository": {
@@ -29,7 +29,8 @@
     "compile": "tsc -p tsconfig.build.json && tsc -p tsconfig.tests.json && rimraf dist/tests tsconfig.build.tsbuildinfo"
   },
   "dependencies": {
-    "node-fetch": "2.7.0"
+    "node-fetch": "2.7.0",
+    "form-data": "^4.0.0"
   },
   "devDependencies": {
     "@types/node-fetch": "^2.6.6",

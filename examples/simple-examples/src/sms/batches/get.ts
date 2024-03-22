@@ -1,4 +1,9 @@
-import { getPrintFormat, getBatchIdFromConfig, initSmsClient, printFullResponse } from '../../config';
+import {
+  getPrintFormat,
+  getBatchIdFromConfig,
+  printFullResponse,
+  initSmsServiceWithServicePlanId,
+} from '../../config';
 import { GetBatchMessageRequestData } from '@sinch/sdk-core';
 
 (async () => {
@@ -12,10 +17,10 @@ import { GetBatchMessageRequestData } from '@sinch/sdk-core';
     batch_id: batchId,
   };
 
-  const sinchClient = initSmsClient();
+  const smsService = initSmsServiceWithServicePlanId();
   let response;
   try {
-    response = await sinchClient.sms.batches.get(requestData);
+    response = await smsService.batches.get(requestData);
   } catch (error) {
     console.error(`ERROR: Impossible to retrieve the batch ${requestData.batch_id}`);
     throw error;

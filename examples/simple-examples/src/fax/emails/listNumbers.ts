@@ -3,7 +3,7 @@ import {
   PageResult,
   ServicePhoneNumber,
 } from '@sinch/sdk-core';
-import { getFaxEmailFromConfig, getPrintFormat, initClient, printFullResponse } from '../../config';
+import { getFaxEmailFromConfig, getPrintFormat, initFaxService, printFullResponse } from '../../config';
 
 const populateServiceNumbersList = (
   serviceNumbersPage: PageResult<ServicePhoneNumber>,
@@ -28,12 +28,12 @@ const populateServiceNumbersList = (
     pageSize: 2,
   };
 
-  const sinchClient = initClient();
+  const faxService = initFaxService();
 
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response = await sinchClient.fax.emails.listNumbers(requestData);
+  let response = await faxService.emails.listNumbers(requestData);
 
   // Init data structure to hold the response content
   const fullServiceNumbersList: ServicePhoneNumber[] = [];
@@ -64,7 +64,7 @@ const populateServiceNumbersList = (
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const number of sinchClient.fax.emails.listNumbers(requestData)) {
+  for await (const number of faxService.emails.listNumbers(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`Phone numbers: '${number.phoneNumber}'`);
     } else {
