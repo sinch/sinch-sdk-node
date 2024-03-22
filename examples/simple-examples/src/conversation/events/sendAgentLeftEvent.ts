@@ -1,4 +1,4 @@
-import { ContactId, SendEventRequestData } from '@sinch/sdk-core';
+import { ContactId, SendAgentLeftEventRequestData } from '@sinch/sdk-core';
 import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullResponse } from '../../config';
 
 (async () => {
@@ -9,16 +9,17 @@ import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullRespon
   const appId = getAppIdFromConfig();
   const contactId = getContactIdFromConfig();
 
-  const requestData: SendEventRequestData<ContactId> = {
+  const requestData: SendAgentLeftEventRequestData<ContactId> = {
     sendEventRequestBody: {
       app_id: appId,
       recipient: {
         contact_id: contactId,
       },
       event: {
-        generic_event: {
-          payload: {
-            key: 'value for the generic event',
+        agent_left_event: {
+          agent: {
+            display_name: 'Agent bot name',
+            type: 'BOT',
           },
         },
       },
@@ -26,7 +27,7 @@ import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullRespon
   };
 
   const sinchClient = initClient();
-  const response = await sinchClient.conversation.events.send(requestData);
+  const response = await sinchClient.conversation.events.sendAgentLeftEvent(requestData);
 
   printFullResponse(response);
 

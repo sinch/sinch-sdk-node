@@ -2,6 +2,7 @@ import { TextMessage, TextMessageItem } from './text-message';
 import { CardMessage, CardMessageItem } from './card-message';
 import { CarouselMessage, CarouselMessageItem } from './carousel-message';
 import { ChoiceMessage, ChoiceMessageItem } from './choice-message';
+import { ContactInfoMessage, ContactInfoMessageItem } from './contact-info-message';
 import { LocationMessage, LocationMessageItem } from './location-message';
 import { MediaMessage, MediaMessageItem } from './media-message';
 import { TemplateMessage, TemplateMessageItem } from './template-message';
@@ -23,6 +24,11 @@ export const messageBuilder = {
     return {
       choice_message: choiceMessageItem,
     } as ChoiceMessage;
+  },
+  contactInfo: (contactInfoMessageItem: ContactInfoMessageItem): ContactInfoMessage => {
+    return {
+      contact_info_message: contactInfoMessageItem,
+    } as ContactInfoMessage;
   },
   list: (listMessageItem: ListMessageItem): ListMessage => {
     return {
@@ -64,6 +70,9 @@ export const templateV1Helper = {
   buildChoiceMessageContent: (choiceMessageItem: ChoiceMessageItem): string => {
     return JSON.stringify(messageBuilder.choice(choiceMessageItem));
   },
+  buildContactInfoMessageContent: (contactInfoMessageItem: ContactInfoMessageItem): string => {
+    return JSON.stringify(messageBuilder.contactInfo(contactInfoMessageItem));
+  },
   buildLocationMessageContent: (locationMessageItem: LocationMessageItem): string => {
     return JSON.stringify(messageBuilder.location(locationMessageItem));
   },
@@ -92,6 +101,9 @@ export const templateV2Helper = {
   buildChoiceMessageContent: (choiceMessageItem: ChoiceMessageItem): ChoiceMessage => {
     return messageBuilder.choice(choiceMessageItem);
   },
+  buildContactInfoMessageContent: (contactInfoMessageItem: ContactInfoMessageItem): ContactInfoMessage => {
+    return messageBuilder.contactInfo(contactInfoMessageItem);
+  },
   buildLocationMessageContent: (locationMessageItem: LocationMessageItem): LocationMessage => {
     return messageBuilder.location(locationMessageItem);
   },
@@ -105,25 +117,25 @@ export const templateV2Helper = {
     return messageBuilder.list(listMessageItem);
   },
   getMessageFromTranslation: (translation: V2TemplateTranslation) => {
-    if('text_message' in translation) {
-      return {
-        type: MessageType.TEXT,
-        content: translation.text_message,
-      };
-    } else if ('card_message' in translation) {
+    if ('card_message' in translation) {
       return {
         type: MessageType.CARD,
         content: translation.card_message,
+      };
+    } else if ('carousel_message' in translation) {
+      return {
+        type: MessageType.CAROUSEL,
+        content: translation.carousel_message,
       };
     } else if ('choice_message' in translation) {
       return {
         type: MessageType.CHOICE,
         content: translation.choice_message,
       };
-    } else if ('carousel_message' in translation) {
+    } else if ('contact_info_message' in translation) {
       return {
-        type: MessageType.CAROUSEL,
-        content: translation.carousel_message,
+        type: MessageType.CONTACT_INFO,
+        content: translation.contact_info_message,
       };
     } else if ('list_message' in translation) {
       return {
@@ -145,6 +157,11 @@ export const templateV2Helper = {
         type: MessageType.TEMPLATE,
         content: translation.template_message,
       };
+    } else if('text_message' in translation) {
+      return {
+        type: MessageType.TEXT,
+        content: translation.text_message,
+      };
     } else {
       return {
         type: MessageType.UNDEFINED,
@@ -163,8 +180,9 @@ export const templateV2Helper = {
 
 export const enum MessageType {
   CARD = 'CardMessage',
-  CHOICE = 'ChoiceMessage',
   CAROUSEL = 'CarouselMessage',
+  CHOICE = 'ChoiceMessage',
+  CONTACT_INFO = 'ContactInfoMessage',
   LIST = 'ListMessage',
   LOCATION = 'LocationMessage',
   MEDIA = 'MediaMessage',

@@ -1,4 +1,4 @@
-import { SendBinaryMessageRequestData, textToHex } from '@sinch/sdk-core';
+import { SendBinarySMSRequestData, textToHex } from '@sinch/sdk-core';
 import {
   getPhoneNumberFromConfig,
   getPrintFormat,
@@ -15,7 +15,7 @@ import {
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
   const senderPhoneNumber = getPhoneNumberFromConfig();
 
-  const requestData: SendBinaryMessageRequestData = {
+  const requestData: SendBinarySMSRequestData = {
     sendSMSRequestBody: {
       type: 'mt_binary',
       to: [

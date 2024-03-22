@@ -14,6 +14,7 @@ import {
   GetChannelProfileRequest,
   GetChannelProfileResponse,
   MergeContactRequest,
+  Recipient,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
 
@@ -25,9 +26,9 @@ export interface DeleteContactRequestData {
   /** The unique ID of the contact. */
   'contact_id': string;
 }
-export interface GetChannelProfileRequestData {
+export interface GetChannelProfileRequestData<T extends Recipient> {
   /**  */
-  'getChannelProfileRequestBody': GetChannelProfileRequest;
+  'getChannelProfileRequestBody': GetChannelProfileRequest<T>;
 }
 export interface GetContactRequestData {
   /** The unique ID of the contact. */
@@ -129,12 +130,14 @@ export class ContactApi extends ConversationDomainApi {
 
   /**
    * Get Channel Profile
-   * Get user profile from a specific channel. Only supported on &#x60;MESSENGER&#x60;, &#x60;INSTAGRAM&#x60;, &#x60;VIBER&#x60; and &#x60;LINE&#x60; channels. Note that, in order to retrieve a WhatsApp display name, you can use the Get a Contact or List Contacts operations, which will populate the &#x60;display_name&#x60; field of each returned contact with the WhatsApp display name (if the name is already stored on the server and the &#x60;display_name&#x60; field has not been overwritten by the user).
-   * @param { GetChannelProfileRequestData } data - The data to provide to the API call.
+   * Get user profile from a specific channel. Only supported on 'MESSENGER', 'INSTAGRAM', 'VIBER' and LINE' channels.
+   * Note that, in order to retrieve a WhatsApp display name, you can use the Get a Contact or List Contacts operations, which will populate the 'display_name' field of each returned contact with the WhatsApp display name (if the name is already stored on the server and the 'display_name' field has not been overwritten by the user).
+   * @param { GetChannelProfileRequestData<Recipient> } data - The data to provide to the API call.
    */
-  public async getChannelProfile(data: GetChannelProfileRequestData): Promise<GetChannelProfileResponse> {
+  public async getChannelProfile(data: GetChannelProfileRequestData<Recipient>): Promise<GetChannelProfileResponse> {
     this.client = this.getSinchClient();
-    const getParams = this.client.extractQueryParams<GetChannelProfileRequestData>(data, [] as never[]);
+    const getParams = this.client.extractQueryParams<GetChannelProfileRequestData<Recipient>>(
+      data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

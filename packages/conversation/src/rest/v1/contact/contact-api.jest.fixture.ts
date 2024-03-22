@@ -1,6 +1,15 @@
-import { Contact } from '../../../models';
+import { Contact, Recipient } from '../../../models';
 import { GetChannelProfileResponse } from '../../../models';
-import { ContactApi, CreateContactRequestData, DeleteContactRequestData, GetChannelProfileRequestData, GetContactRequestData, ListContactsRequestData, MergeContactRequestData, UpdateContactRequestData } from './contact-api';
+import {
+  ContactApi,
+  CreateContactRequestData,
+  DeleteContactRequestData,
+  GetChannelProfileRequestData,
+  GetContactRequestData,
+  ListContactsRequestData,
+  MergeContactRequestData,
+  UpdateContactRequestData,
+} from './contact-api';
 import { ApiListPromise } from '@sinch/sdk-client';
 
 export class ContactApiFixture implements Partial<Readonly<ContactApi>> {
@@ -16,7 +25,10 @@ export class ContactApiFixture implements Partial<Readonly<ContactApi>> {
   /**
    * Fixture associated to function getChannelProfile
    */
-  public getChannelProfile: jest.Mock<Promise<GetChannelProfileResponse>, [GetChannelProfileRequestData]> = jest.fn();
+  public getChannelProfile: jest.Mock<
+    Promise<GetChannelProfileResponse>,
+    [GetChannelProfileRequestData<Recipient>]
+  > = jest.fn();
   /**
    * Fixture associated to function get
    */

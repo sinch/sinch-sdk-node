@@ -1,10 +1,16 @@
-import { ConversationEvent, SendEventResponse } from '../../../models';
+import { ConversationEvent, Recipient, SendEventResponse } from '../../../models';
 import {
   DeleteEventRequestData,
   EventsApi,
   GetEventRequestData,
   ListEventsRequestData,
+  SendAgentJoinedEventRequestData,
+  SendAgentLeftEventRequestData,
+  SendCommentReplyEventRequestData,
+  SendComposingEndEventRequestData,
+  SendComposingEventRequestData,
   SendEventRequestData,
+  SendGenericEventRequestData,
 } from './events-api';
 import { ApiListPromise } from '@sinch/sdk-client';
 
@@ -25,6 +31,48 @@ export class EventsApiFixture implements Partial<Readonly<EventsApi>> {
   /**
    * Fixture associated to function send
    */
-  public send: jest.Mock<Promise<SendEventResponse>, [SendEventRequestData]> = jest.fn();
+  public send: jest.Mock<Promise<SendEventResponse>, [SendEventRequestData<Recipient>]> = jest.fn();
+  /**
+   * Fixture associated to function sendComposingEvent
+   */
+  public sendComposingEvent: jest.Mock<
+    Promise<SendEventResponse>,
+    [SendComposingEventRequestData<Recipient>]
+  > = jest.fn();
+  /**
+   * Fixture associated to function sendComposingEndEvent
+   */
+  public sendComposingEndEvent: jest.Mock<
+    Promise<SendEventResponse>,
+    [SendComposingEndEventRequestData<Recipient>]
+  > = jest.fn();
+  /**
+   * Fixture associated to function sendCommentReplyEvent
+   */
+  public sendCommentReplyEvent: jest.Mock<
+    Promise<SendEventResponse>,
+    [SendCommentReplyEventRequestData<Recipient>]
+  > = jest.fn();
+  /**
+   * Fixture associated to function sendAgentJoinedEvent
+   */
+  public sendAgentJoinedEvent: jest.Mock<
+    Promise<SendEventResponse>,
+    [SendAgentJoinedEventRequestData<Recipient>]
+  > = jest.fn();
+  /**
+   * Fixture associated to function sendAgentLeftEvent
+   */
+  public sendAgentLeftEvent: jest.Mock<
+    Promise<SendEventResponse>,
+    [SendAgentLeftEventRequestData<Recipient>]
+  > = jest.fn();
+  /**
+   * Fixture associated to function sendGenericEvent
+   */
+  public sendGenericEvent: jest.Mock<
+    Promise<SendEventResponse>,
+    [SendGenericEventRequestData<Recipient>]
+  > = jest.fn();
 }
 

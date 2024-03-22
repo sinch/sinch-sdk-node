@@ -1,1 +1,9 @@
-export type { SendEventRequest } from './send-event-request';
+export type {
+  SendEventRequest,
+  SendComposingEventRequest,
+  SendComposingEndEventRequest,
+  SendCommentReplyEventRequest,
+  SendAgentJoinedEventRequest,
+  SendAgentLeftEventRequest,
+  SendGenericEventRequest,
+} from './send-event-request';

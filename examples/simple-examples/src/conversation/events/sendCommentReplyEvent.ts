@@ -1,4 +1,4 @@
-import { ContactId, SendEventRequestData } from '@sinch/sdk-core';
+import { ContactId, SendCommentReplyEventRequestData } from '@sinch/sdk-core';
 import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullResponse } from '../../config';
 
 (async () => {
@@ -9,24 +9,22 @@ import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullRespon
   const appId = getAppIdFromConfig();
   const contactId = getContactIdFromConfig();
 
-  const requestData: SendEventRequestData<ContactId> = {
+  const requestData: SendCommentReplyEventRequestData<ContactId> = {
     sendEventRequestBody: {
       app_id: appId,
       recipient: {
         contact_id: contactId,
       },
       event: {
-        generic_event: {
-          payload: {
-            key: 'value for the generic event',
-          },
+        comment_reply_event: {
+          text: 'Comment data',
         },
       },
     },
   };
 
   const sinchClient = initClient();
-  const response = await sinchClient.conversation.events.send(requestData);
+  const response = await sinchClient.conversation.events.sendCommentReplyEvent(requestData);
 
   printFullResponse(response);
 

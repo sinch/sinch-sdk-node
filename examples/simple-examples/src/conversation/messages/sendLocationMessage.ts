@@ -1,0 +1,40 @@
+import { ContactId, SendLocationMessageRequestData } from '@sinch/sdk-core';
+import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullResponse } from '../../config';
+
+(async () => {
+  console.log('********************************');
+  console.log('* Messages_SendLocationMessage *');
+  console.log('********************************');
+
+  const appId = getAppIdFromConfig();
+  const contactId = getContactIdFromConfig();
+
+  const requestData: SendLocationMessageRequestData<ContactId> = {
+    sendMessageRequestBody: {
+      app_id: appId,
+      message: {
+        location_message: {
+          title: 'Phare d\'Eckmühl',
+          label: 'Pointe de Penmarch',
+          coordinates: {
+            latitude: 47.7981899,
+            longitude: -4.3727685,
+          },
+        },
+      },
+      recipient: {
+        contact_id: contactId,
+      },
+      correlation_id: 'correlatorId',
+      queue: 'HIGH_PRIORITY',
+      processing_strategy: 'DEFAULT',
+      channel_priority_order: ['MESSENGER'],
+    },
+  };
+
+  const sinchClient = initClient();
+  const response = await sinchClient.conversation.messages.sendLocationMessage(requestData);
+
+  printFullResponse(response);
+
+})();

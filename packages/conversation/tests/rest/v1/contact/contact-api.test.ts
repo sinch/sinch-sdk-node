@@ -3,14 +3,20 @@ import {
   Contact,
   CreateContactRequestData,
   DeleteContactRequestData,
-  GetChannelProfileRequestData,
   GetContactRequestData,
   ListContactsRequestData,
   MergeContactRequestData,
   UpdateContactRequestData,
   GetChannelProfileResponse,
-  ContactApi, ContactApiFixture,
+  ContactApi,
+  ContactApiFixture,
+  GetChannelProfileRequestData,
+  ContactId,
+  IdentifiedBy,
+  GetChannelProfileRequest,
+  Recipient,
 } from '../../../../src';
+import { recipientChannelIdentities, recipientContactId } from '../mocks';
 
 describe('ContactApi', () => {
   let contactApi: ContactApi;
@@ -79,37 +85,42 @@ describe('ContactApi', () => {
   });
 
   describe ('getChannelProfile', () => {
-    it('should make a POST request to get a user profile from a specific channel', async () => {
-      // Given
-      const requestData: GetChannelProfileRequestData = {
-        getChannelProfileRequestBody: {
-          app_id: 'app_id',
-          channel: 'MESSENGER',
-          recipient: {
-            identified_by: {
-              channel_identities: [
-                {
-                  identity: '',
-                  channel: 'WHATSAPP',
-                },
-              ],
-            },
-          },
-        },
-      };
-      const expectedResponse: GetChannelProfileResponse = {
-        profile_name: 'Profile Name',
-      };
+    // Given
+    const getChannelProfileRequest: Omit<GetChannelProfileRequest<Recipient>, 'recipient'> = {
+      app_id: 'app_id',
+      channel: 'MESSENGER',
+    };
+    const requestDataWithContactId: GetChannelProfileRequestData<ContactId> = {
+      getChannelProfileRequestBody: {
+        ...getChannelProfileRequest,
+        ...recipientContactId,
+      },
+    };
+    const requestDataWithChannelIdentity: GetChannelProfileRequestData<IdentifiedBy> = {
+      getChannelProfileRequestBody: {
+        ...getChannelProfileRequest,
+        ...recipientChannelIdentities,
+      },
+    };
+    const expectedResponse: GetChannelProfileResponse = {
+      profile_name: 'Profile Name',
+    };
 
-      // When
-      fixture.getChannelProfile.mockResolvedValue(expectedResponse);
-      contactApi.getChannelProfile = fixture.getChannelProfile;
-      const response = await contactApi.getChannelProfile(requestData);
+    test.each([
+      ['contact ID', requestDataWithContactId, expectedResponse],
+      ['channel identities', requestDataWithChannelIdentity, expectedResponse],
+    ])('should make a POST request to get a user profile from a specific channel for a recipient identified by its %s',
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      async (_identification, requestData, expectedResponse) => {
+        // When
+        fixture.getChannelProfile.mockResolvedValue(expectedResponse);
+        contactApi.getChannelProfile = fixture.getChannelProfile;
+        const response = await contactApi.getChannelProfile(requestData);
 
-      // Then
-      expect(response).toEqual(expectedResponse);
-      expect(fixture.getChannelProfile).toHaveBeenCalledWith(requestData);
-    });
+        // Then
+        expect(response).toEqual(expectedResponse);
+        expect(fixture.getChannelProfile).toHaveBeenCalledWith(requestData);
+      });
   });
 
   describe ('getContact', () => {
