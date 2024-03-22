@@ -14,11 +14,11 @@ import {
   SendSMSRequestData,
   SendSMSResponse,
   UpdateBatchMessageRequestData,
-  SendTextMessageRequestData,
+  SendTextSMSRequestData,
   TextResponse,
-  SendMediaMessageRequestData,
+  SendMediaSMSRequestData,
   MediaResponse,
-  SendBinaryMessageRequestData,
+  SendBinarySMSRequestData,
   BinaryResponse,
 } from '../../../../src';
 
@@ -300,7 +300,7 @@ describe('BatchesApi', () => {
 
     it('should make a POST request to send a text message', async () => {
       // Given
-      const requestData: SendTextMessageRequestData = {
+      const requestData: SendTextSMSRequestData = {
         sendSMSRequestBody: {
           type: 'mt_text',
           to: [
@@ -337,7 +337,7 @@ describe('BatchesApi', () => {
 
     it('should make a POST request to send a binary message', async () => {
       // Given
-      const requestData: SendBinaryMessageRequestData = {
+      const requestData: SendBinarySMSRequestData = {
         sendSMSRequestBody: {
           type: 'mt_binary',
           to: [
@@ -376,7 +376,7 @@ describe('BatchesApi', () => {
 
     it('should make a POST request to send a media message', async () => {
       // Given
-      const requestData: SendMediaMessageRequestData = {
+      const requestData: SendMediaSMSRequestData = {
         sendSMSRequestBody: {
           type: 'mt_media',
           to: [

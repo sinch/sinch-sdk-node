@@ -1,223 +1,36 @@
 import {
-  CardMessage, CardMessageItem,
-  CarouselMessage, CarouselMessageItem,
-  ChoiceMessage, ChoiceMessageItem,
-  ListMessage, ListMessageItem,
-  LocationMessage, LocationMessageItem,
-  MediaMessage, MediaMessageItem,
-  TemplateMessage, TemplateMessageItem,
-  TextMessage, TextMessageItem,
   V2TemplateTranslation,
   MessageType,
   templateV1Helper,
-  templateV2Helper, messageBuilder,
+  templateV2Helper,
+  messageBuilder,
 } from '../../../src';
-
-const textItem: TextMessageItem = {
-  text: 'text message',
-};
-
-const textMessage: TextMessage = {
-  text_message: textItem,
-};
-
-const cardMessageItem: CardMessageItem = {
-  title: 'title',
-  description: 'description',
-  media_message: {
-    url: 'url',
-  },
-  height: 'MEDIUM',
-  choices: [
-    {
-      text_message: {
-        text: 'Strawberry',
-      },
-    },
-    {
-      text_message: {
-        text: 'Blueberry',
-      },
-    },
-  ],
-};
-
-const cardMessage: CardMessage = {
-  card_message: cardMessageItem,
-};
-
-const carouselMessageItem: CarouselMessageItem = {
-  cards: [
-    {
-      title: 'card #1',
-      description: 'description #1',
-      media_message: {
-        url: 'https://url1.com',
-      },
-      choices: [
-        {
-          text_message: {
-            text: 'This is the card #1',
-          },
-        },
-      ],
-    },
-    {
-      title: 'card #2',
-      description: 'description #2',
-      media_message: {
-        url: 'https://url2.com',
-      },
-      choices: [
-        {
-          url_message: {
-            title: 'Website',
-            url: 'https://website.com',
-          },
-        },
-      ],
-    },
-    {
-      title: 'card #3',
-      description: 'description #3',
-      media_message: {
-        url: 'https://url3.com',
-      },
-      choices: [
-        {
-          call_message: {
-            title: 'Support line',
-            phone_number: '46732000000',
-          },
-        },
-      ],
-    },
-  ],
-};
-
-const carouselMessage: CarouselMessage = {
-  carousel_message: carouselMessageItem,
-};
-
-const choiceMessageItem: ChoiceMessageItem = {
-  text_message: {
-    text: 'Choose your icecream flavor',
-  },
-  choices: [
-    {
-      text_message: {
-        text: 'Strawberry',
-      },
-    },
-    {
-      text_message: {
-        text: 'Blueberry',
-      },
-    },
-  ],
-};
-
-const choiceMessage: ChoiceMessage = {
-  choice_message: choiceMessageItem,
-};
-
-const locationMessageItem: LocationMessageItem = {
-  title: 'Phare d\'Eckmühl',
-  label: 'Pointe de Penmarch',
-  coordinates: {
-    latitude: 47.7981899,
-    longitude: -4.3727685,
-  },
-};
-
-const locationMessage: LocationMessage = {
-  location_message: locationMessageItem,
-};
-
-const mediaMessageItem: MediaMessageItem = {
-  url: 'https://url-to-media.com',
-  thumbnail_url: 'https://url-to-thumbnail.com',
-};
-
-const mediaMessage: MediaMessage = {
-  media_message: mediaMessageItem,
-};
-
-const templateMessageItem: TemplateMessageItem = {
-  omni_template: {
-    template_id: 'templateId',
-    version: '1',
-    language_code: 'en-US',
-    parameters: {
-      name: 'Value for the "name" parameter used in the version 1 and language "en-US" of the template',
-    },
-  },
-  channel_template: {
-    'KAKAOTALK': {
-      template_id: 'templateIdForKakaoTalk',
-      version: '1',
-      language_code: 'en-US',
-    },
-  },
-};
-
-const templateMessage: TemplateMessage = {
-  template_message: templateMessageItem,
-};
-
-const listMessageItem: ListMessageItem = {
-  title: 'Choose your icecream flavor',
-  description: 'The best icecream in town!',
-  sections: [
-    {
-      title: 'Fruit flavors',
-      items: [
-        {
-          choice: {
-            title: 'Strawberry',
-            postback_data: 'Strawberry postback',
-          },
-        },
-        {
-          choice: {
-            title: 'Blueberry',
-            postback_data: 'Blueberry postback',
-          },
-        },
-      ],
-    },
-    {
-      title: 'Other flavors',
-      items: [
-        {
-          choice: {
-            title: 'Chocolate',
-            postback_data: 'Chocolate postback',
-          },
-        },
-        {
-          choice: {
-            title: 'Vanilla',
-            postback_data: 'Vanilla postback',
-          },
-        },
-      ],
-    },
-  ],
-  message_properties: {
-    menu: 'menu text',
-  },
-};
-
-const listMessage: ListMessage = {
-  list_message: listMessageItem,
-};
+import {
+  cardMessage,
+  cardMessageItem,
+  carouselMessage,
+  carouselMessageItem,
+  choiceMessage,
+  choiceMessageItem,
+  contactInfoMessage,
+  contactInfoMessageItem,
+  listMessage,
+  listMessageItem,
+  locationMessage,
+  locationMessageItem,
+  mediaMessage,
+  mediaMessageItem,
+  templateMessage,
+  templateMessageItem,
+  textMessageItem,
+  textMessage,
+} from '../../messages-mocks';
 
 describe('Conversation models helpers', () => {
 
   describe('Templates V1 helper', () => {
     it('should build a TextMessage', () => {
-      const builtMessage = templateV1Helper.buildTextMessageContent(textItem);
+      const builtMessage = templateV1Helper.buildTextMessageContent(textMessageItem);
       expect(builtMessage).toBe(JSON.stringify(textMessage));
     });
 
@@ -234,6 +47,11 @@ describe('Conversation models helpers', () => {
     it('should build a ChoiceMessage', () => {
       const builtMessage = templateV1Helper.buildChoiceMessageContent(choiceMessageItem);
       expect(builtMessage).toBe(JSON.stringify(choiceMessage));
+    });
+
+    it('should build a ContactInfoMessage', () => {
+      const builtMessage = templateV1Helper.buildContactInfoMessageContent(contactInfoMessageItem);
+      expect(builtMessage).toEqual(JSON.stringify(contactInfoMessage));
     });
 
     it('should build a LocationMessage', () => {
@@ -259,7 +77,7 @@ describe('Conversation models helpers', () => {
 
   describe('Templates V2 helper', () => {
     it('should build a TextMessage', () => {
-      const builtTextMessage = templateV2Helper.buildTextMessageContent(textItem);
+      const builtTextMessage = templateV2Helper.buildTextMessageContent(textMessageItem);
       expect(builtTextMessage).toEqual(textMessage);
     });
 
@@ -276,6 +94,11 @@ describe('Conversation models helpers', () => {
     it('should build a ChoiceMessage', () => {
       const builtMessage = templateV2Helper.buildChoiceMessageContent(choiceMessageItem);
       expect(builtMessage).toEqual(choiceMessage);
+    });
+
+    it('should build a ContactInfoMessage', () => {
+      const builtMessage = templateV2Helper.buildContactInfoMessageContent(contactInfoMessageItem);
+      expect(builtMessage).toEqual(contactInfoMessage);
     });
 
     it('should build a LocationMessage', () => {
@@ -330,6 +153,12 @@ describe('Conversation models helpers', () => {
 
       templateTranslation = {
         ...translationIdentifier,
+        ...contactInfoMessage,
+      };
+      expect(templateV2Helper.getMessageFromTranslation(templateTranslation).type).toBe(MessageType.CONTACT_INFO);
+
+      templateTranslation = {
+        ...translationIdentifier,
         ...listMessage,
       };
       expect(templateV2Helper.getMessageFromTranslation(templateTranslation).type).toBe(MessageType.LIST);
@@ -377,7 +206,7 @@ describe('Conversation models helpers', () => {
 
   describe('Message builder helper', () => {
     it('should build a TextMessage', () => {
-      const builtTextMessage = messageBuilder.text(textItem);
+      const builtTextMessage = messageBuilder.text(textMessageItem);
       expect(builtTextMessage).toEqual(textMessage);
     });
 

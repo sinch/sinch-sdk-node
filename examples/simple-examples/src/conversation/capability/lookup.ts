@@ -1,4 +1,4 @@
-import { LookupCapabilityRequestData } from '@sinch/sdk-core';
+import { ContactId, LookupCapabilityRequestData } from '@sinch/sdk-core';
 import {
   getAppIdFromConfig,
   getContactIdFromConfig,
@@ -14,7 +14,7 @@ import {
   const appId = getAppIdFromConfig();
   const contactId = getContactIdFromConfig();
 
-  const requestData: LookupCapabilityRequestData = {
+  const requestData: LookupCapabilityRequestData<ContactId> = {
     lookupCapabilityRequestBody: {
       app_id: appId,
       recipient: {

@@ -1,4 +1,4 @@
-import { SendTextMessageRequestData } from '@sinch/sdk-core';
+import { SendTextSMSRequestData } from '@sinch/sdk-core';
 import {
   getPhoneNumberFromConfig,
   getPrintFormat,
@@ -15,7 +15,7 @@ import {
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
   const senderPhoneNumber = getPhoneNumberFromConfig();
 
-  const requestData: SendTextMessageRequestData = {
+  const requestData: SendTextSMSRequestData = {
     sendSMSRequestBody: {
       type: 'mt_text',
       to: [

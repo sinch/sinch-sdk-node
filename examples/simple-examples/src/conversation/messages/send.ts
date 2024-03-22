@@ -1,4 +1,4 @@
-import { SendMessageRequestData } from '@sinch/sdk-core';
+import { ContactId, SendMessageRequestData } from '@sinch/sdk-core';
 import { getAppIdFromConfig, getContactIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -9,7 +9,7 @@ import { getAppIdFromConfig, getContactIdFromConfig, initConversationService, pr
   const appId = getAppIdFromConfig();
   const contactId = getContactIdFromConfig();
 
-  const requestData: SendMessageRequestData = {
+  const requestData: SendMessageRequestData<ContactId> = {
     sendMessageRequestBody: {
       app_id: appId,
       message: {
@@ -20,7 +20,7 @@ import { getAppIdFromConfig, getContactIdFromConfig, initConversationService, pr
       recipient: {
         contact_id: contactId,
       },
-      correlation_id: 'correlator',
+      correlation_id: 'correlatorId',
       queue: 'HIGH_PRIORITY',
       processing_strategy: 'DEFAULT',
       channel_priority_order: ['MESSENGER'],

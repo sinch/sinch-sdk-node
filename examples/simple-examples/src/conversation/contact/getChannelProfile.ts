@@ -1,4 +1,4 @@
-import { GetChannelProfileRequestData } from '@sinch/sdk-core';
+import { GetChannelProfileRequestData, IdentifiedBy } from '@sinch/sdk-core';
 import {
   getAppIdFromConfig,
   getMessengerUserIdFromConfig,
@@ -14,7 +14,7 @@ import {
   const appId = getAppIdFromConfig();
   const messengerUserId = getMessengerUserIdFromConfig();
 
-  const requestData: GetChannelProfileRequestData = {
+  const requestData: GetChannelProfileRequestData<IdentifiedBy> = {
     getChannelProfileRequestBody: {
       app_id: appId,
       channel: 'MESSENGER',

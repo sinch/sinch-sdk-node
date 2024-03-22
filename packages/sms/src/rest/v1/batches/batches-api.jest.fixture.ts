@@ -6,10 +6,10 @@ import {
   GetBatchMessageRequestData,
   ListBatchesRequestData,
   ReplaceBatchMessageRequestData,
-  SendBinaryMessageRequestData,
-  SendMediaMessageRequestData,
+  SendBinarySMSRequestData,
+  SendMediaSMSRequestData,
   SendSMSRequestData,
-  SendTextMessageRequestData,
+  SendTextSMSRequestData,
   UpdateBatchMessageRequestData,
 } from './batches-api';
 import { BinaryResponse, DryRunResponse, MediaResponse, SendSMSResponse, TextResponse } from '../../../models';
@@ -48,15 +48,15 @@ export class BatchesApiFixture implements Partial<Readonly<BatchesApi>> {
   /**
    * Fixture associated to function sendTextMessage
    */
-  public sendTextMessage: jest.Mock<Promise<TextResponse>, [SendTextMessageRequestData]> = jest.fn();
+  public sendTextMessage: jest.Mock<Promise<TextResponse>, [SendTextSMSRequestData]> = jest.fn();
   /**
    * Fixture associated to function send
    */
-  public sendBinaryMessage: jest.Mock<Promise<BinaryResponse>, [SendBinaryMessageRequestData]> = jest.fn();
+  public sendBinaryMessage: jest.Mock<Promise<BinaryResponse>, [SendBinarySMSRequestData]> = jest.fn();
   /**
    * Fixture associated to function send
    */
-  public sendMediaMessage: jest.Mock<Promise<MediaResponse>, [SendMediaMessageRequestData]> = jest.fn();
+  public sendMediaMessage: jest.Mock<Promise<MediaResponse>, [SendMediaSMSRequestData]> = jest.fn();
   /**
     * Fixture associated to function update
     */

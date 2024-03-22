@@ -1,5 +1,5 @@
-import { ContactId, SendEventRequestData } from '@sinch/sdk-core';
-import { getAppIdFromConfig, getContactIdFromConfig, initConversationService, printFullResponse } from '../../config';
+import { ContactId, SendGenericEventRequestData } from '@sinch/sdk-core';
+import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullResponse } from '../../config';
 
 (async () => {
   console.log('********************');
@@ -9,7 +9,7 @@ import { getAppIdFromConfig, getContactIdFromConfig, initConversationService, pr
   const appId = getAppIdFromConfig();
   const contactId = getContactIdFromConfig();
 
-  const requestData: SendEventRequestData<ContactId> = {
+  const requestData: SendGenericEventRequestData<ContactId> = {
     sendEventRequestBody: {
       app_id: appId,
       recipient: {
@@ -25,8 +25,8 @@ import { getAppIdFromConfig, getContactIdFromConfig, initConversationService, pr
     },
   };
 
-  const conversationService = initConversationService();
-  const response = await conversationService.events.send(requestData);
+  const sinchClient = initClient();
+  const response = await sinchClient.conversation.events.sendGenericEvent(requestData);
 
   printFullResponse(response);
 
