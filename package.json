@@ -14,7 +14,8 @@
     "lerna": "lerna",
     "bootstrap": "npx lerna bootstrap",
     "build": "lerna run build",
-    "test": "jest"
+    "test": "jest",
+    "e2e": "cd e2e && yarn && yarn run test:cucumber"
   },
   "keywords": [],
   "devDependencies": {
