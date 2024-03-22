@@ -1,3 +1,6 @@
+## Version 0.0.4
+ - [Bugfix] Embed `form-data` dependency
+
 ## Version 0.0.3
  - [Bugfix] Do not transform a timestamp to a Date object in the timezone plugin, this is already done in the reviver for API responses (regression from v0.0.2)
 

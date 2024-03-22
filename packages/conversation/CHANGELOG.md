@@ -1,3 +1,6 @@
+## Version 0.0.4
+- [Tech] Update dependency `@sinch/sdk-client` to `0.0.4`
+
 ## Version 0.0.3
  - [Feature] Add support for `contact_message_event` for the `injectEvent()` method in the conversation domain
  - [Feature] Add composed methods for sending a message:

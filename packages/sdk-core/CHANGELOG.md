@@ -1,3 +1,11 @@
+## Version 0.0.4
+- Update dependency `@sinch/numbers` to version `0.0.4`
+- Update dependency `@sinch/sms` to version `0.0.4`
+- Update dependency `@sinch/verification` to version `0.0.4`
+- Update dependency `@sinch/voice` to version `0.0.4`
+- Update dependency `@sinch/conversation` to version `0.0.4`
+- Update dependency `@sinch/fax` to version `0.0.4`
+
 ## Version 0.0.3
 - Update dependency `@sinch/numbers` to version `0.0.3`
 - Update dependency `@sinch/sms` to version `0.0.3`
