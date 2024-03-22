@@ -3,7 +3,7 @@ import {
   getFaxEmailFromConfig,
   getPhoneNumberFromConfig,
   getPrintFormat,
-  initClient,
+  initFaxService,
   printFullResponse,
 } from '../../config';
 
@@ -25,8 +25,8 @@ import {
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.fax.emails.update(requestData);
+  const faxService = initFaxService();
+  const response = await faxService.emails.update(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

@@ -1,8 +1,8 @@
-import { GetChannelProfileRequestData } from '@sinch/sdk-core';
+import { GetChannelProfileRequestData, IdentifiedBy } from '@sinch/sdk-core';
 import {
   getAppIdFromConfig,
   getMessengerUserIdFromConfig,
-  initClient,
+  initConversationService,
   printFullResponse,
 } from '../../config';
 
@@ -14,7 +14,7 @@ import {
   const appId = getAppIdFromConfig();
   const messengerUserId = getMessengerUserIdFromConfig();
 
-  const requestData: GetChannelProfileRequestData = {
+  const requestData: GetChannelProfileRequestData<IdentifiedBy> = {
     getChannelProfileRequestBody: {
       app_id: appId,
       channel: 'MESSENGER',
@@ -31,8 +31,8 @@ import {
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.contact.getChannelProfile(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.contact.getChannelProfile(requestData);
 
   printFullResponse(response);
 

@@ -1,4 +1,4 @@
-import { getPrintFormat, initSmsClient, printFullResponse } from '../../config';
+import { getPrintFormat, initSmsServiceWithServicePlanId, printFullResponse } from '../../config';
 import { ListBatchesRequestData, PageResult } from '@sinch/sdk-core';
 import { SendSMSResponse } from '@sinch/sms/src';
 
@@ -27,12 +27,12 @@ const populateBatchesList = (
     page_size: 2,
   };
 
-  const sinchClient = initSmsClient();
+  const smsService = initSmsServiceWithServicePlanId();
 
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response = await sinchClient.sms.batches.list(requestData);
+  let response = await smsService.batches.list(requestData);
 
   const fullBatchesList: SendSMSResponse[] = [];
   const batchesList: string[] = [];
@@ -61,7 +61,7 @@ const populateBatchesList = (
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const batch of sinchClient.sms.batches.list(requestData)) {
+  for await (const batch of smsService.batches.list(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`Batch ID: ${batch.id} - Type: ${batch.type} - From: ${batch.from}`);
     } else {

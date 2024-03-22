@@ -1,5 +1,10 @@
-import { LookupCapabilityRequestData } from '@sinch/sdk-core';
-import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullResponse } from '../../config';
+import { ContactId, LookupCapabilityRequestData } from '@sinch/sdk-core';
+import {
+  getAppIdFromConfig,
+  getContactIdFromConfig,
+  initConversationService,
+  printFullResponse,
+} from '../../config';
 
 (async () => {
   console.log('******************************');
@@ -9,7 +14,7 @@ import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullRespon
   const appId = getAppIdFromConfig();
   const contactId = getContactIdFromConfig();
 
-  const requestData: LookupCapabilityRequestData = {
+  const requestData: LookupCapabilityRequestData<ContactId> = {
     lookupCapabilityRequestBody: {
       app_id: appId,
       recipient: {
@@ -19,8 +24,8 @@ import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullRespon
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.capability.lookup(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.capability.lookup(requestData);
 
   printFullResponse(response);
 

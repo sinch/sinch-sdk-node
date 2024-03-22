@@ -2,7 +2,7 @@ import { CreateContactRequestData, MergeContactRequestData } from '@sinch/sdk-co
 import {
   getPhoneNumberFromConfig,
   getPrintFormat,
-  initClient,
+  initConversationService,
   printFullResponse,
 } from '../../config';
 
@@ -43,9 +43,9 @@ import {
     },
   };
 
-  const sinchClient = initClient();
-  const sourceContact = await sinchClient.conversation.contact.create(sourceContactRequestData);
-  const destinationContact = await sinchClient.conversation.contact.create(destinationContactRequestData);
+  const conversationService = initConversationService();
+  const sourceContact = await conversationService.contact.create(sourceContactRequestData);
+  const destinationContact = await conversationService.contact.create(destinationContactRequestData);
 
   if (sourceContact.id && destinationContact.id) {
     const requestData: MergeContactRequestData = {
@@ -56,7 +56,7 @@ import {
       },
     };
 
-    const response = await sinchClient.conversation.contact.mergeContact(requestData);
+    const response = await conversationService.contact.mergeContact(requestData);
 
     const printFormat = getPrintFormat(process.argv);
     if (printFormat === 'pretty') {

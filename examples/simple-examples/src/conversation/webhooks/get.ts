@@ -2,7 +2,7 @@ import { GetWebhookRequestData } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getWebhookIdFromConfig,
-  initClient,
+  initConversationService,
   printFullResponse,
 } from '../../config';
 
@@ -17,8 +17,8 @@ import {
     webhook_id: webhookId,
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.webhooks.get(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.webhooks.get(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

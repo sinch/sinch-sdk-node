@@ -1,9 +1,9 @@
-import { SendMediaMessageRequestData } from '@sinch/sdk-core';
+import { SendMediaSMSRequestData } from '@sinch/sdk-core';
 import {
   getPhoneNumberFromConfig,
   getPrintFormat,
   getRecipientPhoneNumberFromConfig,
-  initSmsClient,
+  initSmsServiceWithServicePlanId,
   printFullResponse,
 } from '../../config';
 
@@ -15,7 +15,7 @@ import {
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
   const senderPhoneNumber = getPhoneNumberFromConfig();
 
-  const requestData: SendMediaMessageRequestData = {
+  const requestData: SendMediaSMSRequestData = {
     sendSMSRequestBody: {
       type: 'mt_media',
       to: [
@@ -37,8 +37,8 @@ import {
     },
   };
 
-  const sinchClient = initSmsClient();
-  const response = await sinchClient.sms.batches.sendMediaMessage(requestData);
+  const smsService = initSmsServiceWithServicePlanId();
+  const response = await smsService.batches.sendMediaMessage(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

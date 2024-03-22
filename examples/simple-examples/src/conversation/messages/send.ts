@@ -1,5 +1,5 @@
-import { SendMessageRequestData } from '@sinch/sdk-core';
-import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullResponse } from '../../config';
+import { ContactId, SendMessageRequestData } from '@sinch/sdk-core';
+import { getAppIdFromConfig, getContactIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
   console.log('************************');
@@ -9,7 +9,7 @@ import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullRespon
   const appId = getAppIdFromConfig();
   const contactId = getContactIdFromConfig();
 
-  const requestData: SendMessageRequestData = {
+  const requestData: SendMessageRequestData<ContactId> = {
     sendMessageRequestBody: {
       app_id: appId,
       message: {
@@ -20,15 +20,15 @@ import { getAppIdFromConfig, getContactIdFromConfig, initClient, printFullRespon
       recipient: {
         contact_id: contactId,
       },
-      correlation_id: 'correlator',
+      correlation_id: 'correlatorId',
       queue: 'HIGH_PRIORITY',
       processing_strategy: 'DEFAULT',
       channel_priority_order: ['MESSENGER'],
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.messages.send(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.messages.send(requestData);
 
   printFullResponse(response);
 

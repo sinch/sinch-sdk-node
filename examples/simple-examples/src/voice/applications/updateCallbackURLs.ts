@@ -1,6 +1,6 @@
 import {
   getApplicationKeyFromConfig,
-  initApplicationClient,
+  initVoiceService,
 } from '../../config';
 import { UpdateCallbackURLsRequestData } from '@sinch/sdk-core';
 
@@ -21,9 +21,9 @@ import { UpdateCallbackURLsRequestData } from '@sinch/sdk-core';
     },
   };
 
-  const sinchClient = initApplicationClient();
+  const voiceService = initVoiceService();
   try {
-    await sinchClient.voice.applications.updateCallbackURLs(requestData);
+    await voiceService.applications.updateCallbackURLs(requestData);
   } catch (error) {
     console.log(`Impossible to update the callback URLs for the application '${requestData.applicationkey}'`);
     throw error;

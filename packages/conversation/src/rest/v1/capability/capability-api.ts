@@ -3,14 +3,15 @@ import {
   SinchClientParameters,
 } from '@sinch/sdk-client';
 import {
-  LookupCapability,
-  QueryCapabilityResponse,
+  LookupCapabilityRequest,
+  LookupCapabilityResponse,
+  Recipient,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
 
-export interface LookupCapabilityRequestData {
+export interface LookupCapabilityRequestData<T extends Recipient> {
   /** The lookup capability request. */
-  'lookupCapabilityRequestBody': LookupCapability;
+  'lookupCapabilityRequestBody': LookupCapabilityRequest<T>;
 }
 
 export class CapabilityApi extends ConversationDomainApi {
@@ -27,11 +28,12 @@ export class CapabilityApi extends ConversationDomainApi {
   /**
    * Capability lookup
    * This method is asynchronous - it immediately returns the requested Capability registration. Capability check is then delivered as a callback to registered webhooks with trigger CAPABILITY for every reachable channel.
-   * @param { LookupCapabilityRequestData } data - The data to provide to the API call.
+   * @param { LookupCapabilityRequestData<Recipient> } data - The data to provide to the API call.
    */
-  public async lookup(data: LookupCapabilityRequestData): Promise<QueryCapabilityResponse> {
+  public async lookup(data: LookupCapabilityRequestData<Recipient>): Promise<LookupCapabilityResponse> {
     this.client = this.getSinchClient();
-    const getParams = this.client.extractQueryParams<LookupCapabilityRequestData>(data, [] as never[]);
+    const getParams = this.client.extractQueryParams<LookupCapabilityRequestData<Recipient>>(
+      data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -45,7 +47,7 @@ export class CapabilityApi extends ConversationDomainApi {
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
     const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
 
-    return this.client.processCall<QueryCapabilityResponse>({
+    return this.client.processCall<LookupCapabilityResponse>({
       url,
       requestOptions,
       apiName: this.apiName,

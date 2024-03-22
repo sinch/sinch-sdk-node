@@ -1,5 +1,5 @@
 import { Conversation, ListConversationsRequestData, PageResult } from '@sinch/sdk-core';
-import { getAppIdFromConfig, getPrintFormat, initClient, printFullResponse } from '../../config';
+import { getAppIdFromConfig, getPrintFormat, initConversationService, printFullResponse } from '../../config';
 
 const populateConversationsList = (
   conversationPage: PageResult<Conversation>,
@@ -24,12 +24,12 @@ const populateConversationsList = (
     app_id: appId,
   };
 
-  const sinchClient = initClient();
+  const conversationService = initConversationService();
 
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response = await sinchClient.conversation.conversation.list(requestData);
+  let response = await conversationService.conversation.list(requestData);
 
   const conversationList: Conversation[] = [];
   const conversationDetailsList: string[] = [];
@@ -58,7 +58,7 @@ const populateConversationsList = (
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const conversation of sinchClient.conversation.conversation.list(requestData)) {
+  for await (const conversation of conversationService.conversation.list(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`${conversation.id} - ${conversation.active_channel}`);
     } else {

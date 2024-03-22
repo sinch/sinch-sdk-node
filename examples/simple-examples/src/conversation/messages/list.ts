@@ -3,7 +3,7 @@ import {
   getAppIdFromConfig,
   getContactIdFromConfig, getConversationIdFromConfig,
   getPrintFormat,
-  initClient,
+  initConversationService,
   printFullResponse,
 } from '../../config';
 
@@ -34,12 +34,12 @@ const populateMessagesList = (
     channel: 'MESSENGER',
   };
 
-  const sinchClient = initClient();
+  const conversationService = initConversationService();
 
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response = await sinchClient.conversation.messages.list(requestData);
+  let response = await conversationService.messages.list(requestData);
 
   const messageList: ConversationMessage[] = [];
   const messagesDetailsList: string[] = [];
@@ -68,7 +68,7 @@ const populateMessagesList = (
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const message of sinchClient.conversation.messages.list(requestData)) {
+  for await (const message of conversationService.messages.list(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`${message.id} - ${message.accept_time}`);
     } else {

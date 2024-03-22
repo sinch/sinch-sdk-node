@@ -1,7 +1,7 @@
 import { UpdateMessageRequestData } from '@sinch/sdk-core';
 import {
   getMessageIdFromConfig,
-  initClient,
+  initConversationService,
   printFullResponse,
 } from '../../config';
 
@@ -19,8 +19,8 @@ import {
     },
   };
 
-  const sinchClient = initClient();
-  const response = await sinchClient.conversation.messages.update(requestData);
+  const conversationService = initConversationService();
+  const response = await conversationService.messages.update(requestData);
 
   printFullResponse(response);
 

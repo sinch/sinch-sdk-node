@@ -1,7 +1,7 @@
-import { ListMembersRequestData, SinchClient } from '@sinch/sdk-core';
+import { ListMembersRequestData, SmsService } from '@sinch/sdk-core';
 import { getGroupIdFromConfig, getPrintFormat, printFullResponse } from '../../../config';
 
-export const getPhoneNumbers = async(sinchClient: SinchClient) => {
+export const getPhoneNumbers = async(smsService: SmsService) => {
   console.log('**************');
   console.log('* GetMembers *');
   console.log('**************');
@@ -14,7 +14,7 @@ export const getPhoneNumbers = async(sinchClient: SinchClient) => {
 
   let response;
   try {
-    response = await sinchClient.sms.groups.listMembers(requestData);
+    response = await smsService.groups.listMembers(requestData);
   } catch (error) {
     console.error(`ERROR: Impossible to get the numbers of the group ${requestData.group_id}`);
     throw error;

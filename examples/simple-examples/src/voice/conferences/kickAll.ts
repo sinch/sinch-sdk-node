@@ -1,6 +1,6 @@
 import {
   getConferenceIdFromConfig,
-  initApplicationClient,
+  initVoiceService,
 } from '../../config';
 import { KickAllRequestData, VoiceRegion } from '@sinch/sdk-core';
 
@@ -15,10 +15,10 @@ import { KickAllRequestData, VoiceRegion } from '@sinch/sdk-core';
     conferenceId,
   };
 
-  const sinchClient = initApplicationClient();
-  sinchClient.voice.setRegion(VoiceRegion.EUROPE);
+  const voiceService = initVoiceService();
+  voiceService.setRegion(VoiceRegion.EUROPE);
   try {
-    await sinchClient.voice.conferences.kickAll(requestData);
+    await voiceService.conferences.kickAll(requestData);
   } catch (error) {
     console.log(`Impossible kick all participants from conference id '${requestData.conferenceId}'`);
     throw error;

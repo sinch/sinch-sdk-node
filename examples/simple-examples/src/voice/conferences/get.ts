@@ -1,7 +1,7 @@
 import {
   getConferenceIdFromConfig,
   getPrintFormat,
-  initApplicationClient,
+  initVoiceService,
   printFullResponse,
 } from '../../config';
 import { GetConferenceInfoRequestData, VoiceRegion } from '@sinch/sdk-core';
@@ -17,11 +17,11 @@ import { GetConferenceInfoRequestData, VoiceRegion } from '@sinch/sdk-core';
     conferenceId,
   };
 
-  const sinchClient = initApplicationClient();
-  sinchClient.voice.setRegion(VoiceRegion.EUROPE);
+  const voiceService = initVoiceService();
+  voiceService.setRegion(VoiceRegion.EUROPE);
   let response;
   try {
-    response = await sinchClient.voice.conferences.get(requestData);
+    response = await voiceService.conferences.get(requestData);
   } catch (error) {
     console.log(`Impossible get information about conference Id '${requestData.conferenceId}'`);
     throw error;

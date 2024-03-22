@@ -10,8 +10,15 @@ import {
 import {
   Conversation,
   ConversationEvent,
+  Recipient,
+  SendAgentJoinedEventRequest,
+  SendAgentLeftEventRequest,
+  SendCommentReplyEventRequest,
+  SendComposingEndEventRequest,
+  SendComposingEventRequest,
   SendEventRequest,
   SendEventResponse,
+  SendGenericEventRequest,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
 
@@ -33,9 +40,33 @@ export interface ListEventsRequestData {
   /** Next page token previously returned if any. When specifying this token, make sure to use the same values for the other parameters from the request that originated the token, otherwise the paged results may be inconsistent. */
   'page_token'?: string;
 }
-export interface SendEventRequestData {
+export interface SendEventRequestData<T extends Recipient> {
   /** The event to be sent. */
-  'sendEventRequestBody': SendEventRequest;
+  'sendEventRequestBody': SendEventRequest<T>;
+}
+export interface SendComposingEventRequestData<T extends Recipient> {
+  /** The event to be sent. */
+  'sendEventRequestBody': SendComposingEventRequest<T>;
+}
+export interface SendComposingEndEventRequestData<T extends Recipient> {
+  /** The event to be sent. */
+  'sendEventRequestBody': SendComposingEndEventRequest<T>;
+}
+export interface SendCommentReplyEventRequestData<T extends Recipient> {
+  /** The event to be sent. */
+  'sendEventRequestBody': SendCommentReplyEventRequest<T>;
+}
+export interface SendAgentJoinedEventRequestData<T extends Recipient> {
+  /** The event to be sent. */
+  'sendEventRequestBody': SendAgentJoinedEventRequest<T>;
+}
+export interface SendAgentLeftEventRequestData<T extends Recipient> {
+  /** The event to be sent. */
+  'sendEventRequestBody': SendAgentLeftEventRequest<T>;
+}
+export interface SendGenericEventRequestData<T extends Recipient> {
+  /** The event to be sent. */
+  'sendEventRequestBody': SendGenericEventRequest<T>;
 }
 
 export class EventsApi extends ConversationDomainApi {
@@ -154,17 +185,81 @@ export class EventsApi extends ConversationDomainApi {
   /**
    * Send an event
    * Sends an event to the referenced contact from the referenced app. Note that this operation enqueues the event in a queue so a successful response only indicates that the event has been queued.
-   * @param { SendEventRequestData } data - The data to provide to the API call.
+   * @param { SendEventRequestData<Recipient> } data - The data to provide to the API call.
    */
-  public async send(data: SendEventRequestData): Promise<SendEventResponse> {
+  public async send(data: SendEventRequestData<Recipient>): Promise<SendEventResponse> {
+    return this.sendEvent(data, 'SendEvent');
+  }
+
+  /**
+   * Send a composing event
+   * Sends an event to the referenced contact from the referenced app. Note that this operation enqueues the event in a queue so a successful response only indicates that the event has been queued.
+   * @param { SendComposingEventRequestData<Recipient> } data - The data to provide to the API call.
+   */
+  public async sendComposingEvent(data: SendComposingEventRequestData<Recipient>): Promise<SendEventResponse> {
+    return this.sendEvent(data, 'SendComposingEvent');
+  }
+
+  /**
+   * Send a composing end event
+   * Sends an event to the referenced contact from the referenced app. Note that this operation enqueues the event in a queue so a successful response only indicates that the event has been queued.
+   * @param { SendComposingEndEventRequestData<Recipient> } data - The data to provide to the API call.
+   */
+  public async sendComposingEndEvent(data: SendComposingEndEventRequestData<Recipient>): Promise<SendEventResponse> {
+    return this.sendEvent(data, 'SendComposingEndEvent');
+  }
+
+  /**
+   * Send a composing reply event
+   * Sends an event to the referenced contact from the referenced app. Note that this operation enqueues the event in a queue so a successful response only indicates that the event has been queued.
+   * @param {SendCommentReplyEventRequestData<Recipient>} data - The data to provide to the API call.
+   */
+  public async sendCommentReplyEvent(data: SendCommentReplyEventRequestData<Recipient>): Promise<SendEventResponse> {
+    return this.sendEvent(data, 'SendCommentReplyEvent');
+  }
+
+  /**
+   * Send an agent joined event
+   * Sends an event to the referenced contact from the referenced app. Note that this operation enqueues the event in a queue so a successful response only indicates that the event has been queued.
+   * @param {SendAgentJoinedEventRequestData} data - The data to provide to the API call.
+   */
+  public async sendAgentJoinedEvent(data: SendAgentJoinedEventRequestData<Recipient>): Promise<SendEventResponse> {
+    return this.sendEvent(data, 'SendAgentJoinedEvent');
+  }
+
+  /**
+   * Send an agent left event
+   * Sends an event to the referenced contact from the referenced app. Note that this operation enqueues the event in a queue so a successful response only indicates that the event has been queued.
+   * @param {SendAgentLeftEventRequestData<Recipient>} data - The data to provide to the API call.
+   */
+  public async sendAgentLeftEvent(data: SendAgentLeftEventRequestData<Recipient>): Promise<SendEventResponse> {
+    return this.sendEvent(data, 'SendAgentLeftEvent');
+  }
+
+  /**
+   * Send a generic event
+   * Sends an event to the referenced contact from the referenced app. Note that this operation enqueues the event in a queue so a successful response only indicates that the event has been queued.
+   * @param {SendGenericEventRequestData<Recipient>} data - The data to provide to the API call.
+   */
+  public async sendGenericEvent(data: SendGenericEventRequestData<Recipient>): Promise<SendEventResponse> {
+    return this.sendEvent(data, 'SendGenericEvent');
+  }
+
+  private async sendEvent(
+    data: SendEventRequestData<Recipient>,
+    operationId: string,
+  ): Promise<SendEventResponse> {
     this.client = this.getSinchClient();
-    const getParams = this.client.extractQueryParams<SendEventRequestData>(data, [] as never[]);
+    const getParams = this.client.extractQueryParams<SendEventRequestData<Recipient>>(
+      data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
-    const body: RequestBody = data['sendEventRequestBody'] ? JSON.stringify(data['sendEventRequestBody']) : '{}';
+    const body: RequestBody = data['sendEventRequestBody']
+      ? JSON.stringify(data['sendEventRequestBody'])
+      : '{}';
     const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/events:send`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
@@ -174,7 +269,7 @@ export class EventsApi extends ConversationDomainApi {
       url,
       requestOptions,
       apiName: this.apiName,
-      operationId: 'SendEvent',
+      operationId,
     });
   }
 

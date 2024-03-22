@@ -11,8 +11,18 @@ import {
   ConversationChannel,
   ConversationMessage,
   ConversationMessagesView,
+  Recipient,
+  SendCardMessageRequest,
+  SendCarouselMessageRequest,
+  SendChoiceMessageRequest,
+  SendContactInfoMessageRequest,
+  SendListMessageRequest,
+  SendLocationMessageRequest,
+  SendMediaMessageRequest,
   SendMessageRequest,
   SendMessageResponse,
+  SendTemplateMessageRequest,
+  SendTextMessageRequest,
   UpdateMessageRequest,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
@@ -56,9 +66,45 @@ export interface ListMessagesRequestData {
   /** Only fetch messages from the `channel`. */
   'channel'?: ConversationChannel;
 }
-export interface SendMessageRequestData {
+export interface SendMessageRequestData<T extends Recipient> {
   /** This is the request body for sending a message. `app_id`, `recipient`, and `message` are all required fields. */
-  'sendMessageRequestBody': SendMessageRequest;
+  'sendMessageRequestBody': SendMessageRequest<T>;
+}
+export interface SendCardMessageRequestData<T extends Recipient> {
+  /** This is the request body for sending a message. `app_id`, `recipient`, and `message` are all required fields. */
+  'sendMessageRequestBody': SendCardMessageRequest<T>;
+}
+export interface SendCarouselMessageRequestData<T extends Recipient> {
+  /** This is the request body for sending a message. `app_id`, `recipient`, and `message` are all required fields. */
+  'sendMessageRequestBody': SendCarouselMessageRequest<T>;
+}
+export interface SendChoiceMessageRequestData<T extends Recipient> {
+  /** This is the request body for sending a message. `app_id`, `recipient`, and `message` are all required fields. */
+  'sendMessageRequestBody': SendChoiceMessageRequest<T>;
+}
+export interface SendContactInfoMessageRequestData<T extends Recipient> {
+  /** This is the request body for sending a message. `app_id`, `recipient`, and `message` are all required fields. */
+  'sendMessageRequestBody': SendContactInfoMessageRequest<T>;
+}
+export interface SendListMessageRequestData<T extends Recipient> {
+  /** This is the request body for sending a message. `app_id`, `recipient`, and `message` are all required fields. */
+  'sendMessageRequestBody': SendListMessageRequest<T>;
+}
+export interface SendLocationMessageRequestData<T extends Recipient> {
+  /** This is the request body for sending a message. `app_id`, `recipient`, and `message` are all required fields. */
+  'sendMessageRequestBody': SendLocationMessageRequest<T>;
+}
+export interface SendMediaMessageRequestData<T extends Recipient> {
+  /** This is the request body for sending a message. `app_id`, `recipient`, and `message` are all required fields. */
+  'sendMessageRequestBody': SendMediaMessageRequest<T>;
+}
+export interface SendTemplateMessageRequestData<T extends Recipient> {
+  /** This is the request body for sending a message. `app_id`, `recipient`, and `message` are all required fields. */
+  'sendMessageRequestBody': SendTemplateMessageRequest<T>;
+}
+export interface SendTextMessageRequestData<T extends Recipient> {
+  /** This is the request body for sending a message. `app_id`, `recipient`, and `message` are all required fields. */
+  'sendMessageRequestBody': SendTextMessageRequest<T>;
 }
 export interface UpdateMessageRequestData {
   /** The unique ID of the message. */
@@ -196,17 +242,128 @@ export class MessagesApi extends ConversationDomainApi {
   /**
    * Send a message
    * You can send a message from a Conversation app to a contact associated with that app. If the recipient is not associated with an existing contact, a new contact will be created.  The message is added to the active conversation with the contact if a conversation already exists. If no active conversation exists a new one is started automatically.  You can find all of your IDs and authentication credentials on the [Sinch Customer Dashboard](https://dashboard.sinch.com/convapi/overview).
-   * @param { SendMessageRequestData } data - The data to provide to the API call.
+   * @param { SendCardMessageRequestData<Recipient> } data - The data to provide to the API call.
    */
-  public async send(data: SendMessageRequestData): Promise<SendMessageResponse> {
+  public async send(
+    data: SendMessageRequestData<Recipient>,
+  ): Promise<SendMessageResponse> {
+    return this.sendMessage(data, 'SendMessage');
+  }
+
+  /**
+   * Send a card message
+   * You can send a message from a Conversation app to a contact associated with that app. If the recipient is not associated with an existing contact, a new contact will be created.  The message is added to the active conversation with the contact if a conversation already exists. If no active conversation exists a new one is started automatically.  You can find all of your IDs and authentication credentials on the [Sinch Customer Dashboard](https://dashboard.sinch.com/convapi/overview).
+   * @param { SendCardMessageRequestData<Recipient> } data - The data to provide to the API call.
+   */
+  public async sendCardMessage(
+    data: SendCardMessageRequestData<Recipient>,
+  ): Promise<SendMessageResponse> {
+    return this.sendMessage(data, 'SendCardMessage');
+  }
+
+  /**
+   * Send a carousel message
+   * You can send a message from a Conversation app to a contact associated with that app. If the recipient is not associated with an existing contact, a new contact will be created.  The message is added to the active conversation with the contact if a conversation already exists. If no active conversation exists a new one is started automatically.  You can find all of your IDs and authentication credentials on the [Sinch Customer Dashboard](https://dashboard.sinch.com/convapi/overview).
+   * @param { SendCarouselMessageRequestData<Recipient> } data - The data to provide to the API call.
+   */
+  public async sendCarouselMessage(
+    data: SendCarouselMessageRequestData<Recipient>,
+  ): Promise<SendMessageResponse> {
+    return this.sendMessage(data, 'SendCarouselMessage');
+  }
+
+  /**
+   * Send a choice message
+   * You can send a message from a Conversation app to a contact associated with that app. If the recipient is not associated with an existing contact, a new contact will be created.  The message is added to the active conversation with the contact if a conversation already exists. If no active conversation exists a new one is started automatically.  You can find all of your IDs and authentication credentials on the [Sinch Customer Dashboard](https://dashboard.sinch.com/convapi/overview).
+   * @param { SendChoiceMessageRequestData<Recipient> } data - The data to provide to the API call.
+   */
+  public async sendChoiceMessage(
+    data: SendChoiceMessageRequestData<Recipient>,
+  ): Promise<SendMessageResponse> {
+    return this.sendMessage(data, 'SendChoiceMessage');
+  }
+
+  /**
+   * Send a contact info message
+   * You can send a message from a Conversation app to a contact associated with that app. If the recipient is not associated with an existing contact, a new contact will be created.  The message is added to the active conversation with the contact if a conversation already exists. If no active conversation exists a new one is started automatically.  You can find all of your IDs and authentication credentials on the [Sinch Customer Dashboard](https://dashboard.sinch.com/convapi/overview).
+   * @param { SendContactInfoMessageRequestData<Recipient> } data - The data to provide to the API call.
+   */
+  public async sendContactInfoMessage(
+    data: SendContactInfoMessageRequestData<Recipient>,
+  ): Promise<SendMessageResponse> {
+    return this.sendMessage(data, 'SendContactInfoMessage');
+  }
+
+  /**
+   * Send a list message
+   * You can send a message from a Conversation app to a contact associated with that app. If the recipient is not associated with an existing contact, a new contact will be created.  The message is added to the active conversation with the contact if a conversation already exists. If no active conversation exists a new one is started automatically.  You can find all of your IDs and authentication credentials on the [Sinch Customer Dashboard](https://dashboard.sinch.com/convapi/overview).
+   * @param { SendListMessageRequestData<Recipient> } data - The data to provide to the API call.
+   */
+  public async sendListMessage(
+    data: SendListMessageRequestData<Recipient>,
+  ): Promise<SendMessageResponse> {
+    return this.sendMessage(data, 'SendListMessage');
+  }
+
+  /**
+   * Send a location message
+   * You can send a message from a Conversation app to a contact associated with that app. If the recipient is not associated with an existing contact, a new contact will be created.  The message is added to the active conversation with the contact if a conversation already exists. If no active conversation exists a new one is started automatically.  You can find all of your IDs and authentication credentials on the [Sinch Customer Dashboard](https://dashboard.sinch.com/convapi/overview).
+   * @param { SendLocationMessageRequestData<Recipient> } data - The data to provide to the API call.
+   */
+  public async sendLocationMessage(
+    data: SendLocationMessageRequestData<Recipient>,
+  ): Promise<SendMessageResponse> {
+    return this.sendMessage(data, 'SendLocationMessage');
+  }
+
+  /**
+   * Send a media message
+   * You can send a message from a Conversation app to a contact associated with that app. If the recipient is not associated with an existing contact, a new contact will be created.  The message is added to the active conversation with the contact if a conversation already exists. If no active conversation exists a new one is started automatically.  You can find all of your IDs and authentication credentials on the [Sinch Customer Dashboard](https://dashboard.sinch.com/convapi/overview).
+   * @param { SendCardMessageRequestData<Recipient> } data - The data to provide to the API call.
+   */
+  public async sendMediaMessage(
+    data: SendMediaMessageRequestData<Recipient>,
+  ): Promise<SendMessageResponse> {
+    return this.sendMessage(data, 'SendMediaMessage');
+  }
+
+  /**
+   * Send a template message
+   * You can send a message from a Conversation app to a contact associated with that app. If the recipient is not associated with an existing contact, a new contact will be created.  The message is added to the active conversation with the contact if a conversation already exists. If no active conversation exists a new one is started automatically.  You can find all of your IDs and authentication credentials on the [Sinch Customer Dashboard](https://dashboard.sinch.com/convapi/overview).
+   * @param { SendCardMessageRequestData<Recipient> } data - The data to provide to the API call.
+   */
+  public async sendTemplateMessage(
+    data: SendTemplateMessageRequestData<Recipient>,
+  ): Promise<SendMessageResponse> {
+    return this.sendMessage(data, 'SendTemplateMessage');
+  }
+
+  /**
+   * Send a text message
+   * You can send a message from a Conversation app to a contact associated with that app. If the recipient is not associated with an existing contact, a new contact will be created.  The message is added to the active conversation with the contact if a conversation already exists. If no active conversation exists a new one is started automatically.  You can find all of your IDs and authentication credentials on the [Sinch Customer Dashboard](https://dashboard.sinch.com/convapi/overview).
+   * @param { SendTextMessageRequestData<Recipient> } data - The data to provide to the API call.
+   */
+  public async sendTextMessage(
+    data: SendTextMessageRequestData<Recipient>,
+  ): Promise<SendMessageResponse> {
+    return this.sendMessage(data, 'SendTextMessage');
+  }
+
+  private async sendMessage(
+    data: SendMessageRequestData<Recipient>,
+    operationId: string,
+  ): Promise<SendMessageResponse> {
     this.client = this.getSinchClient();
-    const getParams = this.client.extractQueryParams<SendMessageRequestData>(data, [] as never[]);
+    const getParams = this.client.extractQueryParams<SendMessageRequestData<Recipient>>(
+      data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
-    const body: RequestBody = data['sendMessageRequestBody'] ? JSON.stringify(data['sendMessageRequestBody']) : '{}';
+    const body: RequestBody = data['sendMessageRequestBody']
+      ? JSON.stringify(data['sendMessageRequestBody'])
+      : '{}';
     const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/messages:send`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
@@ -216,7 +373,7 @@ export class MessagesApi extends ConversationDomainApi {
       url,
       requestOptions,
       apiName: this.apiName,
-      operationId: 'SendMessage',
+      operationId,
     });
   }
 
