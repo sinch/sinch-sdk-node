@@ -27,10 +27,8 @@ jobs:
 
       # Start the mock server
       - name: Start the mock server
-        env:
-          PAT_CI: ${{ secrets.PAT_CI }}
         run: |
-          git clone https://github.com/sinch/doppelganger.git sinch-sdk-mockserver
+          git clone https://asein_sinch:${{ secrets.PAT_CI }}@github.com/sinch/doppelganger.git sinch-sdk-mockserver
           cd sinch-sdk-mockserver
           git checkout upgrade-to-typescript
           yarn install
