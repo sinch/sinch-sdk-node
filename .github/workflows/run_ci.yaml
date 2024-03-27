@@ -28,7 +28,21 @@ jobs:
           git checkout upgrade-to-typescript
           yarn install
           yarn run compile
+          docker-compose build
           docker-compose up -d
+
+      # Wait for the mockserver to be ready
+      - name: Wait for the mockserver to be ready
+        run: |
+          retries=0
+          until curl -sSf http://localhost:6039/health > /dev/null; do
+            retries=$((retries+1))
+            if [ $retries -gt 10 ]; then
+              echo "Mock server did not start in time, exiting..."
+              exit 1
+            fi
+            sleep 3
+          done
 
       # Install dependencies
       - run: yarn install
