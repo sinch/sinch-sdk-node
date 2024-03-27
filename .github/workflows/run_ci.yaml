@@ -35,10 +35,6 @@ jobs:
           yarn run compile
           AUTH_PORT=8020 NUMBERS_PORT=8021 SMS_PORT=8022 CONVERSATION_PORT=8023 VERIFICATION_PORT=8024 VOICE_PORT=8025 FAX_PORT=8026 node --experimental-specifier-resolution=node dist/index.js
 
-      # Wait for mock server to start
-      - name: Wait for Mock Server
-        run: sleep 15
-
       # Run tests
       - run: yarn run e2e
 

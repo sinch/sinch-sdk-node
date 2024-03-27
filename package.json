@@ -13,7 +13,7 @@
   "scripts": {
     "build": "lerna run build",
     "test": "jest",
-    "e2e": "lerna run test:cucumber"
+    "e2e": "lerna run test:e2e"
   },
   "keywords": [],
   "devDependencies": {
