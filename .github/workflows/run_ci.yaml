@@ -27,12 +27,14 @@ jobs:
 
       # Start the mock server
       - name: Start the mock server
+        env:
+          PAT_CI: ${{ secrets.PAT_CI }}
         run: |
           git clone https://github.com/sinch/doppelganger.git sinch-sdk-mockserver
           cd sinch-sdk-mockserver
           git checkout upgrade-to-typescript
           yarn install
-          yarn compile
+          yarn run compile
           AUTH_PORT=8020 NUMBERS_PORT=8021 SMS_PORT=8022 CONVERSATION_PORT=8023 VERIFICATION_PORT=8024 VOICE_PORT=8025 FAX_PORT=8026 node --experimental-specifier-resolution=node dist/index.js
 
       # Wait for mock server to start
