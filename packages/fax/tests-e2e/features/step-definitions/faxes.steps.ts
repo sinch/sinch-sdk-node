@@ -15,9 +15,9 @@ Given('the Fax service is available', function () {
     projectId: 'projectId',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authBaseUrl: 'http://localhost:5039',
+    authBaseUrl: 'http://localhost:8020',
   });
-  faxService.setBasePath('http://localhost:5045');
+  faxService.setBasePath('http://localhost:8026');
 });
 
 When('I send a request to list faxes', async function () {
