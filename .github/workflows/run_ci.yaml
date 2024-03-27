@@ -8,13 +8,18 @@ on:
     branches: [main]
 
 jobs:
-  start-mock-server:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
     steps:
-      - name: Set up Node.js
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: ${{ matrix.node-version }}
+
       # Start the mock server
       - name: Start the mock server
         run: |
@@ -23,20 +28,7 @@ jobs:
           git checkout upgrade-to-typescript
           yarn install
           yarn run compile
-          AUTH_PORT=8020 NUMBERS_PORT=8021 SMS_PORT=8022 CONVERSATION_PORT=8023 VERIFICATION_PORT=8024 VOICE_PORT=8025 FAX_PORT=8026 node --experimental-specifier-resolution=node dist/index.js
-
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
-    needs: start-mock-server
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
+          docker-compose up -d
 
       # Install dependencies
       - run: yarn install
