@@ -8,23 +8,13 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  start-mock-server:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-      - run: yarn install
-      - run: npx eslint "packages/**/src/**/*.ts"
-      - run: npx eslint "packages/**/tests/**/*.ts"
-      - run: yarn run build
-      - run: yarn run test
-
+          node-version: 18.x
       # Start the mock server
       - name: Start the mock server
         run: |
@@ -35,11 +25,33 @@ jobs:
           yarn run compile
           AUTH_PORT=8020 NUMBERS_PORT=8021 SMS_PORT=8022 CONVERSATION_PORT=8023 VERIFICATION_PORT=8024 VOICE_PORT=8025 FAX_PORT=8026 node --experimental-specifier-resolution=node dist/index.js
 
-      # Run tests
-      - run: yarn run e2e
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    needs: start-mock-server
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-      # Stop mock server after tests
-      - name: Stop Mock Server
-        run: |
-          cd mockserver
-          pkill -f "node --experimental-specifier-resolution=node dist/index.js"
+      # Install dependencies
+      - run: yarn install
+
+      # Run linter for SDK source files
+      - run: npx eslint "packages/**/src/**/*.ts"
+
+      # Run linter for SDK test files
+      - run: npx eslint "packages/**/tests/**/*.ts"
+
+      # Transpile TS code for SDK and examples
+      - run: yarn run build
+
+      # Run unit tests
+      - run: yarn run test
+
+      # Run e2e tests
+      - run: yarn run e2e
