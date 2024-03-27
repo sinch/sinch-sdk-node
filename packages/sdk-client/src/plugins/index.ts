@@ -1,4 +1,5 @@
 export * from './core';
+export * from './additional-headers';
 export * from './api-token';
 export * from './basicAuthentication';
 export * from './exception';

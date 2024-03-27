@@ -1,7 +1,12 @@
+import { RequestPlugin } from '../plugins/core/request-plugin';
+import { ResponsePlugin } from '../plugins/core/response-plugin';
+
 export interface SinchClientParameters extends
   Partial<UnifiedCredentials>,
   Partial<ServicePlanIdCredentials>,
-  Partial<ApplicationCredentials> {}
+  Partial<ApplicationCredentials>,
+  Partial<ApiBaseUrl>,
+  Partial<Plugins> {}
 
 export interface UnifiedCredentials {
   /** The project ID associated with the API Client. You can find this on your [Dashboard](https://dashboard.sinch.com/account/access-keys). */
@@ -32,6 +37,17 @@ export interface ApplicationCredentials {
   applicationSecret: string;
   /** The region for the Voice API. Default is empty */
   voiceRegion?: VoiceRegion;
+}
+
+export interface ApiBaseUrl {
+  authBaseUrl?: string;
+  numbersBaseUrl?: string;
+  smsBaseUrl?: string;
+}
+
+export interface Plugins {
+  requestPlugins?: RequestPlugin[];
+  responsePlugins?: ResponsePlugin<any>[];
 }
 
 export const isUnifiedCredentials = (credentials: any): credentials is UnifiedCredentials => {

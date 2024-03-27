@@ -71,11 +71,15 @@ export class FaxDomainApi implements Api {
       throw new Error('Invalid configuration for the Fax API: '
         + '"projectId", "keyId" and "keySecret" values must be provided');
     }
-    return {
+    const apiClientOptions: ApiClientOptions =  {
       projectId: params.projectId,
-      requestPlugins: [new Oauth2TokenRequest( params.keyId,  params.keySecret)],
+      requestPlugins: [new Oauth2TokenRequest( params.keyId,  params.keySecret, params.authBaseUrl)],
       useServicePlanId: false,
     };
+    if (params.requestPlugins && params.requestPlugins.length > 0) {
+      apiClientOptions.requestPlugins?.push(...params.requestPlugins);
+    }
+    return apiClientOptions;
   }
 
 }

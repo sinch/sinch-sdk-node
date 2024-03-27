@@ -1,0 +1,49 @@
+name: Build and test Sinch Node.js SDK
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install
+      - run: npx eslint "packages/**/src/**/*.ts"
+      - run: npx eslint "packages/**/tests/**/*.ts"
+      - run: yarn run build
+      - run: yarn run test
+
+      # Start the mock server
+      - name: Start the mock server
+        run: |
+          git clone https://github.com/sinch/doppelganger.git sinch-sdk-mockserver
+          cd sinch-sdk-mockserver
+          git checkout upgrade-to-typescript
+          yarn install
+          yarn compile
+          AUTH_PORT=8020 NUMBERS_PORT=8021 SMS_PORT=8022 CONVERSATION_PORT=8023 VERIFICATION_PORT=8024 VOICE_PORT=8025 FAX_PORT=8026 node --experimental-specifier-resolution=node dist/index.js
+
+      # Wait for mock server to start
+      - name: Wait for Mock Server
+        run: sleep 15
+
+      # Run tests
+      - run: yarn run e2e
+
+      # Stop mock server after tests
+      - name: Stop Mock Server
+        run: |
+          cd mockserver
+          pkill -f "node --experimental-specifier-resolution=node dist/index.js"

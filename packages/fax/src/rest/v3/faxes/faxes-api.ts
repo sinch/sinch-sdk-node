@@ -238,14 +238,14 @@ export class FaxesApi extends FaxDomainApi {
       headers['Content-Type'] = 'application/json';
       body = JSON.stringify(data['sendFaxRequestBody']);
     } else {
-      const formParams:any = {};
+      const formParams: any = {};
       const requestData = data.sendFaxRequestBody as FaxRequestFormData;
       if( requestData.to ) { formParams['to'] = requestData.to; }
       if( requestData.file ) { formParams['file'] = requestData.file; }
       if( requestData.from ) { formParams['from'] = requestData.from; }
       if( requestData.contentUrl ) { formParams['contentUrl'] = requestData.contentUrl; }
       if( requestData.headerText ) { formParams['headerText'] = requestData.headerText; }
-      if( requestData.headerPageNumbers ) { formParams['headerPageNumbers'] = requestData.headerPageNumbers; }
+      if( requestData.headerPageNumbers ) { formParams.headerPageNumbers = requestData.headerPageNumbers.toString(); }
       if( requestData.headerTimeZone ) { formParams['headerTimeZone'] = requestData.headerTimeZone; }
       if( requestData.retryDelaySeconds ) { formParams['retryDelaySeconds'] = requestData.retryDelaySeconds; }
       if( requestData.labels ) { formParams['labels'] = requestData.labels; }
