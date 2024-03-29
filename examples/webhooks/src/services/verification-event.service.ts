@@ -10,7 +10,7 @@ import {
 } from '@sinch/sdk-core';
 
 @Injectable()
-export class VerificationService {
+export class VerificationEventService {
 
   handleEvent(event: VerificationCallback, res: Response) {
     console.log(`:: INCOMING EVENT :: ${event.event}`);

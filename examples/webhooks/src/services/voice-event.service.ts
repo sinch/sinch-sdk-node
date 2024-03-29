@@ -18,7 +18,7 @@ import {
 } from '@sinch/sdk-core';
 
 @Injectable()
-export class VoiceService {
+export class VoiceEventService {
 
   handleEvent(event: VoiceCallback, res: Response) {
     console.log(`:: INCOMING EVENT :: ${event.event}`);
