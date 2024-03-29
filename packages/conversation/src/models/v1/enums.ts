@@ -1,8 +1,7 @@
-export type {
-  SentimentResult as MachineLearningSentimentEnum,
-  EvaluationEnum as OffensiveAnalysisEvaluationEnum,
-} from './mod-callback-events/smart-conversations-event/smart-conversations-event';
-
+/**
+ * NONE - Omit metadata.
+ * FULL - Include all metadata assigned to the conversation.
+ */
 export type ConversationMetadataReportView = 'NONE' | 'FULL';
 
 export type ConversationMetadataUpdateStrategy = 'REPLACE' | 'MERGE_PATCH';

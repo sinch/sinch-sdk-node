@@ -10,6 +10,7 @@ import { CarouselMessage, CarouselMessageItem } from '../carousel-message';
 import { ListMessage, ListMessageItem } from '../list-message';
 import { ContactInfoMessage, ContactInfoMessageItem } from '../contact-info-message';
 import { ConversationChannel } from '../conversation-channel';
+import { ChannelSpecificMessage } from '../channel-specific-message';
 
 /**
  * Message originating from an app
@@ -153,7 +154,7 @@ interface AppContactInfoMessage extends AppMessageBase {
 
 interface AppMessageBase {
   /**
-   * Optional. Channel specific messages, overriding any transcoding.
+   * Channel specific messages, overriding any transcoding.
    * The key in the map must point to a valid conversation channel as defined by the enum ConversationChannel.
    */
   explicit_channel_message?: { [key in ConversationChannel ]?: string; };
@@ -162,6 +163,11 @@ interface AppMessageBase {
    * (for channels on which channel-specific templates can be created. For more information, see [Channel Specific Templates](https://developers.sinch.com/docs/conversation/templates/#channel-specific-templates)).
    */
   explicit_channel_omni_message?: { [key in ChannelSpecificTemplate]?: OmniMessage; };
+  /**
+   * Channel specific messages, overriding any transcoding. The structure of this property is more well-defined than the open structure of the `explicit_channel_message` property, and may be easier to use.
+   * The key in the map must point to a valid conversation channel as defined in the enum `ConversationChannel`.
+   */
+  channel_specific_message?: { [key in ConversationChannel]?: ChannelSpecificMessage; };
   /** Identity of a sender */
   agent?: Agent | null;
 }

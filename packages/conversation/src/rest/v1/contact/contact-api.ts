@@ -160,7 +160,9 @@ export class ContactApi extends ConversationDomainApi {
 
   /**
    * Get a Contact
-   * Returns a specific contact as specified by the contact ID. Note that, if a WhatsApp contact is returned, the &#x60;display_name&#x60; field of that contact may be populated with the WhatsApp display name (if the name is already stored on the server and the &#x60;display_name&#x60; field has not been overwritten by the user).
+   * Returns a specific contact as specified by the contact ID. Note the following:
+   *  - If a WhatsApp contact is returned, the `display_name` field of that contact may be populated with the WhatsApp display name (if the name is already stored on the server and the `display_name` field has not been overwritten by the user).
+   *  - If you receive an Inbound Message callback for an MO message on the Instagram channel, the corresponding payload will not include the Instagram username. You may use the `contact_id` and `channel_identity` values included in the callback to retrieve the username (detailed in the `display_name` field) with this Conversation API operation.
    * @param { GetContactRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetContactRequestData): Promise<Contact> {

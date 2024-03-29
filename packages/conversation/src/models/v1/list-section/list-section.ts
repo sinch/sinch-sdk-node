@@ -2,7 +2,7 @@ import { ChoiceItem } from '../choice-item';
 import { Product } from '../product';
 
 /**
- * Section for interactive whatsapp messages containing ListItem
+ * Section for interactive WhatsApp messages containing ListItem
  */
 export interface ListSection {
 
