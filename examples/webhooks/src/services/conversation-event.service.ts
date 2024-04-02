@@ -3,28 +3,29 @@ import {
   SinchClient,
   ConversationWebhookEventParsed,
   ContactMessage,
+  ConversationService,
   messageBuilder,
   ContactId,
   SendMessageRequestData,
 } from '@sinch/sdk-core';
 
 @Injectable()
-export class ConversationService {
+export class ConversationEventService {
 
-  private sinchClient: SinchClient;
+  private conversationService: ConversationService;
 
   constructor() {
-    this.sinchClient = this.initClient();
+    this.conversationService = this.initConversationService();
   }
 
-  private initClient = () => {
+  private initConversationService = () => {
     const keyId = process.env.SINCH_KEY_ID || '';
     const keySecret = process.env.SINCH_KEY_SECRET || '';
     const projectId = process.env.SINCH_PROJECT_ID || '';
-    return new SinchClient({ projectId, keyId, keySecret });
+    return new SinchClient({ projectId, keyId, keySecret }).conversation;
   };
 
-  private buildTextMessage(contactMessage: ContactMessage) {
+  private buildContactMessage(contactMessage: ContactMessage) {
     if ('text_message' in contactMessage && contactMessage.text_message) {
       return messageBuilder.text({
         text: `Parrot mode 🦜: ${contactMessage.text_message.text}`,
@@ -59,14 +60,14 @@ export class ConversationService {
             recipient: {
               contact_id: message.contact_id!,
             },
-            message: this.buildTextMessage(contactMessage),
+            message: this.buildContactMessage(contactMessage),
             ttl: '5s',
             channel_properties: {
               MESSENGER_NOTIFICATION_TYPE: 'NO_PUSH',
             }
           },
         };
-        this.sinchClient.conversation.messages.send(requestData)
+        this.conversationService.messages.send(requestData)
           .then(response=> console.log(`Response successfully sent at '${response.accepted_time}': Message ID = ${response.message_id}`))
           .catch(error => console.error(`Impossible to send back a message to the user: ${error}`));
         break;
