@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DeliveryReport, MOBinary, MOText, SmsCallback } from '@sinch/sdk-core';
 
 @Injectable()
-export class SmsService {
+export class SmsEventService {
 
   handleEvent(event: SmsCallback): void {
     console.log(`:: INCOMING EVENT :: ${event.type}`);

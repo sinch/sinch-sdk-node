@@ -9,12 +9,12 @@ import {
   VerificationCallbackWebhooks,
   VoiceCallbackWebhooks,
 } from '@sinch/sdk-core';
-import { NumbersService } from '../services/numbers.service';
-import { SmsService } from '../services/sms.service';
-import { VerificationService } from '../services/verification.service';
-import { VoiceService } from '../services/voice.service';
-import { ConversationService } from '../services/conversation.service';
-import { FaxService } from '../services/fax.service';
+import { NumbersEventService } from '../services/numbers-event.service';
+import { SmsEventService } from '../services/sms-event.service';
+import { VerificationEventService } from '../services/verification-event.service';
+import { VoiceEventService } from '../services/voice-event.service';
+import { ConversationEventService } from '../services/conversation-event.service';
+import { FaxEventService } from '../services/fax-event.service';
 require('dotenv').config();
 
 // Const for Conversation API
@@ -31,12 +31,12 @@ const SINCH_APPLICATION_SECRET = process.env.SINCH_APPLICATION_SECRET || '';
 export class AppController {
 
   constructor(
-    private readonly conversationService: ConversationService,
-    private readonly faxService: FaxService,
-    private readonly numbersService: NumbersService,
-    private readonly smsService: SmsService,
-    private readonly verificationService: VerificationService,
-    private readonly voiceService: VoiceService) {}
+    private readonly conversationEventService: ConversationEventService,
+    private readonly faxEventService: FaxEventService,
+    private readonly numbersEventService: NumbersEventService,
+    private readonly smsEventService: SmsEventService,
+    private readonly verificationEventService: VerificationEventService,
+    private readonly voiceEventService: VoiceEventService) {}
 
   @Post('/conversation')
   public conversation(@Req() request: Request, @Res() res: Response) {
@@ -52,7 +52,7 @@ export class AppController {
       // 2 - Before acting on the request, it must be parsed to verify it's supported and to revive its content
       const event = conversationCallbackWebhook.parseEvent(request.body);
       // 3 - Once steps 1 and 2 are ok, delegate the event management to the Conversation service
-      this.conversationService.handleEvent(event);
+      this.conversationEventService.handleEvent(event);
       res.status(200).send();
     } catch (error) {
       console.error(error);
@@ -66,11 +66,11 @@ export class AppController {
     // Initialize the class that will be used to validate the request and parse it
     const faxCallbackWebhook = new FaxCallbackWebhooks();
     try {
-      // There is no request validation for the SMS API, so we can parse it and revive its content directly
+      // There is no request validation for the Fax API, so we can parse it and revive its content directly
       const event = faxCallbackWebhook.parseEvent(request.body);
       // Once the request has been revived, delegate the event management to the SMS service
       const contentType = request.headers['content-type'];
-      this.faxService.handleEvent(event, contentType, file);
+      this.faxEventService.handleEvent(event, contentType, file);
       res.status(200).send();
     } catch (error) {
       console.error(error);
@@ -93,7 +93,7 @@ export class AppController {
       // 2 - Before acting on the request, it must be parsed to verify it's supported and to revive its content
       const event = numbersCallbackWebhook.parseEvent(request.body);
       // 3 - Once steps 1 and 2 are ok, delegate the event management to the Numbers service
-      this.numbersService.handleEvent(event);
+      this.numbersEventService.handleEvent(event);
       res.status(200).send();
     } catch (error) {
       console.error(error);
@@ -108,7 +108,7 @@ export class AppController {
       // There is no request validation for the SMS API, so we can parse it and revive its content directly
       const event = smsCallbackWebhooks.parseEvent(eventBody);
       // Once the request has been revived, delegate the event management to the SMS service
-      this.smsService.handleEvent(event);
+      this.smsEventService.handleEvent(event);
       res.status(200).send();
     } catch (error) {
       console.error(error);
@@ -134,7 +134,7 @@ export class AppController {
       // 2 - Before acting on the request, it must be parsed to verify it's supported and to revive its content
       const event = verificationCallbackWebhooks.parseEvent(request.body);
       // 3 - Once steps 1 and 2 are ok, delegate the event management to the Verifications service
-      this.verificationService.handleEvent(event, res);
+      this.verificationEventService.handleEvent(event, res);
     } catch (error) {
       console.error(error);
       res.status(500).send();
@@ -159,7 +159,7 @@ export class AppController {
       // 2 - Before acting on the request, it must be parsed to verify it's supported and to revive its content
       const event = voiceCallbackWebhooks.parseEvent(request.body);
       // 3 - Once steps 1 and 2 are ok, delegate the event management to the Voice service
-      this.voiceService.handleEvent(event, res);
+      this.voiceEventService.handleEvent(event, res);
     } catch (error) {
       console.error(error);
       res.status(500).send();

@@ -9,7 +9,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 @Injectable()
-export class FaxService {
+export class FaxEventService {
 
   handleEvent(event: FaxWebhookEventParsed, contentType?: string, file?: Express.Multer.File): void {
     if (contentType === 'application/json') {

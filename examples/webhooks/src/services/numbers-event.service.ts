@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { NumbersCallback } from '@sinch/sdk-core';
 
 @Injectable()
-export class NumbersService {
+export class NumbersEventService {
 
   handleEvent(event: NumbersCallback): void {
     const eventType = event.eventType;

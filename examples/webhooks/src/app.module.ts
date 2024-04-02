@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
 import { AppController } from './controller/app.controller';
-import { NumbersService } from './services/numbers.service';
-import { SmsService } from './services/sms.service';
-import { VerificationService } from './services/verification.service';
-import { VoiceService } from './services/voice.service';
-import { ConversationService } from './services/conversation.service';
-import { FaxService } from './services/fax.service';
+import { NumbersEventService } from './services/numbers-event.service';
+import { SmsEventService } from './services/sms-event.service';
+import { VerificationEventService } from './services/verification-event.service';
+import { VoiceEventService } from './services/voice-event.service';
+import { ConversationEventService } from './services/conversation-event.service';
+import { FaxEventService } from './services/fax-event.service';
 
 @Module({
   imports: [
@@ -14,12 +14,12 @@ import { FaxService } from './services/fax.service';
   ],
   controllers: [AppController],
   providers: [
-    ConversationService,
-    FaxService,
-    NumbersService,
-    SmsService,
-    VerificationService,
-    VoiceService,
+    ConversationEventService,
+    FaxEventService,
+    NumbersEventService,
+    SmsEventService,
+    VerificationEventService,
+    VoiceEventService,
   ],
 })
 export class AppModule {}
