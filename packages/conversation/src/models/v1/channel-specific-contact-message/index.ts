@@ -1,1 +1,1 @@
-export type { ChannelSpecificContactMessage } from './channel-specific-contact-message';
+export type { ChannelSpecificContactMessage, WhatsAppSpecificContactMessage } from './channel-specific-contact-message';

@@ -4,7 +4,6 @@ export * from './agent-left-event';
 export * from './app-create-request';
 export * from './app-event';
 export * from './app-message';
-export * from './app-message-message';
 export * from './app-response';
 export * from './app-update-request';
 export * from './call-message';

@@ -3,7 +3,9 @@ import { WhatsAppInteractiveNfmReply } from '../whatsapp-interactive-nfm-reply';
 /**
  * A contact message containing a channel specific message (not supported by OMNI types).
  */
-export interface ChannelSpecificContactMessage {
+export type ChannelSpecificContactMessage = WhatsAppSpecificContactMessage;
+
+export interface WhatsAppSpecificContactMessage {
   /** The message type. */
   message_type: 'nfm_reply';
   /** @see WhatsAppInteractiveNfmReplyMessage */

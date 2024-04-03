@@ -1,16 +1,18 @@
 import { ConversationChannel } from '../conversation-channel';
 import { Recipient } from '../recipient';
 import { ConversationMetadataUpdateStrategy, MessageQueue, ProcessingStrategy } from '../enums';
-import { CardMessage } from '../card-message';
-import { CarouselMessage } from '../carousel-message';
-import { ChoiceMessage } from '../choice-message';
-import { LocationMessage } from '../location-message';
-import { MediaMessage } from '../media-message';
-import { TemplateMessage } from '../template-message';
-import { TextMessage } from '../text-message';
-import { ListMessage } from '../list-message';
-import { ContactInfoMessage } from '../contact-info-message';
-import { AppMessageMessage } from '../app-message-message';
+import {
+  AppCardMessage,
+  AppCarouselMessage,
+  AppChoiceMessage,
+  AppContactInfoMessage,
+  AppListMessage,
+  AppLocationMessage,
+  AppMediaMessage,
+  AppMessage,
+  AppTemplateMessage,
+  AppTextMessage,
+} from '../app-message';
 
 /**
  * This is the request body for sending a message. `app_id`, `recipient`, and `message` are all required fields.
@@ -61,51 +63,51 @@ export type ChannelPropertyKey =
   | string; // Wildcard for new channel events not yet documented
 
 export interface SendMessageRequest<T extends Recipient> extends SendMessageRequestBase<T> {
-  /** @see AppMessageMessage */
-  message: AppMessageMessage;
+  /** @see AppMessage */
+  message: AppMessage;
 }
 
 export interface SendCardMessageRequest<T extends Recipient> extends SendMessageRequestBase<T> {
-  /** @see CardMessage */
-  message: CardMessage;
+  /** @see AppCardMessage */
+  message: AppCardMessage;
 }
 
 export interface SendCarouselMessageRequest<T extends Recipient> extends SendMessageRequestBase<T> {
-  /** @see CarouselMessage */
-  message: CarouselMessage;
+  /** @see AppCarouselMessage */
+  message: AppCarouselMessage;
 }
 
 export interface SendChoiceMessageRequest<T extends Recipient> extends SendMessageRequestBase<T> {
-  /** @see CarouselMessage */
-  message: ChoiceMessage;
+  /** @see AppChoiceMessage */
+  message: AppChoiceMessage;
 }
 
 export interface SendLocationMessageRequest<T extends Recipient> extends SendMessageRequestBase<T> {
-  /** @see LocationMessage */
-  message: LocationMessage;
+  /** @see AppLocationMessage */
+  message: AppLocationMessage;
 }
 
 export interface SendMediaMessageRequest<T extends Recipient> extends SendMessageRequestBase<T> {
-  /** @see MediaMessage */
-  message: MediaMessage;
+  /** @see AppMediaMessage */
+  message: AppMediaMessage;
 }
 
 export interface SendTemplateMessageRequest<T extends Recipient> extends SendMessageRequestBase<T> {
-  /** @see TemplateMessage */
-  message: TemplateMessage;
+  /** @see AppTemplateMessage */
+  message: AppTemplateMessage;
 }
 
 export interface SendTextMessageRequest<T extends Recipient> extends SendMessageRequestBase<T> {
-  /** @see TextMessage */
-  message: TextMessage;
+  /** @see AppTextMessage */
+  message: AppTextMessage;
 }
 
 export interface SendListMessageRequest<T extends Recipient> extends SendMessageRequestBase<T> {
-  /** @see ListMessage */
-  message: ListMessage;
+  /** @see AppListMessage */
+  message: AppListMessage;
 }
 
 export interface SendContactInfoMessageRequest<T extends Recipient> extends SendMessageRequestBase<T> {
-  /** @see ContactInfoMessage */
-  message: ContactInfoMessage;
+  /** @see AppContactInfoMessage */
+  message: AppContactInfoMessage;
 }

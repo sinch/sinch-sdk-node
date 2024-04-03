@@ -3,7 +3,7 @@
  */
 export interface ContactInfoMessage {
   /** @see ContactInfoMessageItem */
-  contact_info_message?: ContactInfoMessageItem;
+  contact_info_message: ContactInfoMessageItem;
 }
 
 export interface ContactInfoMessageItem {

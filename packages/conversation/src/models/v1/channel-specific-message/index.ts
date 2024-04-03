@@ -1,1 +1,1 @@
-export type { ChannelSpecificMessage } from './channel-specific-message';
+export type { ChannelSpecificMessage, WhatsAppFlowMessage } from './channel-specific-message';
