@@ -1,12 +1,12 @@
 import { ConversationChannel } from '../conversation-channel';
-import { AppMessageMessage } from '../app-message-message';
+import { AppMessage } from '../app-message';
 
 export interface TranscodeMessageRequest {
 
   /** The ID of the app used to transcode the message. */
   app_id: string;
-  /** @see AppMessageMessage */
-  app_message: AppMessageMessage;
+  /** @see AppMessage */
+  app_message: AppMessage;
   /** The list of channels for which the message shall be transcoded to. */
   channels: ConversationChannel[];
   /** Optional. */

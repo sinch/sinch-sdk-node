@@ -4,8 +4,14 @@
  */
 export interface DeliveryReportBasedFallback {
 
-  /** Optional. A flag specifying whether this app has enabled fallback message delivery upon no positive delivery report. This feature is applicable only to messages which are sent to a recipient with more than one channel identity. Identities must be defined on channels which support at least the \'DELIVERED\' message state. **Please note that this functionality requires payment.** */
+  /**
+   * Optional. A flag specifying whether this app has enabled fallback message delivery upon no positive delivery report.
+   * This feature is applicable only to messages which are sent to a recipient with more than one channel identity.
+   * Identities must be defined on channels which support at least the 'DELIVERED' message state.
+   * **Please note that this functionality requires payment.** */
   enabled?: boolean;
-  /** Optional. The time, in seconds, after which a message without a positive delivery report will fallback to the next channel. The valid values for this field are [60 - 259200]. */
+  /**
+   * Optional. The time, in seconds, after which a message without a positive delivery report will fallback to the next channel.
+   * The valid values for this field are [60 - 259200]. */
   delivery_report_waiting_time?: number;
 }

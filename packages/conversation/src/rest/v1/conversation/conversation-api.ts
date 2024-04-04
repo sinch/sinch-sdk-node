@@ -38,7 +38,7 @@ export interface InjectEventRequestData {
   'injectConversationEventRequestBody': InjectConversationEventRequest;
 }
 export interface InjectMessageRequestData {
-  /** Required. The ID of the conversation. */
+  /** The ID of the conversation. */
   'conversation_id': string;
   /** Message to be injected. */
   'injectMessageRequestBody': InjectMessageRequest;
@@ -46,9 +46,9 @@ export interface InjectMessageRequestData {
 export interface ListConversationsRequestData {
   /** Required. True if only active conversations should be listed. */
   'only_active': boolean;
-  /** The ID of the app involved in the conversations. */
+  /** The ID of the app involved in the conversations. Note that either `app_id` or `contact_id` is required in order for the operation to function correctly. */
   'app_id'?: string;
-  /** Resource name (ID) of the contact. */
+  /** Resource name (ID) of the contact. Note that either `app_id` or `contact_id` is required in order for the operation to function correctly. */
   'contact_id'?: string;
   /** The maximum number of conversations to fetch. Defaults to 10 and the maximum is 20. */
   'page_size'?: number;
@@ -64,7 +64,8 @@ export interface ListRecentConversationsRequestData {
   'only_active'?: boolean;
   /** The maximum number of conversations to fetch. Defaults to 10 and the maximum value is 50. */
   'page_size'?: number;
-  /** Next page token previously returned if any. When specifying this token, make sure to use the same values for the other parameters from the request that originated the token, otherwise the paged results may be inconsistent. */
+  /** Next page token previously returned if any. When specifying this token, make sure to use the same values
+   * for the other parameters from the request that originated the token, otherwise the paged results may be inconsistent. */
   'page_token'?: string;
   /** Whether to sort conversations by newest message first or oldest. Default is DESC (newest first) */
   'order'?: 'ASC' | 'DESC';
@@ -208,7 +209,7 @@ export class ConversationApi extends ConversationDomainApi {
   }
 
   /**
-   * Inject messages
+   * Inject a message
    * This operation injects a conversation message in to a specific conversation.
    * @param { InjectMessageRequestData } data - The data to provide to the API call.
    */

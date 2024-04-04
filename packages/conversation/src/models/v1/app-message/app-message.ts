@@ -10,6 +10,7 @@ import { CarouselMessage, CarouselMessageItem } from '../carousel-message';
 import { ListMessage, ListMessageItem } from '../list-message';
 import { ContactInfoMessage, ContactInfoMessageItem } from '../contact-info-message';
 import { ConversationChannel } from '../conversation-channel';
+import { ChannelSpecificMessage } from '../channel-specific-message';
 
 /**
  * Message originating from an app
@@ -25,7 +26,7 @@ export type AppMessage =
   | AppListMessage
   | AppContactInfoMessage;
 
-interface AppCardMessage extends AppMessageBase {
+export interface AppCardMessage extends AppMessageBase {
   /** @see CardMessageItem */
   card_message: CardMessageItem;
   // Exclude other message types
@@ -39,7 +40,7 @@ interface AppCardMessage extends AppMessageBase {
   contact_info_message?: never;
 }
 
-interface AppChoiceMessage extends AppMessageBase {
+export interface AppChoiceMessage extends AppMessageBase {
   /** @see ChoiceMessageItem */
   choice_message: ChoiceMessageItem;
   // Exclude other message types
@@ -53,7 +54,7 @@ interface AppChoiceMessage extends AppMessageBase {
   contact_info_message?: never;
 }
 
-interface AppLocationMessage extends AppMessageBase {
+export interface AppLocationMessage extends AppMessageBase {
   /** @see LocationMessageItem */
   location_message: LocationMessageItem;
   // Exclude other message types
@@ -67,7 +68,7 @@ interface AppLocationMessage extends AppMessageBase {
   contact_info_message?: never;
 }
 
-interface AppCarouselMessage extends AppMessageBase {
+export interface AppCarouselMessage extends AppMessageBase {
   /** @see CarouselMessageItem */
   carousel_message: CarouselMessageItem;
   // Exclude other message types
@@ -81,7 +82,7 @@ interface AppCarouselMessage extends AppMessageBase {
   contact_info_message?: never;
 }
 
-interface AppMediaMessage extends AppMessageBase {
+export interface AppMediaMessage extends AppMessageBase {
   /** @see MediaMessageItem */
   media_message: MediaMessageItem;
   // Exclude other message types
@@ -95,7 +96,7 @@ interface AppMediaMessage extends AppMessageBase {
   contact_info_message?: never;
 }
 
-interface AppTemplateMessage extends AppMessageBase {
+export interface AppTemplateMessage extends AppMessageBase {
   /** @see TemplateMessageItem */
   template_message: TemplateMessageItem;
   // Exclude other message types
@@ -109,7 +110,7 @@ interface AppTemplateMessage extends AppMessageBase {
   contact_info_message?: never;
 }
 
-interface AppTextMessage extends AppMessageBase {
+export interface AppTextMessage extends AppMessageBase {
   /** @see TextMessageItem */
   text_message: TextMessageItem;
   // Exclude other message types
@@ -123,7 +124,7 @@ interface AppTextMessage extends AppMessageBase {
   contact_info_message?: never;
 }
 
-interface AppListMessage extends AppMessageBase {
+export interface AppListMessage extends AppMessageBase {
   /** @see ListMessageItem */
   list_message: ListMessageItem;
   // Exclude other message types
@@ -137,7 +138,7 @@ interface AppListMessage extends AppMessageBase {
   contact_info_message?: never;
 }
 
-interface AppContactInfoMessage extends AppMessageBase {
+export interface AppContactInfoMessage extends AppMessageBase {
   /** @see ContactInfoMessageItem */
   contact_info_message: ContactInfoMessageItem;
   // Exclude other message types
@@ -153,7 +154,7 @@ interface AppContactInfoMessage extends AppMessageBase {
 
 interface AppMessageBase {
   /**
-   * Optional. Channel specific messages, overriding any transcoding.
+   * Channel specific messages, overriding any transcoding.
    * The key in the map must point to a valid conversation channel as defined by the enum ConversationChannel.
    */
   explicit_channel_message?: { [key in ConversationChannel ]?: string; };
@@ -162,6 +163,11 @@ interface AppMessageBase {
    * (for channels on which channel-specific templates can be created. For more information, see [Channel Specific Templates](https://developers.sinch.com/docs/conversation/templates/#channel-specific-templates)).
    */
   explicit_channel_omni_message?: { [key in ChannelSpecificTemplate]?: OmniMessage; };
+  /**
+   * Channel specific messages, overriding any transcoding. The structure of this property is more well-defined than the open structure of the `explicit_channel_message` property, and may be easier to use.
+   * The key in the map must point to a valid conversation channel as defined in the enum `ConversationChannel`.
+   */
+  channel_specific_message?: { [key in ConversationChannel]?: ChannelSpecificMessage; };
   /** Identity of a sender */
   agent?: Agent | null;
 }

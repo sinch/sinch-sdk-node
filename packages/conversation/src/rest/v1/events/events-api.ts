@@ -37,7 +37,8 @@ export interface ListEventsRequestData {
   'contact_id'?: string;
   /** Maximum number of events to fetch. Defaults to 10 and the maximum is 20. */
   'page_size'?: number;
-  /** Next page token previously returned if any. When specifying this token, make sure to use the same values for the other parameters from the request that originated the token, otherwise the paged results may be inconsistent. */
+  /** Next page token previously returned if any. When specifying this token, make sure to use the same values
+   * for the other parameters from the request that originated the token, otherwise the paged results may be inconsistent. */
   'page_token'?: string;
 }
 export interface SendEventRequestData<T extends Recipient> {
