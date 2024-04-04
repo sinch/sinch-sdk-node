@@ -284,17 +284,17 @@ export class ApiFetchClient extends ApiClient {
 
     if (type === 'multipart/form-data') {
       const formData: FormData = new FormData();
-      for (const i in data) {
-        if (Object.prototype.hasOwnProperty.call(data, i)) {
-          formData.append(i, data[i]);
+      for (const key in data) {
+        if (Object.prototype.hasOwnProperty.call(data, key)) {
+          formData.append(key, data[key]);
         }
       }
       encodedData = formData;
     } else {
       const formData: string[] = [];
-      for (const i in data) {
-        if (Object.prototype.hasOwnProperty.call(data, i)) {
-          formData.push(`${i}=${encodeURIComponent(data[i])}`);
+      for (const key in data) {
+        if (Object.prototype.hasOwnProperty.call(data, key)) {
+          formData.push(`${key}=${encodeURIComponent(data[key])}`);
         }
       }
       encodedData = formData.join('&');
