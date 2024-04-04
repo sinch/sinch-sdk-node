@@ -60,7 +60,8 @@ class SinchIterator<T> implements AsyncIterator<T> {
       return updateQueryParamsAndSendRequest(
         this.apiClient, newParams, requestOptions, this.paginatedOperationProperties);
     }
-    if (this.paginatedOperationProperties.pagination === PaginationEnum.PAGE) {
+    if (this.paginatedOperationProperties.pagination === PaginationEnum.PAGE
+      || this.paginatedOperationProperties.pagination === PaginationEnum.PAGE3) {
       const newParams = {
         page: pageResult.nextPageValue,
       };
@@ -133,7 +134,7 @@ export const createNextPageMethod = <T>(
     newParams = {
       pageToken: nextPageValue,
     };
-  } else if (context.pagination === PaginationEnum.PAGE) {
+  } else if (context.pagination === PaginationEnum.PAGE || context.pagination === PaginationEnum.PAGE3) {
     newParams = {
       page: nextPageValue,
     };

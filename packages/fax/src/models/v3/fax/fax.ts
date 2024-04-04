@@ -9,9 +9,9 @@ export interface Fax {
   id?: string;
   /** @see FaxDirection */
   direction?: FaxDirection;
-  /** A phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading \'+\'. */
+  /** A phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. */
   from?: string;
-  /** A phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading \'+\'. */
+  /** A phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. */
   to?: string;
   /** @see FaxContentUrl */
   contentUrl?: FaxContentUrl;
@@ -27,7 +27,7 @@ export interface Fax {
   createTime?: Date;
   /** If the job is complete, this is a timestamp representing the time the job was completed. */
   completedTime?: Date;
-  /** Text that will be displayed at the top of each page of the fax. 50 characters maximum. Default header text is \"-\". Note that the header is not applied until the fax is transmitted, so it will not appear on fax PDFs or thumbnails. */
+  /** Text that will be displayed at the top of each page of the fax. 50 characters maximum. Default header text is "-". Note that the header is not applied until the fax is transmitted, so it will not appear on fax PDFs or thumbnails. */
   headerText?: string;
   /** If true, page numbers will be displayed in the header. Default is true. */
   headerPageNumbers?: boolean;
@@ -53,7 +53,7 @@ export interface Fax {
   projectId?: string;
   /** ID of the fax service used. */
   serviceId?: string;
-  /** | The number of times the fax will be retired before cancel. Default value is set in your fax service. | The maximum number of retries is 5. */
+  /** The number of times the fax will be retired before cancel. Default value is set in your fax service. The maximum number of retries is 5. */
   maxRetries?: number;
   /** The number of times the fax has been retried. */
   retryCount?: number;
