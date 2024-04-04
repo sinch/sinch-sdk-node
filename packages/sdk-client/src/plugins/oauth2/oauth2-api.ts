@@ -25,7 +25,7 @@ export class OAuth2Api implements Api {
     const body = `${encodeURIComponent('grant_type')}=${encodeURIComponent(
       'client_credentials',
     )}`;
-    const url = `${this.client.apiClientOptions.basePath}/oauth2/token`;
+    const url = `${this.client.apiClientOptions.hostname}/oauth2/token`;
     const requestOptions = await this.client.prepareOptions(
       url,
       'POST',

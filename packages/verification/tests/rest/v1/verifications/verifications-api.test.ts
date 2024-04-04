@@ -15,14 +15,14 @@ import {
 
 const _links: LinksObject[] = [
   {
-    rel: "status",
-    href: "https://dc-euc1-std.verification.api.sinch.com/verification/v1/verifications/id/some_verification_id",
-    method: "GET",
+    rel: 'status',
+    href: 'https://dc-euc1-std.verification.api.sinch.com/verification/v1/verifications/id/some_verification_id',
+    method: 'GET',
   },
   {
-    rel: "report",
-    href: "https://dc-euc1-std.verification.api.sinch.com/verification/v1/verifications/id/some_verification_id",
-    method: "PUT",
+    rel: 'report',
+    href: 'https://dc-euc1-std.verification.api.sinch.com/verification/v1/verifications/id/some_verification_id',
+    method: 'PUT',
   },
 ];
 

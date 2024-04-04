@@ -17,7 +17,7 @@ describe('Timezone response plugin', () => {
       url: '',
       requestOptions: {
         headers: new Headers(),
-        basePath: '',
+        hostname: '',
       },
     };
   });

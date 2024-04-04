@@ -95,11 +95,11 @@ export class EventsApi extends ConversationDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/events/${data['event_id']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/events/${data['event_id']}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<any>({
       url,
@@ -123,10 +123,10 @@ export class EventsApi extends ConversationDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/events/${data['event_id']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/events/${data['event_id']}`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<ConversationEvent>({
       url,
@@ -156,7 +156,7 @@ export class EventsApi extends ConversationDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/events`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/events`;
 
     const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
 
@@ -261,10 +261,10 @@ export class EventsApi extends ConversationDomainApi {
     const body: RequestBody = data['sendEventRequestBody']
       ? JSON.stringify(data['sendEventRequestBody'])
       : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/events:send`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/events:send`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<SendEventResponse>({
       url,

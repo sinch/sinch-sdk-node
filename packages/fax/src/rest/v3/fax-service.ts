@@ -15,13 +15,13 @@ export class FaxService {
   }
 
   /**
-   * Update the default basePath for each API
+   * Update the default hostname for each API
    *
-   * @param {string} basePath - The new base path to use for all the APIs.
+   * @param {string} hostname - The new hostname to use for all the APIs.
    */
-  public setBasePath(basePath: string) {
-    this.emails.setBasePath(basePath);
-    this.faxes.setBasePath(basePath);
-    this.services.setBasePath(basePath);
+  public setHostname(hostname: string) {
+    this.emails.setHostname(hostname);
+    this.faxes.setHostname(hostname);
+    this.services.setHostname(hostname);
   }
 }

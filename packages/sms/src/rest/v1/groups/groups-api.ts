@@ -78,11 +78,11 @@ export class GroupsApi extends SmsDomainApi {
     };
 
     const body: RequestBody = data['createGroupRequestBody'] ? JSON.stringify(data['createGroupRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/groups`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/groups`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<CreateGroupResponse>({
       url,
@@ -106,11 +106,11 @@ export class GroupsApi extends SmsDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/groups/${data['group_id']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/groups/${data['group_id']}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<void>({
       url,
@@ -134,11 +134,11 @@ export class GroupsApi extends SmsDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/groups/${data['group_id']}/members`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/groups/${data['group_id']}/members`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<string[]>({
       url,
@@ -165,7 +165,7 @@ export class GroupsApi extends SmsDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/groups`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/groups`;
 
     const requestOptionsPromise = this.client.prepareOptions(
       basePathUrl, 'GET', getParams, headers, body || undefined);
@@ -207,11 +207,11 @@ export class GroupsApi extends SmsDomainApi {
     };
 
     const body: RequestBody = data['replaceGroupRequestBody'] ? JSON.stringify(data['replaceGroupRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/groups/${data['group_id']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/groups/${data['group_id']}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<ReplaceGroupResponse>({
       url,
@@ -235,11 +235,11 @@ export class GroupsApi extends SmsDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/groups/${data['group_id']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/groups/${data['group_id']}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<GroupResponse>({
       url,
@@ -263,11 +263,11 @@ export class GroupsApi extends SmsDomainApi {
     };
 
     const body: RequestBody = data['updateGroupRequestBody'] ? JSON.stringify(data['updateGroupRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/groups/${data['group_id']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/groups/${data['group_id']}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<UpdateGroupResponse>({
       url,

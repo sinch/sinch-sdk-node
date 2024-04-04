@@ -12,12 +12,12 @@ export class VerificationService {
   }
 
   /**
-   * Update the default basePath for each API
+   * Update the default hostname for each API
    *
-   * @param {string} basePath - The new base path to use for all the APIs.
+   * @param {string} hostname - The new hostname to use for all the APIs.
    */
-  public setBasePath(basePath: string) {
-    this.verificationStatus.setBasePath(basePath);
-    this.verifications.setBasePath(basePath);
+  public setHostname(hostname: string) {
+    this.verificationStatus.setHostname(hostname);
+    this.verifications.setHostname(hostname);
   }
 }

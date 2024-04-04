@@ -32,6 +32,7 @@
       "@typescript-eslint/no-var-requires": "off",
       "semi": "warn",
       "comma-dangle": "warn",
+      "quotes": ["warn", "single"],
       "jest-extended/prefer-to-be-true": "warn",
       "jest-extended/prefer-to-be-false": "error",
       "jest-formatting/padding-around-describe-blocks": 2,

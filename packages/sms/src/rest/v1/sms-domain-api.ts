@@ -20,15 +20,15 @@ export class SmsDomainApi implements Api {
   }
 
   /**
-   * Update the default basePath for the API
-   * @param {string} basePath - The new base path to use for the APIs.
+   * Update the default hostname for the API
+   * @param {string} hostname - The new hostname to use for the APIs.
    */
-  public setBasePath(basePath: string) {
+  public setHostname(hostname: string) {
     try {
       this.client = this.getSinchClient();
-      this.client.apiClientOptions.basePath = basePath;
+      this.client.apiClientOptions.hostname = hostname;
     } catch (error) {
-      console.error('Impossible to set a new base path, the Application credentials need to be provided first.');
+      console.error('Impossible to set a new hostname, the Application credentials need to be provided first.');
       throw error;
     }
   }
@@ -67,9 +67,8 @@ export class SmsDomainApi implements Api {
     if (!this.client) {
       const region = this.sinchClientParameters.region || Region.UNITED_STATES;
       const apiClientOptions = this.buildApiClientOptions(this.sinchClientParameters, region);
-      const basePath = `https://${apiClientOptions.useServicePlanId?'':'zt.'}${region}.sms.api.sinch.com`;
       this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.basePath = basePath;
+      this.client.apiClientOptions.hostname = this.sinchClientParameters.smsHostname ?? `https://${apiClientOptions.useServicePlanId?'':'zt.'}${region}.sms.api.sinch.com`;
     }
     return this.client;
   }

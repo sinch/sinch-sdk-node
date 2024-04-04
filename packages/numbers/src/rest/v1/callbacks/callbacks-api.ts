@@ -40,7 +40,7 @@ export class CallbacksApi extends NumbersDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/callbackConfiguration`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/callbackConfiguration`;
 
     const requestOptions = await this.client.prepareOptions(
       basePathUrl,
@@ -49,7 +49,7 @@ export class CallbacksApi extends NumbersDomainApi {
       headers,
       body || undefined,
     );
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<CallbackConfiguration>({
       url,
@@ -79,7 +79,7 @@ export class CallbacksApi extends NumbersDomainApi {
     const body: RequestBody = data['callbackConfigurationUpdateRequestBody']
       ? JSON.stringify(data['callbackConfigurationUpdateRequestBody'])
       : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/callbackConfiguration`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/callbackConfiguration`;
 
     const requestOptions = await this.client.prepareOptions(
       basePathUrl,
@@ -88,7 +88,7 @@ export class CallbacksApi extends NumbersDomainApi {
       headers,
       body || undefined,
     );
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<CallbackConfiguration>({
       url,

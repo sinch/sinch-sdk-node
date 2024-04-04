@@ -111,7 +111,7 @@ export class ApiClient {
       headers: new Headers(filterUndefinedValues(headers)),
       body,
       queryParams: filterUndefinedValues(queryParams),
-      basePath: url,
+      hostname: url,
       path,
     };
 

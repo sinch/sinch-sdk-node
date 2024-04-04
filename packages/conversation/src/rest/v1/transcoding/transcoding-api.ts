@@ -39,10 +39,10 @@ export class TranscodingApi extends ConversationDomainApi {
 
     const body: RequestBody
       = data['transcodeMessageRequestBody'] ? JSON.stringify(data['transcodeMessageRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/messages:transcode`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/messages:transcode`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<TranscodeMessageResponse>({
       url,

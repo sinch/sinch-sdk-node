@@ -71,11 +71,11 @@ export class ConferencesApi extends VoiceDomainApi {
 
     const body: RequestBody = '';
     const path = `/calling/v1/conferences/id/${data['conferenceId']}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
         = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<GetConferenceInfoResponse>({
       url,
@@ -100,10 +100,10 @@ export class ConferencesApi extends VoiceDomainApi {
 
     const body: RequestBody = '';
     const path = `/calling/v1/conferences/id/${data['conferenceId']}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<void>({
       url,
@@ -128,10 +128,10 @@ export class ConferencesApi extends VoiceDomainApi {
 
     const body: RequestBody = '';
     const path = `/calling/v1/conferences/id/${data['conferenceId']}/${data['callId']}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<void>({
       url,
@@ -157,10 +157,10 @@ export class ConferencesApi extends VoiceDomainApi {
     const body: RequestBody = data['manageParticipantRequestBody']
       ? JSON.stringify(data['manageParticipantRequestBody']) : '{}';
     const path = `/calling/v1/conferences/id/${data['conferenceId']}/${data['callId']}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'PATCH', getParams, headers, body, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<void>({
       url,

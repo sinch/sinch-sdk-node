@@ -46,11 +46,11 @@ export class VerificationStatusApi extends VerificationDomainApi {
 
     const body: RequestBody = '';
     const path = `/verification/v1/verifications/id/${data['id']}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<VerificationReportResponse>({
       url,
@@ -75,11 +75,11 @@ export class VerificationStatusApi extends VerificationDomainApi {
 
     const body: RequestBody = '';
     const path = `/verification/v1/verifications/${data['method']}/number/${data['endpoint']}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<VerificationReportResponse>({
       url,
@@ -104,11 +104,11 @@ export class VerificationStatusApi extends VerificationDomainApi {
 
     const body: RequestBody = '';
     const path = `/verification/v1/verifications/reference/${data['reference']}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<VerificationReportResponse>({
       url,

@@ -28,7 +28,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
       authenticationUrl = 'https://auth.sinch.com';
     }
     this.apiClient = new ApiFetchClient({
-      basePath: authenticationUrl,
+      hostname: authenticationUrl,
       requestPlugins: [basicAuthenticationPlugin],
     });
   }

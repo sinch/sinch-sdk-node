@@ -60,7 +60,7 @@ export class InboundsApi extends SmsDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/inbounds`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/inbounds`;
 
     const requestOptionsPromise = this.client.prepareOptions(
       basePathUrl, 'GET', getParams, headers, body || undefined);
@@ -102,11 +102,11 @@ export class InboundsApi extends SmsDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/inbounds/${data['inbound_id']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/inbounds/${data['inbound_id']}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<InboundMessageResponse>({
       url,

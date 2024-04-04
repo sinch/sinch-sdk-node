@@ -103,11 +103,11 @@ export class VerificationsApi extends VerificationDomainApi {
       ? JSON.stringify(data['reportSmsVerificationByIdRequestBody'])
       : '{}';
     const path = `/verification/v1/verifications/id/${data['id']}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<SMSVerificationReportResponse>({
       url,
@@ -139,11 +139,11 @@ export class VerificationsApi extends VerificationDomainApi {
       ? JSON.stringify(data['reportFlashCallVerificationByIdRequestBody'])
       : '{}';
     const path = `/verification/v1/verifications/id/${data['id']}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<FlashCallVerificationReportResponse>({
       url,
@@ -173,11 +173,11 @@ export class VerificationsApi extends VerificationDomainApi {
       ? JSON.stringify(data['reportCalloutVerificationByIdRequestBody'])
       : '{}';
     const path = `/verification/v1/verifications/id/${data['id']}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<CalloutVerificationReportResponse>({
       url,
@@ -207,11 +207,11 @@ export class VerificationsApi extends VerificationDomainApi {
       ? JSON.stringify(data['reportSmsVerificationByIdentityRequestBody'])
       : '{}';
     const path = `/verification/v1/verifications/number/${data['endpoint']}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<SMSVerificationReportResponse>({
       url,
@@ -242,11 +242,11 @@ export class VerificationsApi extends VerificationDomainApi {
       ? JSON.stringify(data['reportFlashCallVerificationByIdentityRequestBody'])
       : '{}';
     const path = `/verification/v1/verifications/number/${data['endpoint']}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<FlashCallVerificationReportResponse>({
       url,
@@ -277,11 +277,11 @@ export class VerificationsApi extends VerificationDomainApi {
       ? JSON.stringify(data['reportCalloutVerificationByIdentityRequestBody'])
       : '{}';
     const path = `/verification/v1/verifications/number/${data['endpoint']}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<CalloutVerificationReportResponse>({
       url,
@@ -309,11 +309,11 @@ export class VerificationsApi extends VerificationDomainApi {
       ? JSON.stringify(data['startVerificationWithSmsRequestBody'])
       : '{}';
     const path = '/verification/v1/verifications';
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<StartSmsVerificationResponse>({
       url,
@@ -343,11 +343,11 @@ export class VerificationsApi extends VerificationDomainApi {
       ? JSON.stringify(data['startVerificationWithFlashCallRequestBody'])
       : '{}';
     const path = '/verification/v1/verifications';
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<StartFlashCallVerificationResponse>({
       url,
@@ -375,11 +375,11 @@ export class VerificationsApi extends VerificationDomainApi {
       ? JSON.stringify(data['startVerificationWithCalloutRequestBody'])
       : '{}';
     const path = '/verification/v1/verifications';
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<StartCalloutVerificationResponse>({
       url,
@@ -407,11 +407,11 @@ export class VerificationsApi extends VerificationDomainApi {
       ? JSON.stringify(data['startSeamlessVerificationRequestBody'])
       : '{}';
     const path = '/verification/v1/verifications';
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<StartSeamlessVerificationResponse>({
       url,

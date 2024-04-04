@@ -14,7 +14,7 @@ describe('Authorization validation', () => {
   const APPLICATION_KEY = 'app-key';
   const APPLICATION_SECRET = 'app-secret';
   const PATH = '/webhook';
-  const BODY = `{"id":"018d2104-aaa-bbbb-1234","price":{"amount":0.0308},"rate":{"amount":0.0}}`;
+  const BODY = '{"id":"018d2104-aaa-bbbb-1234","price":{"amount":0.0308},"rate":{"amount":0.0}}';
   const METHOD = 'POST';
   const CONTENT_TYPE = 'application/json; charset=utf-8';
   const X_TIMESTAMP = 'x-timestamp:2024-01-19T09:19:28.9372196Z';
@@ -31,7 +31,7 @@ describe('Authorization validation', () => {
   });
 
   it('should calculate the signature', () => {
-    const secret = btoa("my-secret");
+    const secret = btoa('my-secret');
     const stringToSign = 'pKXhl9sOsUjClws1oANArA==';
     expect(calculateSignature(secret, stringToSign)).toBe('1vZeB9AYiJthOvaZeZFhOxZWLSqHHFWzFw7AGjrTtmk=');
   });
@@ -182,7 +182,8 @@ describe('Authorization validation', () => {
       'X-Sinch-Signature': 'b93021e0182c2772dbcdf4e8983ae8f409e78c3b',
     };
     const secret = 'my-callback-secret';
-    const stringToSign = `{"eventId":"01hpa0mww4m79q8j2dwn3ggbgz","timestamp":"2024-02-10T17:22:09.412722588","projectId":"37b62a7b-0177-abcd-efgh-e10f848de123","resourceId":"+17818510001","resourceType":"ACTIVE_NUMBER","eventType":"DEPROVISIONING_FROM_VOICE_PLATFORM","status":"SUCCEEDED","failureCode":null}`;
+    // eslint-disable-next-line max-len
+    const stringToSign = '{"eventId":"01hpa0mww4m79q8j2dwn3ggbgz","timestamp":"2024-02-10T17:22:09.412722588","projectId":"37b62a7b-0177-abcd-efgh-e10f848de123","resourceId":"+17818510001","resourceType":"ACTIVE_NUMBER","eventType":"DEPROVISIONING_FROM_VOICE_PLATFORM","status":"SUCCEEDED","failureCode":null}';
     const validated = validateSignatureHeader(
       secret,
       headers,
@@ -194,7 +195,8 @@ describe('Authorization validation', () => {
   it('should reject the signature header when missing', () => {
     const headers = {};
     const secret = 'my-callback-secret';
-    const stringToSign = `{"eventId":"01hpa0mww4m79q8j2dwn3ggbgz","timestamp":"2024-02-10T17:22:09.412722588","projectId":"37b62a7b-0177-abcd-efgh-e10f848de123","resourceId":"+17818510001","resourceType":"ACTIVE_NUMBER","eventType":"DEPROVISIONING_FROM_VOICE_PLATFORM","status":"SUCCEEDED","failureCode":null}`;
+    // eslint-disable-next-line max-len
+    const stringToSign = '{"eventId":"01hpa0mww4m79q8j2dwn3ggbgz","timestamp":"2024-02-10T17:22:09.412722588","projectId":"37b62a7b-0177-abcd-efgh-e10f848de123","resourceId":"+17818510001","resourceType":"ACTIVE_NUMBER","eventType":"DEPROVISIONING_FROM_VOICE_PLATFORM","status":"SUCCEEDED","failureCode":null}';
     const validated = validateSignatureHeader(
       secret,
       headers,
@@ -208,7 +210,8 @@ describe('Authorization validation', () => {
       'X-Sinch-Signature': 'invalid-signature',
     };
     const secret = 'my-callback-secret';
-    const stringToSign = `{"eventId":"01hpa0mww4m79q8j2dwn3ggbgz","timestamp":"2024-02-10T17:22:09.412722588","projectId":"37b62a7b-0177-abcd-efgh-e10f848de123","resourceId":"+17818510001","resourceType":"ACTIVE_NUMBER","eventType":"DEPROVISIONING_FROM_VOICE_PLATFORM","status":"SUCCEEDED","failureCode":null}`;
+    // eslint-disable-next-line max-len
+    const stringToSign = '{"eventId":"01hpa0mww4m79q8j2dwn3ggbgz","timestamp":"2024-02-10T17:22:09.412722588","projectId":"37b62a7b-0177-abcd-efgh-e10f848de123","resourceId":"+17818510001","resourceType":"ACTIVE_NUMBER","eventType":"DEPROVISIONING_FROM_VOICE_PLATFORM","status":"SUCCEEDED","failureCode":null}';
     const validated = validateSignatureHeader(
       secret,
       headers,
@@ -221,7 +224,8 @@ describe('Authorization validation', () => {
 
 describe('Webhook signature (Conversation API)', () => {
 
-  const CONVERSATION_BODY = `{"app_id":"","accepted_time":"2021-10-18T17:49:13.813615Z","project_id":"e2df3a34-a71b-4448-9db5-a8d2baad28e4","contact_create_notification":{"contact":{"id":"01FJA8B466Y0R2GNXD78MD9SM1","channel_identities":[{"channel":"SMS","identity":"48123456789","app_id":""}],"display_name":"New Test Contact","email":"new.contact@email.com","external_id":"","metadata":"","language":"EN_US"}},"message_metadata":""}`;
+  // eslint-disable-next-line max-len
+  const CONVERSATION_BODY = '{"app_id":"","accepted_time":"2021-10-18T17:49:13.813615Z","project_id":"e2df3a34-a71b-4448-9db5-a8d2baad28e4","contact_create_notification":{"contact":{"id":"01FJA8B466Y0R2GNXD78MD9SM1","channel_identities":[{"channel":"SMS","identity":"48123456789","app_id":""}],"display_name":"New Test Contact","email":"new.contact@email.com","external_id":"","metadata":"","language":"EN_US"}},"message_metadata":""}';
   const NONCE = '01FJA8B4A7BM43YGWSG9GBV067';
   const TIMESTAMP = '1634579353';
   const APP_SECRET = 'foo_secret1234';

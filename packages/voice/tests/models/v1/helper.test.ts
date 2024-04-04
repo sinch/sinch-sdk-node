@@ -322,8 +322,8 @@ describe('Voice models helpers', () => {
         .addInstruction(aceInstructionHelper.startRecording(RECORDING_OPTIONS))
         .addInstruction(aceInstructionHelper.say('Hello from Sinch.', 'en-US'))
         .addInstruction(aceInstructionHelper.playFiles([
-          "#tts[Hello from Sinch]",
-          "#ssml[<speak><break time=\"250ms\"/>Have a great day!</speak>]",
+          '#tts[Hello from Sinch]',
+          '#ssml[<speak><break time="250ms"/>Have a great day!</speak>]',
         ], 'en-US'))
         .build();
       const expectedResult: AceResponse = {
@@ -349,7 +349,7 @@ describe('Voice models helpers', () => {
           },
           {
             name: 'playFiles',
-            ids: ["#tts[Hello from Sinch]", "#ssml[<speak><break time=\"250ms\"/>Have a great day!</speak>]"],
+            ids: ['#tts[Hello from Sinch]', '#ssml[<speak><break time="250ms"/>Have a great day!</speak>]'],
             locale: 'en-US',
           },
         ],

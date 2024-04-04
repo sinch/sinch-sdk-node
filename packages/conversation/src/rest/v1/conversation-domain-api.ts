@@ -21,15 +21,15 @@ export class ConversationDomainApi implements Api {
   }
 
   /**
-   * Update the default basePath for the API
-   * @param {string} basePath - The new base path to use for the APIs.
+   * Update the default hostname for the API
+   * @param {string} hostname - The new hostname to use for the APIs.
    */
-  public setBasePath(basePath: string) {
+  public setHostname(hostname: string) {
     try {
       this.client = this.getSinchClient();
-      this.client.apiClientOptions.basePath = basePath;
+      this.client.apiClientOptions.hostname = hostname;
     } catch (error) {
-      console.error('Impossible to set a new base path, the credentials need to be provided first.');
+      console.error('Impossible to set a new hostname, the credentials need to be provided first.');
       throw error;
     }
   }
@@ -41,7 +41,7 @@ export class ConversationDomainApi implements Api {
   public setRegion(region: Region) {
     this.sinchClientParameters.region = region;
     if (this.client) {
-      this.client.apiClientOptions.basePath = this.buildBasePath(region);
+      this.client.apiClientOptions.hostname = this.buildBasePath(region);
     }
   }
 
@@ -83,7 +83,8 @@ export class ConversationDomainApi implements Api {
       }
       const apiClientOptions = this.buildApiClientOptions(this.sinchClientParameters);
       this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.basePath = this.buildBasePath(region);
+      this.client.apiClientOptions.hostname = this.sinchClientParameters.conversationHostname
+        ?? this.buildBasePath(region);
     }
     return this.client;
   }

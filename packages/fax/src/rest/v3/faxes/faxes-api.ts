@@ -77,11 +77,11 @@ export class FaxesApi extends FaxDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v3/projects/${this.client.apiClientOptions.projectId}/faxes/${data['id']}/file`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v3/projects/${this.client.apiClientOptions.projectId}/faxes/${data['id']}/file`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<void>({
       url,
@@ -106,10 +106,10 @@ export class FaxesApi extends FaxDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v3/projects/${this.client.apiClientOptions.projectId}/faxes/${data['id']}/file.${data['fileFormat']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v3/projects/${this.client.apiClientOptions.projectId}/faxes/${data['id']}/file.${data['fileFormat']}`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processFileCall({
       url,
@@ -133,10 +133,10 @@ export class FaxesApi extends FaxDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v3/projects/${this.client.apiClientOptions.projectId}/faxes/${data['id']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v3/projects/${this.client.apiClientOptions.projectId}/faxes/${data['id']}`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<Fax>({
       url,
@@ -168,7 +168,7 @@ export class FaxesApi extends FaxDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v3/projects/${this.client.apiClientOptions.projectId}/faxes`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v3/projects/${this.client.apiClientOptions.projectId}/faxes`;
 
     const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
 
@@ -257,10 +257,10 @@ export class FaxesApi extends FaxDomainApi {
       body = this.client.processFormData(formParams, 'multipart/form-data');
     }
 
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v3/projects/${this.client.apiClientOptions.projectId}/faxes`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v3/projects/${this.client.apiClientOptions.projectId}/faxes`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<Fax>({
       url,

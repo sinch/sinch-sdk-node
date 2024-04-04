@@ -19,27 +19,27 @@ export class VoiceDomainApi implements Api {
   }
 
   /**
-   * Update the default basePath for the API
-   * @param {string} basePath - The new base path to use for the APIs.
+   * Update the default hostname for the API
+   * @param {string} hostname - The new hostname to use for the APIs.
    */
-  public setBasePath(basePath: string) {
+  public setHostname(hostname: string) {
     try {
       this.client = this.getSinchClient();
-      this.client.apiClientOptions.basePath = basePath;
+      this.client.apiClientOptions.hostname = hostname;
     } catch (error) {
-      console.error('Impossible to set a new base path, the Application credentials need to be provided first.');
+      console.error('Impossible to set a new hostname, the Application credentials need to be provided first.');
       throw error;
     }
   }
 
   /**
-   * Update the region in the basePath
+   * Update the region in the hostname
    * @param {VoiceRegion} region - The new region to send the requests to
    */
   public setRegion(region: VoiceRegion) {
     this.sinchClientParameters.voiceRegion = region;
     if (this.client) {
-      this.client.apiClientOptions.basePath = this.buildBasePath(region);
+      this.client.apiClientOptions.hostname = this.buildBasePath(region);
     }
   }
 
@@ -87,7 +87,7 @@ export class VoiceDomainApi implements Api {
       };
       this.client = new ApiFetchClient(apiClientOptions);
       const region: VoiceRegion = this.sinchClientParameters.voiceRegion || VoiceRegion.DEFAULT;
-      this.client.apiClientOptions.basePath = this.buildBasePath(region);
+      this.client.apiClientOptions.hostname = this.sinchClientParameters.voiceHostname ?? this.buildBasePath(region);
     }
     return this.client;
   }
@@ -95,7 +95,7 @@ export class VoiceDomainApi implements Api {
   private buildBasePath(region: VoiceRegion) {
     switch (this.apiName) {
     case 'ApplicationsApi':
-      return `https://callingapi.sinch.com`;
+      return 'https://callingapi.sinch.com';
     default:
       return `https://calling${region}.api.sinch.com`;
     }
