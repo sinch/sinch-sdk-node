@@ -2,10 +2,10 @@ import {
   Api,
   ApiClient,
   ApiFetchClient,
-  SinchClientParameters,
-  UnifiedCredentials,
   buildOAuth2ApiClientOptions,
   FaxRegion,
+  SinchClientParameters,
+  UnifiedCredentials,
 } from '@sinch/sdk-client';
 
 export class FaxDomainApi implements Api {
@@ -61,8 +61,12 @@ export class FaxDomainApi implements Api {
     if (!this.client) {
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sinchClientParameters, 'Fax');
       this.client = new ApiFetchClient(apiClientOptions);
-      const region: FaxRegion = this.sinchClientParameters.faxRegion || FaxRegion.DEFAULT;
-      this.client.apiClientOptions.hostname = this.sinchClientParameters.faxHostname ?? `https://${region}fax.api.sinch.com`;
+      const region = this.sinchClientParameters.faxRegion ?? FaxRegion.DEFAULT;
+      if(!Object.values(FaxRegion).includes((region as unknown) as FaxRegion)) {
+        console.warn(`The region "${region}" is not known as a supported region for the Fax API`);
+      }
+      const formattedRegion = region === FaxRegion.DEFAULT ? region : `${region}.`;
+      this.client.apiClientOptions.hostname = this.sinchClientParameters.faxHostname ?? `https://${formattedRegion}fax.api.sinch.com`;
     }
     return this.client;
   }

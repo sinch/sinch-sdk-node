@@ -32,6 +32,16 @@ describe('Voice API', () => {
     expect(voiceApi.client?.apiClientOptions.hostname).toBe('https://calling-use1.api.sinch.com');
   });
 
+  it('should log a warning when using an unsupported region', async () => {
+    params.voiceRegion = 'bzh';
+    voiceApi = new VoiceDomainApi(params, 'dummy');
+    console.warn = jest.fn();
+    voiceApi.getSinchClient();
+    expect(console.warn).toHaveBeenCalledWith(
+      'The region "bzh" is not known as a supported region for the Voice API');
+    expect(voiceApi.client?.apiClientOptions.hostname).toBe('https://calling-bzh.api.sinch.com');
+  });
+
   it('should use the hostname parameter but not for voice application management', () => {
     params.voiceHostname = CUSTOM_HOSTNAME;
     voiceApi = new VoiceDomainApi(params, 'dummy');

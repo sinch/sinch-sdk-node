@@ -1,6 +1,5 @@
-import { SmsRegion, ServicePlanIdCredentials, UnifiedCredentials } from '../../../src';
 import { SmsDomainApi } from '../../../src/rest/v1/sms-domain-api';
-import { ApiHostname } from '@sinch/sdk-client';
+import { ApiHostname, ServicePlanIdCredentials, SmsRegion, UnifiedCredentials } from '@sinch/sdk-client';
 
 describe('SMS API', () => {
   let smsApi: SmsDomainApi;
@@ -41,6 +40,17 @@ describe('SMS API', () => {
     smsApi = new SmsDomainApi(paramsWithServicePlanId, 'dummy');
     smsApi.getSinchClient();
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://ca.sms.api.sinch.com');
+  });
+
+  it('should log a warning when using an unsupported region', async () => {
+    paramsWithProjectId.smsRegion = 'bzh';
+    paramsWithProjectId.forceOAuth2ForSmsApi = true;
+    smsApi = new SmsDomainApi(paramsWithProjectId, 'dummy');
+    console.warn = jest.fn();
+    smsApi.getSinchClient();
+    expect(console.warn).toHaveBeenCalledWith(
+      'The region "bzh" is not known as a supported region for the SMS API');
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.bzh.sms.api.sinch.com');
   });
 
   it('should use the hostname parameter when using projectId credentials', () => {

@@ -28,6 +28,16 @@ describe('Fax API', () => {
     expect(faxApi.client?.apiClientOptions.hostname).toBe('https://apse1.fax.api.sinch.com');
   });
 
+  it('should log a warning when using an unsupported region', async () => {
+    params.faxRegion = 'bzh';
+    faxApi = new FaxDomainApi(params, 'dummy');
+    console.warn = jest.fn();
+    faxApi.getSinchClient();
+    expect(console.warn).toHaveBeenCalledWith(
+      'The region "bzh" is not known as a supported region for the Fax API');
+    expect(faxApi.client?.apiClientOptions.hostname).toBe('https://bzh.fax.api.sinch.com');
+  });
+
   it('should use the hostname parameter', () => {
     params.faxHostname = CUSTOM_HOSTNAME;
     faxApi = new FaxDomainApi(params, 'dummy');

@@ -65,10 +65,14 @@ export class SmsDomainApi implements Api {
    */
   public getSinchClient(): ApiClient {
     if (!this.client) {
-      const region = this.sinchClientParameters.smsRegion || SmsRegion.UNITED_STATES;
+      const region = this.sinchClientParameters.smsRegion ?? SmsRegion.UNITED_STATES;
+      if(!Object.values(SmsRegion).includes((region as unknown) as SmsRegion)) {
+        console.warn(`The region "${region}" is not known as a supported region for the SMS API`);
+      }
       const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(this.sinchClientParameters, region, 'SMS');
       this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.hostname = this.sinchClientParameters.smsHostname ?? `https://${apiClientOptions.useServicePlanId?'':'zt.'}${region}.sms.api.sinch.com`;
+      const formattedRegion = region === '' ? region : `${region}.`;
+      this.client.apiClientOptions.hostname = this.sinchClientParameters.smsHostname ?? `https://${apiClientOptions.useServicePlanId?'':'zt.'}${formattedRegion}sms.api.sinch.com`;
     }
     return this.client;
   }

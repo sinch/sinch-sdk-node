@@ -4,6 +4,7 @@ import {
   ApiFetchClient,
   buildOAuth2ApiClientOptions,
   ConversationRegion,
+  ConversationRegionFlexible,
   SinchClientParameters,
   UnifiedCredentials,
 } from '@sinch/sdk-client';
@@ -75,9 +76,9 @@ export class ConversationDomainApi implements Api {
    */
   public getSinchClient(): ApiClient {
     if (!this.client) {
-      const region = this.sinchClientParameters.conversationRegion || ConversationRegion.UNITED_STATES;
+      const region = this.sinchClientParameters.conversationRegion ?? ConversationRegion.UNITED_STATES;
       if(!Object.values(ConversationRegion).includes((region as unknown) as ConversationRegion)) {
-        console.warn(`The region '${region}' is not supported for the Conversation API`);
+        console.warn(`The region "${region}" is not known as a supported region for the Conversation API`);
       }
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sinchClientParameters, 'Conversation');
       this.client = new ApiFetchClient(apiClientOptions);
@@ -86,13 +87,14 @@ export class ConversationDomainApi implements Api {
     return this.client;
   }
 
-  private buildHostname(region: ConversationRegion) {
+  private buildHostname(region: ConversationRegionFlexible) {
+    const formattedRegion = region === '' ? region : `${region}.`;
     switch (this.apiName) {
     case 'TemplatesV1Api':
     case 'TemplatesV2Api':
-      return this.sinchClientParameters.conversationTemplatesHostname ?? `https://${region}.template.api.sinch.com`;
+      return this.sinchClientParameters.conversationTemplatesHostname ?? `https://${formattedRegion}template.api.sinch.com`;
     default:
-      return this.sinchClientParameters.conversationHostname ?? `https://${region}.conversation.api.sinch.com`;
+      return this.sinchClientParameters.conversationHostname ?? `https://${formattedRegion}conversation.api.sinch.com`;
     }
   }
 
