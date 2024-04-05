@@ -1,10 +1,9 @@
 import {
   Api,
   ApiClient,
-  ApiClientOptions,
   ApiFetchClient,
+  buildOAuth2ApiClientOptions,
   ConversationRegion,
-  Oauth2TokenRequest,
   Region,
   SinchClientParameters,
   UnifiedCredentials,
@@ -81,24 +80,12 @@ export class ConversationDomainApi implements Api {
       if(!Object.values(ConversationRegion).includes((region as unknown) as ConversationRegion)) {
         console.warn(`The region '${region}' is not supported for the Conversation API`);
       }
-      const apiClientOptions = this.buildApiClientOptions(this.sinchClientParameters);
+      const apiClientOptions = buildOAuth2ApiClientOptions(this.sinchClientParameters, 'Conversation');
       this.client = new ApiFetchClient(apiClientOptions);
       this.client.apiClientOptions.hostname = this.sinchClientParameters.conversationHostname
         ?? this.buildBasePath(region);
     }
     return this.client;
-  }
-
-  private buildApiClientOptions(params: SinchClientParameters): ApiClientOptions {
-    if (!params.projectId || !params.keyId || !params.keySecret) {
-      throw new Error('Invalid configuration for the Conversation API: '
-        + '"projectId", "keyId" and "keySecret" values must be provided');
-    }
-    return {
-      projectId: params.projectId,
-      requestPlugins: [new Oauth2TokenRequest( params.keyId,  params.keySecret)],
-      useServicePlanId: false,
-    };
   }
 
   private buildBasePath(region: Region) {

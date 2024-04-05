@@ -2,8 +2,9 @@ import {
   Api,
   ApiClient,
   ApiFetchClient,
+  buildApplicationSignedApiClientOptions,
   SinchClientParameters,
-  SigningRequest, XTimestampRequest, ApplicationCredentials,
+  ApplicationCredentials,
 } from '@sinch/sdk-client';
 
 export class VerificationDomainApi implements Api {
@@ -62,16 +63,7 @@ export class VerificationDomainApi implements Api {
    */
   public getSinchClient(): ApiClient {
     if (!this.client) {
-      if (!this.sinchClientParameters.applicationKey || !this.sinchClientParameters.applicationSecret) {
-        throw new Error('Invalid configuration for the Verification API: '
-          + '"applicationKey" and "applicationSecret" values must be provided');
-      }
-      const apiClientOptions = {
-        requestPlugins: [
-          new XTimestampRequest(),
-          new SigningRequest(this.sinchClientParameters.applicationKey, this.sinchClientParameters.applicationSecret),
-        ],
-      };
+      const apiClientOptions = buildApplicationSignedApiClientOptions(this.sinchClientParameters, 'Verification');
       this.client = new ApiFetchClient(apiClientOptions);
       this.client.apiClientOptions.hostname = this.sinchClientParameters.verificationHostname ?? 'https://verification.api.sinch.com';
     }

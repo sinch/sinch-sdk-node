@@ -1,8 +1,12 @@
+import { RequestPlugin } from '../plugins/core/request-plugin';
+import { ResponsePlugin } from '../plugins/core/response-plugin';
+
 export interface SinchClientParameters extends
   Partial<UnifiedCredentials>,
   Partial<ServicePlanIdCredentials>,
   Partial<ApplicationCredentials>,
-  ApiHostname {}
+  ApiHostname,
+  ApiPlugins {}
 
 export interface UnifiedCredentials {
   /** The project ID associated with the API Client. You can find this on your [Dashboard](https://dashboard.sinch.com/account/access-keys). */
@@ -43,6 +47,11 @@ export interface ApiHostname {
   smsHostname?: string;
   verificationHostname?: string;
   voiceHostname?: string;
+}
+
+export interface ApiPlugins {
+  requestPlugins?: RequestPlugin[];
+  responsePlugins?: ResponsePlugin<any>[];
 }
 
 export const isUnifiedCredentials = (credentials: any): credentials is UnifiedCredentials => {

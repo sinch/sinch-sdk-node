@@ -1,9 +1,10 @@
 import {
   Api,
-  ApiClient, ApiClientOptions,
+  ApiClient,
   ApiFetchClient,
+  buildOAuth2ApiClientOptions,
   SinchClientParameters,
-  Oauth2TokenRequest, UnifiedCredentials,
+  UnifiedCredentials,
 } from '@sinch/sdk-client';
 
 export class NumbersDomainApi implements Api {
@@ -57,22 +58,11 @@ export class NumbersDomainApi implements Api {
    */
   public getSinchClient(): ApiClient {
     if (!this.client) {
-      const apiClientOptions = this.buildApiClientOptions(this.sinchClientParameters);
+      const apiClientOptions = buildOAuth2ApiClientOptions(this.sinchClientParameters, 'Numbers');
       this.client = new ApiFetchClient(apiClientOptions);
       this.client.apiClientOptions.hostname = this.sinchClientParameters.numbersHostname ?? 'https://numbers.api.sinch.com';
     }
     return this.client;
   }
 
-  private buildApiClientOptions(params: SinchClientParameters): ApiClientOptions {
-    if (!params.projectId || !params.keyId || !params.keySecret) {
-      throw new Error('Invalid configuration for the Numbers API: '
-        + '"projectId", "keyId" and "keySecret" values must be provided');
-    }
-    return {
-      projectId: params.projectId,
-      requestPlugins: [new Oauth2TokenRequest( params.keyId,  params.keySecret)],
-      useServicePlanId: false,
-    };
-  }
 }

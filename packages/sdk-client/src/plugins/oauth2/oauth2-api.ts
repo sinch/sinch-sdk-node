@@ -1,4 +1,5 @@
-import { Api, ApiClient } from '../../api';
+import { Api } from '../../api/api-interface';
+import { ApiClient } from '../../api/api-client';
 
 export interface Response {
   access_token: string;

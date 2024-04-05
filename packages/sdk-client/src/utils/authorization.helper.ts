@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import { IncomingHttpHeaders } from 'http';
-import { RequestBody } from '../plugins';
+import { RequestBody } from '../plugins/core/request-plugin';
 import * as console from 'console';
 
 /**
