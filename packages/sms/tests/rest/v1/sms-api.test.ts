@@ -1,4 +1,4 @@
-import { Region, ServicePlanIdCredentials, UnifiedCredentials } from '../../../src';
+import { SmsRegion, ServicePlanIdCredentials, UnifiedCredentials } from '../../../src';
 import { SmsDomainApi } from '../../../src/rest/v1/sms-domain-api';
 import { ApiHostname } from '@sinch/sdk-client';
 
@@ -37,7 +37,7 @@ describe('SMS API', () => {
   });
 
   it('should change the URL when specifying a different region', () => {
-    paramsWithServicePlanId.region = Region.CANADA;
+    paramsWithServicePlanId.smsRegion = SmsRegion.CANADA;
     smsApi = new SmsDomainApi(paramsWithServicePlanId, 'dummy');
     smsApi.getSinchClient();
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://ca.sms.api.sinch.com');
@@ -93,7 +93,7 @@ describe('SMS API', () => {
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.us.sms.api.sinch.com');
     smsApi.setCredentials({
       ...paramsWithServicePlanId,
-      region: Region.BRAZIL,
+      smsRegion: SmsRegion.BRAZIL,
     });
     expect(smsApi.client?.apiClientOptions.projectId).toBe('SERVICE_PLAN_ID');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://br.sms.api.sinch.com');
