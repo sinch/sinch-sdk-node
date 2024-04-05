@@ -94,7 +94,7 @@ const updateQueryParamsAndSendRequest = <T>(
     queryParams: newQueryParams,
   };
   const newUrl = apiClient.prepareUrl(
-    requestOptions.basePath,
+    requestOptions.hostname,
     newQueryParams,
   );
   return apiClient.processCallWithPagination<T>({
@@ -221,7 +221,7 @@ export const buildPageResultPromise = async  <T>(
   // Await the promise in this async method and store the result in client so that they can be reused
   const requestOptions = await requestOptionsPromise;
   const url = client.prepareUrl(
-    requestOptions.basePath, requestOptions.queryParams, repeatParamArray);
+    requestOptions.hostname, requestOptions.queryParams, repeatParamArray);
 
   return client.processCallWithPagination<T>({
     url,

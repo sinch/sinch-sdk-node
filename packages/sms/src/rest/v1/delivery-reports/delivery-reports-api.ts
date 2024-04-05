@@ -76,11 +76,11 @@ export class DeliveryReportsApi extends SmsDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}/delivery_report`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}/delivery_report`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<DeliveryReport>({
       url,
@@ -104,11 +104,11 @@ export class DeliveryReportsApi extends SmsDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}/delivery_report/${data['recipient_msisdn']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}/delivery_report/${data['recipient_msisdn']}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<RecipientDeliveryReport>({
       url,
@@ -138,7 +138,7 @@ export class DeliveryReportsApi extends SmsDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/delivery_reports`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/delivery_reports`;
 
     const requestOptionsPromise
       = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);

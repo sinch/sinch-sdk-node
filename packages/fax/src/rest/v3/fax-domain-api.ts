@@ -19,12 +19,12 @@ export class FaxDomainApi implements Api {
   }
 
   /**
-   * Update the default basePath for the API
-   * @param {string} basePath - The new base path to use for the APIs.
+   * Update the default hostname for the API
+   * @param {string} hostname - The new hostname to use for the APIs.
    */
-  public setBasePath(basePath: string) {
+  public setHostname(hostname: string) {
     this.client = this.getSinchClient();
-    this.client.apiClientOptions.basePath = basePath;
+    this.client.apiClientOptions.hostname = hostname;
   }
 
   /**
@@ -61,7 +61,7 @@ export class FaxDomainApi implements Api {
     if (!this.client) {
       const apiClientOptions = this.buildApiClientOptions(this.sinchClientParameters);
       this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.basePath = 'https://fax.api.sinch.com';
+      this.client.apiClientOptions.hostname = this.sinchClientParameters.faxHostname ?? 'https://fax.api.sinch.com';
     }
     return this.client;
   }

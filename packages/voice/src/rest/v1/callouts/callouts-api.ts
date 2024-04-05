@@ -62,17 +62,17 @@ export class CalloutsApi extends VoiceDomainApi {
     };
 
     const body: RequestBody = data['ttsCalloutRequestBody'] ? JSON.stringify(data['ttsCalloutRequestBody']) : '{}';
-    const path = `/calling/v1/callouts`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const path = '/calling/v1/callouts';
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<CalloutResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
-      operationId: 'Callouts',
+      operationId: 'TtsCallouts',
     });
   }
 
@@ -91,17 +91,17 @@ export class CalloutsApi extends VoiceDomainApi {
 
     const body: RequestBody
       = data['conferenceCalloutRequestBody'] ? JSON.stringify(data['conferenceCalloutRequestBody']) : '{}';
-    const path = `/calling/v1/callouts`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const path = '/calling/v1/callouts';
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<CalloutResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
-      operationId: 'Callouts',
+      operationId: 'ConferenceCallouts',
     });
   }
 
@@ -120,17 +120,17 @@ export class CalloutsApi extends VoiceDomainApi {
 
     const body: RequestBody
       = data['customCalloutRequestBody'] ? JSON.stringify(data['customCalloutRequestBody']) : '{}';
-    const path = `/calling/v1/callouts`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const path = '/calling/v1/callouts';
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<CalloutResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
-      operationId: 'Callouts',
+      operationId: 'CustomCallouts',
     });
   }
 

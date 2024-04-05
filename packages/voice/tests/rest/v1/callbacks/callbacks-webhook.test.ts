@@ -8,7 +8,7 @@ describe('Voice Callback Webhook', () => {
   const CONTENT_TYPE = 'application/json; charset=utf-8';
   const X_TIMESTAMP = 'x-timestamp:2024-01-19T09:19:28.9372196Z';
   const PATH = '/webhook';
-  const BODY = `{"id":"018d2104-aaa-bbbb-1234","price":{"amount":0.0308},"rate":{"amount":0.0}}`;
+  const BODY = '{"id":"018d2104-aaa-bbbb-1234","price":{"amount":0.0308},"rate":{"amount":0.0}}';
   const METHOD = 'POST';
 
   const DATE_AS_STRING = '2023-12-29T15:07:22Z';

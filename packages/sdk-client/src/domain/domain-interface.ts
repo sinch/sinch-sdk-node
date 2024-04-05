@@ -1,7 +1,8 @@
 export interface SinchClientParameters extends
   Partial<UnifiedCredentials>,
   Partial<ServicePlanIdCredentials>,
-  Partial<ApplicationCredentials> {}
+  Partial<ApplicationCredentials>,
+  ApiHostname {}
 
 export interface UnifiedCredentials {
   /** The project ID associated with the API Client. You can find this on your [Dashboard](https://dashboard.sinch.com/account/access-keys). */
@@ -32,6 +33,18 @@ export interface ApplicationCredentials {
   applicationSecret: string;
   /** The region for the Voice API. Default is empty */
   voiceRegion?: VoiceRegion;
+}
+
+export interface ApiHostname {
+  authHostname?: string;
+  conversationHostname?: string;
+  conversationTemplatesHostname?: string;
+  faxHostname?: string;
+  numbersHostname?: string;
+  smsHostname?: string;
+  verificationHostname?: string;
+  voiceHostname?: string;
+  voiceApplicationManagementHostname?: string;
 }
 
 export const isUnifiedCredentials = (credentials: any): credentials is UnifiedCredentials => {

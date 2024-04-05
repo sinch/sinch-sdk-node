@@ -8,8 +8,8 @@ interface BaseApiClientOptions {
    */
   projectId: string;
 
-  /** Base path of the API server */
-  basePath: string;
+  /** Hostname of the API server */
+  hostname: string;
 
   /**
    * List of plugins to apply to the request before calling the API

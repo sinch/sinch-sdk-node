@@ -17,12 +17,17 @@ export class VerificationDomainApi implements Api {
   }
 
   /**
-   * Update the default basePath for the API
-   * @param {string} basePath - The new base path to use for the APIs.
+   * Update the default hostname for the API
+   * @param {string} hostname - The new hostname to use for the APIs.
    */
-  public setBasePath(basePath: string) {
-    this.client = this.getSinchClient();
-    this.client.apiClientOptions.basePath = basePath;
+  public setHostname(hostname: string) {
+    try {
+      this.client = this.getSinchClient();
+      this.client.apiClientOptions.hostname = hostname;
+    } catch (error) {
+      console.error('Impossible to set a new hostname, the Application credentials need to be provided first.');
+      throw error;
+    }
   }
 
   /**
@@ -68,7 +73,7 @@ export class VerificationDomainApi implements Api {
         ],
       };
       this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.basePath = 'https://verification.api.sinch.com';
+      this.client.apiClientOptions.hostname = this.sinchClientParameters.verificationHostname ?? 'https://verification.api.sinch.com';
     }
     return this.client;
   }

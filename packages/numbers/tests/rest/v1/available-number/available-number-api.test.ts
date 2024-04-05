@@ -42,7 +42,7 @@ describe('AvailableNumberApi', () => {
         ],
         setupPrice: {
           currencyCode: 'EUR',
-          amount: "2.00",
+          amount: '2.00',
         },
         monthlyPrice: {
           currencyCode: 'EUR',
@@ -85,7 +85,7 @@ describe('AvailableNumberApi', () => {
             ],
             setupPrice: {
               currencyCode: 'EUR',
-              amount: "2.00",
+              amount: '2.00',
             },
             monthlyPrice: {
               currencyCode: 'EUR',

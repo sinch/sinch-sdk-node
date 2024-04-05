@@ -19,7 +19,7 @@ describe('Signed request plugin', () => {
       method: 'post',
       headers: headers,
       body: JSON.stringify(requestData),
-      basePath: 'https://test.com/path/pathParamValue',
+      hostname: 'https://test.com/path/pathParamValue',
       path: '/path/pathParamValue',
     };
     const plugin = new SigningRequest('my-key-id', btoa('my-key-secret'));
@@ -39,7 +39,7 @@ describe('Signed request plugin', () => {
       method: 'get',
       headers: headers,
       body: '',
-      basePath: 'https://test.com/path/pathParamValue',
+      hostname: 'https://test.com/path/pathParamValue',
       path: '/path/pathParamValue',
     };
     const plugin = new SigningRequest('my-key-id', btoa('my-key-secret'));

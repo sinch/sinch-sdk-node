@@ -114,11 +114,11 @@ export class BatchesApi extends SmsDomainApi {
 
     const body: RequestBody = '';
     const basePathUrl
-      = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}`;
+      = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<CancelBatchMessageResponse>({
       url,
@@ -145,11 +145,11 @@ export class BatchesApi extends SmsDomainApi {
 
     const body: RequestBody
       = data['deliveryFeedbackRequestBody'] ? JSON.stringify(data['deliveryFeedbackRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}/delivery_feedback`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}/delivery_feedback`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<void>({
       url,
@@ -176,11 +176,11 @@ export class BatchesApi extends SmsDomainApi {
     };
 
     const body: RequestBody = data['dryRunRequestBody'] ? JSON.stringify(data['dryRunRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/batches/dry_run`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/batches/dry_run`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<DryRunResponse>({
       url,
@@ -204,11 +204,11 @@ export class BatchesApi extends SmsDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<SendSMSResponse>({
       url,
@@ -237,7 +237,7 @@ export class BatchesApi extends SmsDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/batches`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/batches`;
 
     const requestOptionsPromise
       = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
@@ -280,11 +280,11 @@ export class BatchesApi extends SmsDomainApi {
 
     const body: RequestBody
       = data['replaceBatchMessageRequestBody'] ? JSON.stringify(data['replaceBatchMessageRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<ReplaceBatchMessageResponse>({
       url,
@@ -312,11 +312,11 @@ export class BatchesApi extends SmsDomainApi {
     };
 
     const body: RequestBody = data['sendSMSRequestBody'] ? JSON.stringify(data['sendSMSRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/batches`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/batches`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<SendSMSResponse>({
       url,
@@ -383,11 +383,11 @@ export class BatchesApi extends SmsDomainApi {
 
     const body: RequestBody
       = data['updateBatchMessageRequestBody'] ? JSON.stringify(data['updateBatchMessageRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<SendSMSResponse>({
       url,

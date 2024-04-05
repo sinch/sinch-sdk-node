@@ -1,9 +1,10 @@
 import { NumbersDomainApi } from '../../../src/rest/v1/numbers-domain-api';
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { ApiHostname, UnifiedCredentials } from '@sinch/sdk-client';
 
 describe('Numbers API', () => {
   let numbersApi: NumbersDomainApi;
-  let params: SinchClientParameters;
+  let params: UnifiedCredentials & Pick<ApiHostname, 'numbersHostname'>;
+  const CUSTOM_HOSTNAME = 'https://new.host.name';
 
   beforeEach(() => {
     params = {
@@ -18,14 +19,20 @@ describe('Numbers API', () => {
     numbersApi.getSinchClient();
     expect(numbersApi.client).toBeDefined();
     expect(numbersApi.client?.apiClientOptions.projectId).toBe('PROJECT_ID');
-    expect(numbersApi.client?.apiClientOptions.basePath).toBe('https://numbers.api.sinch.com');
+    expect(numbersApi.client?.apiClientOptions.hostname).toBe('https://numbers.api.sinch.com');
+  });
+
+  it('should use the hostname parameter', () => {
+    params.numbersHostname = CUSTOM_HOSTNAME;
+    numbersApi = new NumbersDomainApi(params, 'dummy');
+    numbersApi.getSinchClient();
+    expect(numbersApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
 
   it('should update the basePath', () => {
-    const newPath = 'https://new.base.path';
     numbersApi = new NumbersDomainApi(params, 'dummy');
-    numbersApi.setBasePath(newPath);
-    expect(numbersApi.client?.apiClientOptions.basePath).toBe(newPath);
+    numbersApi.setHostname(CUSTOM_HOSTNAME);
+    expect(numbersApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
 
   it('should update the credentials', () => {

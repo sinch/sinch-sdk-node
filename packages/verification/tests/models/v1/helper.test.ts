@@ -16,7 +16,7 @@ import {
 const PHONE_NUMBER = '+46700000000';
 const REFERENCE = 'test-reference';
 const DIAL_TIMEOUT = 30;
-const VERIFICATION_ID = "a_verification_id";
+const VERIFICATION_ID = 'a_verification_id';
 const VERIFICATION_CODE = '0000';
 const VERIFICATION_CLI = '+46000000000';
 

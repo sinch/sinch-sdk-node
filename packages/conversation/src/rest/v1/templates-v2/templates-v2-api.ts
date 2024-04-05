@@ -65,10 +65,10 @@ export class TemplatesV2Api extends ConversationDomainApi {
 
     const body: RequestBody
       = data['createTemplateRequestBody'] ? JSON.stringify(data['createTemplateRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v2/projects/${this.client.apiClientOptions.projectId}/templates`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v2/projects/${this.client.apiClientOptions.projectId}/templates`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<V2TemplateResponse>({
       url,
@@ -92,11 +92,11 @@ export class TemplatesV2Api extends ConversationDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v2/projects/${this.client.apiClientOptions.projectId}/templates/${data['template_id']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v2/projects/${this.client.apiClientOptions.projectId}/templates/${data['template_id']}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<any>({
       url,
@@ -120,10 +120,10 @@ export class TemplatesV2Api extends ConversationDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v2/projects/${this.client.apiClientOptions.projectId}/templates/${data['template_id']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v2/projects/${this.client.apiClientOptions.projectId}/templates/${data['template_id']}`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<V2TemplateResponse>({
       url,
@@ -147,10 +147,10 @@ export class TemplatesV2Api extends ConversationDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v2/projects/${this.client.apiClientOptions.projectId}/templates`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v2/projects/${this.client.apiClientOptions.projectId}/templates`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<V2ListTemplatesResponse>({
       url,
@@ -176,10 +176,10 @@ export class TemplatesV2Api extends ConversationDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v2/projects/${this.client.apiClientOptions.projectId}/templates/${data['template_id']}/translations`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v2/projects/${this.client.apiClientOptions.projectId}/templates/${data['template_id']}/translations`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<V2ListTranslationsResponse>({
       url,
@@ -204,10 +204,10 @@ export class TemplatesV2Api extends ConversationDomainApi {
 
     const body: RequestBody
       = data['updateTemplateRequestBody'] ? JSON.stringify(data['updateTemplateRequestBody']) : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v2/projects/${this.client.apiClientOptions.projectId}/templates/${data['template_id']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v2/projects/${this.client.apiClientOptions.projectId}/templates/${data['template_id']}`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<V2TemplateResponse>({
       url,

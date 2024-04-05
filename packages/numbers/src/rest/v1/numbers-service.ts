@@ -18,14 +18,14 @@ export class NumbersService {
   }
 
   /**
-   * Update the default basePath for each API
+   * Update the default hostname for each API
    *
-   * @param {string} basePath - The new base path to use for all the APIs.
+   * @param {string} hostname - The new hostname to use for all the APIs.
    */
-  public setBasePath(basePath: string) {
-    this.activeNumber.setBasePath(basePath);
-    this.availableNumber.setBasePath(basePath);
-    this.availableRegions.setBasePath(basePath);
-    this.callbacks.setBasePath(basePath);
+  public setHostname(hostname: string) {
+    this.activeNumber.setHostname(hostname);
+    this.availableNumber.setHostname(hostname);
+    this.availableRegions.setHostname(hostname);
+    this.callbacks.setHostname(hostname);
   }
 }

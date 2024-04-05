@@ -63,12 +63,12 @@ export class ApplicationsApi extends VoiceDomainApi {
 
     const body: RequestBody = '';
     // Remove the spaces in the phone number in order to not have inconsistencies in the way the URL is encoded in the SDK and server side when calculating the request signature
-    const path = `/v1/calling/query/number/${data['number'].split(" ").join("")}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const path = `/v1/calling/query/number/${data['number'].split(' ').join('')}`;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
         = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<QueryNumberResponse>({
       url,
@@ -93,11 +93,11 @@ export class ApplicationsApi extends VoiceDomainApi {
 
     const body: RequestBody = '';
     const path = `/v1/configuration/callbacks/applications/${data['applicationkey']}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
         = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<GetCallbacks>({
       url,
@@ -121,12 +121,12 @@ export class ApplicationsApi extends VoiceDomainApi {
     };
 
     const body: RequestBody = '';
-    const path = `/v1/configuration/numbers`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const path = '/v1/configuration/numbers';
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
         = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<ListNumbersResponse>({
       url,
@@ -151,12 +151,12 @@ export class ApplicationsApi extends VoiceDomainApi {
 
     const body: RequestBody = data['unassignNumbersRequestBody']
       ? JSON.stringify(data['unassignNumbersRequestBody']) : '{}';
-    const path = `/v1/configuration/numbers`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const path = '/v1/configuration/numbers';
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
         = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<void>({
       url,
@@ -182,11 +182,11 @@ export class ApplicationsApi extends VoiceDomainApi {
     const body: RequestBody = data['updateCallbacksRequestBody']
       ? JSON.stringify(data['updateCallbacksRequestBody']) : '{}';
     const path = `/v1/configuration/callbacks/applications/${data['applicationkey']}`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
         = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<void>({
       url,
@@ -211,12 +211,12 @@ export class ApplicationsApi extends VoiceDomainApi {
 
     const body: RequestBody = data['assignNumbersRequestBody']
       ? JSON.stringify(data['assignNumbersRequestBody']) : '{}';
-    const path = `/v1/configuration/numbers`;
-    const basePathUrl = this.client.apiClientOptions.basePath + path;
+    const path = '/v1/configuration/numbers';
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
         = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined, path);
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<void>({
       url,

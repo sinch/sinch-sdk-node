@@ -18,15 +18,18 @@ export class VoiceService {
   }
 
   /**
-   * Update the default basePath for each API
+   * Update the default hostname for each API
    *
-   * @param {string} basePath - The new base path to use for all the APIs.
+   * @param {string} hostname - The new hostname to use for all the APIs.
    */
-  public setBasePath(basePath: string) {
-    this.applications.setBasePath(basePath);
-    this.conferences.setBasePath(basePath);
-    this.calls.setBasePath(basePath);
-    this.callouts.setBasePath(basePath);
+  public setHostname(hostname: string) {
+    this.conferences.setHostname(hostname);
+    this.calls.setHostname(hostname);
+    this.callouts.setHostname(hostname);
+  }
+
+  public setApplicationManagementHostname(hostname: string) {
+    this.applications.setHostname(hostname);
   }
 
   public setRegion(region: VoiceRegion) {

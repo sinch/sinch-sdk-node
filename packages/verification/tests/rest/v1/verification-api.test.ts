@@ -1,9 +1,10 @@
 import { VerificationDomainApi } from '../../../src/rest/v1/verification-domain-api';
-import { ApplicationCredentials, SigningRequest } from '@sinch/sdk-client';
+import { ApiHostname, ApplicationCredentials, SigningRequest } from '@sinch/sdk-client';
 
 describe('Verification API', () => {
   let verificationApi: VerificationDomainApi;
-  let params: ApplicationCredentials;
+  let params: ApplicationCredentials & Pick<ApiHostname, 'verificationHostname'>;
+  const CUSTOM_HOSTNAME = 'https://new.host.name';
 
   beforeEach(() => {
     params = {
@@ -17,15 +18,21 @@ describe('Verification API', () => {
     verificationApi.getSinchClient();
     expect(verificationApi.client).toBeDefined();
     expect(verificationApi.client?.apiClientOptions.projectId).toBeUndefined();
-    expect(verificationApi.client?.apiClientOptions.basePath).toBe('https://verification.api.sinch.com');
+    expect(verificationApi.client?.apiClientOptions.hostname).toBe('https://verification.api.sinch.com');
     expect(verificationApi.client?.apiClientOptions.requestPlugins?.length).toBe(3);
   });
 
-  it('should update the base path', () => {
-    const newPath = 'https://new.base.path';
+  it('should use the hostname parameter', () => {
+    params.verificationHostname = CUSTOM_HOSTNAME;
     verificationApi = new VerificationDomainApi(params, 'dummy');
-    verificationApi.setBasePath(newPath);
-    expect(verificationApi.client?.apiClientOptions.basePath).toBe('https://new.base.path');
+    verificationApi.getSinchClient();
+    expect(verificationApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+  });
+
+  it('should update the hostname', () => {
+    verificationApi = new VerificationDomainApi(params, 'dummy');
+    verificationApi.setHostname(CUSTOM_HOSTNAME);
+    expect(verificationApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
 
   it('should update the credentials', () => {

@@ -22,7 +22,7 @@ export interface RequestOptions extends RequestInit {
   /** Force headers to Headers type */
   headers: Headers;
   /** URL targeted without the query parameters */
-  basePath: string;
+  hostname: string;
   /** Path of the API*/
   path?: string;
 }

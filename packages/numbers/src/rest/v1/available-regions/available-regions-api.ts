@@ -45,7 +45,7 @@ export class AvailableRegionsApi extends NumbersDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/availableRegions`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/availableRegions`;
 
     const requestOptions = await this.client.prepareOptions(
       basePathUrl,
@@ -54,7 +54,7 @@ export class AvailableRegionsApi extends NumbersDomainApi {
       headers,
       body || undefined,
     );
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams, true);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams, true);
 
     return this.client.processCall<ListAvailableRegionsResponse>({
       url,

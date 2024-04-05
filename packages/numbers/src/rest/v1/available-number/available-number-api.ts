@@ -72,7 +72,7 @@ export class AvailableNumberApi extends NumbersDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers/${data['phoneNumber']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers/${data['phoneNumber']}`;
 
     const requestOptions = await this.client.prepareOptions(
       basePathUrl,
@@ -81,7 +81,7 @@ export class AvailableNumberApi extends NumbersDomainApi {
       headers,
       body || undefined,
     );
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<AvailableNumber>({
       url,
@@ -113,7 +113,7 @@ export class AvailableNumberApi extends NumbersDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers`;
 
     const requestOptions = await this.client.prepareOptions(
       basePathUrl,
@@ -122,7 +122,7 @@ export class AvailableNumberApi extends NumbersDomainApi {
       headers,
       body || undefined,
     );
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams, true);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams, true);
 
     return this.client.processCall<AvailableNumbersResponse>({
       url,
@@ -151,7 +151,7 @@ export class AvailableNumberApi extends NumbersDomainApi {
     const body: RequestBody = data['rentAnyNumberRequestBody']
       ? JSON.stringify(data['rentAnyNumberRequestBody'])
       : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers:rentAny`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers:rentAny`;
 
     const requestOptions = await this.client.prepareOptions(
       basePathUrl,
@@ -160,7 +160,7 @@ export class AvailableNumberApi extends NumbersDomainApi {
       headers,
       body || undefined,
     );
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<ActiveNumber>({
       url,
@@ -189,7 +189,7 @@ export class AvailableNumberApi extends NumbersDomainApi {
     const body: RequestBody = data['rentNumberRequestBody']
       ? JSON.stringify(data['rentNumberRequestBody'])
       : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.basePath}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers/${data['phoneNumber']}:rent`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers/${data['phoneNumber']}:rent`;
 
     const requestOptions = await this.client.prepareOptions(
       basePathUrl,
@@ -198,7 +198,7 @@ export class AvailableNumberApi extends NumbersDomainApi {
       headers,
       body || undefined,
     );
-    const url = this.client.prepareUrl(requestOptions.basePath, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
     return this.client.processCall<ActiveNumber>({
       url,

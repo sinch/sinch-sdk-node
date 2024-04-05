@@ -37,20 +37,26 @@ export class ConversationService {
   }
 
   /**
-   * Update the default basePath for each API
-   *
-   * @param {string} basePath - The new base path to use for all the APIs.
+   * Update the default hostname for each API (except Templates)
+   * @param {string} hostname - The new hostname to use for all the APIs.
    */
-  public setBasePath(basePath: string) {
-    this.contact.setBasePath(basePath);
-    this.app.setBasePath(basePath);
-    this.events.setBasePath(basePath);
-    this.messages.setBasePath(basePath);
-    this.transcoding.setBasePath(basePath);
-    this.capability.setBasePath(basePath);
-    this.conversation.setBasePath(basePath);
-    this.webhooks.setBasePath(basePath);
-    this.templatesV1.setBasePath(basePath);
-    this.templatesV2.setBasePath(basePath);
+  public setHostname(hostname: string) {
+    this.contact.setHostname(hostname);
+    this.app.setHostname(hostname);
+    this.events.setHostname(hostname);
+    this.messages.setHostname(hostname);
+    this.transcoding.setHostname(hostname);
+    this.capability.setHostname(hostname);
+    this.conversation.setHostname(hostname);
+    this.webhooks.setHostname(hostname);
+  }
+
+  /**
+   * Update the default hostname for the Templates API
+   * @param {string} hostname - The new hostname to use for all the APIs.
+   */
+  public setTemplatesHostname(hostname: string) {
+    this.templatesV1.setHostname(hostname);
+    this.templatesV2.setHostname(hostname);
   }
 }
