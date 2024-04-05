@@ -38,7 +38,7 @@ export interface ApplicationCredentials {
 export interface ApiHostname {
   authHostname?: string;
   conversationHostname?: string;
-  templatesHostname?: string;
+  conversationTemplatesHostname?: string;
   faxHostname?: string;
   numbersHostname?: string;
   smsHostname?: string;

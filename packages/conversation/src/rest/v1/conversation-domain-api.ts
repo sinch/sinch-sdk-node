@@ -104,7 +104,7 @@ export class ConversationDomainApi implements Api {
     switch (this.apiName) {
     case 'TemplatesV1Api':
     case 'TemplatesV2Api':
-      return this.sinchClientParameters.templatesHostname ?? `https://${region}.template.api.sinch.com`;
+      return this.sinchClientParameters.conversationTemplatesHostname ?? `https://${region}.template.api.sinch.com`;
     default:
       return this.sinchClientParameters.conversationHostname ?? `https://${region}.conversation.api.sinch.com`;
     }

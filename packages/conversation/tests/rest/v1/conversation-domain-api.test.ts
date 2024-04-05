@@ -5,7 +5,7 @@ import { ApiHostname, Region, UnifiedCredentials } from '@sinch/sdk-client';
 describe('Conversation API', () => {
   let conversationApi: ConversationDomainApi;
   let templateApi: TemplatesV2Api;
-  let params: UnifiedCredentials & Pick<ApiHostname, 'conversationHostname' | 'templatesHostname'>;
+  let params: UnifiedCredentials & Pick<ApiHostname, 'conversationHostname' | 'conversationTemplatesHostname'>;
   const CUSTOM_HOSTNAME = 'https://new.host.name';
   const CUSTOM_HOSTNAME_TEMPLATES = 'https://templates.new.host.name';
 
@@ -54,7 +54,7 @@ describe('Conversation API', () => {
   });
 
   it('should use the hostname parameter for templates only', () => {
-    params.templatesHostname = CUSTOM_HOSTNAME_TEMPLATES;
+    params.conversationTemplatesHostname = CUSTOM_HOSTNAME_TEMPLATES;
     conversationApi = new ConversationDomainApi(params, 'dummy');
     conversationApi.getSinchClient();
     templateApi = new TemplatesV2Api(params);
@@ -65,7 +65,7 @@ describe('Conversation API', () => {
 
   it('should use the hostname parameter for the 2 different domains', () => {
     params.conversationHostname = CUSTOM_HOSTNAME;
-    params.templatesHostname = CUSTOM_HOSTNAME_TEMPLATES;
+    params.conversationTemplatesHostname = CUSTOM_HOSTNAME_TEMPLATES;
     conversationApi = new ConversationDomainApi(params, 'dummy');
     conversationApi.getSinchClient();
     templateApi = new TemplatesV2Api(params);
