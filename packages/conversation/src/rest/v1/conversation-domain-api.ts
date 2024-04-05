@@ -40,7 +40,7 @@ export class ConversationDomainApi implements Api {
   public setRegion(region: Region) {
     this.sinchClientParameters.region = region;
     if (this.client) {
-      this.client.apiClientOptions.hostname = this.buildBasePath(region);
+      this.client.apiClientOptions.hostname = this.buildHostname(region);
     }
   }
 
@@ -82,19 +82,18 @@ export class ConversationDomainApi implements Api {
       }
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sinchClientParameters, 'Conversation');
       this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.hostname = this.sinchClientParameters.conversationHostname
-        ?? this.buildBasePath(region);
+      this.client.apiClientOptions.hostname = this.buildHostname(region);
     }
     return this.client;
   }
 
-  private buildBasePath(region: Region) {
+  private buildHostname(region: Region) {
     switch (this.apiName) {
     case 'TemplatesV1Api':
     case 'TemplatesV2Api':
-      return `https://${region}.template.api.sinch.com`;
+      return this.sinchClientParameters.conversationTemplatesHostname ?? `https://${region}.template.api.sinch.com`;
     default:
-      return `https://${region}.conversation.api.sinch.com`;
+      return this.sinchClientParameters.conversationHostname ?? `https://${region}.conversation.api.sinch.com`;
     }
   }
 

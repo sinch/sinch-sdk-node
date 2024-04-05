@@ -42,11 +42,13 @@ export interface ApplicationCredentials {
 export interface ApiHostname {
   authHostname?: string;
   conversationHostname?: string;
+  conversationTemplatesHostname?: string;
   faxHostname?: string;
   numbersHostname?: string;
   smsHostname?: string;
   verificationHostname?: string;
   voiceHostname?: string;
+  voiceApplicationManagementHostname?: string;
 }
 
 export interface ApiPlugins {

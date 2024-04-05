@@ -39,7 +39,7 @@ export class VoiceDomainApi implements Api {
   public setRegion(region: VoiceRegion) {
     this.sinchClientParameters.voiceRegion = region;
     if (this.client) {
-      this.client.apiClientOptions.hostname = this.buildBasePath(region);
+      this.client.apiClientOptions.hostname = this.buildHostname(region);
     }
   }
 
@@ -78,17 +78,17 @@ export class VoiceDomainApi implements Api {
       const apiClientOptions = buildApplicationSignedApiClientOptions(this.sinchClientParameters, 'Voice');
       this.client = new ApiFetchClient(apiClientOptions);
       const region: VoiceRegion = this.sinchClientParameters.voiceRegion || VoiceRegion.DEFAULT;
-      this.client.apiClientOptions.hostname = this.sinchClientParameters.voiceHostname ?? this.buildBasePath(region);
+      this.client.apiClientOptions.hostname = this.buildHostname(region);
     }
     return this.client;
   }
 
-  private buildBasePath(region: VoiceRegion) {
+  private buildHostname(region: VoiceRegion) {
     switch (this.apiName) {
     case 'ApplicationsApi':
-      return 'https://callingapi.sinch.com';
+      return this.sinchClientParameters.voiceApplicationManagementHostname ?? 'https://callingapi.sinch.com';
     default:
-      return `https://calling${region}.api.sinch.com`;
+      return this.sinchClientParameters.voiceHostname ?? `https://calling${region}.api.sinch.com`;
     }
   }
 

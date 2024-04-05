@@ -37,8 +37,7 @@ export class ConversationService {
   }
 
   /**
-   * Update the default hostname for each API
-   *
+   * Update the default hostname for each API (except Templates)
    * @param {string} hostname - The new hostname to use for all the APIs.
    */
   public setHostname(hostname: string) {
@@ -50,6 +49,13 @@ export class ConversationService {
     this.capability.setHostname(hostname);
     this.conversation.setHostname(hostname);
     this.webhooks.setHostname(hostname);
+  }
+
+  /**
+   * Update the default hostname for the Templates API
+   * @param {string} hostname - The new hostname to use for the Templates APIs.
+   */
+  public setTemplatesHostname(hostname: string) {
     this.templatesV1.setHostname(hostname);
     this.templatesV2.setHostname(hostname);
   }
