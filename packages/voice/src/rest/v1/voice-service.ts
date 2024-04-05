@@ -23,10 +23,13 @@ export class VoiceService {
    * @param {string} hostname - The new hostname to use for all the APIs.
    */
   public setHostname(hostname: string) {
-    this.applications.setHostname(hostname);
     this.conferences.setHostname(hostname);
     this.calls.setHostname(hostname);
     this.callouts.setHostname(hostname);
+  }
+
+  public setApplicationManagementHostname(hostname: string) {
+    this.applications.setHostname(hostname);
   }
 
   public setRegion(region: VoiceRegion) {

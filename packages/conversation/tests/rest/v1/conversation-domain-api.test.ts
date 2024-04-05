@@ -1,10 +1,13 @@
 import { ConversationDomainApi } from '../../../src/rest/v1/conversation-domain-api';
+import { TemplatesV2Api } from '../../../src';
 import { ApiHostname, Region, UnifiedCredentials } from '@sinch/sdk-client';
 
 describe('Conversation API', () => {
   let conversationApi: ConversationDomainApi;
-  let params: UnifiedCredentials & Pick<ApiHostname, 'conversationHostname'>;
+  let templateApi: TemplatesV2Api;
+  let params: UnifiedCredentials & Pick<ApiHostname, 'conversationHostname' | 'templatesHostname'>;
   const CUSTOM_HOSTNAME = 'https://new.host.name';
+  const CUSTOM_HOSTNAME_TEMPLATES = 'https://templates.new.host.name';
 
   beforeEach(() => {
     params = {
@@ -40,11 +43,35 @@ describe('Conversation API', () => {
     }, 20);
   });
 
-  it('should use the hostname parameter', () => {
+  it('should use the hostname parameter but not for templates', () => {
     params.conversationHostname = CUSTOM_HOSTNAME;
     conversationApi = new ConversationDomainApi(params, 'dummy');
     conversationApi.getSinchClient();
+    templateApi = new TemplatesV2Api(params);
+    templateApi.getSinchClient();
     expect(conversationApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(templateApi.client?.apiClientOptions.hostname).toBe('https://us.template.api.sinch.com');
+  });
+
+  it('should use the hostname parameter for templates only', () => {
+    params.templatesHostname = CUSTOM_HOSTNAME_TEMPLATES;
+    conversationApi = new ConversationDomainApi(params, 'dummy');
+    conversationApi.getSinchClient();
+    templateApi = new TemplatesV2Api(params);
+    templateApi.getSinchClient();
+    expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://us.conversation.api.sinch.com');
+    expect(templateApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
+  });
+
+  it('should use the hostname parameter for the 2 different domains', () => {
+    params.conversationHostname = CUSTOM_HOSTNAME;
+    params.templatesHostname = CUSTOM_HOSTNAME_TEMPLATES;
+    conversationApi = new ConversationDomainApi(params, 'dummy');
+    conversationApi.getSinchClient();
+    templateApi = new TemplatesV2Api(params);
+    templateApi.getSinchClient();
+    expect(conversationApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(templateApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
   });
 
   it('should set a custom URL', () => {

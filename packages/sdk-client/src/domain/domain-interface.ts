@@ -38,11 +38,13 @@ export interface ApplicationCredentials {
 export interface ApiHostname {
   authHostname?: string;
   conversationHostname?: string;
+  templatesHostname?: string;
   faxHostname?: string;
   numbersHostname?: string;
   smsHostname?: string;
   verificationHostname?: string;
   voiceHostname?: string;
+  voiceApplicationManagementHostname?: string;
 }
 
 export const isUnifiedCredentials = (credentials: any): credentials is UnifiedCredentials => {
