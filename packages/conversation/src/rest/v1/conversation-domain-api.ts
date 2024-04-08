@@ -88,7 +88,7 @@ export class ConversationDomainApi implements Api {
   }
 
   private buildHostname(region: ConversationRegionFlexible) {
-    const formattedRegion = region === '' ? region : `${region}.`;
+    const formattedRegion = region !== '' ? `${region}.` : '';
     switch (this.apiName) {
     case 'TemplatesV1Api':
     case 'TemplatesV2Api':
