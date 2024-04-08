@@ -7,8 +7,6 @@ import {
   SinchClientParameters,
   SupportedFaxRegion,
   UnifiedCredentials,
-  buildOAuth2ApiClientOptions,
-  FaxRegion,
 } from '@sinch/sdk-client';
 
 export class FaxDomainApi implements Api {
