@@ -41,8 +41,9 @@ export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (
 ): ApiClientOptions => {
   let apiClientOptions: ApiClientOptions | undefined;
   // Check the region: if US or EU, try to use the OAuth2 authentication with the access key / secret under the project Id
-  if (!params.forceServicePlanIdUsageForSmsApi
-    && (region === SmsRegion.UNITED_STATES || region === SmsRegion.EUROPE)) {
+  if ( params.forceOAuth2ForSmsApi
+    || (!params.forceServicePlanIdUsageForSmsApi && (region === SmsRegion.UNITED_STATES || region === SmsRegion.EUROPE))
+  ) {
     // Let's check the required parameters for OAuth2 authentication
     if (params.projectId && params.keyId && params.keySecret) {
       apiClientOptions = {

@@ -31,18 +31,15 @@ describe('Conversation API', () => {
     expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://eu.conversation.api.sinch.com');
   });
 
-  // TODO: Temporarily disabled. Will be back with DEVEXP-381
-  // it('should log a warning when using an unsupported region', async () => {
-  //   params.conversationRegion = 'unknown';
-  //   conversationApi = new ConversationDomainApi(params, 'dummy');
-  //   const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-  //   conversationApi.getSinchClient();
-  //   // Add a small delay to allow jest to capture the warning
-  //   setTimeout(() => {
-  //     expect(consoleWarnSpy).toHaveBeenCalledWith('The region \'ca\' is not supported for the Conversation API');
-  //     consoleWarnSpy.mockRestore();
-  //   }, 20);
-  // });
+  it('should log a warning when using an unsupported region', async () => {
+    params.conversationRegion = 'bzh';
+    conversationApi = new ConversationDomainApi(params, 'dummy');
+    console.warn = jest.fn();
+    conversationApi.getSinchClient();
+    expect(console.warn).toHaveBeenCalledWith(
+      'The region "bzh" is not known as a supported region for the Conversation API');
+    expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://bzh.conversation.api.sinch.com');
+  });
 
   it('should use the hostname parameter but not for templates', () => {
     params.conversationHostname = CUSTOM_HOSTNAME;
@@ -84,10 +81,19 @@ describe('Conversation API', () => {
 
   it ('should update the region', () => {
     conversationApi = new ConversationDomainApi(params, 'dummy');
-    conversationApi.setRegion(ConversationRegion.EUROPE);
     conversationApi.getSinchClient();
     expect(conversationApi.client).toBeDefined();
+    expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://us.conversation.api.sinch.com');
+    conversationApi.setRegion(ConversationRegion.UNITED_STATES);
+    expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://us.conversation.api.sinch.com');
+    conversationApi.setRegion(ConversationRegion.EUROPE);
     expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://eu.conversation.api.sinch.com');
+    conversationApi.setRegion(ConversationRegion.BRAZIL);
+    expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://br.conversation.api.sinch.com');
+    conversationApi.setRegion('bzh');
+    expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://bzh.conversation.api.sinch.com');
+    conversationApi.setRegion('');
+    expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://conversation.api.sinch.com');
   });
 
   it ('should update the template v1 region', () => {

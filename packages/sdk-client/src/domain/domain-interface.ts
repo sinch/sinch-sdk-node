@@ -17,6 +17,8 @@ export interface UnifiedCredentials {
   keySecret: string;
   /** The region for the SMS API. Default region is US */
   smsRegion?: SmsRegion;
+  /** boolean to force the usage of the OAuth2 authentication for the SMS API - to be used when a region other of US and EU supports OAuth2 but the SDK doesn't by default */
+  forceOAuth2ForSmsApi?: boolean;
   /** The region for the Fax API. Default is auto-routing */
   faxRegion?: FaxRegion;
   /** The region for the Conversation API. Default region is US */
@@ -28,7 +30,7 @@ export interface ServicePlanIdCredentials {
   servicePlanId: string;
   /** Your API token. You can find this on your [Dashboard](https://dashboard.sinch.com/sms/api/rest). */
   apiToken: string;
-  /** boolean to force the usage of the service plan Id + API token as credentials for the SMS API*/
+  /** boolean to force the usage of the service plan Id + API token as credentials for the SMS API */
   forceServicePlanIdUsageForSmsApi?: boolean;
   /** The region for the SMS API. Default region is US */
   smsRegion?: SmsRegion;
@@ -73,7 +75,9 @@ export const isServicePlanIdCredentials = (credentials: any): credentials is Ser
     && candidate.apiToken !== undefined;
 };
 
-export enum SmsRegion {
+// /////////////
+// SMS regions
+export enum SupportedSmsRegion {
   UNITED_STATES = 'us',
   EUROPE = 'eu',
   BRAZIL = 'br',
@@ -81,53 +85,56 @@ export enum SmsRegion {
   AUSTRALIA = 'au'
 }
 
-export function getRegion(value: string | undefined): SmsRegion | undefined {
-  if (!value) {
-    return undefined;
-  }
+export type SmsRegion = SupportedSmsRegion | string;
 
-  for (const region of Object.values(SmsRegion)) {
-    if (region === value.toLowerCase()) {
-      return region as SmsRegion;
-    }
-  }
-  console.error(`No region exist for the value '${value}'`);
-  return undefined;
-}
+export const SmsRegion = {
+  ...SupportedSmsRegion,
+};
 
-export enum VoiceRegion {
+// /////////////
+// Voice regions
+export enum SupportedVoiceRegion {
   DEFAULT = '',
-  UNITED_STATES = '-use1',
-  EUROPE = '-euc1',
-  SOUTH_AMERICA = '-sae1',
-  SOUTHEAST_ASIA_1 = '-apse1',
-  SOUTHEAST_ASIA_2 = '-apse2'
+  UNITED_STATES = 'use1',
+  EUROPE = 'euc1',
+  SOUTH_AMERICA = 'sae1',
+  SOUTHEAST_ASIA_1 = 'apse1',
+  SOUTHEAST_ASIA_2 = 'apse2'
 }
 
-export enum FaxRegion {
+export type VoiceRegion = SupportedVoiceRegion | string;
+
+export const VoiceRegion = {
+  ...SupportedVoiceRegion,
+};
+
+// ///////////
+// Fax regions
+export enum SupportedFaxRegion {
   DEFAULT = '',
-  UNITED_STATES = 'use1.',
-  EUROPE = 'eu1.',
-  SOUTH_AMERICA = 'sae1.',
-  SOUTHEAST_ASIA_1 = 'apse1.',
-  SOUTHEAST_ASIA_2 = 'apse2.'
+  UNITED_STATES = 'use1',
+  EUROPE = 'eu1',
+  SOUTH_AMERICA = 'sae1',
+  SOUTHEAST_ASIA_1 = 'apse1',
+  SOUTHEAST_ASIA_2 = 'apse2'
 }
 
-export enum ConversationRegion {
+export type FaxRegion = SupportedFaxRegion | string;
+
+export const FaxRegion = {
+  ...SupportedFaxRegion,
+};
+
+// ////////////////////
+// Conversation regions
+export enum SupportedConversationRegion {
   UNITED_STATES = 'us',
   EUROPE = 'eu',
   BRAZIL = 'br'
 }
 
-export const getVoiceRegion = (value: string | undefined): VoiceRegion | undefined => {
-  if (!value) {
-    return undefined;
-  }
-  for(const region of Object.values(VoiceRegion)) {
-    if (region === value.toLowerCase())  {
-      return region as VoiceRegion;
-    }
-  }
-  console.error(`No region exist for the value '${value}'`);
-  return undefined;
+export type ConversationRegion = SupportedConversationRegion | string;
+
+export const ConversationRegion = {
+  ...SupportedConversationRegion,
 };
