@@ -95,9 +95,31 @@ describe('Voice API', () => {
 
   it('should update the region', () => {
     voiceApi = new VoiceDomainApi(params, 'dummy');
-    voiceApi.setRegion(VoiceRegion.EUROPE);
     voiceApi.getSinchClient();
     expect(voiceApi.client).toBeDefined();
+    expect(voiceApi.client?.apiClientOptions.hostname).toBe('https://calling.api.sinch.com');
+    voiceApi.setRegion(VoiceRegion.UNITED_STATES);
+    expect(voiceApi.client?.apiClientOptions.hostname).toBe('https://calling-use1.api.sinch.com');
+    voiceApi.setRegion(VoiceRegion.EUROPE);
     expect(voiceApi.client?.apiClientOptions.hostname).toBe('https://calling-euc1.api.sinch.com');
+    voiceApi.setRegion(VoiceRegion.SOUTH_AMERICA);
+    expect(voiceApi.client?.apiClientOptions.hostname).toBe('https://calling-sae1.api.sinch.com');
+    voiceApi.setRegion(VoiceRegion.SOUTHEAST_ASIA_1);
+    expect(voiceApi.client?.apiClientOptions.hostname).toBe('https://calling-apse1.api.sinch.com');
+    voiceApi.setRegion(VoiceRegion.SOUTHEAST_ASIA_2);
+    expect(voiceApi.client?.apiClientOptions.hostname).toBe('https://calling-apse2.api.sinch.com');
+    voiceApi.setRegion('bzh');
+    expect(voiceApi.client?.apiClientOptions.hostname).toBe('https://calling-bzh.api.sinch.com');
+    voiceApi.setRegion('');
+    expect(voiceApi.client?.apiClientOptions.hostname).toBe('https://calling.api.sinch.com');
+  });
+
+  it('should not update the region for the voice application management API', () => {
+    voiceApplicationApi = new ApplicationsApi(params);
+    voiceApplicationApi.getSinchClient();
+    expect(voiceApplicationApi.client).toBeDefined();
+    expect(voiceApplicationApi.client?.apiClientOptions.hostname).toBe('https://callingapi.sinch.com');
+    voiceApplicationApi.setRegion('bzh');
+    expect(voiceApplicationApi.client?.apiClientOptions.hostname).toBe('https://callingapi.sinch.com');
   });
 });

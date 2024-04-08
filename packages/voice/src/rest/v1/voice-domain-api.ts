@@ -5,8 +5,8 @@ import {
   ApplicationCredentials,
   buildApplicationSignedApiClientOptions,
   SinchClientParameters,
+  SupportedVoiceRegion,
   VoiceRegion,
-  VoiceRegionFlexible,
 } from '@sinch/sdk-client';
 
 export class VoiceDomainApi implements Api {
@@ -79,7 +79,7 @@ export class VoiceDomainApi implements Api {
       const apiClientOptions = buildApplicationSignedApiClientOptions(this.sinchClientParameters, 'Voice');
       this.client = new ApiFetchClient(apiClientOptions);
       const region = this.sinchClientParameters.voiceRegion ?? VoiceRegion.DEFAULT;
-      if(!Object.values(VoiceRegion).includes((region as unknown) as VoiceRegion)) {
+      if(!Object.values(SupportedVoiceRegion).includes(region as SupportedVoiceRegion)) {
         console.warn(`The region "${region}" is not known as a supported region for the Voice API`);
       }
       this.client.apiClientOptions.hostname = this.buildHostname(region);
@@ -87,7 +87,7 @@ export class VoiceDomainApi implements Api {
     return this.client;
   }
 
-  private buildHostname(region: VoiceRegionFlexible) {
+  private buildHostname(region: VoiceRegion) {
     switch (this.apiName) {
     case 'ApplicationsApi':
       return this.sinchClientParameters.voiceApplicationManagementHostname ?? 'https://callingapi.sinch.com';

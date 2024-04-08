@@ -81,10 +81,19 @@ describe('Conversation API', () => {
 
   it ('should update the region', () => {
     conversationApi = new ConversationDomainApi(params, 'dummy');
-    conversationApi.setRegion(ConversationRegion.EUROPE);
     conversationApi.getSinchClient();
     expect(conversationApi.client).toBeDefined();
+    expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://us.conversation.api.sinch.com');
+    conversationApi.setRegion(ConversationRegion.UNITED_STATES);
+    expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://us.conversation.api.sinch.com');
+    conversationApi.setRegion(ConversationRegion.EUROPE);
     expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://eu.conversation.api.sinch.com');
+    conversationApi.setRegion(ConversationRegion.BRAZIL);
+    expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://br.conversation.api.sinch.com');
+    conversationApi.setRegion('bzh');
+    expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://bzh.conversation.api.sinch.com');
+    conversationApi.setRegion('');
+    expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://conversation.api.sinch.com');
   });
 
   it ('should update the template v1 region', () => {

@@ -1,4 +1,4 @@
-import { SmsRegion, SinchClientParameters, SmsRegionFlexible } from '../domain';
+import { SmsRegion, SinchClientParameters } from '../domain';
 import { ApiClientOptions } from './api-client-options';
 import {
   ApiTokenRequest,
@@ -37,7 +37,7 @@ export const buildApplicationSignedApiClientOptions = (
 };
 
 export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (
-  params: SinchClientParameters, region: SmsRegionFlexible, apiName: string,
+  params: SinchClientParameters, region: SmsRegion, apiName: string,
 ): ApiClientOptions => {
   let apiClientOptions: ApiClientOptions | undefined;
   // Check the region: if US or EU, try to use the OAuth2 authentication with the access key / secret under the project Id

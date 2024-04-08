@@ -4,8 +4,8 @@ import {
   ApiFetchClient,
   buildOAuth2ApiClientOptions,
   ConversationRegion,
-  ConversationRegionFlexible,
   SinchClientParameters,
+  SupportedConversationRegion,
   UnifiedCredentials,
 } from '@sinch/sdk-client';
 
@@ -77,7 +77,7 @@ export class ConversationDomainApi implements Api {
   public getSinchClient(): ApiClient {
     if (!this.client) {
       const region = this.sinchClientParameters.conversationRegion ?? ConversationRegion.UNITED_STATES;
-      if(!Object.values(ConversationRegion).includes((region as unknown) as ConversationRegion)) {
+      if(!Object.values(SupportedConversationRegion).includes(region as SupportedConversationRegion)) {
         console.warn(`The region "${region}" is not known as a supported region for the Conversation API`);
       }
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sinchClientParameters, 'Conversation');
@@ -87,7 +87,7 @@ export class ConversationDomainApi implements Api {
     return this.client;
   }
 
-  private buildHostname(region: ConversationRegionFlexible) {
+  private buildHostname(region: ConversationRegion) {
     const formattedRegion = region !== '' ? `${region}.` : '';
     switch (this.apiName) {
     case 'TemplatesV1Api':

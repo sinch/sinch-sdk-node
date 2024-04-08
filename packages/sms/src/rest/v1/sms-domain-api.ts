@@ -7,6 +7,7 @@ import {
   SmsRegion,
   UnifiedCredentials,
   ServicePlanIdCredentials,
+  SupportedSmsRegion,
 } from '@sinch/sdk-client';
 
 export class SmsDomainApi implements Api {
@@ -30,6 +31,18 @@ export class SmsDomainApi implements Api {
     } catch (error) {
       console.error('Impossible to set a new hostname, the Application credentials need to be provided first.');
       throw error;
+    }
+  }
+
+  /**
+   * Update the region in the basePath
+   * @param {SmsRegion} region - The new region to send the requests to
+   */
+  public setRegion(region: SmsRegion) {
+    this.sinchClientParameters.smsRegion = region;
+    if (this.client) {
+      const useZapStack = !this.client.apiClientOptions.useServicePlanId;
+      this.client.apiClientOptions.hostname = this.buildHostname(region, useZapStack);
     }
   }
 
@@ -66,15 +79,21 @@ export class SmsDomainApi implements Api {
   public getSinchClient(): ApiClient {
     if (!this.client) {
       const region = this.sinchClientParameters.smsRegion ?? SmsRegion.UNITED_STATES;
-      if(!Object.values(SmsRegion).includes((region as unknown) as SmsRegion)) {
+      if(!Object.values(SupportedSmsRegion).includes(region as SupportedSmsRegion)) {
         console.warn(`The region "${region}" is not known as a supported region for the SMS API`);
       }
       const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(this.sinchClientParameters, region, 'SMS');
       this.client = new ApiFetchClient(apiClientOptions);
-      const formattedRegion = region === '' ? region : `${region}.`;
-      this.client.apiClientOptions.hostname = this.sinchClientParameters.smsHostname ?? `https://${apiClientOptions.useServicePlanId?'':'zt.'}${formattedRegion}sms.api.sinch.com`;
+      const useZapStack = !this.client.apiClientOptions.useServicePlanId;
+      this.client.apiClientOptions.hostname = this.sinchClientParameters.smsHostname
+        ?? this.buildHostname(region, useZapStack);
     }
     return this.client;
+  }
+
+  private buildHostname(region: SmsRegion, useZapStack: boolean) {
+    const formattedRegion = region !== '' ? `${region}.` : '';
+    return `https://${useZapStack?'zt.':''}${formattedRegion}sms.api.sinch.com`;
   }
 
 }

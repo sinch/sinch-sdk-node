@@ -5,6 +5,7 @@ import {
   buildOAuth2ApiClientOptions,
   FaxRegion,
   SinchClientParameters,
+  SupportedFaxRegion,
   UnifiedCredentials,
 } from '@sinch/sdk-client';
 
@@ -25,6 +26,17 @@ export class FaxDomainApi implements Api {
   public setHostname(hostname: string) {
     this.client = this.getSinchClient();
     this.client.apiClientOptions.hostname = hostname;
+  }
+
+  /**
+   * Update the region in the basePath
+   * @param {FaxRegion} region - The new region to send the requests to
+   */
+  public setRegion(region: FaxRegion) {
+    this.sinchClientParameters.faxRegion = region;
+    if (this.client) {
+      this.client.apiClientOptions.hostname = this.buildHostname(region);
+    }
   }
 
   /**
@@ -62,13 +74,17 @@ export class FaxDomainApi implements Api {
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sinchClientParameters, 'Fax');
       this.client = new ApiFetchClient(apiClientOptions);
       const region = this.sinchClientParameters.faxRegion ?? FaxRegion.DEFAULT;
-      if(!Object.values(FaxRegion).includes((region as unknown) as FaxRegion)) {
+      if(!Object.values(SupportedFaxRegion).includes(region as SupportedFaxRegion)) {
         console.warn(`The region "${region}" is not known as a supported region for the Fax API`);
       }
-      const formattedRegion = region === FaxRegion.DEFAULT ? region : `${region}.`;
-      this.client.apiClientOptions.hostname = this.sinchClientParameters.faxHostname ?? `https://${formattedRegion}fax.api.sinch.com`;
+      this.client.apiClientOptions.hostname = this.sinchClientParameters.faxHostname ?? this.buildHostname(region);
     }
     return this.client;
+  }
+
+  private buildHostname(region: FaxRegion) {
+    const formattedRegion = region !== '' ? `${region}.` : '';
+    return `https://${formattedRegion}fax.api.sinch.com`;
   }
 
 }

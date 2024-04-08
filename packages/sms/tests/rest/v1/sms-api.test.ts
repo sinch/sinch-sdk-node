@@ -73,6 +73,42 @@ describe('SMS API', () => {
     expect(smsApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
 
+  it ('should update the region with OAuth2 credentials', () => {
+    smsApi = new SmsDomainApi(paramsWithProjectId, 'dummy');
+    smsApi.getSinchClient();
+    expect(smsApi.client).toBeDefined();
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.us.sms.api.sinch.com');
+    smsApi.setRegion(SmsRegion.UNITED_STATES);
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.us.sms.api.sinch.com');
+    smsApi.setRegion(SmsRegion.EUROPE);
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.eu.sms.api.sinch.com');
+    smsApi.setRegion('bzh');
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.bzh.sms.api.sinch.com');
+    smsApi.setRegion('');
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.sms.api.sinch.com');
+  });
+
+  it ('should update the region with servicePlanId credentials', () => {
+    smsApi = new SmsDomainApi(paramsWithServicePlanId, 'dummy');
+    smsApi.getSinchClient();
+    expect(smsApi.client).toBeDefined();
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://us.sms.api.sinch.com');
+    smsApi.setRegion(SmsRegion.UNITED_STATES);
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://us.sms.api.sinch.com');
+    smsApi.setRegion(SmsRegion.EUROPE);
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://eu.sms.api.sinch.com');
+    smsApi.setRegion(SmsRegion.BRAZIL);
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://br.sms.api.sinch.com');
+    smsApi.setRegion(SmsRegion.AUSTRALIA);
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://au.sms.api.sinch.com');
+    smsApi.setRegion(SmsRegion.CANADA);
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://ca.sms.api.sinch.com');
+    smsApi.setRegion('bzh');
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://bzh.sms.api.sinch.com');
+    smsApi.setRegion('');
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://sms.api.sinch.com');
+  });
+
   it('should not update the credentials when adding servicePlanId credentials on default region', () => {
     smsApi = new SmsDomainApi(paramsWithProjectId, 'dummy');
     smsApi.getSinchClient();

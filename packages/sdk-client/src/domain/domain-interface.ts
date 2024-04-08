@@ -16,13 +16,13 @@ export interface UnifiedCredentials {
   /** The client secret used for authentication. You can find this ONLY when creating a new key. */
   keySecret: string;
   /** The region for the SMS API. Default region is US */
-  smsRegion?: SmsRegionFlexible;
+  smsRegion?: SmsRegion;
   /** boolean to force the usage of the OAuth2 authentication for the SMS API - to be used when a region other of US and EU supports OAuth2 but the SDK doesn't by default */
   forceOAuth2ForSmsApi?: boolean;
   /** The region for the Fax API. Default is auto-routing */
-  faxRegion?: FaxRegionFlexible;
+  faxRegion?: FaxRegion;
   /** The region for the Conversation API. Default region is US */
-  conversationRegion?: ConversationRegionFlexible;
+  conversationRegion?: ConversationRegion;
 }
 
 export interface ServicePlanIdCredentials {
@@ -33,7 +33,7 @@ export interface ServicePlanIdCredentials {
   /** boolean to force the usage of the service plan Id + API token as credentials for the SMS API */
   forceServicePlanIdUsageForSmsApi?: boolean;
   /** The region for the SMS API. Default region is US */
-  smsRegion?: SmsRegionFlexible;
+  smsRegion?: SmsRegion;
 }
 
 export interface ApplicationCredentials {
@@ -42,7 +42,7 @@ export interface ApplicationCredentials {
   /** Your Application secret. You can find this on your [Dashboard](https://dashboard.sinch.com/verification/apps)*/
   applicationSecret: string;
   /** The region for the Voice API. Default is empty */
-  voiceRegion?: VoiceRegionFlexible;
+  voiceRegion?: VoiceRegion;
 }
 
 export interface ApiHostname {
@@ -75,7 +75,9 @@ export const isServicePlanIdCredentials = (credentials: any): credentials is Ser
     && candidate.apiToken !== undefined;
 };
 
-export enum SmsRegion {
+// /////////////
+// SMS regions
+export enum SupportedSmsRegion {
   UNITED_STATES = 'us',
   EUROPE = 'eu',
   BRAZIL = 'br',
@@ -83,9 +85,15 @@ export enum SmsRegion {
   AUSTRALIA = 'au'
 }
 
-export type SmsRegionFlexible = SmsRegion | string;
+export type SmsRegion = SupportedSmsRegion | string;
 
-export enum VoiceRegion {
+export const SmsRegion = {
+  ...SupportedSmsRegion,
+};
+
+// /////////////
+// Voice regions
+export enum SupportedVoiceRegion {
   DEFAULT = '',
   UNITED_STATES = 'use1',
   EUROPE = 'euc1',
@@ -94,9 +102,15 @@ export enum VoiceRegion {
   SOUTHEAST_ASIA_2 = 'apse2'
 }
 
-export type VoiceRegionFlexible = VoiceRegion | string;
+export type VoiceRegion = SupportedVoiceRegion | string;
 
-export enum FaxRegion {
+export const VoiceRegion = {
+  ...SupportedVoiceRegion,
+};
+
+// ///////////
+// Fax regions
+export enum SupportedFaxRegion {
   DEFAULT = '',
   UNITED_STATES = 'use1',
   EUROPE = 'eu1',
@@ -105,12 +119,22 @@ export enum FaxRegion {
   SOUTHEAST_ASIA_2 = 'apse2'
 }
 
-export type FaxRegionFlexible = FaxRegion | string;
+export type FaxRegion = SupportedFaxRegion | string;
 
-export enum ConversationRegion {
+export const FaxRegion = {
+  ...SupportedFaxRegion,
+};
+
+// ////////////////////
+// Conversation regions
+export enum SupportedConversationRegion {
   UNITED_STATES = 'us',
   EUROPE = 'eu',
   BRAZIL = 'br'
 }
 
-export type ConversationRegionFlexible = ConversationRegion | string;
+export type ConversationRegion = SupportedConversationRegion | string;
+
+export const ConversationRegion = {
+  ...SupportedConversationRegion,
+};
