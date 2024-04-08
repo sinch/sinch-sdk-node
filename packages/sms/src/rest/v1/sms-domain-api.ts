@@ -4,7 +4,7 @@ import {
   ApiFetchClient,
   buildFlexibleOAuth2OrApiTokenApiClientOptions,
   SinchClientParameters,
-  Region,
+  SmsRegion,
   UnifiedCredentials,
   ServicePlanIdCredentials,
 } from '@sinch/sdk-client';
@@ -65,7 +65,7 @@ export class SmsDomainApi implements Api {
    */
   public getSinchClient(): ApiClient {
     if (!this.client) {
-      const region = this.sinchClientParameters.region || Region.UNITED_STATES;
+      const region = this.sinchClientParameters.smsRegion || SmsRegion.UNITED_STATES;
       const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(this.sinchClientParameters, region, 'SMS');
       this.client = new ApiFetchClient(apiClientOptions);
       this.client.apiClientOptions.hostname = this.sinchClientParameters.smsHostname ?? `https://${apiClientOptions.useServicePlanId?'':'zt.'}${region}.sms.api.sinch.com`;

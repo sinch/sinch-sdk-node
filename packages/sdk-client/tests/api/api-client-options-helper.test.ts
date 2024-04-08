@@ -5,7 +5,7 @@ import {
   buildOAuth2ApiClientOptions,
   Oauth2TokenRequest,
   PluginRunner,
-  Region,
+  SmsRegion,
   SigningRequest,
   SinchClientParameters,
   XTimestampRequest,
@@ -157,7 +157,7 @@ describe('API Client Options helper', () => {
         servicePlanId: 'SERVICE_PLAN_ID',
         apiToken: 'API_TOKEN',
       };
-      const region = Region.EUROPE;
+      const region = SmsRegion.EUROPE;
 
       // When
       const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');
@@ -179,7 +179,7 @@ describe('API Client Options helper', () => {
         servicePlanId: 'SERVICE_PLAN_ID',
         apiToken: 'API_TOKEN',
       };
-      const region = Region.CANADA;
+      const region = SmsRegion.CANADA;
 
       // When
       const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');
@@ -201,7 +201,7 @@ describe('API Client Options helper', () => {
         apiToken: 'API_TOKEN',
         forceServicePlanIdUsageForSmsApi: true,
       };
-      const region = Region.EUROPE;
+      const region = SmsRegion.EUROPE;
 
       // When
       const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');
@@ -221,7 +221,7 @@ describe('API Client Options helper', () => {
         requestPlugins: [dummyRequestPlugin],
         responsePlugins: [dummyResponsePlugin],
       };
-      const region = Region.CANADA;
+      const region = SmsRegion.CANADA;
 
       // When
       const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');
@@ -237,7 +237,7 @@ describe('API Client Options helper', () => {
       const params: SinchClientParameters = {
         projectId: 'PROJECT_ID',
       };
-      const region = Region.EUROPE;
+      const region = SmsRegion.EUROPE;
 
       // When
       const buildApiClientOptionsFunction = () => buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');
@@ -252,7 +252,7 @@ describe('API Client Options helper', () => {
       const params: SinchClientParameters = {
         servicePlanId: 'SERVICE_PLAN_ID',
       };
-      const region = Region.EUROPE;
+      const region = SmsRegion.EUROPE;
 
       // When
       const buildApiClientOptionsFunction = () => buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');
@@ -269,7 +269,7 @@ describe('API Client Options helper', () => {
         keyId: 'KEY_ID',
         keySecret: 'KEY_SECRET',
       };
-      const region = Region.CANADA;
+      const region = SmsRegion.CANADA;
 
       // When
       const buildApiClientOptionsFunction = () => buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');
@@ -287,7 +287,7 @@ describe('API Client Options helper', () => {
         keySecret: 'KEY_SECRET',
         forceServicePlanIdUsageForSmsApi: true,
       };
-      const region = Region.EUROPE;
+      const region = SmsRegion.EUROPE;
 
       // When
       const buildApiClientOptionsFunction = () => buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');

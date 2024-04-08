@@ -1,7 +1,7 @@
 import {
   getRegion,
   SinchClient,
-  Region,
+  SmsRegion,
   ConversationService,
   FaxService,
   NumbersService,
@@ -37,8 +37,8 @@ export const initSmsServiceWithProjectId = (): SmsService => {
 const initSmsClient = (): Pick<SinchClient, 'sms'> => {
   const servicePlanId = process.env.SINCH_SERVICE_PLAN_ID || '';
   const apiToken = process.env.SINCH_API_TOKEN || '';
-  const region = getRegion(process.env.SMS_REGION) || Region.UNITED_STATES;
-  return new SinchClient({ servicePlanId, apiToken, region });
+  const smsRegion = getRegion(process.env.SMS_REGION) || SmsRegion.UNITED_STATES;
+  return new SinchClient({ servicePlanId, apiToken, smsRegion });
 };
 
 export const initSmsServiceWithServicePlanId = (): SmsService => {

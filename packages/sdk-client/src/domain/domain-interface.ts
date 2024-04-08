@@ -16,7 +16,11 @@ export interface UnifiedCredentials {
   /** The client secret used for authentication. You can find this ONLY when creating a new key. */
   keySecret: string;
   /** The region for the SMS API. Default region is US */
-  region?: Region;
+  smsRegion?: SmsRegion;
+  /** The region for the Fax API. Default is auto-routing */
+  faxRegion?: FaxRegion;
+  /** The region for the Conversation API. Default region is US */
+  conversationRegion?: ConversationRegion;
 }
 
 export interface ServicePlanIdCredentials {
@@ -27,7 +31,7 @@ export interface ServicePlanIdCredentials {
   /** boolean to force the usage of the service plan Id + API token as credentials for the SMS API*/
   forceServicePlanIdUsageForSmsApi?: boolean;
   /** The region for the SMS API. Default region is US */
-  region?: Region;
+  smsRegion?: SmsRegion;
 }
 
 export interface ApplicationCredentials {
@@ -69,7 +73,7 @@ export const isServicePlanIdCredentials = (credentials: any): credentials is Ser
     && candidate.apiToken !== undefined;
 };
 
-export enum Region {
+export enum SmsRegion {
   UNITED_STATES = 'us',
   EUROPE = 'eu',
   BRAZIL = 'br',
@@ -77,14 +81,14 @@ export enum Region {
   AUSTRALIA = 'au'
 }
 
-export function getRegion(value: string | undefined): Region | undefined {
+export function getRegion(value: string | undefined): SmsRegion | undefined {
   if (!value) {
     return undefined;
   }
 
-  for (const region of Object.values(Region)) {
+  for (const region of Object.values(SmsRegion)) {
     if (region === value.toLowerCase()) {
-      return region as Region;
+      return region as SmsRegion;
     }
   }
   console.error(`No region exist for the value '${value}'`);
@@ -98,6 +102,15 @@ export enum VoiceRegion {
   SOUTH_AMERICA = '-sae1',
   SOUTHEAST_ASIA_1 = '-apse1',
   SOUTHEAST_ASIA_2 = '-apse2'
+}
+
+export enum FaxRegion {
+  DEFAULT = '',
+  UNITED_STATES = 'use1.',
+  EUROPE = 'eu1.',
+  SOUTH_AMERICA = 'sae1.',
+  SOUTHEAST_ASIA_1 = 'apse1.',
+  SOUTHEAST_ASIA_2 = 'apse2.'
 }
 
 export enum ConversationRegion {

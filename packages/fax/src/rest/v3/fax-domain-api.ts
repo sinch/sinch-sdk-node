@@ -5,6 +5,7 @@ import {
   SinchClientParameters,
   UnifiedCredentials,
   buildOAuth2ApiClientOptions,
+  FaxRegion,
 } from '@sinch/sdk-client';
 
 export class FaxDomainApi implements Api {
@@ -60,7 +61,8 @@ export class FaxDomainApi implements Api {
     if (!this.client) {
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sinchClientParameters, 'Fax');
       this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.hostname = this.sinchClientParameters.faxHostname ?? 'https://fax.api.sinch.com';
+      const region: FaxRegion = this.sinchClientParameters.faxRegion || FaxRegion.DEFAULT;
+      this.client.apiClientOptions.hostname = this.sinchClientParameters.faxHostname ?? `https://${region}fax.api.sinch.com`;
     }
     return this.client;
   }
