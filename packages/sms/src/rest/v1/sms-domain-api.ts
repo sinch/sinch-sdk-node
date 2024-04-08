@@ -1,12 +1,12 @@
 import {
   Api,
   ApiClient,
-  ApiClientOptions,
   ApiFetchClient,
+  buildFlexibleOAuth2OrApiTokenApiClientOptions,
   SinchClientParameters,
   Region,
-  ApiTokenRequest,
-  Oauth2TokenRequest, UnifiedCredentials, ServicePlanIdCredentials,
+  UnifiedCredentials,
+  ServicePlanIdCredentials,
 } from '@sinch/sdk-client';
 
 export class SmsDomainApi implements Api {
@@ -66,41 +66,11 @@ export class SmsDomainApi implements Api {
   public getSinchClient(): ApiClient {
     if (!this.client) {
       const region = this.sinchClientParameters.region || Region.UNITED_STATES;
-      const apiClientOptions = this.buildApiClientOptions(this.sinchClientParameters, region);
+      const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(this.sinchClientParameters, region, 'SMS');
       this.client = new ApiFetchClient(apiClientOptions);
       this.client.apiClientOptions.hostname = this.sinchClientParameters.smsHostname ?? `https://${apiClientOptions.useServicePlanId?'':'zt.'}${region}.sms.api.sinch.com`;
     }
     return this.client;
   }
 
-  private buildApiClientOptions(params: SinchClientParameters, region: Region): ApiClientOptions {
-    let apiClientOptions: ApiClientOptions | undefined;
-    // Check the region: if US or EU, try to use the OAuth2 authentication with the access key / secret under the project Id
-    if (!params.forceServicePlanIdUsageForSmsApi
-      && (region === Region.UNITED_STATES || region === Region.EUROPE)) {
-      // Let's check the required parameters for OAuth2 authentication
-      if (params.projectId && params.keyId && params.keySecret) {
-        apiClientOptions = {
-          projectId: params.projectId,
-          requestPlugins: [new Oauth2TokenRequest(params.keyId, params.keySecret)],
-          useServicePlanId: false,
-        };
-      }
-    }
-    if (!apiClientOptions) {
-      // The API client options couldn't be initialized for with the projectId unified authentication.
-      // Let's try with the servicePlanId
-      if (params.servicePlanId && params.apiToken) {
-        apiClientOptions = {
-          projectId: params.servicePlanId,
-          requestPlugins: [new ApiTokenRequest(params.apiToken)],
-          useServicePlanId: true,
-        };
-      }
-    }
-    if (!apiClientOptions) {
-      throw new Error('Invalid parameters for the SMS API: check your configuration');
-    }
-    return apiClientOptions;
-  }
 }

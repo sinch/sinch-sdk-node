@@ -1,11 +1,11 @@
 import {
   Api,
   ApiClient,
-  ApiFetchClient, ApplicationCredentials,
-  SigningRequest,
+  ApiFetchClient,
+  ApplicationCredentials,
+  buildApplicationSignedApiClientOptions,
   SinchClientParameters,
   VoiceRegion,
-  XTimestampRequest,
 } from '@sinch/sdk-client';
 
 export class VoiceDomainApi implements Api {
@@ -75,16 +75,7 @@ export class VoiceDomainApi implements Api {
    */
   public getSinchClient(): ApiClient {
     if (!this.client) {
-      if (!this.sinchClientParameters.applicationKey || !this.sinchClientParameters.applicationSecret) {
-        throw new Error('Invalid configuration for the Verification API: '
-          + '"applicationKey" and "applicationSecret" values must be provided');
-      }
-      const apiClientOptions = {
-        requestPlugins: [
-          new XTimestampRequest(),
-          new SigningRequest(this.sinchClientParameters.applicationKey, this.sinchClientParameters.applicationSecret),
-        ],
-      };
+      const apiClientOptions = buildApplicationSignedApiClientOptions(this.sinchClientParameters, 'Voice');
       this.client = new ApiFetchClient(apiClientOptions);
       const region: VoiceRegion = this.sinchClientParameters.voiceRegion || VoiceRegion.DEFAULT;
       this.client.apiClientOptions.hostname = this.buildHostname(region);

@@ -1,4 +1,4 @@
-import { EmptyResponseError, RequestFailedError } from '../../api';
+import { EmptyResponseError, RequestFailedError } from '../../api/api-errors';
 import { PluginRunner } from '../core';
 import { ResponsePlugin, ResponsePluginContext } from '../core/response-plugin';
 

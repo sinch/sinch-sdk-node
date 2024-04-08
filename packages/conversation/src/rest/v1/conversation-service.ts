@@ -53,7 +53,7 @@ export class ConversationService {
 
   /**
    * Update the default hostname for the Templates API
-   * @param {string} hostname - The new hostname to use for all the APIs.
+   * @param {string} hostname - The new hostname to use for the Templates APIs.
    */
   public setTemplatesHostname(hostname: string) {
     this.templatesV1.setHostname(hostname);

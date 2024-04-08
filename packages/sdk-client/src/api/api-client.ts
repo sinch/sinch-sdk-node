@@ -2,7 +2,6 @@ import { RequestBody, RequestOptions } from '../plugins/core/request-plugin';
 import { ApiClientOptions } from './api-client-options';
 import { Headers } from 'node-fetch';
 import FormData = require('form-data');
-import { FileBuffer } from './api-interface';
 
 export enum PaginationEnum {
   NONE,
@@ -49,6 +48,13 @@ export interface PaginatedApiProperties {
   operationId: string,
   /** Name of the property holding the array of paginated data */
   dataKey: string,
+}
+
+export interface FileBuffer {
+  /** Name of the file extracted from the 'content-disposition' header */
+  fileName: string;
+  /** File content as Buffer */
+  buffer: Buffer;
 }
 
 /**

@@ -4,16 +4,20 @@ import { ExceptionResponse } from '../plugins/exception';
 import { TimezoneResponse } from '../plugins/timezone';
 import {
   ApiClient,
-  ApiClientOptions,
-  EmptyResponseError,
-  ErrorContext,
-  GenericError,
   ApiCallParameters,
-  ResponseJSONParseError,
   ApiCallParametersWithPagination,
   PageResult,
   FileBuffer,
-} from '../api';
+} from '../api/api-client';
+import {
+  ApiClientOptions,
+} from '../api/api-client-options';
+import {
+  EmptyResponseError,
+  ErrorContext,
+  GenericError,
+  ResponseJSONParseError,
+} from '../api/api-errors';
 import fetch, { Response, Headers } from 'node-fetch';
 import FormData = require('form-data');
 import { buildErrorContext, manageExpiredToken, reviveDates } from './api-client-helpers';

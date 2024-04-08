@@ -51,7 +51,7 @@ describe('Voice Service', () => {
 
     // When
     const voiceService = new VoiceService(params);
-    voiceService.setApplicationManagementHostname(CUSTOM_HOSTNAME_APPLICATIONS);
+    voiceService.setApplicationsManagementHostname(CUSTOM_HOSTNAME_APPLICATIONS);
 
     // Then
     expect(voiceService.callouts.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);

@@ -1,10 +1,10 @@
 import { PluginRunner } from '../core';
 import { RequestOptions, RequestPlugin, RequestPluginEnum } from '../core/request-plugin';
 import { AdditionalHeadersRequest } from '../additional-headers';
-import { ApiClient } from '../../api';
+import { ApiClient } from '../../api/api-client';
 import { OAuth2Api } from './oauth2-api';
 import { BasicAuthenticationRequest } from '../basicAuthentication';
-import { ApiFetchClient } from '../../client';
+import { ApiFetchClient } from '../../client/api-fetch-client';
 
 export class Oauth2TokenRequest implements RequestPlugin {
   private readonly apiClient: ApiClient;

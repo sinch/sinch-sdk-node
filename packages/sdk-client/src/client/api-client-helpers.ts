@@ -3,7 +3,8 @@ import {
   RequestPlugin,
   RequestPluginEnum,
 } from '../plugins/core/request-plugin';
-import { ApiCallParameters, ApiCallParametersWithPagination, ErrorContext, GenericError } from '../api';
+import { ApiCallParameters, ApiCallParametersWithPagination } from '../api/api-client';
+import { ErrorContext, GenericError } from '../api/api-errors';
 
 export const manageExpiredToken = async (
   apiCallParameters: ApiCallParameters | ApiCallParametersWithPagination,

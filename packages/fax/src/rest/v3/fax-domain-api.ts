@@ -1,11 +1,10 @@
 import {
   Api,
   ApiClient,
-  ApiClientOptions,
   ApiFetchClient,
   SinchClientParameters,
-  Oauth2TokenRequest,
   UnifiedCredentials,
+  buildOAuth2ApiClientOptions,
 } from '@sinch/sdk-client';
 
 export class FaxDomainApi implements Api {
@@ -59,23 +58,11 @@ export class FaxDomainApi implements Api {
    */
   public getSinchClient(): ApiClient {
     if (!this.client) {
-      const apiClientOptions = this.buildApiClientOptions(this.sinchClientParameters);
+      const apiClientOptions = buildOAuth2ApiClientOptions(this.sinchClientParameters, 'Fax');
       this.client = new ApiFetchClient(apiClientOptions);
       this.client.apiClientOptions.hostname = this.sinchClientParameters.faxHostname ?? 'https://fax.api.sinch.com';
     }
     return this.client;
-  }
-
-  private buildApiClientOptions(params: SinchClientParameters): ApiClientOptions {
-    if (!params.projectId || !params.keyId || !params.keySecret) {
-      throw new Error('Invalid configuration for the Fax API: '
-        + '"projectId", "keyId" and "keySecret" values must be provided');
-    }
-    return {
-      projectId: params.projectId,
-      requestPlugins: [new Oauth2TokenRequest( params.keyId,  params.keySecret)],
-      useServicePlanId: false,
-    };
   }
 
 }
