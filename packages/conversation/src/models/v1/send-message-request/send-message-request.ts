@@ -36,7 +36,7 @@ export interface SendMessageRequestBase<T extends Recipient> {
   /** @see Recipient */
   recipient: T;
   /** The timeout allotted for sending the message, expressed in seconds. Passed to channels which support it and emulated by the Conversation API for channels without ttl support but with message retract/unsend functionality. Channel failover will not be performed for messages with an expired TTL. The format is an integer with the suffix `s` (for seconds). Valid integer range is 3 to 315,576,000,000 (inclusive). Example values include `10s` (10 seconds) and `86400s` (24 hours). */
-  ttl?: string;
+  ttl_seconds?: number;
   /** Overrides the app\'s [Processing Mode](../../../../../conversation/processing-modes/). Default value is `DEFAULT`. */
   processing_strategy?: ProcessingStrategy;
   /** An arbitrary identifier that will be propagated to callbacks related to this message, including MO replies. Only applicable to messages sent with the `CONVERSATION` processing mode. Up to 128 characters long. */

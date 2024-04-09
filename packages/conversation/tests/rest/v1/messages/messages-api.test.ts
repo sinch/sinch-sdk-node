@@ -191,6 +191,7 @@ describe('MessagesApi', () => {
       message: {
         ...messageBuilder.text(textMessageItem),
       },
+      ttl_seconds: 20,
     };
     const requestDataWithContactId: SendMessageRequestData<ContactId> = {
       sendMessageRequestBody: {

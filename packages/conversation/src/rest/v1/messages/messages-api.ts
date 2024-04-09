@@ -361,6 +361,12 @@ export class MessagesApi extends ConversationDomainApi {
       'Accept': 'application/json',
     };
 
+    // Special fields handling: ttl_seconds: number => ttl: string
+    if (data.sendMessageRequestBody.ttl_seconds !== undefined) {
+      (data as any).sendMessageRequestBody.ttl = data.sendMessageRequestBody.ttl_seconds + 's';
+      delete data.sendMessageRequestBody.ttl_seconds;
+    }
+
     const body: RequestBody = data['sendMessageRequestBody']
       ? JSON.stringify(data['sendMessageRequestBody'])
       : '{}';

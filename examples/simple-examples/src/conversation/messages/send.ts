@@ -24,6 +24,7 @@ import { getAppIdFromConfig, getContactIdFromConfig, initConversationService, pr
       queue: 'HIGH_PRIORITY',
       processing_strategy: 'DEFAULT',
       channel_priority_order: ['MESSENGER'],
+      ttl_seconds: 60,
     },
   };
 
