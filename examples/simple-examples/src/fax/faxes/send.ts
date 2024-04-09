@@ -1,4 +1,4 @@
-import { SendFaxRequestData } from '@sinch/sdk-core';
+import { Fax } from '@sinch/sdk-core';
 import {
   getFaxCallbackUrlFromConfig,
   getPhoneNumberFromConfig,
@@ -16,7 +16,7 @@ import {
   const destinationPhoneNumber = getPhoneNumberFromConfig();
   const faxCallbackUrl = getFaxCallbackUrlFromConfig();
 
-  const requestData: SendFaxRequestData = {
+  const requestData: Fax.SendFaxRequestData = {
     sendFaxRequestBody: {
       to: destinationPhoneNumber,
       from: originPhoneNumber,

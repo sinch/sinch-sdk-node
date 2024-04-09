@@ -1,4 +1,4 @@
-import { ListEmailsForNumberRequestData } from '@sinch/sdk-core';
+import { Fax } from '@sinch/sdk-core';
 import {
   getFaxServiceIdFromConfig,
   getPhoneNumberFromConfig,
@@ -15,7 +15,7 @@ import {
   const phoneNumber = getPhoneNumberFromConfig();
   const serviceId = getFaxServiceIdFromConfig();
 
-  const requestData: ListEmailsForNumberRequestData = {
+  const requestData: Fax.ListEmailsForNumberRequestData = {
     phoneNumber,
     serviceId,
     pageSize: 2,

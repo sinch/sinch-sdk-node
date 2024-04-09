@@ -1,5 +1,12 @@
-import { Fax } from '../../../models';
-import { FaxesApi, DeleteFaxContentRequestData, DownloadFaxContentRequestData, GetFaxRequestData, ListFaxesRequestData, SendFaxRequestData } from './faxes-api';
+import {
+  DeleteFaxContentRequestData,
+  DownloadFaxContentRequestData,
+  Fax,
+  GetFaxRequestData,
+  ListFaxesRequestData,
+  SendFaxRequestData,
+} from '../../../models';
+import { FaxesApi } from './faxes-api';
 import { ApiListPromise, FileBuffer } from '@sinch/sdk-client';
 
 export class FaxesApiFixture implements Partial<Readonly<FaxesApi>> {

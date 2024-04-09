@@ -1,25 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import {
-  FaxBase64File,
-  FaxCompletedEventJson,
-  FaxWebhookEventParsed,
-  IncomingFaxEventJson,
-} from '@sinch/sdk-core';
+import { Fax } from '@sinch/sdk-core';
 import * as path from 'path';
 import * as fs from 'fs';
 
 @Injectable()
 export class FaxEventService {
 
-  handleEvent(event: FaxWebhookEventParsed, contentType?: string, file?: Express.Multer.File): void {
+  handleEvent(event: Fax.FaxWebhookEventParsed, contentType?: string, file?: Express.Multer.File): void {
     if (contentType === 'application/json') {
       console.log(`** application/json\n${event.event}: ${event.fax!.id} - ${event.eventTime}`);
       if (event.event === 'INCOMING_FAX') {
-        const incomingFaxEvent = event as IncomingFaxEventJson;
+        const incomingFaxEvent = event as Fax.IncomingFaxEventJson;
         this.saveBase64File(incomingFaxEvent, event.fax!.id!);
       }
       if (event.event === 'FAX_COMPLETED') {
-        const faxCompletedEvent = event as FaxCompletedEventJson;
+        const faxCompletedEvent = event as Fax.FaxCompletedEventJson;
         for (const fileBase64 of faxCompletedEvent.files!) {
           this.saveBase64File(fileBase64, event.fax!.id!);
         }
@@ -33,7 +28,7 @@ export class FaxEventService {
     }
   }
 
-  private saveBase64File(fileBase64: FaxBase64File, faxId: string) {
+  private saveBase64File(fileBase64: Fax.FaxBase64File, faxId: string) {
     console.log('Saving file...');
     const filePath = path.join('./fax-upload', faxId + '.' + fileBase64.fileType!.toLowerCase());
     const buffer = Buffer.from(fileBase64.file!, 'base64');

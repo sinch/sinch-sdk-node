@@ -1,10 +1,8 @@
 import { FileBuffer, SinchClientParameters } from '@sinch/sdk-client';
 import {
-  DeleteFaxContentRequestData, Fax,
+  Fax,
   FaxesApi,
-  FaxesApiFixture, ListFaxesRequestData,
-  DownloadFaxContentRequestData,
-  GetFaxRequestData, SendFaxRequestData,
+  FaxesApiFixture,
 } from '../../../../src';
 
 describe('FaxesApi', () => {
@@ -26,7 +24,7 @@ describe('FaxesApi', () => {
   describe ('deleteFaxContentById', () => {
     it('should make a DELETE request to delete the content of a fax from storage', async () => {
       // Given
-      const requestData: DeleteFaxContentRequestData = {
+      const requestData: Fax.DeleteFaxContentRequestData = {
         id: 'fax_id',
       };
       const expectedResponse: void = undefined;
@@ -45,7 +43,7 @@ describe('FaxesApi', () => {
   describe ('getFaxFileById', () => {
     it('should make a GET request to download a fax content', async () => {
       // Given
-      const requestData: DownloadFaxContentRequestData = {
+      const requestData: Fax.DownloadFaxContentRequestData = {
         id: 'fax_id',
       };
       const expectedResponse: FileBuffer = {
@@ -67,10 +65,10 @@ describe('FaxesApi', () => {
   describe ('getFaxInfoPerId', () => {
     it('should make a GET request to retrieve some fax information', async () => {
       // Given
-      const requestData: GetFaxRequestData = {
+      const requestData: Fax.GetFaxRequestData = {
         id: 'fax_id',
       };
-      const expectedResponse: Fax = {
+      const expectedResponse: Fax.Fax = {
         id: 'fax_id',
         direction: 'OUTBOUND',
         to: '+12015555555',
@@ -108,10 +106,10 @@ describe('FaxesApi', () => {
   describe ('getFaxes', () => {
     it('should make a GET request to list faxes sent or received', async () => {
       // Given
-      const requestData: ListFaxesRequestData = {
+      const requestData: Fax.ListFaxesRequestData = {
         direction: 'OUTBOUND',
       };
-      const mockData: Fax[] = [
+      const mockData: Fax.Fax[] = [
         {
           id: 'fax_id',
           direction: 'OUTBOUND',
@@ -158,12 +156,12 @@ describe('FaxesApi', () => {
   describe ('sendFax', () => {
     it('should make a POST request to create and send a fax', async () => {
       // Given
-      const requestData: SendFaxRequestData = {
+      const requestData: Fax.SendFaxRequestData = {
         sendFaxRequestBody: {
           to: '+12015555555',
         },
       };
-      const expectedResponse: Fax = {
+      const expectedResponse: Fax.Fax = {
         id: 'fax_id',
         direction: 'OUTBOUND',
         to: '+12015555555',

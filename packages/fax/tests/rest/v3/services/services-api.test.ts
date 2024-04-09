@@ -1,16 +1,8 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  CreateServiceRequestData,
-  GetServiceRequestData,
-  ListNumbersForServiceRequestData,
-  ListServicesRequestData,
-  DeleteServiceRequestData,
-  ServicePhoneNumber,
-  ServiceResponse,
   ServicesApi,
   ServicesApiFixture,
-  UpdateServiceRequestData,
-  ListEmailsForNumberRequestData,
+  Fax,
 } from '../../../../src';
 
 describe('ServicesApi', () => {
@@ -32,7 +24,7 @@ describe('ServicesApi', () => {
   describe ('createService', () => {
     it('should make a POST request to create a new service', async () => {
       // Given
-      const requestData: CreateServiceRequestData = {
+      const requestData: Fax.CreateServiceRequestData = {
         createServiceRequestBody: {
           name: 'New service',
           incomingWebhookUrl: 'https://yourserver/incomingFax',
@@ -46,7 +38,7 @@ describe('ServicesApi', () => {
           saveInboundFaxDocuments: true,
         },
       };
-      const expectedResponse: ServiceResponse = {
+      const expectedResponse: Fax.ServiceResponse = {
         id: 'serviceId',
         name: 'New service',
         incomingWebhookUrl: 'https://yourserver/incomingFax',
@@ -75,10 +67,10 @@ describe('ServicesApi', () => {
   describe ('getService', () => {
     it('should make a GET request to retrieve  a service resource', async () => {
       // Given
-      const requestData: GetServiceRequestData = {
+      const requestData: Fax.GetServiceRequestData = {
         serviceId: 'serviceId',
       };
-      const expectedResponse: ServiceResponse = {
+      const expectedResponse: Fax.ServiceResponse = {
         id: 'serviceId',
         name: 'New service',
         incomingWebhookUrl: 'https://yourserver/incomingFax',
@@ -107,7 +99,7 @@ describe('ServicesApi', () => {
   describe ('listEmailsForNumber', () => {
     it('should make a GET request to list any emails for a number', async () => {
       // Given
-      const requestData: ListEmailsForNumberRequestData = {
+      const requestData: Fax.ListEmailsForNumberRequestData = {
         serviceId: 'serviceId',
         phoneNumber: '+15551235656',
       };
@@ -136,12 +128,12 @@ describe('ServicesApi', () => {
   describe ('listNumbersForService', () => {
     it('should make a GET request to list the numbers associated with a service', async () => {
       // Given
-      const requestData: ListNumbersForServiceRequestData = {
+      const requestData: Fax.ListNumbersForServiceRequestData = {
         serviceId: 'serviceId',
         pageSize: 10,
         page: '0',
       };
-      const mockData: ServicePhoneNumber[] = [
+      const mockData: Fax.ServicePhoneNumber[] = [
         {
           serviceId: 'serviceId',
           projectId: 'projectId',
@@ -170,11 +162,11 @@ describe('ServicesApi', () => {
   describe ('listServices', () => {
     it('should make a GET request to list the services for a project', async () => {
       // Given
-      const requestData: ListServicesRequestData = {
+      const requestData: Fax.ListServicesRequestData = {
         pageSize: 10,
         page: '0',
       };
-      const mockData: ServiceResponse[] = [
+      const mockData: Fax.ServiceResponse[] = [
         {
           id: 'serviceId',
           name: 'New service',
@@ -212,7 +204,7 @@ describe('ServicesApi', () => {
   describe ('removeService', () => {
     it('should make a DELETE request to remove a service from a project', async () => {
       // Given
-      const requestData: DeleteServiceRequestData = {
+      const requestData: Fax.DeleteServiceRequestData = {
         serviceId: 'serviceId',
       };
       const expectedResponse: void = undefined;
@@ -231,7 +223,7 @@ describe('ServicesApi', () => {
   describe ('updateService', () => {
     it('should make a PATCH request to update settings on a service', async () => {
       // Given
-      const requestData: UpdateServiceRequestData = {
+      const requestData: Fax.UpdateServiceRequestData = {
         serviceId: 'serviceId',
         updateServiceRequestBody: {
           name: 'Updated service',
@@ -246,7 +238,7 @@ describe('ServicesApi', () => {
           saveInboundFaxDocuments: false,
         },
       };
-      const expectedResponse: ServiceResponse = {
+      const expectedResponse: Fax.ServiceResponse = {
         id: 'serviceId',
         name: 'Updated service',
         incomingWebhookUrl: 'https://your-new-server/incomingFax',

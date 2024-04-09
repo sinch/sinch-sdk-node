@@ -1,4 +1,4 @@
-import { CreateServiceRequestData } from '@sinch/sdk-core';
+import { Fax } from '@sinch/sdk-core';
 import { getPhoneNumberFromConfig, getPrintFormat, initFaxService, printFullResponse } from '../../config';
 
 (async () => {
@@ -8,7 +8,7 @@ import { getPhoneNumberFromConfig, getPrintFormat, initFaxService, printFullResp
 
   const phoneNumber = getPhoneNumberFromConfig();
 
-  const requestData: CreateServiceRequestData = {
+  const requestData: Fax.CreateServiceRequestData = {
     createServiceRequestBody: {
       name: 'New service with the Node.js SDK',
       incomingWebhookUrl: 'https://yourserver/incomingFax',

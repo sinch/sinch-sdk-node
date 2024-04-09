@@ -1,13 +1,12 @@
 import {
-  ListNumbersByEmailRequestData,
+  Fax,
   PageResult,
-  ServicePhoneNumber,
 } from '@sinch/sdk-core';
 import { getFaxEmailFromConfig, getPrintFormat, initFaxService, printFullResponse } from '../../config';
 
 const populateServiceNumbersList = (
-  serviceNumbersPage: PageResult<ServicePhoneNumber>,
-  fullServiceNumbersList: ServicePhoneNumber[],
+  serviceNumbersPage: PageResult<Fax.ServicePhoneNumber>,
+  fullServiceNumbersList: Fax.ServicePhoneNumber[],
   serviceNumbersList: string[],
 ) => {
   fullServiceNumbersList.push(...serviceNumbersPage.data);
@@ -23,7 +22,7 @@ const populateServiceNumbersList = (
 
   const email = getFaxEmailFromConfig();
 
-  const requestData: ListNumbersByEmailRequestData = {
+  const requestData: Fax.ListNumbersByEmailRequestData = {
     email,
     pageSize: 2,
   };
@@ -36,7 +35,7 @@ const populateServiceNumbersList = (
   let response = await faxService.emails.listNumbers(requestData);
 
   // Init data structure to hold the response content
-  const fullServiceNumbersList: ServicePhoneNumber[] = [];
+  const fullServiceNumbersList: Fax.ServicePhoneNumber[] = [];
   // Init data structure to hold the response content for pretty print
   const serviceNumbersList: string[] = [];
 

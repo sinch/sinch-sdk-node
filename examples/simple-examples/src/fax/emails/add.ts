@@ -1,4 +1,4 @@
-import { AddEmailToNumbersRequestData } from '@sinch/sdk-core';
+import { Fax } from '@sinch/sdk-core';
 import {
   getFaxEmailFromConfig,
   getPhoneNumberFromConfig,
@@ -15,7 +15,7 @@ import {
   const phoneNumber = getPhoneNumberFromConfig();
   const email = getFaxEmailFromConfig();
 
-  const requestData: AddEmailToNumbersRequestData = {
+  const requestData: Fax.AddEmailToNumbersRequestData = {
     emailRequestBody: {
       email,
       phoneNumbers: [

@@ -1,8 +1,6 @@
 import { CallbackProcessor } from '@sinch/sdk-client';
 import { IncomingHttpHeaders } from 'http';
-import { Fax, FaxCompletedEvent, IncomingFaxEvent } from '../../../models';
-
-export type FaxWebhookEventParsed = IncomingFaxEvent | FaxCompletedEvent;
+import { Fax, FaxCompletedEvent, FaxWebhookEventParsed, IncomingFaxEvent } from '../../../models';
 
 export class FaxCallbackWebhooks implements CallbackProcessor<FaxWebhookEventParsed> {
 

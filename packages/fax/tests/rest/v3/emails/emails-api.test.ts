@@ -1,10 +1,5 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
-import {
-  AddEmailToNumbersRequestData,
-  DeleteEmailRequestData,
-  Email,
-  ListEmailsForProjectRequestData, ListNumbersByEmailRequestData, ServicePhoneNumber, UpdateEmailRequestData,
-} from '../../../../src';
+import { Fax } from '../../../../src';
 import { EmailsApi, EmailsApiFixture } from '../../../../src';
 
 describe('EmailsApi', () => {
@@ -26,7 +21,7 @@ describe('EmailsApi', () => {
   describe ('createEmailForProject', () => {
     it('should make a POST request to add an email to be used for sending and receiving faxes', async () => {
       // Given
-      const requestData: AddEmailToNumbersRequestData = {
+      const requestData: Fax.AddEmailToNumbersRequestData = {
         emailRequestBody: {
           email: 'user@domain.com',
           phoneNumbers: [
@@ -34,7 +29,7 @@ describe('EmailsApi', () => {
           ],
         },
       };
-      const expectedResponse: Email = {
+      const expectedResponse: Fax.Email = {
         email: 'user@domain.com',
         phoneNumbers: [
           '+14155552222',
@@ -56,7 +51,7 @@ describe('EmailsApi', () => {
   describe ('deleteEmail', () => {
     it('should make a DELETE request to delete an email and its numbers association', async () => {
       // Given
-      const requestData: DeleteEmailRequestData = {
+      const requestData: Fax.DeleteEmailRequestData = {
         email: 'user@domain.com',
       };
       const expectedResponse = undefined;
@@ -75,10 +70,10 @@ describe('EmailsApi', () => {
   describe ('getEmailsForProject', () => {
     it('should make a GET request to list emails for the project', async () => {
       // Given
-      const requestData: ListEmailsForProjectRequestData = {
+      const requestData: Fax.ListEmailsForProjectRequestData = {
         pageSize: 2,
       };
-      const mockData: Email[] = [
+      const mockData: Fax.Email[] = [
         {
           email: 'user@domain.com',
           phoneNumbers: [
@@ -108,11 +103,11 @@ describe('EmailsApi', () => {
   describe ('getNumbersByEmail', () => {
     it('should make a GET request to list the configured numbers for an email', async () => {
       // Given
-      const requestData: ListNumbersByEmailRequestData = {
+      const requestData: Fax.ListNumbersByEmailRequestData = {
         email: 'user@domain.com',
         pageSize: 2,
       };
-      const mockData: ServicePhoneNumber[] = [
+      const mockData: Fax.ServicePhoneNumber[] = [
         {
           phoneNumber: '+14155552222',
           serviceId: 'serviceId',
@@ -141,7 +136,7 @@ describe('EmailsApi', () => {
   describe ('updateEmail', () => {
     it('should make a PUT request to set the numbers for an email', async () => {
       // Given
-      const requestData: UpdateEmailRequestData = {
+      const requestData: Fax.UpdateEmailRequestData = {
         email: 'user@domain.com',
         updateEmailRequestBody: {
           phoneNumbers: [
@@ -150,7 +145,7 @@ describe('EmailsApi', () => {
           ],
         },
       };
-      const expectedResponse: Email = {
+      const expectedResponse: Fax.Email = {
         email: 'user@domain.com',
         phoneNumbers: [
           '+14155552222',

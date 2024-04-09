@@ -1,4 +1,4 @@
-import { DownloadFaxContentRequestData } from '@sinch/sdk-core';
+import { Fax } from '@sinch/sdk-core';
 import { getFaxIdFromConfig, initFaxService } from '../../config';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -10,7 +10,7 @@ import * as path from 'path';
 
   const faxId = getFaxIdFromConfig();
 
-  const requestData: DownloadFaxContentRequestData = {
+  const requestData: Fax.DownloadFaxContentRequestData = {
     id: faxId,
     fileFormat: 'pdf',
   };

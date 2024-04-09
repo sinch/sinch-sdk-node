@@ -1,4 +1,4 @@
-import { UpdateServiceRequestData } from '@sinch/sdk-core';
+import { Fax } from '@sinch/sdk-core';
 import {
   getFaxCallbackUrlFromConfig,
   getFaxServiceIdFromConfig,
@@ -15,7 +15,7 @@ import {
   const serviceId = getFaxServiceIdFromConfig();
   const webhookUrl = getFaxCallbackUrlFromConfig();
 
-  const requestData: UpdateServiceRequestData = {
+  const requestData: Fax.UpdateServiceRequestData = {
     serviceId,
     updateServiceRequestBody: {
       name: 'Updated name with the Node.js SDK',
