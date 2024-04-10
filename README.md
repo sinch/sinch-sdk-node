@@ -138,14 +138,14 @@ console.log(`The SMS has been sent successfully. Here is the batch id: ${respons
 
 Here is the list of the Sinch products and their level of support by the Node.js SDK:
 
-| API Category           | API Name                            | Status |
-|------------------------|-------------------------------------|:------:|
-| Messaging              | SMS API                             |   ✅    |
-|                        | Conversation API                    |   ✅    |
-|                        | Fax API                             |   🚧   |
-| Voice and Video        | Voice API                           |   ✅    |
-| Numbers & Connectivity | Numbers API                         |   ✅    |
-| Verification           | Verification API                    |   ✅    |
+| API Category           | API Name         | Status |
+|------------------------|------------------|:------:|
+| Messaging              | SMS API          |   ✅    |
+|                        | Conversation API |   ✅    |
+|                        | Fax API          |   ✅    |
+| Voice and Video        | Voice API        |   ✅    |
+| Numbers & Connectivity | Numbers API      |   ✅    |
+| Verification           | Verification API |   ✅    |
 
 ### Packages
 
