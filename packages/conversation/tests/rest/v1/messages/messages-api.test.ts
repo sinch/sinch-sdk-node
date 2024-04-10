@@ -191,7 +191,6 @@ describe('MessagesApi', () => {
       message: {
         ...messageBuilder.text(textMessageItem),
       },
-      ttl_seconds: 20,
     };
     const requestDataWithContactId: SendMessageRequestData<ContactId> = {
       sendMessageRequestBody: {
@@ -226,6 +225,22 @@ describe('MessagesApi', () => {
         expect(response).toEqual(expectedResponse);
         expect(fixture.send).toHaveBeenCalledWith(requestData);
       });
+
+    it('should format the ttl field', () => {
+      const requestBody: SendMessageRequest<Recipient> = {
+        ...sendMessageRequest,
+        ...recipientContactId,
+      };
+      requestBody.ttl = 20;
+      let formattedBody =  messagesApi.performSendMessageRequestBodyTransformation(requestBody);
+      expect(formattedBody.ttl).toBe('20s');
+      requestBody.ttl = '20';
+      formattedBody =  messagesApi.performSendMessageRequestBodyTransformation(requestBody);
+      expect(formattedBody.ttl).toBe('20s');
+      requestBody.ttl = '20s';
+      formattedBody =  messagesApi.performSendMessageRequestBodyTransformation(requestBody);
+      expect(formattedBody.ttl).toBe('20s');
+    });
   });
 
   describe ('sendCardMessage', () => {
