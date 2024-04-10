@@ -63,7 +63,6 @@ export * from './media-message';
 export * from './merge-contact-request';
 export * from './message-retry-settings';
 export * from './product';
-export * from './product-item';
 export * from './product-response-message';
 export * from './error-detail';
 export * from './lookup-capability-request';

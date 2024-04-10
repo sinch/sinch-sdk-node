@@ -1,4 +1,4 @@
-import { ProductItem } from '../product-item';
+import { ProductItem } from '../product';
 
 /**
  * Represents an interactive WhatsApp message containing ProductItem objects
