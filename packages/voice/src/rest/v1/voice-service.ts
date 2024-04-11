@@ -4,12 +4,30 @@ import { ConferencesApi } from './conferences';
 import { CallsApi } from './calls';
 import { CalloutsApi } from './callouts';
 
+/**
+ * The Voice Service exposes the following APIs:
+ * - applications
+ * - callouts
+ * - conferences
+ * - calls
+ */
 export class VoiceService {
   public readonly applications: ApplicationsApi;
   public readonly conferences: ConferencesApi;
   public readonly calls: CallsApi;
   public readonly callouts: CalloutsApi;
 
+  /**
+   * Create a new VoiceService instance with its configuration. It needs the following parameters for authentication:
+   * - `applicationKey`
+   * - `applicationSecret`
+   *
+   * Other supported properties:
+   * - `voiceRegion`
+   * - `voiceHostname`
+   * - `voiceApplicationManagementHostname`
+   * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
+   */
   constructor(params: SinchClientParameters) {
     this.applications = new ApplicationsApi(params);
     this.conferences = new ConferencesApi(params);
@@ -35,7 +53,13 @@ export class VoiceService {
     this.applications.setHostname(hostname);
   }
 
+  /**
+   * Update the current region for each API
+   * @param {VoiceRegion} region - The new region to use in the production URL
+   */
   public setRegion(region: VoiceRegion) {
-    this.applications.setRegion(region);
+    this.conferences.setRegion(region);
+    this.calls.setRegion(region);
+    this.callouts.setRegion(region);
   }
 }

@@ -4,12 +4,29 @@ import { CallbacksApi } from './callbacks';
 import { AvailableNumberApi } from './available-number';
 import { ActiveNumberApi } from './active-number';
 
+/**
+ * The Numbers Service exposes the following APIs:
+ *  - availableRegions
+ *  - availableNumber
+ *  - activeNumber
+ *  - callbacks
+ */
 export class NumbersService {
   public readonly availableRegions: AvailableRegionsApi;
   public readonly callbacks: CallbacksApi;
   public readonly availableNumber: AvailableNumberApi;
   public readonly activeNumber: ActiveNumberApi;
 
+  /**
+   * Create a new NumbersService instance with its configuration. It needs the following parameters for authentication:
+   *  - `projectId`
+   *  - `keyId`
+   *  - `keySecret`
+   *
+   * Other supported properties:
+   *  - `numbersHostname`
+   * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
+   */
   constructor(params: SinchClientParameters) {
     this.availableRegions = new AvailableRegionsApi(params);
     this.callbacks = new CallbacksApi(params);

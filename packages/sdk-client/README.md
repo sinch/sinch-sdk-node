@@ -1,17 +1,23 @@
 # Sinch Http Client for Node.js
 
-This package contains the HTTP client used by the Sinch SDK client. It uses the `fetch` library to send requests. There are 3 folders in this package:
- - api: it defines the interface for an `Api`, an `ApiClient` and for `ApiClientOptions`.
- - client: it contains the `fetch` implementation for the `ApiClient`. This implementation handles the refresh of the JWT for the APIs which support this authentication method.
- - plugins: calling an API can be seen as a straighforward operation as it's "just" about sending an HTTP request to a server and reading the response. And this is was the `ApiClient` does. However, all APIs don't behave the same and this is why we have introduced the request and response plugins:
+This package contains the HTTP client used by the Sinch SDK client. It uses 2 third-party dependencies:
+ - `node-fetch` to send requests.
+ - `form-data` to manage "multipart/form-data" streams.
+
+There are 5 folders in this package:
+ - `api`: it defines the interface for an `Api`, an `ApiClient` and for `ApiClientOptions`.
+ - `client`: it contains the `fetch` implementation for the `ApiClient`. This implementation handles the refresh of the JWT for the APIs which support this authentication method.
+ - `domain`: it contains some Sinch-specific interfaces and enums used at domain level for authentication and region definition.
+ - `plugins`: calling an API can be seen as a straighforward operation as it's "just" about sending an HTTP request to a server and reading the response. And this is was the `ApiClient` does. However, all APIs don't behave the same and this is why we have introduced the request and response plugins:
    - request plugins will modify the request: for the moment, they are all about adding some headers (for authentication, for tracking the SDK usage).
    - response plugins will modify the response, e.g.: response content is checked and transformed into an exception if the content is empty.
+ - `utils`: it contains some utility methods that are used by the API SDKs, such as the methods to validate headers are valid in a callback event request, or a method to convert text to hexadecimal for a UDH header 
 
 > <span style="color:red; font-weight:bold">Warning:</span>
 > **This SDK is currently available to selected developers for preview use only. It is being provided for the purpose of collecting feedback, and should not be used in production environments.**
 
 ## Architecture
-TODO: schema
+![High level architecture](./documentation/High-level-architecture.png)
 
 ## Installation
 

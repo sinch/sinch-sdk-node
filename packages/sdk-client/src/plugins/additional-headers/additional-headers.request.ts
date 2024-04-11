@@ -5,6 +5,15 @@ export interface AdditionalHeaders {
   headers: Promise<{ [key: string]: string }>;
 }
 
+/**
+ * Builds a Promise containing the new header in the form of an object {key : value}
+ * @param {string} key - the header key
+ * @param {string} value - the header value
+ */
+export const buildHeader = async (key: string, value: string): Promise<{[key: string]: string}> => (
+  { [key] : value }
+);
+
 export class AdditionalHeadersRequest implements RequestPlugin {
   private readonly additionalHeaders: AdditionalHeaders;
 

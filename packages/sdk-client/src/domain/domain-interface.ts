@@ -1,6 +1,13 @@
 import { RequestPlugin } from '../plugins/core/request-plugin';
 import { ResponsePlugin } from '../plugins/core/response-plugin';
 
+/**
+ * Global object that holds the API configuration.
+ * Be careful to follow the guidelines defined by the API Services about which parameters are required for each API. Not all of them use the same authentication mechanism:
+ *  - OAuth2: Conversation, Fax, Numbers and SMS (US and EU regions only)
+ *  - API Token: SMS on all regions
+ *  - Application Signed: Verification and Voice
+ */
 export interface SinchClientParameters extends
   Partial<UnifiedCredentials>,
   Partial<ServicePlanIdCredentials>,
@@ -46,19 +53,30 @@ export interface ApplicationCredentials {
 }
 
 export interface ApiHostname {
+  /** Override the hostname for the OAuth2 authentication API */
   authHostname?: string;
+  /** Override the hostname for the Conversation API (not Conversation Templates) - Note the regions become ineffective */
   conversationHostname?: string;
+  /** Override the hostname for the Conversation Templates API - Note the regions become ineffective */
   conversationTemplatesHostname?: string;
+  /** Override the hostname for the Fax API - Note the regions become ineffective */
   faxHostname?: string;
+  /** Override the hostname for the Numbers API */
   numbersHostname?: string;
+  /** Override the hostname for the SMS API - Note the regions become ineffective */
   smsHostname?: string;
+  /** Override the hostname for the Verification API */
   verificationHostname?: string;
+  /** Override the hostname for the Voice API (not Voice Application Management) - Note the regions become ineffective */
   voiceHostname?: string;
+  /** Override the hostname for the Voice Application Management API */
   voiceApplicationManagementHostname?: string;
 }
 
 export interface ApiPlugins {
+  /** Add more plugins to action on the request before it is sent */
   requestPlugins?: RequestPlugin[];
+  /** Add more plugins to action on the server response before it is returned in the Promise */
   responsePlugins?: ResponsePlugin<any>[];
 }
 
