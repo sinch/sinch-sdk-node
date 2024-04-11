@@ -39,7 +39,7 @@ If you are using this SDK as part of the Sinch SDK (`@sinch/sdk-core`) you can a
 ```typescript
 import {
   FaxService,
-  SendFaxRequestData,
+  Fax,
   SinchClient,
   UnifiedCredentials,
 } from '@sinch/sdk-core';
@@ -55,7 +55,7 @@ const sinch = new SinchClient(credentials);
 const faxService: FaxService = sinch.fax;
 
 // Build the request data
-const requestData: SendFaxRequestData = {
+const requestData: Fax.SendFaxRequestData = {
   sendFaxRequestBody: {
     to: '+12015555555',
     contentUrl: 'https://developers.sinch.com/fax/fax.pdf',
@@ -77,7 +77,7 @@ import {
 } from '@sinch/sdk-client';
 import {
   FaxService,
-  SendFaxRequestData,
+  Fax,
 } from '@sinch/fax';
 
 const credentials: UnifiedCredentials = {
@@ -90,7 +90,7 @@ const credentials: UnifiedCredentials = {
 const faxService = new FaxService(credentials);
 
 // Build the request data
-const requestData: SendFaxRequestData = {
+const requestData: Fax.SendFaxRequestData = {
   sendFaxRequestBody: {
     to: '+12015555555',
     contentUrl: 'https://developers.sinch.com/fax/fax.pdf',
@@ -108,7 +108,7 @@ All the methods that interact with the Sinch APIs use Promises. You can use `awa
 
 ```typescript
 // Method 1: Wait for the Promise to complete (you need to be in an 'async' method)
-let sendFaxResult: Fax;
+let sendFaxResult: Fax.Fax;
 try {
   sendFaxResult = await faxService.faxes.send(requestData);
   console.log(`Fax successfully created at '${sendFaxResult.createTime}'. Status = '${sendFaxResult.status}`);
