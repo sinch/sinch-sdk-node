@@ -1,4 +1,4 @@
-import { verificationsHelper } from '@sinch/sdk-core';
+import { Verification } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getVerificationIdentityFromConfig,
@@ -13,7 +13,7 @@ import {
 
   const verificationIdentity = getVerificationIdentityFromConfig();
 
-  const requestData = verificationsHelper.buildStartSeamlessVerificationRequest(
+  const requestData = Verification.startVerificationHelper.buildSeamlessRequest(
     verificationIdentity,
     `test-reference-for-seamless-verification_${verificationIdentity}`,
   );

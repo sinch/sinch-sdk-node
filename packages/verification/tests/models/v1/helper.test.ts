@@ -1,6 +1,5 @@
 import {
   Verification,
-  verificationsHelper,
 } from '../../../src';
 
 const PHONE_NUMBER = '+46700000000';
@@ -37,9 +36,9 @@ const identityWithFlashCall: Verification.StartVerificationWithFlashCall = {
 
 describe('Verification models helper', () => {
 
-  describe('Verifications helper', () => {
+  describe('Start verification helper', () => {
     it('should build a startSms request', () => {
-      const buildRequest = verificationsHelper.buildStartSmsVerificationRequest(PHONE_NUMBER);
+      const buildRequest = Verification.startVerificationHelper.buildSmsRequest(PHONE_NUMBER);
       const startRequest: Verification.StartSmsVerificationRequestData = {
         startVerificationWithSmsRequestBody: identity,
       };
@@ -47,7 +46,7 @@ describe('Verification models helper', () => {
     });
 
     it('should build a startSms request with a reference', () => {
-      const buildRequest = verificationsHelper.buildStartSmsVerificationRequest(PHONE_NUMBER, REFERENCE);
+      const buildRequest = Verification.startVerificationHelper.buildSmsRequest(PHONE_NUMBER, REFERENCE);
       const startRequest: Verification.StartSmsVerificationRequestData = {
         startVerificationWithSmsRequestBody: identityWithReference,
       };
@@ -55,7 +54,7 @@ describe('Verification models helper', () => {
     });
 
     it('should build a startCallout request', () => {
-      const buildRequest = verificationsHelper.buildStartCalloutVerificationRequest(PHONE_NUMBER);
+      const buildRequest = Verification.startVerificationHelper.buildCalloutRequest(PHONE_NUMBER);
       const startRequest: Verification.StartCalloutVerificationRequestData = {
         startVerificationWithCalloutRequestBody: identity,
       };
@@ -63,7 +62,7 @@ describe('Verification models helper', () => {
     });
 
     it('should build a startCallout request with a reference', () => {
-      const buildRequest = verificationsHelper.buildStartCalloutVerificationRequest(PHONE_NUMBER, REFERENCE);
+      const buildRequest = Verification.startVerificationHelper.buildCalloutRequest(PHONE_NUMBER, REFERENCE);
       const startRequest: Verification.StartCalloutVerificationRequestData = {
         startVerificationWithCalloutRequestBody: identityWithReference,
       };
@@ -71,7 +70,7 @@ describe('Verification models helper', () => {
     });
 
     it('should build a startSeamless request', () => {
-      const buildRequest = verificationsHelper.buildStartSeamlessVerificationRequest(PHONE_NUMBER);
+      const buildRequest = Verification.startVerificationHelper.buildSeamlessRequest(PHONE_NUMBER);
       const startRequest: Verification.StartSeamlessVerificationRequestData = {
         startSeamlessVerificationRequestBody: identity,
       };
@@ -79,7 +78,7 @@ describe('Verification models helper', () => {
     });
 
     it('should build a startSeamless request with a reference', () => {
-      const buildRequest = verificationsHelper.buildStartSeamlessVerificationRequest(PHONE_NUMBER, REFERENCE);
+      const buildRequest = Verification.startVerificationHelper.buildSeamlessRequest(PHONE_NUMBER, REFERENCE);
       const startRequest: Verification.StartSeamlessVerificationRequestData = {
         startSeamlessVerificationRequestBody: identityWithReference,
       };
@@ -87,7 +86,7 @@ describe('Verification models helper', () => {
     });
 
     it('should build a startFlashCall request', () => {
-      const buildRequest = verificationsHelper.buildStartFlashCallVerificationRequest(PHONE_NUMBER);
+      const buildRequest = Verification.startVerificationHelper.buildFlashCallRequest(PHONE_NUMBER);
       const startRequest: Verification.StartFlashCallVerificationRequestData = {
         startVerificationWithFlashCallRequestBody: identity,
       };
@@ -95,7 +94,7 @@ describe('Verification models helper', () => {
     });
 
     it('should build a startFlashCall request with a reference', () => {
-      const buildRequest = verificationsHelper.buildStartFlashCallVerificationRequest(PHONE_NUMBER, REFERENCE);
+      const buildRequest = Verification.startVerificationHelper.buildFlashCallRequest(PHONE_NUMBER, REFERENCE);
       const startRequest: Verification.StartFlashCallVerificationRequestData = {
         startVerificationWithFlashCallRequestBody: identityWithReference,
       };
@@ -104,15 +103,19 @@ describe('Verification models helper', () => {
 
     it('should build a startFlashCall request with a flashCall option', () => {
       const buildRequest
-        = verificationsHelper.buildStartFlashCallVerificationRequest(PHONE_NUMBER, undefined, DIAL_TIMEOUT);
+        = Verification.startVerificationHelper.buildFlashCallRequest(PHONE_NUMBER, undefined, DIAL_TIMEOUT);
       const startRequest: Verification.StartFlashCallVerificationRequestData = {
         startVerificationWithFlashCallRequestBody: identityWithFlashCall,
       };
       expect(buildRequest).toEqual(startRequest);
     });
 
+  });
+
+  describe('Report verification by Id helper', () => {
+
     it('should build a reportSmsVerification by Id', () => {
-      const builtRequest = verificationsHelper.buildReportSmsVerificationByIdRequest(
+      const builtRequest = Verification.reportVerificationByIdHelper.buildSmsRequest(
         VERIFICATION_ID, VERIFICATION_CODE);
       const reportRequest: Verification.ReportSmsVerificationByIdRequestData = {
         id: VERIFICATION_ID,
@@ -124,7 +127,7 @@ describe('Verification models helper', () => {
     });
 
     it('should build a reportSmsVerification by Id with code and CLI', () => {
-      const builtRequest = verificationsHelper.buildReportSmsVerificationByIdRequest(
+      const builtRequest = Verification.reportVerificationByIdHelper.buildSmsRequest(
         VERIFICATION_ID, VERIFICATION_CODE, VERIFICATION_CLI);
       const reportRequest: Verification.ReportSmsVerificationByIdRequestData = {
         id: VERIFICATION_ID,
@@ -136,7 +139,7 @@ describe('Verification models helper', () => {
     });
 
     it('should build a reportCalloutVerification by Id', () => {
-      const builtRequest = verificationsHelper.buildReportCalloutVerificationByIdRequest(
+      const builtRequest = Verification.reportVerificationByIdHelper.buildCalloutRequest(
         VERIFICATION_ID, VERIFICATION_CODE);
       const reportRequest: Verification.ReportCalloutVerificationByIdRequestData = {
         id: VERIFICATION_ID,
@@ -148,7 +151,7 @@ describe('Verification models helper', () => {
     });
 
     it('should build a reportFlashCallVerification by Id', () => {
-      const builtRequest = verificationsHelper.buildReportFlashCallVerificationByIdRequest(
+      const builtRequest = Verification.reportVerificationByIdHelper.buildFlashCallRequest(
         VERIFICATION_ID, VERIFICATION_CLI);
       const reportRequest: Verification.ReportFlashCallVerificationByIdRequestData = {
         id: VERIFICATION_ID,
@@ -158,9 +161,11 @@ describe('Verification models helper', () => {
       };
       expect(builtRequest).toEqual(reportRequest);
     });
+  });
 
+  describe('Report verification by Identity helper', () => {
     it('should build a reportSmsVerification by Identity', () => {
-      const builtRequest = verificationsHelper.buildReportSmsVerificationByIdentityRequest(
+      const builtRequest = Verification.reportVerificationByIdentityHelper.buildSmsRequest(
         PHONE_NUMBER, VERIFICATION_CODE);
       const reportRequest: Verification.ReportSmsVerificationByIdentityRequestData = {
         endpoint: PHONE_NUMBER,
@@ -172,7 +177,7 @@ describe('Verification models helper', () => {
     });
 
     it('should build a reportSmsVerification by Identity with code and CLI', () => {
-      const builtRequest = verificationsHelper.buildReportSmsVerificationByIdentityRequest(
+      const builtRequest = Verification.reportVerificationByIdentityHelper.buildSmsRequest(
         PHONE_NUMBER, VERIFICATION_CODE, VERIFICATION_CLI);
       const reportRequest: Verification.ReportSmsVerificationByIdentityRequestData = {
         endpoint: PHONE_NUMBER,
@@ -184,7 +189,7 @@ describe('Verification models helper', () => {
     });
 
     it('should build a reportCalloutVerification by Identity', () => {
-      const builtRequest = verificationsHelper.buildReportCalloutVerificationByIdentityRequest(
+      const builtRequest = Verification.reportVerificationByIdentityHelper.buildCalloutRequest(
         PHONE_NUMBER, VERIFICATION_CODE);
       const reportRequest: Verification.ReportCalloutVerificationByIdentityRequestData = {
         endpoint: PHONE_NUMBER,
@@ -196,7 +201,7 @@ describe('Verification models helper', () => {
     });
 
     it('should build a reportFlashCallVerification by Identity', () => {
-      const builtRequest = verificationsHelper.buildReportFlashCallVerificationByIdentityRequest(
+      const builtRequest = Verification.reportVerificationByIdentityHelper.buildFlashCallRequest(
         PHONE_NUMBER, VERIFICATION_CLI);
       const reportRequest: Verification.ReportFlashCallVerificationByIdentityRequestData = {
         endpoint: PHONE_NUMBER,
