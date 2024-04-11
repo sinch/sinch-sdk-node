@@ -1,14 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import {
-  aceActionHelper,
-  AceSvamletBuilder,
-  iceActionHelper,
-  iceInstructionHelper,
-  IceSvamletBuilder,
-  pieActionHelper,
-  pieInstructionHelper,
-  PieSvamletBuilder,
   VoiceCallback,
   Voice,
 } from '@sinch/sdk-core';
@@ -41,17 +33,17 @@ export class VoiceEventService {
 
   private handleIceRequest(event: Voice.IceRequest, res: Response) {
     console.log(`ICE request: CLI = ${event.cli} - To = ${event.to?.endpoint} (${event.to?.type})`)
-    const iceResponse = new IceSvamletBuilder()
-      .setAction(iceActionHelper.hangup())
-      .addInstruction(iceInstructionHelper.say('Thank you for calling Sinch! This call will now end.', 'en-US'))
+    const iceResponse = new Voice.IceSvamletBuilder()
+      .setAction(Voice.iceActionHelper.hangup())
+      .addInstruction(Voice.iceInstructionHelper.say('Thank you for calling Sinch! This call will now end.', 'en-US'))
       .build();
     res.status(200).json(iceResponse);
   }
 
   private handleAceRequest(event: Voice.AceRequest, res: Response) {
     console.log(`ACE request: Call answered at '${event.timestamp?.toISOString()}'`);
-    const aceResponse = new AceSvamletBuilder()
-      .setAction(aceActionHelper.runMenu({
+    const aceResponse = new Voice.AceSvamletBuilder()
+      .setAction(Voice.aceActionHelper.runMenu({
         barge: true,
         menus: [
           {
@@ -88,10 +80,10 @@ export class VoiceEventService {
 
   private handlePieRequest(event: Voice.PieRequest, res: Response) {
     console.log(`PIE request: IVR menu choice: '${event.menuResult?.value}'`);
-    const pieResponse = new PieSvamletBuilder()
-      .setAction(pieActionHelper.hangup())
-      .addInstruction(pieInstructionHelper.say('Thanks for your input. The call will end after some music.'))
-      .addInstruction(pieInstructionHelper.playFiles(['https://samples-files.com/samples/Audio/mp3/sample-file-4.mp3']))
+    const pieResponse = new Voice.PieSvamletBuilder()
+      .setAction(Voice.pieActionHelper.hangup())
+      .addInstruction(Voice.pieInstructionHelper.say('Thanks for your input. The call will end after some music.'))
+      .addInstruction(Voice.pieInstructionHelper.playFiles(['https://samples-files.com/samples/Audio/mp3/sample-file-4.mp3']))
       .build();
     res.status(200).send(pieResponse);
   }
