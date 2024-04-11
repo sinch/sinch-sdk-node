@@ -1,12 +1,6 @@
 import {
   SinchClient,
-  ActiveNumber,
-  GetActiveNumberRequestData, ListActiveNumbersRequestData,
-  ListAvailableNumbersRequestData,
-  ListAvailableRegionsRequestData,
-  NumberTypeEnum,
-  RegionNumberTypeEnum, ReleaseNumberRequestData, RentAnyNumberRequestData,
-  RentNumberRequestData, UpdateActiveNumberRequestData,
+  Numbers,
 } from '@sinch/sdk-core';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -24,15 +18,15 @@ dotenv.config();
   const keySecret = process.env.SINCH_KEY_SECRET || '';
   const sinchClient = new SinchClient({ projectId, keyId, keySecret });
 
-  const regionType: RegionNumberTypeEnum = 'LOCAL';
-  const type: NumberTypeEnum = 'LOCAL';
+  const regionType: Numbers.RegionNumberTypeEnum = 'LOCAL';
+  const type: Numbers.NumberTypeEnum = 'LOCAL';
 
   console.log('+------------------------------------------------------------------------------+');
   console.log('| Step 1: List the available regions and store the first one from the response |');
   console.log('+------------------------------------------------------------------------------+');
 
   // Build the request data
-  const availableRegionsRequestData: ListAvailableRegionsRequestData = {
+  const availableRegionsRequestData: Numbers.ListAvailableRegionsRequestData = {
     types: [regionType],
   };
 
@@ -64,7 +58,7 @@ dotenv.config();
   console.log('+-----------------------------------------------+');
 
   // Build the request data
-  const listAvailableNumbersRequestData: ListAvailableNumbersRequestData = {
+  const listAvailableNumbersRequestData: Numbers.ListAvailableNumbersRequestData = {
     regionCode,
     type,
   };
@@ -97,7 +91,7 @@ dotenv.config();
   console.log('+-------------------------------+');
 
   // Build the request data
-  const rentNumberRequestData: RentNumberRequestData = {
+  const rentNumberRequestData: Numbers.RentNumberRequestData = {
     phoneNumber: phoneNumber1,
     rentNumberRequestBody: {},
   };
@@ -119,7 +113,7 @@ dotenv.config();
   console.log('+------------------------------------------------------------+');
 
   // Build the request data
-  const rentAnyNumberRequestData: RentAnyNumberRequestData = {
+  const rentAnyNumberRequestData: Numbers.RentAnyNumberRequestData = {
     rentAnyNumberRequestBody: {
       regionCode,
       type,
@@ -150,7 +144,7 @@ dotenv.config();
   console.log('+-----------------------------------------------------------------------------------------------+');
 
   // Build the request data
-  const getActiveNumberRequestData: GetActiveNumberRequestData = {
+  const getActiveNumberRequestData: Numbers.GetActiveNumberRequestData = {
     phoneNumber: phoneNumber1,
   };
 
@@ -171,13 +165,13 @@ dotenv.config();
   console.log('+----------------------------------------------------------------------------------------------+');
 
   // Build the request data
-  const listActiveNumbersRequestData: ListActiveNumbersRequestData = {
+  const listActiveNumbersRequestData: Numbers.ListActiveNumbersRequestData = {
     regionCode,
     type,
   };
 
   // The ActiveNumbersResponse is paginated. Let's fetch all the pages using the iterator functionality
-  const activeNumbersList: ActiveNumber[] = [];
+  const activeNumbersList: Numbers.ActiveNumber[] = [];
   for await (const activeNumber of sinchClient.numbers.activeNumber.list(listActiveNumbersRequestData)) {
     activeNumbersList.push(activeNumber);
   }
@@ -195,9 +189,9 @@ dotenv.config();
   console.log('+---------------------------------+');
 
   // Build the request data
-  const updateActiveNumberRequestData: UpdateActiveNumberRequestData = {
+  const updateActiveNumberRequestData: Numbers.UpdateActiveNumberRequestData = {
     phoneNumber: phoneNumber1,
-    activeNumberRequestBody: {
+    updateActiveNumberRequestBody: {
       displayName: 'Sample number 1',
     },
   };
@@ -221,7 +215,7 @@ dotenv.config();
   console.log('+---------------------------------------+');
 
   // Build the request data
-  let releaseActiveNumberRequestData: ReleaseNumberRequestData = {
+  let releaseActiveNumberRequestData: Numbers.ReleaseNumberRequestData = {
     phoneNumber: phoneNumber1,
   };
 

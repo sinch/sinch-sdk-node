@@ -1,5 +1,5 @@
-import { ListAvailableRegionsResponse } from '../../../models';
-import { AvailableRegionsApi, ListAvailableRegionsRequestData } from './available-regions-api';
+import { ListAvailableRegionsRequestData, ListAvailableRegionsResponse } from '../../../models';
+import { AvailableRegionsApi } from './available-regions-api';
 
 export class AvailableRegionsApiFixture implements Partial<Readonly<AvailableRegionsApi>> {
 

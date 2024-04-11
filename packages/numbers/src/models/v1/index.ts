@@ -32,3 +32,4 @@ export * from './search-pattern';
 export * from './sms-error-code';
 export * from './voice-configuration';
 export * from './enums';
+export * from './requests';

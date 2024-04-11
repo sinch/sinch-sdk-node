@@ -1,9 +1,9 @@
-import { CallbackConfiguration } from '../../../models';
 import {
-  CallbacksApi,
+  CallbackConfiguration,
   GetCallbackConfigurationRequestData,
   UpdateCallbackConfigurationRequestData,
-} from './callbacks-api';
+} from '../../../models';
+import { CallbacksApi } from './callbacks-api';
 
 export class CallbackConfigurationApiFixture implements Partial<Readonly<CallbacksApi>> {
 

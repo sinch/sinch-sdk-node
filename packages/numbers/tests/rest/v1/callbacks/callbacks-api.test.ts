@@ -1,9 +1,8 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  CallbackConfiguration,
   CallbacksApi,
   CallbackConfigurationApiFixture,
-  GetCallbackConfigurationRequestData, UpdateCallbackConfigurationRequestData,
+  Numbers,
 } from '../../../../src';
 
 describe('CallbackConfigurationApi', () => {
@@ -24,8 +23,8 @@ describe('CallbackConfigurationApi', () => {
   describe ('getCallbackConfiguration', () => {
     it('should make a GET request to retrieve the callbacks configuration for the specified project', async () => {
       // Given
-      const requestData: GetCallbackConfigurationRequestData = {};
-      const expectedResponse: CallbackConfiguration = {
+      const requestData: Numbers.GetCallbackConfigurationRequestData = {};
+      const expectedResponse: Numbers.CallbackConfiguration = {
         projectId: 'projectIdFromDashboard',
         hmacSecret: 'hmacSecret',
       };
@@ -44,12 +43,12 @@ describe('CallbackConfigurationApi', () => {
   describe ('updateCallbackConfiguration', () => {
     it('should make a PATCH request to update the callbacks configuration for the specified project', async () => {
       // Given
-      const requestData: UpdateCallbackConfigurationRequestData = {
-        callbackConfigurationUpdateRequestBody: {
+      const requestData: Numbers.UpdateCallbackConfigurationRequestData = {
+        updateCallbackConfigurationRequestBody: {
           hmacSecret: 'newHmacSecret',
         },
       };
-      const expectedResponse: CallbackConfiguration = {
+      const expectedResponse: Numbers.CallbackConfiguration = {
         projectId: 'projectIdFromDashboard',
         hmacSecret: 'newHmacSecret',
       };

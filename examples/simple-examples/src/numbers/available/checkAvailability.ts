@@ -4,7 +4,7 @@ import {
   initNumbersService,
   printFullResponse,
 } from '../../config';
-import { GetAvailableNumberRequestData } from '@sinch/sdk-core';
+import { Numbers } from '@sinch/sdk-core';
 
 (async () => {
   console.log('************************************');
@@ -14,7 +14,7 @@ import { GetAvailableNumberRequestData } from '@sinch/sdk-core';
   // Use the phone number from the .env file
   const phoneNumber = getPhoneNumberFromConfig();
 
-  const requestData: GetAvailableNumberRequestData= {
+  const requestData: Numbers.GetAvailableNumberRequestData= {
     phoneNumber,
   };
 
