@@ -1,4 +1,4 @@
-import { templateV2Helper, Conversation } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getPrintFormat, getTemplateIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -21,12 +21,12 @@ import { getPrintFormat, getTemplateIdFromConfig, initConversationService, print
       default_translation: templateV2Response.default_translation,
       translations: [
         // Repeat previous content to not lose it on update
-        ...templateV2Helper.getPreviousTranslations(templateV2Response.translations),
+        ...Conversation.templateV2Helper.getPreviousTranslations(templateV2Response.translations),
         // New translation added in the scope of the update
         {
           language_code: 'fr-FR',
           version: '1',
-          ...templateV2Helper.buildLocationMessageContent({
+          ...Conversation.templateV2Helper.buildLocationMessageContent({
             title: 'Phare d\'Eckmühl',
             label: 'Pointe de Penmarch',
             coordinates: {
@@ -52,7 +52,7 @@ import { getPrintFormat, getTemplateIdFromConfig, initConversationService, print
 })();
 
 const formatPrettyMessage = (translation: Conversation.V2TemplateTranslation) => {
-  const message = templateV2Helper.getMessageFromTranslation(translation);
+  const message = Conversation.templateV2Helper.getMessageFromTranslation(translation);
   return ` - Language code: ${translation.language_code} - Version: '${translation.version}' - Message: ${JSON.stringify(message.content)}`;
 };
 

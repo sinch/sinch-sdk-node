@@ -1,6 +1,5 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  messageBuilder,
   MessagesApi,
   MessagesApiFixture,
   Conversation,
@@ -161,7 +160,7 @@ describe('MessagesApi', () => {
     const sendMessageRequest: Omit<Conversation.SendMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.text(textMessageItem),
+        ...Conversation.messageBuilder.text(textMessageItem),
       },
     };
     const requestDataWithContactId: Conversation.SendMessageRequestData<Conversation.ContactId> = {
@@ -204,7 +203,7 @@ describe('MessagesApi', () => {
     const sendCardMessageRequest: Omit<Conversation.SendCardMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.card(cardMessageItem),
+        ...Conversation.messageBuilder.card(cardMessageItem),
       },
     };
     const requestDataWithContactId: Conversation.SendCardMessageRequestData<Conversation.ContactId> = {
@@ -247,7 +246,7 @@ describe('MessagesApi', () => {
     const sendCarouselMessageRequest: Omit<Conversation.SendCarouselMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.carousel(carouselMessageItem),
+        ...Conversation.messageBuilder.carousel(carouselMessageItem),
       },
     };
     const requestDataWithContactId: Conversation.SendCarouselMessageRequestData<Conversation.ContactId> = {
@@ -289,7 +288,7 @@ describe('MessagesApi', () => {
     const sendChoiceMessageRequest: Omit<Conversation.SendChoiceMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.choice(choiceMessageItem),
+        ...Conversation.messageBuilder.choice(choiceMessageItem),
       },
     };
     const requestDataWithContactId: Conversation.SendChoiceMessageRequestData<Conversation.ContactId> = {
@@ -332,7 +331,7 @@ describe('MessagesApi', () => {
     const sendContactInfoMessageRequest: Omit<Conversation.SendContactInfoMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.contactInfo(contactInfoMessageItem),
+        ...Conversation.messageBuilder.contactInfo(contactInfoMessageItem),
       },
     };
     const requestDataWithContactId: Conversation.SendContactInfoMessageRequestData<Conversation.ContactId> = {
@@ -374,7 +373,7 @@ describe('MessagesApi', () => {
     const sendListMessageRequest: Omit<Conversation.SendListMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.list(listMessageItem),
+        ...Conversation.messageBuilder.list(listMessageItem),
       },
     };
     const requestDataWithContactId: Conversation.SendListMessageRequestData<Conversation.ContactId> = {
@@ -417,7 +416,7 @@ describe('MessagesApi', () => {
     const sendLocationMessageRequest: Omit<Conversation.SendLocationMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.location(locationMessageItem),
+        ...Conversation.messageBuilder.location(locationMessageItem),
       },
     };
     const requestDataWithContactId: Conversation.SendLocationMessageRequestData<Conversation.ContactId> = {
@@ -459,7 +458,7 @@ describe('MessagesApi', () => {
     const sendMediaMessageRequest: Omit<Conversation.SendMediaMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.media(mediaMessageItem),
+        ...Conversation.messageBuilder.media(mediaMessageItem),
       },
     };
     const requestDataWithContactId: Conversation.SendMediaMessageRequestData<Conversation.ContactId> = {
@@ -502,7 +501,7 @@ describe('MessagesApi', () => {
     const sendTemplateMessageRequest: Omit<Conversation.SendTemplateMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.template(templateMessageItem),
+        ...Conversation.messageBuilder.template(templateMessageItem),
       },
     };
     const requestDataWithContactId: Conversation.SendTemplateMessageRequestData<Conversation.ContactId> = {
@@ -544,7 +543,7 @@ describe('MessagesApi', () => {
     const sendTextMessageRequest: Omit<Conversation.SendTextMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.text(textMessageItem),
+        ...Conversation.messageBuilder.text(textMessageItem),
       },
     };
     const requestDataWithContactId: Conversation.SendTextMessageRequestData<Conversation.ContactId> = {

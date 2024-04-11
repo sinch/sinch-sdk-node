@@ -4,7 +4,6 @@ import {
   ConversationWebhookEventParsed,
   ConversationService,
   Conversation,
-  messageBuilder,
 } from '@sinch/sdk-core';
 
 @Injectable()
@@ -25,21 +24,21 @@ export class ConversationEventService {
 
   private buildContactMessage(contactMessage: Conversation.ContactMessage) {
     if ('text_message' in contactMessage && contactMessage.text_message) {
-      return messageBuilder.text({
+      return Conversation.messageBuilder.text({
         text: `Parrot mode 🦜: ${contactMessage.text_message.text}`,
       });
     }
     if ('media_message' in contactMessage && contactMessage.media_message) {
-      return messageBuilder.media({
+      return Conversation.messageBuilder.media({
         url: contactMessage.media_message.url,
       });
     }
     if ('fallback_message' in contactMessage && contactMessage.fallback_message && contactMessage.fallback_message.reason) {
-      return messageBuilder.text({
+      return Conversation.messageBuilder.text({
         text: `Error: ${contactMessage.fallback_message.reason.code} (${contactMessage.fallback_message.reason.sub_code})\n${contactMessage.fallback_message.reason.description}`
       });
     }
-    return messageBuilder.text({
+    return Conversation.messageBuilder.text({
       text: `Impossible to handle the incoming message`,
     });
   }

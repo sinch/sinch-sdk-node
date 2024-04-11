@@ -1,4 +1,4 @@
-import { templateV2Helper, Conversation } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getPrintFormat, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -14,7 +14,7 @@ import { getPrintFormat, initConversationService, printFullResponse } from '../.
         {
           language_code: 'en-US',
           version: '1',
-          ...templateV2Helper.buildTextMessageContent({
+          ...Conversation.templateV2Helper.buildTextMessageContent({
             text: 'Message from a template v2.',
           }),
         },

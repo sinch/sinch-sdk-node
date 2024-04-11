@@ -1,10 +1,4 @@
-import {
-  Conversation,
-  MessageType,
-  templateV1Helper,
-  templateV2Helper,
-  messageBuilder,
-} from '../../../src';
+import { Conversation } from '../../../src';
 import {
   cardMessage,
   cardMessageItem,
@@ -30,94 +24,94 @@ describe('Conversation models helpers', () => {
 
   describe('Templates V1 helper', () => {
     it('should build a TextMessage', () => {
-      const builtMessage = templateV1Helper.buildTextMessageContent(textMessageItem);
+      const builtMessage = Conversation.templateV1Helper.buildTextMessageContent(textMessageItem);
       expect(builtMessage).toBe(JSON.stringify(textMessage));
     });
 
     it('should build a CardMessage', () => {
-      const builtMessage = templateV1Helper.buildCardMessageContent(cardMessageItem);
+      const builtMessage = Conversation.templateV1Helper.buildCardMessageContent(cardMessageItem);
       expect(builtMessage).toBe(JSON.stringify(cardMessage));
     });
 
     it('should build a CarouselMessage', () => {
-      const builtMessage = templateV1Helper.buildCarouselMessageContent(carouselMessageItem);
+      const builtMessage = Conversation.templateV1Helper.buildCarouselMessageContent(carouselMessageItem);
       expect(builtMessage).toBe(JSON.stringify(carouselMessage));
     });
 
     it('should build a ChoiceMessage', () => {
-      const builtMessage = templateV1Helper.buildChoiceMessageContent(choiceMessageItem);
+      const builtMessage = Conversation.templateV1Helper.buildChoiceMessageContent(choiceMessageItem);
       expect(builtMessage).toBe(JSON.stringify(choiceMessage));
     });
 
     it('should build a ContactInfoMessage', () => {
-      const builtMessage = templateV1Helper.buildContactInfoMessageContent(contactInfoMessageItem);
+      const builtMessage = Conversation.templateV1Helper.buildContactInfoMessageContent(contactInfoMessageItem);
       expect(builtMessage).toEqual(JSON.stringify(contactInfoMessage));
     });
 
     it('should build a LocationMessage', () => {
-      const builtMessage = templateV1Helper.buildLocationMessageContent(locationMessageItem);
+      const builtMessage = Conversation.templateV1Helper.buildLocationMessageContent(locationMessageItem);
       expect(builtMessage).toBe(JSON.stringify(locationMessage));
     });
 
     it('should build a MediaMessage', () => {
-      const builtMessage = templateV1Helper.buildMediaMessageContent(mediaMessageItem);
+      const builtMessage = Conversation.templateV1Helper.buildMediaMessageContent(mediaMessageItem);
       expect(builtMessage).toBe(JSON.stringify(mediaMessage));
     });
 
     it('should build a TemplateMessage', () => {
-      const builtMessage = templateV1Helper.buildTemplateMessageContent(templateMessageItem);
+      const builtMessage = Conversation.templateV1Helper.buildTemplateMessageContent(templateMessageItem);
       expect(builtMessage).toBe(JSON.stringify(templateMessage));
     });
 
     it('should build a ListMessage', () => {
-      const builtMessage = templateV1Helper.buildListMessageContent(listMessageItem);
+      const builtMessage = Conversation.templateV1Helper.buildListMessageContent(listMessageItem);
       expect(builtMessage).toBe(JSON.stringify(listMessage));
     });
   });
 
   describe('Templates V2 helper', () => {
     it('should build a TextMessage', () => {
-      const builtTextMessage = templateV2Helper.buildTextMessageContent(textMessageItem);
+      const builtTextMessage = Conversation.templateV2Helper.buildTextMessageContent(textMessageItem);
       expect(builtTextMessage).toEqual(textMessage);
     });
 
     it('should build a CardMessage', () => {
-      const builtTextMessage = templateV2Helper.buildCardMessageContent(cardMessageItem);
+      const builtTextMessage = Conversation.templateV2Helper.buildCardMessageContent(cardMessageItem);
       expect(builtTextMessage).toEqual(cardMessage);
     });
 
     it('should build a CarouselMessage', () => {
-      const builtMessage = templateV2Helper.buildCarouselMessageContent(carouselMessageItem);
+      const builtMessage = Conversation.templateV2Helper.buildCarouselMessageContent(carouselMessageItem);
       expect(builtMessage).toEqual(carouselMessage);
     });
 
     it('should build a ChoiceMessage', () => {
-      const builtMessage = templateV2Helper.buildChoiceMessageContent(choiceMessageItem);
+      const builtMessage = Conversation.templateV2Helper.buildChoiceMessageContent(choiceMessageItem);
       expect(builtMessage).toEqual(choiceMessage);
     });
 
     it('should build a ContactInfoMessage', () => {
-      const builtMessage = templateV2Helper.buildContactInfoMessageContent(contactInfoMessageItem);
+      const builtMessage = Conversation.templateV2Helper.buildContactInfoMessageContent(contactInfoMessageItem);
       expect(builtMessage).toEqual(contactInfoMessage);
     });
 
     it('should build a LocationMessage', () => {
-      const builtMessage = templateV2Helper.buildLocationMessageContent(locationMessageItem);
+      const builtMessage = Conversation.templateV2Helper.buildLocationMessageContent(locationMessageItem);
       expect(builtMessage).toEqual(locationMessage);
     });
 
     it('should build a MediaMessage', () => {
-      const builtMessage = templateV2Helper.buildMediaMessageContent(mediaMessageItem);
+      const builtMessage = Conversation.templateV2Helper.buildMediaMessageContent(mediaMessageItem);
       expect(builtMessage).toEqual(mediaMessage);
     });
 
     it('should build a TemplateMessage', () => {
-      const builtMessage = templateV2Helper.buildTemplateMessageContent(templateMessageItem);
+      const builtMessage = Conversation.templateV2Helper.buildTemplateMessageContent(templateMessageItem);
       expect(builtMessage).toEqual(templateMessage);
     });
 
     it('should build a ListMessage', () => {
-      const builtMessage = templateV2Helper.buildListMessageContent(listMessageItem);
+      const builtMessage = Conversation.templateV2Helper.buildListMessageContent(listMessageItem);
       expect(builtMessage).toEqual(listMessage);
     });
 
@@ -131,55 +125,64 @@ describe('Conversation models helpers', () => {
         ...translationIdentifier,
         ...textMessage,
       };
-      expect(templateV2Helper.getMessageFromTranslation(templateTranslation).type).toBe(MessageType.TEXT);
+      expect(Conversation.templateV2Helper.getMessageFromTranslation(templateTranslation).type)
+        .toBe(Conversation.MessageType.TEXT);
 
       templateTranslation = {
         ...translationIdentifier,
         ...cardMessage,
       };
-      expect(templateV2Helper.getMessageFromTranslation(templateTranslation).type).toBe(MessageType.CARD);
+      expect(Conversation.templateV2Helper.getMessageFromTranslation(templateTranslation).type)
+        .toBe(Conversation.MessageType.CARD);
 
       templateTranslation = {
         ...translationIdentifier,
         ...choiceMessage,
       };
-      expect(templateV2Helper.getMessageFromTranslation(templateTranslation).type).toBe(MessageType.CHOICE);
+      expect(Conversation.templateV2Helper.getMessageFromTranslation(templateTranslation).type)
+        .toBe(Conversation.MessageType.CHOICE);
 
       templateTranslation = {
         ...translationIdentifier,
         ...carouselMessage,
       };
-      expect(templateV2Helper.getMessageFromTranslation(templateTranslation).type).toBe(MessageType.CAROUSEL);
+      expect(Conversation.templateV2Helper.getMessageFromTranslation(templateTranslation).type)
+        .toBe(Conversation.MessageType.CAROUSEL);
 
       templateTranslation = {
         ...translationIdentifier,
         ...contactInfoMessage,
       };
-      expect(templateV2Helper.getMessageFromTranslation(templateTranslation).type).toBe(MessageType.CONTACT_INFO);
+      expect(Conversation.templateV2Helper.getMessageFromTranslation(templateTranslation).type)
+        .toBe(Conversation.MessageType.CONTACT_INFO);
 
       templateTranslation = {
         ...translationIdentifier,
         ...listMessage,
       };
-      expect(templateV2Helper.getMessageFromTranslation(templateTranslation).type).toBe(MessageType.LIST);
+      expect(Conversation.templateV2Helper.getMessageFromTranslation(templateTranslation).type)
+        .toBe(Conversation.MessageType.LIST);
 
       templateTranslation = {
         ...translationIdentifier,
         ...locationMessage,
       };
-      expect(templateV2Helper.getMessageFromTranslation(templateTranslation).type).toBe(MessageType.LOCATION);
+      expect(Conversation.templateV2Helper.getMessageFromTranslation(templateTranslation).type)
+        .toBe(Conversation.MessageType.LOCATION);
 
       templateTranslation = {
         ...translationIdentifier,
         ...mediaMessage,
       };
-      expect(templateV2Helper.getMessageFromTranslation(templateTranslation).type).toBe(MessageType.MEDIA);
+      expect(Conversation.templateV2Helper.getMessageFromTranslation(templateTranslation).type)
+        .toBe(Conversation.MessageType.MEDIA);
 
       templateTranslation = {
         ...translationIdentifier,
         ...templateMessage,
       };
-      expect(templateV2Helper.getMessageFromTranslation(templateTranslation).type).toBe(MessageType.TEMPLATE);
+      expect(Conversation.templateV2Helper.getMessageFromTranslation(templateTranslation).type)
+        .toBe(Conversation.MessageType.TEMPLATE);
     });
 
     it('should filter out the latest translations', () => {
@@ -198,7 +201,7 @@ describe('Conversation models helpers', () => {
         },
       };
       const translations = [version1Translation, latestTranslation];
-      const filteredTranslations = templateV2Helper.getPreviousTranslations(translations);
+      const filteredTranslations = Conversation.templateV2Helper.getPreviousTranslations(translations);
       expect(filteredTranslations.length).toBe(1);
       expect(filteredTranslations[0].version).toBe('1');
     });
@@ -206,42 +209,42 @@ describe('Conversation models helpers', () => {
 
   describe('Message builder helper', () => {
     it('should build a TextMessage', () => {
-      const builtTextMessage = messageBuilder.text(textMessageItem);
+      const builtTextMessage = Conversation.messageBuilder.text(textMessageItem);
       expect(builtTextMessage).toEqual(textMessage);
     });
 
     it('should build a CardMessage', () => {
-      const builtTextMessage = messageBuilder.card(cardMessageItem);
+      const builtTextMessage = Conversation.messageBuilder.card(cardMessageItem);
       expect(builtTextMessage).toEqual(cardMessage);
     });
 
     it('should build a CarouselMessage', () => {
-      const builtMessage = messageBuilder.carousel(carouselMessageItem);
+      const builtMessage = Conversation.messageBuilder.carousel(carouselMessageItem);
       expect(builtMessage).toEqual(carouselMessage);
     });
 
     it('should build a ChoiceMessage', () => {
-      const builtMessage = messageBuilder.choice(choiceMessageItem);
+      const builtMessage = Conversation.messageBuilder.choice(choiceMessageItem);
       expect(builtMessage).toEqual(choiceMessage);
     });
 
     it('should build a LocationMessage', () => {
-      const builtMessage = messageBuilder.location(locationMessageItem);
+      const builtMessage = Conversation.messageBuilder.location(locationMessageItem);
       expect(builtMessage).toEqual(locationMessage);
     });
 
     it('should build a MediaMessage', () => {
-      const builtMessage = messageBuilder.media(mediaMessageItem);
+      const builtMessage = Conversation.messageBuilder.media(mediaMessageItem);
       expect(builtMessage).toEqual(mediaMessage);
     });
 
     it('should build a TemplateMessage', () => {
-      const builtMessage = messageBuilder.template(templateMessageItem);
+      const builtMessage = Conversation.messageBuilder.template(templateMessageItem);
       expect(builtMessage).toEqual(templateMessage);
     });
 
     it('should build a ListMessage', () => {
-      const builtMessage = messageBuilder.list(listMessageItem);
+      const builtMessage = Conversation.messageBuilder.list(listMessageItem);
       expect(builtMessage).toEqual(listMessage);
     });
   });
