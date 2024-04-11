@@ -1,4 +1,4 @@
-import { AceRequest, DiceRequest, IceRequest, PieRequest, VoiceCallbackWebhooks } from '../../../../src';
+import { Voice, VoiceCallbackWebhooks } from '../../../../src';
 import { SinchClientParameters } from '@sinch/sdk-client';
 
 describe('Voice Callback Webhook', () => {
@@ -65,7 +65,7 @@ describe('Voice Callback Webhook', () => {
     };
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
     expect(parsedResultFunction).not.toThrow();
-    const parsedResult = parsedResultFunction() as IceRequest;
+    const parsedResult = parsedResultFunction() as Voice.IceRequest;
     expect(parsedResult.timestamp).toStrictEqual(DATE_AS_DATE);
   });
 
@@ -79,7 +79,7 @@ describe('Voice Callback Webhook', () => {
     };
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
     expect(parsedResultFunction).not.toThrow();
-    const parsedResult = parsedResultFunction() as AceRequest;
+    const parsedResult = parsedResultFunction() as Voice.AceRequest;
     expect(parsedResult.timestamp).toStrictEqual(DATE_AS_DATE);
   });
 
@@ -109,7 +109,7 @@ describe('Voice Callback Webhook', () => {
     };
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
     expect(parsedResultFunction).not.toThrow();
-    const parsedResult = parsedResultFunction() as DiceRequest;
+    const parsedResult = parsedResultFunction() as Voice.DiceRequest;
     expect(parsedResult.timestamp).toStrictEqual(DATE_AS_DATE);
   });
 
@@ -130,7 +130,7 @@ describe('Voice Callback Webhook', () => {
     };
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
     expect(parsedResultFunction).not.toThrow();
-    const parsedResult = parsedResultFunction() as PieRequest;
+    const parsedResult = parsedResultFunction() as Voice.PieRequest;
     expect(parsedResult.timestamp).toStrictEqual(DATE_AS_DATE);
   });
 

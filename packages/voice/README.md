@@ -38,11 +38,10 @@ If you are using this SDK as part of the Sinch SDK (`@sinch/sdk-core`) you can a
 
 ```typescript
 import {
-  TtsCalloutRequestData,
-  GetCalloutResponseObj,
   SinchClient,
   ApplicationCredentials, 
   VoiceService,
+  Voice,
 } from '@sinch/sdk-core';
 
 const credentials: ApplicationCredentials = {
@@ -55,7 +54,7 @@ const sinch = new SinchClient(credentials);
 const voiceService: VoiceService = sinch.voice;
 
 // Build the request data
-const requestData: TtsCalloutRequestData = {
+const requestData: Voice.TtsCalloutRequestData = {
   ttsCalloutRequestBody: {
     method: 'ttsCallout',
     ttsCallout: {
@@ -71,7 +70,7 @@ const requestData: TtsCalloutRequestData = {
 };
 
 // Use the 'voice' service registered on the Sinch client
-const calloutResponse: GetCalloutResponseObj
+const calloutResponse: Voice.GetCalloutResponseObj
   = await voiceService.callouts.tts(requestData);
 ```
 
@@ -84,8 +83,7 @@ import {
   ApplicationCredentials
  } from '@sinch/sdk-client';
 import {
-  TtsCalloutRequestData,
-  GetCalloutResponseObj,
+  Voice,
   VoiceService,
 } from '@sinch/voice';
 
@@ -98,7 +96,7 @@ const credentials: ApplicationCredentials = {
 const voiceService = new VoiceService(credentials);
 
 // Build the request data
-const requestData: TtsCalloutRequestData = {
+const requestData: Voice.TtsCalloutRequestData = {
   ttsCalloutRequestBody: {
     method: 'ttsCallout',
     ttsCallout: {
@@ -114,7 +112,7 @@ const requestData: TtsCalloutRequestData = {
 };
 
 // Use the standalone declaration of the 'voice' service
-const calloutResponse: GetCalloutResponseObj
+const calloutResponse: Voice.GetCalloutResponseObj
   = await voiceService.callouts.tts(requestData);
 ```
 
@@ -124,7 +122,7 @@ All the methods that interact with the Sinch APIs use Promises. You can use `awa
 
 ```typescript
 // Method 1: Wait for the Promise to complete (you need to be in an 'async' method)
-let calloutResponse: GetCalloutResponseObj;
+let calloutResponse: Voice.GetCalloutResponseObj;
 try {
   calloutResponse = await voiceService.callouts.tts(requestData);
   console.log(`callId = ${calloutResponse.callId}`);

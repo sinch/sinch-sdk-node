@@ -1,53 +1,23 @@
 import {
   aceActionHelper,
   aceInstructionHelper,
-  AceResponse,
   AceSvamletBuilder,
-  CallHeader,
-  ConnectConfProps,
-  ConnectMxpProps,
-  ConnectPstnProps,
-  ConnectSipProps,
   customCalloutHelper,
   iceActionHelper,
   iceInstructionHelper,
-  IceResponse,
   IceSvamletBuilder,
-  ParkProps,
   pieActionHelper,
   pieInstructionHelper,
-  PieResponse,
   PieSvamletBuilder,
-  PlayFilesProps,
-  RunMenuProps,
-  SayProps,
-  SendDtmfProps,
-  SetCookieProps,
-  StartRecordingOptions,
-  StartRecordingProps,
-  SvamlActionConnectConf,
-  SvamlActionConnectMxp,
-  SvamlActionConnectPstn,
-  SvamlActionConnectSip,
-  SvamlActionContinue,
-  SvamlActionHangup,
   svamlActionHelper,
-  SvamlActionPark,
-  SvamlActionRunMenu,
-  SvamlInstructionAnswer,
   svamlInstructionHelper,
-  SvamlInstructionPlayFiles,
-  SvamlInstructionSay,
-  SvamlInstructionSendDtmf,
-  SvamlInstructionSetCookie,
-  SvamlInstructionStartRecording,
-  SvamlInstructionStopRecording,
+  Voice,
 } from '../../../src';
 
 const CONFERENCE_ID = 'conferenceId';
 const NUMBER = '+461234567890';
 const CLI = '+460987654321';
-const CALL_HEADERS: CallHeader[] = [
+const CALL_HEADERS: Voice.CallHeader[] = [
   {
     key: 'foo',
     value: 'bar',
@@ -58,7 +28,7 @@ const CALL_HEADERS: CallHeader[] = [
   },
 ];
 
-const RECORDING_OPTIONS: StartRecordingOptions = {
+const RECORDING_OPTIONS: Voice.StartRecordingOptions = {
   destinationUrl: 'azure://my-account/test-container/my-recording.mp3',
   credentials: 'dummyAzureCredentials',
   format: 'mp3',
@@ -73,7 +43,7 @@ describe('Voice models helpers', () => {
 
   describe('SVAML Actions helper', () => {
     it('should build a connectConf action', () => {
-      const connectConfProps: ConnectConfProps = {
+      const connectConfProps: Voice.ConnectConfProps = {
         conferenceId:CONFERENCE_ID,
         conferenceDtmfOptions: {
           mode: 'detect',
@@ -82,7 +52,7 @@ describe('Voice models helpers', () => {
         },
         moh: 'music1',
       };
-      const expectedResult: SvamlActionConnectConf = {
+      const expectedResult: Voice.SvamlActionConnectConf = {
         ...connectConfProps,
         name: 'connectConf',
       };
@@ -91,14 +61,14 @@ describe('Voice models helpers', () => {
     });
 
     it('should build a connectMxp action', () => {
-      const connectMxpProps: ConnectMxpProps = {
+      const connectMxpProps: Voice.ConnectMxpProps = {
         destination: {
           type: 'username',
           endpoint: 'johndoe',
         },
         callHeaders: CALL_HEADERS,
       };
-      const expectedResult: SvamlActionConnectMxp = {
+      const expectedResult: Voice.SvamlActionConnectMxp = {
         ...connectMxpProps,
         name: 'connectMxp',
       };
@@ -107,7 +77,7 @@ describe('Voice models helpers', () => {
     });
 
     it('should build a connectPstn action', () => {
-      const connectPstnProps: ConnectPstnProps = {
+      const connectPstnProps: Voice.ConnectPstnProps = {
         number: NUMBER,
         locale: 'en-US',
         maxDuration: 3000,
@@ -120,7 +90,7 @@ describe('Voice models helpers', () => {
           enabled: true,
         },
       };
-      const expectedResult: SvamlActionConnectPstn = {
+      const expectedResult: Voice.SvamlActionConnectPstn = {
         ...connectPstnProps,
         name: 'connectPstn',
       };
@@ -129,7 +99,7 @@ describe('Voice models helpers', () => {
     });
 
     it('should build a connectSip action', () => {
-      const connectSipProps: ConnectSipProps = {
+      const connectSipProps: Voice.ConnectSipProps = {
         destination: {
           type: 'Sip',
           endpoint: '46708000000@sip.foo.com',
@@ -141,7 +111,7 @@ describe('Voice models helpers', () => {
         callHeaders: CALL_HEADERS,
         moh: 'music2',
       };
-      const expectedResult: SvamlActionConnectSip = {
+      const expectedResult: Voice.SvamlActionConnectSip = {
         ...connectSipProps,
         name: 'connectSip',
       };
@@ -150,7 +120,7 @@ describe('Voice models helpers', () => {
     });
 
     it('should build a continue action', () => {
-      const expectedResult: SvamlActionContinue = {
+      const expectedResult: Voice.SvamlActionContinue = {
         name: 'continue',
       };
       const builtAction = svamlActionHelper.buildContinue();
@@ -158,7 +128,7 @@ describe('Voice models helpers', () => {
     });
 
     it('should build a hangup action', () => {
-      const expectedResult: SvamlActionHangup = {
+      const expectedResult: Voice.SvamlActionHangup = {
         name: 'hangup',
       };
       const builtAction = svamlActionHelper.buildHangup();
@@ -166,13 +136,13 @@ describe('Voice models helpers', () => {
     });
 
     it('should build a park action', () => {
-      const parkProps: ParkProps = {
+      const parkProps: Voice.ParkProps = {
         locale: 'en-US',
         introPrompt: '#tts[Welcome]',
         holdPrompt: '#tts[Thank you for your patience, your call is very important to us.]',
         maxDuration: 180,
       };
-      const expectedResult: SvamlActionPark = {
+      const expectedResult: Voice.SvamlActionPark = {
         ...parkProps,
         name: 'park',
       };
@@ -181,7 +151,7 @@ describe('Voice models helpers', () => {
     });
 
     it('should build a runMenu action', () => {
-      const runMenuProps: RunMenuProps = {
+      const runMenuProps: Voice.RunMenuProps = {
         barge: true,
         locale: 'en-US',
         enableVoice: true,
@@ -218,7 +188,7 @@ describe('Voice models helpers', () => {
           },
         ],
       };
-      const expectedResult: SvamlActionRunMenu = {
+      const expectedResult: Voice.SvamlActionRunMenu = {
         ...runMenuProps,
         name: 'runMenu',
       };
@@ -229,7 +199,7 @@ describe('Voice models helpers', () => {
 
   describe('SVAML Instructions helper', () => {
     it('should build an answer instruction', () => {
-      const expectedResult: SvamlInstructionAnswer = {
+      const expectedResult: Voice.SvamlInstructionAnswer = {
         name: 'answer',
       };
       const builtInstruction = svamlInstructionHelper.buildAnswer();
@@ -240,11 +210,11 @@ describe('Voice models helpers', () => {
       const ids = [
         '[Welcome]',
       ];
-      const playFilesProps: PlayFilesProps = {
+      const playFilesProps: Voice.PlayFilesProps = {
         locale: 'Enrique',
         ids,
       };
-      const expectedResult: SvamlInstructionPlayFiles = {
+      const expectedResult: Voice.SvamlInstructionPlayFiles = {
         ...playFilesProps,
         name: 'playFiles',
       };
@@ -254,11 +224,11 @@ describe('Voice models helpers', () => {
 
     it('should build a say instruction', () => {
       const text = 'Hello, this is a text-to-speech message.';
-      const sayProps: SayProps = {
+      const sayProps: Voice.SayProps = {
         text,
         locale: 'Ivy',
       };
-      const expectedResult: SvamlInstructionSay = {
+      const expectedResult: Voice.SvamlInstructionSay = {
         ...sayProps,
         name: 'say',
       };
@@ -267,10 +237,10 @@ describe('Voice models helpers', () => {
     });
 
     it('should build a sendDtmf instruction', () => {
-      const sendDtmfProps: SendDtmfProps = {
+      const sendDtmfProps: Voice.SendDtmfProps = {
         value: '1234#',
       };
-      const expectedResult: SvamlInstructionSendDtmf = {
+      const expectedResult: Voice.SvamlInstructionSendDtmf = {
         ...sendDtmfProps,
         name: 'sendDtmf',
       };
@@ -279,11 +249,11 @@ describe('Voice models helpers', () => {
     });
 
     it('should build a setCookie instruction', () => {
-      const setCookieProps: SetCookieProps = {
+      const setCookieProps: Voice.SetCookieProps = {
         key: 'cookie-name',
         value: 'cookie-value',
       };
-      const expectedResult: SvamlInstructionSetCookie = {
+      const expectedResult: Voice.SvamlInstructionSetCookie = {
         ...setCookieProps,
         name: 'setCookie',
       };
@@ -292,12 +262,12 @@ describe('Voice models helpers', () => {
     });
 
     it('should build a startRecording instruction', () => {
-      const startRecordingProps: StartRecordingProps = {
+      const startRecordingProps: Voice.StartRecordingProps = {
         options: {
           ...RECORDING_OPTIONS,
         },
       };
-      const expectedResult: SvamlInstructionStartRecording = {
+      const expectedResult: Voice.SvamlInstructionStartRecording = {
         ...startRecordingProps,
         name: 'startRecording',
       };
@@ -306,7 +276,7 @@ describe('Voice models helpers', () => {
     });
 
     it('should build a stopRecording instruction', () => {
-      const expectedResult: SvamlInstructionStopRecording = {
+      const expectedResult: Voice.SvamlInstructionStopRecording = {
         name: 'stopRecording',
       };
       const builtInstruction = svamlInstructionHelper.buildStopRecording();
@@ -326,7 +296,7 @@ describe('Voice models helpers', () => {
           '#ssml[<speak><break time="250ms"/>Have a great day!</speak>]',
         ], 'en-US'))
         .build();
-      const expectedResult: AceResponse = {
+      const expectedResult: Voice.AceResponse = {
         action: {
           name: 'hangup',
         },
@@ -360,7 +330,7 @@ describe('Voice models helpers', () => {
 
   describe('ICE response builder', () => {
     it('should build an ICE response', () => {
-      const parkProps: ParkProps = {
+      const parkProps: Voice.ParkProps = {
         introPrompt: '#tts[Welcome]',
         holdPrompt: '#tts[Thank you for your patience, your call is very important to us.]',
         maxDuration: 180,
@@ -369,7 +339,7 @@ describe('Voice models helpers', () => {
         .setAction(iceActionHelper.park(parkProps))
         .addInstruction(iceInstructionHelper.setCookie('sinch-app', 'app-id-value'))
         .build();
-      const expectedResult: IceResponse = {
+      const expectedResult: Voice.IceResponse = {
         action: {
           name: 'park',
           ...parkProps,
@@ -393,7 +363,7 @@ describe('Voice models helpers', () => {
         .addInstruction(pieInstructionHelper.say('The call may be recorded.', 'en-US'))
         .addInstruction(pieInstructionHelper.startRecording(RECORDING_OPTIONS))
         .build();
-      const expectedResult: PieResponse = {
+      const expectedResult: Voice.PieResponse = {
         action: {
           name: 'continue',
         },
@@ -418,7 +388,7 @@ describe('Voice models helpers', () => {
       const ice = customCalloutHelper.formatIceResponse(
         iceActionHelper.park({}),
       );
-      const expectedResult: IceResponse = {
+      const expectedResult: Voice.IceResponse = {
         action: {
           name: 'park',
         },
@@ -432,7 +402,7 @@ describe('Voice models helpers', () => {
         iceInstructionHelper.setCookie('cookie-name', 'cookie-value'),
         iceInstructionHelper.say('Hello from Sinch.', 'Gwyneth'),
       );
-      const expectedResult: IceResponse = {
+      const expectedResult: Voice.IceResponse = {
         action: {
           name: 'park',
         },
@@ -456,7 +426,7 @@ describe('Voice models helpers', () => {
       const ace = customCalloutHelper.formatAceResponse(
         aceActionHelper.continue(),
       );
-      const expectedResult: AceResponse = {
+      const expectedResult: Voice.AceResponse = {
         action: {
           name: 'continue',
         },
@@ -470,7 +440,7 @@ describe('Voice models helpers', () => {
         aceInstructionHelper.setCookie('cookie-name', 'cookie-value'),
         aceInstructionHelper.say('Hello from Sinch.', 'Geraint'),
       );
-      const expectedResult: AceResponse = {
+      const expectedResult: Voice.AceResponse = {
         action: {
           name: 'continue',
         },
@@ -494,7 +464,7 @@ describe('Voice models helpers', () => {
       const pie = customCalloutHelper.formatPieResponse(
         pieActionHelper.continue(),
       );
-      const expectedResult: PieResponse = {
+      const expectedResult: Voice.PieResponse = {
         action: {
           name: 'continue',
         },
@@ -508,7 +478,7 @@ describe('Voice models helpers', () => {
         pieInstructionHelper.say('Goodbye.', 'Raveena'),
         pieInstructionHelper.stopRecording(),
       );
-      const expectedResult: PieResponse = {
+      const expectedResult: Voice.PieResponse = {
         action: {
           name: 'continue',
         },

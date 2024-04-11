@@ -2,13 +2,7 @@ import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
 import {
   ConferencesApi,
   ConferencesApiFixture,
-  GetConferenceInfoResponse,
-  GetConferenceInfoRequestData,
-  KickAllRequestData,
-  KickParticipantRequestData,
-  ManageParticipantRequestData,
-  ConferenceCalloutRequestData,
-  CalloutResponse,
+  Voice,
 } from '../../../../src';
 
 
@@ -28,10 +22,10 @@ describe('ConferencesApi', () => {
   describe ('getConferenceInfo', () => {
     it('should make a GET request to get information about a conference', async () => {
       // Given
-      const requestData: GetConferenceInfoRequestData = {
+      const requestData: Voice.GetConferenceInfoRequestData = {
         conferenceId: 'conferenceId',
       };
-      const expectedResponse: GetConferenceInfoResponse = {
+      const expectedResponse: Voice.GetConferenceInfoResponse = {
         participants: [
           {
             cli: '+46708168731',
@@ -64,7 +58,7 @@ describe('ConferencesApi', () => {
   describe ('Conference callouts', () => {
     it('should make a POST request to make a conference callout to a phone number', async () => {
       // Given
-      const requestData: ConferenceCalloutRequestData = {
+      const requestData: Voice.ConferenceCalloutRequestData = {
         conferenceCalloutRequestBody: {
           method: 'conferenceCallout',
           conferenceCallout: {
@@ -78,7 +72,7 @@ describe('ConferencesApi', () => {
           },
         },
       };
-      const expectedResponse: CalloutResponse = {
+      const expectedResponse: Voice.CalloutResponse = {
         callId: 'callId',
       };
 
@@ -96,7 +90,7 @@ describe('ConferencesApi', () => {
   describe ('kickConferenceAll', () => {
     it('should make a DELETE request to remove all participants from a conference', async () => {
       // Given
-      const requestData: KickAllRequestData = {
+      const requestData: Voice.KickAllRequestData = {
         conferenceId: 'conferenceId',
       };
 
@@ -114,7 +108,7 @@ describe('ConferencesApi', () => {
   describe ('kickConferenceParticipant', () => {
     it('should make a DELETE request to remove the specified participant from a conference', async () => {
       // Given
-      const requestData: KickParticipantRequestData = {
+      const requestData: Voice.KickParticipantRequestData = {
         conferenceId: 'conferenceId',
         callId: 'callId',
       };
@@ -133,7 +127,7 @@ describe('ConferencesApi', () => {
   describe ('manageConferenceParticipant', () => {
     it('should make a PATCH request to manage a conference participant', async () => {
       // Given
-      const requestData: ManageParticipantRequestData = {
+      const requestData: Voice.ManageParticipantRequestData = {
         callId: 'callId',
         conferenceId: 'conferenceId',
         manageParticipantRequestBody: {

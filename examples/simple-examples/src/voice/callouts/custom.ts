@@ -9,9 +9,9 @@ import {
 import {
   aceActionHelper,
   customCalloutHelper,
-  CustomCalloutRequestData,
   iceActionHelper,
   iceInstructionHelper,
+  Voice,
 } from '@sinch/sdk-core';
 
 (async () => {
@@ -23,7 +23,7 @@ import {
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
   const callbackUrl = getVoiceCallBackUrl();
 
-  const requestData: CustomCalloutRequestData = {
+  const requestData: Voice.CustomCalloutRequestData = {
     customCalloutRequestBody: {
       method: 'customCallout',
       customCallout: {

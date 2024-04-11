@@ -21,7 +21,7 @@ export * from './unassign-numbers';
 export * from './update-callbacks';
 export * from './assign-numbers';
 export * from './enums';
-export * from './helper';
+export * from './requests';
 // Callbacks
 export * from './mod-callbacks';
 // SVAML
