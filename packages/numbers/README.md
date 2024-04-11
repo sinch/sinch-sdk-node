@@ -38,8 +38,7 @@ If you are using this SDK as part of the Sinch SDK (`@sinch/sdk-core`) you can a
 
 ```typescript
 import { 
-  AvailableNumber,
-  GetAvailableNumberRequestData,
+  Numbers,
   NumbersService,
   SinchClient,
   UnifiedCredentials,
@@ -56,12 +55,12 @@ const sinch = new SinchClient(credentials);
 const numbersService: NumbersService = sinch.numbers;
 
 // Build the request data
-const requestData: GetAvailableNumberRequestData = {
+const requestData: Numbers.GetAvailableNumberRequestData = {
   phoneNumber: '+17813334444',
 };
 
 // Use the 'numbers' service registered on the Sinch client
-const availabilityResult: AvailableNumber 
+const availabilityResult: Numbers.AvailableNumber 
     = await numbersService.availableNumber.checkAvailability(requestData);
 ```
 
@@ -73,9 +72,8 @@ The SDK can be used standalone if you need to use only the Numbers APIs.
 import {
   UnifiedCredentials,
 } from '@sinch/sdk-client';
-import { 
-  AvailableNumber,
-  GetAvailableNumberRequestData,
+import {
+  Numbers,
   NumbersService,
 } from '@sinch/numbers';
 
@@ -89,12 +87,12 @@ const credentials: UnifiedCredentials = {
 const numbersService = new NumbersService(credentials);
 
 // Build the request data
-const requestData: GetAvailableNumberRequestData = {
+const requestData: Numbers.GetAvailableNumberRequestData = {
   phoneNumber: '+17813334444',
 };
 
 // Use the standalone declaration of the 'numbers' service
-const availabilityResult: AvailableNumber 
+const availabilityResult: Numbers.AvailableNumber 
     = await numbersService.availableNumber.checkAvailability(requestData);
 ```
 
@@ -104,7 +102,7 @@ All the methods that interact with the Sinch APIs use Promises. You can use `awa
 
 ```typescript
 // Method 1: Wait for the Promise to complete (you need to be in an 'async' method)
-let availabilityResult: AvailableNumber;
+let availabilityResult: Numbers.AvailableNumber;
 try {
   availabilityResult = await numbersService.availableNumber.checkAvailability(requestData);
   console.log(`Phone number: ${availabilityResult.phoneNumber} - Type: ${availabilityResult.type}`);
