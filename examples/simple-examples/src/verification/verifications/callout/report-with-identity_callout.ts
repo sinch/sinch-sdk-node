@@ -2,7 +2,9 @@ import { verificationsHelper } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getVerificationCodeFromConfig,
-  getVerificationIdentityFromConfig, initVerificationService, printFullResponse,
+  getVerificationIdentityFromConfig,
+  initVerificationService,
+  printFullResponse,
 } from '../../../config';
 
 (async () => {

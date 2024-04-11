@@ -1,4 +1,4 @@
-import { VerificationStatusByIdRequestData } from '@sinch/sdk-core';
+import { Verification } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getVerificationIdFromConfig,
@@ -13,7 +13,7 @@ import {
 
   const verificationId = getVerificationIdFromConfig();
 
-  const requestData: VerificationStatusByIdRequestData = {
+  const requestData: Verification.VerificationStatusByIdRequestData = {
     id: verificationId,
   };
 

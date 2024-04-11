@@ -1,9 +1,8 @@
 import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
 import {
-  VerificationReportResponse,
+  Verification,
   VerificationStatusApi,
-  VerificationStatusApiFixture, VerificationStatusByIdentityRequestData,
-  VerificationStatusByIdRequestData, VerificationStatusByReferenceRequestData,
+  VerificationStatusApiFixture,
 } from '../../../../src';
 
 describe('VerificationStatusApi', () => {
@@ -23,10 +22,10 @@ describe('VerificationStatusApi', () => {
   describe ('verificationStatusById', () => {
     it('should make a GET request to query the verification result by sending the verification ID', async () => {
       // Given
-      const requestData: VerificationStatusByIdRequestData = {
+      const requestData: Verification.VerificationStatusByIdRequestData = {
         id: '',
       };
-      const expectedResponse: VerificationReportResponse = {
+      const expectedResponse: Verification.VerificationReportResponse = {
         id: '018bec3e-6913-d36c-5102-ebda3fd6d30f',
         method: 'sms',
         status: 'SUCCESSFUL',
@@ -58,11 +57,11 @@ describe('VerificationStatusApi', () => {
   describe ('verificationStatusByIdentity', () => {
     it('should make a GET request to query the verification result by sending the verification Identity', async () => {
       // Given
-      const requestData: VerificationStatusByIdentityRequestData = {
+      const requestData: Verification.VerificationStatusByIdentityRequestData = {
         endpoint: '+33444555666',
         method: 'callout',
       };
-      const expectedResponse: VerificationReportResponse = {
+      const expectedResponse: Verification.VerificationReportResponse = {
         id: '018bec2b-d123-b7b3-833e-4b177e3420df',
         method: 'callout',
         status: 'FAIL',
@@ -84,10 +83,10 @@ describe('VerificationStatusApi', () => {
   describe ('verificationStatusByReference', () => {
     it('should make a GET request to query the verification result by sending the verification reference', async () => {
       // Given
-      const requestData: VerificationStatusByReferenceRequestData = {
+      const requestData: Verification.VerificationStatusByReferenceRequestData = {
         reference: 'reference',
       };
-      const expectedResponse: VerificationReportResponse = {
+      const expectedResponse: Verification.VerificationReportResponse = {
         id: '018beea3-a942-0094-4a3a-d6b2f2c65057',
         reference: 'reference',
         method: 'flashcall',

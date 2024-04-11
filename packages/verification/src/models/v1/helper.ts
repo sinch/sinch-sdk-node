@@ -1,6 +1,7 @@
 import {
   ReportCalloutVerificationByIdentityRequestData,
-  ReportCalloutVerificationByIdRequestData, ReportFlashCallVerificationByIdentityRequestData,
+  ReportCalloutVerificationByIdRequestData,
+  ReportFlashCallVerificationByIdentityRequestData,
   ReportFlashCallVerificationByIdRequestData,
   ReportSmsVerificationByIdentityRequestData,
   ReportSmsVerificationByIdRequestData,
@@ -8,7 +9,7 @@ import {
   StartFlashCallVerificationRequestData,
   StartSeamlessVerificationRequestData,
   StartSmsVerificationRequestData,
-} from '../../rest';
+} from './requests';
 
 export const verificationsHelper = {
   buildStartSmsVerificationRequest: (

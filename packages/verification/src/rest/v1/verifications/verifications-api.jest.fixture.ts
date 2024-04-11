@@ -1,11 +1,12 @@
+import { VerificationsApi } from './verifications-api';
 import {
-  StartCalloutVerificationResponse, CalloutVerificationReportResponse,
+  StartCalloutVerificationResponse,
+  CalloutVerificationReportResponse,
   StartSeamlessVerificationResponse,
-  StartFlashCallVerificationResponse, FlashCallVerificationReportResponse,
-  StartSmsVerificationResponse, SMSVerificationReportResponse,
-} from '../../../models';
-import {
-  VerificationsApi,
+  StartFlashCallVerificationResponse,
+  FlashCallVerificationReportResponse,
+  StartSmsVerificationResponse,
+  SMSVerificationReportResponse,
   StartSmsVerificationRequestData,
   StartFlashCallVerificationRequestData,
   StartCalloutVerificationRequestData,
@@ -14,8 +15,9 @@ import {
   ReportCalloutVerificationByIdRequestData,
   ReportFlashCallVerificationByIdRequestData,
   ReportSmsVerificationByIdentityRequestData,
-  ReportFlashCallVerificationByIdentityRequestData, ReportCalloutVerificationByIdentityRequestData,
-} from './verifications-api';
+  ReportFlashCallVerificationByIdentityRequestData,
+  ReportCalloutVerificationByIdentityRequestData,
+} from '../../../models';
 
 export class VerificationsApiFixture implements Partial<Readonly<VerificationsApi>> {
 

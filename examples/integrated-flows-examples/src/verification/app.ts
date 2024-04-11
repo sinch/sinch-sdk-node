@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import { SinchClient, verificationsHelper, VerificationStatusByIdRequestData } from '@sinch/sdk-core';
+import { SinchClient, verificationsHelper, Verification } from '@sinch/sdk-core';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -117,7 +117,7 @@ dotenv.config();
       console.log(`Impossible to process the seamless verification: ${error.data})`);
       return;
     }
-    const verificationStatusRequestData: VerificationStatusByIdRequestData = {
+    const verificationStatusRequestData: Verification.VerificationStatusByIdRequestData = {
       id: response.id!,
     };
     const statusResponse = await sinch.verification.verificationStatus.getById(verificationStatusRequestData);
