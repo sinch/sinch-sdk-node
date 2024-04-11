@@ -1,10 +1,9 @@
 import { getPrintFormat, initSmsServiceWithServicePlanId, printFullResponse } from '../../config';
-import { ListBatchesRequestData, PageResult } from '@sinch/sdk-core';
-import { SendSMSResponse } from '@sinch/sms/src';
+import { Sms, PageResult } from '@sinch/sdk-core';
 
 const populateBatchesList = (
-  batchListPage: PageResult<SendSMSResponse>,
-  fullBatchesList: SendSMSResponse[],
+  batchListPage: PageResult<Sms.SendSMSResponse>,
+  fullBatchesList: Sms.SendSMSResponse[],
   batchesList: string[],
 ) => {
   fullBatchesList.push(...batchListPage.data);
@@ -22,7 +21,7 @@ const populateBatchesList = (
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
   oneWeekAgo.setHours(0, 0, 0, 0);
 
-  const requestData: ListBatchesRequestData= {
+  const requestData: Sms.ListBatchesRequestData= {
     start_date: oneWeekAgo,
     page_size: 2,
   };
@@ -34,7 +33,7 @@ const populateBatchesList = (
   // ----------------------------------------------
   let response = await smsService.batches.list(requestData);
 
-  const fullBatchesList: SendSMSResponse[] = [];
+  const fullBatchesList: Sms.SendSMSResponse[] = [];
   const batchesList: string[] = [];
 
   // Loop on all the pages to get all the batches

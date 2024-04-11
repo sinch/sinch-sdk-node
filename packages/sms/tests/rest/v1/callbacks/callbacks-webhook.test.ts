@@ -1,4 +1,4 @@
-import { MOBinary, MOText, RecipientDeliveryReport, SmsCallbackWebhooks } from '../../../../src';
+import { Sms, SmsCallbackWebhooks } from '../../../../src';
 
 describe('SMS Callback Webhook', () => {
   let callbackWebhooks: SmsCallbackWebhooks;
@@ -20,7 +20,7 @@ describe('SMS Callback Webhook', () => {
     };
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
     expect(parsedResultFunction).not.toThrow();
-    const parsedResult: MOText = parsedResultFunction() as MOText;
+    const parsedResult: Sms.MOText = parsedResultFunction() as Sms.MOText;
     expect(parsedResult.sent_at).toStrictEqual(DATE_AS_DATE);
     expect(parsedResult.received_at).toStrictEqual(DATE_AS_DATE);
   });
@@ -35,7 +35,7 @@ describe('SMS Callback Webhook', () => {
     };
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
     expect(parsedResultFunction).not.toThrow();
-    const parsedResult: MOBinary = parsedResultFunction() as MOBinary;
+    const parsedResult: Sms.MOBinary = parsedResultFunction() as Sms.MOBinary;
     expect(parsedResult.sent_at).toStrictEqual(DATE_AS_DATE);
     expect(parsedResult.received_at).toStrictEqual(DATE_AS_DATE);
   });
@@ -92,7 +92,7 @@ describe('SMS Callback Webhook', () => {
     };
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
     expect(parsedResultFunction).not.toThrow();
-    const parsedResult: RecipientDeliveryReport = parsedResultFunction() as RecipientDeliveryReport;
+    const parsedResult: Sms.RecipientDeliveryReport = parsedResultFunction() as Sms.RecipientDeliveryReport;
     expect(parsedResult.at).toStrictEqual(DATE_AS_DATE);
     expect(parsedResult.operator_status_at).toStrictEqual(DATE_AS_DATE);
   });
@@ -109,7 +109,7 @@ describe('SMS Callback Webhook', () => {
     };
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
     expect(parsedResultFunction).not.toThrow();
-    const parsedResult: RecipientDeliveryReport = parsedResultFunction() as RecipientDeliveryReport;
+    const parsedResult: Sms.RecipientDeliveryReport = parsedResultFunction() as Sms.RecipientDeliveryReport;
     expect(parsedResult.at).toStrictEqual(DATE_AS_DATE);
     expect(parsedResult.operator_status_at).toStrictEqual(DATE_AS_DATE);
   });

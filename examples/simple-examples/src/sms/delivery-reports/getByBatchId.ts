@@ -4,7 +4,7 @@ import {
   initSmsServiceWithServicePlanId,
   printFullResponse,
 } from '../../config';
-import { GetDeliveryReportByBatchIdRequestData, MessageDeliveryStatus } from '@sinch/sdk-core';
+import { Sms } from '@sinch/sdk-core';
 
 (async () => {
   console.log('******************************');
@@ -13,7 +13,7 @@ import { GetDeliveryReportByBatchIdRequestData, MessageDeliveryStatus } from '@s
 
   const batchId = getBatchIdFromConfig();
 
-  const requestData: GetDeliveryReportByBatchIdRequestData = {
+  const requestData: Sms.GetDeliveryReportByBatchIdRequestData = {
     batch_id: batchId,
   };
 
@@ -30,7 +30,7 @@ import { GetDeliveryReportByBatchIdRequestData, MessageDeliveryStatus } from '@s
 
   if (printFormat === 'pretty') {
     const statuses: string[] = [];
-    response.statuses.map((status: MessageDeliveryStatus) => {
+    response.statuses.map((status: Sms.MessageDeliveryStatus) => {
       statuses.push(`${status.count} messages have the status ${status.code} - ${status.status}`);
     });
     console.log(`Delivery report from batch ID: ${response.batch_id} - Type: ${response.type} - Statuses: ${statuses}`);

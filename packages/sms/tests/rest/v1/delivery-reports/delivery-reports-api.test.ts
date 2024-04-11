@@ -1,12 +1,8 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  DeliveryReport,
   DeliveryReportsApi,
   DeliveryReportsApiFixture,
-  GetDeliveryReportByBatchIdRequestData,
-  GetDeliveryReportByPhoneNumberRequestData,
-  ListDeliveryReportsRequestData,
-  RecipientDeliveryReport,
+  Sms,
 } from '../../../../src';
 
 describe('DeliveryReportsApi', () => {
@@ -26,10 +22,10 @@ describe('DeliveryReportsApi', () => {
   describe ('getDeliveryReportByBatchId', () => {
     it('should make a GET request to retrieve a delivery report by its ID', async () => {
       // Given
-      const requestData: GetDeliveryReportByBatchIdRequestData = {
+      const requestData: Sms.GetDeliveryReportByBatchIdRequestData = {
         batch_id: '01HF28S9AAGRKWP2CY92BJB569',
       };
-      const expectedResponse: DeliveryReport = {
+      const expectedResponse: Sms.DeliveryReport = {
         batch_id: '01HF28S9AAGRKWP2CY92BJB569',
         statuses: [
           {
@@ -60,11 +56,11 @@ describe('DeliveryReportsApi', () => {
     it('should make a GET request to retrieve a delivery report by its ID '
       + 'and filter for a specific phone number', async () => {
       // Given
-      const requestData: GetDeliveryReportByPhoneNumberRequestData = {
+      const requestData: Sms.GetDeliveryReportByPhoneNumberRequestData = {
         batch_id: '01HF28S9AAGRKWP2CY92BJB569',
         recipient_msisdn: '+33444555666',
       };
-      const expectedResponse: RecipientDeliveryReport = {
+      const expectedResponse: Sms.RecipientDeliveryReport = {
         batch_id: '01HF28S9AAGRKWP2CY92BJB569',
         code: 60,
         at: new Date('2023-11-12T17:20:00Z'),
@@ -87,8 +83,8 @@ describe('DeliveryReportsApi', () => {
   describe ('getDeliveryReports', () => {
     it('should make a GET request to list the delivery reports', async () => {
       // Given
-      const requestData: ListDeliveryReportsRequestData = {};
-      const mockData: RecipientDeliveryReport[] = [
+      const requestData: Sms.ListDeliveryReportsRequestData = {};
+      const mockData: Sms.RecipientDeliveryReport[] = [
         {
           batch_id: '01HF28S9AAGRKWP2CY92BJB569',
           code: 60,

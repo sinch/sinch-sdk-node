@@ -1,5 +1,15 @@
-import { GroupsApi, CreateGroupRequestData, DeleteGroupRequestData, ListMembersRequestData, ListGroupsRequestData, ReplaceGroupRequestData, GetGroupRequestData, UpdateGroupRequestData } from './groups-api';
-import { CreateGroupResponse, GroupResponse } from '../../../models';
+import { GroupsApi } from './groups-api';
+import {
+  CreateGroupResponse,
+  GroupResponse,
+  CreateGroupRequestData,
+  DeleteGroupRequestData,
+  ListMembersRequestData,
+  ListGroupsRequestData,
+  ReplaceGroupRequestData,
+  GetGroupRequestData,
+  UpdateGroupRequestData,
+} from '../../../models';
 import { ApiListPromise } from '@sinch/sdk-client';
 
 export class GroupsApiFixture implements Partial<Readonly<GroupsApi>> {

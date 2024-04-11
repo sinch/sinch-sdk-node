@@ -1,4 +1,4 @@
-import { ReplaceGroupRequestData, SmsService } from '@sinch/sdk-core';
+import { Sms, SmsService } from '@sinch/sdk-core';
 import { getGroupIdFromConfig, getPrintFormat, printFullResponse } from '../../../config';
 
 export const replace = async(smsService: SmsService) => {
@@ -8,7 +8,7 @@ export const replace = async(smsService: SmsService) => {
 
   const groupId = getGroupIdFromConfig();
 
-  const requestData: ReplaceGroupRequestData = {
+  const requestData: Sms.ReplaceGroupRequestData = {
     group_id: groupId,
     replaceGroupRequestBody: {
       members: [

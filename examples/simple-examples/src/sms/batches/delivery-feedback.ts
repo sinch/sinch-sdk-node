@@ -3,7 +3,7 @@ import {
   getRecipientPhoneNumberFromConfig,
   initSmsServiceWithServicePlanId,
 } from '../../config';
-import { DeliveryFeedbackRequestData } from '@sinch/sdk-core';
+import { Sms } from '@sinch/sdk-core';
 
 (async () => {
   console.log('********************');
@@ -13,7 +13,7 @@ import { DeliveryFeedbackRequestData } from '@sinch/sdk-core';
   const batchIdInTheFuture = getBatchIdFromConfig();
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
 
-  const requestData: DeliveryFeedbackRequestData= {
+  const requestData: Sms.DeliveryFeedbackRequestData= {
     batch_id: batchIdInTheFuture,
     deliveryFeedbackRequestBody: {
       recipients: [
