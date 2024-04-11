@@ -1,4 +1,4 @@
-import { CreateContactRequestData, MergeContactRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import {
   getPhoneNumberFromConfig,
   getPrintFormat,
@@ -14,7 +14,7 @@ import {
 
   const phoneNumber = getPhoneNumberFromConfig();
 
-  const sourceContactRequestData: CreateContactRequestData = {
+  const sourceContactRequestData: Conversation.CreateContactRequestData = {
     contactCreateRequestBody: {
       channel_identities: [
         {
@@ -29,7 +29,7 @@ import {
     },
   };
 
-  const destinationContactRequestData: CreateContactRequestData = {
+  const destinationContactRequestData: Conversation.CreateContactRequestData = {
     contactCreateRequestBody: {
       channel_identities: [
         {
@@ -48,7 +48,7 @@ import {
   const destinationContact = await conversationService.contact.create(destinationContactRequestData);
 
   if (sourceContact.id && destinationContact.id) {
-    const requestData: MergeContactRequestData = {
+    const requestData: Conversation.MergeContactRequestData = {
       destination_id: destinationContact.id,
       mergeContactRequestBody: {
         source_id: sourceContact.id,

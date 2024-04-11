@@ -1,5 +1,9 @@
-import { LookupCapabilityResponse, Recipient } from '../../../models';
-import { CapabilityApi, LookupCapabilityRequestData } from './capability-api';
+import { CapabilityApi } from './capability-api';
+import {
+  LookupCapabilityRequestData,
+  LookupCapabilityResponse,
+  Recipient,
+} from '../../../models';
 
 export class CapabilityApiFixture implements Partial<Readonly<CapabilityApi>> {
 
@@ -12,4 +16,3 @@ export class CapabilityApiFixture implements Partial<Readonly<CapabilityApi>> {
   > = jest.fn();
 
 }
-

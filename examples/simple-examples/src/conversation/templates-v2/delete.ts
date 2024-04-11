@@ -1,4 +1,4 @@
-import { V2DeleteTemplateRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getTemplateIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -8,7 +8,7 @@ import { getTemplateIdFromConfig, initConversationService, printFullResponse } f
 
   const templateId = getTemplateIdFromConfig();
 
-  const requestData: V2DeleteTemplateRequestData = {
+  const requestData: Conversation.V2DeleteTemplateRequestData = {
     template_id: templateId,
   };
 

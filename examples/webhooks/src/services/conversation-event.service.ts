@@ -2,11 +2,9 @@ import { Injectable } from '@nestjs/common';
 import {
   SinchClient,
   ConversationWebhookEventParsed,
-  ContactMessage,
   ConversationService,
+  Conversation,
   messageBuilder,
-  ContactId,
-  SendMessageRequestData,
 } from '@sinch/sdk-core';
 
 @Injectable()
@@ -25,7 +23,7 @@ export class ConversationEventService {
     return new SinchClient({ projectId, keyId, keySecret }).conversation;
   };
 
-  private buildContactMessage(contactMessage: ContactMessage) {
+  private buildContactMessage(contactMessage: Conversation.ContactMessage) {
     if ('text_message' in contactMessage && contactMessage.text_message) {
       return messageBuilder.text({
         text: `Parrot mode 🦜: ${contactMessage.text_message.text}`,
@@ -54,7 +52,7 @@ export class ConversationEventService {
         const contactMessage = message.contact_message!;
         const channelIdentityTo = message.channel_identity!;
         console.log(`A new message has been received on the channel '${channelIdentityTo.channel}' (identity: ${channelIdentityTo.identity}) from the contact ID '${message.contact_id}':\n${JSON.stringify(contactMessage, null, 2)}`);
-        const requestData: SendMessageRequestData<ContactId> = {
+        const requestData: Conversation.SendMessageRequestData<Conversation.ContactId> = {
           sendMessageRequestBody: {
             app_id: event.app_id!,
             recipient: {

@@ -1,4 +1,4 @@
-import { ConversationMessage, ListMessagesRequestData, PageResult } from '@sinch/sdk-core';
+import { Conversation, PageResult } from '@sinch/sdk-core';
 import {
   getAppIdFromConfig,
   getContactIdFromConfig, getConversationIdFromConfig,
@@ -8,11 +8,11 @@ import {
 } from '../../config';
 
 const populateMessagesList = (
-  conversationPage: PageResult<ConversationMessage>,
-  conversationList: ConversationMessage[],
+  conversationPage: PageResult<Conversation.ConversationMessage>,
+  conversationList: Conversation.ConversationMessage[],
   conversationDetailsList: string[],
 ) => {
-  conversationPage.data.map((message: ConversationMessage) => {
+  conversationPage.data.map((message: Conversation.ConversationMessage) => {
     conversationList.push(message);
     conversationDetailsList.push(`${message.id} - ${message.accept_time}`);
   });
@@ -27,7 +27,7 @@ const populateMessagesList = (
   const contactId = getContactIdFromConfig();
   const conversationId = getConversationIdFromConfig();
 
-  const requestData: ListMessagesRequestData = {
+  const requestData: Conversation.ListMessagesRequestData = {
     app_id: appId,
     contact_id: contactId,
     conversation_id: conversationId,
@@ -41,7 +41,7 @@ const populateMessagesList = (
   // ----------------------------------------------
   let response = await conversationService.messages.list(requestData);
 
-  const messageList: ConversationMessage[] = [];
+  const messageList: Conversation.ConversationMessage[] = [];
   const messagesDetailsList: string[] = [];
 
   // Loop on all the pages to get all the active numbers

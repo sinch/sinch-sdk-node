@@ -1,4 +1,4 @@
-import { CreateTemplateRequestData, templateV1Helper } from '@sinch/sdk-core';
+import { Conversation, templateV1Helper } from '@sinch/sdk-core';
 import { getPrintFormat, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -6,7 +6,7 @@ import { getPrintFormat, initConversationService, printFullResponse } from '../.
   console.log('* Templates_CreateTemplate *');
   console.log('****************************');
 
-  const requestData: CreateTemplateRequestData = {
+  const requestData: Conversation.CreateTemplateRequestData = {
     createTemplateRequestBody: {
       description: 'Template v1',
       default_translation: 'en-US',

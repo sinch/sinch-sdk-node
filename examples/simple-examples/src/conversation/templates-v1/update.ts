@@ -1,4 +1,4 @@
-import { templateV1Helper, UpdateTemplateRequestData } from '@sinch/sdk-core';
+import { templateV1Helper, Conversation } from '@sinch/sdk-core';
 import { getPrintFormat, getTemplateIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -8,7 +8,7 @@ import { getPrintFormat, getTemplateIdFromConfig, initConversationService, print
 
   const templateId = getTemplateIdFromConfig();
 
-  const requestData: UpdateTemplateRequestData = {
+  const requestData: Conversation.UpdateTemplateRequestData = {
     template_id: templateId,
     updateTemplateRequestBody: {
       description: 'Updated description for Template v1',

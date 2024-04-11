@@ -1,29 +1,8 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  ContactId,
-  ConversationEvent,
-  DeleteEventRequestData,
   EventsApi,
   EventsApiFixture,
-  GetEventRequestData,
-  IdentifiedBy,
-  ListEventsRequestData,
-  Recipient,
-  SendAgentJoinedEventRequest,
-  SendAgentJoinedEventRequestData,
-  SendAgentLeftEventRequest,
-  SendAgentLeftEventRequestData,
-  SendCommentReplyEventRequest,
-  SendCommentReplyEventRequestData,
-  SendComposingEndEventRequest,
-  SendComposingEndEventRequestData,
-  SendComposingEventRequest,
-  SendComposingEventRequestData,
-  SendEventRequest,
-  SendEventRequestData,
-  SendEventResponse,
-  SendGenericEventRequest,
-  SendGenericEventRequestData,
+  Conversation,
 } from '../../../../src';
 import { recipientChannelIdentities, recipientContactId } from '../mocks';
 import {
@@ -53,7 +32,7 @@ describe('EventsApi', () => {
   describe ('deleteEvents', () => {
     it('should make a DELETE request to delete a specific event by its ID', async () => {
       // Given
-      const requestData: DeleteEventRequestData = {
+      const requestData: Conversation.DeleteEventRequestData = {
         event_id: 'event_id',
       };
       const expectedResponse: any = {};
@@ -72,10 +51,10 @@ describe('EventsApi', () => {
   describe ('getEvent', () => {
     it('should make a GET request to retrieve an event from its ID', async () => {
       // Given
-      const requestData: GetEventRequestData = {
+      const requestData: Conversation.GetEventRequestData = {
         event_id: 'event_id',
       };
-      const expectedResponse: ConversationEvent = {
+      const expectedResponse: Conversation.ConversationEvent = {
         id: 'event_id',
         channel_identity: {
           identity: 'identity',
@@ -106,11 +85,11 @@ describe('EventsApi', () => {
   describe ('listEvents', () => {
     it('should make a GET request to list all events in a project', async () => {
       // Given
-      const requestData: ListEventsRequestData = {
+      const requestData: Conversation.ListEventsRequestData = {
         contact_id: 'contact_id',
         conversation_id: 'conversation_id',
       };
-      const mockData: ConversationEvent[] = [
+      const mockData: Conversation.ConversationEvent[] = [
         {
           id: 'app_event_id',
           channel_identity: {
@@ -186,25 +165,25 @@ describe('EventsApi', () => {
 
   describe ('send', () => {
     // Given
-    const sendEventRequest: Omit<SendEventRequest<Recipient>, 'recipient'> = {
+    const sendEventRequest: Omit<Conversation.SendEventRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       event: {
         ...composingEvent,
       },
     };
-    const requestDataWithContactId: SendEventRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendEventRequestData<Conversation.ContactId> = {
       sendEventRequestBody: {
         ...sendEventRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendEventRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendEventRequestData<Conversation.IdentifiedBy> = {
       sendEventRequestBody: {
         ...sendEventRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendEventResponse = {
+    const expectedResponse: Conversation.SendEventResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       event_id: 'event_id',
     };
@@ -228,25 +207,25 @@ describe('EventsApi', () => {
 
   describe ('sendComposingEvent', () => {
     // Given
-    const sendEventRequest: Omit<SendComposingEventRequest<Recipient>, 'recipient'> = {
+    const sendEventRequest: Omit<Conversation.SendComposingEventRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       event: {
         ...composingEvent,
       },
     };
-    const requestDataWithContactId: SendComposingEventRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendComposingEventRequestData<Conversation.ContactId> = {
       sendEventRequestBody: {
         ...sendEventRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendComposingEventRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendComposingEventRequestData<Conversation.IdentifiedBy> = {
       sendEventRequestBody: {
         ...sendEventRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendEventResponse = {
+    const expectedResponse: Conversation.SendEventResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       event_id: 'event_id',
     };
@@ -270,25 +249,25 @@ describe('EventsApi', () => {
 
   describe ('sendComposingEndEvent', () => {
     // Given
-    const sendEventRequest: Omit<SendComposingEndEventRequest<Recipient>, 'recipient'> = {
+    const sendEventRequest: Omit<Conversation.SendComposingEndEventRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       event: {
         ...composingEndEvent,
       },
     };
-    const requestDataWithContactId: SendComposingEndEventRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendComposingEndEventRequestData<Conversation.ContactId> = {
       sendEventRequestBody: {
         ...sendEventRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendComposingEndEventRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendComposingEndEventRequestData<Conversation.IdentifiedBy> = {
       sendEventRequestBody: {
         ...sendEventRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendEventResponse = {
+    const expectedResponse: Conversation.SendEventResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       event_id: 'event_id',
     };
@@ -312,25 +291,25 @@ describe('EventsApi', () => {
 
   describe ('sendCommentReplyEvent', () => {
     // Given
-    const sendEventRequest: Omit<SendCommentReplyEventRequest<Recipient>, 'recipient'> = {
+    const sendEventRequest: Omit<Conversation.SendCommentReplyEventRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       event: {
         ...commentReplyEvent,
       },
     };
-    const requestDataWithContactId: SendCommentReplyEventRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendCommentReplyEventRequestData<Conversation.ContactId> = {
       sendEventRequestBody: {
         ...sendEventRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendCommentReplyEventRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendCommentReplyEventRequestData<Conversation.IdentifiedBy> = {
       sendEventRequestBody: {
         ...sendEventRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendEventResponse = {
+    const expectedResponse: Conversation.SendEventResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       event_id: 'event_id',
     };
@@ -354,25 +333,25 @@ describe('EventsApi', () => {
 
   describe ('sendAgentJoinedEvent', () => {
     // Given
-    const sendEventRequest: Omit<SendAgentJoinedEventRequest<Recipient>, 'recipient'> = {
+    const sendEventRequest: Omit<Conversation.SendAgentJoinedEventRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       event: {
         ...agentJoinedEvent,
       },
     };
-    const requestDataWithContactId: SendAgentJoinedEventRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendAgentJoinedEventRequestData<Conversation.ContactId> = {
       sendEventRequestBody: {
         ...sendEventRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendAgentJoinedEventRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendAgentJoinedEventRequestData<Conversation.IdentifiedBy> = {
       sendEventRequestBody: {
         ...sendEventRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendEventResponse = {
+    const expectedResponse: Conversation.SendEventResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       event_id: 'event_id',
     };
@@ -396,25 +375,25 @@ describe('EventsApi', () => {
 
   describe ('sendAgentLeftEvent', () => {
     // Given
-    const sendEventRequest: Omit<SendAgentLeftEventRequest<Recipient>, 'recipient'> = {
+    const sendEventRequest: Omit<Conversation.SendAgentLeftEventRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       event: {
         ...agentLeftEvent,
       },
     };
-    const requestDataWithContactId: SendAgentLeftEventRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendAgentLeftEventRequestData<Conversation.ContactId> = {
       sendEventRequestBody: {
         ...sendEventRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendAgentLeftEventRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendAgentLeftEventRequestData<Conversation.IdentifiedBy> = {
       sendEventRequestBody: {
         ...sendEventRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendEventResponse = {
+    const expectedResponse: Conversation.SendEventResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       event_id: 'event_id',
     };
@@ -438,25 +417,25 @@ describe('EventsApi', () => {
 
   describe ('sendGenericEvent', () => {
     // Given
-    const sendEventRequest: Omit<SendGenericEventRequest<Recipient>, 'recipient'> = {
+    const sendEventRequest: Omit<Conversation.SendGenericEventRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       event: {
         ...genericEvent,
       },
     };
-    const requestDataWithContactId: SendGenericEventRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendGenericEventRequestData<Conversation.ContactId> = {
       sendEventRequestBody: {
         ...sendEventRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendGenericEventRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendGenericEventRequestData<Conversation.IdentifiedBy> = {
       sendEventRequestBody: {
         ...sendEventRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendEventResponse = {
+    const expectedResponse: Conversation.SendEventResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       event_id: 'event_id',
     };

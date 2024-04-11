@@ -1,4 +1,4 @@
-import { templateV2Helper, V2ListTranslationsRequestData, V2TemplateTranslation } from '@sinch/sdk-core';
+import { templateV2Helper, Conversation } from '@sinch/sdk-core';
 import { getPrintFormat, getTemplateIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -21,7 +21,7 @@ import { getPrintFormat, getTemplateIdFromConfig, initConversationService, print
   // Get the first translation for the purpose of this example
   const translation = templateV2Response.translations[0];
 
-  const requestData: V2ListTranslationsRequestData = {
+  const requestData: Conversation.V2ListTranslationsRequestData = {
     template_id: templateId,
     // Optional parameters
     language_code: translation.language_code,
@@ -40,7 +40,7 @@ import { getPrintFormat, getTemplateIdFromConfig, initConversationService, print
 
 })();
 
-const formatPrettyMessage = (translation: V2TemplateTranslation) => {
+const formatPrettyMessage = (translation: Conversation.V2TemplateTranslation) => {
   const message = templateV2Helper.getMessageFromTranslation(translation);
   return ` - Language code: ${translation.language_code} - Version: '${translation.version}' - Message: ${JSON.stringify(message.content)}`;
 };

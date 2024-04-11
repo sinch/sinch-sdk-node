@@ -1,5 +1,5 @@
 import {
-  V2TemplateTranslation,
+  Conversation,
   MessageType,
   templateV1Helper,
   templateV2Helper,
@@ -122,7 +122,7 @@ describe('Conversation models helpers', () => {
     });
 
     it('should get the message content from the translation', () => {
-      let templateTranslation: V2TemplateTranslation;
+      let templateTranslation: Conversation.V2TemplateTranslation;
       const translationIdentifier = {
         version: '1',
         language_code: 'en-US',
@@ -183,14 +183,14 @@ describe('Conversation models helpers', () => {
     });
 
     it('should filter out the latest translations', () => {
-      const version1Translation: V2TemplateTranslation = {
+      const version1Translation: Conversation.V2TemplateTranslation = {
         version: '1',
         language_code: 'en-US',
         text_message: {
           text: 'text',
         },
       };
-      const latestTranslation: V2TemplateTranslation = {
+      const latestTranslation: Conversation.V2TemplateTranslation = {
         version: 'latest',
         language_code: 'en-US',
         text_message: {
