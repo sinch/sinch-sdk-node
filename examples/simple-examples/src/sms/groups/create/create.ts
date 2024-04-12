@@ -1,4 +1,4 @@
-import { CreateGroupRequestData, SmsService } from '@sinch/sdk-core';
+import { Sms, SmsService } from '@sinch/sdk-core';
 import { getPrintFormat, printFullResponse } from '../../../config';
 
 export const create = async(smsService: SmsService) => {
@@ -6,13 +6,13 @@ export const create = async(smsService: SmsService) => {
   console.log('* CreateGroup *');
   console.log('***************');
 
-  const requestData: CreateGroupRequestData = {
+  const requestData: Sms.CreateGroupRequestData = {
     createGroupRequestBody: {
       name: `Group_${new Date().getTime()}`,
       members: [
-        "+11111111100",
-        "+22222222200",
-        "+33333333300",
+        '+11111111100',
+        '+22222222200',
+        '+33333333300',
       ],
     },
   };

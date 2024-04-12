@@ -1,10 +1,10 @@
-import { CalloutResponse } from '../../../models';
+import { CalloutsApi } from './callouts-api';
 import {
-  CalloutsApi,
+  CalloutResponse,
   ConferenceCalloutRequestData,
   CustomCalloutRequestData,
   TtsCalloutRequestData,
-} from './callouts-api';
+} from '../../../models';
 
 export class CalloutsApiFixture implements Partial<Readonly<CalloutsApi>> {
 

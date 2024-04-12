@@ -5,7 +5,7 @@ import {
   initSmsServiceWithServicePlanId,
   printFullResponse,
 } from '../../config';
-import { DryRunRequestData } from '@sinch/sdk-core';
+import { Sms } from '@sinch/sdk-core';
 
 (async () => {
   console.log('***********');
@@ -15,7 +15,7 @@ import { DryRunRequestData } from '@sinch/sdk-core';
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
   const senderPhoneNumber = getPhoneNumberFromConfig();
 
-  const requestData: DryRunRequestData= {
+  const requestData: Sms.DryRunRequestData= {
     dryRunRequestBody: {
       type: 'mt_text',
       to: [

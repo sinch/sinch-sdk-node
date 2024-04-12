@@ -1,10 +1,8 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  InboundMessageResponse,
   InboundsApi,
   InboundsApiFixture,
-  ListInboundMessagesRequestData,
-  GetInboundMessageRequestData,
+  Sms,
 } from '../../../../src';
 
 describe('InboundsApi', () => {
@@ -24,8 +22,8 @@ describe('InboundsApi', () => {
   describe ('listInboundMessages', () => {
     it('should make a GET request to list the inbound messages', async () => {
       // Given
-      const requestData: ListInboundMessagesRequestData = {};
-      const mockData: InboundMessageResponse[] = [
+      const requestData: Sms.ListInboundMessagesRequestData = {};
+      const mockData: Sms.InboundMessageResponse[] = [
         {
           id: '01HEWZK16ENY7SZF7A2YBYGZDP',
           from: '17818510001',
@@ -58,10 +56,10 @@ describe('InboundsApi', () => {
   describe ('retrieveInboundMessage', () => {
     it('should make a GET request to retrieve an inbound message by its ID', async () => {
       // Given
-      const requestData: GetInboundMessageRequestData = {
+      const requestData: Sms.GetInboundMessageRequestData = {
         inbound_id: '01HEWZK16ENY7SZF7A2YBYGZDP',
       };
-      const expectedResponse: InboundMessageResponse = {
+      const expectedResponse: Sms.InboundMessageResponse = {
         id: '01HEWZK16ENY7SZF7A2YBYGZDP',
         from: '17818510001',
         to: '33444555666',

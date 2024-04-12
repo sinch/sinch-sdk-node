@@ -1,12 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import {
-  CalloutRequestEventResponse,
-  FlashCallRequestEventResponse,
-  SMSRequestEventResponse,
+  Verification,
   VerificationCallback,
-  VerificationRequestEvent,
-  VerificationResultEvent,
 } from '@sinch/sdk-core';
 
 @Injectable()
@@ -16,18 +12,18 @@ export class VerificationEventService {
     console.log(`:: INCOMING EVENT :: ${event.event}`);
     switch (event.event) {
       case 'VerificationRequestEvent':
-        return this.handleVerificationRequestEvent(event as VerificationRequestEvent, res);
+        return this.handleVerificationRequestEvent(event as Verification.VerificationRequestEvent, res);
       case 'VerificationResultEvent':
-        return this.handleVerificationResultEvent(event as VerificationResultEvent, res);
+        return this.handleVerificationResultEvent(event as Verification.VerificationResultEvent, res);
       default:
         throw new Error(`Unexpected event: ${JSON.stringify(event)}`);
     }
   }
 
-  private handleVerificationRequestEvent(event: VerificationRequestEvent, res: Response) {
+  private handleVerificationRequestEvent(event: Verification.VerificationRequestEvent, res: Response) {
     switch (event.method) {
       case 'sms':
-        const smsRequestEventResponse: SMSRequestEventResponse = {
+        const smsRequestEventResponse: Verification.SMSRequestEventResponse = {
           action: 'allow',
           sms: {
             code: '123456'
@@ -36,7 +32,7 @@ export class VerificationEventService {
         res.status(200).json(smsRequestEventResponse);
         break;
       case 'callout':
-        const calloutRequestEventResponse: CalloutRequestEventResponse = {
+        const calloutRequestEventResponse: Verification.CalloutRequestEventResponse = {
           action: 'allow',
           callout: {
             code: '123456',
@@ -48,7 +44,7 @@ export class VerificationEventService {
         res.status(200).json(calloutRequestEventResponse);
         break;
       case 'flashcall':
-        const flashcallRequestEventResponse: FlashCallRequestEventResponse = {
+        const flashcallRequestEventResponse: Verification.FlashCallRequestEventResponse = {
           action: 'allow',
           flashCall: {
             dialTimeout: 5000
@@ -61,7 +57,7 @@ export class VerificationEventService {
     }
   }
 
-  private handleVerificationResultEvent(event: VerificationResultEvent, res: Response) {
+  private handleVerificationResultEvent(event: Verification.VerificationResultEvent, res: Response) {
     console.log(`Result of the verification:\n - method: ${event.method}\n - identity: ${event.identity.endpoint}\n - status: ${event.status}\n - reason: ${event.reason}`)
     res.status(200).send();
   }

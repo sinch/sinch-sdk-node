@@ -1,4 +1,4 @@
-import { VerificationStatusByIdentityRequestData } from '@sinch/sdk-core';
+import { Verification } from '@sinch/sdk-core';
 import { getPrintFormat, getVerificationIdentityFromConfig, initVerificationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -8,7 +8,7 @@ import { getPrintFormat, getVerificationIdentityFromConfig, initVerificationServ
 
   const verificationIdentity = getVerificationIdentityFromConfig();
 
-  const requestData: VerificationStatusByIdentityRequestData = {
+  const requestData: Verification.VerificationStatusByIdentityRequestData = {
     endpoint: verificationIdentity,
     method: 'sms',
   };

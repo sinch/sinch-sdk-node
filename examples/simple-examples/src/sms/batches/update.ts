@@ -5,7 +5,7 @@ import {
   initSmsServiceWithServicePlanId,
   printFullResponse,
 } from '../../config';
-import { ApiUpdateTextMtMessage, UpdateBatchMessageRequestData } from '@sinch/sdk-core';
+import { Sms } from '@sinch/sdk-core';
 
 (async () => {
   console.log('**********************');
@@ -16,7 +16,7 @@ import { ApiUpdateTextMtMessage, UpdateBatchMessageRequestData } from '@sinch/sd
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
   const senderPhoneNumber = getPhoneNumberFromConfig();
 
-  const requestData: UpdateBatchMessageRequestData= {
+  const requestData: Sms.UpdateBatchMessageRequestData= {
     batch_id: batchId,
     updateBatchMessageRequestBody: {
       from: senderPhoneNumber,
@@ -29,7 +29,7 @@ import { ApiUpdateTextMtMessage, UpdateBatchMessageRequestData } from '@sinch/sd
       body: 'Hi ${name}! This is an updated message',
       delivery_report: 'none',
       type: 'mt_text',
-    } as ApiUpdateTextMtMessage,
+    } as Sms.ApiUpdateTextMtMessage,
   };
 
   const smsService = initSmsServiceWithServicePlanId();

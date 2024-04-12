@@ -5,7 +5,7 @@ import {
   initVoiceService,
   printFullResponse,
 } from '../../config';
-import { TtsCalloutRequestData, VoiceRegion } from '@sinch/sdk-core';
+import { Voice, VoiceRegion } from '@sinch/sdk-core';
 
 (async () => {
   console.log('******************');
@@ -15,7 +15,7 @@ import { TtsCalloutRequestData, VoiceRegion } from '@sinch/sdk-core';
   const callingNumber = getPhoneNumberFromConfig();
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
 
-  const requestData: TtsCalloutRequestData = {
+  const requestData: Voice.TtsCalloutRequestData = {
     ttsCalloutRequestBody: {
       method: 'ttsCallout',
       ttsCallout: {

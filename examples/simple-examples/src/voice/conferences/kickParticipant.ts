@@ -3,7 +3,7 @@ import {
   getConferenceIdFromConfig,
   initVoiceService,
 } from '../../config';
-import { KickParticipantRequestData, VoiceRegion } from '@sinch/sdk-core';
+import { Voice, VoiceRegion } from '@sinch/sdk-core';
 
 (async () => {
   console.log('*****************************');
@@ -13,7 +13,7 @@ import { KickParticipantRequestData, VoiceRegion } from '@sinch/sdk-core';
   const conferenceId = getConferenceIdFromConfig();
   const callId = getCallIdFromConfig();
 
-  const requestData: KickParticipantRequestData = {
+  const requestData: Voice.KickParticipantRequestData = {
     conferenceId,
     callId,
   };

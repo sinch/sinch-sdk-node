@@ -1,25 +1,8 @@
 import { SinchClientParameters, textToHex } from '@sinch/sdk-client';
 import {
-  ApiUpdateTextMtMessage,
   BatchesApi,
   BatchesApiFixture,
-  BinaryRequest,
-  CancelBatchMessageRequestData,
-  DeliveryFeedbackRequestData,
-  DryRunResponse,
-  GetBatchMessageRequestData,
-  ListBatchesRequestData,
-  ReplaceBatchMessageRequestData,
-  DryRunRequestData,
-  SendSMSRequestData,
-  SendSMSResponse,
-  UpdateBatchMessageRequestData,
-  SendTextSMSRequestData,
-  TextResponse,
-  SendMediaSMSRequestData,
-  MediaResponse,
-  SendBinarySMSRequestData,
-  BinaryResponse,
+  Sms,
 } from '../../../../src';
 
 describe('BatchesApi', () => {
@@ -39,10 +22,10 @@ describe('BatchesApi', () => {
   describe ('cancelBatchMessage', () => {
     it('should make a DELETE request to cancel a batch', async () => {
       // Given
-      const requestData: CancelBatchMessageRequestData = {
+      const requestData: Sms.CancelBatchMessageRequestData = {
         batch_id: '01HF4WG1TAVS351YYD7Q84K8HA',
       };
-      const expectedResponse: SendSMSResponse = {
+      const expectedResponse: Sms.SendSMSResponse = {
         id: '01HF4WG1TAVS351YYD7Q84K8HA',
         to: [
           '33444555666',
@@ -73,7 +56,7 @@ describe('BatchesApi', () => {
   describe ('deliveryFeedback', () => {
     it('should make a POST request to send a delivery feedback of a message', async () => {
       // Given
-      const requestData: DeliveryFeedbackRequestData = {
+      const requestData: Sms.DeliveryFeedbackRequestData = {
         batch_id: '01HF4WG1TAVS351YYD7Q84K8HA',
         deliveryFeedbackRequestBody: {
           recipients: [
@@ -97,7 +80,7 @@ describe('BatchesApi', () => {
   describe ('run', () => {
     it('should make a POST request to perform a dry run of a batch', async () => {
       // Given
-      const requestData: DryRunRequestData = {
+      const requestData: Sms.DryRunRequestData = {
         dryRunRequestBody: {
           from: '+17818510001',
           to: [
@@ -108,7 +91,7 @@ describe('BatchesApi', () => {
           type: 'mt_text',
         },
       };
-      const expectedResponse: DryRunResponse = {
+      const expectedResponse: Sms.DryRunResponse = {
         number_of_messages: 1,
         number_of_recipients: 1,
       };
@@ -127,10 +110,10 @@ describe('BatchesApi', () => {
   describe ('getBatchMessage', () => {
     it('should make a GET request to retrieve a batch by its ID', async () => {
       // Given
-      const requestData: GetBatchMessageRequestData = {
+      const requestData: Sms.GetBatchMessageRequestData = {
         batch_id: '01HF4WG1TAVS351YYD7Q84K8HA',
       };
-      const expectedResponse: SendSMSResponse = {
+      const expectedResponse: Sms.SendSMSResponse = {
         id: '01HF4WG1TAVS351YYD7Q84K8HA',
         to: [
           '33444555666',
@@ -161,8 +144,8 @@ describe('BatchesApi', () => {
   describe ('listBatches', () => {
     it('should make a GET request to list the existing batches', async () => {
       // Given
-      const requestData: ListBatchesRequestData = {};
-      const mockData: SendSMSResponse[] = [
+      const requestData: Sms.ListBatchesRequestData = {};
+      const mockData: Sms.SendSMSResponse[] = [
         {
           id: '01HF28S9AAGRKWP2CY92BJB569',
           to: [
@@ -208,7 +191,7 @@ describe('BatchesApi', () => {
   describe ('replaceBatch', () => {
     it('should make a PUT request to replace the parameters of a batch', async () => {
       // Given
-      const requestData: ReplaceBatchMessageRequestData = {
+      const requestData: Sms.ReplaceBatchMessageRequestData = {
         batch_id: '01HF4WG1TAVS351YYD7Q84K8HA',
         replaceBatchMessageRequestBody: {
           from: '+17818510001',
@@ -220,9 +203,9 @@ describe('BatchesApi', () => {
           delivery_report: 'none',
           type: 'mt_binary',
           client_reference: 'Sinch Node.js SDK',
-        } as BinaryRequest,
+        } as Sms.BinaryRequest,
       };
-      const expectedResponse: SendSMSResponse = {
+      const expectedResponse: Sms.SendSMSResponse = {
         id: '01HF4WG1TAVS351YYD7Q84K8HA',
         to: [
           '33444555666',
@@ -264,7 +247,7 @@ describe('BatchesApi', () => {
 
     it('should make a POST request to send a message', async () => {
       // Given
-      const requestData: SendSMSRequestData = {
+      const requestData: Sms.SendSMSRequestData = {
         sendSMSRequestBody: {
           type: 'mt_text',
           to: [
@@ -276,7 +259,7 @@ describe('BatchesApi', () => {
           send_at: new Date('2023-11-20T12:34:56.789Z'),
         },
       };
-      const expectedResponse: SendSMSResponse = {
+      const expectedResponse: Sms.SendSMSResponse = {
         id: '01HF4WG1TAVS351YYD7Q84K8HA',
         type: 'mt_text',
         to: [
@@ -300,7 +283,7 @@ describe('BatchesApi', () => {
 
     it('should make a POST request to send a text message', async () => {
       // Given
-      const requestData: SendTextSMSRequestData = {
+      const requestData: Sms.SendTextSMSRequestData = {
         sendSMSRequestBody: {
           type: 'mt_text',
           to: [
@@ -313,7 +296,7 @@ describe('BatchesApi', () => {
         },
       };
 
-      const expectedResponse: TextResponse = {
+      const expectedResponse: Sms.TextResponse = {
         id: '01HF4WG1TAVS351YYD7Q84K8HA',
         type: 'mt_text',
         to: [
@@ -337,7 +320,7 @@ describe('BatchesApi', () => {
 
     it('should make a POST request to send a binary message', async () => {
       // Given
-      const requestData: SendBinarySMSRequestData = {
+      const requestData: Sms.SendBinarySMSRequestData = {
         sendSMSRequestBody: {
           type: 'mt_binary',
           to: [
@@ -351,7 +334,7 @@ describe('BatchesApi', () => {
         },
       };
 
-      const expectedResponse: BinaryResponse = {
+      const expectedResponse: Sms.BinaryResponse = {
         id: '01HF4WG1TAVS351YYD7Q84K8HA',
         type: 'mt_binary',
         to: [
@@ -376,7 +359,7 @@ describe('BatchesApi', () => {
 
     it('should make a POST request to send a media message', async () => {
       // Given
-      const requestData: SendMediaSMSRequestData = {
+      const requestData: Sms.SendMediaSMSRequestData = {
         sendSMSRequestBody: {
           type: 'mt_media',
           to: [
@@ -392,7 +375,7 @@ describe('BatchesApi', () => {
         },
       };
 
-      const expectedResponse: MediaResponse= {
+      const expectedResponse: Sms.MediaResponse= {
         id: '01HF4WG1TAVS351YYD7Q84K8HA',
         type: 'mt_media',
         to: [
@@ -421,7 +404,7 @@ describe('BatchesApi', () => {
   describe ('updateBatchMessage', () => {
     it('should make a POST request to update all specified parameters of a batch', async () => {
       // Given
-      const requestData: UpdateBatchMessageRequestData = {
+      const requestData: Sms.UpdateBatchMessageRequestData = {
         batch_id: '01HF4WG1TAVS351YYD7Q84K8HA',
         updateBatchMessageRequestBody: {
           from: '+17818510001',
@@ -434,9 +417,9 @@ describe('BatchesApi', () => {
           body: 'Hi ${name}! This is an updated message',
           delivery_report: 'none',
           type: 'mt_text',
-        } as ApiUpdateTextMtMessage,
+        } as Sms.ApiUpdateTextMtMessage,
       };
-      const expectedResponse: SendSMSResponse = {
+      const expectedResponse: Sms.SendSMSResponse = {
         id: '01HF4WG1TAVS351YYD7Q84K8HA',
         to: [
           '33444555666',

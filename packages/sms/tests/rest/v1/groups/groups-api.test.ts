@@ -1,11 +1,8 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  CreateGroupRequestData,
-  CreateGroupResponse,
-  DeleteGroupRequestData, ListMembersRequestData,
   GroupsApi,
-  GroupsApiFixture, ListGroupsRequestData, ReplaceGroupRequestData, GetGroupRequestData,
-  UpdateGroupRequestData, GroupResponse,
+  GroupsApiFixture,
+  Sms,
 } from '../../../../src';
 
 describe('GroupsApi', () => {
@@ -25,7 +22,7 @@ describe('GroupsApi', () => {
   describe ('createGroup', () => {
     it('should make a POST request to create a group', async () => {
       // Given
-      const requestData: CreateGroupRequestData = {
+      const requestData: Sms.CreateGroupRequestData = {
         createGroupRequestBody: {
           name: 'My group',
           members: [
@@ -34,7 +31,7 @@ describe('GroupsApi', () => {
           ],
         },
       };
-      const expectedResponse: CreateGroupResponse = {
+      const expectedResponse: Sms.CreateGroupResponse = {
         id: '01HF6EFE21REWJC3B3JWG4FYZ7',
         name: 'My group',
         size: 2,
@@ -56,7 +53,7 @@ describe('GroupsApi', () => {
   describe ('deleteGroup', () => {
     it('should make a DELETE request to delete a group', async () => {
       // Given
-      const requestData: DeleteGroupRequestData = {
+      const requestData: Sms.DeleteGroupRequestData = {
         group_id: '01HF6EFE21REWJC3B3JWG4FYZ7',
       };
       const expectedResponse: void = undefined;
@@ -75,7 +72,7 @@ describe('GroupsApi', () => {
   describe ('getMembers', () => {
     it('should make a GET request to list the members of a group', async () => {
       // Given
-      const requestData: ListMembersRequestData = {
+      const requestData: Sms.ListMembersRequestData = {
         group_id: '01HF6EFE21REWJC3B3JWG4FYZ7',
       };
       const expectedResponse: string[] = [
@@ -97,9 +94,9 @@ describe('GroupsApi', () => {
   describe ('listGroups', () => {
     it('should make a GET request to list the existing groups', async () => {
       // Given
-      const requestData: ListGroupsRequestData = {};
+      const requestData: Sms.ListGroupsRequestData = {};
 
-      const mockData: GroupResponse[] =[
+      const mockData: Sms.GroupResponse[] =[
         {
           id: '01HF6EFE21REWJC3B3JWG4FYZ7',
           name: 'My group',
@@ -131,7 +128,7 @@ describe('GroupsApi', () => {
   describe ('replaceGroup', () => {
     it('should make a PUT request to replace the members of a group', async () => {
       // Given
-      const requestData: ReplaceGroupRequestData = {
+      const requestData: Sms.ReplaceGroupRequestData = {
         group_id: '01HF6EFE21REWJC3B3JWG4FYZ7',
         replaceGroupRequestBody: {
           name: 'My new group name',
@@ -140,7 +137,7 @@ describe('GroupsApi', () => {
           ],
         },
       };
-      const expectedResponse: GroupResponse = {
+      const expectedResponse: Sms.GroupResponse = {
         id: '01HF6EFE21REWJC3B3JWG4FYZ7',
         name: 'My new group name',
         size: 1,
@@ -162,10 +159,10 @@ describe('GroupsApi', () => {
   describe ('retrieveGroup', () => {
     it('should make a GET request to retrieve a group by its ID', async () => {
       // Given
-      const requestData: GetGroupRequestData = {
+      const requestData: Sms.GetGroupRequestData = {
         group_id: '01HF6EFE21REWJC3B3JWG4FYZ7',
       };
-      const expectedResponse: GroupResponse = {
+      const expectedResponse: Sms.GroupResponse = {
         id: '01HF6EFE21REWJC3B3JWG4FYZ7',
         name: 'My new group name',
         size: 1,
@@ -187,7 +184,7 @@ describe('GroupsApi', () => {
   describe ('updateGroup', () => {
     it('should make a POST request to update the members of a group', async () => {
       // Given
-      const requestData: UpdateGroupRequestData = {
+      const requestData: Sms.UpdateGroupRequestData = {
         group_id: '01HF6EFE21REWJC3B3JWG4FYZ7',
         updateGroupRequestBody: {
           add: [
@@ -196,7 +193,7 @@ describe('GroupsApi', () => {
           ],
         },
       };
-      const expectedResponse: GroupResponse = {
+      const expectedResponse: Sms.GroupResponse = {
         id: '01HF6EFE21REWJC3B3JWG4FYZ7',
         name: 'My new group name',
         size: 3,

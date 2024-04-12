@@ -1,20 +1,8 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  Contact,
-  CreateContactRequestData,
-  DeleteContactRequestData,
-  GetContactRequestData,
-  ListContactsRequestData,
-  MergeContactRequestData,
-  UpdateContactRequestData,
-  GetChannelProfileResponse,
   ContactApi,
   ContactApiFixture,
-  GetChannelProfileRequestData,
-  ContactId,
-  IdentifiedBy,
-  GetChannelProfileRequest,
-  Recipient,
+  Conversation,
 } from '../../../../src';
 import { recipientChannelIdentities, recipientContactId } from '../mocks';
 
@@ -37,7 +25,7 @@ describe('ContactApi', () => {
   describe ('createContact', () => {
     it('should make a POST request to create a contact manually', async () => {
       // Given
-      const requestData: CreateContactRequestData = {
+      const requestData: Conversation.CreateContactRequestData = {
         contactCreateRequestBody: {
           channel_identities: [
             {
@@ -49,7 +37,7 @@ describe('ContactApi', () => {
           display_name: 'A contact',
         },
       };
-      const expectedResponse: Contact = {
+      const expectedResponse: Conversation.Contact = {
         id: 'contact_id',
         language: 'EN_US',
       };
@@ -68,7 +56,7 @@ describe('ContactApi', () => {
   describe ('deleteContact', () => {
     it('should make a DELETE request to delete a contact as specified by the contact ID', async () => {
       // Given
-      const requestData: DeleteContactRequestData = {
+      const requestData: Conversation.DeleteContactRequestData = {
         contact_id: 'contact_id',
       };
       const expectedResponse: any = {};
@@ -86,23 +74,23 @@ describe('ContactApi', () => {
 
   describe ('getChannelProfile', () => {
     // Given
-    const getChannelProfileRequest: Omit<GetChannelProfileRequest<Recipient>, 'recipient'> = {
+    const getChannelProfileRequest: Omit<Conversation.GetChannelProfileRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       channel: 'MESSENGER',
     };
-    const requestDataWithContactId: GetChannelProfileRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.GetChannelProfileRequestData<Conversation.ContactId> = {
       getChannelProfileRequestBody: {
         ...getChannelProfileRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: GetChannelProfileRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.GetChannelProfileRequestData<Conversation.IdentifiedBy> = {
       getChannelProfileRequestBody: {
         ...getChannelProfileRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: GetChannelProfileResponse = {
+    const expectedResponse: Conversation.GetChannelProfileResponse = {
       profile_name: 'Profile Name',
     };
 
@@ -126,10 +114,10 @@ describe('ContactApi', () => {
   describe ('getContact', () => {
     it('should make a GET request to retrieve a specific contact as specified by the contact ID', async () => {
       // Given
-      const requestData: GetContactRequestData = {
+      const requestData: Conversation.GetContactRequestData = {
         contact_id: 'contact_id',
       };
-      const expectedResponse: Contact = {
+      const expectedResponse: Conversation.Contact = {
         id: 'contact_id',
         language: 'EN_US',
         channel_priority: ['WHATSAPP'],
@@ -150,8 +138,8 @@ describe('ContactApi', () => {
   describe ('listContacts', () => {
     it('should make a GET request to list all contacts in the project', async () => {
       // Given
-      const requestData: ListContactsRequestData = {};
-      const mockData: Contact[] = [
+      const requestData: Conversation.ListContactsRequestData = {};
+      const mockData: Conversation.Contact[] = [
         {
           id: 'contact_id',
         },
@@ -178,14 +166,14 @@ describe('ContactApi', () => {
   describe ('mergeContact', () => {
     it('should make a POST request to merge two contacts', async () => {
       // Given
-      const requestData: MergeContactRequestData = {
+      const requestData: Conversation.MergeContactRequestData = {
         destination_id: 'contact_id',
         mergeContactRequestBody: {
           source_id: 'to_be_removed_contact_id',
           strategy: 'MERGE',
         },
       };
-      const expectedResponse: Contact = {
+      const expectedResponse: Conversation.Contact = {
         id: 'contact_id',
       };
 
@@ -203,13 +191,13 @@ describe('ContactApi', () => {
   describe ('updateContact', () => {
     it('should make a PATCH request to update a contact as specified by the contact ID', async () => {
       // Given
-      const requestData: UpdateContactRequestData = {
+      const requestData: Conversation.UpdateContactRequestData = {
         contact_id: 'contact_id',
         updateContactRequestBody: {
           language: 'EN_GB',
         },
       };
-      const expectedResponse: Contact = {
+      const expectedResponse: Conversation.Contact = {
         id: 'contact_id',
       };
 

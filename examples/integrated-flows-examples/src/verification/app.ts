@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import { SinchClient, verificationsHelper, VerificationStatusByIdRequestData } from '@sinch/sdk-core';
+import { SinchClient, Verification } from '@sinch/sdk-core';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -54,7 +54,7 @@ dotenv.config();
     });
 
   const startSmsVerificationFlow = async (phoneNumber: string) => {
-    const requestData = verificationsHelper.buildStartSmsVerificationRequest(phoneNumber);
+    const requestData = Verification.startVerificationHelper.buildSmsRequest(phoneNumber);
     const response = await sinch.verification.verifications.startSms(requestData);
     console.log('Verification request sent! Please check the SMS on your you phone to get the OTP.');
     const answers = await inquirer.prompt([
@@ -64,7 +64,7 @@ dotenv.config();
         message: 'Enter the verification code:',
       },
     ]);
-    const reportRequestData = verificationsHelper.buildReportSmsVerificationByIdRequest(
+    const reportRequestData = Verification.reportVerificationByIdHelper.buildSmsRequest(
       response.id!, answers.code);
     const reportResponse = await sinch.verification.verifications.reportSmsById(reportRequestData);
     console.log(`Verification status: ${reportResponse.status}${reportResponse.status === 'SUCCESSFUL' ? '' : ' - Reason: ' + reportResponse.reason}`);
@@ -73,7 +73,7 @@ dotenv.config();
   };
 
   const startCalloutVerificationFlow = async (phoneNumber: string) => {
-    const requestData = verificationsHelper.buildStartCalloutVerificationRequest(phoneNumber);
+    const requestData = Verification.startVerificationHelper.buildCalloutRequest(phoneNumber);
     const response = await sinch.verification.verifications.startCallout(requestData);
     console.log('Verification request sent! Please answer to the phone call ans listen to the OTP.');
     const answers = await inquirer.prompt([
@@ -83,14 +83,14 @@ dotenv.config();
         message: 'Enter the verification code:',
       },
     ]);
-    const reportRequestData = verificationsHelper.buildReportCalloutVerificationByIdRequest(
+    const reportRequestData = Verification.reportVerificationByIdHelper.buildCalloutRequest(
       response.id!, answers.code);
     const reportResponse = await sinch.verification.verifications.reportCalloutById(reportRequestData);
     console.log(`Verification status: ${reportResponse.status}${reportResponse.status === 'SUCCESSFUL'?'':' - Reason: ' + reportResponse.reason}`);
   };
 
   const startFlashCallVerificationFlow = async (phoneNumber: string) => {
-    const requestData = verificationsHelper.buildStartFlashCallVerificationRequest(phoneNumber);
+    const requestData = Verification.startVerificationHelper.buildFlashCallRequest(phoneNumber);
     const response = await sinch.verification.verifications.startFlashCall(requestData);
     console.log('Verification request sent! Please check the phone number calling you.');
     const answers = await inquirer.prompt([
@@ -100,7 +100,7 @@ dotenv.config();
         message: 'Enter the caller ID:',
       },
     ]);
-    const reportRequestData = verificationsHelper.buildReportFlashCallVerificationByIdRequest(
+    const reportRequestData = Verification.reportVerificationByIdHelper.buildFlashCallRequest(
         response.id!,
         answers.cli,
     );
@@ -109,7 +109,7 @@ dotenv.config();
   };
 
   const startSeamlessVerificationFlow = async (phoneNumber: string) => {
-    const requestData = verificationsHelper.buildStartSeamlessVerificationRequest(phoneNumber);
+    const requestData = Verification.startVerificationHelper.buildSeamlessRequest(phoneNumber);
     let response;
     try {
       response = await sinch.verification.verifications.startSeamless(requestData);
@@ -117,7 +117,7 @@ dotenv.config();
       console.log(`Impossible to process the seamless verification: ${error.data})`);
       return;
     }
-    const verificationStatusRequestData: VerificationStatusByIdRequestData = {
+    const verificationStatusRequestData: Verification.VerificationStatusByIdRequestData = {
       id: response.id!,
     };
     const statusResponse = await sinch.verification.verificationStatus.getById(verificationStatusRequestData);

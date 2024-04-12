@@ -3,7 +3,7 @@ import {
   getPhoneNumberFromConfig,
   initVoiceService,
 } from '../../config';
-import { UnassignNumberRequestData } from '@sinch/sdk-core';
+import { Voice } from '@sinch/sdk-core';
 
 (async () => {
   console.log('******************');
@@ -13,7 +13,7 @@ import { UnassignNumberRequestData } from '@sinch/sdk-core';
   const phoneNumber = getPhoneNumberFromConfig();
   const applicationKey = getApplicationKeyFromConfig();
 
-  const requestData: UnassignNumberRequestData = {
+  const requestData: Voice.UnassignNumberRequestData = {
     unassignNumbersRequestBody: {
       number: phoneNumber,
       applicationkey: applicationKey,

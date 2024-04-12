@@ -1,16 +1,12 @@
-import {
-  ConversationRecentMessage,
-  ListRecentConversationsRequestData,
-  PageResult,
-} from '@sinch/sdk-core';
+import { Conversation, PageResult } from '@sinch/sdk-core';
 import { getAppIdFromConfig, getPrintFormat, initConversationService, printFullResponse } from '../../config';
 
 const populateConversationsList = (
-  conversationPage: PageResult<ConversationRecentMessage>,
-  conversationList: ConversationRecentMessage[],
+  conversationPage: PageResult<Conversation.ConversationRecentMessage>,
+  conversationList: Conversation.ConversationRecentMessage[],
   conversationDetailsList: string[],
 ) => {
-  conversationPage.data.map((recentConversation: ConversationRecentMessage) => {
+  conversationPage.data.map((recentConversation: Conversation.ConversationRecentMessage) => {
     conversationList.push(recentConversation);
     conversationDetailsList.push(`${recentConversation.conversation?.id} - ${recentConversation.conversation?.active_channel}\n - Latest message: ${recentConversation.last_message?.accept_time}`);
   });
@@ -23,7 +19,7 @@ const populateConversationsList = (
 
   const appId = getAppIdFromConfig();
 
-  const requestData: ListRecentConversationsRequestData = {
+  const requestData: Conversation.ListRecentConversationsRequestData = {
     only_active: true,
     app_id: appId,
     order: 'ASC',
@@ -36,7 +32,7 @@ const populateConversationsList = (
   // ----------------------------------------------
   let response = await conversationService.conversation.listRecent(requestData);
 
-  const conversationList: ConversationRecentMessage[] = [];
+  const conversationList: Conversation.ConversationRecentMessage[] = [];
   const conversationDetailsList: string[] = [];
 
   // Loop on all the pages to get all the active numbers

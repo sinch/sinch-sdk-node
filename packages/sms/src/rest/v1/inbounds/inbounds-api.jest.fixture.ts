@@ -1,5 +1,5 @@
-import { InboundsApi, ListInboundMessagesRequestData, GetInboundMessageRequestData } from './inbounds-api';
-import { InboundMessageResponse } from '../../../models';
+import { InboundsApi } from './inbounds-api';
+import { InboundMessageResponse, ListInboundMessagesRequestData, GetInboundMessageRequestData } from '../../../models';
 import { ApiListPromise } from '@sinch/sdk-client';
 
 export class InboundsApiFixture implements Partial<Readonly<InboundsApi>> {

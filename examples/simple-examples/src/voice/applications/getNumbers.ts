@@ -1,12 +1,16 @@
-import { getPrintFormat, initVoiceService, printFullResponse } from '../../config';
-import { GetNumbersRequestData } from '@sinch/sdk-core';
+import {
+  getPrintFormat,
+  initVoiceService,
+  printFullResponse,
+} from '../../config';
+import { Voice } from '@sinch/sdk-core';
 
 (async () => {
   console.log('**************');
   console.log('* GetNumbers *');
   console.log('**************');
 
-  const requestData: GetNumbersRequestData = {};
+  const requestData: Voice.GetNumbersRequestData = {};
 
   const voiceService = initVoiceService();
   let response;

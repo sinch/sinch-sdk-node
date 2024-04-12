@@ -4,7 +4,7 @@ import {
   initConversationService,
   printFullResponse,
 } from '../../config';
-import { UpdateContactRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 
 (async () => {
   console.log('*************************');
@@ -13,7 +13,7 @@ import { UpdateContactRequestData } from '@sinch/sdk-core';
 
   const contactId = getContactIdFromConfig();
 
-  const requestData: UpdateContactRequestData = {
+  const requestData: Conversation.UpdateContactRequestData = {
     contact_id: contactId,
     update_mask:['channel_priority'],
     updateContactRequestBody: {
