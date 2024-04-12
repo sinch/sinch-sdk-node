@@ -1,4 +1,4 @@
-import { InjectEventRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import {
   getContactIdFromConfig,
   getConversationIdFromConfig,
@@ -15,7 +15,7 @@ import {
   const conversationId = getConversationIdFromConfig();
   const contactId = getContactIdFromConfig();
 
-  const requestData: InjectEventRequestData= {
+  const requestData: Conversation.InjectEventRequestData= {
     conversation_id: conversationId,
     injectConversationEventRequestBody: {
       app_event: {

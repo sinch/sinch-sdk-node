@@ -4,7 +4,7 @@ import {
   initVoiceService,
   printFullResponse,
 } from '../../config';
-import { GetCallbackURLsRequestData } from '@sinch/sdk-core';
+import { Voice } from '@sinch/sdk-core';
 
 (async () => {
   console.log('*******************');
@@ -13,7 +13,7 @@ import { GetCallbackURLsRequestData } from '@sinch/sdk-core';
 
   const applicationKey = getApplicationKeyFromConfig();
 
-  const requestData: GetCallbackURLsRequestData = {
+  const requestData: Voice.GetCallbackURLsRequestData = {
     applicationkey: applicationKey,
   };
 

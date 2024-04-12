@@ -1,4 +1,4 @@
-import { GetEventRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getEventIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -8,7 +8,7 @@ import { getEventIdFromConfig, initConversationService, printFullResponse } from
 
   const eventId = getEventIdFromConfig();
 
-  const requestData: GetEventRequestData = {
+  const requestData: Conversation.GetEventRequestData = {
     event_id: eventId,
   };
 

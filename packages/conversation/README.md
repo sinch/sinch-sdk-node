@@ -41,8 +41,7 @@ import {
   ConversationService,
   SinchClient,
   UnifiedCredentials,
-  SendMessageRequestData,
-  SendMessageResponse,
+  Conversation,
 } from '@sinch/sdk-core';
 
 const credentials: UnifiedCredentials = {
@@ -56,7 +55,7 @@ const sinch = new SinchClient(credentials);
 const conversationService: ConversationService = sinch.conversation;
 
 // Build the request data
-const requestData: SendMessageRequestData = {
+const requestData: Conversation.SendMessageRequestData = {
   sendMessageRequestBody: {
     app_id: 'CONVERSATION_APP_ID',
     message: {
@@ -74,7 +73,7 @@ const requestData: SendMessageRequestData = {
 };
 
 // Use the 'conversation' service registered on the Sinch client
-const result: SendMessageResponse
+const result: Conversation.SendMessageResponse
     = await conversationService.messages.send(requestData);
 ```
 
@@ -88,8 +87,7 @@ import {
 } from '@sinch/sdk-client';
 import {
   ConversationService,
-  SendMessageRequestData,
-  SendMessageResponse,
+  Conversation,
 } from '@sinch/conversation';
 
 const credentials: UnifiedCredentials = {
@@ -102,7 +100,7 @@ const credentials: UnifiedCredentials = {
 const conversationService = new ConversationService(options);
 
 // Build the request data
-const requestData: SendMessageRequestData = {
+const requestData: Conversation.SendMessageRequestData = {
   sendMessageRequestBody: {
     app_id: 'CONVERSATION_APP_ID',
     message: {
@@ -120,7 +118,7 @@ const requestData: SendMessageRequestData = {
 };
 
 // Use the standalone declaration of the 'conversation' service
-const result: SendMessageResponse
+const result: Conversation.SendMessageResponse
     = await conversationService.messages.send(requestData);
 ```
 
@@ -130,7 +128,7 @@ All the methods that interact with the Sinch APIs use Promises. You can use `awa
 
 ```typescript
 // Method 1: Wait for the Promise to complete
-let result: SendMessageResponse;
+let result: Conversation.SendMessageResponse;
 try {
   result = await conversationService.messages.send(requestData);
   console.log(`Message sent successfully. Message Id: ${result.id}`);

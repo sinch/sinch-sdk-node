@@ -1,6 +1,13 @@
-import { AppResponse } from '../../../models';
-import { ListAppsResponse } from '../../../models';
-import { AppApi, CreateAppRequestData, DeleteAppRequestData, GetAppRequestData, ListAppsRequestData, UpdateAppRequestData } from './app-api';
+import { AppApi } from './app-api';
+import {
+  AppResponse,
+  ListAppsResponse,
+  CreateAppRequestData,
+  DeleteAppRequestData,
+  GetAppRequestData,
+  ListAppsRequestData,
+  UpdateAppRequestData,
+} from '../../../models';
 
 export class AppApiFixture implements Partial<Readonly<AppApi>> {
 
@@ -25,4 +32,3 @@ export class AppApiFixture implements Partial<Readonly<AppApi>> {
    */
   public update: jest.Mock<Promise<AppResponse>, [UpdateAppRequestData]> = jest.fn();
 }
-

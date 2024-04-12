@@ -1,16 +1,5 @@
 import {
-  ReportCalloutVerificationByIdentityRequestData,
-  ReportCalloutVerificationByIdRequestData, ReportFlashCallVerificationByIdentityRequestData,
-  ReportFlashCallVerificationByIdRequestData,
-  ReportSmsVerificationByIdentityRequestData,
-  ReportSmsVerificationByIdRequestData,
-  StartCalloutVerificationRequestData,
-  StartFlashCallVerificationRequestData,
-  StartSeamlessVerificationRequestData,
-  StartSmsVerificationRequestData,
-  StartVerificationBase,
-  StartVerificationWithFlashCall,
-  verificationsHelper,
+  Verification,
 } from '../../../src';
 
 const PHONE_NUMBER = '+46700000000';
@@ -20,14 +9,14 @@ const VERIFICATION_ID = 'a_verification_id';
 const VERIFICATION_CODE = '0000';
 const VERIFICATION_CLI = '+46000000000';
 
-const identity: StartVerificationBase = {
+const identity: Verification.StartVerificationBase = {
   identity: {
     type: 'number',
     endpoint: PHONE_NUMBER,
   },
 };
 
-const identityWithReference: StartVerificationBase = {
+const identityWithReference: Verification.StartVerificationBase = {
   identity: {
     type: 'number',
     endpoint: PHONE_NUMBER,
@@ -35,7 +24,7 @@ const identityWithReference: StartVerificationBase = {
   reference: REFERENCE,
 };
 
-const identityWithFlashCall: StartVerificationWithFlashCall = {
+const identityWithFlashCall: Verification.StartVerificationWithFlashCall = {
   identity: {
     type: 'number',
     endpoint: PHONE_NUMBER,
@@ -47,66 +36,66 @@ const identityWithFlashCall: StartVerificationWithFlashCall = {
 
 describe('Verification models helper', () => {
 
-  describe('Verifications helper', () => {
+  describe('Start verification helper', () => {
     it('should build a startSms request', () => {
-      const buildRequest = verificationsHelper.buildStartSmsVerificationRequest(PHONE_NUMBER);
-      const startRequest: StartSmsVerificationRequestData = {
+      const buildRequest = Verification.startVerificationHelper.buildSmsRequest(PHONE_NUMBER);
+      const startRequest: Verification.StartSmsVerificationRequestData = {
         startVerificationWithSmsRequestBody: identity,
       };
       expect(buildRequest).toEqual(startRequest);
     });
 
     it('should build a startSms request with a reference', () => {
-      const buildRequest = verificationsHelper.buildStartSmsVerificationRequest(PHONE_NUMBER, REFERENCE);
-      const startRequest: StartSmsVerificationRequestData = {
+      const buildRequest = Verification.startVerificationHelper.buildSmsRequest(PHONE_NUMBER, REFERENCE);
+      const startRequest: Verification.StartSmsVerificationRequestData = {
         startVerificationWithSmsRequestBody: identityWithReference,
       };
       expect(buildRequest).toEqual(startRequest);
     });
 
     it('should build a startCallout request', () => {
-      const buildRequest = verificationsHelper.buildStartCalloutVerificationRequest(PHONE_NUMBER);
-      const startRequest: StartCalloutVerificationRequestData = {
+      const buildRequest = Verification.startVerificationHelper.buildCalloutRequest(PHONE_NUMBER);
+      const startRequest: Verification.StartCalloutVerificationRequestData = {
         startVerificationWithCalloutRequestBody: identity,
       };
       expect(buildRequest).toEqual(startRequest);
     });
 
     it('should build a startCallout request with a reference', () => {
-      const buildRequest = verificationsHelper.buildStartCalloutVerificationRequest(PHONE_NUMBER, REFERENCE);
-      const startRequest: StartCalloutVerificationRequestData = {
+      const buildRequest = Verification.startVerificationHelper.buildCalloutRequest(PHONE_NUMBER, REFERENCE);
+      const startRequest: Verification.StartCalloutVerificationRequestData = {
         startVerificationWithCalloutRequestBody: identityWithReference,
       };
       expect(buildRequest).toEqual(startRequest);
     });
 
     it('should build a startSeamless request', () => {
-      const buildRequest = verificationsHelper.buildStartSeamlessVerificationRequest(PHONE_NUMBER);
-      const startRequest: StartSeamlessVerificationRequestData = {
+      const buildRequest = Verification.startVerificationHelper.buildSeamlessRequest(PHONE_NUMBER);
+      const startRequest: Verification.StartSeamlessVerificationRequestData = {
         startSeamlessVerificationRequestBody: identity,
       };
       expect(buildRequest).toEqual(startRequest);
     });
 
     it('should build a startSeamless request with a reference', () => {
-      const buildRequest = verificationsHelper.buildStartSeamlessVerificationRequest(PHONE_NUMBER, REFERENCE);
-      const startRequest: StartSeamlessVerificationRequestData = {
+      const buildRequest = Verification.startVerificationHelper.buildSeamlessRequest(PHONE_NUMBER, REFERENCE);
+      const startRequest: Verification.StartSeamlessVerificationRequestData = {
         startSeamlessVerificationRequestBody: identityWithReference,
       };
       expect(buildRequest).toEqual(startRequest);
     });
 
     it('should build a startFlashCall request', () => {
-      const buildRequest = verificationsHelper.buildStartFlashCallVerificationRequest(PHONE_NUMBER);
-      const startRequest: StartFlashCallVerificationRequestData = {
+      const buildRequest = Verification.startVerificationHelper.buildFlashCallRequest(PHONE_NUMBER);
+      const startRequest: Verification.StartFlashCallVerificationRequestData = {
         startVerificationWithFlashCallRequestBody: identity,
       };
       expect(buildRequest).toEqual(startRequest);
     });
 
     it('should build a startFlashCall request with a reference', () => {
-      const buildRequest = verificationsHelper.buildStartFlashCallVerificationRequest(PHONE_NUMBER, REFERENCE);
-      const startRequest: StartFlashCallVerificationRequestData = {
+      const buildRequest = Verification.startVerificationHelper.buildFlashCallRequest(PHONE_NUMBER, REFERENCE);
+      const startRequest: Verification.StartFlashCallVerificationRequestData = {
         startVerificationWithFlashCallRequestBody: identityWithReference,
       };
       expect(buildRequest).toEqual(startRequest);
@@ -114,17 +103,21 @@ describe('Verification models helper', () => {
 
     it('should build a startFlashCall request with a flashCall option', () => {
       const buildRequest
-        = verificationsHelper.buildStartFlashCallVerificationRequest(PHONE_NUMBER, undefined, DIAL_TIMEOUT);
-      const startRequest: StartFlashCallVerificationRequestData = {
+        = Verification.startVerificationHelper.buildFlashCallRequest(PHONE_NUMBER, undefined, DIAL_TIMEOUT);
+      const startRequest: Verification.StartFlashCallVerificationRequestData = {
         startVerificationWithFlashCallRequestBody: identityWithFlashCall,
       };
       expect(buildRequest).toEqual(startRequest);
     });
 
+  });
+
+  describe('Report verification by Id helper', () => {
+
     it('should build a reportSmsVerification by Id', () => {
-      const builtRequest = verificationsHelper.buildReportSmsVerificationByIdRequest(
+      const builtRequest = Verification.reportVerificationByIdHelper.buildSmsRequest(
         VERIFICATION_ID, VERIFICATION_CODE);
-      const reportRequest: ReportSmsVerificationByIdRequestData = {
+      const reportRequest: Verification.ReportSmsVerificationByIdRequestData = {
         id: VERIFICATION_ID,
         reportSmsVerificationByIdRequestBody: {
           sms: { code: VERIFICATION_CODE },
@@ -134,9 +127,9 @@ describe('Verification models helper', () => {
     });
 
     it('should build a reportSmsVerification by Id with code and CLI', () => {
-      const builtRequest = verificationsHelper.buildReportSmsVerificationByIdRequest(
+      const builtRequest = Verification.reportVerificationByIdHelper.buildSmsRequest(
         VERIFICATION_ID, VERIFICATION_CODE, VERIFICATION_CLI);
-      const reportRequest: ReportSmsVerificationByIdRequestData = {
+      const reportRequest: Verification.ReportSmsVerificationByIdRequestData = {
         id: VERIFICATION_ID,
         reportSmsVerificationByIdRequestBody: {
           sms: { code: VERIFICATION_CODE, cli: VERIFICATION_CLI },
@@ -146,9 +139,9 @@ describe('Verification models helper', () => {
     });
 
     it('should build a reportCalloutVerification by Id', () => {
-      const builtRequest = verificationsHelper.buildReportCalloutVerificationByIdRequest(
+      const builtRequest = Verification.reportVerificationByIdHelper.buildCalloutRequest(
         VERIFICATION_ID, VERIFICATION_CODE);
-      const reportRequest: ReportCalloutVerificationByIdRequestData = {
+      const reportRequest: Verification.ReportCalloutVerificationByIdRequestData = {
         id: VERIFICATION_ID,
         reportCalloutVerificationByIdRequestBody: {
           callout: { code: VERIFICATION_CODE },
@@ -158,9 +151,9 @@ describe('Verification models helper', () => {
     });
 
     it('should build a reportFlashCallVerification by Id', () => {
-      const builtRequest = verificationsHelper.buildReportFlashCallVerificationByIdRequest(
+      const builtRequest = Verification.reportVerificationByIdHelper.buildFlashCallRequest(
         VERIFICATION_ID, VERIFICATION_CLI);
-      const reportRequest: ReportFlashCallVerificationByIdRequestData = {
+      const reportRequest: Verification.ReportFlashCallVerificationByIdRequestData = {
         id: VERIFICATION_ID,
         reportFlashCallVerificationByIdRequestBody: {
           flashCall: { cli: VERIFICATION_CLI },
@@ -168,11 +161,13 @@ describe('Verification models helper', () => {
       };
       expect(builtRequest).toEqual(reportRequest);
     });
+  });
 
+  describe('Report verification by Identity helper', () => {
     it('should build a reportSmsVerification by Identity', () => {
-      const builtRequest = verificationsHelper.buildReportSmsVerificationByIdentityRequest(
+      const builtRequest = Verification.reportVerificationByIdentityHelper.buildSmsRequest(
         PHONE_NUMBER, VERIFICATION_CODE);
-      const reportRequest: ReportSmsVerificationByIdentityRequestData = {
+      const reportRequest: Verification.ReportSmsVerificationByIdentityRequestData = {
         endpoint: PHONE_NUMBER,
         reportSmsVerificationByIdentityRequestBody: {
           sms: { code: VERIFICATION_CODE },
@@ -182,9 +177,9 @@ describe('Verification models helper', () => {
     });
 
     it('should build a reportSmsVerification by Identity with code and CLI', () => {
-      const builtRequest = verificationsHelper.buildReportSmsVerificationByIdentityRequest(
+      const builtRequest = Verification.reportVerificationByIdentityHelper.buildSmsRequest(
         PHONE_NUMBER, VERIFICATION_CODE, VERIFICATION_CLI);
-      const reportRequest: ReportSmsVerificationByIdentityRequestData = {
+      const reportRequest: Verification.ReportSmsVerificationByIdentityRequestData = {
         endpoint: PHONE_NUMBER,
         reportSmsVerificationByIdentityRequestBody: {
           sms: { code: VERIFICATION_CODE, cli: VERIFICATION_CLI },
@@ -194,9 +189,9 @@ describe('Verification models helper', () => {
     });
 
     it('should build a reportCalloutVerification by Identity', () => {
-      const builtRequest = verificationsHelper.buildReportCalloutVerificationByIdentityRequest(
+      const builtRequest = Verification.reportVerificationByIdentityHelper.buildCalloutRequest(
         PHONE_NUMBER, VERIFICATION_CODE);
-      const reportRequest: ReportCalloutVerificationByIdentityRequestData = {
+      const reportRequest: Verification.ReportCalloutVerificationByIdentityRequestData = {
         endpoint: PHONE_NUMBER,
         reportCalloutVerificationByIdentityRequestBody: {
           callout: { code: VERIFICATION_CODE },
@@ -206,9 +201,9 @@ describe('Verification models helper', () => {
     });
 
     it('should build a reportFlashCallVerification by Identity', () => {
-      const builtRequest = verificationsHelper.buildReportFlashCallVerificationByIdentityRequest(
+      const builtRequest = Verification.reportVerificationByIdentityHelper.buildFlashCallRequest(
         PHONE_NUMBER, VERIFICATION_CLI);
-      const reportRequest: ReportFlashCallVerificationByIdentityRequestData = {
+      const reportRequest: Verification.ReportFlashCallVerificationByIdentityRequestData = {
         endpoint: PHONE_NUMBER,
         reportFlashCallVerificationByIdentityRequestBody: {
           flashCall: { cli: VERIFICATION_CLI },

@@ -1,41 +1,14 @@
 import {
-  ConferenceCalloutRequest,
-  CustomCalloutRequest,
   CalloutResponse,
-  TtsCalloutRequest,
+  ConferenceCalloutRequestData,
+  CustomCalloutRequestData,
+  TtsCalloutRequestData,
 } from '../../../models';
 import {
   RequestBody,
   SinchClientParameters,
 } from '@sinch/sdk-client';
 import { VoiceDomainApi } from '../voice-domain-api';
-
-export interface TtsCalloutRequestData {
-  'ttsCalloutRequestBody': {
-    /** Type of callout. */
-    method: 'ttsCallout',
-    /** @see TtsCalloutRequest */
-    ttsCallout: TtsCalloutRequest
-  }
-}
-
-export interface ConferenceCalloutRequestData {
-  'conferenceCalloutRequestBody': {
-    /** Type of callout. */
-    method: 'conferenceCallout',
-    /** @see ConferenceCalloutRequest */
-    conferenceCallout: ConferenceCalloutRequest
-  }
-}
-
-export interface CustomCalloutRequestData {
-  'customCalloutRequestBody': {
-    /** Type of callout. */
-    method: 'customCallout',
-    /** @see CustomCalloutRequest */
-    customCallout: CustomCalloutRequest
-  }
-}
 
 export class CalloutsApi extends VoiceDomainApi {
 

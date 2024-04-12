@@ -1,4 +1,4 @@
-import { InjectMessageRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import {
   getAppIdFromConfig, getContactIdFromConfig,
   getConversationIdFromConfig,
@@ -18,7 +18,7 @@ import {
   const appId = getAppIdFromConfig();
   const contactId = getContactIdFromConfig();
 
-  const requestData: InjectMessageRequestData= {
+  const requestData: Conversation.InjectMessageRequestData= {
     conversation_id: conversationId,
     injectMessageRequestBody: {
       app_message: {

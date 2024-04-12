@@ -1,4 +1,4 @@
-import { CreateContactRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import {
   getAppIdFromConfig,
   getMessengerUserIdFromConfig,
@@ -17,7 +17,7 @@ import {
   const messengerUserId = getMessengerUserIdFromConfig();
   const appId = getAppIdFromConfig();
 
-  const requestData: CreateContactRequestData = {
+  const requestData: Conversation.CreateContactRequestData = {
     contactCreateRequestBody: {
       display_name: 'New contact created with the Node.js SDK',
       channel_identities: [

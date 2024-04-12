@@ -1,5 +1,13 @@
-import { V1Template, V1ListTemplatesResponse } from '../../../models';
-import { TemplatesV1Api, CreateTemplateRequestData, DeleteTemplateRequestData, GetTemplateRequestData, ListTemplatesRequestData, UpdateTemplateRequestData } from './templates-v1-api';
+import { TemplatesV1Api } from './templates-v1-api';
+import {
+  V1Template,
+  V1ListTemplatesResponse,
+  CreateTemplateRequestData,
+  DeleteTemplateRequestData,
+  GetTemplateRequestData,
+  ListTemplatesRequestData,
+  UpdateTemplateRequestData,
+} from '../../../models';
 
 export class TemplatesV1ApiFixture implements Partial<Readonly<TemplatesV1Api>> {
 
@@ -24,4 +32,3 @@ export class TemplatesV1ApiFixture implements Partial<Readonly<TemplatesV1Api>> 
    */
   public update: jest.Mock<Promise<V1Template>, [UpdateTemplateRequestData]> = jest.fn();
 }
-

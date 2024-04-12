@@ -1,4 +1,4 @@
-import { DeleteTemplateRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getTemplateIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -8,7 +8,7 @@ import { getTemplateIdFromConfig, initConversationService, printFullResponse } f
 
   const templateId = getTemplateIdFromConfig();
 
-  const requestData: DeleteTemplateRequestData = {
+  const requestData: Conversation.DeleteTemplateRequestData = {
     template_id: templateId,
   };
 

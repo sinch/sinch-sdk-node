@@ -24,3 +24,4 @@ export * from './verification-result-event-response';
 export * from './verification-error';
 export * from './enums';
 export * from './helper';
+export * from './requests';

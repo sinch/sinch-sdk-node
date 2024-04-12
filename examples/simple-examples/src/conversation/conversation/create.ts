@@ -1,4 +1,4 @@
-import { CreateConversationRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import {
   getAppIdFromConfig,
   getContactIdFromConfig,
@@ -15,7 +15,7 @@ import {
   const appId = getAppIdFromConfig();
   const contactId = getContactIdFromConfig();
 
-  const requestData: CreateConversationRequestData = {
+  const requestData: Conversation.CreateConversationRequestData = {
     createConversationRequestBody: {
       app_id: appId,
       contact_id: contactId,

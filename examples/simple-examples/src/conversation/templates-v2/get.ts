@@ -1,4 +1,4 @@
-import { V2GetTemplateRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getPrintFormat, getTemplateIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -8,7 +8,7 @@ import { getPrintFormat, getTemplateIdFromConfig, initConversationService, print
 
   const templateId = getTemplateIdFromConfig();
 
-  const requestData: V2GetTemplateRequestData = {
+  const requestData: Conversation.V2GetTemplateRequestData = {
     template_id: templateId,
   };
 

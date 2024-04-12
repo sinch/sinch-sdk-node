@@ -1,4 +1,4 @@
-import { UpdateWebhookRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import {
   getAppIdFromConfig,
   getPrintFormat, getWebhookIdFromConfig,
@@ -15,7 +15,7 @@ import {
   const webhookId = getWebhookIdFromConfig();
   const appId = getAppIdFromConfig();
 
-  const requestData: UpdateWebhookRequestData = {
+  const requestData: Conversation.UpdateWebhookRequestData = {
     webhook_id: webhookId,
     update_mask: ['triggers', 'secret'],
     webhookUpdateRequestBody: {

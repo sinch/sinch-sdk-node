@@ -1,6 +1,13 @@
-import { ListWebhooksResponse } from '../../../models';
-import { Webhook } from '../../../models';
-import { WebhooksApi, CreateWebhookRequestData, DeleteWebhookRequestData, GetWebhookRequestData, ListWebhooksRequestData, UpdateWebhookRequestData } from './webhooks-api';
+import { WebhooksApi } from './webhooks-api';
+import {
+  Webhook,
+  CreateWebhookRequestData,
+  DeleteWebhookRequestData,
+  GetWebhookRequestData,
+  ListWebhooksRequestData,
+  ListWebhooksResponse,
+  UpdateWebhookRequestData,
+} from '../../../models';
 
 export class WebhooksApiFixture implements Partial<Readonly<WebhooksApi>> {
 
@@ -25,4 +32,3 @@ export class WebhooksApiFixture implements Partial<Readonly<WebhooksApi>> {
    */
   public update: jest.Mock<Promise<Webhook>, [UpdateWebhookRequestData]> = jest.fn();
 }
-

@@ -1,4 +1,4 @@
-import { verificationsHelper } from '@sinch/sdk-core';
+import { Verification } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getVerificationIdentityFromConfig,
@@ -13,7 +13,7 @@ import {
 
   const verificationIdentity = getVerificationIdentityFromConfig();
 
-  const requestData = verificationsHelper.buildStartFlashCallVerificationRequest(
+  const requestData = Verification.startVerificationHelper.buildFlashCallRequest(
     verificationIdentity,
     `test-reference-for-flashCall-verification_${verificationIdentity}`,
     20,
