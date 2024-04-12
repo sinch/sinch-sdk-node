@@ -1,4 +1,4 @@
-import { GetWebhookRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getWebhookIdFromConfig,
@@ -13,7 +13,7 @@ import {
 
   const webhookId = getWebhookIdFromConfig();
 
-  const requestData: GetWebhookRequestData = {
+  const requestData: Conversation.GetWebhookRequestData = {
     webhook_id: webhookId,
   };
 

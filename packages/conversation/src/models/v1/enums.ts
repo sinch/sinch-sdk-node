@@ -41,3 +41,5 @@ export type ProcessingMode = 'CONVERSATION' | 'DISPATCH';
 export type ProcessingStrategy = 'DEFAULT' | 'DISPATCH_ONLY';
 
 export type WebhookTargetType = 'DISMISS' | 'HTTP';
+
+export type MessageSource = 'CONVERSATION_SOURCE' | 'DISPATCH_SOURCE';

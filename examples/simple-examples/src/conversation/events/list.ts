@@ -1,4 +1,4 @@
-import { ConversationEvent, ListEventsRequestData, PageResult } from '@sinch/sdk-core';
+import { Conversation, PageResult } from '@sinch/sdk-core';
 import {
   getContactIdFromConfig,
   getConversationIdFromConfig,
@@ -8,11 +8,11 @@ import {
 } from '../../config';
 
 const populateEventsList = (
-  eventPage: PageResult<ConversationEvent>,
-  eventList: ConversationEvent[],
+  eventPage: PageResult<Conversation.ConversationEvent>,
+  eventList: Conversation.ConversationEvent[],
   eventDetailsList: string[],
 ) => {
-  eventPage.data.map((event: ConversationEvent) => {
+  eventPage.data.map((event: Conversation.ConversationEvent) => {
     eventList.push(event);
     eventDetailsList.push(`${event.id} - ${event.accept_time}`);
   });
@@ -26,7 +26,7 @@ const populateEventsList = (
   const contactId = getContactIdFromConfig();
   const conversationId = getConversationIdFromConfig();
 
-  const requestData: ListEventsRequestData = {
+  const requestData: Conversation.ListEventsRequestData = {
     contact_id: contactId,
     conversation_id: conversationId,
   };
@@ -38,7 +38,7 @@ const populateEventsList = (
   // ----------------------------------------------
   let response = await conversationService.events.list(requestData);
 
-  const eventsList: ConversationEvent[] = [];
+  const eventsList: Conversation.ConversationEvent[] = [];
   const eventsDetailsList: string[] = [];
 
   // Loop on all the pages to get all the active numbers

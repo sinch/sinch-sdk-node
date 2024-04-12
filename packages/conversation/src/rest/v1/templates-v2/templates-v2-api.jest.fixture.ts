@@ -1,5 +1,15 @@
-import { V2ListTemplatesResponse, V2ListTranslationsResponse, V2TemplateResponse } from '../../../models';
-import { TemplatesV2Api, V2CreateTemplateRequestData, V2DeleteTemplateRequestData, V2GetTemplateRequestData, V2ListTemplatesRequestData, V2ListTranslationsRequestData, V2UpdateTemplateRequestData } from './templates-v2-api';
+import { TemplatesV2Api } from './templates-v2-api';
+import {
+  V2ListTemplatesResponse,
+  V2ListTranslationsResponse,
+  V2TemplateResponse,
+  V2CreateTemplateRequestData,
+  V2DeleteTemplateRequestData,
+  V2GetTemplateRequestData,
+  V2ListTemplatesRequestData,
+  V2ListTranslationsRequestData,
+  V2UpdateTemplateRequestData,
+} from '../../../models';
 
 export class TemplatesV2ApiFixture implements Partial<Readonly<TemplatesV2Api>> {
 
@@ -28,4 +38,3 @@ export class TemplatesV2ApiFixture implements Partial<Readonly<TemplatesV2Api>> 
    */
   public update: jest.Mock<Promise<V2TemplateResponse>, [V2UpdateTemplateRequestData]> = jest.fn();
 }
-

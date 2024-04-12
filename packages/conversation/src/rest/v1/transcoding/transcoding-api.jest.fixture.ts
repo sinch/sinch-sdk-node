@@ -1,5 +1,8 @@
-import { TranscodeMessageResponse } from '../../../models';
-import { TranscodingApi, TranscodeMessageRequestData } from './transcoding-api';
+import { TranscodingApi } from './transcoding-api';
+import {
+  TranscodeMessageResponse,
+  TranscodeMessageRequestData,
+} from '../../../models';
 
 export class TranscodingApiFixture implements Partial<Readonly<TranscodingApi>> {
 
@@ -8,4 +11,3 @@ export class TranscodingApiFixture implements Partial<Readonly<TranscodingApi>> 
    */
   public transcodeMessage: jest.Mock<Promise<TranscodeMessageResponse>, [TranscodeMessageRequestData]> = jest.fn();
 }
-

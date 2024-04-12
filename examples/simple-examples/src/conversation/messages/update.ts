@@ -1,4 +1,4 @@
-import { UpdateMessageRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import {
   getMessageIdFromConfig,
   initConversationService,
@@ -12,7 +12,7 @@ import {
 
   const messageId = getMessageIdFromConfig();
 
-  const requestData: UpdateMessageRequestData = {
+  const requestData: Conversation.UpdateMessageRequestData = {
     message_id: messageId,
     updateMessageRequestBody: {
       metadata: 'Updated metadata',

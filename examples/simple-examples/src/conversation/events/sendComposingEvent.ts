@@ -1,4 +1,4 @@
-import { ContactId, SendComposingEventRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getAppIdFromConfig, getContactIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -9,7 +9,7 @@ import { getAppIdFromConfig, getContactIdFromConfig, initConversationService, pr
   const appId = getAppIdFromConfig();
   const contactId = getContactIdFromConfig();
 
-  const requestData: SendComposingEventRequestData<ContactId> = {
+  const requestData: Conversation.SendComposingEventRequestData<Conversation.ContactId> = {
     sendEventRequestBody: {
       app_id: appId,
       recipient: {

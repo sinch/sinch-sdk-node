@@ -1,4 +1,4 @@
-import { CreateWebhookRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import {
   getAppIdFromConfig,
   getPrintFormat, getWebhookTargetFromConfig,
@@ -14,7 +14,7 @@ import {
   const appId = getAppIdFromConfig();
   const webhookTarget = getWebhookTargetFromConfig();
 
-  const requestData: CreateWebhookRequestData = {
+  const requestData: Conversation.CreateWebhookRequestData = {
     webhookCreateRequestBody: {
       app_id: appId,
       target: webhookTarget,

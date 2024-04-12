@@ -1,4 +1,4 @@
-import { DeleteWebhookRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getWebhookIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 
@@ -9,7 +9,7 @@ import { getWebhookIdFromConfig, initConversationService, printFullResponse } fr
 
   const webhookId = getWebhookIdFromConfig();
 
-  const requestData: DeleteWebhookRequestData = {
+  const requestData: Conversation.DeleteWebhookRequestData = {
     webhook_id: webhookId,
   };
 
