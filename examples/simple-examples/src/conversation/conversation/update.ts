@@ -4,7 +4,7 @@ import {
   initConversationService,
   printFullResponse,
 } from '../../config';
-import { UpdateConversationRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 
 (async () => {
   console.log('***********************************');
@@ -13,7 +13,7 @@ import { UpdateConversationRequestData } from '@sinch/sdk-core';
 
   const conversationId = getConversationIdFromConfig();
 
-  const requestData: UpdateConversationRequestData = {
+  const requestData: Conversation.UpdateConversationRequestData = {
     conversation_id: conversationId,
     update_mask: ['metadata'],
     updateConversationRequestBody: {

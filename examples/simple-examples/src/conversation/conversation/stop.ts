@@ -1,4 +1,4 @@
-import { StopActiveConversationRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getConversationIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 
@@ -9,7 +9,7 @@ import { getConversationIdFromConfig, initConversationService, printFullResponse
 
   const conversationId = getConversationIdFromConfig();
 
-  const requestData: StopActiveConversationRequestData = {
+  const requestData: Conversation.StopActiveConversationRequestData = {
     conversation_id: conversationId,
   };
 

@@ -1,4 +1,4 @@
-import { DeleteAppRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getAppIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -8,7 +8,7 @@ import { getAppIdFromConfig, initConversationService, printFullResponse } from '
 
   const appId = getAppIdFromConfig();
 
-  const requestData: DeleteAppRequestData = {
+  const requestData: Conversation.DeleteAppRequestData = {
     app_id: appId,
   };
 

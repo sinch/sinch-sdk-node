@@ -1,4 +1,4 @@
-import { GetAppRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import {
   getAppIdFromConfig,
   getPrintFormat,
@@ -13,7 +13,7 @@ import {
 
   const appId = getAppIdFromConfig();
 
-  const requestData: GetAppRequestData = {
+  const requestData: Conversation.GetAppRequestData = {
     app_id: appId,
   };
 

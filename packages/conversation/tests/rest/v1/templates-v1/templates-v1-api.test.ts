@@ -1,14 +1,9 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  DeleteTemplateRequestData,
-  GetTemplateRequestData,
-  ListTemplatesRequestData,
-  UpdateTemplateRequestData,
-  V1ListTemplatesResponse,
-  V1Template,
   TemplatesV1Api,
   TemplatesV1ApiFixture,
-  CreateTemplateRequestData } from '../../../../src';
+  Conversation,
+} from '../../../../src';
 
 describe('TemplatesV1Api', () => {
   let templatesV1Api: TemplatesV1Api;
@@ -29,7 +24,7 @@ describe('TemplatesV1Api', () => {
   describe ('createTemplate', () => {
     it('should make a POST request to create a template V1', async () => {
       // Given
-      const requestData: CreateTemplateRequestData = {
+      const requestData: Conversation.CreateTemplateRequestData = {
         createTemplateRequestBody: {
           description: 'Template description',
           default_translation: 'en-US',
@@ -48,7 +43,7 @@ describe('TemplatesV1Api', () => {
           ],
         },
       };
-      const expectedResponse: V1Template = {
+      const expectedResponse: Conversation.V1Template = {
         id: 'templateId',
         description: 'Template description',
         translations: [
@@ -86,7 +81,7 @@ describe('TemplatesV1Api', () => {
   describe ('deleteTemplate', () => {
     it('should make a DELETE request to delete the template associated to the ID', async () => {
       // Given
-      const requestData: DeleteTemplateRequestData = {
+      const requestData: Conversation.DeleteTemplateRequestData = {
         template_id: 'templateId',
       };
       const expectedResponse: any = {};
@@ -105,10 +100,10 @@ describe('TemplatesV1Api', () => {
   describe ('getTemplate', () => {
     it('should make a GET request to get the template associated to the ID', async () => {
       // Given
-      const requestData: GetTemplateRequestData = {
+      const requestData: Conversation.GetTemplateRequestData = {
         template_id: 'templateId',
       };
-      const expectedResponse: V1Template = {
+      const expectedResponse: Conversation.V1Template = {
         id: 'templateId',
         description: 'Template description',
         translations: [
@@ -146,8 +141,8 @@ describe('TemplatesV1Api', () => {
   describe ('listTemplates', () => {
     it('should make a GET request to list the templates belonging to the project ID', async () => {
       // Given
-      const requestData: ListTemplatesRequestData = {};
-      const expectedResponse: V1ListTemplatesResponse = {
+      const requestData: Conversation.ListTemplatesRequestData = {};
+      const expectedResponse: Conversation.V1ListTemplatesResponse = {
         templates: [
           {
             id: 'templateId',
@@ -189,7 +184,7 @@ describe('TemplatesV1Api', () => {
   describe ('updateTemplate', () => {
     it('should make a PATCH request to update the template associated to the ID', async () => {
       // Given
-      const requestData: UpdateTemplateRequestData = {
+      const requestData: Conversation.UpdateTemplateRequestData = {
         template_id: 'templateId',
         updateTemplateRequestBody: {
           description: 'Updated description',
@@ -208,7 +203,7 @@ describe('TemplatesV1Api', () => {
           ],
         },
       };
-      const expectedResponse: V1Template = {
+      const expectedResponse: Conversation.V1Template = {
         id: 'templateId',
         description: 'Updated description',
         // Note that the translation array is entirely replaced by the one sent in the request

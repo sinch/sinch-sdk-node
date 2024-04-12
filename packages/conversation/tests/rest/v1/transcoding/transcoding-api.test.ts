@@ -1,6 +1,9 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
-import { TranscodeMessageRequestData, TranscodeMessageResponse } from '../../../../src';
-import { TranscodingApi, TranscodingApiFixture } from '../../../../src';
+import {
+  TranscodingApi,
+  TranscodingApiFixture,
+  Conversation,
+} from '../../../../src';
 
 describe('TranscodingApi', () => {
   let transcodingApi: TranscodingApi;
@@ -21,7 +24,7 @@ describe('TranscodingApi', () => {
   describe ('transcodeMessage', () => {
     it('should make a POST request to transcode a generic message to a channel-specific one', async () => {
       // Given
-      const requestData: TranscodeMessageRequestData = {
+      const requestData: Conversation.TranscodeMessageRequestData = {
         transcodeMessageRequestBody: {
           app_id: 'app_id',
           app_message: {
@@ -35,7 +38,7 @@ describe('TranscodingApi', () => {
           ],
         },
       };
-      const expectedResponse: TranscodeMessageResponse = {
+      const expectedResponse: Conversation.TranscodeMessageResponse = {
         transcoded_message: {
           APPLEBC: 'string',
           VIBER: 'string',

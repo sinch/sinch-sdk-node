@@ -1,19 +1,8 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
   Conversation,
-  CreateConversationRequestData,
   ConversationApi,
   ConversationApiFixture,
-  DeleteConversationRequestData,
-  GetConversationRequestData,
-  InjectMessageRequestData,
-  ListConversationsRequestData,
-  StopActiveConversationRequestData,
-  UpdateConversationRequestData,
-  ListRecentConversationsRequestData,
-  ConversationRecentMessage,
-  InjectEventRequestData,
-  InjectEventResponse,
 } from '../../../../src';
 
 describe('ConversationApi', () => {
@@ -35,13 +24,13 @@ describe('ConversationApi', () => {
   describe ('createConversation', () => {
     it('should make a POST request to create a new empty conversation', async () => {
       // Given
-      const requestData: CreateConversationRequestData = {
+      const requestData: Conversation.CreateConversationRequestData = {
         createConversationRequestBody: {
           app_id: 'app_id',
           contact_id: 'contact_id',
         },
       };
-      const expectedResponse: Conversation = {
+      const expectedResponse: Conversation.Conversation = {
         id: 'conversation_id',
       };
 
@@ -59,7 +48,7 @@ describe('ConversationApi', () => {
   describe ('deleteConversation', () => {
     it('should make a DELETE request to delete a conversation and all messages related', async () => {
       // Given
-      const requestData: DeleteConversationRequestData = {
+      const requestData: Conversation.DeleteConversationRequestData = {
         conversation_id: 'conversation_id',
       };
       const expectedResponse: any = {};
@@ -78,10 +67,10 @@ describe('ConversationApi', () => {
   describe ('getConversation', () => {
     it('should make a GET request to retrieve a conversation by id', async () => {
       // Given
-      const requestData: GetConversationRequestData = {
+      const requestData: Conversation.GetConversationRequestData = {
         conversation_id: 'conversation_id',
       };
-      const expectedResponse: Conversation = {
+      const expectedResponse: Conversation.Conversation = {
         id: 'conversation_id',
       };
 
@@ -99,7 +88,7 @@ describe('ConversationApi', () => {
   describe ('injectEvent', () => {
     it('should make a POST request to inject a conversation event into a specific conversation', async () => {
       // Given
-      const requestData: InjectEventRequestData = {
+      const requestData: Conversation.InjectEventRequestData = {
         conversation_id: 'conversation_id',
         injectConversationEventRequestBody: {
           app_event: {
@@ -122,7 +111,7 @@ describe('ConversationApi', () => {
           processing_mode: 'CONVERSATION',
         },
       };
-      const expectedResponse: InjectEventResponse = {
+      const expectedResponse: Conversation.InjectEventResponse = {
         event_id: 'event_id',
         accepted_time: new Date('2019-08-24T14:15:22Z'),
       };
@@ -141,7 +130,7 @@ describe('ConversationApi', () => {
   describe ('injectMessage', () => {
     it('should make a POST request to inject a conversation message in to a specific conversation', async () => {
       // Given
-      const requestData: InjectMessageRequestData = {
+      const requestData: Conversation.InjectMessageRequestData = {
         conversation_id: 'conversation_id',
         injectMessageRequestBody: {
           app_message: {
@@ -169,10 +158,10 @@ describe('ConversationApi', () => {
   describe ('listConversations', () => {
     it('should make a GET request to ...', async () => {
       // Given
-      const requestData: ListConversationsRequestData = {
+      const requestData: Conversation.ListConversationsRequestData = {
         only_active: false,
       };
-      const mockData: Conversation[] = [
+      const mockData: Conversation.Conversation[] = [
         {
           id: 'conversation_id',
           active: true,
@@ -200,11 +189,11 @@ describe('ConversationApi', () => {
   describe ('listRecentConversations', () => {
     it('should make a GET request to list conversations and their most recent message', async () => {
       // Given
-      const requestData: ListRecentConversationsRequestData = {
+      const requestData: Conversation.ListRecentConversationsRequestData = {
         app_id: 'app_id',
         order: 'ASC',
       };
-      const mockData: ConversationRecentMessage[] = [
+      const mockData: Conversation.ConversationRecentMessage[] = [
         {
           conversation: {
             active: true,
@@ -284,7 +273,7 @@ describe('ConversationApi', () => {
   describe ('stopActiveConversation', () => {
     it('should make a POST request to stop the referenced conversation', async () => {
       // Given
-      const requestData: StopActiveConversationRequestData = {
+      const requestData: Conversation.StopActiveConversationRequestData = {
         conversation_id: 'conversation_id',
       };
       const expectedResponse: any = {};
@@ -303,7 +292,7 @@ describe('ConversationApi', () => {
   describe ('updateConversation', () => {
     it('should make a PATCH request to update a conversation', async () => {
       // Given
-      const requestData: UpdateConversationRequestData = {
+      const requestData: Conversation.UpdateConversationRequestData = {
         conversation_id: 'conversation_id',
         metadata_update_strategy: 'REPLACE',
         updateConversationRequestBody: {
@@ -315,7 +304,7 @@ describe('ConversationApi', () => {
           },
         },
       };
-      const expectedResponse: Conversation = {
+      const expectedResponse: Conversation.Conversation = {
         id: 'conversation_id',
       };
 

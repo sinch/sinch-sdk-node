@@ -108,5 +108,6 @@ export * from './whatsapp-interactive-text-header';
 export * from './whatsapp-interactive-video-header';
 export * from './enums';
 export * from './helper';
+export * from './requests';
 export * from './mod-callback-events';
 export * from './mod-credentials';

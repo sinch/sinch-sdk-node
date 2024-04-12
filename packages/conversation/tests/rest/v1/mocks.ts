@@ -1,6 +1,6 @@
-import { ChannelRecipientIdentity } from '../../../src';
+import { Conversation } from '../../../src';
 
-const channelIdentities: ChannelRecipientIdentity[] = [
+const channelIdentities: Conversation.ChannelRecipientIdentity[] = [
   {
     channel: 'SMS',
     identity: 'phoneNumber',

@@ -3,16 +3,11 @@ import {
   SinchClientParameters,
 } from '@sinch/sdk-client';
 import {
-  LookupCapabilityRequest,
+  LookupCapabilityRequestData,
   LookupCapabilityResponse,
   Recipient,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
-
-export interface LookupCapabilityRequestData<T extends Recipient> {
-  /** The lookup capability request. */
-  'lookupCapabilityRequestBody': LookupCapabilityRequest<T>;
-}
 
 export class CapabilityApi extends ConversationDomainApi {
 

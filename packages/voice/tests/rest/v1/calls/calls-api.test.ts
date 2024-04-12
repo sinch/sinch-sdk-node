@@ -2,15 +2,7 @@ import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
 import {
   CallsApi,
   CallsApiFixture,
-  GetCallInformation,
-  GetCallResultRequestData,
-  ManageWithCallLegRequestData,
-  SvamlAction,
-  SvamlActionHangup,
-  SvamlInstruction,
-  SvamlInstructionSay,
-  SvamlInstructionSendDtmf,
-  UpdateCallRequestData,
+  Voice,
 } from '../../../../src';
 
 describe('CallsApi', () => {
@@ -29,10 +21,10 @@ describe('CallsApi', () => {
   describe ('getCallResult', () => {
     it('should make a GET request to retrieve information about a call', async () => {
       // Given
-      const requestData: GetCallResultRequestData = {
+      const requestData: Voice.GetCallResultRequestData = {
         callId: 'callId',
       };
-      const expectedResponse: GetCallInformation = {
+      const expectedResponse: Voice.GetCallInformation = {
         callId: 'callId',
         to: {
           type: 'Number',
@@ -68,15 +60,15 @@ describe('CallsApi', () => {
   describe ('manageCallWithCallLeg', () => {
     it('should make a PATCH request to manage calls', async () => {
       // Given
-      const instruction: SvamlInstruction = {
+      const instruction: Voice.SvamlInstruction = {
         name: 'say',
         text: 'Hello, the call is over, hanging up now. Goodbye',
         locale: 'en-US',
-      } as SvamlInstructionSay;
-      const action: SvamlAction = {
+      } as Voice.SvamlInstructionSay;
+      const action: Voice.SvamlAction = {
         name: 'hangup',
-      } as SvamlActionHangup;
-      const requestData: ManageWithCallLegRequestData = {
+      } as Voice.SvamlActionHangup;
+      const requestData: Voice.ManageWithCallLegRequestData = {
         callId: 'callId',
         callLeg: 'caller',
         manageWithCallLegRequestBody: {
@@ -101,14 +93,14 @@ describe('CallsApi', () => {
   describe ('updateCall', () => {
     it('should make a PATCH request to manage a call in progress', async () => {
       // Given
-      const instruction: SvamlInstruction = {
+      const instruction: Voice.SvamlInstruction = {
         name: 'sendDtmf',
         value: '1234#',
-      } as SvamlInstructionSendDtmf;
-      const action: SvamlAction = {
+      } as Voice.SvamlInstructionSendDtmf;
+      const action: Voice.SvamlAction = {
         name: 'hangup',
-      } as SvamlActionHangup;
-      const requestData: UpdateCallRequestData = {
+      } as Voice.SvamlActionHangup;
+      const requestData: Voice.UpdateCallRequestData = {
         callId: 'callId',
         updateCallRequestBody: {
           instructions: [

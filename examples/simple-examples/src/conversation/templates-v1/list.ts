@@ -1,4 +1,4 @@
-import { ListTemplatesRequestData, V1Template } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getPrintFormat, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -7,7 +7,7 @@ import { getPrintFormat, initConversationService, printFullResponse } from '../.
   console.log('***************************');
 
 
-  const requestData: ListTemplatesRequestData = {
+  const requestData: Conversation.ListTemplatesRequestData = {
   };
 
   const conversationService = initConversationService();
@@ -23,6 +23,6 @@ import { getPrintFormat, initConversationService, printFullResponse } from '../.
 
 })();
 
-const formatPrettyMessage = (template: V1Template) => {
+const formatPrettyMessage = (template: Conversation.V1Template) => {
   return ` - ID: ${template.id} - Default translation: ${template.default_translation} - Available translations: ${template.translations?.map((translation) => translation.language_code).join(',')}`;
 };

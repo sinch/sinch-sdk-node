@@ -1,4 +1,4 @@
-import { DeleteContactRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getContactIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -8,7 +8,7 @@ import { getContactIdFromConfig, initConversationService, printFullResponse } fr
 
   const contactId = getContactIdFromConfig();
 
-  const requestData: DeleteContactRequestData = {
+  const requestData: Conversation.DeleteContactRequestData = {
     contact_id: contactId,
   };
 

@@ -1,4 +1,4 @@
-import { templateV1Helper, UpdateTemplateRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getPrintFormat, getTemplateIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -8,7 +8,7 @@ import { getPrintFormat, getTemplateIdFromConfig, initConversationService, print
 
   const templateId = getTemplateIdFromConfig();
 
-  const requestData: UpdateTemplateRequestData = {
+  const requestData: Conversation.UpdateTemplateRequestData = {
     template_id: templateId,
     updateTemplateRequestBody: {
       description: 'Updated description for Template v1',
@@ -19,7 +19,7 @@ import { getPrintFormat, getTemplateIdFromConfig, initConversationService, print
         {
           language_code: 'en-US',
           version: '1',
-          content: templateV1Helper.buildTextMessageContent({
+          content: Conversation.templateV1Helper.buildTextMessageContent({
             text: 'Message from a template v1.',
           }),
         },
@@ -27,7 +27,7 @@ import { getPrintFormat, getTemplateIdFromConfig, initConversationService, print
         {
           language_code: 'fr-FR',
           version: '1',
-          content: templateV1Helper.buildLocationMessageContent({
+          content: Conversation.templateV1Helper.buildLocationMessageContent({
             title: 'Phare d\'Eckmühl',
             label: 'Pointe de Penmarch',
             coordinates: {
