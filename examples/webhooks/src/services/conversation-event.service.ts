@@ -58,7 +58,7 @@ export class ConversationEventService {
               contact_id: message.contact_id!,
             },
             message: this.buildContactMessage(contactMessage),
-            ttl: '5s',
+            ttl: 5,
             channel_properties: {
               MESSENGER_NOTIFICATION_TYPE: 'NO_PUSH',
             }

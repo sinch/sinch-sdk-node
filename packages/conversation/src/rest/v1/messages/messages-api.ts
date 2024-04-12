@@ -274,8 +274,11 @@ export class MessagesApi extends ConversationDomainApi {
       'Accept': 'application/json',
     };
 
-    const body: RequestBody = data['sendMessageRequestBody']
-      ? JSON.stringify(data['sendMessageRequestBody'])
+    // Special fields handling: see method for details
+    const requestDataBody = this.performSendMessageRequestBodyTransformation(data.sendMessageRequestBody);
+
+    const body: RequestBody = requestDataBody
+      ? JSON.stringify(requestDataBody)
       : '{}';
     const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/messages:send`;
 
@@ -288,6 +291,20 @@ export class MessagesApi extends ConversationDomainApi {
       apiName: this.apiName,
       operationId,
     });
+  }
+
+  performSendMessageRequestBodyTransformation(
+    body: SendMessageRequest<Recipient>
+  ): SendMessageRequest<Recipient> {
+    const requestDataBody = { ...body };
+    // 'ttl' field can be a number or a string and needs to be formatted as for instance "10s" to be accepted by the server
+    if (typeof requestDataBody.ttl === 'number') {
+      requestDataBody.ttl = requestDataBody.ttl.toString();
+    }
+    if (typeof requestDataBody.ttl === 'string' && !requestDataBody.ttl.endsWith('s')) {
+      requestDataBody.ttl = requestDataBody.ttl + 's';
+    }
+    return requestDataBody;
   }
 
   /**
