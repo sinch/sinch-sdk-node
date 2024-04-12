@@ -1,4 +1,4 @@
-import { verificationsHelper } from '@sinch/sdk-core';
+import { Verification } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getVerificationCliFromConfig,
@@ -15,7 +15,7 @@ import {
   const verificationIdentity = getVerificationIdentityFromConfig();
   const verificationCli = getVerificationCliFromConfig();
 
-  const requestData = verificationsHelper.buildReportFlashCallVerificationByIdentityRequest(
+  const requestData = Verification.reportVerificationByIdentityHelper.buildFlashCallRequest(
     verificationIdentity, verificationCli);
 
   const verificationService = initVerificationService();

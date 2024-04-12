@@ -1,11 +1,13 @@
-import { ActiveNumber, AvailableNumber, AvailableNumbersResponse } from '../../../models';
 import {
-  AvailableNumberApi,
+  ActiveNumber,
+  AvailableNumber,
+  AvailableNumbersResponse,
   GetAvailableNumberRequestData,
   ListAvailableNumbersRequestData,
   RentAnyNumberRequestData,
   RentNumberRequestData,
-} from './available-number-api';
+} from '../../../models';
+import { AvailableNumberApi } from './available-number-api';
 
 export class AvailableNumberApiFixture implements Partial<Readonly<AvailableNumberApi>> {
 

@@ -1,4 +1,4 @@
-import { ListAppsRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getPrintFormat, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -6,7 +6,7 @@ import { getPrintFormat, initConversationService, printFullResponse } from '../.
   console.log('* App_ListApps *');
   console.log('****************');
 
-  const requestData: ListAppsRequestData= {};
+  const requestData: Conversation.ListAppsRequestData= {};
 
   const conversationService = initConversationService();
   const response = await conversationService.app.list(requestData);

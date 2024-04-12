@@ -1,4 +1,4 @@
-import { GetContactRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getContactIdFromConfig, getPrintFormat, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -8,7 +8,7 @@ import { getContactIdFromConfig, getPrintFormat, initConversationService, printF
 
   const contactId = getContactIdFromConfig();
 
-  const requestData: GetContactRequestData = {
+  const requestData: Conversation.GetContactRequestData = {
     contact_id: contactId,
   };
 

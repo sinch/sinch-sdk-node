@@ -1,4 +1,4 @@
-import { ListAvailableRegionsRequestData } from '@sinch/sdk-core';
+import { Numbers } from '@sinch/sdk-core';
 import { getPrintFormat, initNumbersService, printFullResponse } from '../../config';
 
 (async () => {
@@ -6,7 +6,7 @@ import { getPrintFormat, initNumbersService, printFullResponse } from '../../con
   console.log('* NumberService_ListAvailableRegions *');
   console.log('**************************************');
 
-  const requestData: ListAvailableRegionsRequestData = {
+  const requestData: Numbers.ListAvailableRegionsRequestData = {
     types: ['LOCAL','MOBILE'],
   };
 

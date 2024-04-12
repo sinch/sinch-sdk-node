@@ -5,7 +5,7 @@ import {
   initVoiceService,
   printFullResponse,
 } from '../../config';
-import { ConferenceCalloutRequestData, VoiceRegion } from '@sinch/sdk-core';
+import { Voice, VoiceRegion } from '@sinch/sdk-core';
 
 (async () => {
   console.log('*************************');
@@ -16,7 +16,7 @@ import { ConferenceCalloutRequestData, VoiceRegion } from '@sinch/sdk-core';
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
   const conferenceId = getConferenceIdFromConfig();
 
-  const requestData: ConferenceCalloutRequestData = {
+  const requestData: Voice.ConferenceCalloutRequestData = {
     conferenceCalloutRequestBody: {
       method: 'conferenceCallout',
       conferenceCallout: {

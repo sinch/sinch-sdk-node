@@ -1,4 +1,4 @@
-import { UpdateAppRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import {
   getAppIdFromConfig,
   getMessengerTokenFormConfig,
@@ -14,7 +14,7 @@ import {
 
   const appId = getAppIdFromConfig();
 
-  const requestData: UpdateAppRequestData = {
+  const requestData: Conversation.UpdateAppRequestData = {
     app_id: appId,
     update_mask: ['display_name', 'conversation_metadata_report_view'],
     appUpdateRequestBody: {

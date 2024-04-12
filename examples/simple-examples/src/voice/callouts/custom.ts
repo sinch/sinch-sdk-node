@@ -6,13 +6,7 @@ import {
   initVoiceService,
   printFullResponse,
 } from '../../config';
-import {
-  aceActionHelper,
-  customCalloutHelper,
-  CustomCalloutRequestData,
-  iceActionHelper,
-  iceInstructionHelper,
-} from '@sinch/sdk-core';
+import { Voice } from '@sinch/sdk-core';
 
 (async () => {
   console.log('*********************');
@@ -23,7 +17,7 @@ import {
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
   const callbackUrl = getVoiceCallBackUrl();
 
-  const requestData: CustomCalloutRequestData = {
+  const requestData: Voice.CustomCalloutRequestData = {
     customCalloutRequestBody: {
       method: 'customCallout',
       customCallout: {
@@ -33,19 +27,19 @@ import {
           endpoint: recipientPhoneNumber,
         },
         custom: 'Custom text',
-        ice: customCalloutHelper.formatIceResponse(
-          iceActionHelper.connectPstn({
+        ice: Voice.customCalloutHelper.formatIceResponse(
+          Voice.iceActionHelper.connectPstn({
             number: recipientPhoneNumber,
             cli: callingNumber,
           }),
-          iceInstructionHelper.say('Welcome to Sinch.', 'en-US/male'),
-          iceInstructionHelper.startRecording({
+          Voice.iceInstructionHelper.say('Welcome to Sinch.', 'en-US/male'),
+          Voice.iceInstructionHelper.startRecording({
             destinationUrl: 'To specify',
             credentials: 'To specify',
           }),
         ),
-        ace: customCalloutHelper.formatAceResponse(
-          aceActionHelper.runMenu({
+        ace: Voice.customCalloutHelper.formatAceResponse(
+          Voice.aceActionHelper.runMenu({
             locale: 'Kimberly',
             enableVoice: true,
             barge: true,

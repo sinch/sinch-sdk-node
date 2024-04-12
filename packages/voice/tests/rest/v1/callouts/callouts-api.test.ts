@@ -1,9 +1,8 @@
 import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
 import {
   CalloutsApi,
-  CalloutsApiFixture, ConferenceCalloutRequestData, CustomCalloutRequestData,
-  CalloutResponse,
-  TtsCalloutRequestData,
+  CalloutsApiFixture,
+  Voice,
 } from '../../../../src';
 
 describe('CalloutsApi', () => {
@@ -22,7 +21,7 @@ describe('CalloutsApi', () => {
   describe ('TTS callouts', () => {
     it('should make a POST request to make a TTS callout to a phone number', async () => {
       // Given
-      const requestData: TtsCalloutRequestData = {
+      const requestData: Voice.TtsCalloutRequestData = {
         ttsCalloutRequestBody: {
           method: 'ttsCallout',
           ttsCallout: {
@@ -36,7 +35,7 @@ describe('CalloutsApi', () => {
           },
         },
       };
-      const expectedResponse: CalloutResponse = {
+      const expectedResponse: Voice.CalloutResponse = {
         callId: 'callId',
       };
 
@@ -54,7 +53,7 @@ describe('CalloutsApi', () => {
   describe ('Conference callouts', () => {
     it('should make a POST request to make a conference callout to a phone number', async () => {
       // Given
-      const requestData: ConferenceCalloutRequestData = {
+      const requestData: Voice.ConferenceCalloutRequestData = {
         conferenceCalloutRequestBody: {
           method: 'conferenceCallout',
           conferenceCallout: {
@@ -68,7 +67,7 @@ describe('CalloutsApi', () => {
           },
         },
       };
-      const expectedResponse: CalloutResponse = {
+      const expectedResponse: Voice.CalloutResponse = {
         callId: 'callId',
       };
 
@@ -86,7 +85,7 @@ describe('CalloutsApi', () => {
   describe ('Custom callouts', () => {
     it('should make a POST request to make a Custom callout to a phone number', async () => {
       // Given
-      const requestData: CustomCalloutRequestData = {
+      const requestData: Voice.CustomCalloutRequestData = {
         customCalloutRequestBody: {
           method: 'customCallout',
           customCallout: {
@@ -98,7 +97,7 @@ describe('CalloutsApi', () => {
           },
         },
       };
-      const expectedResponse: CalloutResponse = {
+      const expectedResponse: Voice.CalloutResponse = {
         callId: 'callId',
       };
 

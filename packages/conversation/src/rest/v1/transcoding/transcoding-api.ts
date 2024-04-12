@@ -3,15 +3,11 @@ import {
   SinchClientParameters,
 } from '@sinch/sdk-client';
 import {
-  TranscodeMessageRequest,
+  TranscodeMessageRequestData,
   TranscodeMessageResponse,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
 
-export interface TranscodeMessageRequestData {
-  /** The message to be transcoded, and the app and channels for which the message is to be transcoded. */
-  'transcodeMessageRequestBody': TranscodeMessageRequest;
-}
 
 export class TranscodingApi extends ConversationDomainApi {
 

@@ -1,4 +1,4 @@
-import { templateV2Helper, V2CreateTemplateRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getPrintFormat, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -6,7 +6,7 @@ import { getPrintFormat, initConversationService, printFullResponse } from '../.
   console.log('* Templates_v2_CreateTemplate *');
   console.log('*******************************');
 
-  const requestData: V2CreateTemplateRequestData = {
+  const requestData: Conversation.V2CreateTemplateRequestData = {
     createTemplateRequestBody: {
       description: 'Template v2',
       default_translation: 'en-US',
@@ -14,7 +14,7 @@ import { getPrintFormat, initConversationService, printFullResponse } from '../.
         {
           language_code: 'en-US',
           version: '1',
-          ...templateV2Helper.buildTextMessageContent({
+          ...Conversation.templateV2Helper.buildTextMessageContent({
             text: 'Message from a template v2.',
           }),
         },

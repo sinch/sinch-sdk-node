@@ -1,5 +1,10 @@
-import { VerificationStatusApi, VerificationStatusByIdRequestData, VerificationStatusByIdentityRequestData, VerificationStatusByReferenceRequestData } from './verification-status-api';
-import { VerificationReportResponse } from '../../../models';
+import { VerificationStatusApi } from './verification-status-api';
+import {
+  VerificationReportResponse,
+  VerificationStatusByIdRequestData,
+  VerificationStatusByIdentityRequestData,
+  VerificationStatusByReferenceRequestData,
+} from '../../../models';
 
 export class VerificationStatusApiFixture implements Partial<Readonly<VerificationStatusApi>> {
 

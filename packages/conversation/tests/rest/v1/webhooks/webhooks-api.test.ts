@@ -1,12 +1,9 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  CreateWebhookRequestData,
-  DeleteWebhookRequestData,
-  GetWebhookRequestData, ListWebhooksRequestData,
-  ListWebhooksResponse, UpdateWebhookRequestData,
+  WebhooksApi,
+  WebhooksApiFixture,
+  Conversation,
 } from '../../../../src';
-import { Webhook } from '../../../../src';
-import { WebhooksApi, WebhooksApiFixture } from '../../../../src';
 
 describe('WebhooksApi', () => {
   let webhooksApi: WebhooksApi;
@@ -27,7 +24,7 @@ describe('WebhooksApi', () => {
   describe ('createWebhook', () => {
     it('should make a POST request to create a webhook for receiving callbacks on specific triggers', async () => {
       // Given
-      const requestData: CreateWebhookRequestData = {
+      const requestData: Conversation.CreateWebhookRequestData = {
         webhookCreateRequestBody: {
           app_id: 'app_id',
           target: 'target',
@@ -36,7 +33,7 @@ describe('WebhooksApi', () => {
           ],
         },
       };
-      const expectedResponse: Webhook = {
+      const expectedResponse: Conversation.Webhook = {
         app_id: 'app_id',
         client_credentials: {
           client_id: 'client_id',
@@ -66,7 +63,7 @@ describe('WebhooksApi', () => {
   describe ('deleteWebhook', () => {
     it('should make a DELETE request to delete a webhook as specified by the webhook ID.', async () => {
       // Given
-      const requestData: DeleteWebhookRequestData = {
+      const requestData: Conversation.DeleteWebhookRequestData = {
         webhook_id: 'webhook_id',
       };
       const expectedResponse: any = {};
@@ -85,10 +82,10 @@ describe('WebhooksApi', () => {
   describe ('getWebhook', () => {
     it('should make a GET request to get a webhook as specified by the webhook ID.', async () => {
       // Given
-      const requestData: GetWebhookRequestData = {
+      const requestData: Conversation.GetWebhookRequestData = {
         webhook_id: 'webhook_id',
       };
-      const expectedResponse: Webhook = {
+      const expectedResponse: Conversation.Webhook = {
         app_id: 'app_id',
         client_credentials: {
           client_id: 'client_id',
@@ -118,10 +115,10 @@ describe('WebhooksApi', () => {
   describe ('listWebhooks', () => {
     it('should make a GET request to list all webhooks for a given app as specified by the App ID.', async () => {
       // Given
-      const requestData: ListWebhooksRequestData = {
+      const requestData: Conversation.ListWebhooksRequestData = {
         app_id: 'app_id',
       };
-      const expectedResponse: ListWebhooksResponse = {
+      const expectedResponse: Conversation.ListWebhooksResponse = {
         webhooks: [
           {
             app_id: 'app_id',
@@ -155,7 +152,7 @@ describe('WebhooksApi', () => {
   describe ('updateWebhook', () => {
     it('should make a PATCH request to update an existing webhook as specified by the webhook ID.', async () => {
       // Given
-      const requestData: UpdateWebhookRequestData = {
+      const requestData: Conversation.UpdateWebhookRequestData = {
         webhook_id: 'webhook_id',
         webhookUpdateRequestBody: {
           app_id: 'app_id',
@@ -165,7 +162,7 @@ describe('WebhooksApi', () => {
           ],
         },
       };
-      const expectedResponse: Webhook = {
+      const expectedResponse: Conversation.Webhook = {
         app_id: 'app_id',
         client_credentials: {
           client_id: 'client_id',

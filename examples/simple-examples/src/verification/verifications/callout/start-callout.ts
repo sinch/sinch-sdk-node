@@ -1,4 +1,4 @@
-import { verificationsHelper } from '@sinch/sdk-core';
+import { Verification } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getVerificationIdentityFromConfig,
@@ -13,7 +13,7 @@ import {
 
   const verificationIdentity = getVerificationIdentityFromConfig();
 
-  const requestData = verificationsHelper.buildStartCalloutVerificationRequest(
+  const requestData = Verification.startVerificationHelper.buildCalloutRequest(
     verificationIdentity,
     `test-reference-for-callout-verification_${verificationIdentity}`,
   );

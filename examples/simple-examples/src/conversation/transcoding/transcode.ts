@@ -1,4 +1,4 @@
-import { TranscodeMessageRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getAppIdFromConfig, getPrintFormat, initConversationService, printFullResponse } from '../../config';
 
 (async () => {
@@ -8,7 +8,7 @@ import { getAppIdFromConfig, getPrintFormat, initConversationService, printFullR
 
   const appId = getAppIdFromConfig();
 
-  const requestData: TranscodeMessageRequestData = {
+  const requestData: Conversation.TranscodeMessageRequestData = {
     transcodeMessageRequestBody: {
       app_id: appId,
       app_message: {

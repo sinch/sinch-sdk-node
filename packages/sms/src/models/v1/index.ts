@@ -42,3 +42,4 @@ export * from './update-group-request-auto-update';
 export * from './update-group-request-auto-update-add';
 export * from './update-group-request-auto-update-remove';
 export * from './enums';
+export * from './requests';

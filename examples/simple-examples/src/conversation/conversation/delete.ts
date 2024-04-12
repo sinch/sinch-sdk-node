@@ -1,4 +1,4 @@
-import { DeleteConversationRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getConversationIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 
@@ -9,7 +9,7 @@ import { getConversationIdFromConfig, initConversationService, printFullResponse
 
   const conversationId = getConversationIdFromConfig();
 
-  const requestData: DeleteConversationRequestData = {
+  const requestData: Conversation.DeleteConversationRequestData = {
     conversation_id: conversationId,
   };
 

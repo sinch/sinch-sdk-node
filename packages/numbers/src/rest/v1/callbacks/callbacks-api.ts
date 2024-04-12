@@ -1,15 +1,13 @@
-import { CallbackConfiguration, CallbackConfigurationUpdate } from '../../../models';
+import {
+  CallbackConfiguration,
+  GetCallbackConfigurationRequestData,
+  UpdateCallbackConfigurationRequestData,
+} from '../../../models';
 import {
   RequestBody,
   SinchClientParameters,
 } from '@sinch/sdk-client';
 import { NumbersDomainApi } from '../numbers-domain-api';
-
-export interface GetCallbackConfigurationRequestData {}
-export interface UpdateCallbackConfigurationRequestData {
-  /** The callback configuration details to be updated. */
-  callbackConfigurationUpdateRequestBody?: CallbackConfigurationUpdate;
-}
 
 export class CallbacksApi extends NumbersDomainApi {
 
@@ -76,8 +74,8 @@ export class CallbacksApi extends NumbersDomainApi {
       'Accept': 'application/json',
     };
 
-    const body: RequestBody = data['callbackConfigurationUpdateRequestBody']
-      ? JSON.stringify(data['callbackConfigurationUpdateRequestBody'])
+    const body: RequestBody = data['updateCallbackConfigurationRequestBody']
+      ? JSON.stringify(data['updateCallbackConfigurationRequestBody'])
       : '{}';
     const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/callbackConfiguration`;
 

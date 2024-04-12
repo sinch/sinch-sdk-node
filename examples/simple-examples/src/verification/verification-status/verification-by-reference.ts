@@ -1,4 +1,4 @@
-import { VerificationStatusByReferenceRequestData } from '@sinch/sdk-core';
+import { Verification } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getVerificationReferenceFromConfig,
@@ -13,7 +13,7 @@ import {
 
   const verificationReference = getVerificationReferenceFromConfig();
 
-  const requestData: VerificationStatusByReferenceRequestData = {
+  const requestData: Verification.VerificationStatusByReferenceRequestData = {
     reference: verificationReference,
   };
 

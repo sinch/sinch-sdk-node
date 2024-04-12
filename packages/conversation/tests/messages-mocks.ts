@@ -1,33 +1,14 @@
-import {
-  CardMessage,
-  CardMessageItem,
-  CarouselMessage,
-  CarouselMessageItem,
-  ChoiceMessage,
-  ChoiceMessageItem,
-  ContactInfoMessage,
-  ContactInfoMessageItem,
-  ListMessage,
-  ListMessageItem,
-  LocationMessage,
-  LocationMessageItem,
-  MediaMessage,
-  MediaMessageItem,
-  TemplateMessage,
-  TemplateMessageItem,
-  TextMessage,
-  TextMessageItem,
-} from '../src';
+import { Conversation } from '../src';
 
-export const textMessageItem: TextMessageItem = {
+export const textMessageItem: Conversation.TextMessageItem = {
   text: 'text message',
 };
 
-export const textMessage: TextMessage = {
+export const textMessage: Conversation.TextMessage = {
   text_message: textMessageItem,
 };
 
-export const cardMessageItem: CardMessageItem = {
+export const cardMessageItem: Conversation.CardMessageItem = {
   title: 'title',
   description: 'description',
   media_message: {
@@ -48,11 +29,11 @@ export const cardMessageItem: CardMessageItem = {
   ],
 };
 
-export const cardMessage: CardMessage = {
+export const cardMessage: Conversation.CardMessage = {
   card_message: cardMessageItem,
 };
 
-export const carouselMessageItem: CarouselMessageItem = {
+export const carouselMessageItem: Conversation.CarouselMessageItem = {
   cards: [
     {
       title: 'card #1',
@@ -101,11 +82,11 @@ export const carouselMessageItem: CarouselMessageItem = {
   ],
 };
 
-export const carouselMessage: CarouselMessage = {
+export const carouselMessage: Conversation.CarouselMessage = {
   carousel_message: carouselMessageItem,
 };
 
-export const choiceMessageItem: ChoiceMessageItem = {
+export const choiceMessageItem: Conversation.ChoiceMessageItem = {
   text_message: {
     text: 'Choose your icecream flavor',
   },
@@ -123,11 +104,11 @@ export const choiceMessageItem: ChoiceMessageItem = {
   ],
 };
 
-export const choiceMessage: ChoiceMessage = {
+export const choiceMessage: Conversation.ChoiceMessage = {
   choice_message: choiceMessageItem,
 };
 
-export const contactInfoMessageItem: ContactInfoMessageItem = {
+export const contactInfoMessageItem: Conversation.ContactInfoMessageItem = {
   name: {
     full_name: 'Full Name',
   },
@@ -139,11 +120,11 @@ export const contactInfoMessageItem: ContactInfoMessageItem = {
   ],
 };
 
-export const contactInfoMessage: ContactInfoMessage = {
+export const contactInfoMessage: Conversation.ContactInfoMessage = {
   contact_info_message: contactInfoMessageItem,
 };
 
-export const locationMessageItem: LocationMessageItem = {
+export const locationMessageItem: Conversation.LocationMessageItem = {
   title: 'Phare d\'Eckmühl',
   label: 'Pointe de Penmarch',
   coordinates: {
@@ -152,20 +133,20 @@ export const locationMessageItem: LocationMessageItem = {
   },
 };
 
-export const locationMessage: LocationMessage = {
+export const locationMessage: Conversation.LocationMessage = {
   location_message: locationMessageItem,
 };
 
-export const mediaMessageItem: MediaMessageItem = {
+export const mediaMessageItem: Conversation.MediaMessageItem = {
   url: 'https://url-to-media.com',
   thumbnail_url: 'https://url-to-thumbnail.com',
 };
 
-export const mediaMessage: MediaMessage = {
+export const mediaMessage: Conversation.MediaMessage = {
   media_message: mediaMessageItem,
 };
 
-export const templateMessageItem: TemplateMessageItem = {
+export const templateMessageItem: Conversation.TemplateMessageItem = {
   omni_template: {
     template_id: 'templateId',
     version: '1',
@@ -183,11 +164,11 @@ export const templateMessageItem: TemplateMessageItem = {
   },
 };
 
-export const templateMessage: TemplateMessage = {
+export const templateMessage: Conversation.TemplateMessage = {
   template_message: templateMessageItem,
 };
 
-export const listMessageItem: ListMessageItem = {
+export const listMessageItem: Conversation.ListMessageItem = {
   title: 'Choose your icecream flavor',
   description: 'The best icecream in town!',
   sections: [
@@ -231,6 +212,6 @@ export const listMessageItem: ListMessageItem = {
   },
 };
 
-export const listMessage: ListMessage = {
+export const listMessage: Conversation.ListMessage = {
   list_message: listMessageItem,
 };

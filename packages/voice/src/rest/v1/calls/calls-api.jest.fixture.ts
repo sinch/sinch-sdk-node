@@ -1,5 +1,10 @@
-import { GetCallInformation } from '../../../models';
-import { CallsApi, GetCallResultRequestData, ManageWithCallLegRequestData, UpdateCallRequestData } from './calls-api';
+import { CallsApi } from './calls-api';
+import {
+  GetCallInformation,
+  GetCallResultRequestData,
+  ManageWithCallLegRequestData,
+  UpdateCallRequestData,
+} from '../../../models';
 
 export class CallsApiFixture implements Partial<Readonly<CallsApi>> {
 
@@ -16,4 +21,3 @@ export class CallsApiFixture implements Partial<Readonly<CallsApi>> {
    */
   public update: jest.Mock<Promise<void>, [UpdateCallRequestData]> = jest.fn();
 }
-

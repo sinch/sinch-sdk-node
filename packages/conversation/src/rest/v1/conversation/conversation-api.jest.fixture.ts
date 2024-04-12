@@ -1,6 +1,9 @@
-import { Conversation, ConversationRecentMessage, InjectEventResponse } from '../../../models';
+import { ApiListPromise } from '@sinch/sdk-client';
+import { ConversationApi } from './conversation-api';
 import {
-  ConversationApi,
+  Conversation,
+  ConversationRecentMessage,
+  InjectEventResponse,
   CreateConversationRequestData,
   DeleteConversationRequestData,
   GetConversationRequestData,
@@ -10,8 +13,7 @@ import {
   ListRecentConversationsRequestData,
   StopActiveConversationRequestData,
   UpdateConversationRequestData,
-} from './conversation-api';
-import { ApiListPromise } from '@sinch/sdk-client';
+} from '../../../models';
 
 export class ConversationApiFixture implements Partial<Readonly<ConversationApi>> {
 
@@ -53,4 +55,3 @@ export class ConversationApiFixture implements Partial<Readonly<ConversationApi>
    */
   public update: jest.Mock<Promise<Conversation>, [UpdateConversationRequestData]> = jest.fn();
 }
-

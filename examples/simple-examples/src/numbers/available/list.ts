@@ -1,12 +1,12 @@
 import { getPrintFormat, initNumbersService, printFullResponse } from '../../config';
-import { ListAvailableNumbersRequestData } from '@sinch/sdk-core';
+import { Numbers } from '@sinch/sdk-core';
 
 (async () => {
   console.log('**************************************');
   console.log('* NumberService_ListAvailableNumbers *');
   console.log('**************************************');
 
-  const requestData: ListAvailableNumbersRequestData= {
+  const requestData: Numbers.ListAvailableNumbersRequestData= {
     regionCode: 'US',
     type: 'LOCAL',
     capabilities: ['SMS', 'VOICE'],

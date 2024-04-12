@@ -1,11 +1,11 @@
-import { ActiveNumber } from '../../../models';
 import {
-  ActiveNumberApi,
+  ActiveNumber,
   GetActiveNumberRequestData,
   ListActiveNumbersRequestData,
   ReleaseNumberRequestData,
   UpdateActiveNumberRequestData,
-} from './active-number-api';
+} from '../../../models';
+import { ActiveNumberApi } from './active-number-api';
 import { ApiListPromise } from '@sinch/sdk-client';
 
 export class ActiveNumberApiFixture implements Partial<Readonly<ActiveNumberApi>> {

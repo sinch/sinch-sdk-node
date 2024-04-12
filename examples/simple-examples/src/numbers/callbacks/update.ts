@@ -1,4 +1,4 @@
-import { UpdateCallbackConfigurationRequestData } from '@sinch/sdk-core';
+import { Numbers } from '@sinch/sdk-core';
 import {
   getHmacSecretFromConfig,
   getPrintFormat,
@@ -14,8 +14,8 @@ import * as process from 'process';
 
   const hmacSecret = getHmacSecretFromConfig();
 
-  const requestData: UpdateCallbackConfigurationRequestData = {
-    callbackConfigurationUpdateRequestBody: {
+  const requestData: Numbers.UpdateCallbackConfigurationRequestData = {
+    updateCallbackConfigurationRequestBody: {
       hmacSecret,
     },
   };

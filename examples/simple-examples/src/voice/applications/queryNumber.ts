@@ -4,7 +4,7 @@ import {
   initVoiceService,
   printFullResponse,
 } from '../../config';
-import { QueryNumberRequestData } from '@sinch/sdk-core';
+import { Voice } from '@sinch/sdk-core';
 
 (async () => {
   console.log('***********************');
@@ -13,7 +13,7 @@ import { QueryNumberRequestData } from '@sinch/sdk-core';
 
   const phoneNumber = getPhoneNumberFromConfig();
 
-  const requestData: QueryNumberRequestData = {
+  const requestData: Voice.QueryNumberRequestData = {
     number: phoneNumber,
   };
 

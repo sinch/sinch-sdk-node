@@ -1,19 +1,11 @@
 import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
 import {
-  StartCalloutVerificationResponse,
-  CalloutVerificationReportResponse,
-  StartSeamlessVerificationResponse,
-  StartFlashCallVerificationResponse,
-  FlashCallVerificationReportResponse,
-  LinksObject,
-  StartSmsVerificationResponse,
-  SMSVerificationReportResponse,
+  Verification,
   VerificationsApi,
   VerificationsApiFixture,
-  verificationsHelper,
 } from '../../../../src';
 
-const _links: LinksObject[] = [
+const _links: Verification.LinksObject[] = [
   {
     rel: 'status',
     href: 'https://dc-euc1-std.verification.api.sinch.com/verification/v1/verifications/id/some_verification_id',
@@ -43,8 +35,8 @@ describe('VerificationsApi', () => {
   describe ('startVerification', () => {
     it('should make a POST request to start a verification with an SMS', async () => {
       // Given
-      const requestData = verificationsHelper.buildStartSmsVerificationRequest('+46700000000');
-      const expectedResponse: StartSmsVerificationResponse = {
+      const requestData = Verification.startVerificationHelper.buildSmsRequest('+46700000000');
+      const expectedResponse: Verification.StartSmsVerificationResponse = {
         id: 'some_verification_id',
         method: 'sms',
         sms: {
@@ -66,8 +58,8 @@ describe('VerificationsApi', () => {
 
     it('should make a POST request to start a verification with a FlashCall', async () => {
       // Given
-      const requestData = verificationsHelper.buildStartFlashCallVerificationRequest('+46700000000', undefined, 30);
-      const expectedResponse: StartFlashCallVerificationResponse = {
+      const requestData = Verification.startVerificationHelper.buildFlashCallRequest('+46700000000', undefined, 30);
+      const expectedResponse: Verification.StartFlashCallVerificationResponse = {
         id: 'some_verification_id',
         method: 'flashCall',
         flashCall: {
@@ -91,8 +83,8 @@ describe('VerificationsApi', () => {
 
     it('should make a POST request to start a verification with a Callout', async () => {
       // Given
-      const requestData = verificationsHelper.buildStartCalloutVerificationRequest('+46700000000');
-      const expectedResponse: StartCalloutVerificationResponse = {
+      const requestData = Verification.startVerificationHelper.buildCalloutRequest('+46700000000');
+      const expectedResponse: Verification.StartCalloutVerificationResponse = {
         id: 'some_verification_id',
         method: 'callout',
         _links,
@@ -110,8 +102,8 @@ describe('VerificationsApi', () => {
 
     it('should make a POST request to start a data verification (seamless)', async () => {
       // Given
-      const requestData = verificationsHelper.buildStartSeamlessVerificationRequest('+46700000000');
-      const expectedResponse: StartSeamlessVerificationResponse = {
+      const requestData = Verification.startVerificationHelper.buildSeamlessRequest('+46700000000');
+      const expectedResponse: Verification.StartSeamlessVerificationResponse = {
         id: 'some_verification_id',
         method: 'seamless',
         seamless: {
@@ -135,10 +127,10 @@ describe('VerificationsApi', () => {
     it('should make a PUT request to report the verification code (OTP) received by SMS to verify it,'
       + 'using the verification ID of the verification request', async () => {
       // Given
-      const requestData = verificationsHelper.buildReportSmsVerificationByIdRequest(
+      const requestData = Verification.reportVerificationByIdHelper.buildSmsRequest(
         'some_verification_id',
         '0000');
-      const expectedResponse: SMSVerificationReportResponse = {
+      const expectedResponse: Verification.SMSVerificationReportResponse = {
         id: 'some_verification_id',
         method: 'sms',
         status: 'SUCCESSFUL',
@@ -157,10 +149,10 @@ describe('VerificationsApi', () => {
     it('should make a PUT request to report the CLI received by FlashCall to verify it,'
       + 'using the verification ID of the verification request', async () => {
       // Given
-      const requestData = verificationsHelper.buildReportFlashCallVerificationByIdRequest(
+      const requestData = Verification.reportVerificationByIdHelper.buildFlashCallRequest(
         'some_verification_id',
         '+46000000000');
-      const expectedResponse: FlashCallVerificationReportResponse = {
+      const expectedResponse: Verification.FlashCallVerificationReportResponse = {
         id: 'some_verification_id',
         method: 'flashcall',
         status: 'SUCCESSFUL',
@@ -190,10 +182,10 @@ describe('VerificationsApi', () => {
     it('should make a PUT request to report the verification code (OTP) received by a phone call to verify it,'
       + 'using the verification ID of the verification request', async () => {
       // Given
-      const requestData = verificationsHelper.buildReportCalloutVerificationByIdRequest(
+      const requestData = Verification.reportVerificationByIdHelper.buildCalloutRequest(
         'some_verification_id',
         '0000');
-      const expectedResponse: CalloutVerificationReportResponse = {
+      const expectedResponse: Verification.CalloutVerificationReportResponse = {
         id: 'some_verification_id',
         method: 'callout',
         status: 'SUCCESSFUL',
@@ -215,10 +207,10 @@ describe('VerificationsApi', () => {
     it('should make a PUT request to report the verification code (OTP) received by SMS to verify it,'
       + 'using the identity of the user', async () => {
       // Given
-      const requestData = verificationsHelper.buildReportSmsVerificationByIdentityRequest(
+      const requestData = Verification.reportVerificationByIdentityHelper.buildSmsRequest(
         '+33444555666',
         '0000');
-      const expectedResponse: SMSVerificationReportResponse = {
+      const expectedResponse: Verification.SMSVerificationReportResponse = {
         id: '018beea3-a942-0094-4a3a-d6b2f2c65057',
         method: 'sms',
         status: 'FAIL',
@@ -245,11 +237,11 @@ describe('VerificationsApi', () => {
     it('should make a PUT request to report the CLI received by FlashCall to verify it,'
       + 'using the identity of the user', async () => {
       // Given
-      const requestData = verificationsHelper.buildReportFlashCallVerificationByIdentityRequest(
+      const requestData = Verification.reportVerificationByIdentityHelper.buildFlashCallRequest(
         '+33444555666',
         '+46000000000',
       );
-      const expectedResponse: FlashCallVerificationReportResponse = {
+      const expectedResponse: Verification.FlashCallVerificationReportResponse = {
         id: '018beea3-a942-0094-4a3a-d6b2f2c65057',
         method: 'flashcall',
         status: 'FAIL',
@@ -281,10 +273,10 @@ describe('VerificationsApi', () => {
     it('should make a PUT request to report the verification code (OTP) received by a phone call to verify it,'
       + 'using the identity of the user', async () => {
       // Given
-      const requestData = verificationsHelper.buildReportCalloutVerificationByIdentityRequest(
+      const requestData = Verification.reportVerificationByIdentityHelper.buildCalloutRequest(
         '+33444555666',
         '0000');
-      const expectedResponse: CalloutVerificationReportResponse = {
+      const expectedResponse: Verification.CalloutVerificationReportResponse = {
         id: '018beea3-a942-0094-4a3a-d6b2f2c65057',
         method: 'callout',
         status: 'FAIL',

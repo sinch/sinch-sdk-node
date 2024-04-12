@@ -1,7 +1,9 @@
-import { ConversationEvent, Recipient, SendEventResponse } from '../../../models';
+import { ApiListPromise } from '@sinch/sdk-client';
+import { EventsApi } from './events-api';
 import {
+  ConversationEvent,
   DeleteEventRequestData,
-  EventsApi,
+  Recipient,
   GetEventRequestData,
   ListEventsRequestData,
   SendAgentJoinedEventRequestData,
@@ -11,8 +13,8 @@ import {
   SendComposingEventRequestData,
   SendEventRequestData,
   SendGenericEventRequestData,
-} from './events-api';
-import { ApiListPromise } from '@sinch/sdk-client';
+  SendEventResponse,
+} from '../../../models';
 
 export class EventsApiFixture implements Partial<Readonly<EventsApi>> {
 
@@ -75,4 +77,3 @@ export class EventsApiFixture implements Partial<Readonly<EventsApi>> {
     [SendGenericEventRequestData<Recipient>]
   > = jest.fn();
 }
-
