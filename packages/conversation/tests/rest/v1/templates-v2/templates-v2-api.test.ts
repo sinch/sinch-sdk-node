@@ -1,16 +1,8 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  V2CreateTemplateRequestData,
-  V2DeleteTemplateRequestData,
-  V2GetTemplateRequestData,
-  V2ListTemplatesRequestData,
-  V2ListTemplatesResponse,
-  V2ListTranslationsRequestData,
-  V2UpdateTemplateRequestData,
-  V2ListTranslationsResponse,
-  V2TemplateResponse,
   TemplatesV2Api,
   TemplatesV2ApiFixture,
+  Conversation,
 } from '../../../../src';
 
 describe('TemplatesV2Api', () => {
@@ -32,7 +24,7 @@ describe('TemplatesV2Api', () => {
   describe ('v2CreateTemplate', () => {
     it('should make a POST request to create a template V1', async () => {
       // Given
-      const requestData: V2CreateTemplateRequestData = {
+      const requestData: Conversation.V2CreateTemplateRequestData = {
         createTemplateRequestBody: {
           description: 'Template v2 description',
           default_translation: 'en-US',
@@ -52,7 +44,7 @@ describe('TemplatesV2Api', () => {
           ],
         },
       };
-      const expectedResponse: V2TemplateResponse = {
+      const expectedResponse: Conversation.V2TemplateResponse = {
         id: 'templateV2Id',
         description: 'Template v2 description',
         version: 1,
@@ -92,7 +84,7 @@ describe('TemplatesV2Api', () => {
   describe ('v2DeleteTemplate', () => {
     it('should make a DELETE request to delete the template associated to the ID', async () => {
       // Given
-      const requestData: V2DeleteTemplateRequestData = {
+      const requestData: Conversation.V2DeleteTemplateRequestData = {
         template_id: 'templateV2Id',
       };
       const expectedResponse: any = {};
@@ -111,10 +103,10 @@ describe('TemplatesV2Api', () => {
   describe ('v2GetTemplate', () => {
     it('should make a GET request to get the template associated to the ID', async () => {
       // Given
-      const requestData: V2GetTemplateRequestData = {
+      const requestData: Conversation.V2GetTemplateRequestData = {
         template_id: 'templateV2Id',
       };
-      const expectedResponse: V2TemplateResponse = {
+      const expectedResponse: Conversation.V2TemplateResponse = {
         id: 'templateV2Id',
         description: 'Template v2 description',
         version: 1,
@@ -154,8 +146,8 @@ describe('TemplatesV2Api', () => {
   describe ('v2ListTemplates', () => {
     it('should make a GET request to list the templates belonging to the project ID', async () => {
       // Given
-      const requestData: V2ListTemplatesRequestData = {};
-      const expectedResponse: V2ListTemplatesResponse = {
+      const requestData: Conversation.V2ListTemplatesRequestData = {};
+      const expectedResponse: Conversation.V2ListTemplatesResponse = {
         templates: [
           {
             id: 'templateV2Id',
@@ -200,12 +192,12 @@ describe('TemplatesV2Api', () => {
     // eslint-disable-next-line max-len
     it('should make a GET request to list the translations belonging to the template associated to the ID', async () => {
       // Given
-      const requestData: V2ListTranslationsRequestData = {
+      const requestData: Conversation.V2ListTranslationsRequestData = {
         template_id: 'templateV2Id',
         language_code: 'en-US',
         translation_version: 'latest',
       };
-      const expectedResponse: V2ListTranslationsResponse = {
+      const expectedResponse: Conversation.V2ListTranslationsResponse = {
         translations: [
           {
             language_code: 'en-US',
@@ -239,7 +231,7 @@ describe('TemplatesV2Api', () => {
   describe ('v2UpdateTemplate', () => {
     it('should make a PUT request to  update the template associated to the ID', async () => {
       // Given
-      const requestData: V2UpdateTemplateRequestData = {
+      const requestData: Conversation.V2UpdateTemplateRequestData = {
         template_id: 'templateV2Id',
         updateTemplateRequestBody: {
           version: 1,
@@ -293,7 +285,7 @@ describe('TemplatesV2Api', () => {
           ],
         },
       };
-      const expectedResponse: V2TemplateResponse = {
+      const expectedResponse: Conversation.V2TemplateResponse = {
         id: 'templateV2Id',
         description: 'Updated description v2',
         version: 2,

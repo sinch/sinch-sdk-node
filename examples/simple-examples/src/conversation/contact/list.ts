@@ -1,12 +1,12 @@
-import { Contact, ListContactsRequestData, PageResult } from '@sinch/sdk-core';
+import { Conversation, PageResult } from '@sinch/sdk-core';
 import { getPrintFormat, initConversationService, printFullResponse } from '../../config';
 
 const populateContactsList = (
-  contactPage: PageResult<Contact>,
-  contactList: Contact[],
+  contactPage: PageResult<Conversation.Contact>,
+  contactList: Conversation.Contact[],
   contactDetailsList: string[],
 ) => {
-  contactPage.data?.map((contact: Contact) => {
+  contactPage.data?.map((contact: Conversation.Contact) => {
     contactList.push(contact);
     contactDetailsList.push(`${contact.id} - ${contact.display_name}`);
   });
@@ -17,7 +17,7 @@ const populateContactsList = (
   console.log('* Contact_ListContacts *');
   console.log('************************');
 
-  const requestData: ListContactsRequestData = {
+  const requestData: Conversation.ListContactsRequestData = {
     page_size: 2,
   };
 
@@ -28,7 +28,7 @@ const populateContactsList = (
   // ----------------------------------------------
   let response = await conversationService.contact.list(requestData);
 
-  const contactList: Contact[] = [];
+  const contactList: Conversation.Contact[] = [];
   const contactDetailsList: string[] = [];
 
   // Loop on all the pages to get all the active numbers

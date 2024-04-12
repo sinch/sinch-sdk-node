@@ -2,7 +2,7 @@ import {
   getCallIdFromConfig,
   initVoiceService,
 } from '../../config';
-import { UpdateCallRequestData, VoiceRegion } from '@sinch/sdk-core';
+import { Voice, VoiceRegion } from '@sinch/sdk-core';
 
 (async () => {
   console.log('**************');
@@ -11,7 +11,7 @@ import { UpdateCallRequestData, VoiceRegion } from '@sinch/sdk-core';
 
   const callId = getCallIdFromConfig();
 
-  const requestData: UpdateCallRequestData = {
+  const requestData: Voice.UpdateCallRequestData = {
     callId,
     updateCallRequestBody: {
       instructions: [

@@ -43,20 +43,19 @@ If you are using this SDK as part of the Sinch SDK (`@sinch/sdk-core`) you can a
 
 ```typescript
 import { 
-  SendSMSRequestData,
-  SendSMSResponse,
+  Sms,
   SmsService,
   SinchClient,
   ServicePlanIdCredentials,
   UnifiedCredentials,
-  Region,
+  SmsRegion,
 } from '@sinch/sdk-core';
 
 const credentialsWithProjectId: UnifiedCredentials = {
   projectId: 'PROJECT_ID',
   keyId: 'KEY_ID',
   keySecret: 'KEY_SECRET',
-  region: Region.UNITED_STATES, // Optional, default is 'us'. Only other possibility is 'eu'
+  smsRegion: SmsRegion.UNITED_STATES, // Optional, default is 'us'. Only other possibility is 'eu'
 };
 // Access the 'sms' service registered on the Sinch Client
 const sinchClientCreatedWithProjectId = new SinchClient(credentialsWithProjectId);
@@ -65,25 +64,25 @@ const smsServiceWithProjectId: SmsService = sinchClientCreatedWithProjectId.sms;
 const credentialsWithServicePlanId: ServicePlanIdCredentials = {
   servicePlanId: 'SERVICE_PLAN_ID',
   apiToken: 'API_TOKEN',
-  region: Region.UNITED_STATES, // Optional, default is 'us'. Other possibilities are 'eu', 'br', 'au' and 'ca'
+  smsRegion: SmsRegion.UNITED_STATES, // Optional, default is 'us'. Other possibilities are 'eu', 'br', 'au' and 'ca'
 };
 // Access the 'sms' service registered on the Sinch Client
 const sinchClientCreatedWithServicePlanId = new SinchClient(credentialsWithServicePlanId);
 const smsServiceWithServicePlanId: SmsService = sinchClientCreatedWithServicePlanId.sms;
 
 // Build the request data
-const requestData: SendSMSRequestData = {
+const requestData: Sms.SendSMSRequestData = {
   sendSMSRequestBody: {
     to: [
        '+12223334444',
-       '+12223335555'
+       '+12223335555',
     ],
     from: '+12228889999',
     parameters: {
        name: {
           '+12223334444': 'John',
           default: 'there',
-       }
+       },
     },
     body: 'Hi ${name}',
     type: 'mt_text', 
@@ -92,12 +91,12 @@ const requestData: SendSMSRequestData = {
 
 // Use the 'sms' service registered on the Sinch client
 // The request will be authenticated with OAuth2 and sent to https://zt.us.sms.api.sinch.com
-const availabilityResult_1: SendSMSResponse 
+const availabilityResult_1: Sms.SendSMSResponse 
     = await smsServiceWithProjectId.batches.send(requestData);
 
 // Use the 'sms' service registered on the Sinch client
 // The request will be authenticated with the API Token and sent to https://us.sms.api.sinch.com
-const availabilityResult_2: SendSMSResponse 
+const availabilityResult_2: Sms.SendSMSResponse 
     = await smsServiceWithServicePlanId.batches.send(requestData);
 ```
 
@@ -107,13 +106,12 @@ The SDK can be used standalone if you need to use only the SMS APIs. As for a us
 
 ```typescript
 import {
-  Region,
+  SmsRegion,
   ServicePlanIdCredentials,
   UnifiedCredentials,
  } from '@sinch/sdk-client';
 import { 
-  SendSMSRequestData,
-  SendSMSResponse,
+  Sms,
   SmsService,
 } from '@sinch/sms';
 
@@ -121,7 +119,7 @@ const credentialsWithProjectId: UnifiedCredentials = {
   projectId: 'PROJECT_ID',
   keyId: 'KEY_ID',
   keySecret: 'KEY_SECRET',
-  region: Region.UNITED_STATES, // Optional, default is 'us'. Only other possibility is 'eu'
+  smsRegion: SmsRegion.UNITED_STATES, // Optional, default is 'us'. Only other possibility is 'eu'
 };
 // Declare the 'sms' service in a standalone way
 const smsServiceWithProjectId = new SmsService(credentialsWithProjectId);
@@ -129,23 +127,23 @@ const smsServiceWithProjectId = new SmsService(credentialsWithProjectId);
 const credentialsWithServicePlanId: ServicePlanIdCredentials = {
   servicePlanId: 'SERVICE_PLAN_ID',
   apiToken: 'API_TOKEN',
-  region: Region.UNITED_STATES, // Optional, default is 'us'. Other possibilities are 'eu', 'br', 'au' and 'ca'
+  smsRegion: SmsRegion.UNITED_STATES, // Optional, default is 'us'. Other possibilities are 'eu', 'br', 'au' and 'ca'
 };
 // Declare the 'sms' service in a standalone way
 const smsServiceWithServicePlanId = new SmsService(credentialsWithServicePlanId);
 
 // Build the request data
-const requestData: SendSMSRequestData = {
+const requestData: Sms.SendSMSRequestData = {
     // some request parameters
 };
 
 // Use the standalone declaration of the 'sms' service
 // The request will be authenticated with OAuth2 and sent to https://zt.us.sms.api.sinch.com
-const response_1: SendSMSResponse = await smsServiceWithProjectId.batches.send(requestData);
+const response_1: Sms.SendSMSResponse = await smsServiceWithProjectId.batches.send(requestData);
 
 // Use the standalone declaration of the 'sms' service
 // The request will be authenticated with the API Token and sent to https://us.sms.api.sinch.com
-const response_2: SendSMSResponse = await smsServiceWithServicePlanId.batches.send(requestData);
+const response_2: Sms.SendSMSResponse = await smsServiceWithServicePlanId.batches.send(requestData);
 ```
 
 ## Promises
@@ -154,7 +152,7 @@ All the methods that interact with the Sinch APIs use Promises. You can use `awa
 
 ```typescript
 // Method 1: Wait for the Promise to complete (you need to be in an 'async' method)
-let batchResponse: SendSMSResponse;
+let batchResponse: Sms.SendSMSResponse;
 try {
   batchResponse = await smsService.batches.send(requestData);
   console.log(`The SMS has been sent successfully: batch id = ${batchResponse.id}`);

@@ -1,4 +1,4 @@
-import { CreateAppRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import {
   getMessengerTokenFormConfig,
   getPrintFormat,
@@ -13,7 +13,7 @@ import {
 
   const messengerToken = getMessengerTokenFormConfig();
 
-  const requestData: CreateAppRequestData = {
+  const requestData: Conversation.CreateAppRequestData = {
     appCreateRequestBody: {
       display_name: 'New app created with the Node.js SDK',
       channel_credentials: [

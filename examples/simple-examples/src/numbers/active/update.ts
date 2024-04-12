@@ -6,7 +6,7 @@ import {
   initNumbersService,
   printFullResponse,
 } from '../../config';
-import { UpdateActiveNumberRequestData } from '@sinch/sdk-core';
+import { Numbers } from '@sinch/sdk-core';
 
 (async () => {
   console.log('************************************');
@@ -17,9 +17,9 @@ import { UpdateActiveNumberRequestData } from '@sinch/sdk-core';
   const servicePlanId = getServicePlanIdFromConfig();
   const callbackUrl = getNumberCallbackUrlFromConfig();
 
-  const requestData: UpdateActiveNumberRequestData= {
+  const requestData: Numbers.UpdateActiveNumberRequestData= {
     phoneNumber,
-    activeNumberRequestBody: {
+    updateActiveNumberRequestBody: {
       displayName: 'New display name updated with the Sinch Node.js SDK',
       smsConfiguration: {
         servicePlanId,

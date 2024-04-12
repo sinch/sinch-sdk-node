@@ -1,6 +1,7 @@
 import {
   ReportCalloutVerificationByIdentityRequestData,
-  ReportCalloutVerificationByIdRequestData, ReportFlashCallVerificationByIdentityRequestData,
+  ReportCalloutVerificationByIdRequestData,
+  ReportFlashCallVerificationByIdentityRequestData,
   ReportFlashCallVerificationByIdRequestData,
   ReportSmsVerificationByIdentityRequestData,
   ReportSmsVerificationByIdRequestData,
@@ -8,10 +9,10 @@ import {
   StartFlashCallVerificationRequestData,
   StartSeamlessVerificationRequestData,
   StartSmsVerificationRequestData,
-} from '../../rest';
+} from './requests';
 
-export const verificationsHelper = {
-  buildStartSmsVerificationRequest: (
+export const startVerificationHelper = {
+  buildSmsRequest: (
     phoneNumber: string,
     reference?: string,
   ): StartSmsVerificationRequestData => {
@@ -25,7 +26,7 @@ export const verificationsHelper = {
       },
     };
   },
-  buildStartCalloutVerificationRequest: (
+  buildCalloutRequest: (
     phoneNumber: string,
     reference?: string,
   ): StartCalloutVerificationRequestData => {
@@ -39,7 +40,7 @@ export const verificationsHelper = {
       },
     };
   },
-  buildStartFlashCallVerificationRequest: (
+  buildFlashCallRequest: (
     phoneNumber: string,
     reference?: string,
     dialTimeout?: number,
@@ -59,7 +60,7 @@ export const verificationsHelper = {
       },
     };
   },
-  buildStartSeamlessVerificationRequest: (
+  buildSeamlessRequest: (
     phoneNumber: string,
     reference?: string,
   ): StartSeamlessVerificationRequestData => {
@@ -73,7 +74,9 @@ export const verificationsHelper = {
       },
     };
   },
-  buildReportSmsVerificationByIdRequest: (
+};
+export const reportVerificationByIdHelper = {
+  buildSmsRequest: (
     id: string,
     code: string,
     cli?: string,
@@ -88,7 +91,7 @@ export const verificationsHelper = {
       },
     };
   },
-  buildReportCalloutVerificationByIdRequest: (
+  buildCalloutRequest: (
     id: string,
     code: string,
   ): ReportCalloutVerificationByIdRequestData => {
@@ -101,7 +104,7 @@ export const verificationsHelper = {
       },
     };
   },
-  buildReportFlashCallVerificationByIdRequest: (
+  buildFlashCallRequest: (
     id: string,
     cli: string,
   ): ReportFlashCallVerificationByIdRequestData => {
@@ -114,7 +117,9 @@ export const verificationsHelper = {
       },
     };
   },
-  buildReportSmsVerificationByIdentityRequest: (
+};
+export const reportVerificationByIdentityHelper = {
+  buildSmsRequest: (
     identity: string,
     code: string,
     cli?: string,
@@ -129,7 +134,7 @@ export const verificationsHelper = {
       },
     };
   },
-  buildReportCalloutVerificationByIdentityRequest: (
+  buildCalloutRequest: (
     identity: string,
     code: string,
   ): ReportCalloutVerificationByIdentityRequestData => {
@@ -142,7 +147,7 @@ export const verificationsHelper = {
       },
     };
   },
-  buildReportFlashCallVerificationByIdentityRequest: (
+  buildFlashCallRequest: (
     identity: string,
     cli: string,
   ): ReportFlashCallVerificationByIdentityRequestData => {

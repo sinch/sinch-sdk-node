@@ -37,8 +37,7 @@ If you are using this SDK as part of the Sinch SDK (`@sinch/sdk-core`) you can a
 
 ```typescript
 import {
-  InitiateVerificationResponse,
-  StartVerificationRequestData,
+  Verification,
   SinchClient,
   ApplicationCredentials, 
   VerificationService,
@@ -54,7 +53,7 @@ const sinch = new SinchClient(credentials);
 const verificationService: VerificationService = sinch.verification;
 
 // Build the request data
-const requestData: StartVerificationRequestData = {
+const requestData: Verification.StartVerificationRequestData = {
   initiateVerificationRequestBody: {
     identity: {
       type: 'number',
@@ -65,7 +64,7 @@ const requestData: StartVerificationRequestData = {
 };
 
 // Use the 'verification' service registered on the Sinch client
-const verificationInitResponse: InitiateVerificationResponse
+const verificationInitResponse: Verification.InitiateVerificationResponse
   = await verificationService.verifications.start(requestData);
 ```
 
@@ -77,9 +76,8 @@ The SDK can be used standalone if you need to use only the Verification APIs.
 import {
   ApplicationCredentials
  } from '@sinch/sdk-client';
-import { 
-  InitiateVerificationResponse,
-  StartVerificationRequestData,
+import {
+  Verification,
   VerificationService,
 } from '@sinch/verification';
 
@@ -92,7 +90,7 @@ const credentials: ApplicationCredentials = {
 const verificationService = new VerificationService(credentials);
 
 // Build the request data
-const requestData: StartVerificationRequestData = {
+const requestData: Verification.StartVerificationRequestData = {
   initiateVerificationRequestBody: {
     identity: {
       type: 'number',
@@ -103,7 +101,7 @@ const requestData: StartVerificationRequestData = {
 };
 
 // Use the standalone declaration of the 'verification' service
-const verificationInitResponse: InitiateVerificationResponse 
+const verificationInitResponse: Verification.InitiateVerificationResponse 
     = await verificationService.verifications.start(requestData);
 ```
 
@@ -113,7 +111,7 @@ All the methods that interact with the Sinch APIs use Promises. You can use `awa
 
 ```typescript
 // Method 1: Wait for the Promise to complete (you need to be in an 'async' method)
-let verificationInitResponse: InitiateVerificationResponse;
+let verificationInitResponse: Verification.InitiateVerificationResponse;
 try {
   verificationInitResponse = await verificationService.verifications.start(requestData);
   console.log(`Verification ID = ${verificationInitResponse.id}`);

@@ -1,12 +1,12 @@
 import { getPrintFormat, initNumbersService, printFullResponse } from '../../config';
-import { ActiveNumber, ListActiveNumbersRequestData, PageResult } from '@sinch/sdk-core';
+import { Numbers, PageResult } from '@sinch/sdk-core';
 
 const populateActiveNumbersList = (
-  activeNumbersPage: PageResult<ActiveNumber>,
-  activeNumbersList: ActiveNumber[],
+  activeNumbersPage: PageResult<Numbers.ActiveNumber>,
+  activeNumbersList: Numbers.ActiveNumber[],
   phoneNumbersList: (string | undefined)[],
 ) => {
-  activeNumbersPage.data?.map((activeNumber: ActiveNumber) => {
+  activeNumbersPage.data?.map((activeNumber: Numbers.ActiveNumber) => {
     activeNumbersList.push(activeNumber);
     phoneNumbersList.push(activeNumber.phoneNumber);
   });
@@ -18,7 +18,7 @@ const populateActiveNumbersList = (
   console.log('* NumberService_ListActiveNumbers *');
   console.log('***********************************');
 
-  const requestData: ListActiveNumbersRequestData = {
+  const requestData: Numbers.ListActiveNumbersRequestData = {
     regionCode: 'US',
     type: 'LOCAL',
     capability: 'SMS',
@@ -32,7 +32,7 @@ const populateActiveNumbersList = (
   // ----------------------------------------------
   let response = await numbersService.activeNumber.list(requestData);
 
-  const activeNumbersList: ActiveNumber[] = [];
+  const activeNumbersList: Numbers.ActiveNumber[] = [];
   const phoneNumbersList: (string | undefined)[] = [];
 
   // Loop on all the pages to get all the active numbers

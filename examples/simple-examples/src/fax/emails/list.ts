@@ -1,9 +1,9 @@
-import { Email, ListEmailsForProjectRequestData, PageResult } from '@sinch/sdk-core';
+import { Fax, PageResult } from '@sinch/sdk-core';
 import { getPrintFormat, initFaxService, printFullResponse } from '../../config';
 
 const populateEmailsList = (
-  emailsPage: PageResult<Email>,
-  fullEmailsList: Email[],
+  emailsPage: PageResult<Fax.Email>,
+  fullEmailsList: Fax.Email[],
   emailsList: string[],
 ) => {
   fullEmailsList.push(...emailsPage.data);
@@ -17,7 +17,7 @@ const populateEmailsList = (
   console.log('* getEmailsForProject *');
   console.log('***********************');
 
-  const requestData: ListEmailsForProjectRequestData = {
+  const requestData: Fax.ListEmailsForProjectRequestData = {
     pageSize: 2,
   };
 
@@ -29,7 +29,7 @@ const populateEmailsList = (
   let response = await faxService.emails.list(requestData);
 
   // Init data structure to hold the response content
-  const fullEmailsList: Email[] = [];
+  const fullEmailsList: Fax.Email[] = [];
   // Init data structure to hold the response content for pretty print
   const emailsList: string[] = [];
 

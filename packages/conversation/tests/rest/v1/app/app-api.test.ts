@@ -1,26 +1,8 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  AppResponse,
-  CreateAppRequestData,
-  DeleteAppRequestData,
-  GetAppRequestData,
-  ListAppsRequestData,
-  UpdateAppRequestData,
-  ChannelCredentialsAppleBC,
-  ChannelCredentialsInstagram,
-  ChannelCredentialsKakaoTalk,
-  ChannelCredentialsKakaoTalkChat,
-  ChannelCredentialsLine,
-  ChannelCredentialsMessenger,
-  ChannelCredentialsMms,
-  ChannelCredentialsRcs,
-  ChannelCredentialsSms,
-  ListAppsResponse,
   AppApi,
   AppApiFixture,
-  ChannelCredentialsTelegram,
-  ChannelCredentialsViber,
-  ChannelCredentialsViberBM, ChannelCredentialsWeChat, ChannelCredentialsWhatsApp,
+  Conversation,
 } from '../../../../src';
 
 describe('AppApi', () => {
@@ -42,7 +24,7 @@ describe('AppApi', () => {
   describe ('createApp', () => {
     it('should make a POST request to create a new Conversation App', async () => {
       // Given
-      const channelCredentialsAppleBC: ChannelCredentialsAppleBC = {
+      const channelCredentialsAppleBC: Conversation.ChannelCredentialsAppleBC = {
         channel: 'APPLEBC',
         applebc_credentials: {
           business_chat_account_id: 'apple_business_chat_account_id',
@@ -51,35 +33,35 @@ describe('AppApi', () => {
           apple_pay_certificate_password: 'apple_pay_certificate_password',
         },
       };
-      const channelCredentialsInstagram: ChannelCredentialsInstagram = {
+      const channelCredentialsInstagram: Conversation.ChannelCredentialsInstagram = {
         channel: 'INSTAGRAM',
         instagram_credentials: {
           token: 'instagram_channel_token',
           business_account_id: 'instagram_business_account_id',
         },
       };
-      const channelCredentialsKakaoTalk: ChannelCredentialsKakaoTalk = {
+      const channelCredentialsKakaoTalk: Conversation.ChannelCredentialsKakaoTalk = {
         channel: 'KAKAOTALK',
         kakaotalk_credentials: {
           kakaotalk_plus_friend_id: 'kakaotalk_friend_id',
           kakaotalk_sender_key: 'kakaotalk_sender_key',
         },
       };
-      const channelCredentialsKakaoTalkChat: ChannelCredentialsKakaoTalkChat = {
+      const channelCredentialsKakaoTalkChat: Conversation.ChannelCredentialsKakaoTalkChat = {
         channel: 'KAKAOTALKCHAT',
         kakaotalkchat_credentials: {
           kakaotalk_plus_friend_id: 'kakaotalk_friend_id',
           api_key: 'info_bank_api_key',
         },
       };
-      const channelCredentialsLine: ChannelCredentialsLine = {
+      const channelCredentialsLine: Conversation.ChannelCredentialsLine = {
         channel: 'LINE',
         line_credentials: {
           token: 'line_token',
           secret: 'line_secret',
         },
       };
-      const channelCredentialsMms: ChannelCredentialsMms = {
+      const channelCredentialsMms: Conversation.ChannelCredentialsMms = {
         channel: 'MMS',
         mms_credentials: {
           account_id: 'mms_account_id',
@@ -91,20 +73,20 @@ describe('AppApi', () => {
           default_sender: 'default_sender',
         },
       };
-      const channelCredentialsMessenger: ChannelCredentialsMessenger = {
+      const channelCredentialsMessenger: Conversation.ChannelCredentialsMessenger = {
         channel: 'MESSENGER',
         static_token: {
           token: 'messenger_static_token',
         },
       };
-      const channelCredentialsRcs: ChannelCredentialsRcs = {
+      const channelCredentialsRcs: Conversation.ChannelCredentialsRcs = {
         channel: 'RCS',
         static_bearer: {
           claimed_identity: 'rcs_claimed_identity',
           token: 'rcs_token',
         },
       };
-      const channelCredentialsSms: ChannelCredentialsSms = {
+      const channelCredentialsSms: Conversation.ChannelCredentialsSms = {
         channel: 'SMS',
         static_bearer: {
           claimed_identity: 'sms_claimed_identity',
@@ -117,26 +99,26 @@ describe('AppApi', () => {
       //     sms_app_id: 'sms_app_id',
       //   },
       // };
-      const channelCredentialsTelegram: ChannelCredentialsTelegram = {
+      const channelCredentialsTelegram: Conversation.ChannelCredentialsTelegram = {
         channel: 'TELEGRAM',
         telegram_credentials: {
           token: 'telegram_token',
         },
       };
-      const channelCredentialsViber: ChannelCredentialsViber = {
+      const channelCredentialsViber: Conversation.ChannelCredentialsViber = {
         channel: 'VIBER',
         static_token: {
           token: 'viber_token',
         },
       };
-      const channelCredentialsViberBM: ChannelCredentialsViberBM = {
+      const channelCredentialsViberBM: Conversation.ChannelCredentialsViberBM = {
         channel: 'VIBERBM',
         static_bearer: {
           claimed_identity: 'viberbm_claimed_identity',
           token: 'viberbm_token',
         },
       };
-      const channelCredentialsWeChat: ChannelCredentialsWeChat = {
+      const channelCredentialsWeChat: Conversation.ChannelCredentialsWeChat = {
         channel: 'WECHAT',
         wechat_credentials: {
           app_id: 'wechat_app_id',
@@ -145,14 +127,14 @@ describe('AppApi', () => {
           aes_key: 'wechat_aes_key',
         },
       };
-      const channelCredetialsWhatsApp: ChannelCredentialsWhatsApp = {
+      const channelCredetialsWhatsApp: Conversation.ChannelCredentialsWhatsApp = {
         channel: 'WHATSAPP',
         static_bearer: {
           claimed_identity: 'whatsapp_claimed_identity',
           token: 'whatsapp_token',
         },
       };
-      const requestData: CreateAppRequestData = {
+      const requestData: Conversation.CreateAppRequestData = {
         appCreateRequestBody: {
           display_name: 'Test App',
           channel_credentials: [
@@ -174,7 +156,7 @@ describe('AppApi', () => {
           ],
         },
       };
-      const expectedResponse: AppResponse = {
+      const expectedResponse: Conversation.AppResponse = {
         id: 'app_id',
         display_name: 'Test App',
       };
@@ -193,7 +175,7 @@ describe('AppApi', () => {
   describe ('deleteApp', () => {
     it('should make a DELETE request to delete the specified App ID', async () => {
       // Given
-      const requestData: DeleteAppRequestData = {
+      const requestData: Conversation.DeleteAppRequestData = {
         app_id: 'app_id',
       };
       const expectedResponse: any = {};
@@ -212,10 +194,10 @@ describe('AppApi', () => {
   describe ('getApp', () => {
     it('should make a GET request to retrieve the particular app as specified by the App ID', async () => {
       // Given
-      const requestData: GetAppRequestData = {
+      const requestData: Conversation.GetAppRequestData = {
         app_id: 'app_id',
       };
-      const expectedResponse: AppResponse = {
+      const expectedResponse: Conversation.AppResponse = {
         id: 'app_id',
         display_name: 'Test App',
       };
@@ -234,8 +216,8 @@ describe('AppApi', () => {
   describe ('listApps', () => {
     it('should make a GET request to get the list of all apps', async () => {
       // Given
-      const requestData: ListAppsRequestData = {};
-      const expectedResponse: ListAppsResponse = {
+      const requestData: Conversation.ListAppsRequestData = {};
+      const expectedResponse: Conversation.ListAppsResponse = {
         apps: [
           {
             id: 'app_id',
@@ -258,13 +240,13 @@ describe('AppApi', () => {
   describe ('updateApp', () => {
     it('should make a PATCH request to update a particular app as specified by the App ID', async () => {
       // Given
-      const requestData: UpdateAppRequestData = {
+      const requestData: Conversation.UpdateAppRequestData = {
         app_id: 'app_id',
         appUpdateRequestBody: {
           display_name: 'New display name',
         },
       };
-      const expectedResponse: AppResponse = {
+      const expectedResponse: Conversation.AppResponse = {
         id: 'app_id',
         display_name: 'New display name',
       };

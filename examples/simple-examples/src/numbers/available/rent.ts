@@ -7,10 +7,7 @@ import {
   getNumberCallbackUrlFromConfig,
   initNumbersService,
 } from '../../config';
-import {
-  RentNumberRequest,
-  RentNumberRequestData,
-} from '@sinch/sdk-core';
+import { Numbers } from '@sinch/sdk-core';
 
 (async () => {
   console.log('****************************');
@@ -21,7 +18,7 @@ import {
   const servicePlanId = readServicePlanId();
   const appId = readApplicationKey();
 
-  let rentNumberRequest: RentNumberRequest = {
+  let rentNumberRequest: Numbers.RentNumberRequest = {
     smsConfiguration: servicePlanId ? { servicePlanId } : undefined,
     voiceConfiguration: appId ? { appId } : undefined,
     callbackUrl,
@@ -35,7 +32,7 @@ import {
 
   const phoneNumber = getPhoneNumberFromConfig();
 
-  const requestData: RentNumberRequestData = {
+  const requestData: Numbers.RentNumberRequestData = {
     phoneNumber,
     rentNumberRequestBody: rentNumberRequest,
   };

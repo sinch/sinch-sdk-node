@@ -1,13 +1,9 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  ContactId,
-  IdentifiedBy,
-  LookupCapabilityRequest,
-  LookupCapabilityRequestData,
-  LookupCapabilityResponse,
-  Recipient,
+  CapabilityApi,
+  CapabilityApiFixture,
+  Conversation,
 } from '../../../../src';
-import { CapabilityApi, CapabilityApiFixture } from '../../../../src';
 import { recipientChannelIdentities, recipientContactId } from '../mocks';
 
 describe('CapabilityApi', () => {
@@ -28,22 +24,22 @@ describe('CapabilityApi', () => {
 
   describe ('queryCapability', () => {
     // Given
-    const lookupCapabilityRequest: Omit<LookupCapabilityRequest<Recipient>, 'recipient'> = {
+    const lookupCapabilityRequest: Omit<Conversation.LookupCapabilityRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
     };
-    const requestDataWithContactId: LookupCapabilityRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.LookupCapabilityRequestData<Conversation.ContactId> = {
       lookupCapabilityRequestBody: {
         ...lookupCapabilityRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: LookupCapabilityRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.LookupCapabilityRequestData<Conversation.IdentifiedBy> = {
       lookupCapabilityRequestBody: {
         ...lookupCapabilityRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: LookupCapabilityResponse = {
+    const expectedResponse: Conversation.LookupCapabilityResponse = {
       app_id: 'app_id',
     };
 

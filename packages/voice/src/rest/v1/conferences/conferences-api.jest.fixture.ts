@@ -1,15 +1,13 @@
+import { ConferencesApi } from './conferences-api';
 import {
   CalloutResponse,
+  ConferenceCalloutRequestData,
   GetConferenceInfoResponse,
-} from '../../../models';
-import {
-  ConferencesApi,
   GetConferenceInfoRequestData,
   KickAllRequestData,
   KickParticipantRequestData,
   ManageParticipantRequestData,
-} from './conferences-api';
-import { ConferenceCalloutRequestData } from '../callouts';
+} from '../../../models';
 
 export class ConferencesApiFixture implements Partial<Readonly<ConferencesApi>> {
 

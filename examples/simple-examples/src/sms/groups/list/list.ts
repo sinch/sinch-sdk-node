@@ -1,20 +1,19 @@
 import {
-  CreateGroupResponse,
-  ListGroupsRequestData,
+  Sms,
   PageResult,
   SmsService,
 } from '@sinch/sdk-core';
 import { getPrintFormat, printFullResponse } from '../../../config';
 
 const populateGroupsList = (
-  groupsPage: PageResult<CreateGroupResponse>,
-  fullGroupsList: CreateGroupResponse[],
+  groupsPage: PageResult<Sms.CreateGroupResponse>,
+  fullGroupsList: Sms.CreateGroupResponse[],
   groupsList: string[],
 ) => {
   // Populate the data structure that holds the response content
   fullGroupsList.push(...groupsPage.data);
   // Populate the data structure that holds the response content for pretty print
-  groupsPage.data.map((group: CreateGroupResponse) => {
+  groupsPage.data.map((group: Sms.CreateGroupResponse) => {
     groupsList.push(`Group ID: ${group.id} - Group name: ${group.name}`);
   });
 };
@@ -24,7 +23,7 @@ export const list = async(smsService: SmsService) => {
   console.log('* ListGroups *');
   console.log('**************');
 
-  const requestData: ListGroupsRequestData = {
+  const requestData: Sms.ListGroupsRequestData = {
     page_size: 1,
   };
 
@@ -40,7 +39,7 @@ export const list = async(smsService: SmsService) => {
   }
 
   // Init data structure to hold the response content
-  const fullGroupsList: CreateGroupResponse[] = [];
+  const fullGroupsList: Sms.CreateGroupResponse[] = [];
   // Init data structure to hold the response content for pretty print
   const groupsList: string[] = [];
 

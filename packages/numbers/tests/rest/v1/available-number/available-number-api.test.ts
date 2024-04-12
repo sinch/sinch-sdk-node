@@ -1,14 +1,8 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  ActiveNumber,
-  AvailableNumber,
   AvailableNumberApi,
   AvailableNumberApiFixture,
-  AvailableNumbersResponse,
-  GetAvailableNumberRequestData,
-  ListAvailableNumbersRequestData,
-  RentAnyNumberRequestData,
-  RentNumberRequestData,
+  Numbers,
 } from '../../../../src';
 
 describe('AvailableNumberApi', () => {
@@ -29,10 +23,10 @@ describe('AvailableNumberApi', () => {
   describe ('getAvailableNumber', () => {
     it('should make a GET request to check if a phone number is available for use', async () => {
       // Given
-      const requestData: GetAvailableNumberRequestData = {
+      const requestData: Numbers.GetAvailableNumberRequestData = {
         phoneNumber: '+17813334444',
       };
-      const expectedResponse: AvailableNumber = {
+      const expectedResponse: Numbers.AvailableNumber = {
         phoneNumber: '+17813334444',
         regionCode: 'US',
         type: 'LOCAL',
@@ -66,14 +60,14 @@ describe('AvailableNumberApi', () => {
   describe ('listAvailableNumbers', () => {
     it('should make a GET request to list the phone numbers that are available for you to activate', async () => {
       // Given
-      const requestData: ListAvailableNumbersRequestData = {
+      const requestData: Numbers.ListAvailableNumbersRequestData = {
         regionCode: 'US',
         type: 'LOCAL',
         'numberPattern.pattern': '%2B1781333',
         'numberPattern.searchPattern': 'START',
         capabilities: ['SMS', 'VOICE'],
       };
-      const expectedResponse: AvailableNumbersResponse = {
+      const expectedResponse: Numbers.AvailableNumbersResponse = {
         availableNumbers: [
           {
             phoneNumber: '+17813334444',
@@ -111,7 +105,7 @@ describe('AvailableNumberApi', () => {
   describe ('rentAnyNumber', () => {
     it('should make a POST request to rent any number that match the criteria', async () => {
       // Given
-      const requestData: RentAnyNumberRequestData = {
+      const requestData: Numbers.RentAnyNumberRequestData = {
         rentAnyNumberRequestBody: {
           regionCode: 'US',
           type: 'LOCAL',
@@ -122,7 +116,7 @@ describe('AvailableNumberApi', () => {
           capabilities: ['SMS', 'VOICE'],
         },
       };
-      const expectedResponse: ActiveNumber = {
+      const expectedResponse: Numbers.ActiveNumber = {
         phoneNumber: '+17813334444',
         projectId: 'projectIdFromDashboard',
         displayName: '',
@@ -172,7 +166,7 @@ describe('AvailableNumberApi', () => {
   describe ('rentNumber', () => {
     it('should make a POST request to rent a number', async () => {
       // Given
-      const requestData: RentNumberRequestData = {
+      const requestData: Numbers.RentNumberRequestData = {
         phoneNumber: '+17813334444',
         rentNumberRequestBody: {
           smsConfiguration: {
@@ -180,7 +174,7 @@ describe('AvailableNumberApi', () => {
           },
         },
       };
-      const expectedResponse: ActiveNumber = {
+      const expectedResponse: Numbers.ActiveNumber = {
         phoneNumber: '+17813334444',
         projectId: 'projectIdFromDashboard',
         displayName: '',

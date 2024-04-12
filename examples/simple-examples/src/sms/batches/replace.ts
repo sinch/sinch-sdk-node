@@ -5,7 +5,7 @@ import {
   initSmsServiceWithServicePlanId,
   printFullResponse,
 } from '../../config';
-import { BinaryRequest, ReplaceBatchMessageRequestData, textToHex } from '@sinch/sdk-core';
+import { Sms, textToHex } from '@sinch/sdk-core';
 
 (async () => {
   console.log('****************');
@@ -16,7 +16,7 @@ import { BinaryRequest, ReplaceBatchMessageRequestData, textToHex } from '@sinch
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
   const senderPhoneNumber = getPhoneNumberFromConfig();
 
-  const requestData: ReplaceBatchMessageRequestData= {
+  const requestData: Sms.ReplaceBatchMessageRequestData= {
     batch_id: batchIdInTheFuture,
     replaceBatchMessageRequestBody: {
       from: senderPhoneNumber,
@@ -28,7 +28,7 @@ import { BinaryRequest, ReplaceBatchMessageRequestData, textToHex } from '@sinch
       delivery_report: 'none',
       type: 'mt_binary',
       client_reference: 'Sinch Node.js SDK',
-    } as BinaryRequest,
+    } as Sms.BinaryRequest,
   };
 
   const smsService = initSmsServiceWithServicePlanId();

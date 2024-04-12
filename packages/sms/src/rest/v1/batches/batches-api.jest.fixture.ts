@@ -1,18 +1,22 @@
+import { BatchesApi } from './batches-api';
 import {
-  BatchesApi,
+  BinaryResponse,
   CancelBatchMessageRequestData,
   DeliveryFeedbackRequestData,
   DryRunRequestData,
+  DryRunResponse,
   GetBatchMessageRequestData,
   ListBatchesRequestData,
+  MediaResponse,
   ReplaceBatchMessageRequestData,
   SendBinarySMSRequestData,
   SendMediaSMSRequestData,
   SendSMSRequestData,
+  SendSMSResponse,
   SendTextSMSRequestData,
+  TextResponse,
   UpdateBatchMessageRequestData,
-} from './batches-api';
-import { BinaryResponse, DryRunResponse, MediaResponse, SendSMSResponse, TextResponse } from '../../../models';
+} from '../../../models';
 import { ApiListPromise } from '@sinch/sdk-client';
 
 export class BatchesApiFixture implements Partial<Readonly<BatchesApi>> {

@@ -5,7 +5,7 @@ import {
   initSmsServiceWithServicePlanId,
   printFullResponse,
 } from '../../config';
-import { SendSMSRequestData } from '@sinch/sdk-core';
+import { Sms } from '@sinch/sdk-core';
 
 (async () => {
   console.log('***********');
@@ -18,7 +18,7 @@ import { SendSMSRequestData } from '@sinch/sdk-core';
   const oneDayLater = new Date();
   oneDayLater.setDate(oneDayLater.getDate() +1);
 
-  const requestData: SendSMSRequestData= {
+  const requestData: Sms.SendSMSRequestData= {
     sendSMSRequestBody: {
       type: 'mt_text',
       to: [

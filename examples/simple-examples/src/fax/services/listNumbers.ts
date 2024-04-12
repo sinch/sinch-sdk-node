@@ -1,9 +1,9 @@
-import { ListNumbersForServiceRequestData, PageResult, ServicePhoneNumber } from '@sinch/sdk-core';
+import { Fax, PageResult } from '@sinch/sdk-core';
 import { getFaxServiceIdFromConfig, getPrintFormat, initFaxService, printFullResponse } from '../../config';
 
 const populateNumbersList = (
-  numbersPage: PageResult<ServicePhoneNumber>,
-  fullNumbersList: ServicePhoneNumber[],
+  numbersPage: PageResult<Fax.ServicePhoneNumber>,
+  fullNumbersList: Fax.ServicePhoneNumber[],
   numbersList: string[],
 ) => {
   fullNumbersList.push(...numbersPage.data);
@@ -19,7 +19,7 @@ const populateNumbersList = (
 
   const serviceId = getFaxServiceIdFromConfig();
 
-  const requestData: ListNumbersForServiceRequestData = {
+  const requestData: Fax.ListNumbersForServiceRequestData = {
     serviceId,
     pageSize: 2,
   };
@@ -32,7 +32,7 @@ const populateNumbersList = (
   let response = await faxService.services.listNumbers(requestData);
 
   // Init data structure to hold the response content
-  const fullNumbersList: ServicePhoneNumber[] = [];
+  const fullNumbersList: Fax.ServicePhoneNumber[] = [];
   // Init data structure to hold the response content for pretty print
   const numbersList: string[] = [];
 

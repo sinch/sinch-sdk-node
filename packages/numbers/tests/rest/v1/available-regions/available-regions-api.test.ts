@@ -2,8 +2,7 @@ import { SinchClientParameters } from '@sinch/sdk-client';
 import {
   AvailableRegionsApi,
   AvailableRegionsApiFixture,
-  ListAvailableRegionsRequestData,
-  ListAvailableRegionsResponse,
+  Numbers,
 } from '../../../../src';
 
 describe('AvailableRegionsApi', () => {
@@ -24,10 +23,10 @@ describe('AvailableRegionsApi', () => {
   describe ('listAvailableRegions', () => {
     it('should make a GET request to list all regions for numbers type provided for the project ID', async () => {
       // Given
-      const requestData: ListAvailableRegionsRequestData = {
+      const requestData: Numbers.ListAvailableRegionsRequestData = {
         types: ['LOCAL'],
       };
-      const expectedResponse: ListAvailableRegionsResponse = {
+      const expectedResponse: Numbers.ListAvailableRegionsResponse = {
         availableRegions: [
           {
             regionCode: 'AR',

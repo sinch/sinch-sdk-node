@@ -2,11 +2,8 @@ import { Injectable } from '@nestjs/common';
 import {
   SinchClient,
   ConversationWebhookEventParsed,
-  ContactMessage,
   ConversationService,
-  messageBuilder,
-  ContactId,
-  SendMessageRequestData,
+  Conversation,
 } from '@sinch/sdk-core';
 
 @Injectable()
@@ -25,23 +22,23 @@ export class ConversationEventService {
     return new SinchClient({ projectId, keyId, keySecret }).conversation;
   };
 
-  private buildContactMessage(contactMessage: ContactMessage) {
+  private buildContactMessage(contactMessage: Conversation.ContactMessage) {
     if ('text_message' in contactMessage && contactMessage.text_message) {
-      return messageBuilder.text({
+      return Conversation.messageBuilder.text({
         text: `Parrot mode 🦜: ${contactMessage.text_message.text}`,
       });
     }
     if ('media_message' in contactMessage && contactMessage.media_message) {
-      return messageBuilder.media({
+      return Conversation.messageBuilder.media({
         url: contactMessage.media_message.url,
       });
     }
     if ('fallback_message' in contactMessage && contactMessage.fallback_message && contactMessage.fallback_message.reason) {
-      return messageBuilder.text({
+      return Conversation.messageBuilder.text({
         text: `Error: ${contactMessage.fallback_message.reason.code} (${contactMessage.fallback_message.reason.sub_code})\n${contactMessage.fallback_message.reason.description}`
       });
     }
-    return messageBuilder.text({
+    return Conversation.messageBuilder.text({
       text: `Impossible to handle the incoming message`,
     });
   }
@@ -54,7 +51,7 @@ export class ConversationEventService {
         const contactMessage = message.contact_message!;
         const channelIdentityTo = message.channel_identity!;
         console.log(`A new message has been received on the channel '${channelIdentityTo.channel}' (identity: ${channelIdentityTo.identity}) from the contact ID '${message.contact_id}':\n${JSON.stringify(contactMessage, null, 2)}`);
-        const requestData: SendMessageRequestData<ContactId> = {
+        const requestData: Conversation.SendMessageRequestData<Conversation.ContactId> = {
           sendMessageRequestBody: {
             app_id: event.app_id!,
             recipient: {

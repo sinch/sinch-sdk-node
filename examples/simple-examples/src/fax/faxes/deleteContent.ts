@@ -1,4 +1,4 @@
-import { DeleteFaxContentRequestData } from '@sinch/sdk-core';
+import { Fax } from '@sinch/sdk-core';
 import { getFaxIdFromConfig, initFaxService } from '../../config';
 
 (async () => {
@@ -8,7 +8,7 @@ import { getFaxIdFromConfig, initFaxService } from '../../config';
 
   const faxId = getFaxIdFromConfig();
 
-  const requestData: DeleteFaxContentRequestData = {
+  const requestData: Fax.DeleteFaxContentRequestData = {
     id: faxId,
   };
 

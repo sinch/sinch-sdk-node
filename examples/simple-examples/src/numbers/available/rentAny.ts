@@ -6,10 +6,7 @@ import {
   readApplicationKey,
   readServicePlanId,
 } from '../../config';
-import {
-  RentAnyNumberRequest,
-  RentAnyNumberRequestData,
-} from '@sinch/sdk-core';
+import { Numbers } from '@sinch/sdk-core';
 
 (async () => {
   console.log('*******************************');
@@ -25,7 +22,7 @@ import {
       + 'You may want to check the value of "SINCH_SERVICE_PLAN_ID" and "SINCH_APPLICATION_KEY" in the .env file');
   }
 
-  const rentAnyNumberRequest: RentAnyNumberRequest = {
+  const rentAnyNumberRequest: Numbers.RentAnyNumberRequest = {
     regionCode: 'US',
     type: 'LOCAL',
     numberPattern: {
@@ -43,7 +40,7 @@ import {
     rentAnyNumberRequest.voiceConfiguration = { appId };
   }
 
-  const requestData: RentAnyNumberRequestData = {
+  const requestData: Numbers.RentAnyNumberRequestData = {
     rentAnyNumberRequestBody: rentAnyNumberRequest,
   };
 

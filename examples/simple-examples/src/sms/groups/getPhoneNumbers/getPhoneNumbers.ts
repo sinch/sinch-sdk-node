@@ -1,4 +1,4 @@
-import { ListMembersRequestData, SmsService } from '@sinch/sdk-core';
+import { Sms, SmsService } from '@sinch/sdk-core';
 import { getGroupIdFromConfig, getPrintFormat, printFullResponse } from '../../../config';
 
 export const getPhoneNumbers = async(smsService: SmsService) => {
@@ -8,7 +8,7 @@ export const getPhoneNumbers = async(smsService: SmsService) => {
 
   const groupId = getGroupIdFromConfig();
 
-  const requestData: ListMembersRequestData = {
+  const requestData: Sms.ListMembersRequestData = {
     group_id: groupId,
   };
 

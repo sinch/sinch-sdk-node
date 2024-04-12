@@ -4,7 +4,7 @@ import {
   initVoiceService,
   printFullResponse,
 } from '../../config';
-import { GetConferenceInfoRequestData, VoiceRegion } from '@sinch/sdk-core';
+import { Voice, VoiceRegion } from '@sinch/sdk-core';
 
 (async () => {
   console.log('*********************');
@@ -13,7 +13,7 @@ import { GetConferenceInfoRequestData, VoiceRegion } from '@sinch/sdk-core';
 
   const conferenceId = getConferenceIdFromConfig();
 
-  const requestData: GetConferenceInfoRequestData = {
+  const requestData: Voice.GetConferenceInfoRequestData = {
     conferenceId,
   };
 

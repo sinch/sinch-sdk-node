@@ -4,7 +4,7 @@ import {
   initSmsServiceWithServicePlanId,
   printFullResponse,
 } from '../../config';
-import { GetInboundMessageRequestData } from '@sinch/sdk-core';
+import { Sms } from '@sinch/sdk-core';
 
 (async () => {
   console.log('**************************');
@@ -13,7 +13,7 @@ import { GetInboundMessageRequestData } from '@sinch/sdk-core';
 
   const inboundId = getInboundIdFromConfig();
 
-  const requestData: GetInboundMessageRequestData = {
+  const requestData: Sms.GetInboundMessageRequestData = {
     inbound_id: inboundId,
   };
 

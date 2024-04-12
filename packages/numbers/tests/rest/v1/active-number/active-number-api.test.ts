@@ -1,12 +1,8 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  ActiveNumber,
   ActiveNumberApi,
   ActiveNumberApiFixture,
-  GetActiveNumberRequestData,
-  ListActiveNumbersRequestData,
-  ReleaseNumberRequestData,
-  UpdateActiveNumberRequestData,
+  Numbers,
 } from '../../../../src';
 
 describe('ActiveNumberApi', () => {
@@ -27,10 +23,10 @@ describe('ActiveNumberApi', () => {
   describe ('getActiveNumber', () => {
     it('should make a GET request to ...', async () => {
       // Given
-      const requestData: GetActiveNumberRequestData = {
+      const requestData: Numbers.GetActiveNumberRequestData = {
         phoneNumber: '+17813334444',
       };
-      const expectedResponse: ActiveNumber = {
+      const expectedResponse: Numbers.ActiveNumber = {
         phoneNumber: '+17813334444',
         projectId: 'projectIdFromDashboard',
         displayName: '',
@@ -74,11 +70,11 @@ describe('ActiveNumberApi', () => {
   describe ('listActiveNumbers', () => {
     it('should make a GET request to list all active numbers for a project', async () => {
       // Given
-      const requestData: ListActiveNumbersRequestData = {
+      const requestData: Numbers.ListActiveNumbersRequestData = {
         type: 'LOCAL',
         regionCode: 'US',
       };
-      const mockData: ActiveNumber[] = [
+      const mockData: Numbers.ActiveNumber[] = [
         {
           phoneNumber: '+17813334444',
           projectId: 'projectIdFromDashboard',
@@ -131,10 +127,10 @@ describe('ActiveNumberApi', () => {
   describe ('releaseNumber', () => {
     it('should make a POST request to cancel the subscription for a specific phone number', async () => {
       // Given
-      const requestData: ReleaseNumberRequestData = {
+      const requestData: Numbers.ReleaseNumberRequestData = {
         phoneNumber: '+17813334444',
       };
-      const expectedResponse: ActiveNumber = {
+      const expectedResponse: Numbers.ActiveNumber = {
         phoneNumber: '+17813334444',
         projectId: 'projectIdFromDashboard',
         displayName: '',
@@ -178,16 +174,16 @@ describe('ActiveNumberApi', () => {
   describe ('updateActiveNumber', () => {
     it('should make a PATCH request to update an active phone number configuration', async () => {
       // Given
-      const requestData: UpdateActiveNumberRequestData = {
+      const requestData: Numbers.UpdateActiveNumberRequestData = {
         phoneNumber: '+17813334444',
-        activeNumberRequestBody: {
+        updateActiveNumberRequestBody: {
           displayName: 'Updated display name',
           smsConfiguration: {
             servicePlanId: 'newServicePlanId',
           },
         },
       };
-      const expectedResponse: ActiveNumber = {
+      const expectedResponse: Numbers.ActiveNumber = {
         phoneNumber: '+17813334444',
         projectId: 'projectIdFromDashboard',
         displayName: 'Updated display name',

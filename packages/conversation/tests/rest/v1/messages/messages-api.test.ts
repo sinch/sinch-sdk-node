@@ -1,37 +1,8 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import {
-  ContactId,
-  ConversationMessage,
-  DeleteMessageRequestData,
-  GetMessageRequestData,
-  IdentifiedBy,
-  ListMessagesRequestData,
-  messageBuilder,
   MessagesApi,
   MessagesApiFixture,
-  Recipient,
-  SendCardMessageRequest,
-  SendCardMessageRequestData,
-  SendCarouselMessageRequest,
-  SendCarouselMessageRequestData,
-  SendChoiceMessageRequest,
-  SendChoiceMessageRequestData,
-  SendContactInfoMessageRequest,
-  SendContactInfoMessageRequestData,
-  SendListMessageRequest,
-  SendListMessageRequestData,
-  SendLocationMessageRequest,
-  SendLocationMessageRequestData,
-  SendMediaMessageRequest,
-  SendMediaMessageRequestData,
-  SendMessageRequest,
-  SendMessageRequestData,
-  SendMessageResponse,
-  SendTemplateMessageRequest,
-  SendTemplateMessageRequestData,
-  SendTextMessageRequest,
-  SendTextMessageRequestData,
-  UpdateMessageRequestData,
+  Conversation,
 } from '../../../../src';
 import { recipientChannelIdentities, recipientContactId } from '../mocks';
 import {
@@ -65,7 +36,7 @@ describe('MessagesApi', () => {
   describe ('deleteMessage', () => {
     it('should make a DELETE request to delete a specific message by its ID', async () => {
       // Given
-      const requestData: DeleteMessageRequestData = {
+      const requestData: Conversation.DeleteMessageRequestData = {
         message_id: 'message_id',
       };
       const expectedResponse: any = {};
@@ -84,10 +55,10 @@ describe('MessagesApi', () => {
   describe ('getMessage', () => {
     it('should make a GET request to retrieve a specific message by its ID', async () => {
       // Given
-      const requestData: GetMessageRequestData = {
+      const requestData: Conversation.GetMessageRequestData = {
         message_id: 'message_id',
       };
-      const expectedResponse: ConversationMessage = {
+      const expectedResponse: Conversation.ConversationMessage = {
         accept_time: new Date('2019-08-24T14:15:22Z'),
         app_message: {
           card_message: {
@@ -128,8 +99,8 @@ describe('MessagesApi', () => {
   describe ('listMessages', () => {
     it('should make a GET request to list all the messages sent or received', async () => {
       // Given
-      const requestData: ListMessagesRequestData = {};
-      const mockData: ConversationMessage[] = [
+      const requestData: Conversation.ListMessagesRequestData = {};
+      const mockData: Conversation.ConversationMessage[] = [
         {
           accept_time: new Date('2019-08-24T14:15:22Z'),
           app_message: {
@@ -186,25 +157,25 @@ describe('MessagesApi', () => {
 
   describe ('sendMessage', () => {
     // Given
-    const sendMessageRequest: Omit<SendMessageRequest<Recipient>, 'recipient'> = {
+    const sendMessageRequest: Omit<Conversation.SendMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.text(textMessageItem),
+        ...Conversation.messageBuilder.text(textMessageItem),
       },
     };
-    const requestDataWithContactId: SendMessageRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendMessageRequestData<Conversation.ContactId> = {
       sendMessageRequestBody: {
         ...sendMessageRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendMessageRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendMessageRequestData<Conversation.IdentifiedBy> = {
       sendMessageRequestBody: {
         ...sendMessageRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendMessageResponse = {
+    const expectedResponse: Conversation.SendMessageResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       message_id: 'message_id',
     };
@@ -227,7 +198,7 @@ describe('MessagesApi', () => {
       });
 
     it('should format the ttl field', () => {
-      const requestBody: SendMessageRequest<Recipient> = {
+      const requestBody: Conversation.SendMessageRequest<Conversation.Recipient> = {
         ...sendMessageRequest,
         ...recipientContactId,
       };
@@ -245,25 +216,25 @@ describe('MessagesApi', () => {
 
   describe ('sendCardMessage', () => {
     // Given
-    const sendCardMessageRequest: Omit<SendCardMessageRequest<Recipient>, 'recipient'> = {
+    const sendCardMessageRequest: Omit<Conversation.SendCardMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.card(cardMessageItem),
+        ...Conversation.messageBuilder.card(cardMessageItem),
       },
     };
-    const requestDataWithContactId: SendCardMessageRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendCardMessageRequestData<Conversation.ContactId> = {
       sendMessageRequestBody: {
         ...sendCardMessageRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendCardMessageRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendCardMessageRequestData<Conversation.IdentifiedBy> = {
       sendMessageRequestBody: {
         ...sendCardMessageRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendMessageResponse = {
+    const expectedResponse: Conversation.SendMessageResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       message_id: 'message_id',
     };
@@ -287,25 +258,26 @@ describe('MessagesApi', () => {
   });
 
   describe ('sendCarouselMessage', () => {
-    const sendCarouselMessageRequest: Omit<SendCarouselMessageRequest<Recipient>, 'recipient'> = {
+    // eslint-disable-next-line max-len
+    const sendCarouselMessageRequest: Omit<Conversation.SendCarouselMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.carousel(carouselMessageItem),
+        ...Conversation.messageBuilder.carousel(carouselMessageItem),
       },
     };
-    const requestDataWithContactId: SendCarouselMessageRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendCarouselMessageRequestData<Conversation.ContactId> = {
       sendMessageRequestBody: {
         ...sendCarouselMessageRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendCarouselMessageRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendCarouselMessageRequestData<Conversation.IdentifiedBy> = {
       sendMessageRequestBody: {
         ...sendCarouselMessageRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendMessageResponse = {
+    const expectedResponse: Conversation.SendMessageResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       message_id: 'message_id',
     };
@@ -329,25 +301,25 @@ describe('MessagesApi', () => {
   });
 
   describe ('sendChoiceMessage', () => {
-    const sendChoiceMessageRequest: Omit<SendChoiceMessageRequest<Recipient>, 'recipient'> = {
+    const sendChoiceMessageRequest: Omit<Conversation.SendChoiceMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.choice(choiceMessageItem),
+        ...Conversation.messageBuilder.choice(choiceMessageItem),
       },
     };
-    const requestDataWithContactId: SendChoiceMessageRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendChoiceMessageRequestData<Conversation.ContactId> = {
       sendMessageRequestBody: {
         ...sendChoiceMessageRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendChoiceMessageRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendChoiceMessageRequestData<Conversation.IdentifiedBy> = {
       sendMessageRequestBody: {
         ...sendChoiceMessageRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendMessageResponse = {
+    const expectedResponse: Conversation.SendMessageResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       message_id: 'message_id',
     };
@@ -371,25 +343,26 @@ describe('MessagesApi', () => {
   });
 
   describe ('sendContactInfoMessage', () => {
-    const sendContactInfoMessageRequest: Omit<SendContactInfoMessageRequest<Recipient>, 'recipient'> = {
+    // eslint-disable-next-line max-len
+    const sendContactInfoMessageRequest: Omit<Conversation.SendContactInfoMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.contactInfo(contactInfoMessageItem),
+        ...Conversation.messageBuilder.contactInfo(contactInfoMessageItem),
       },
     };
-    const requestDataWithContactId: SendContactInfoMessageRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendContactInfoMessageRequestData<Conversation.ContactId> = {
       sendMessageRequestBody: {
         ...sendContactInfoMessageRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendContactInfoMessageRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendContactInfoMessageRequestData<Conversation.IdentifiedBy> = {
       sendMessageRequestBody: {
         ...sendContactInfoMessageRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendMessageResponse = {
+    const expectedResponse: Conversation.SendMessageResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       message_id: 'message_id',
     };
@@ -413,25 +386,25 @@ describe('MessagesApi', () => {
   });
 
   describe ('sendListMessage', () => {
-    const sendListMessageRequest: Omit<SendListMessageRequest<Recipient>, 'recipient'> = {
+    const sendListMessageRequest: Omit<Conversation.SendListMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.list(listMessageItem),
+        ...Conversation.messageBuilder.list(listMessageItem),
       },
     };
-    const requestDataWithContactId: SendListMessageRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendListMessageRequestData<Conversation.ContactId> = {
       sendMessageRequestBody: {
         ...sendListMessageRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendListMessageRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendListMessageRequestData<Conversation.IdentifiedBy> = {
       sendMessageRequestBody: {
         ...sendListMessageRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendMessageResponse = {
+    const expectedResponse: Conversation.SendMessageResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       message_id: 'message_id',
     };
@@ -455,25 +428,26 @@ describe('MessagesApi', () => {
   });
 
   describe ('sendLocationMessage', () => {
-    const sendLocationMessageRequest: Omit<SendLocationMessageRequest<Recipient>, 'recipient'> = {
+    // eslint-disable-next-line max-len
+    const sendLocationMessageRequest: Omit<Conversation.SendLocationMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.location(locationMessageItem),
+        ...Conversation.messageBuilder.location(locationMessageItem),
       },
     };
-    const requestDataWithContactId: SendLocationMessageRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendLocationMessageRequestData<Conversation.ContactId> = {
       sendMessageRequestBody: {
         ...sendLocationMessageRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendLocationMessageRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendLocationMessageRequestData<Conversation.IdentifiedBy> = {
       sendMessageRequestBody: {
         ...sendLocationMessageRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendMessageResponse = {
+    const expectedResponse: Conversation.SendMessageResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       message_id: 'message_id',
     };
@@ -497,25 +471,25 @@ describe('MessagesApi', () => {
   });
 
   describe ('sendMediaMessage', () => {
-    const sendMediaMessageRequest: Omit<SendMediaMessageRequest<Recipient>, 'recipient'> = {
+    const sendMediaMessageRequest: Omit<Conversation.SendMediaMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.media(mediaMessageItem),
+        ...Conversation.messageBuilder.media(mediaMessageItem),
       },
     };
-    const requestDataWithContactId: SendMediaMessageRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendMediaMessageRequestData<Conversation.ContactId> = {
       sendMessageRequestBody: {
         ...sendMediaMessageRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendMediaMessageRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendMediaMessageRequestData<Conversation.IdentifiedBy> = {
       sendMessageRequestBody: {
         ...sendMediaMessageRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendMessageResponse = {
+    const expectedResponse: Conversation.SendMessageResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       message_id: 'message_id',
     };
@@ -539,25 +513,26 @@ describe('MessagesApi', () => {
   });
 
   describe ('sendTemplateMessage', () => {
-    const sendTemplateMessageRequest: Omit<SendTemplateMessageRequest<Recipient>, 'recipient'> = {
+    // eslint-disable-next-line max-len
+    const sendTemplateMessageRequest: Omit<Conversation.SendTemplateMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.template(templateMessageItem),
+        ...Conversation.messageBuilder.template(templateMessageItem),
       },
     };
-    const requestDataWithContactId: SendTemplateMessageRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendTemplateMessageRequestData<Conversation.ContactId> = {
       sendMessageRequestBody: {
         ...sendTemplateMessageRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendTemplateMessageRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendTemplateMessageRequestData<Conversation.IdentifiedBy> = {
       sendMessageRequestBody: {
         ...sendTemplateMessageRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendMessageResponse = {
+    const expectedResponse: Conversation.SendMessageResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       message_id: 'message_id',
     };
@@ -581,25 +556,25 @@ describe('MessagesApi', () => {
   });
 
   describe ('sendTextMessage', () => {
-    const sendTextMessageRequest: Omit<SendTextMessageRequest<Recipient>, 'recipient'> = {
+    const sendTextMessageRequest: Omit<Conversation.SendTextMessageRequest<Conversation.Recipient>, 'recipient'> = {
       app_id: 'app_id',
       message: {
-        ...messageBuilder.text(textMessageItem),
+        ...Conversation.messageBuilder.text(textMessageItem),
       },
     };
-    const requestDataWithContactId: SendTextMessageRequestData<ContactId> = {
+    const requestDataWithContactId: Conversation.SendTextMessageRequestData<Conversation.ContactId> = {
       sendMessageRequestBody: {
         ...sendTextMessageRequest,
         ...recipientContactId,
       },
     };
-    const requestDataWithChannelIdentity: SendTextMessageRequestData<IdentifiedBy> = {
+    const requestDataWithChannelIdentity: Conversation.SendTextMessageRequestData<Conversation.IdentifiedBy> = {
       sendMessageRequestBody: {
         ...sendTextMessageRequest,
         ...recipientChannelIdentities,
       },
     };
-    const expectedResponse: SendMessageResponse = {
+    const expectedResponse: Conversation.SendMessageResponse = {
       accepted_time: new Date('2019-08-24T14:15:22Z'),
       message_id: 'message_id',
     };
@@ -625,14 +600,14 @@ describe('MessagesApi', () => {
   describe ('updateMessageMetadata', () => {
     it('should make a PATCH request to update a message', async () => {
       // Given
-      const requestData: UpdateMessageRequestData = {
+      const requestData: Conversation.UpdateMessageRequestData = {
         message_id: 'message_id',
         messages_source: 'CONVERSATION_SOURCE',
         updateMessageRequestBody: {
           metadata: 'new_metadata',
         },
       };
-      const expectedResponse: ConversationMessage = {
+      const expectedResponse: Conversation.ConversationMessage = {
         app_message: {
           card_message: {
             choices: [],

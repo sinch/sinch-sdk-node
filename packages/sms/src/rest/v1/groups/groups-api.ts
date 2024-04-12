@@ -1,10 +1,8 @@
 import {
-  CreateGroupResponse,
-  CreateGroupRequest,
-  ReplaceGroupRequest,
-  UpdateGroupRequest,
-  GroupResponse,
-  ReplaceGroupResponse,
+  CreateGroupRequestData,
+  CreateGroupResponse, DeleteGroupRequestData, GetGroupRequestData,
+  GroupResponse, ListGroupsRequestData, ListMembersRequestData, ReplaceGroupRequestData,
+  ReplaceGroupResponse, UpdateGroupRequestData,
   UpdateGroupResponse,
 } from '../../../models';
 import {
@@ -17,41 +15,6 @@ import {
   createIteratorMethodsForPagination,
 } from '@sinch/sdk-client';
 import { SmsDomainApi } from '../sms-domain-api';
-
-export interface CreateGroupRequestData {
-  /**  */
-  'createGroupRequestBody'?: CreateGroupRequest;
-}
-export interface DeleteGroupRequestData {
-  /** ID of a group that you are interested in getting. */
-  'group_id': string;
-}
-export interface ListMembersRequestData {
-  /** ID of a group that you are interested in getting. */
-  'group_id': string;
-}
-export interface ListGroupsRequestData {
-  /** The page number starting from 0. */
-  'page'?: number;
-  /** Determines the size of a page. */
-  'page_size'?: number;
-}
-export interface ReplaceGroupRequestData {
-  /** ID of a group that you are interested in getting. */
-  'group_id': string;
-  /**  */
-  'replaceGroupRequestBody'?: ReplaceGroupRequest;
-}
-export interface GetGroupRequestData {
-  /** ID of a group that you are interested in getting. */
-  'group_id': string;
-}
-export interface UpdateGroupRequestData {
-  /** ID of a group that you are interested in getting. */
-  'group_id': string;
-  /**  */
-  'updateGroupRequestBody'?: UpdateGroupRequest;
-}
 
 export class GroupsApi extends SmsDomainApi {
 

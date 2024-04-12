@@ -1,5 +1,15 @@
-import { GetCallbacks, ListNumbersResponse, QueryNumberResponse } from '../../../models';
-import { ApplicationsApi, QueryNumberRequestData, GetCallbackURLsRequestData, GetNumbersRequestData, UnassignNumberRequestData, UpdateCallbackURLsRequestData, AssignNumbersRequestData } from './applications-api';
+import { ApplicationsApi } from './applications-api';
+import {
+  GetCallbacks,
+  ListNumbersResponse,
+  QueryNumberResponse,
+  QueryNumberRequestData,
+  GetCallbackURLsRequestData,
+  GetNumbersRequestData,
+  UnassignNumberRequestData,
+  UpdateCallbackURLsRequestData,
+  AssignNumbersRequestData,
+} from '../../../models';
 
 export class ApplicationsApiFixture implements Partial<Readonly<ApplicationsApi>> {
 

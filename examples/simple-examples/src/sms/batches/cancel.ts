@@ -4,7 +4,7 @@ import {
   initSmsServiceWithServicePlanId,
   printFullResponse,
 } from '../../config';
-import { CancelBatchMessageRequestData } from '@sinch/sdk-core';
+import { Sms } from '@sinch/sdk-core';
 
 (async () => {
   console.log('**********************');
@@ -13,7 +13,7 @@ import { CancelBatchMessageRequestData } from '@sinch/sdk-core';
 
   const batchIdInTheFuture = getBatchIdFromConfig();
 
-  const requestData: CancelBatchMessageRequestData= {
+  const requestData: Sms.CancelBatchMessageRequestData= {
     batch_id: batchIdInTheFuture,
   };
 

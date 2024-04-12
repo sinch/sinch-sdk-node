@@ -1,6 +1,9 @@
-import { ConversationMessage, Recipient, SendMessageResponse } from '../../../models';
+import { ApiListPromise } from '@sinch/sdk-client';
+import { MessagesApi } from './messages-api';
 import {
-  MessagesApi,
+  ConversationMessage,
+  Recipient,
+  SendMessageResponse,
   DeleteMessageRequestData,
   GetMessageRequestData,
   ListMessagesRequestData,
@@ -15,8 +18,7 @@ import {
   SendMediaMessageRequestData,
   SendTemplateMessageRequestData,
   SendMessageRequestData,
-} from './messages-api';
-import { ApiListPromise } from '@sinch/sdk-client';
+} from '../../../models';
 
 export class MessagesApiFixture implements Partial<Readonly<MessagesApi>> {
 

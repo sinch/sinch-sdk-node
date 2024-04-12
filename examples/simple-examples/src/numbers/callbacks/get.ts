@@ -1,4 +1,4 @@
-import { GetCallbackConfigurationRequestData } from '@sinch/sdk-core';
+import { Numbers } from '@sinch/sdk-core';
 import { getPrintFormat, initNumbersService, printFullResponse } from '../../config';
 
 (async () => {
@@ -6,7 +6,7 @@ import { getPrintFormat, initNumbersService, printFullResponse } from '../../con
   console.log('* GetCallbackConfiguration *');
   console.log('****************************');
 
-  const requestData: GetCallbackConfigurationRequestData = {};
+  const requestData: Numbers.GetCallbackConfigurationRequestData = {};
 
   const numbersService = initNumbersService();
   const response = await numbersService.callbacks.get(requestData);

@@ -1,4 +1,4 @@
-import { SmsService, UpdateGroupRequestData } from '@sinch/sdk-core';
+import { SmsService, Sms } from '@sinch/sdk-core';
 import { getGroupIdFromConfig, getPrintFormat, printFullResponse } from '../../../config';
 
 export const update = async(smsService: SmsService) => {
@@ -8,7 +8,7 @@ export const update = async(smsService: SmsService) => {
 
   const groupId = getGroupIdFromConfig();
 
-  const requestData: UpdateGroupRequestData = {
+  const requestData: Sms.UpdateGroupRequestData = {
     group_id: groupId,
     updateGroupRequestBody: {
       name: `update_${new Date().getTime()}`,

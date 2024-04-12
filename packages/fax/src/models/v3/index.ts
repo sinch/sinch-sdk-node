@@ -27,4 +27,6 @@ export * from './service';
 export * from './service-email-settings';
 export * from './service-phone-number';
 export * from './update-email-request';
+export * from './webhook-event-parsed/webhook-event-parsed';
 export * from './enums';
+export * from './requests';

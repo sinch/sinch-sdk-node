@@ -1,4 +1,4 @@
-import { GetFaxRequestData } from '@sinch/sdk-core';
+import { Fax } from '@sinch/sdk-core';
 import { getFaxIdFromConfig, getPrintFormat, initFaxService, printFullResponse } from '../../config';
 
 (async () => {
@@ -8,7 +8,7 @@ import { getFaxIdFromConfig, getPrintFormat, initFaxService, printFullResponse }
 
   const faxId = getFaxIdFromConfig();
 
-  const requestData: GetFaxRequestData = {
+  const requestData: Fax.GetFaxRequestData = {
     id: faxId,
   };
 

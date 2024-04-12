@@ -5,14 +5,13 @@ import {
   printFullResponse,
 } from '../../config';
 import {
-  InboundMessageResponse,
-  ListInboundMessagesRequestData,
+  Sms,
   PageResult,
 } from '@sinch/sdk-core';
 
 const populateInboundMessagesList = (
-  inboundMessagesListPage: PageResult<InboundMessageResponse>,
-  fullInboundMessagesList: InboundMessageResponse[],
+  inboundMessagesListPage: PageResult<Sms.InboundMessageResponse>,
+  fullInboundMessagesList: Sms.InboundMessageResponse[],
   inboundMessagesList: string[],
 ) => {
   fullInboundMessagesList.push(...inboundMessagesListPage.data);
@@ -31,7 +30,7 @@ const populateInboundMessagesList = (
   oneWeekAgo.setHours(0, 0, 0, 0);
   const recipientPhoneNumber = getRecipientPhoneNumberFromConfig();
 
-  const requestData: ListInboundMessagesRequestData= {
+  const requestData: Sms.ListInboundMessagesRequestData= {
     start_date: oneWeekAgo,
     to: recipientPhoneNumber,
   };
@@ -49,7 +48,7 @@ const populateInboundMessagesList = (
     throw error;
   }
 
-  const fullInboundMessagesList: InboundMessageResponse[] = [];
+  const fullInboundMessagesList: Sms.InboundMessageResponse[] = [];
   const inboundMessagesList: string[] = [];
 
   // Loop on all the pages to get all the batches

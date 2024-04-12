@@ -1,5 +1,11 @@
-import { DeliveryReportsApi, GetDeliveryReportByBatchIdRequestData, GetDeliveryReportByPhoneNumberRequestData, ListDeliveryReportsRequestData } from './delivery-reports-api';
-import { DeliveryReport, RecipientDeliveryReport } from '../../../models';
+import { DeliveryReportsApi } from './delivery-reports-api';
+import {
+  DeliveryReport,
+  GetDeliveryReportByBatchIdRequestData,
+  GetDeliveryReportByPhoneNumberRequestData,
+  ListDeliveryReportsRequestData,
+  RecipientDeliveryReport,
+} from '../../../models';
 import { ApiListPromise } from '@sinch/sdk-client';
 
 export class DeliveryReportsApiFixture implements Partial<Readonly<DeliveryReportsApi>> {

@@ -1,13 +1,12 @@
 import { getPrintFormat, initSmsServiceWithServicePlanId, printFullResponse } from '../../config';
 import {
-  ListDeliveryReportsRequestData,
   PageResult,
-  RecipientDeliveryReport,
+  Sms,
 } from '@sinch/sdk-core';
 
 const populateDeliveryReportsList = (
-  deliveryReportsListPage: PageResult<RecipientDeliveryReport>,
-  fullDeliveryReportsList: RecipientDeliveryReport[],
+  deliveryReportsListPage: PageResult<Sms.RecipientDeliveryReport>,
+  fullDeliveryReportsList: Sms.RecipientDeliveryReport[],
   deliveryReportsList: string[],
 ) => {
   fullDeliveryReportsList.push(...deliveryReportsListPage.data);
@@ -25,7 +24,7 @@ const populateDeliveryReportsList = (
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
   oneWeekAgo.setHours(0, 0, 0, 0);
 
-  const requestData: ListDeliveryReportsRequestData= {
+  const requestData: Sms.ListDeliveryReportsRequestData= {
     start_date: oneWeekAgo,
   };
 
@@ -42,7 +41,7 @@ const populateDeliveryReportsList = (
     throw error;
   }
 
-  const fullDeliveryReportsList: RecipientDeliveryReport[] = [];
+  const fullDeliveryReportsList: Sms.RecipientDeliveryReport[] = [];
   const deliveryReportsList: string[] = [];
 
   // Loop on all the pages to get all the delivery reports

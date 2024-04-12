@@ -1,4 +1,4 @@
-import { DeleteEventRequestData } from '@sinch/sdk-core';
+import { Conversation } from '@sinch/sdk-core';
 import { getEventIdFromConfig, initConversationService, printFullResponse } from '../../config';
 
 
@@ -9,7 +9,7 @@ import { getEventIdFromConfig, initConversationService, printFullResponse } from
 
   const eventId = getEventIdFromConfig();
 
-  const requestData: DeleteEventRequestData = {
+  const requestData: Conversation.DeleteEventRequestData = {
     event_id: eventId,
   };
 

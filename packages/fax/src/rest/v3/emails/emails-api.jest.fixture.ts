@@ -1,12 +1,13 @@
-import { Email, ServicePhoneNumber } from '../../../models';
 import {
-  EmailsApi,
+  AddEmailToNumbersRequestData,
   DeleteEmailRequestData,
+  Email,
   ListEmailsForProjectRequestData,
   ListNumbersByEmailRequestData,
+  ServicePhoneNumber,
   UpdateEmailRequestData,
-  AddEmailToNumbersRequestData,
-} from './emails-api';
+} from '../../../models';
+import { EmailsApi } from './emails-api';
 import { ApiListPromise } from '@sinch/sdk-client';
 
 export class EmailsApiFixture implements Partial<Readonly<EmailsApi>> {

@@ -1,41 +1,19 @@
 import {
+  AssignNumbersRequestData,
   GetCallbacks,
+  GetCallbackURLsRequestData,
+  GetNumbersRequestData,
   ListNumbersResponse,
+  QueryNumberRequestData,
   QueryNumberResponse,
-  UnassignNumbers,
-  UpdateCallbacks,
-  AssignNumbers,
+  UnassignNumberRequestData,
+  UpdateCallbackURLsRequestData,
 } from '../../../models';
 import {
   RequestBody,
   SinchClientParameters,
 } from '@sinch/sdk-client';
 import { VoiceDomainApi } from '../voice-domain-api';
-
-export interface QueryNumberRequestData {
-  /** The phone number you want to query. */
-  'number': string;
-}
-export interface GetCallbackURLsRequestData {
-  /** The unique identifying key of the application. */
-  'applicationkey': string;
-}
-export interface GetNumbersRequestData {
-}
-export interface UnassignNumberRequestData {
-  /**  */
-  'unassignNumbersRequestBody'?: UnassignNumbers;
-}
-export interface UpdateCallbackURLsRequestData {
-  /** The unique identifying key of the application. */
-  'applicationkey': string;
-  /**  */
-  'updateCallbacksRequestBody'?: UpdateCallbacks;
-}
-export interface AssignNumbersRequestData {
-  /**  */
-  'assignNumbersRequestBody'?: AssignNumbers;
-}
 
 export class ApplicationsApi extends VoiceDomainApi {
 

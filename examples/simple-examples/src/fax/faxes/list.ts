@@ -1,9 +1,9 @@
-import { Fax, ListFaxesRequestData, PageResult } from '@sinch/sdk-core';
+import { Fax, PageResult } from '@sinch/sdk-core';
 import { getPrintFormat, initFaxService, printFullResponse } from '../../config';
 
 const populateFaxesList = (
-  faxPage: PageResult<Fax>,
-  fullFaxesList: Fax[],
+  faxPage: PageResult<Fax.Fax>,
+  fullFaxesList: Fax.Fax[],
   faxesList: string[],
 ) => {
   fullFaxesList.push(...faxPage.data);
@@ -17,7 +17,7 @@ const populateFaxesList = (
   console.log('* getFaxes *');
   console.log('************');
 
-  const requestData: ListFaxesRequestData = {
+  const requestData: Fax.ListFaxesRequestData = {
     pageSize: 2,
   };
 
@@ -29,7 +29,7 @@ const populateFaxesList = (
   let response = await faxService.faxes.list(requestData);
 
   // Init data structure to hold the response content
-  const fullFaxesList: Fax[] = [];
+  const fullFaxesList: Fax.Fax[] = [];
   // Init data structure to hold the response content for pretty print
   const faxesList: string[] = [];
 

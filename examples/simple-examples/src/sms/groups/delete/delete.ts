@@ -1,4 +1,4 @@
-import { DeleteGroupRequestData, SmsService } from '@sinch/sdk-core';
+import { Sms, SmsService } from '@sinch/sdk-core';
 import { getGroupIdFromConfig } from '../../../config';
 
 export const deleteGroup = async(smsService: SmsService) => {
@@ -8,7 +8,7 @@ export const deleteGroup = async(smsService: SmsService) => {
 
   const groupId = getGroupIdFromConfig();
 
-  const requestData: DeleteGroupRequestData = {
+  const requestData: Sms.DeleteGroupRequestData = {
     group_id: groupId,
   };
 
