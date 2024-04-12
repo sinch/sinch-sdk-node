@@ -1,6 +1,6 @@
 {
   "name": "@sinch/numbers",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Sinch Numbers API",
   "homepage": "",
   "repository": {
@@ -28,7 +28,7 @@
     "compile": "tsc -p tsconfig.build.json && tsc -p tsconfig.tests.json && rimraf dist/tests && rimraf tsconfig.build.tsbuildinfo"
   },
   "dependencies": {
-    "@sinch/sdk-client": "^0.0.4"
+    "@sinch/sdk-client": "^0.0.5"
   },
   "devDependencies": {},
   "publishConfig": {

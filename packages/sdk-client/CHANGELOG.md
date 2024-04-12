@@ -1,3 +1,11 @@
+## Version 0.0.5
+ - [Tech] Break circular dependencies
+ - [Tech][Breaking] Rename `basepath` with `hostname` in the `ApiClientOptions` interface
+ - [Feature] Support hostname override: new properties added in the `SinchClientParameters` interface
+ - [Feature] Support request and response plugins override: new properties added in the `SinchClientParameters` interface
+ - [Feature] Create new functions to build the `ApiClientOptions` for each kind of authentication: `buildOAuth2ApiClientOptions`, `buildApplicationSignedApiClientOptions`, `buildFlexibleOAuth2OrApiTokenApiClientOptions`
+ - [Feature][Breaking] Remove the enum `Region` and create flexible enums for API regions: `ConversationRegion`, `FaxRegion`, `SmsRegion` and `VoiceRegion`
+
 ## Version 0.0.4
  - [Bugfix] Embed `form-data` dependency
 

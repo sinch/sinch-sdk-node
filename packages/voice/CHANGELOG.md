@@ -1,3 +1,9 @@
+## Version 0.0.5
+- [Tech] Update dependency `@sinch/sdk-client` to `0.0.5`
+- [Tech][Breaking] Export all model interfaces under the namespace `Voice`
+- [Feature] Support hostname override
+- [Feature] Support request and response plugins override
+
 ## Version 0.0.4
 - [Tech] Update dependency `@sinch/sdk-client` to `0.0.4`
 

@@ -1,3 +1,10 @@
+## Version 0.0.5
+- [Tech] Update dependency `@sinch/sdk-client` to `0.0.5`
+- [Tech][Breaking] Export all model interfaces under the namespace `Sms`
+- [Feature] Support hostname override
+- [Feature] Support request and response plugins override
+- [Feature][Breaking] Change the usage of `Region` to the more specific `SmsRegion`
+
 ## Version 0.0.4
 - [Tech] Update dependency `@sinch/sdk-client` to `0.0.4`
 
