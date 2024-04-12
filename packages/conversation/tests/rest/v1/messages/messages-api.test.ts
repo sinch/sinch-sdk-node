@@ -198,7 +198,7 @@ describe('MessagesApi', () => {
       });
 
     it('should format the ttl field', () => {
-      const requestBody: SendMessageRequest<Recipient> = {
+      const requestBody: Conversation.SendMessageRequest<Conversation.Recipient> = {
         ...sendMessageRequest,
         ...recipientContactId,
       };

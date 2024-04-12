@@ -20,6 +20,7 @@ import {
   SendListMessageRequestData,
   SendLocationMessageRequestData,
   SendMediaMessageRequestData,
+  SendMessageRequest,
   SendMessageRequestData,
   SendMessageResponse,
   SendTemplateMessageRequestData,
@@ -294,7 +295,7 @@ export class MessagesApi extends ConversationDomainApi {
   }
 
   performSendMessageRequestBodyTransformation(
-    body: SendMessageRequest<Recipient>
+    body: SendMessageRequest<Recipient>,
   ): SendMessageRequest<Recipient> {
     const requestDataBody = { ...body };
     // 'ttl' field can be a number or a string and needs to be formatted as for instance "10s" to be accepted by the server
