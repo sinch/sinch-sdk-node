@@ -26,4 +26,5 @@ jobs:
         continue-on-error: true
 
       - name: Validate audit report
+        # Manual check to decide on which condition to fail the build
         run: .github/scripts/validate-audit-report.sh
