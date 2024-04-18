@@ -1,12 +1,12 @@
 import { MediaMessageItem } from '../media-message';
 
-export interface ChoiceItem {
+export interface ChoiceItemWrapper {
 
   /** A message component for interactive messages, containing a choice. */
-  choice: ChoiceItemItem;
+  choice: ChoiceItem;
 }
 
-export interface ChoiceItemItem {
+export interface ChoiceItem {
 
   /** Required parameter. Title for the choice item. */
   title: string;

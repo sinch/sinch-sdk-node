@@ -168,6 +168,34 @@ export const templateMessage: Conversation.TemplateMessage = {
   template_message: templateMessageItem,
 };
 
+export const strawberryChoiceDetails: Conversation.ChoiceItem = {
+  title: 'Strawberry',
+  postback_data: 'Strawberry postback',
+};
+
+export const blueberryChoiceDetails: Conversation.ChoiceItem = {
+  title: 'Blueberry',
+  postback_data: 'Blueberry postback',
+};
+
+export const chocolateChoiceDetails: Conversation.ChoiceItem = {
+  title: 'Chocolate',
+  postback_data: 'Chocolate postback',
+};
+
+export const vanillaChoiceDetails: Conversation.ChoiceItem = {
+  title: 'Vanilla',
+  postback_data: 'Vanilla postback',
+};
+
+export const bookProductDetails: Conversation.ProductItem = {
+  id: '2351786092',
+  marketplace: 'bashi-bouzouk',
+  item_price: 12,
+  currency: 'EUR',
+  quantity: 1,
+};
+
 export const listMessageItem: Conversation.ListMessageItem = {
   title: 'Choose your icecream flavor',
   description: 'The best icecream in town!',
@@ -175,35 +203,15 @@ export const listMessageItem: Conversation.ListMessageItem = {
     {
       title: 'Fruit flavors',
       items: [
-        {
-          choice: {
-            title: 'Strawberry',
-            postback_data: 'Strawberry postback',
-          },
-        },
-        {
-          choice: {
-            title: 'Blueberry',
-            postback_data: 'Blueberry postback',
-          },
-        },
+        Conversation.listSectionHelper.buildChoiceItem(strawberryChoiceDetails),
+        Conversation.listSectionHelper.buildChoiceItem(blueberryChoiceDetails),
       ],
     },
     {
       title: 'Other flavors',
       items: [
-        {
-          choice: {
-            title: 'Chocolate',
-            postback_data: 'Chocolate postback',
-          },
-        },
-        {
-          choice: {
-            title: 'Vanilla',
-            postback_data: 'Vanilla postback',
-          },
-        },
+        Conversation.listSectionHelper.buildChoiceItem(chocolateChoiceDetails),
+        Conversation.listSectionHelper.buildChoiceItem(vanillaChoiceDetails),
       ],
     },
   ],
