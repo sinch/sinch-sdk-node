@@ -162,7 +162,7 @@ interface AppMessageBase {
    * The option to override the omni-channel template configuration with a channel-specific template
    * (for channels on which channel-specific templates can be created. For more information, see [Channel Specific Templates](https://developers.sinch.com/docs/conversation/templates/#channel-specific-templates)).
    */
-  explicit_channel_omni_message?: { [key in ChannelSpecificTemplate]?: OmniMessage; };
+  explicit_channel_omni_message?: { [key in ChannelSpecificTemplate]?: OmniMessageOverride; };
   /**
    * Channel specific messages, overriding any transcoding. The structure of this property is more well-defined than the open structure of the `explicit_channel_message` property, and may be easier to use.
    * The key in the map must point to a valid conversation channel as defined in the enum `ConversationChannel`.
@@ -174,18 +174,18 @@ interface AppMessageBase {
 
 type ChannelSpecificTemplate = 'WHATSAPP' | 'KAKAOTALK' | 'WECHAT';
 
-export type OmniMessage =
-  OmniCardMessage
-  | OmniCarouselMessage
-  | OmniChoiceMessage
-  | OmniLocationMessage
-  | OmniMediaMessage
-  | OmniTemplateMessage
-  | OmniTextMessage
-  | OmniListMessage
-  | OmniContactInfoMessage;
+export type OmniMessageOverride =
+  OmniMessageOverrideCardMessage
+  | OmniMessageOverrideCarouselMessage
+  | OmniMessageOverrideChoiceMessage
+  | OmniMessageOverrideLocationMessage
+  | OmniMessageOverrideMediaMessage
+  | OmniMessageOverrideTemplateReference
+  | OmniMessageOverrideTextMessage
+  | OmniMessageOverrideListMessage
+  | OmniMessageOverrideContactInfoMessage;
 
-interface OmniCardMessage extends CardMessage {
+export interface OmniMessageOverrideCardMessage extends CardMessage {
   // Exclude other message types
   carousel_message?: never;
   choice_message?: never;
@@ -197,7 +197,7 @@ interface OmniCardMessage extends CardMessage {
   contact_info_message?: never;
 }
 
-interface OmniCarouselMessage extends CarouselMessage {
+export interface OmniMessageOverrideCarouselMessage extends CarouselMessage {
   // Exclude other message types
   card_message?: never;
   choice_message?: never;
@@ -209,7 +209,7 @@ interface OmniCarouselMessage extends CarouselMessage {
   contact_info_message?: never;
 }
 
-interface OmniChoiceMessage extends ChoiceMessage {
+export interface OmniMessageOverrideChoiceMessage extends ChoiceMessage {
   // Exclude other message types
   card_message?: never;
   carousel_message?: never;
@@ -221,7 +221,7 @@ interface OmniChoiceMessage extends ChoiceMessage {
   contact_info_message?: never;
 }
 
-interface OmniLocationMessage extends LocationMessage {
+export interface OmniMessageOverrideLocationMessage extends LocationMessage {
   // Exclude other message types
   card_message?: never;
   carousel_message?: never;
@@ -233,7 +233,7 @@ interface OmniLocationMessage extends LocationMessage {
   contact_info_message?: never;
 }
 
-interface OmniMediaMessage extends MediaMessage {
+export interface OmniMessageOverrideMediaMessage extends MediaMessage {
   // Exclude other message types
   card_message?: never;
   carousel_message?: never;
@@ -245,7 +245,7 @@ interface OmniMediaMessage extends MediaMessage {
   contact_info_message?: never;
 }
 
-interface OmniTemplateMessage {
+export interface OmniMessageOverrideTemplateReference {
   /** @see TemplateReference */
   template_reference: TemplateReference;
   // Exclude other message types
@@ -259,7 +259,7 @@ interface OmniTemplateMessage {
   contact_info_message?: never;
 }
 
-interface OmniTextMessage extends TextMessage {
+export interface OmniMessageOverrideTextMessage extends TextMessage {
   // Exclude other message types
   card_message?: never;
   carousel_message?: never;
@@ -271,7 +271,7 @@ interface OmniTextMessage extends TextMessage {
   contact_info_message?: never;
 }
 
-interface OmniListMessage extends ListMessage {
+export interface OmniMessageOverrideListMessage extends ListMessage {
   // Exclude other message types
   card_message?: never;
   carousel_message?: never;
@@ -283,7 +283,7 @@ interface OmniListMessage extends ListMessage {
   contact_info_message?: never;
 }
 
-interface OmniContactInfoMessage extends ContactInfoMessage {
+export interface OmniMessageOverrideContactInfoMessage extends ContactInfoMessage {
   // Exclude other message types
   card_message?: never;
   carousel_message?: never;
