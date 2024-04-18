@@ -1,0 +1,30 @@
+name: Security Audit
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install jq
+
+      - name: Run security audit
+        run: |
+          yarn install --frozen-lockfile
+          yarn audit --json > audit-report.txt
+        continue-on-error: true
+
+      - name: Validate audit report
+        # Manual check to decide on which condition to fail the build
+        run: .github/scripts/validate-audit-report.sh
