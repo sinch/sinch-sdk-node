@@ -1,4 +1,5 @@
 import { CalloutRequestEventResponseCallout } from '../callout-request-event-response-callout';
+import { ActionEnum } from '../enums';
 
 export interface CalloutRequestEventResponse {
 
@@ -7,5 +8,3 @@ export interface CalloutRequestEventResponse {
   /** @see CalloutRequestEventResponseCallout */
   callout?: CalloutRequestEventResponseCallout;
 }
-
-export type ActionEnum = 'allow' | 'deny';

@@ -1,3 +1,5 @@
+import { ActionEnum } from '../enums';
+
 export interface SMSRequestEventResponse {
 
   /** Determines whether the verification can be executed. */
@@ -13,6 +15,3 @@ interface SmsContent {
   /** List of strings */
   acceptLanguage?: string[];
 }
-
-export type ActionEnum = 'allow' | 'deny';
-

@@ -1,5 +1,5 @@
 import { Identity } from '../identity';
-import { VerificationStatusEnum } from '../enums';
+import { ReasonEnum, SourceEnum, VerificationStatusEnum } from '../enums';
 
 export interface VerificationResultEvent {
 
@@ -24,20 +24,3 @@ export interface VerificationResultEvent {
 }
 
 export type MethodEnum = 'sms' | 'flashcall' | 'callout' | 'seamless';
-
-export type ReasonEnum = 'Fraud'
-  | 'Not enough credit'
-  | 'Blocked'
-  | 'Denied by callback'
-  | 'Invalid callback'
-  | 'Internal error'
-  | 'Destination denied'
-  | 'Network error or number unreachable'
-  | 'Failed pending'
-  | 'SMS delivery failure'
-  | 'Invalid CLI'
-  | 'Invalid code'
-  | 'Expired'
-  | 'Hung up without entering valid code';
-
-export type SourceEnum = 'intercepted' | 'manual';

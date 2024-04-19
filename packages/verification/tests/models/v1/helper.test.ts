@@ -8,6 +8,7 @@ const DIAL_TIMEOUT = 30;
 const VERIFICATION_ID = 'a_verification_id';
 const VERIFICATION_CODE = '0000';
 const VERIFICATION_CLI = '+46000000000';
+const CALLOUT_LANGUAGE = 'en';
 
 const identity: Verification.StartVerificationBase = {
   identity: {
@@ -34,6 +35,18 @@ const identityWithFlashCall: Verification.StartVerificationWithFlashCall = {
   },
 };
 
+const smsOptions: Verification.SmsOptions = {
+  expiry: '15:15:15',
+  codeType: 'Numeric',
+  template: 'Your verification code is {{CODE}}. Verified by Sinch',
+};
+
+const calloutOptions: Verification.CalloutOptions = {
+  speech: {
+    locale: CALLOUT_LANGUAGE,
+  },
+};
+
 describe('Verification models helper', () => {
 
   describe('Start verification helper', () => {
@@ -53,6 +66,19 @@ describe('Verification models helper', () => {
       expect(buildRequest).toEqual(startRequest);
     });
 
+    it('should build a startSms request with some smsOptions', () => {
+      const buildRequest = Verification.startVerificationHelper.buildSmsRequest(PHONE_NUMBER, undefined, smsOptions);
+      const startRequest: Verification.StartSmsVerificationRequestData = {
+        startVerificationWithSmsRequestBody: {
+          ...identity,
+          smsOptions: {
+            ...smsOptions,
+          },
+        },
+      };
+      expect(buildRequest).toEqual(startRequest);
+    });
+
     it('should build a startCallout request', () => {
       const buildRequest = Verification.startVerificationHelper.buildCalloutRequest(PHONE_NUMBER);
       const startRequest: Verification.StartCalloutVerificationRequestData = {
@@ -65,6 +91,20 @@ describe('Verification models helper', () => {
       const buildRequest = Verification.startVerificationHelper.buildCalloutRequest(PHONE_NUMBER, REFERENCE);
       const startRequest: Verification.StartCalloutVerificationRequestData = {
         startVerificationWithCalloutRequestBody: identityWithReference,
+      };
+      expect(buildRequest).toEqual(startRequest);
+    });
+
+    it('should build a startCallout request with some calloutOptions', () => {
+      const buildRequest = Verification.startVerificationHelper.buildCalloutRequest(
+        PHONE_NUMBER, undefined, CALLOUT_LANGUAGE);
+      const startRequest: Verification.StartCalloutVerificationRequestData = {
+        startVerificationWithCalloutRequestBody: {
+          ...identity,
+          calloutOptions: {
+            ...calloutOptions,
+          },
+        },
       };
       expect(buildRequest).toEqual(startRequest);
     });

@@ -1,3 +1,5 @@
+import { ActionEnum } from '../enums';
+
 export interface FlashCallRequestEventResponse {
 
   /** Determines whether the verification can be executed. */
@@ -5,8 +7,6 @@ export interface FlashCallRequestEventResponse {
   /** @see FlashCallContent */
   flashCall?: FlashCallContent;
 }
-
-export type ActionEnum = 'allow' | 'deny';
 
 interface FlashCallContent {
 

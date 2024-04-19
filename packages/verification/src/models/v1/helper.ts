@@ -10,11 +10,13 @@ import {
   StartSeamlessVerificationRequestData,
   StartSmsVerificationRequestData,
 } from './requests';
+import { SmsOptions } from './start-verification-request';
 
 export const startVerificationHelper = {
   buildSmsRequest: (
     phoneNumber: string,
     reference?: string,
+    smsOptions?: SmsOptions,
   ): StartSmsVerificationRequestData => {
     return {
       startVerificationWithSmsRequestBody: {
@@ -23,12 +25,18 @@ export const startVerificationHelper = {
           endpoint: phoneNumber,
         },
         reference,
+        ...(smsOptions !== undefined) ? {
+          smsOptions: {
+            ...smsOptions,
+          },
+        } : {},
       },
     };
   },
   buildCalloutRequest: (
     phoneNumber: string,
     reference?: string,
+    locale?: string,
   ): StartCalloutVerificationRequestData => {
     return {
       startVerificationWithCalloutRequestBody: {
@@ -37,6 +45,13 @@ export const startVerificationHelper = {
           endpoint: phoneNumber,
         },
         reference,
+        ...(locale !== undefined) ? {
+          calloutOptions: {
+            speech: {
+              locale,
+            },
+          },
+        } : {},
       },
     };
   },

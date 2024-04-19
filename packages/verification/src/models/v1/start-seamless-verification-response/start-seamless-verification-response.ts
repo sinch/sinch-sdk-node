@@ -1,3 +1,5 @@
+import { LinksObject } from '../links-object';
+
 export interface StartSeamlessVerificationResponse {
 
   /** Verification identifier used to query for status. */
@@ -6,6 +8,8 @@ export interface StartSeamlessVerificationResponse {
   method?: 'seamless';
   /** The response contains the target URI. */
   seamless?: SeamlessContent;
+  /** @see LinksObject */
+  _links?: LinksObject[];
 }
 
 interface SeamlessContent {

@@ -5,7 +5,7 @@ export interface StartFlashCallVerificationResponse {
   /** Verification identifier used to query for status. */
   id?: string;
   /** The value of the method used for the Verification. For Flashcall Verifications, this will always be `flashCall`. */
-  method?: 'flashCall';
+  method?: 'flashcall';
   /** The response contains the `cliFilter` and `interceptionTimeout` properties. */
   flashCall?: FlashCallContent;
   /** @see LinksObject */

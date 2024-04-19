@@ -1,6 +1,6 @@
 import { VerificationStatusApi } from './verification-status-api';
 import {
-  VerificationReportResponse,
+  VerificationStatusResponse,
   VerificationStatusByIdRequestData,
   VerificationStatusByIdentityRequestData,
   VerificationStatusByReferenceRequestData,
@@ -12,15 +12,15 @@ export class VerificationStatusApiFixture implements Partial<Readonly<Verificati
    * Fixture associated to function getById
    */
   public getById:
-    jest.Mock<Promise<VerificationReportResponse>, [VerificationStatusByIdRequestData]> = jest.fn();
+    jest.Mock<Promise<VerificationStatusResponse>, [VerificationStatusByIdRequestData]> = jest.fn();
   /**
    * Fixture associated to function getByIdentity
    */
   public getByIdentity:
-    jest.Mock<Promise<VerificationReportResponse>, [VerificationStatusByIdentityRequestData]> = jest.fn();
+    jest.Mock<Promise<VerificationStatusResponse>, [VerificationStatusByIdentityRequestData]> = jest.fn();
   /**
    * Fixture associated to function getByReference
    */
   public getByReference:
-    jest.Mock<Promise<VerificationReportResponse>, [VerificationStatusByReferenceRequestData]> = jest.fn();
+    jest.Mock<Promise<VerificationStatusResponse>, [VerificationStatusByReferenceRequestData]> = jest.fn();
 }

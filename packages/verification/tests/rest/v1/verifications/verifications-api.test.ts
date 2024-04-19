@@ -56,12 +56,50 @@ describe('VerificationsApi', () => {
       expect(fixture.startSms).toHaveBeenCalledWith(requestData);
     });
 
+    it('should format the expiry field', () => {
+      const requestData = Verification.startVerificationHelper.buildSmsRequest(
+        '+46700000000',
+        undefined,
+        { expiry: new Date('2024-02-10T13:22:34.685Z') });
+      const expectedResult: Verification.StartVerificationWithSms = {
+        identity: {
+          endpoint: '+46700000000',
+          type: 'number',
+        },
+        smsOptions: {
+          expiry: '13:22:34',
+        },
+      };
+      const formattedRequestData
+        = verificationsApi.performStartSmsRequestBodyTransformation(requestData.startVerificationWithSmsRequestBody);
+      expect(formattedRequestData).toEqual(expectedResult);
+    });
+
+    it('should leave the expiry field unchanged', () => {
+      const requestData = Verification.startVerificationHelper.buildSmsRequest(
+        '+46700000000',
+        undefined,
+        { expiry: '15:15:15' });
+      const expectedResult: Verification.StartVerificationWithSms = {
+        identity: {
+          endpoint: '+46700000000',
+          type: 'number',
+        },
+        smsOptions: {
+          expiry: '15:15:15',
+        },
+      };
+      const formattedRequestData
+        = verificationsApi.performStartSmsRequestBodyTransformation(requestData.startVerificationWithSmsRequestBody);
+      expect(formattedRequestData).toEqual(expectedResult);
+    });
+
     it('should make a POST request to start a verification with a FlashCall', async () => {
       // Given
       const requestData = Verification.startVerificationHelper.buildFlashCallRequest('+46700000000', undefined, 30);
       const expectedResponse: Verification.StartFlashCallVerificationResponse = {
         id: 'some_verification_id',
-        method: 'flashCall',
+        method: 'flashcall',
         flashCall: {
           cliFilter: '(.*)70123(.*)',
           interceptionTimeout: 60,
@@ -156,17 +194,7 @@ describe('VerificationsApi', () => {
         id: 'some_verification_id',
         method: 'flashcall',
         status: 'SUCCESSFUL',
-        price: {
-          verificationPrice: {
-            currencyId: 'USD',
-            amount: 0.0127,
-          },
-          terminationPrice: {
-            currencyId: 'USD',
-            amount: 0.0127,
-          },
-          billableDuration: 42,
-        },
+        callComplete: true,
       };
 
       // When
@@ -215,12 +243,6 @@ describe('VerificationsApi', () => {
         method: 'sms',
         status: 'FAIL',
         reason: 'Fraud',
-        price: {
-          verificationPrice: {
-            currencyId: 'USD',
-            amount: 0.0127,
-          },
-        },
         source: 'intercepted',
       };
 
@@ -246,17 +268,6 @@ describe('VerificationsApi', () => {
         method: 'flashcall',
         status: 'FAIL',
         reason: 'Fraud',
-        price: {
-          verificationPrice: {
-            currencyId: 'USD',
-            amount: 0.0127,
-          },
-          terminationPrice: {
-            currencyId: 'USD',
-            amount: 0.0127,
-          },
-          billableDuration: 42,
-        },
         source: 'intercepted',
       };
 
@@ -282,17 +293,6 @@ describe('VerificationsApi', () => {
         status: 'FAIL',
         reason: 'Expired',
         callComplete: true,
-        price: {
-          verificationPrice: {
-            currencyId: 'USD',
-            amount: 0.0127,
-          },
-          terminationPrice: {
-            currencyId: 'USD',
-            amount: 0.0127,
-          },
-          billableDuration: 42,
-        },
       };
 
       // When
