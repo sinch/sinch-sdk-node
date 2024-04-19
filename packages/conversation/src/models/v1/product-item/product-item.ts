@@ -1,7 +1,7 @@
 /**
  * A message component for interactive messages, containing a product.
  */
-export interface Product {
+export interface ProductItemWrapper {
 
   /** A message component for interactive messages, containing a product. */
   product?: ProductItem;

@@ -8,6 +8,8 @@ import { MediaMessage, MediaMessageItem } from './media-message';
 import { TemplateMessage, TemplateMessageItem } from './template-message';
 import { ListMessage, ListMessageItem } from './list-message';
 import { V2TemplateTranslation } from './v2-template-translation';
+import { ChoiceItem, ChoiceItemWrapper } from './choice-item';
+import { ProductItem, ProductItemWrapper } from './product-item';
 
 export const messageBuilder = {
   card: (cardMessageItem: CardMessageItem): CardMessage => {
@@ -175,6 +177,19 @@ export const templateV2Helper = {
     } else {
       return translations.filter((translation) => translation.version !== 'latest');
     }
+  },
+};
+
+export const listSectionHelper = {
+  buildChoiceItem: (choiceItem: ChoiceItem): ChoiceItemWrapper => {
+    return {
+      choice: choiceItem,
+    };
+  },
+  buildProductItem: (productItem: ProductItem): ProductItemWrapper => {
+    return {
+      product: productItem,
+    };
   },
 };
 

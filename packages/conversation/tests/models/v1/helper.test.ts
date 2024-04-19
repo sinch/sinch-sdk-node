@@ -18,6 +18,8 @@ import {
   templateMessageItem,
   textMessageItem,
   textMessage,
+  strawberryChoiceDetails,
+  bookProductDetails,
 } from '../../messages-mocks';
 
 describe('Conversation models helpers', () => {
@@ -246,6 +248,33 @@ describe('Conversation models helpers', () => {
     it('should build a ListMessage', () => {
       const builtMessage = Conversation.messageBuilder.list(listMessageItem);
       expect(builtMessage).toEqual(listMessage);
+    });
+  });
+
+  describe('List Section helper', () => {
+    it('should build a ChoiceItemWrapper', () => {
+      const strawberryChoiceItem: Conversation.ChoiceItemWrapper = {
+        choice: {
+          title: 'Strawberry',
+          postback_data: 'Strawberry postback',
+        },
+      };
+      const builtItemWrapper = Conversation.listSectionHelper.buildChoiceItem(strawberryChoiceDetails);
+      expect(builtItemWrapper).toEqual(strawberryChoiceItem);
+    });
+
+    it('should build a ProductItemWrapper', () => {
+      const bookProductItem: Conversation.ProductItemWrapper = {
+        product: {
+          id: '2351786092',
+          marketplace: 'bashi-bouzouk',
+          item_price: 12,
+          currency: 'EUR',
+          quantity: 1,
+        },
+      };
+      const builtItemWrapper = Conversation.listSectionHelper.buildProductItem(bookProductDetails);
+      expect(builtItemWrapper).toEqual(bookProductItem);
     });
   });
 
