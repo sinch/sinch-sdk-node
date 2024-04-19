@@ -1,3 +1,6 @@
+## Version 1.0.0
+- No change
+
 ## Version 0.0.5
  - [Tech] Break circular dependencies
  - [Tech][Breaking] Rename `basepath` with `hostname` in the `ApiClientOptions` interface
