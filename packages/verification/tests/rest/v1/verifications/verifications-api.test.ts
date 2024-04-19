@@ -56,6 +56,44 @@ describe('VerificationsApi', () => {
       expect(fixture.startSms).toHaveBeenCalledWith(requestData);
     });
 
+    it('should format the expiry field', () => {
+      const requestData = Verification.startVerificationHelper.buildSmsRequest(
+        '+46700000000',
+        undefined,
+        { expiry: new Date('2024-02-10T13:22:34.685Z') });
+      const expectedResult: Verification.StartVerificationWithSms = {
+        identity: {
+          endpoint: '+46700000000',
+          type: 'number',
+        },
+        smsOptions: {
+          expiry: '14:22:34',
+        },
+      };
+      const formattedRequestData
+        = verificationsApi.performStartSmsRequestBodyTransformation(requestData.startVerificationWithSmsRequestBody);
+      expect(formattedRequestData).toEqual(expectedResult);
+    });
+
+    it('should leave the expiry field unchanged', () => {
+      const requestData = Verification.startVerificationHelper.buildSmsRequest(
+        '+46700000000',
+        undefined,
+        { expiry: '15:15:15' });
+      const expectedResult: Verification.StartVerificationWithSms = {
+        identity: {
+          endpoint: '+46700000000',
+          type: 'number',
+        },
+        smsOptions: {
+          expiry: '15:15:15',
+        },
+      };
+      const formattedRequestData
+        = verificationsApi.performStartSmsRequestBodyTransformation(requestData.startVerificationWithSmsRequestBody);
+      expect(formattedRequestData).toEqual(expectedResult);
+    });
+
     it('should make a POST request to start a verification with a FlashCall', async () => {
       // Given
       const requestData = Verification.startVerificationHelper.buildFlashCallRequest('+46700000000', undefined, 30);

@@ -31,7 +31,7 @@ export interface StartVerificationBase {
  */
 export interface SmsOptions {
   /** The expiration time for a verification process is represented in the format `HH:MM:SS`. */
-  expiry?: string;
+  expiry?: Date | string;
   /** Accepted values for the type of code to be generated are `Numeric`, `Alpha`, and `Alphanumeric`. Default is `Numeric`. */
   codeType?: CodeType;
   /** The SMS template must include a placeholder `{{CODE}}` where the verification code will be inserted, and it can otherwise be customized as desired. */

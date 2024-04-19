@@ -16,6 +16,7 @@ import {
   StartFlashCallVerificationRequestData,
   StartCalloutVerificationRequestData,
   StartSeamlessVerificationRequestData,
+  StartVerificationWithSms,
 } from '../../../models';
 import {
   RequestBody,
@@ -254,8 +255,11 @@ export class VerificationsApi extends VerificationDomainApi {
       'Accept': 'application/json',
     };
 
-    const body: RequestBody = data['startVerificationWithSmsRequestBody']
-      ? JSON.stringify(data['startVerificationWithSmsRequestBody'])
+    // Special fields handling: see method for details
+    const requestDataBody = this.performStartSmsRequestBodyTransformation(data.startVerificationWithSmsRequestBody);
+
+    const body: RequestBody = requestDataBody
+      ? JSON.stringify(requestDataBody)
       : '{}';
     const path = '/verification/v1/verifications';
     const basePathUrl = this.client.apiClientOptions.hostname + path;
@@ -270,6 +274,28 @@ export class VerificationsApi extends VerificationDomainApi {
       apiName: this.apiName,
       operationId: 'StartVerificationWithSms',
     });
+  }
+
+  performStartSmsRequestBodyTransformation(body: StartVerificationWithSms): StartVerificationWithSms {
+    const requestDataBody = { ...body };
+    if (requestDataBody.smsOptions?.expiry !== undefined) {
+      const expiry = requestDataBody.smsOptions?.expiry;
+      if (expiry instanceof Date) {
+        requestDataBody.smsOptions.expiry = this.formatTime(expiry);
+      }
+    }
+
+    return requestDataBody;
+  }
+
+  formatTime(date: Date): string {
+    // Pad single-digit components with leading zeros
+    const formattedHours = String(date.getHours()).padStart(2, '0');
+    const formattedMinutes = String(date.getMinutes()).padStart(2, '0');
+    const formattedSeconds = String(date.getSeconds()).padStart(2, '0');
+
+    // Concatenate the components with colons to form the formatted time string
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
   }
 
   /**

@@ -4,4 +4,9 @@ export type {
   StartVerificationWithFlashCall,
   StartVerificationWithCallout,
   StartSeamlessVerification,
+  SmsOptions,
+  CodeType,
+  CalloutOptions,
+  CalloutOptionsSpeech,
+  FlashCallOptions,
 } from './start-verification-request';
