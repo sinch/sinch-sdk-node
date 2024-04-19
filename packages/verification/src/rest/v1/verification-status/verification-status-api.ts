@@ -3,7 +3,7 @@ import {
   SinchClientParameters,
 } from '@sinch/sdk-client';
 import {
-  VerificationReportResponse,
+  VerificationStatusResponse,
   VerificationStatusByIdentityRequestData,
   VerificationStatusByIdRequestData,
   VerificationStatusByReferenceRequestData,
@@ -26,7 +26,7 @@ export class VerificationStatusApi extends VerificationDomainApi {
    * Queries the verification result by sending the verification ID. With this query you can get the result of a verification.
    * @param { VerificationStatusByIdRequestData } data - The data to provide to the API call.
    */
-  public async getById(data: VerificationStatusByIdRequestData): Promise<VerificationReportResponse> {
+  public async getById(data: VerificationStatusByIdRequestData): Promise<VerificationStatusResponse> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<VerificationStatusByIdRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -42,7 +42,7 @@ export class VerificationStatusApi extends VerificationDomainApi {
       = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return this.client.processCall<VerificationReportResponse>({
+    return this.client.processCall<VerificationStatusResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -55,7 +55,7 @@ export class VerificationStatusApi extends VerificationDomainApi {
    * Queries the verification result by sending the verification Identity (usually a phone number) and its method. With this query you can get the result of a verification.
    * @param { VerificationStatusByIdentityRequestData } data - The data to provide to the API call.
    */
-  public async getByIdentity(data: VerificationStatusByIdentityRequestData): Promise<VerificationReportResponse> {
+  public async getByIdentity(data: VerificationStatusByIdentityRequestData): Promise<VerificationStatusResponse> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<VerificationStatusByIdentityRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -71,7 +71,7 @@ export class VerificationStatusApi extends VerificationDomainApi {
       = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return this.client.processCall<VerificationReportResponse>({
+    return this.client.processCall<VerificationStatusResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -84,7 +84,7 @@ export class VerificationStatusApi extends VerificationDomainApi {
    * Queries the verification result by sending the verification Reference. With this query you can get the result of a verification.
    * @param { VerificationStatusByReferenceRequestData } data - The data to provide to the API call.
    */
-  public async getByReference(data: VerificationStatusByReferenceRequestData): Promise<VerificationReportResponse> {
+  public async getByReference(data: VerificationStatusByReferenceRequestData): Promise<VerificationStatusResponse> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<VerificationStatusByReferenceRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -100,7 +100,7 @@ export class VerificationStatusApi extends VerificationDomainApi {
       = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return this.client.processCall<VerificationReportResponse>({
+    return this.client.processCall<VerificationStatusResponse>({
       url,
       requestOptions,
       apiName: this.apiName,

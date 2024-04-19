@@ -1,5 +1,4 @@
-import { VerificationReportResponsePrice } from '../verification-report-response-price';
-import { VerificationStatusEnum } from '../enums';
+import { ReasonEnum, SourceEnum, VerificationStatusEnum } from '../enums';
 import { Identity } from '../identity';
 
 export interface FlashCallVerificationReportResponse {
@@ -14,34 +13,10 @@ export interface FlashCallVerificationReportResponse {
   reason?: ReasonEnum;
   /** The reference ID that was optionally passed together with the verification request. */
   reference?: string;
-  /** @see VerificationReportResponsePrice */
-  price?: VerificationReportResponsePrice;
   /** Free text that the client is sending, used to show if the call/SMS was intercepted or not. */
   source?: SourceEnum;
-  /** */
+  /** @see Identity */
   identity?: Identity;
-  /** */
-  countryId?: string;
-  /** */
-  verificationTimestamp?: Date;
-  /** */
+  /** Shows whether the call is complete or not. */
   callComplete?: boolean;
-  /** */
-  callResult?: string;
 }
-
-export type ReasonEnum = 'Fraud'
-  | 'Not enough credit'
-  | 'Blocked'
-  | 'Denied by callback'
-  | 'Invalid callback'
-  | 'Internal error'
-  | 'Destination denied'
-  | 'Network error or number unreachable'
-  | 'Failed pending'
-  | 'SMS delivery failure'
-  | 'Invalid CLI'
-  | 'Invalid code'
-  | 'Expired'
-  | 'Hung up without entering valid code';
-export type SourceEnum = 'intercepted' | 'manual';

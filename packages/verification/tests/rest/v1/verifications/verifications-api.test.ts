@@ -61,7 +61,7 @@ describe('VerificationsApi', () => {
       const requestData = Verification.startVerificationHelper.buildFlashCallRequest('+46700000000', undefined, 30);
       const expectedResponse: Verification.StartFlashCallVerificationResponse = {
         id: 'some_verification_id',
-        method: 'flashCall',
+        method: 'flashcall',
         flashCall: {
           cliFilter: '(.*)70123(.*)',
           interceptionTimeout: 60,
@@ -156,17 +156,7 @@ describe('VerificationsApi', () => {
         id: 'some_verification_id',
         method: 'flashcall',
         status: 'SUCCESSFUL',
-        price: {
-          verificationPrice: {
-            currencyId: 'USD',
-            amount: 0.0127,
-          },
-          terminationPrice: {
-            currencyId: 'USD',
-            amount: 0.0127,
-          },
-          billableDuration: 42,
-        },
+        callComplete: true,
       };
 
       // When
@@ -215,12 +205,6 @@ describe('VerificationsApi', () => {
         method: 'sms',
         status: 'FAIL',
         reason: 'Fraud',
-        price: {
-          verificationPrice: {
-            currencyId: 'USD',
-            amount: 0.0127,
-          },
-        },
         source: 'intercepted',
       };
 
@@ -246,17 +230,6 @@ describe('VerificationsApi', () => {
         method: 'flashcall',
         status: 'FAIL',
         reason: 'Fraud',
-        price: {
-          verificationPrice: {
-            currencyId: 'USD',
-            amount: 0.0127,
-          },
-          terminationPrice: {
-            currencyId: 'USD',
-            amount: 0.0127,
-          },
-          billableDuration: 42,
-        },
         source: 'intercepted',
       };
 
@@ -282,17 +255,6 @@ describe('VerificationsApi', () => {
         status: 'FAIL',
         reason: 'Expired',
         callComplete: true,
-        price: {
-          verificationPrice: {
-            currencyId: 'USD',
-            amount: 0.0127,
-          },
-          terminationPrice: {
-            currencyId: 'USD',
-            amount: 0.0127,
-          },
-          billableDuration: 42,
-        },
       };
 
       // When
