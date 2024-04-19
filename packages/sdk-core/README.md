@@ -2,9 +2,6 @@
 
 This package contains the Sinch Client SDK for Node.js. To use it, you will need a Sinch account. Please [sign up](https://dashboard.sinch.com/signup) or [log in](https://dashboard.sinch.com/login) if you already have one.
 
-> <span style="color:red; font-weight:bold">Warning:</span>
-> **This SDK is currently available to selected developers for preview use only. It is being provided for the purpose of collecting feedback, and should not be used in production environments.**
-
 ## Installation
 
 ### With NPM

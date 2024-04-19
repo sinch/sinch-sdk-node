@@ -17,9 +17,6 @@ Once logged-in you'll find different sets of credentials to access to the variou
 
 For more information on the Sinch APIs on which this SDK is based, refer to the official [developer documentation portal](developers.sinch.com).
 
-> <span style="color:red; font-weight:bold">Warning:</span>
-> **This SDK is currently available to selected developers for preview use only. It is being provided for the purpose of collecting feedback, and should not be used in production environments.**
-
 ## Prerequisites
 
 Before being able to execute the commands described below, you will need to install Node.js. We recommend to [install the current or the LTS version](https://nodejs.org/en).
