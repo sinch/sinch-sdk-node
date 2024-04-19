@@ -1,3 +1,9 @@
+## Version 1.0.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.0.0`
+- [Feature][Breaking TS] Refactor `OmniMessage` interface to `OmniMessageOverride` to highlight its override nature
+- [Feature][Breaking TS] Refactor the `section` array elements interface of a "List Message": the new interfaces are now called `ChoiceItemWrapper` and `ProductItemWrapper` and contain a `ChoiceItem` and a `ProductItem` in their respective properties `choice` and `product`
+- [Feature] Add helpers to build `ChoiceItemWrapper` and `ProductItemWrapper` objects.
+
 ## Version 0.0.5
 - [Tech] Update dependency `@sinch/sdk-client` to `0.0.5`
 - [Tech][Breaking] Export all model interfaces under the namespace `Conversation`

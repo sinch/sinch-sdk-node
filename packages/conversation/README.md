@@ -2,9 +2,6 @@
 
 This package contains the Sinch Conversation SDK for Node.js for use with [Sinch APIs](https://developers.sinch.com/). To use it, you will need a Sinch account. Please [sign up](https://dashboard.sinch.com/signup) or [log in](https://dashboard.sinch.com/login) if you already have one.
 
-> <span style="color:red; font-weight:bold">Warning:</span>
-> **This SDK is currently available to selected developers for preview use only. It is being provided for the purpose of collecting feedback, and should not be used in production environments.**
-
 ## Installation
 
 We recommend to use this SDK as part of the `@sinch/sdk-core` package as it will take care about the authentication plugins to use.

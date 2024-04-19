@@ -1,3 +1,6 @@
+## Version 1.0.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.0.0`
+
 ## Version 0.0.5
 - [Tech] Update dependency `@sinch/sdk-client` to `0.0.5`
 - [Tech][Breaking] Export all model interfaces under the namespace `Sms`

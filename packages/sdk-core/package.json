@@ -1,6 +1,6 @@
 {
   "name": "@sinch/sdk-core",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "Node.js client for the Sinch API platform",
   "homepage": "",
   "repository": {
@@ -29,12 +29,12 @@
     "compile": "tsc --build --verbose"
   },
   "dependencies": {
-    "@sinch/conversation": "^0.0.5",
-    "@sinch/fax": "^0.0.5",
-    "@sinch/numbers": "^0.0.5",
-    "@sinch/sms": "^0.0.5",
-    "@sinch/verification": "^0.0.5",
-    "@sinch/voice": "^0.0.5"
+    "@sinch/conversation": "^1.0.0",
+    "@sinch/fax": "^1.0.0",
+    "@sinch/numbers": "^1.0.0",
+    "@sinch/sms": "^1.0.0",
+    "@sinch/verification": "^1.0.0",
+    "@sinch/voice": "^1.0.0"
   },
   "devDependencies": {},
   "publishConfig": {

@@ -13,9 +13,6 @@ There are 5 folders in this package:
    - response plugins will modify the response, e.g.: response content is checked and transformed into an exception if the content is empty.
  - `utils`: it contains some utility methods that are used by the API SDKs, such as the methods to validate headers are valid in a callback event request, or a method to convert text to hexadecimal for a UDH header 
 
-> <span style="color:red; font-weight:bold">Warning:</span>
-> **This SDK is currently available to selected developers for preview use only. It is being provided for the purpose of collecting feedback, and should not be used in production environments.**
-
 ## Architecture
 ![High level architecture](./documentation/High-level-architecture.png)
 
