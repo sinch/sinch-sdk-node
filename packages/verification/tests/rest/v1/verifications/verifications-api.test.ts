@@ -67,7 +67,7 @@ describe('VerificationsApi', () => {
           type: 'number',
         },
         smsOptions: {
-          expiry: '14:22:34',
+          expiry: '13:22:34',
         },
       };
       const formattedRequestData
