@@ -1,11 +1,6 @@
-name: Test Sinch Node.js SDK
+name: Build and test Sinch Node.js SDK
 
-on:
-  push:
-    branches:
-      - 'main'
-  pull_request:
-    branches: [main]
+on: [push]
 
 jobs:
   build:
