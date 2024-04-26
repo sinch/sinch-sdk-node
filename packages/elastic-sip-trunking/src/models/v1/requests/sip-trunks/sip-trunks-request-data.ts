@@ -5,7 +5,7 @@ export interface AddAccessControlListToTrunkRequestData {
     /** The ID of the trunk that you want to work with */
     'trunkId': string;
     /** The body containing the list of ACLs to add to the SIP trunk */
-    'addAccessControlListToTrunkRequestBody'?: AddAccessControlListToTrunk;
+    'addAccessControlListToTrunkRequestBody': AddAccessControlListToTrunk;
 }
 export interface CreateSipTrunkRequestData {
     /** The SIP trunk details to be used to create a SIP trunk */

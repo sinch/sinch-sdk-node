@@ -47,16 +47,20 @@ const credentials: UnifiedCredentials = {
   keySecret: 'KEY_SECRET',
 };
 
-// Access the 'fax' service registered on the Sinch Client
+// Access the 'elasticSipTrunking' service registered on the Sinch Client
 const sinch = new SinchClient(credentials);
 const elasticSipTrunkingService: ElasticSipTrunkingService = sinch.elasticSipTrunking;
 
 // Build the request data
-const requestData: ElasticSipTrunking.InterfaceTBD = {
+const requestData: ElasticSipTrunking.CreateSipTrunkRequestData = {
+  createSipTrunkRequestBody: {
+    name: 'Acme Trunk',
+    hostName: 'acme-domain-1',
+  }
 };
 
-// Access the 'elasticSipTrunking' service registered on the Sinch Client
-const result = await sinch.elasticSipTrunking.tag.method(requestData);
+// Use the 'elasticSipTrunking' service registered on the Sinch Client
+const result = await sinch.elasticSipTrunking.sipTrunks.create(requestData);
 ```
 
 ### Standalone
@@ -82,11 +86,15 @@ const credentials: UnifiedCredentials = {
 const elasticSipTrunkingService = new ElasticSipTrunkingService(options);
 
 // Build the request data
-const requestData: ElasticSipTrunking.InterfaceTBD = {
+const requestData: ElasticSipTrunking.CreateSipTrunkRequestData = {
+  createSipTrunkRequestBody: {
+    name: 'Acme Trunk',
+    hostName: 'acme-domain-1',
+  }
 };
 
 // Use the standalone declaration of the 'elasticSipTrunking' service
-const result = await elasticSipTrunkingService.tag.method(requestData);
+const result = await elasticSipTrunkingService.sipTrunks.create(requestData);
 ```
 
 ## Promises
@@ -95,18 +103,18 @@ All the methods that interact with the Sinch APIs use Promises. You can use `awa
 
 ```typescript
 // Method 1: Wait for the Promise to complete
-let result: ElasticSipTrunking.ResultInterfaceTBD;
+let result: ElasticSipTrunking.SipTrunk;
 try {
-  result = await elasticSipTrunkingService.tag.method(requestData);
-  console.log(``);
+  result = await elasticSipTrunkingService.sipTrunks.create(requestData);
+  console.log(`SIP trunk successfully created at '${response.createTime.toISOString()}' with the id '${response.id}'`);
 } catch (error: any) {
-  console.error(`ERROR ${error.statusCode}: `);
+  console.error(`ERROR ${error.statusCode}: Impossible to create a SIP Trunk with the hostname '${requestData.hostName}'`);
 }
 
 // Method 2: Resolve the promise
-elasticSipTrunkingService.tag.method(requestData)
-  .then(response => console.log(``))
-  .catch(error => console.error(`ERROR ${error.statusCode}: `));
+elasticSipTrunkingService.sipTrunks.create(requestData)
+  .then(response => console.log(`SIP trunk successfully created at '${response.createTime.toISOString()}' with the id '${response.id}'`))
+  .catch(error => console.error(`ERROR ${error.statusCode}: Impossible to create a SIP Trunk with the hostname '${requestData.hostName}'`));
 ```
 
 ## Contact
