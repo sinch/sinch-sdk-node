@@ -4,8 +4,7 @@
   "description": "Sinch Elastic SIP Trunking API",
   "homepage": "",
   "repository": {
-    "type": "git",
-    "url": ""
+    "type": "git"
   },
   "license": "Apache-2.0",
   "author": "Sinch",

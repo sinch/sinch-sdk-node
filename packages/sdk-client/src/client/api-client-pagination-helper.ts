@@ -130,17 +130,23 @@ export const createNextPageMethod = <T>(
   nextPageValue: string,
 ): ApiListPromise<T> => {
   let newParams;
-  if (context.pagination === PaginationEnum.TOKEN) {
+  switch (context.pagination) {
+  case PaginationEnum.TOKEN:
     newParams = {
       pageToken: nextPageValue,
     };
-  } else if (context.pagination === PaginationEnum.PAGE || context.pagination === PaginationEnum.PAGE3) {
+    break;
+  case PaginationEnum.PAGE:
+  case PaginationEnum.PAGE2:
+  case PaginationEnum.PAGE3:
     newParams = {
       page: nextPageValue,
     };
-  } else {
+    break;
+  default:
     throw new Error(`Error: the pagination method (${context.pagination}) is not supported`);
   }
+
   const pageResultPromise = updateQueryParamsAndSendRequest<T>(apiClient, newParams, requestOptions, context);
 
   const requestOptionsPromise = new Promise<RequestOptions>((resolve) => {
@@ -166,7 +172,12 @@ export function hasMore(
   if (context.pagination === PaginationEnum.PAGE) {
     const requestedPageSize = context.requestOptions.queryParams?.page_size;
     const pageSize: number = requestedPageSize ? parseInt(requestedPageSize) : response.page_size;
-    return checkIfThereAreMorePages(response, pageSize);
+    return checkIfThereAreMorePages(response, pageSize, PaginationEnum.PAGE);
+  }
+  if (context.pagination === PaginationEnum.PAGE2) {
+    const requestedPageSize = context.requestOptions.queryParams?.pageSize;
+    const pageSize: number = requestedPageSize ? parseInt(requestedPageSize) : response.pageSize;
+    return checkIfThereAreMorePages(response, pageSize, PaginationEnum.PAGE2);
   }
   if (context.pagination === PaginationEnum.PAGE3) {
     return response.pageNumber < response.totalPages;
@@ -186,7 +197,7 @@ export function calculateNextPage(
     const nextPage = currentPage + 1;
     return nextPage.toString();
   }
-  if (context.pagination === PaginationEnum.PAGE3) {
+  if (context.pagination === PaginationEnum.PAGE2 || context.pagination === PaginationEnum.PAGE3) {
     const currentPage: number = response.pageNumber || 1;
     const nextPage = currentPage + 1;
     return nextPage.toString();
@@ -230,7 +241,9 @@ export const buildPageResultPromise = async  <T>(
   });
 };
 
-interface WithPagination {
+interface WithPagination extends WithPagination_PAGE, WithPagination_PAGE2 {}
+
+interface WithPagination_PAGE {
   /** The total number of entries matching the given filters. */
   count?: number;
   /** The requested page. */
@@ -239,13 +252,30 @@ interface WithPagination {
   page_size?: number;
 }
 
-const checkIfThereAreMorePages = (response: WithPagination, requestedPageSize: number | undefined): boolean => {
-  const lastPageNumber = calculateLastPageValue(response, requestedPageSize);
+interface WithPagination_PAGE2 {
+  /** The total number of entries matching the given filters. */
+  totalItems?: number;
+  /** The requested page. */
+  pageNumber?: number;
+  /** The number of entries returned in this request. */
+  pageSize?: number;
+}
+
+const checkIfThereAreMorePages = (
+  response: WithPagination,
+  requestedPageSize: number | undefined,
+  paginationType: PaginationEnum,
+): boolean => {
+  const lastPageNumber = calculateLastPageValue(response, requestedPageSize, paginationType);
   return response.page! < lastPageNumber;
 };
 
-const calculateLastPageValue = (response: WithPagination, requestedPageSize: number | undefined): number => {
-  if (invalidatePaginationDataFromResponse(response)) {
+const calculateLastPageValue = (
+  response: WithPagination,
+  requestedPageSize: number | undefined,
+  paginationType: PaginationEnum,
+): number => {
+  if (invalidatePaginationDataFromResponse(response, paginationType)) {
     throw new Error(`Impossible to calculate the last page value with the following parameters: count=${response.count}, page=${response.page}, page_size=${response.page_size}`);
   }
   if (response.page_size === 0) {
@@ -258,11 +288,44 @@ const calculateLastPageValue = (response: WithPagination, requestedPageSize: num
   return Math.ceil(itemCount / pageSize) - 1;
 };
 
-const invalidatePaginationDataFromResponse = (response: WithPagination): boolean => {
-  const currentPage = response.page;
-  const pageSize = response.page_size;
-  const itemCount = response.count;
+const invalidatePaginationDataFromResponse = (response: WithPagination, paginationType: PaginationEnum): boolean => {
+  const currentPage = getCurrentPage(response, paginationType);
+  const pageSize = getPageSize(response, paginationType);
+  const itemCount = getItemCount(response, paginationType);
   return !isNumber(currentPage) || !isNumber(pageSize) || !isNumber(itemCount);
+};
+
+const getCurrentPage = (response: WithPagination, paginationType: PaginationEnum): number | undefined => {
+  switch (paginationType) {
+  case PaginationEnum.PAGE:
+    return response.page;
+  case PaginationEnum.PAGE2:
+    return response.pageNumber;
+  default:
+    return undefined;
+  }
+};
+
+const getPageSize = (response: WithPagination, paginationType: PaginationEnum): number | undefined => {
+  switch (paginationType) {
+  case PaginationEnum.PAGE:
+    return response.page_size;
+  case PaginationEnum.PAGE2:
+    return response.pageSize;
+  default:
+    return undefined;
+  }
+};
+
+const getItemCount = (response: WithPagination, paginationType: PaginationEnum): number | undefined => {
+  switch (paginationType) {
+  case PaginationEnum.PAGE:
+    return response.count;
+  case PaginationEnum.PAGE2:
+    return response.totalItems;
+  default:
+    return undefined;
+  }
 };
 
 const isNumber = (value: any) => {
