@@ -75,6 +75,9 @@ FAX_SERVICE_ID=serviceId to fill with one the fax services created with the Fax 
 FAX_ID=id from a sendFax response
 FAX_CALLBACK_URL=callback url to override the one defined in the default service or specified service
 FAX_EMAIL=email to associate with a phone number to use the fax-to-email functionality
+## Elastic SIP Trunking API
+SIP_TRUNK_ID=sipTrunkId to fill with one of the SIP trunk created with the Elastic SIP Trunking API
+ACL_ID=accessControlList Id to fill with one of the access control list created with the Elastic SIP Trunking API
 ```
 
 **Note**: If you prefer using environment variables, the sample app is also supporting them: they take precedence over the value from the `.env` file.
@@ -270,3 +273,15 @@ yarn run numbers:regions:list
 |          | [./src/fax/emails/update.ts](./src/fax/emails/update.ts)                               | `FAX_EMAIL` + `PHONE_NUMBER`      |
 |          | [./src/fax/emails/delete.ts](./src/fax/emails/delete.ts)                               | `FAX_EMAIL`                       |
 
+### Elastic SIP Trunk
+
+| Service    | Sample application name and location                                                                     | Required parameters  |
+|------------|----------------------------------------------------------------------------------------------------------|----------------------|
+| SIP Trunks | [./src/elastic-sip-trunking/sip-trunks/create.ts](./src/elastic-sip-trunking/sip-trunks/create.ts)       |                      |
+|            | [./src/elastic-sip-trunking/sip-trunks/get.ts](./src/elastic-sip-trunking/sip-trunks/get.ts)             | SIP_TRUNK_ID         |
+|            | [./src/elastic-sip-trunking/sip-trunks/list.ts](./src/elastic-sip-trunking/sip-trunks/list.ts)           |                      |
+|            | [./src/elastic-sip-trunking/sip-trunks/update.ts](./src/elastic-sip-trunking/sip-trunks/update.ts)       | SIP_TRUNK_ID         |
+|            | [./src/elastic-sip-trunking/sip-trunks/delete.ts](./src/elastic-sip-trunking/sip-trunks/delete.ts)       | SIP_TRUNK_ID         |
+|            | [./src/elastic-sip-trunking/sip-trunks/addACL.ts](./src/elastic-sip-trunking/sip-trunks/addACL.ts)       | SIP_TRUNK_ID, ACL_ID |
+|            | [./src/elastic-sip-trunking/sip-trunks/listACLs.ts](./src/elastic-sip-trunking/sip-trunks/listACLs.ts)   | SIP_TRUNK_ID         |
+|            | [./src/elastic-sip-trunking/sip-trunks/deleteACL.ts](./src/elastic-sip-trunking/sip-trunks/deleteACL.ts) | SIP_TRUNK_ID, ACL_ID |

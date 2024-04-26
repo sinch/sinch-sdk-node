@@ -7,10 +7,11 @@ import {
   SmsService,
   VerificationService,
   VoiceService,
+  ElasticSipTrunkingService,
 } from '@sinch/sdk-core';
 require('dotenv').config();
 
-const initClient = (): Pick<SinchClient, 'conversation' | 'fax' | 'numbers' | 'sms'> => {
+const initClient = (): Pick<SinchClient, 'conversation' | 'elasticSipTrunking' | 'fax' | 'numbers' | 'sms'> => {
   const keyId = process.env.SINCH_KEY_ID || '';
   const keySecret = process.env.SINCH_KEY_SECRET || '';
   const projectId = process.env.SINCH_PROJECT_ID || '';
@@ -19,6 +20,10 @@ const initClient = (): Pick<SinchClient, 'conversation' | 'fax' | 'numbers' | 's
 
 export const initConversationService = (): ConversationService => {
   return initClient().conversation;
+};
+
+export const initElasticSipTrunkingService = (): ElasticSipTrunkingService => {
+  return initClient().elasticSipTrunking;
 };
 
 export const initFaxService = (): FaxService => {
@@ -196,6 +201,14 @@ export const getFaxCallbackUrlFromConfig = () => {
 
 export const getFaxEmailFromConfig = () => {
   return readVariable('FAX_EMAIL');
+};
+
+export const getSipTrunkIdFromConfig = () => {
+  return readVariable('SIP_TRUNK_ID');
+};
+
+export const getAccessControlListIdFromConfig = () => {
+  return readVariable('ACL_ID');
 };
 
 const readVariable = ( name: string): string => {
