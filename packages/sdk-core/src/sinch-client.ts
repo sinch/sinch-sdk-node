@@ -5,12 +5,14 @@ import { SmsService } from '@sinch/sms';
 import { VerificationService } from '@sinch/verification';
 import { VoiceService } from '@sinch/voice';
 import { SinchClientParameters } from '@sinch/sdk-client';
+import { ElasticSipTrunkingService } from '@sinch/elastic-sip-trunking';
 
 /** Sinch Client to declare and initialize the supported APIs */
 export class SinchClient {
 
   public readonly conversation: ConversationService;
   public readonly fax: FaxService;
+  public readonly elasticSipTrunking: ElasticSipTrunkingService;
   public readonly numbers: NumbersService;
   public readonly sms: SmsService;
   public readonly verification: VerificationService;
@@ -23,6 +25,7 @@ export class SinchClient {
    */
   constructor(params: SinchClientParameters) {
     this.conversation = new ConversationService(params);
+    this.elasticSipTrunking = new ElasticSipTrunkingService(params);
     this.fax = new FaxService(params);
     this.numbers = new NumbersService(params);
     this.sms = new SmsService(params);

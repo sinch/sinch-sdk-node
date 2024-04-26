@@ -59,6 +59,8 @@ export interface ApiHostname {
   conversationHostname?: string;
   /** Override the hostname for the Conversation Templates API - Note the regions become ineffective */
   conversationTemplatesHostname?: string;
+  /** Override the hostname for the Elastic SIP Trunking API */
+  elasticSipTrunkingHostname?: string;
   /** Override the hostname for the Fax API - Note the regions become ineffective */
   faxHostname?: string;
   /** Override the hostname for the Numbers API */

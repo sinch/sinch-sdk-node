@@ -1,11 +1,10 @@
 {
-  "name": "@sinch/sdk-core",
+  "name": "@sinch/elastic-sip-trunking",
   "version": "1.0.0",
-  "description": "Node.js client for the Sinch API platform",
+  "description": "Sinch Elastic SIP Trunking API",
   "homepage": "",
   "repository": {
-    "type": "git",
-    "url": ""
+    "type": "git"
   },
   "license": "Apache-2.0",
   "author": "Sinch",
@@ -15,8 +14,7 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.js"
-    },
-    "./package.json": "./package.json"
+    }
   },
   "directories": {
     "src": "dist",
@@ -25,17 +23,11 @@
   "files": ["/dist"],
   "scripts": {
     "build": "yarn run clean && yarn run compile",
-    "clean": "rimraf dist tsconfig.tsbuildinfo",
-    "compile": "tsc --build --verbose"
+    "clean": "rimraf dist tsconfig.tsbuildinfo tsconfig.build.tsbuildinfo",
+    "compile": "tsc -p tsconfig.build.json && tsc -p tsconfig.tests.json && rimraf dist/tests tsconfig.build.tsbuildinfo"
   },
   "dependencies": {
-    "@sinch/conversation": "^1.0.0",
-    "@sinch/elastic-sip-trunking": "^1.0.0",
-    "@sinch/fax": "^1.0.0",
-    "@sinch/numbers": "^1.0.0",
-    "@sinch/sms": "^1.0.0",
-    "@sinch/verification": "^1.0.0",
-    "@sinch/voice": "^1.0.0"
+    "@sinch/sdk-client": "^1.0.0"
   },
   "devDependencies": {},
   "publishConfig": {
