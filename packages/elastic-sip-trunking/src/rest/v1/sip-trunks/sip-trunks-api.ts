@@ -63,7 +63,6 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
     });
   }
 
-
   /**
    * Create SIP trunk
    * Creates a new SIP trunk.
@@ -93,7 +92,6 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
     });
   }
 
-
   /**
    * Delete ACL from trunk
    * Remove an access control list entry from a trunk.
@@ -121,7 +119,6 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
       operationId: 'DeleteAccessControlListFromTrunk',
     });
   }
-
 
   /**
    * Delete SIP trunk
@@ -151,7 +148,6 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
     });
   }
 
-
   /**
    * List all ACLs for a trunk
    * Get all access control list entries for a trunk.
@@ -172,7 +168,7 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
     const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
 
     const operationProperties: PaginatedApiProperties = {
-      pagination: PaginationEnum.PAGE,
+      pagination: PaginationEnum.PAGE2,
       apiName: this.apiName,
       operationId: 'GetAccessControlListsForTrunk',
       dataKey: 'accessControlListIds',
@@ -194,7 +190,6 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
 
     return listPromise as ApiListPromise<string>;
   }
-
 
   /**
    * Get SIP Trunk
@@ -223,7 +218,6 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
     });
   }
 
-
   /**
    * List SIP trunks
    * Returns a list of all SIP trunks. If you specify pagination settings, the list of SIP trunks can be returned separated and sorted into pages.
@@ -246,7 +240,7 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
     const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
 
     const operationProperties: PaginatedApiProperties = {
-      pagination: PaginationEnum.PAGE,
+      pagination: PaginationEnum.PAGE2,
       apiName: this.apiName,
       operationId: 'GetSipTrunks',
       dataKey: 'sipTrunks',
@@ -268,7 +262,6 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
 
     return listPromise as ApiListPromise<SipTrunk>;
   }
-
 
   /**
    * Update SIP trunk
@@ -298,6 +291,5 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
       operationId: 'UpdateSipTrunk',
     });
   }
-
 
 }
