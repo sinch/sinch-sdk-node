@@ -130,17 +130,23 @@ export const createNextPageMethod = <T>(
   nextPageValue: string,
 ): ApiListPromise<T> => {
   let newParams;
-  if (context.pagination === PaginationEnum.TOKEN) {
+  switch (context.pagination) {
+  case PaginationEnum.TOKEN:
     newParams = {
       pageToken: nextPageValue,
     };
-  } else if (context.pagination === PaginationEnum.PAGE || context.pagination === PaginationEnum.PAGE3) {
+    break;
+  case PaginationEnum.PAGE:
+  case PaginationEnum.PAGE2:
+  case PaginationEnum.PAGE3:
     newParams = {
       page: nextPageValue,
     };
-  } else {
+    break;
+  default:
     throw new Error(`Error: the pagination method (${context.pagination}) is not supported`);
   }
+
   const pageResultPromise = updateQueryParamsAndSendRequest<T>(apiClient, newParams, requestOptions, context);
 
   const requestOptionsPromise = new Promise<RequestOptions>((resolve) => {
@@ -235,9 +241,9 @@ export const buildPageResultPromise = async  <T>(
   });
 };
 
-interface WithPagination extends WithPagination1, WithPagination2 {}
+interface WithPagination extends WithPagination_PAGE, WithPagination_PAGE2 {}
 
-interface WithPagination1 {
+interface WithPagination_PAGE {
   /** The total number of entries matching the given filters. */
   count?: number;
   /** The requested page. */
@@ -246,7 +252,7 @@ interface WithPagination1 {
   page_size?: number;
 }
 
-interface WithPagination2 {
+interface WithPagination_PAGE2 {
   /** The total number of entries matching the given filters. */
   totalItems?: number;
   /** The requested page. */
