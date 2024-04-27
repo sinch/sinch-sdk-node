@@ -89,7 +89,9 @@ export class CountryPermissionsApi extends ElasticSipTrunkingDomainApi {
       'Accept': 'application/json',
     };
 
-    const body: RequestBody = data['updateCountryPermissionRequestBody'] ? JSON.stringify(data['updateCountryPermissionRequestBody']) : '{}';
+    const body: RequestBody = data['updateCountryPermissionRequestBody']
+      ? JSON.stringify(data['updateCountryPermissionRequestBody'])
+      : '{}';
     const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/countryPermissions/${data['isoCode']}`;
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined);
