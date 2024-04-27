@@ -309,3 +309,4 @@ yarn run numbers:regions:list
 |                     | [./src/elastic-sip-trunking/country-permissions/update.ts](./src/elastic-sip-trunking/country-permissions/update.ts)                   |                               |
 | Phone Numbers       | [./src/elastic-sip-trunking/phone-numbers/get.ts](./src/elastic-sip-trunking/phone-numbers/get.ts)                                     | SIP_TRUNK_PHONE_NUMBER        |
 |                     | [./src/elastic-sip-trunking/phone-numbers/list.ts](./src/elastic-sip-trunking/phone-numbers/list.ts)                                   |                               |
+| Calls               | [./src/elastic-sip-trunking/calls-history/find.ts](./src/elastic-sip-trunking/calls-history/find.ts)                                   | SIP_TRUNK_ID                  |

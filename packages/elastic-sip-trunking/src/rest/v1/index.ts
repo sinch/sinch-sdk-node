@@ -1,4 +1,5 @@
 export * from './access-control-list';
+export * from './calls-history';
 export * from './country-permissions';
 export * from './phone-numbers';
 export * from './sip-endpoints';
