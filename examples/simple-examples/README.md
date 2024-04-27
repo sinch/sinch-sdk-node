@@ -80,6 +80,7 @@ SIP_TRUNK_ID=sipTrunkId to fill with one of the SIP trunks created with the Elas
 SIP_ENDPOINT_ID=sipEndpointId to fill with one of the SIP endpoints created with the Elastic SIP Trunking API
 ACL_ID=accessControlListId to fill with one of the access control lists created with the Elastic SIP Trunking API
 IP_RANGE_ID=ipRangeId to fill with one of the IP ranges added to an ACL with the Elastic SIP Trunking API
+SIP_TRUNK_PHONE_NUMBER=phone number to fill with an Elastic SIP Trunk-enabled phone number
 ```
 
 **Note**: If you prefer using environment variables, the sample app is also supporting them: they take precedence over the value from the `.env` file.
@@ -306,3 +307,5 @@ yarn run numbers:regions:list
 | Country Permissions | [./src/elastic-sip-trunking/country-permissions/get.ts](./src/elastic-sip-trunking/country-permissions/get.ts)                         |                               |
 |                     | [./src/elastic-sip-trunking/country-permissions/list.ts](./src/elastic-sip-trunking/country-permissions/list.ts)                       |                               |
 |                     | [./src/elastic-sip-trunking/country-permissions/update.ts](./src/elastic-sip-trunking/country-permissions/update.ts)                   |                               |
+| Phone Numbers       | [./src/elastic-sip-trunking/phone-numbers/get.ts](./src/elastic-sip-trunking/phone-numbers/get.ts)                                     | SIP_TRUNK_PHONE_NUMBER        |
+|                     | [./src/elastic-sip-trunking/phone-numbers/list.ts](./src/elastic-sip-trunking/phone-numbers/list.ts)                                   |                               |

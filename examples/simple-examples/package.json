@@ -98,6 +98,8 @@
     "elasticSipTrunks:countryPermissions:get": "ts-node src/elastic-sip-trunking/country-permissions/get.ts",
     "elasticSipTrunks:countryPermissions:list": "ts-node src/elastic-sip-trunking/country-permissions/list.ts",
     "elasticSipTrunks:countryPermissions:update": "ts-node src/elastic-sip-trunking/country-permissions/update.ts",
+    "elasticSipTrunks:phoneNumbers:get": "ts-node src/elastic-sip-trunking/phone-numbers/get.ts",
+    "elasticSipTrunks:phoneNumbers:list": "ts-node src/elastic-sip-trunking/phone-numbers/list.ts",
     "fax:services:create": "ts-node src/fax/services/create.ts",
     "fax:services:get": "ts-node src/fax/services/get.ts",
     "fax:services:list": "ts-node src/fax/services/list.ts",

@@ -219,6 +219,10 @@ export const getIpRangeIdFromConfig = () => {
   return readVariable('IP_RANGE_ID');
 };
 
+export const getElasticSipTrunkEnabledPhoneNumberFromConfig = (): string => {
+  return readVariable('SIP_TRUNK_PHONE_NUMBER');
+};
+
 const readVariable = ( name: string): string => {
   const value = process.env[name];
   if (!value) {
