@@ -303,3 +303,6 @@ yarn run numbers:regions:list
 |                     | [./src/elastic-sip-trunking/access-control-list/addToTrunk.ts](./src/elastic-sip-trunking/access-control-list/addToTrunk.ts)           | SIP_TRUNK_ID, ACL_ID          |
 |                     | [./src/elastic-sip-trunking/access-control-list/listForTrunk.ts](./src/elastic-sip-trunking/access-control-list/listForTrunk.ts)       | SIP_TRUNK_ID                  |
 |                     | [./src/elastic-sip-trunking/access-control-list/deleteFromTrunk.ts](./src/elastic-sip-trunking/access-control-list/deleteFromTrunk.ts) | SIP_TRUNK_ID, ACL_ID          |
+| Country Permissions | [./src/elastic-sip-trunking/country-permissions/get.ts](./src/elastic-sip-trunking/country-permissions/get.ts)                         |                               |
+|                     | [./src/elastic-sip-trunking/country-permissions/list.ts](./src/elastic-sip-trunking/country-permissions/list.ts)                       |                               |
+|                     | [./src/elastic-sip-trunking/country-permissions/update.ts](./src/elastic-sip-trunking/country-permissions/update.ts)                   |                               |

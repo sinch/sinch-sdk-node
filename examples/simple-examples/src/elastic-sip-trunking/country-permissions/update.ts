@@ -1,6 +1,5 @@
 import { ElasticSipTrunking } from '@sinch/sdk-core';
 import {
-  getAccessControlListIdFromConfig,
   getPrintFormat,
   initElasticSipTrunkingService,
   printFullResponse,

@@ -6,4 +6,5 @@ export * from './list-country-permissions-response';
 export * from './sip-endpoint';
 export * from './sip-trunk';
 export * from './update-access-control-list-request';
+export * from './update-country-permission-request';
 export * from './requests';

@@ -80,7 +80,6 @@ describe('CountryPermissionsApi', () => {
         isoCode: 'US',
         updateCountryPermissionRequestBody: {
           enabled: false,
-          name: 'United States only',
         },
       };
       const expectedResponse: ElasticSipTrunking.CountryPermission = {
