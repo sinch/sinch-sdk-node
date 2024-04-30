@@ -5,8 +5,13 @@ import FormData = require('form-data');
 
 export enum PaginationEnum {
   NONE,
+  /** Used by the Numbers API */
   TOKEN,
+  /** used by the SMS API */
   PAGE,
+  /** used by the Elastic SIP Trunking API */
+  PAGE2,
+  /** used by the Fax API */
   PAGE3
 }
 export interface ApiListPromise<T> extends Promise<PageResult<T>>, AsyncIterableIterator<T> {
