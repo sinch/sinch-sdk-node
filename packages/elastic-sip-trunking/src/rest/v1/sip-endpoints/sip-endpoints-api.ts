@@ -109,7 +109,7 @@ export class SipEndpointsApi extends ElasticSipTrunkingDomainApi {
     const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
 
     const operationProperties: PaginatedApiProperties = {
-      pagination: PaginationEnum.PAGE,
+      pagination: PaginationEnum.PAGE2,
       apiName: this.apiName,
       operationId: 'GetSipEndpoint',
       dataKey: 'endpoints',
