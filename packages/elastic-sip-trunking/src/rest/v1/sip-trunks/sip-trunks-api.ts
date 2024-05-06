@@ -243,7 +243,7 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
       pagination: PaginationEnum.PAGE2,
       apiName: this.apiName,
       operationId: 'GetSipTrunks',
-      dataKey: 'sipTrunks',
+      dataKey: 'trunks',
     };
 
     // Create the promise containing the response wrapped as a PageResult
