@@ -3,7 +3,6 @@ import { SipTrunksApi } from './sip-trunks';
 import { AccessControlListApi } from './access-control-list';
 import { SipEndpointsApi } from './sip-endpoints';
 import { CountryPermissionsApi } from './country-permissions';
-import { PhoneNumbersApi } from './phone-numbers';
 import { CallsHistoryApi } from './calls-history';
 
 export class ElasticSipTrunkingService {
@@ -12,7 +11,6 @@ export class ElasticSipTrunkingService {
   public readonly sipEndpoints: SipEndpointsApi;
   public readonly accessControlList: AccessControlListApi;
   public readonly countryPermissions: CountryPermissionsApi;
-  public readonly phoneNumbers: PhoneNumbersApi;
   public readonly calls: CallsHistoryApi;
 
   constructor(params: SinchClientParameters) {
@@ -20,7 +18,6 @@ export class ElasticSipTrunkingService {
     this.sipEndpoints = new SipEndpointsApi(params);
     this.accessControlList = new AccessControlListApi(params);
     this.countryPermissions = new CountryPermissionsApi(params);
-    this.phoneNumbers = new PhoneNumbersApi(params);
     this.calls = new CallsHistoryApi(params);
   }
 
@@ -34,7 +31,6 @@ export class ElasticSipTrunkingService {
     this.sipEndpoints.setHostname(hostname);
     this.accessControlList.setHostname(hostname);
     this.countryPermissions.setHostname(hostname);
-    this.phoneNumbers.setHostname(hostname);
     this.calls.setHostname(hostname);
   }
 }
