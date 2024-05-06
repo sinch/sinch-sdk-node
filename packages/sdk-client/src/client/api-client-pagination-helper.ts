@@ -263,68 +263,82 @@ interface WithPagination_PAGE2 {
 
 const checkIfThereAreMorePages = (
   response: WithPagination,
-  requestedPageSize: number | undefined,
-  paginationType: PaginationEnum,
+  requestedPageSize: number,
+  paginationType: PaginationEnum.PAGE | PaginationEnum.PAGE2,
 ): boolean => {
   const lastPageNumber = calculateLastPageValue(response, requestedPageSize, paginationType);
-  return response.page! < lastPageNumber;
+  switch (paginationType) {
+  case PaginationEnum.PAGE:
+    return response.page! < lastPageNumber;
+  case PaginationEnum.PAGE2:
+    return response.pageNumber! < lastPageNumber;
+  }
 };
 
 const calculateLastPageValue = (
   response: WithPagination,
-  requestedPageSize: number | undefined,
-  paginationType: PaginationEnum,
+  pageSize: number,
+  paginationType: PaginationEnum.PAGE | PaginationEnum.PAGE2,
 ): number => {
   if (invalidatePaginationDataFromResponse(response, paginationType)) {
     throw new Error(`Impossible to calculate the last page value with the following parameters: count=${response.count}, page=${response.page}, page_size=${response.page_size}`);
   }
-  if (response.page_size === 0) {
+  if (response.page_size === 0 || response.pageSize === 0) {
     // If there are no elements on the current page, there are no more pages
     return response.page!;
   }
   // The elements in the response are not enough to determine if the current page is the last one
-  const pageSize: number = requestedPageSize || response.page_size!;
-  const itemCount: number = response.count!;
-  return Math.ceil(itemCount / pageSize) - 1;
+  switch (paginationType) {
+  case PaginationEnum.PAGE:
+    return Math.ceil(response.count! / pageSize) - 1;
+  case PaginationEnum.PAGE2:
+    return Math.ceil(response.totalItems! / pageSize) - 1;
+  }
 };
 
-const invalidatePaginationDataFromResponse = (response: WithPagination, paginationType: PaginationEnum): boolean => {
+const invalidatePaginationDataFromResponse = (
+  response: WithPagination,
+  paginationType: PaginationEnum.PAGE | PaginationEnum.PAGE2,
+): boolean => {
   const currentPage = getCurrentPage(response, paginationType);
   const pageSize = getPageSize(response, paginationType);
   const itemCount = getItemCount(response, paginationType);
   return !isNumber(currentPage) || !isNumber(pageSize) || !isNumber(itemCount);
 };
 
-const getCurrentPage = (response: WithPagination, paginationType: PaginationEnum): number | undefined => {
+const getCurrentPage = (
+  response: WithPagination,
+  paginationType: PaginationEnum.PAGE | PaginationEnum.PAGE2,
+): number | undefined => {
   switch (paginationType) {
   case PaginationEnum.PAGE:
     return response.page;
   case PaginationEnum.PAGE2:
     return response.pageNumber;
-  default:
-    return undefined;
   }
 };
 
-const getPageSize = (response: WithPagination, paginationType: PaginationEnum): number | undefined => {
+const getPageSize = (
+  response: WithPagination,
+  paginationType: PaginationEnum.PAGE | PaginationEnum.PAGE2,
+): number | undefined => {
   switch (paginationType) {
   case PaginationEnum.PAGE:
     return response.page_size;
   case PaginationEnum.PAGE2:
     return response.pageSize;
-  default:
-    return undefined;
   }
 };
 
-const getItemCount = (response: WithPagination, paginationType: PaginationEnum): number | undefined => {
+const getItemCount = (
+  response: WithPagination,
+  paginationType: PaginationEnum.PAGE | PaginationEnum.PAGE2,
+): number | undefined => {
   switch (paginationType) {
   case PaginationEnum.PAGE:
     return response.count;
   case PaginationEnum.PAGE2:
     return response.totalItems;
-  default:
-    return undefined;
   }
 };
 
