@@ -5,6 +5,7 @@ import { ApiClient } from '../../api/api-client';
 import { OAuth2Api } from './oauth2-api';
 import { BasicAuthenticationRequest } from '../basicAuthentication';
 import { ApiFetchClient } from '../../client/api-fetch-client';
+import { AUTH_HOSTNAME } from '../../domain';
 
 export class Oauth2TokenRequest implements RequestPlugin {
   private readonly apiClient: ApiClient;
@@ -25,7 +26,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
       clientSecret,
     );
     if (!authenticationUrl) {
-      authenticationUrl = 'https://auth.sinch.com';
+      authenticationUrl = AUTH_HOSTNAME;
     }
     this.apiClient = new ApiFetchClient({
       hostname: authenticationUrl,
