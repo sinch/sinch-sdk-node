@@ -1,10 +1,3 @@
-/**
- * Model: ActiveNumber
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { Money } from '../money';
 import { SMSConfiguration } from '../sms-configuration';
 import { VoiceConfiguration } from '../voice-configuration';

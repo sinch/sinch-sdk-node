@@ -1,10 +1,3 @@
-/**
- * Model: UpdateGroupRequestAutoUpdate
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { UpdateGroupRequestAutoUpdateAdd } from '../update-group-request-auto-update-add';
 import { UpdateGroupRequestAutoUpdateRemove } from '../update-group-request-auto-update-remove';
 

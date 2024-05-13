@@ -1,11 +1,3 @@
-/**
- * Model: DryRunResponsePerRecipientInner
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-
 export interface DryRunResponsePerRecipientInner {
 
   recipient?: string;

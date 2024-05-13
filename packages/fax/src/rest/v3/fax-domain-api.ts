@@ -3,7 +3,9 @@ import {
   ApiClient,
   ApiFetchClient,
   buildOAuth2ApiClientOptions,
+  FAX_HOSTNAME,
   FaxRegion,
+  formatRegionalizedHostname,
   SinchClientParameters,
   SupportedFaxRegion,
   UnifiedCredentials,
@@ -84,7 +86,7 @@ export class FaxDomainApi implements Api {
 
   private buildHostname(region: FaxRegion) {
     const formattedRegion = region !== '' ? `${region}.` : '';
-    return `https://${formattedRegion}fax.api.sinch.com`;
+    return formatRegionalizedHostname(FAX_HOSTNAME, formattedRegion);
   }
 
 }

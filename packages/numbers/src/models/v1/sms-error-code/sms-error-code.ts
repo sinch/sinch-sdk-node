@@ -1,11 +1,4 @@
 /**
- * Model: SmsErrorCode
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-/**
  * The error codes that show the reason of failure of a scheduled provisioning
  */
 export type SmsErrorCode =

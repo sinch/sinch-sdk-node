@@ -1,10 +1,3 @@
-/**
- * Model: DeliveryReportList
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { RecipientDeliveryReport } from '../recipient-delivery-report';
 
 export interface DeliveryReportList {

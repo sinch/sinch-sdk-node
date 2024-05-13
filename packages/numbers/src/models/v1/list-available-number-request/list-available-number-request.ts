@@ -1,10 +1,3 @@
-/**
- * Model: ListAvailableNumberRequest
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { NumberPatternPattern } from '../number-pattern-pattern';
 import { NumberPatternSearchPattern } from '../number-pattern-search-pattern';
 
