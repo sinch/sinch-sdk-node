@@ -1,10 +1,3 @@
-/**
- * Model: InternalErrorError
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 export interface InternalErrorError {
   /** @see CodeEnum */
   code?: CodeEnum;
