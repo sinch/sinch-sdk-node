@@ -1,9 +1,3 @@
-/**
- * Model: SearchPattern
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
 import { SearchPatternEnum } from '../enums';
 
 export interface SearchPattern {

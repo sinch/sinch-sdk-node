@@ -21,7 +21,7 @@ describe('ActiveNumberApi', () => {
   });
 
   describe ('getActiveNumber', () => {
-    it('should make a GET request to ...', async () => {
+    it('should make a GET request to retrieve a given phone number details', async () => {
       // Given
       const requestData: Numbers.GetActiveNumberRequestData = {
         phoneNumber: '+17813334444',
@@ -52,6 +52,9 @@ describe('ActiveNumberApi', () => {
           appId: '',
           scheduledVoiceProvisioning: null,
           lastUpdatedTime: null,
+          type: 'RTC',
+          trunkId: '',
+          serviceId: '',
         },
         callbackUrl: '',
       };
@@ -101,6 +104,9 @@ describe('ActiveNumberApi', () => {
             appId: '',
             scheduledVoiceProvisioning: null,
             lastUpdatedTime: null,
+            type: 'RTC',
+            trunkId: '',
+            serviceId: '',
           },
           callbackUrl: '',
         },
@@ -148,7 +154,7 @@ describe('ActiveNumberApi', () => {
         nextChargeDate: new Date('2023-12-21T17:47:51.476076Z'),
         expireAt: new Date('2023-12-21T17:47:51.476076Z'),
         smsConfiguration: {
-          servicePlanId: '',
+          servicePlanId: 'servicePlanIdFromDashboard',
           scheduledProvisioning: null,
           campaignId: '',
         },
@@ -156,6 +162,9 @@ describe('ActiveNumberApi', () => {
           appId: '',
           scheduledVoiceProvisioning: null,
           lastUpdatedTime: null,
+          type: 'RTC',
+          trunkId: '',
+          serviceId: '',
         },
         callbackUrl: '',
       };
@@ -178,8 +187,9 @@ describe('ActiveNumberApi', () => {
         phoneNumber: '+17813334444',
         updateActiveNumberRequestBody: {
           displayName: 'Updated display name',
-          smsConfiguration: {
-            servicePlanId: 'newServicePlanId',
+          voiceConfiguration: {
+            type: 'EST',
+            trunkId: 'trunkId',
           },
         },
       };
@@ -201,14 +211,24 @@ describe('ActiveNumberApi', () => {
         nextChargeDate: new Date('2023-12-21T17:47:51.476076Z'),
         expireAt: null,
         smsConfiguration: {
-          servicePlanId: 'newServicePlanId',
+          servicePlanId: 'servicePlanIdFromDashboard',
           scheduledProvisioning: null,
           campaignId: '',
         },
         voiceConfiguration: {
-          appId: '',
-          scheduledVoiceProvisioning: null,
+          appId: 'appId',
+          scheduledVoiceProvisioning: {
+            appId: '',
+            status: 'WAITING',
+            lastUpdatedTime: new Date('2023-12-15T08:18:38.508882Z'),
+            type: 'EST',
+            trunkId: 'trunkId',
+            serviceId: '',
+          },
           lastUpdatedTime: null,
+          type: 'RTC',
+          trunkId: '',
+          serviceId: '',
         },
         callbackUrl: '',
       };

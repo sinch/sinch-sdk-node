@@ -1,6 +1,5 @@
 import { DeliveryReportEnum } from '../enums';
 
-
 export interface BinaryRequest {
   /** A list of phone numbers and group IDs that will receive the batch. [More info](https://community.sinch.com/t5/Glossary/MSISDN/ta-p/7628). */
   to: string[];
