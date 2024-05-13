@@ -1,10 +1,3 @@
-/**
- * Model: ApiInboundList
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { InboundMessageResponse } from '../inbound-message-response';
 
 export interface ApiInboundList {

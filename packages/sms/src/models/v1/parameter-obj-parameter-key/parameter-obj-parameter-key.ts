@@ -1,12 +1,4 @@
 /**
- * Model: ParameterObjParameterKey
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-
-/**
  * The name of the parameter that will be replaced in the message body.   Letters A-Z and a-z, digits 0-9 and .-_ allowed.
  */
 export interface ParameterObjParameterKey {
