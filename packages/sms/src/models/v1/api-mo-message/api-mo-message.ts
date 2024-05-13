@@ -1,12 +1,4 @@
 /**
- * Model: ApiMoMessage
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-
-/**
  * The page of inbounds matching the given filters.
  */
 export interface ApiMoMessage {

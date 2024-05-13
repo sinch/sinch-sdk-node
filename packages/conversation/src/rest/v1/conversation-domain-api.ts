@@ -3,7 +3,10 @@ import {
   ApiClient,
   ApiFetchClient,
   buildOAuth2ApiClientOptions,
+  CONVERSATION_HOSTNAME,
+  CONVERSATION_TEMPLATES_HOSTNAME,
   ConversationRegion,
+  formatRegionalizedHostname,
   SinchClientParameters,
   SupportedConversationRegion,
   UnifiedCredentials,
@@ -92,9 +95,11 @@ export class ConversationDomainApi implements Api {
     switch (this.apiName) {
     case 'TemplatesV1Api':
     case 'TemplatesV2Api':
-      return this.sinchClientParameters.conversationTemplatesHostname ?? `https://${formattedRegion}template.api.sinch.com`;
+      return this.sinchClientParameters.conversationTemplatesHostname
+        ?? formatRegionalizedHostname(CONVERSATION_TEMPLATES_HOSTNAME, formattedRegion);
     default:
-      return this.sinchClientParameters.conversationHostname ?? `https://${formattedRegion}conversation.api.sinch.com`;
+      return this.sinchClientParameters.conversationHostname
+        ?? formatRegionalizedHostname(CONVERSATION_HOSTNAME, formattedRegion);
     }
   }
 
