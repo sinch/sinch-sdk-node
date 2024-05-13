@@ -1,10 +1,3 @@
-/**
- * Model: ListGroupsResponse
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { CreateGroupResponse } from '../create-group-response';
 
 export interface ListGroupsResponse {

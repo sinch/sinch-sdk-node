@@ -1,10 +1,3 @@
-/**
- * Model: DryRunResponse
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { DryRunResponsePerRecipientInner } from '../dry-run-response-per-recipient-inner';
 
 export interface DryRunResponse {

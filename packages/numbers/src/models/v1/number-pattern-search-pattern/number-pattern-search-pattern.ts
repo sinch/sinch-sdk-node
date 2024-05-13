@@ -1,11 +1,4 @@
 /**
- * Model: NumberPatternSearchPattern
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-/**
  * Search pattern to apply. Options include, `START`, `CONTAIN`, and `END`.
  */
 export interface NumberPatternSearchPattern {
