@@ -8,7 +8,7 @@ const populateActiveNumbersList = (
 ) => {
   activeNumbersPage.data?.map((activeNumber: Numbers.ActiveNumber) => {
     activeNumbersList.push(activeNumber);
-    phoneNumbersList.push(activeNumber.phoneNumber);
+    phoneNumbersList.push(`${activeNumber.phoneNumber} - Voice Configuration: ${activeNumber.voiceConfiguration?.type}`);
   });
 };
 
@@ -61,7 +61,7 @@ const populateActiveNumbersList = (
   // ---------------------------------------------------------------------
   for await (const activeNumber of numbersService.activeNumber.list(requestData)) {
     if (printFormat === 'pretty') {
-      console.log(activeNumber.phoneNumber);
+      console.log(`${activeNumber.phoneNumber} - Voice Configuration: ${activeNumber.voiceConfiguration?.type}`);
     } else {
       console.log(activeNumber);
     }

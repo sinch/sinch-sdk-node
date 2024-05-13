@@ -1,11 +1,3 @@
-/**
- * Model: ReplaceGroupRequest
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-
 export interface ReplaceGroupRequest {
 
   /** Name of group. */

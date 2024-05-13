@@ -1,11 +1,4 @@
-/**
- * Model: ApiUpdateMtMessage
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
 import { DeliveryReportEnum } from '../enums';
-
 
 export interface ApiUpdateMtMessage {
 
