@@ -1,6 +1,5 @@
 import { DeliveryReportStatusEnum } from '../enums';
 
-
 export interface RecipientDeliveryReport {
 
   /** The default originator used for the recipient this delivery report belongs to, if default originator pool configured and no originator set when submitting batch. */

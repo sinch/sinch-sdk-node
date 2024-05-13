@@ -1,10 +1,3 @@
-/**
- * Model: ParameterObj
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { ParameterObjParameterKey } from '../parameter-obj-parameter-key';
 
 /**

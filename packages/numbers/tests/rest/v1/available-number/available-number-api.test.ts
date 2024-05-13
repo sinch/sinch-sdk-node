@@ -114,6 +114,12 @@ describe('AvailableNumberApi', () => {
             searchPattern: 'START',
           },
           capabilities: ['SMS', 'VOICE'],
+          smsConfiguration: {
+            servicePlanId: 'servicePlanIdFromSinchDashboard',
+          },
+          voiceConfiguration: {
+            appId: 'appIdFromSinchDashboard',
+          },
         },
       };
       const expectedResponse: Numbers.ActiveNumber = {
@@ -136,7 +142,7 @@ describe('AvailableNumberApi', () => {
         smsConfiguration: {
           servicePlanId: '',
           scheduledProvisioning: {
-            servicePlanId: 'a4c187cffc754d2da37f594d46f35246',
+            servicePlanId: 'servicePlanIdFromSinchDashboard',
             status: 'WAITING',
             lastUpdatedTime: new Date('2023-11-21T17:47:52.950101Z'),
             campaignId: '',
@@ -146,8 +152,18 @@ describe('AvailableNumberApi', () => {
         },
         voiceConfiguration: {
           appId: '',
-          scheduledVoiceProvisioning: null,
+          scheduledVoiceProvisioning: {
+            appId: 'appIdFromSinchDashboard',
+            status: 'WAITING',
+            lastUpdatedTime: new Date('2023-11-21T17:47:52.950101Z'),
+            type: 'RTC',
+            trunkId: '',
+            serviceId: '',
+          },
           lastUpdatedTime: null,
+          type: 'RTC',
+          trunkId: '',
+          serviceId: '',
         },
         callbackUrl: '',
       };
@@ -172,6 +188,9 @@ describe('AvailableNumberApi', () => {
           smsConfiguration: {
             servicePlanId: 'servicePlanIdFromSinchDashboard',
           },
+          voiceConfiguration: {
+            appId: 'appIdFromSinchDashboard',
+          },
         },
       };
       const expectedResponse: Numbers.ActiveNumber = {
@@ -194,7 +213,7 @@ describe('AvailableNumberApi', () => {
         smsConfiguration: {
           servicePlanId: '',
           scheduledProvisioning: {
-            servicePlanId: 'a4c187cffc754d2da37f594d46f35246',
+            servicePlanId: 'servicePlanIdFromSinchDashboard',
             status: 'WAITING',
             lastUpdatedTime: new Date('2023-11-21T17:47:52.950101Z'),
             campaignId: '',
@@ -204,8 +223,18 @@ describe('AvailableNumberApi', () => {
         },
         voiceConfiguration: {
           appId: '',
-          scheduledVoiceProvisioning: null,
+          scheduledVoiceProvisioning: {
+            appId: 'appIdFromSinchDashboard',
+            status: 'WAITING',
+            lastUpdatedTime: new Date('2023-11-21T17:47:52.950101Z'),
+            type: 'RTC',
+            trunkId: '',
+            serviceId: '',
+          },
           lastUpdatedTime: null,
+          type: 'RTC',
+          trunkId: '',
+          serviceId: '',
         },
         callbackUrl: '',
       };
