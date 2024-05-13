@@ -1,10 +1,3 @@
-/**
- * Model: ScheduledProvisioning
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { ProvisioningStatus } from '../provisioning-status';
 import { SmsErrorCode } from '../sms-error-code';
 
