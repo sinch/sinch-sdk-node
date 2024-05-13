@@ -1,10 +1,3 @@
-/**
- * Model: ActiveNumberRequest
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { SMSConfiguration } from '../sms-configuration';
 import { VoiceConfiguration } from '../voice-configuration';
 

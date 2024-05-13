@@ -21,5 +21,5 @@ export interface SipEndpoint {
   /** The date and time that the SIP endpoint was created. */
   createTime?: Date;
   /** The date and time that the SIP endpoint was last modified. */
-  updateTime?: Date;
+  updateTime?: Date | null;
 }

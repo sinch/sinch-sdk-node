@@ -306,3 +306,4 @@ yarn run numbers:regions:list
 | Country Permissions | [./src/elastic-sip-trunking/country-permissions/get.ts](./src/elastic-sip-trunking/country-permissions/get.ts)                         |                               |
 |                     | [./src/elastic-sip-trunking/country-permissions/list.ts](./src/elastic-sip-trunking/country-permissions/list.ts)                       |                               |
 |                     | [./src/elastic-sip-trunking/country-permissions/update.ts](./src/elastic-sip-trunking/country-permissions/update.ts)                   |                               |
+| Calls               | [./src/elastic-sip-trunking/calls-history/find.ts](./src/elastic-sip-trunking/calls-history/find.ts)                                   | SIP_TRUNK_ID                  |

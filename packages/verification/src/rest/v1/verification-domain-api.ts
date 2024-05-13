@@ -5,6 +5,7 @@ import {
   buildApplicationSignedApiClientOptions,
   SinchClientParameters,
   ApplicationCredentials,
+  VERIFICATION_HOSTNAME,
 } from '@sinch/sdk-client';
 
 export class VerificationDomainApi implements Api {
@@ -65,7 +66,7 @@ export class VerificationDomainApi implements Api {
     if (!this.client) {
       const apiClientOptions = buildApplicationSignedApiClientOptions(this.sinchClientParameters, 'Verification');
       this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.hostname = this.sinchClientParameters.verificationHostname ?? 'https://verification.api.sinch.com';
+      this.client.apiClientOptions.hostname = this.sinchClientParameters.verificationHostname ?? VERIFICATION_HOSTNAME;
     }
     return this.client;
   }
