@@ -1,11 +1,3 @@
-/**
- * Model: CallbackPayload
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-
 export interface CallbackPayload {
 
   /** The ID of the event. */

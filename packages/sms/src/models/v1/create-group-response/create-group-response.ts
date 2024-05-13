@@ -1,10 +1,3 @@
-/**
- * Model: CreateGroupResponse
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { GroupAutoUpdate } from '../group-auto-update';
 
 export interface CreateGroupResponse {

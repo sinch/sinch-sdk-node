@@ -1,11 +1,4 @@
 /**
- * Model: Money
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-/**
  * An object giving details on currency code and the amount charged.
  */
 export interface Money {
