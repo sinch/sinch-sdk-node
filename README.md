@@ -136,15 +136,17 @@ console.log(`The SMS has been sent successfully. Here is the batch id: ${respons
 
 Here is the list of the Sinch products and their level of support by the Node.js SDK:
 
-| API Category           | API Name                        | Status |
-|------------------------|---------------------------------|:------:|
-| Messaging              | SMS API                         |   ✅    |
-|                        | Conversation API                |   ✅    |
-|                        | Fax API                         |   ✅    |
-| Voice and Video        | Voice API                       |   ✅    |
-|                        | Elastic SIP Trunking API (beta) |   ✅    |
-| Numbers & Connectivity | Numbers API                     |   ✅    |
-| Verification           | Verification API                |   ✅    |
+| API Category           | API Name                          | Status |
+|------------------------|-----------------------------------|:------:|
+| Messaging              | SMS API                           |   ✅    |
+|                        | Conversation API                  |   ✅    |
+|                        | Fax API `(beta)`                  |   ✅    |
+| Voice and Video        | Voice API                         |   ✅    |
+|                        | Elastic SIP Trunking API `(beta)` |   ✅    |
+| Numbers & Connectivity | Numbers API                       |   ✅    |
+| Verification           | Verification API                  |   ✅    |
+
+> Note: `(beta)` means that the underlying API product is still in beta version and requires specific actions for the end user to be able to use it. Please check on the dashboard or with your account manager.
 
 ### Packages
 

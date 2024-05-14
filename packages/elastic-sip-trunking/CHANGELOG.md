@@ -4,5 +4,4 @@
    - Access Control List
    - SIP Endpoints
    - Country Permissions
-   - Phone Numbers
    - Calls

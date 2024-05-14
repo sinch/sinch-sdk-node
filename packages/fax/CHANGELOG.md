@@ -1,3 +1,6 @@
+## Version 1.1.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.1.0`
+
 ## Version 1.0.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.0.0`
 
