@@ -3,6 +3,7 @@ import {
   ApiClient,
   ApiFetchClient,
   buildOAuth2ApiClientOptions,
+  ELASTIC_SIP_TRUNKING_HOSTNAME,
   SinchClientParameters,
   UnifiedCredentials,
 } from '@sinch/sdk-client';
@@ -60,7 +61,8 @@ export class ElasticSipTrunkingDomainApi implements Api {
     if (!this.client) {
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sinchClientParameters, 'Elastic SIP Trunking');
       this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.hostname = this.sinchClientParameters.elasticSipTrunkingHostname ?? 'https://elastic-trunking.api.sinch.com';
+      this.client.apiClientOptions.hostname = this.sinchClientParameters.elasticSipTrunkingHostname
+        ?? ELASTIC_SIP_TRUNKING_HOSTNAME;
     }
     return this.client;
   }

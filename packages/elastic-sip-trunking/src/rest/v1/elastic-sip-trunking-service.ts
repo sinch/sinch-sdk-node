@@ -1,19 +1,36 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
+import { SipTrunksApi } from './sip-trunks';
+import { AccessControlListApi } from './access-control-list';
+import { SipEndpointsApi } from './sip-endpoints';
+import { CountryPermissionsApi } from './country-permissions';
+import { CallsHistoryApi } from './calls-history';
 
 export class ElasticSipTrunkingService {
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(_params: SinchClientParameters) {
+  public readonly sipTrunks: SipTrunksApi;
+  public readonly sipEndpoints: SipEndpointsApi;
+  public readonly accessControlList: AccessControlListApi;
+  public readonly countryPermissions: CountryPermissionsApi;
+  public readonly calls: CallsHistoryApi;
 
+  constructor(params: SinchClientParameters) {
+    this.sipTrunks = new SipTrunksApi(params);
+    this.sipEndpoints = new SipEndpointsApi(params);
+    this.accessControlList = new AccessControlListApi(params);
+    this.countryPermissions = new CountryPermissionsApi(params);
+    this.calls = new CallsHistoryApi(params);
   }
 
   /**
-   * Update the default basePath for each API
+   * Update the default hostname for each API
    *
-   * @param {string} _basePath - The new base path to use for all the APIs.
+   * @param {string} hostname - The new hostname to use for all the APIs.
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public setBasePath(_basePath: string) {
-
+  public setHostname(hostname: string) {
+    this.sipTrunks.setHostname(hostname);
+    this.sipEndpoints.setHostname(hostname);
+    this.accessControlList.setHostname(hostname);
+    this.countryPermissions.setHostname(hostname);
+    this.calls.setHostname(hostname);
   }
 }
