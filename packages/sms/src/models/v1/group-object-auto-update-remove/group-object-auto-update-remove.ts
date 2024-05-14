@@ -1,12 +1,4 @@
 /**
- * Model: GroupObjectAutoUpdateRemove
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-
-/**
  * Keyword to be sent in MO to remove from a group.
  */
 export interface GroupObjectAutoUpdateRemove {

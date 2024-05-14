@@ -1,10 +1,3 @@
-/**
- * Model: ScheduledVoiceProvisioning
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { ProvisioningStatus } from '../provisioning-status';
 
 /**
@@ -16,5 +9,11 @@ export interface ScheduledVoiceProvisioning {
   /** @see ProvisioningStatus */
   status?: ProvisioningStatus;
   /** Timestamp when the status was last updated. */
-  lastUpdatedTime?: string;
+  lastUpdatedTime?: Date;
+  /** The type of voice configuration. Default is `RTC`. */
+  type: 'RTC' | 'EST' | 'FAX';
+  /** The trunk ID for the EST voice configuration. The `trunkId` can be found in your <a href="https://dashboard.sinch.com/sip/trunks" target="_blank">Sinch Customer Dashboard</a> under sip, then trunks.*/
+  trunkId?: string;
+  /** The service ID for the FAX configuration. The `serviceId` can be found in your <a href="https://dashboard.sinch.com/fax/services" target="_blank">Sinch Customer Dashboard</a> under fax, then services.*/
+  serviceId?: string;
 }

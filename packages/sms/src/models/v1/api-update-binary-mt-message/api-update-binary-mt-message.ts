@@ -1,6 +1,5 @@
 import { DeliveryReportEnum } from '../enums';
 
-
 export interface ApiUpdateBinaryMtMessage {
 
   /** Sender number. Must be valid phone number, short code or alphanumeric. */

@@ -29,7 +29,7 @@ import { SinchClient } from '@sinch/sdk-core';
 
 (async () => {
   // The credentials can be found on the Account dashboard: https://dashboard.sinch.com/account/access-keys
-  const sinch: Pick<SinchClient, 'conversation' | 'fax' | 'numbers' | 'sms'> = new SinchClient({
+  const sinch: Pick<SinchClient, 'conversation' | 'elasticSipTrunking' | 'fax' | 'numbers' | 'sms'> = new SinchClient({
     projectId: 'my-project-id',
     keyId: 'my-key-id',
     keySecret: 'my-key-secret',
@@ -93,12 +93,20 @@ import { SinchClient } from '@sinch/sdk-core';
 For convenience, importing `@sinch/sdk-core` is sufficient to be able to access to all the APIs' classes and interfaces. In case you need to use a single API, they are also packaged as single NPM packages:
  - SMS: [`@sinch/sms`](https://www.npmjs.com/package/@sinch/sms)
  - Conversation: [`@sinch/conversation`](https://www.npmjs.com/package/@sinch/conversation)
+ - Elastic SIP Trunking: [`@sinch/elastic-sip-trunking`](https://www.npmjs.com/package/@sinch/elastic-sip-trunking)
  - Fax: [`@sinch/fax`](https://www.npmjs.com/package/@sinch/fax)
  - Numbers: [`@sinch/numbers`](https://www.npmjs.com/package/@sinch/numbers)
  - Verification: [`@sinch/verification`](https://www.npmjs.com/package/@sinch/verification)
  - Voice: [`@sinch/voice`](https://www.npmjs.com/package/@sinch/voice)
 
-All the interfaces are exported with an alias, equal to the API name: `Sms` for the SMS API, `Conversation` for the Conversation API, `Fax` for the Fax API and so on.
+All the interfaces are exported with an alias, equal to the API name: 
+ - `Sms` for the SMS API
+ - `Conversation` for the Conversation API
+ - `ElasticSipTrunking` for the Elastic SIP Trunking API
+ - `Fax` for the Fax API
+ - `Numbers` for the Numbers API
+ - `Verification` for the Verification API
+ - `Voice` for the Voice API
 
 Here is an example about using the TypeScript types to send a fax:
 
@@ -166,17 +174,18 @@ const { SinchClient } = require('@sinch/sdk-core');
 For various reasons (development phase, testing, network restrictions, ...), one may need to update the default API endpoint, pointing to production.
 Each API exposes dedicated parameters to override the default hostname and region:
 
-| API Name       | Parameter                          | Region             |
-|----------------|------------------------------------|--------------------|
-| Authentication | authHostname                       | N/A                |
-| SMS            | smsHostname                        | smsRegion          |
-| Conversation   | conversationHostname               | conversationRegion |
-|                | conversationTemplatesHostname      |                    |
-| Fax            | faxHostname                        | faxRegion          |
-| Voice          | voiceHostname                      | voiceRegion        |
-|                | voiceApplicationManagementHostname |                    |
-| Numbers        | numbersHostname                    | N/A                |
-| Verification   | verificationHostname               | N/A                |
+| API Name              | Parameter                          | Region             |
+|-----------------------|------------------------------------|--------------------|
+| Authentication        | authHostname                       | N/A                |
+| SMS                   | smsHostname                        | smsRegion          |
+| Conversation          | conversationHostname               | conversationRegion |
+|                       | conversationTemplatesHostname      | conversationRegion |
+| Elastic SIP Trunking  | elasticSipTrunkingHostname         | N/A                |
+| Fax                   | faxHostname                        | faxRegion          |
+| Voice                 | voiceHostname                      | voiceRegion        |
+|                       | voiceApplicationManagementHostname | N/A                |
+| Numbers               | numbersHostname                    | N/A                |
+| Verification          | verificationHostname               | N/A                |
 
 And here are the list of supported regions per regionalized API:
 
@@ -332,11 +341,14 @@ Developer Experience team: [devexp@sinch.com](mailto:devexp@sinch.com)
 
 Here is the list of the Sinch API and there level of support by the Node.js SDK:
 
-| API Category           | API Name         | Status |
-|------------------------|------------------|:------:|
-| Messaging              | SMS API          |   ✅    |
-|                        | Conversation API |   ✅    |
-|                        | Fax API          |   ✅    |
-| Voice and Video        | Voice API        |   ✅    |
-| Numbers & Connectivity | Numbers API      |   ✅    |
-| Verification           | Verification API |   ✅    |
+| API Category           | API Name                          | Status |
+|------------------------|-----------------------------------|:------:|
+| Messaging              | SMS API                           |   ✅    |
+|                        | Conversation API                  |   ✅    |
+|                        | Fax API `(beta)`                  |   ✅    |
+| Voice and Video        | Voice API                         |   ✅    |
+|                        | Elastic SIP Trunking API `(beta)` |   ✅    |
+| Numbers & Connectivity | Numbers API                       |   ✅    |
+| Verification           | Verification API                  |   ✅    |
+
+> Note: `(beta)` means that the underlying API product is still in beta version and requires specific actions for the end user to be able to use it. Please check on the dashboard or with your account manager.

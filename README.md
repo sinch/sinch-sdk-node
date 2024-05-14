@@ -99,6 +99,7 @@ import {
 
 const sinch = new SinchClient(sinchClientParameters);
 const conversationService = sinch.conversation;
+const elasticSipTrunkingService = sinch.elasticSipTrunking;
 const faxService = sinch.fax;
 const numbersService = sinch.numbers;
 const smsService = sinch.sms;
@@ -135,14 +136,17 @@ console.log(`The SMS has been sent successfully. Here is the batch id: ${respons
 
 Here is the list of the Sinch products and their level of support by the Node.js SDK:
 
-| API Category           | API Name         | Status |
-|------------------------|------------------|:------:|
-| Messaging              | SMS API          |   ✅    |
-|                        | Conversation API |   ✅    |
-|                        | Fax API          |   ✅    |
-| Voice and Video        | Voice API        |   ✅    |
-| Numbers & Connectivity | Numbers API      |   ✅    |
-| Verification           | Verification API |   ✅    |
+| API Category           | API Name                          | Status |
+|------------------------|-----------------------------------|:------:|
+| Messaging              | SMS API                           |   ✅    |
+|                        | Conversation API                  |   ✅    |
+|                        | Fax API `(beta)`                  |   ✅    |
+| Voice and Video        | Voice API                         |   ✅    |
+|                        | Elastic SIP Trunking API `(beta)` |   ✅    |
+| Numbers & Connectivity | Numbers API                       |   ✅    |
+| Verification           | Verification API                  |   ✅    |
+
+> Note: `(beta)` means that the underlying API product is still in beta version and requires specific actions for the end user to be able to use it. Please check on the dashboard or with your account manager.
 
 ### Packages
 
@@ -153,7 +157,8 @@ The Sinch Node.js SDK is packaged in the following way:
  - [`@sinch/voice`](./packages/voice): package that contains the Voice services: Callouts, Calls, Conferences, Applications management and Webhooks callbacks.
  - [`@sinch/numbers`](./packages/numbers): package that contains the Numbers services: Available number, Active number, Available regions, Callbacks management and Webhooks callbacks.
  - [`@sinch/verification`](./packages/verification): package that contains the Verification services: Verification start and report, Verification status and Webhooks callbacks.
- - [`@sinch/fax`](./packages/fax): package that contains the Fax services: Services, Faxes and Faxes-on-emails
+ - [`@sinch/fax`](./packages/fax): package that contains the Fax services: Services, Faxes and Faxes-on-emails.
+ - [`@sinch/elastic-sip-trunking`](./packages/elastic-sip-trunking): package that contains the Elastic SIP Trunking services: SIP Trunks, Access Control List, SIP Endpoints, Country Permissions, Phones Numbers and Calls.
  - [`@sinch/sdk-client`](./packages/sdk-client): package included by all the other ones that contains the API client classes and helpers.
 
 ## Examples

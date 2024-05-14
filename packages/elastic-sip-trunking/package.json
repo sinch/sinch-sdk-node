@@ -1,0 +1,36 @@
+{
+  "name": "@sinch/elastic-sip-trunking",
+  "version": "1.1.0",
+  "description": "Sinch Elastic SIP Trunking API",
+  "homepage": "",
+  "repository": {
+    "type": "git"
+  },
+  "license": "Apache-2.0",
+  "author": "Sinch",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "directories": {
+    "src": "dist",
+    "test": "tests"
+  },
+  "files": ["/dist"],
+  "scripts": {
+    "build": "yarn run clean && yarn run compile",
+    "clean": "rimraf dist tsconfig.tsbuildinfo tsconfig.build.tsbuildinfo",
+    "compile": "tsc -p tsconfig.build.json && tsc -p tsconfig.tests.json && rimraf dist/tests tsconfig.build.tsbuildinfo"
+  },
+  "dependencies": {
+    "@sinch/sdk-client": "^1.0.0"
+  },
+  "devDependencies": {},
+  "publishConfig": {
+    "directory": "dist"
+  }
+}

@@ -4,8 +4,11 @@ import {
   ApiFetchClient,
   ApplicationCredentials,
   buildApplicationSignedApiClientOptions,
+  formatRegionalizedHostname,
   SinchClientParameters,
   SupportedVoiceRegion,
+  VOICE_APPLICATION_MANAGEMENT_HOSTNAME,
+  VOICE_HOSTNAME,
   VoiceRegion,
 } from '@sinch/sdk-client';
 
@@ -90,10 +93,10 @@ export class VoiceDomainApi implements Api {
   private buildHostname(region: VoiceRegion) {
     switch (this.apiName) {
     case 'ApplicationsApi':
-      return this.sinchClientParameters.voiceApplicationManagementHostname ?? 'https://callingapi.sinch.com';
+      return this.sinchClientParameters.voiceApplicationManagementHostname ?? VOICE_APPLICATION_MANAGEMENT_HOSTNAME;
     default: {
       const formattedRegion = region === VoiceRegion.DEFAULT ? region : `-${region}`;
-      return this.sinchClientParameters.voiceHostname ?? `https://calling${formattedRegion}.api.sinch.com`;
+      return this.sinchClientParameters.voiceHostname ?? formatRegionalizedHostname(VOICE_HOSTNAME, formattedRegion);
     }
     }
   }

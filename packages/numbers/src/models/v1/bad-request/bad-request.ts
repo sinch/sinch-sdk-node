@@ -1,10 +1,3 @@
-/**
- * Model: BadRequest
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { FieldViolation } from '../field-violation';
 
 export interface BadRequest {
