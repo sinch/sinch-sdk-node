@@ -21,7 +21,7 @@ export interface SipTrunk {
   /** The date and time that the SIP trunk was created. */
   createTime?: Date;
   /** The date and time that the SIP trunk was last modified. */
-  updateTime?: Date;
+  updateTime?: Date | null;
   /** The ID of the account. */
   projectId?: string;
 }

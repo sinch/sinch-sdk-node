@@ -1,10 +1,3 @@
-/**
- * Model: AvailableNumbersResponse
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { AvailableNumber } from '../available-number';
 
 /**

@@ -1,10 +1,3 @@
-/**
- * Model: UpdateGroupRequest
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { UpdateGroupRequestAutoUpdate } from '../update-group-request-auto-update';
 
 export interface UpdateGroupRequest {
