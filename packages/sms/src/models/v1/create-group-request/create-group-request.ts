@@ -1,10 +1,3 @@
-/**
- * Model: CreateGroupRequest
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { GroupObjectAutoUpdate } from '../group-object-auto-update';
 
 export interface CreateGroupRequest {

@@ -1,10 +1,3 @@
-/**
- * Model: RentNumberRequest
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { RentAnyNumberRequestSmsConfiguration } from '../rent-any-number-request-sms-configuration';
 import { RentAnyNumberRequestVoiceConfiguration } from '../rent-any-number-request-voice-configuration';
 

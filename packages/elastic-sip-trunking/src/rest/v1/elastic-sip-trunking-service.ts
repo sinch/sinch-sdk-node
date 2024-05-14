@@ -1,12 +1,24 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import { SipTrunksApi } from './sip-trunks';
+import { AccessControlListApi } from './access-control-list';
+import { SipEndpointsApi } from './sip-endpoints';
+import { CountryPermissionsApi } from './country-permissions';
+import { CallsHistoryApi } from './calls-history';
 
 export class ElasticSipTrunkingService {
 
   public readonly sipTrunks: SipTrunksApi;
+  public readonly sipEndpoints: SipEndpointsApi;
+  public readonly accessControlList: AccessControlListApi;
+  public readonly countryPermissions: CountryPermissionsApi;
+  public readonly calls: CallsHistoryApi;
 
   constructor(params: SinchClientParameters) {
     this.sipTrunks = new SipTrunksApi(params);
+    this.sipEndpoints = new SipEndpointsApi(params);
+    this.accessControlList = new AccessControlListApi(params);
+    this.countryPermissions = new CountryPermissionsApi(params);
+    this.calls = new CallsHistoryApi(params);
   }
 
   /**
@@ -16,5 +28,9 @@ export class ElasticSipTrunkingService {
    */
   public setHostname(hostname: string) {
     this.sipTrunks.setHostname(hostname);
+    this.sipEndpoints.setHostname(hostname);
+    this.accessControlList.setHostname(hostname);
+    this.countryPermissions.setHostname(hostname);
+    this.calls.setHostname(hostname);
   }
 }

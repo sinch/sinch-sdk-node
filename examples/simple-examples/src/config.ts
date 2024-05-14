@@ -207,8 +207,16 @@ export const getSipTrunkIdFromConfig = () => {
   return readVariable('SIP_TRUNK_ID');
 };
 
+export const getSipEndpointIdFromConfig = () => {
+  return readVariable('SIP_ENDPOINT_ID');
+};
+
 export const getAccessControlListIdFromConfig = () => {
   return readVariable('ACL_ID');
+};
+
+export const getIpRangeIdFromConfig = () => {
+  return readVariable('IP_RANGE_ID');
 };
 
 const readVariable = ( name: string): string => {

@@ -1,10 +1,3 @@
-/**
- * Model: ActiveNumbersResponse
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { ActiveNumber } from '../active-number';
 
 /**
