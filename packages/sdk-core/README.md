@@ -179,11 +179,11 @@ Each API exposes dedicated parameters to override the default hostname and regio
 | Authentication        | authHostname                       | N/A                |
 | SMS                   | smsHostname                        | smsRegion          |
 | Conversation          | conversationHostname               | conversationRegion |
-|                       | conversationTemplatesHostname      |                    |
+|                       | conversationTemplatesHostname      | conversationRegion |
 | Elastic SIP Trunking  | elasticSipTrunkingHostname         | N/A                |
 | Fax                   | faxHostname                        | faxRegion          |
 | Voice                 | voiceHostname                      | voiceRegion        |
-|                       | voiceApplicationManagementHostname |                    |
+|                       | voiceApplicationManagementHostname | N/A                |
 | Numbers               | numbersHostname                    | N/A                |
 | Verification          | verificationHostname               | N/A                |
 
@@ -341,12 +341,12 @@ Developer Experience team: [devexp@sinch.com](mailto:devexp@sinch.com)
 
 Here is the list of the Sinch API and there level of support by the Node.js SDK:
 
-| API Category           | API Name                 | Status |
-|------------------------|--------------------------|:------:|
-| Messaging              | SMS API                  |   ✅    |
-|                        | Conversation API         |   ✅    |
-|                        | Fax API                  |   ✅    |
-| Voice and Video        | Voice API                |   ✅    |
-|                        | Elastic SIP Trunking API |   ✅    |
-| Numbers & Connectivity | Numbers API              |   ✅    |
-| Verification           | Verification API         |   ✅    |
+| API Category           | API Name                        | Status |
+|------------------------|---------------------------------|:------:|
+| Messaging              | SMS API                         |   ✅    |
+|                        | Conversation API                |   ✅    |
+|                        | Fax API                         |   ✅    |
+| Voice and Video        | Voice API                       |   ✅    |
+|                        | Elastic SIP Trunking API (beta) |   ✅    |
+| Numbers & Connectivity | Numbers API                     |   ✅    |
+| Verification           | Verification API                |   ✅    |

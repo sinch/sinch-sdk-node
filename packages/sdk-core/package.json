@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@sinch/conversation": "^1.0.0",
-    "@sinch/elastic-sip-trunking": "^1.0.0",
+    "@sinch/elastic-sip-trunking": "^1.1.0",
     "@sinch/fax": "^1.0.0",
     "@sinch/numbers": "^1.0.0",
     "@sinch/sms": "^1.0.0",
