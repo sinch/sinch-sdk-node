@@ -1,10 +1,3 @@
-/**
- * Model: NotFoundError
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 export interface NotFoundError {
   /** @see CodeEnum */
   code?: CodeEnum;

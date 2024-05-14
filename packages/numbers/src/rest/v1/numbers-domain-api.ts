@@ -3,6 +3,7 @@ import {
   ApiClient,
   ApiFetchClient,
   buildOAuth2ApiClientOptions,
+  NUMBERS_HOSTNAME,
   SinchClientParameters,
   UnifiedCredentials,
 } from '@sinch/sdk-client';
@@ -60,7 +61,7 @@ export class NumbersDomainApi implements Api {
     if (!this.client) {
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sinchClientParameters, 'Numbers');
       this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.hostname = this.sinchClientParameters.numbersHostname ?? 'https://numbers.api.sinch.com';
+      this.client.apiClientOptions.hostname = this.sinchClientParameters.numbersHostname ?? NUMBERS_HOSTNAME;
     }
     return this.client;
   }

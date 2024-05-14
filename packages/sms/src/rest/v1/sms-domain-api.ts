@@ -3,8 +3,10 @@ import {
   ApiClient,
   ApiFetchClient,
   buildFlexibleOAuth2OrApiTokenApiClientOptions,
+  formatRegionalizedHostname,
   SinchClientParameters,
   SmsRegion,
+  SMS_HOSTNAME,
   UnifiedCredentials,
   ServicePlanIdCredentials,
   SupportedSmsRegion,
@@ -93,7 +95,7 @@ export class SmsDomainApi implements Api {
 
   private buildHostname(region: SmsRegion, useZapStack: boolean) {
     const formattedRegion = region !== '' ? `${region}.` : '';
-    return `https://${useZapStack?'zt.':''}${formattedRegion}sms.api.sinch.com`;
+    return formatRegionalizedHostname(SMS_HOSTNAME, `${useZapStack?'zt.':''}${formattedRegion}`);
   }
 
 }

@@ -1,10 +1,3 @@
-/**
- * Model: SMSConfiguration
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { ScheduledProvisioning } from '../scheduled-provisioning';
 
 /**

@@ -1,10 +1,3 @@
-/**
- * Model: GroupObjectAutoUpdate
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { GroupObjectAutoUpdateRemove } from '../group-object-auto-update-remove';
 import { UpdateGroupRequestAutoUpdateAdd } from '../update-group-request-auto-update-add';
 

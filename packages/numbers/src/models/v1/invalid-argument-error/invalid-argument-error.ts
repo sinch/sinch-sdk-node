@@ -1,10 +1,3 @@
-/**
- * Model: InvalidArgumentError
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
 import { BadRequest } from '../bad-request';
 
 export interface InvalidArgumentError {

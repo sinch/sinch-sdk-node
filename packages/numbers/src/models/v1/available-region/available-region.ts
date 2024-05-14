@@ -1,11 +1,4 @@
 /**
- * Model: AvailableRegion
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-/**
  * A region for which numbers are provided.
  */
 export interface AvailableRegion {

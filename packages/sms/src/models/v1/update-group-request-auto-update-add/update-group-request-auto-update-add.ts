@@ -1,11 +1,3 @@
-/**
- * Model: UpdateGroupRequestAutoUpdateAdd
- *
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. DO NOT EDIT.
- *
- */
-
-
 export interface UpdateGroupRequestAutoUpdateAdd {
 
   /** Keyword to be sent in <a href=\"https://community.sinch.com/t5/Glossary/MO-Mobile-Originated/ta-p/7618\" target=\"_blank\">MO</a> to add phone number to a group opt-in keyword like \"JOIN\". If `auto_update.to` is dedicated long/short number or unique brand keyword like \"Sinch\" if it is a shared short code.  Constraints: Must be one word. */
