@@ -1,6 +1,6 @@
 {
   "name": "@sinch/verification",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Sinch Verification API",
   "homepage": "",
   "repository": {
@@ -28,7 +28,7 @@
     "compile": "tsc -p tsconfig.build.json && tsc -p tsconfig.tests.json && rimraf dist/tests tsconfig.build.tsbuildinfo"
   },
   "dependencies": {
-    "@sinch/sdk-client": "^1.0.0"
+    "@sinch/sdk-client": "^1.1.0"
   },
   "devDependencies": {},
   "publishConfig": {

@@ -1,3 +1,7 @@
+## Version 1.1.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.1.0`
+- [Feature] Update voiceConfiguration object to support Fax and EST configuration properties
+
 ## Version 1.0.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.0.0`
 

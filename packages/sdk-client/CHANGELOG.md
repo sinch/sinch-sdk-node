@@ -1,3 +1,6 @@
+## Version 1.1.0
+- [Feature] Add new pagination type support specific to EST
+
 ## Version 1.0.0
 - No change
 
