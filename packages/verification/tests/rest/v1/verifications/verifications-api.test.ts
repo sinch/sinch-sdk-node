@@ -35,12 +35,15 @@ describe('VerificationsApi', () => {
   describe ('startVerification', () => {
     it('should make a POST request to start a verification with an SMS', async () => {
       // Given
-      const requestData = Verification.startVerificationHelper.buildSmsRequest('+46700000000');
+      const smsOptions: Verification.SmsOptions = {
+        locale: 'sv-SE',
+      };
+      const requestData = Verification.startVerificationHelper.buildSmsRequest('+46700000000', undefined, smsOptions);
       const expectedResponse: Verification.StartSmsVerificationResponse = {
         id: 'some_verification_id',
         method: 'sms',
         sms: {
-          template: 'Your verification code is {{CODE}}. Verified by Sinch',
+          template: 'Din verifieringskod är {{CODE}}.',
           interceptionTimeout: 298,
         },
         _links,
