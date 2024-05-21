@@ -254,6 +254,11 @@ export class VerificationsApi extends VerificationDomainApi {
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json',
     };
+    if (data.startVerificationWithSmsRequestBody.smsOptions?.locale !== undefined) {
+      headers['Accept-Language'] = data.startVerificationWithSmsRequestBody.smsOptions?.locale;
+      // Remove the `locale` property from the body as it is used as a header parameter for the API call
+      delete data.startVerificationWithSmsRequestBody.smsOptions?.locale;
+    }
 
     // Special fields handling: see method for details
     const requestDataBody = this.performStartSmsRequestBodyTransformation(data.startVerificationWithSmsRequestBody);
