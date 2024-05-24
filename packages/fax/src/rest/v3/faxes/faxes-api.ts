@@ -2,7 +2,9 @@ import {
   ApiListPromise,
   buildPageResultPromise,
   createIteratorMethodsForPagination,
+  DateFormat,
   FileBuffer,
+  formatDate,
   PaginatedApiProperties,
   PaginationEnum,
   RequestBody,
@@ -12,12 +14,19 @@ import { FaxDomainApi } from '../fax-domain-api';
 import {
   Fax,
   FaxRequestJson,
-  FaxRequestFormData,
   DeleteFaxContentRequestData,
   DownloadFaxContentRequestData,
   GetFaxRequestData,
-  ListFaxesRequestData, SendFaxRequestData,
+  ListFaxesRequestData,
+  SendSingleFaxRequestData,
+  SingleFaxRequestFormData,
+  FaxesList,
+  SendMultipleFaxRequestData,
+  MultipleFaxRequestFormData,
+  SendFaxRequestData,
 } from '../../../models';
+import FormData = require('form-data');
+import * as fs from 'fs';
 
 export class FaxesApi extends FaxDomainApi {
 
@@ -122,13 +131,16 @@ export class FaxesApi extends FaxDomainApi {
   public list(data: ListFaxesRequestData): ApiListPromise<Fax> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListFaxesRequestData>(data, [
-      'createTime',
       'direction',
       'status',
       'to',
       'from',
       'pageSize',
       'page']);
+    (getParams as any).createTime = JSON.stringify(this.formatCreateTimeFilter(data.createTime));
+    (getParams as any)['createTime>'] = JSON.stringify(this.formatCreateTimeRangeFilter(data.createTimeRange?.from));
+    (getParams as any)['createTime<'] = JSON.stringify(this.formatCreateTimeRangeFilter(data.createTimeRange?.to));
+
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -162,14 +174,41 @@ export class FaxesApi extends FaxDomainApi {
     return listPromise as ApiListPromise<Fax>;
   }
 
+  formatCreateTimeFilter = (createTime: string | Date | undefined): string | undefined => {
+    if (createTime !== undefined) {
+      if (typeof createTime === 'string') {
+        if (createTime.indexOf('T') > -1) {
+          return createTime.substring(0, createTime.indexOf('T'));
+        }
+        return createTime;
+      } else {
+        return formatDate(createTime, 'day');
+      }
+    }
+    return undefined;
+  };
+
+  formatCreateTimeRangeFilter = (timeBoundary: string | Date | DateFormat | undefined): string | undefined => {
+    if (timeBoundary !== undefined) {
+      if (typeof timeBoundary === 'string') {
+        return timeBoundary;
+      } else if (timeBoundary instanceof Date) {
+        return formatDate(timeBoundary);
+      } else {
+        return formatDate(timeBoundary.date, timeBoundary.unit);
+      }
+    }
+    return undefined;
+  };
+
   /**
-   * Send a fax
-   * Create and send a fax.  Fax content may be supplied via one or more files or URLs of supported filetypes.
+   * Send a fax or multiple faxes
+   * Create and send one or multiple faxes. Fax content may be supplied via one or more files or URLs of supported filetypes.
    * This endpoint supports the following content types for the fax payload:
    *   - Multipart/form-data
    *   - Application/json
-   * We will however always return a fax object in the response in application json.
-   * If you supply a callbackUrl the callback will be sent as multipart/form-data with the content of the fax as an attachment to the body, *unless* you specify callbackContentType as application/json.
+   * We will however always return a fax array in the response in application json.
+   * If you supply a callbackUrl the callback will be sent as multipart/form-data with the content of the fax as an attachment to the body, *unless* you specify callbackUrlContentType as application/json.
    * #### file(s)
    *    Files may be included in the POST request as multipart/form-data parts.
    * #### contentUrl
@@ -177,7 +216,7 @@ export class FaxesApi extends FaxDomainApi {
    *    Please note: If you are passing fax a secure URL (starting with 'https://'), make sure that your SSL certificate (including your intermediate cert, if you have one) is installed properly, valid, and up-to-date.
    * @param { SendFaxRequestData } data - The data to provide to the API call.
    */
-  public async send(data: SendFaxRequestData): Promise<Fax> {
+  public async send(data: SendFaxRequestData): Promise<Fax[]> {
     this.client = this.getSinchClient();
     const requestBody = data.sendFaxRequestBody;
     requestBody['headerText'] = requestBody['headerText'] !== undefined
@@ -188,11 +227,12 @@ export class FaxesApi extends FaxDomainApi {
       ? requestBody['headerTimeZone'] : 'America/New_York';
     requestBody['retryDelaySeconds'] = requestBody['retryDelaySeconds'] !== undefined
       ? requestBody['retryDelaySeconds'] : 60;
-    requestBody['callbackContentType'] = requestBody['callbackContentType'] !== undefined
-      ? requestBody['callbackContentType'] : 'multipart/form-data';
+    requestBody['callbackUrlContentType'] = requestBody['callbackUrlContentType'] !== undefined
+      ? requestBody['callbackUrlContentType'] : 'multipart/form-data';
     requestBody['imageConversionMethod'] = requestBody['imageConversionMethod'] !== undefined
       ? requestBody['imageConversionMethod'] : 'HALFTONE';
-    const getParams = this.client.extractQueryParams<SendFaxRequestData>(data, [] as never[]);
+    const getParams
+      = this.client.extractQueryParams<SendSingleFaxRequestData | SendMultipleFaxRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Accept': 'application/json',
     };
@@ -205,23 +245,61 @@ export class FaxesApi extends FaxDomainApi {
       headers['Content-Type'] = 'application/json';
       body = JSON.stringify(data['sendFaxRequestBody']);
     } else {
-      const formParams: any = {};
-      const requestData = data.sendFaxRequestBody as FaxRequestFormData;
-      if( requestData.to ) { formParams.to = requestData.to; }
-      if( requestData.file ) { formParams.file = requestData.file; }
-      if( requestData.from ) { formParams.from = requestData.from; }
-      if( requestData.contentUrl ) { formParams.contentUrl = requestData.contentUrl; }
-      if( requestData.headerText ) { formParams.headerText = requestData.headerText; }
-      if( requestData.headerPageNumbers ) { formParams.headerPageNumbers = requestData.headerPageNumbers.toString(); }
-      if( requestData.headerTimeZone ) { formParams.headerTimeZone = requestData.headerTimeZone; }
-      if( requestData.retryDelaySeconds ) { formParams.retryDelaySeconds = requestData.retryDelaySeconds; }
-      if( requestData.labels ) { formParams.labels = requestData.labels; }
-      if( requestData.callbackUrl ) { formParams.callbackUrl = requestData.callbackUrl; }
-      if( requestData.callbackContentType ) { formParams.callbackContentType = requestData.callbackContentType; }
-      if( requestData.imageConversionMethod ) {formParams.imageConversionMethod = requestData.imageConversionMethod;}
-      if( requestData.serviceId ) { formParams.serviceId = requestData.serviceId; }
-      if( requestData.maxRetries ) { formParams.maxRetries = requestData.maxRetries; }
-      body = this.client.processFormData(formParams, 'multipart/form-data');
+      const formData = new FormData();
+      let requestData;
+      if (Array.isArray(data.sendFaxRequestBody.to)) {
+        requestData = data.sendFaxRequestBody as MultipleFaxRequestFormData;
+        requestData.to.forEach((to) => formData.append('to', to));
+      } else {
+        requestData = data.sendFaxRequestBody as SingleFaxRequestFormData;
+        formData.append('to', requestData.to);
+      }
+      if (requestData.filePaths) {
+        let attachmentPaths = requestData.filePaths;
+        if (typeof attachmentPaths === 'string') {
+          attachmentPaths = [String(requestData.filePaths)];
+        }
+        attachmentPaths.forEach((filePath) => {
+          formData.append('file', fs.readFileSync(filePath), filePath.split('/').pop());
+        });
+      }
+      if (requestData.from) {
+        formData.append('from', requestData.from);
+      }
+      if (requestData.contentUrl) {
+        formData.append('contentUrl', requestData.contentUrl);
+      }
+      if (requestData.headerText) {
+        formData.append('headerText', requestData.headerText);
+      }
+      if (requestData.headerPageNumbers) {
+        formData.append('headerPageNumbers', requestData.headerPageNumbers.toString());
+      }
+      if (requestData.headerTimeZone) {
+        formData.append('headerTimeZone', requestData.headerTimeZone);
+      }
+      if (requestData.retryDelaySeconds) {
+        formData.append('retryDelaySeconds', requestData.retryDelaySeconds);
+      }
+      if (requestData.labels) {
+        formData.append('labels', requestData.labels);
+      }
+      if (requestData.callbackUrl) {
+        formData.append('callbackUrl', requestData.callbackUrl);
+      }
+      if (requestData.callbackUrlContentType) {
+        formData.append('callbackUrlContentType', requestData.callbackUrlContentType);
+      }
+      if (requestData.imageConversionMethod) {
+        formData.append('imageConversionMethod', requestData.imageConversionMethod);
+      }
+      if (requestData.serviceId) {
+        formData.append('serviceId', requestData.serviceId);
+      }
+      if (requestData.maxRetries) {
+        formData.append('maxRetries', requestData.maxRetries);
+      }
+      body = formData;
     }
 
     const basePathUrl = `${this.client.apiClientOptions.hostname}/v3/projects/${this.client.apiClientOptions.projectId}/faxes`;
@@ -229,12 +307,29 @@ export class FaxesApi extends FaxDomainApi {
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
     const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return this.client.processCall<Fax>({
-      url,
-      requestOptions,
-      apiName: this.apiName,
-      operationId: 'SendFax',
-    });
+    if (Array.isArray(data.sendFaxRequestBody.to)) {
+      const responseData = await this.client.processCall<Fax | FaxesList>({
+        url,
+        requestOptions,
+        apiName: this.apiName,
+        operationId: 'SendMultipleFax',
+      });
+      // When there is a single element in the 'to' array, the server will return a Fax, not a FaxList
+      if (Array.isArray((responseData as FaxesList).faxes)) {
+        return (responseData as FaxesList).faxes;
+      } else {
+        return [responseData as Fax];
+      }
+    } else {
+      const responseData =  await this.client.processCall<Fax>({
+        url,
+        requestOptions,
+        apiName: this.apiName,
+        operationId: 'SendFax',
+      });
+      return [responseData];
+    }
+
   }
 
 }

@@ -20,7 +20,7 @@ import { getFaxIdFromConfig, getPrintFormat, initFaxService, printFullResponse }
   if (printFormat === 'pretty') {
     console.log(`Fax found: it has been created at '${response.createTime}' and the status is '${response.status}'`);
     if (response.status === 'FAILURE') {
-      console.log(`Error type: ${response.errorType} (${response.errorId}): ${response.errorCode}`);
+      console.log(`Error type: ${response.errorType} (${response.errorCode}): ${response.errorMessage}`);
     }
   } else {
     printFullResponse(response);

@@ -1,7 +1,6 @@
 import { RequestBody, RequestOptions } from '../plugins/core/request-plugin';
 import { ApiClientOptions } from './api-client-options';
 import { Headers } from 'node-fetch';
-import FormData = require('form-data');
 
 export enum PaginationEnum {
   NONE,
@@ -216,18 +215,6 @@ export class ApiClient {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   processFileCall(_httpCallParameters: ApiCallParameters): Promise<FileBuffer> {
-    throw new Error('Abstract method must be implemented');
-  }
-
-  /**
-   * Receives an object containing key/value pairs
-   * Encodes this object to match application/x-www-urlencoded or multipart/form-data
-   * @abstract
-   * @param {any} _data
-   * @param {string} _type
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  processFormData(_data: any, _type: string): FormData | string {
     throw new Error('Abstract method must be implemented');
   }
 
