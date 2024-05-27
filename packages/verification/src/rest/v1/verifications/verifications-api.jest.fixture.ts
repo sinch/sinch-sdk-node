@@ -6,7 +6,7 @@ import {
   StartFlashCallVerificationResponse,
   FlashCallVerificationReportResponse,
   StartSmsVerificationResponse,
-  SMSVerificationReportResponse,
+  SmsVerificationReportResponse,
   StartSmsVerificationRequestData,
   StartFlashCallVerificationRequestData,
   StartCalloutVerificationRequestData,
@@ -25,7 +25,7 @@ export class VerificationsApiFixture implements Partial<Readonly<VerificationsAp
    * Fixture associated to function reportSmsById
    */
   public reportSmsById: jest.Mock<Promise<
-    SMSVerificationReportResponse>,
+    SmsVerificationReportResponse>,
     [ReportSmsVerificationByIdRequestData]> = jest.fn();
   /**
    * Fixture associated to function reportFlashCallById
@@ -44,7 +44,7 @@ export class VerificationsApiFixture implements Partial<Readonly<VerificationsAp
    */
   public reportSmsByIdentity:
     jest.Mock<Promise<
-      SMSVerificationReportResponse>,
+      SmsVerificationReportResponse>,
       [ReportSmsVerificationByIdentityRequestData]> = jest.fn();
   /**
    * Fixture associated to function reportFlashCallByIdentity

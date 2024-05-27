@@ -1,1 +1,1 @@
-export type { SMSVerificationReportResponse } from './sms-verification-report-response';
+export type { SmsVerificationReportResponse } from './sms-verification-report-response';

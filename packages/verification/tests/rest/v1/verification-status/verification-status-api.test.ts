@@ -25,7 +25,7 @@ describe('VerificationStatusApi', () => {
       const requestData: Verification.VerificationStatusByIdRequestData = {
         id: '',
       };
-      const expectedResponse: Verification.SMSVerificationStatusResponse = {
+      const expectedResponse: Verification.SmsVerificationStatusResponse = {
         id: '018bec3e-6913-d36c-5102-ebda3fd6d30f',
         method: 'sms',
         status: 'SUCCESSFUL',
