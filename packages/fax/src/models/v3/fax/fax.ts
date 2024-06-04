@@ -40,15 +40,15 @@ export interface Fax {
   /** The URL to which a callback will be sent when the fax is completed. The callback will be sent as a POST request with a JSON body. The callback will be sent to the URL specified in the `callbackUrl` parameter, if provided, otherwise it will be sent to the URL specified in the `callbackUrl` field of the Fax Service object. */
   callbackUrl?: string;
   /** The content type of the callback. */
-  callbackContentType?: WebhookContentType;
+  callbackUrlContentType?: WebhookContentType;
   /** Determines how documents are converted to black and white. Defaults to value selected on Fax Service object. */
   imageConversionMethod?: ImageConversionMethod;
   /** @see ErrorType */
   errorType?: ErrorType;
   /** One of the error numbers listed in the [Fax Error Messages section](#FaxErrors). */
-  errorId?: number;
-  /** One of the error codes listed in the [Fax Error Messages section](#FaxErrors). */
-  errorCode?: string;
+  errorCode?: number;
+  /** One of the error messages listed in the [Fax Error Messages section](#FaxErrors). */
+  errorMessage?: string;
   /** The `Id` of the project associated with the call. */
   projectId?: string;
   /** ID of the fax service used. */

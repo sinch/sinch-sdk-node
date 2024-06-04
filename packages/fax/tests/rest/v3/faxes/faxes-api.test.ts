@@ -1,4 +1,4 @@
-import { FileBuffer, SinchClientParameters } from '@sinch/sdk-client';
+import { DateFormat, FileBuffer, SinchClientParameters } from '@sinch/sdk-client';
 import {
   Fax,
   FaxesApi,
@@ -75,10 +75,10 @@ describe('FaxesApi', () => {
         status: 'FAILURE',
         headerTimeZone: 'America/New_York',
         retryDelaySeconds: 60,
-        callbackContentType: 'multipart/form-data',
+        callbackUrlContentType: 'multipart/form-data',
         errorType: 'LINE_ERROR',
-        errorId: 89,
-        errorCode: 'The call dropped prematurely',
+        errorCode: 89,
+        errorMessage: 'The call dropped prematurely',
         projectId: 'projectId',
         serviceId: 'serviceId',
         maxRetries: 3,
@@ -117,10 +117,10 @@ describe('FaxesApi', () => {
           status: 'FAILURE',
           headerTimeZone: 'America/New_York',
           retryDelaySeconds: 60,
-          callbackContentType: 'multipart/form-data',
+          callbackUrlContentType: 'multipart/form-data',
           errorType: 'LINE_ERROR',
-          errorId: 89,
-          errorCode: 'The call dropped prematurely',
+          errorCode: 89,
+          errorMessage: 'The call dropped prematurely',
           projectId: 'projectId',
           serviceId: 'serviceId',
           maxRetries: 3,
@@ -151,34 +151,168 @@ describe('FaxesApi', () => {
       expect(response.data).toBeDefined();
       expect(fixture.list).toHaveBeenCalledWith(requestData);
     });
+
+    it('should format a createTime parameter', () => {
+      const dateUndefined = undefined;
+      let formattedDateFilter = faxesApi.formatCreateTimeFilter(dateUndefined);
+      expect(formattedDateFilter).toBeUndefined();
+
+      const dateString =  '2024-05-01';
+      formattedDateFilter = faxesApi.formatCreateTimeFilter(dateString);
+      expect(formattedDateFilter).toBe('2024-05-01');
+
+      const dateWithSecondsString ='2024-05-01T13:00:00Z';
+      formattedDateFilter = faxesApi.formatCreateTimeFilter(dateWithSecondsString);
+      expect(formattedDateFilter).toBe('2024-05-01');
+
+      const dateWithSeconds = new Date('2024-05-01T13:00:00Z');
+      formattedDateFilter = faxesApi.formatCreateTimeFilter(dateWithSeconds);
+      expect(formattedDateFilter).toBe('2024-05-01');
+    });
+
+    it('should format a datetime range filter', () => {
+      const dateTimeRangeUndefined = undefined;
+      let formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeUndefined);
+      expect(formattedDateTimeRangeFilter).toBeUndefined();
+
+      const dateTimeRangeString = '2024-05-01';
+      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeString);
+      expect(formattedDateTimeRangeFilter).toBe('2024-05-01');
+
+      const dateTimeRangeNoUnit: DateFormat = {
+        date: new Date('2024-05-01T13:15:30Z'),
+      };
+      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeNoUnit);
+      expect(formattedDateTimeRangeFilter).toBe('2024-05-01T13:15:30Z');
+
+      const dateTimeRangeWithYear: DateFormat = {
+        date: new Date('2024-05-01T13:15:30Z'),
+        unit: 'year',
+      };
+      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeWithYear);
+      expect(formattedDateTimeRangeFilter).toBe('2024');
+
+      const dateTimeRangeWithMonth: DateFormat = {
+        date: new Date('2024-05-01T13:15:30Z'),
+        unit: 'month',
+      };
+      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeWithMonth);
+      expect(formattedDateTimeRangeFilter).toBe('2024-05');
+
+      const dateTimeRangeWithDay: DateFormat = {
+        date: new Date('2024-05-01T13:15:30Z'),
+        unit: 'day',
+      };
+      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeWithDay);
+      expect(formattedDateTimeRangeFilter).toBe('2024-05-01');
+
+      const dateTimeRangeWithHours: DateFormat = {
+        date: new Date('2024-05-01T13:15:30Z'),
+        unit: 'hour',
+      };
+      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeWithHours);
+      expect(formattedDateTimeRangeFilter).toBe('2024-05-01T13:00:00Z');
+
+      const dateTimeRangeWithMinutes: DateFormat = {
+        date: new Date('2024-05-01T13:15:30Z'),
+        unit: 'minute',
+      };
+      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeWithMinutes);
+      expect(formattedDateTimeRangeFilter).toBe('2024-05-01T13:15:00Z');
+
+      const dateTimeRangeWithSeconds: DateFormat = {
+        date: new Date('2024-05-01T13:15:30Z'),
+        unit: 'second',
+      };
+      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeWithSeconds);
+      expect(formattedDateTimeRangeFilter).toBe('2024-05-01T13:15:30Z');
+    });
   });
 
   describe ('sendFax', () => {
     it('should make a POST request to create and send a fax', async () => {
       // Given
-      const requestData: Fax.SendFaxRequestData = {
+      const requestData: Fax.SendSingleFaxRequestData = {
         sendFaxRequestBody: {
           to: '+12015555555',
         },
       };
-      const expectedResponse: Fax.Fax = {
-        id: 'fax_id',
-        direction: 'OUTBOUND',
-        to: '+12015555555',
-        status: 'IN_PROGRESS',
-        headerTimeZone: 'America/New_York',
-        retryDelaySeconds: 60,
-        callbackContentType: 'multipart/form-data',
-        projectId: 'projectId',
-        serviceId: 'serviceId',
-        maxRetries: 3,
-        createTime: new Date('2024-02-27T12:28:09Z'),
-        headerPageNumbers: true,
-        contentUrl: [
-          'https://developers.sinch.com/fax/fax.pdf',
-        ],
-        imageConversionMethod: 'HALFTONE',
+      const expectedResponse: Fax.Fax[] = [
+        {
+          id: 'fax_id',
+          direction: 'OUTBOUND',
+          to: '+12015555555',
+          status: 'IN_PROGRESS',
+          headerTimeZone: 'America/New_York',
+          retryDelaySeconds: 60,
+          callbackUrlContentType: 'multipart/form-data',
+          projectId: 'projectId',
+          serviceId: 'serviceId',
+          maxRetries: 3,
+          createTime: new Date('2024-02-27T12:28:09Z'),
+          headerPageNumbers: true,
+          contentUrl: [
+            'https://developers.sinch.com/fax/fax.pdf',
+          ],
+          imageConversionMethod: 'HALFTONE',
+        },
+      ];
+
+      // When
+      fixture.send.mockResolvedValue(expectedResponse);
+      faxesApi.send = fixture.send;
+      const response = await faxesApi.send(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.send).toHaveBeenCalledWith(requestData);
+    });
+
+    it('should make a POST request to create and send multiple faxes', async () => {
+      // Given
+      const requestData: Fax.SendMultipleFaxRequestData = {
+        sendFaxRequestBody: {
+          to: ['+12015555555', '+12015555566'],
+        },
       };
+      const expectedResponse: Fax.Fax[] = [
+        {
+          id: 'fax_id',
+          direction: 'OUTBOUND',
+          to: '+12015555555',
+          status: 'IN_PROGRESS',
+          headerTimeZone: 'America/New_York',
+          retryDelaySeconds: 60,
+          callbackUrlContentType: 'multipart/form-data',
+          projectId: 'projectId',
+          serviceId: 'serviceId',
+          maxRetries: 3,
+          createTime: new Date('2024-02-27T12:28:09Z'),
+          headerPageNumbers: true,
+          contentUrl: [
+            'https://developers.sinch.com/fax/fax.pdf',
+          ],
+          imageConversionMethod: 'HALFTONE',
+        },
+        {
+          id: 'fax_id',
+          direction: 'OUTBOUND',
+          to: '+12015555566',
+          status: 'IN_PROGRESS',
+          headerTimeZone: 'America/New_York',
+          retryDelaySeconds: 60,
+          callbackUrlContentType: 'multipart/form-data',
+          projectId: 'projectId',
+          serviceId: 'serviceId',
+          maxRetries: 3,
+          createTime: new Date('2024-02-27T12:28:09Z'),
+          headerPageNumbers: true,
+          contentUrl: [
+            'https://developers.sinch.com/fax/fax.pdf',
+          ],
+          imageConversionMethod: 'HALFTONE',
+        },
+      ];
 
       // When
       fixture.send.mockResolvedValue(expectedResponse);

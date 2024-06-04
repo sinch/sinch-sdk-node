@@ -15,9 +15,7 @@ export class FaxEventService {
       }
       if (event.event === 'FAX_COMPLETED') {
         const faxCompletedEvent = event as Fax.FaxCompletedEventJson;
-        for (const fileBase64 of faxCompletedEvent.files!) {
-          this.saveBase64File(fileBase64, event.fax!.id!);
-        }
+        this.saveBase64File(faxCompletedEvent, event.fax!.id!);
       }
     } else if (contentType?.includes('multipart/form-data')) {
       console.log(`** multipart/form-data\n${event.event}: ${event.fax!.id} - ${event.eventTime}`);
@@ -28,10 +26,10 @@ export class FaxEventService {
     }
   }
 
-  private saveBase64File(fileBase64: Fax.FaxBase64File, faxId: string) {
+  private saveBase64File(event: Fax.IncomingFaxEventJson | Fax.FaxCompletedEventJson, faxId: string) {
     console.log('Saving file...');
-    const filePath = path.join('./fax-upload', faxId + '.' + fileBase64.fileType!.toLowerCase());
-    const buffer = Buffer.from(fileBase64.file!, 'base64');
+    const filePath = path.join('./fax-upload', event.event + '-' + faxId + '.' + event.fileType!.toLowerCase());
+    const buffer = Buffer.from(event.file!, 'base64');
     fs.writeFileSync(filePath, buffer);
     console.log('File saved! ' + filePath);
   }
