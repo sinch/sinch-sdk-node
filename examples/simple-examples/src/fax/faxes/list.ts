@@ -17,8 +17,42 @@ const populateFaxesList = (
   console.log('* getFaxes *');
   console.log('************');
 
+  const today = new Date();
+  const previousMonth = (today.getUTCMonth() - 1) % 12;
+  const lastMonth = new Date().setMonth(previousMonth);
+
+  // Example of createTime filter
+  // - fetch last month's faxes (with Date objects)
+  //   => Output = ?createTime>=2024-04-24T11:33:44Z&createTime<=2024-05-24T11:33:44Z
+  //   createTimeFilter: {
+  //     from: new Date(lastMonth),
+  //     to: new Date(),
+  //   }
+  // - fetch last month's faxes (with DateFormat objets)
+  //   => Output = ?createTime>=2024-04-24&createTime<=2024-05-24
+  //   createTimeFilter: {
+  //     from: {
+  //       date: new Date(lastMonth),
+  //       unit: 'day',
+  //     },
+  //     to: {
+  //       date: new Date(),
+  //       unit: 'day',
+  //     },
+  //   }
+
   const requestData: Fax.ListFaxesRequestData = {
-    pageSize: 2,
+    pageSize: 10,
+    createTimeRange: {
+      from: {
+        date: new Date(lastMonth),
+        unit: 'day',
+      },
+      to: {
+        date: new Date(),
+        unit: 'day',
+      },
+    },
   };
 
   const faxService = initFaxService();

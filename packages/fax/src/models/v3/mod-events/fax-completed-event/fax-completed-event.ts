@@ -1,13 +1,15 @@
-import { FaxBase64File } from '../../fax-base64-file';
 import { FaxEventFormData, FaxEventJson } from '../base-fax-event';
+import { FaxBase64FileType } from '../../enums';
 
 export type FaxCompletedEvent = FaxCompletedEventJson | FaxCompletedEventFormData;
 
 export interface FaxCompletedEventJson extends FaxEventJson {
   /** Always FAX_COMPLETED for this event. */
   event?: 'FAX_COMPLETED';
-  /** */
-  files?: FaxBase64File[];
+  /** The base64 encoded file. */
+  file?: string;
+  /** The file type of the attached file. */
+  fileType?: FaxBase64FileType;
 }
 
 export interface FaxCompletedEventFormData extends FaxEventFormData {

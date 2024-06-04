@@ -255,25 +255,27 @@ yarn run numbers:regions:list
 
 ### Fax
 
-| Service  | Sample application name and location                                                   | Required parameters               |
-|----------|----------------------------------------------------------------------------------------|-----------------------------------|
-| Services | [./src/fax/services/create.ts](./src/fax/services/create.ts)                           | `PHONE_NUMBER`                    |
-|          | [./src/fax/services/get.ts](./src/fax/services/get.ts)                                 | `FAX_SERVICE_ID`                  |
-|          | [./src/fax/services/list.ts](./src/fax/services/list.ts)                               |                                   |
-|          | [./src/fax/services/listNumbers.ts](./src/fax/services/listNumbers.ts)                 | `FAX_SERVICE_ID`                  |
-|          | [./src/fax/services/listEmailsForNumber.ts](./src/fax/services/listEmailsForNumber.ts) | `PHONE_NUMBER` + `FAX_SERVICE_ID` |
-|          | [./src/fax/services/update.ts](./src/fax/services/update.ts)                           | `FAX_SERVICE_ID`                  |
-|          | [./src/fax/services/delete.ts](./src/fax/services/delete.ts)                           | `FAX_SERVICE_ID`                  |
-| Faxes    | [./src/fax/faxes/send.ts](./src/fax/faxes/send.ts)                                     | `PHONE_NUMBER`                    |
-|          | [./src/fax/faxes/get.ts](./src/fax/faxes/get.ts)                                       | `FAX_ID`                          |
-|          | [./src/fax/faxes/list.ts](./src/fax/faxes/list.ts)                                     |                                   |
-|          | [./src/fax/faxes/downloadContent.ts](./src/fax/faxes/downloadContent.ts)               | `FAX_ID`                          |
-|          | [./src/fax/faxes/deleteContent.ts](./src/fax/faxes/deleteContent.ts)                   | `FAX_ID`                          |
-| Emails   | [./src/fax/emails/add.ts](./src/fax/emails/add.ts)                                     | `FAX_EMAIL` + `PHONE_NUMBER`      |
-|          | [./src/fax/emails/list.ts](./src/fax/emails/list.ts)                                   |                                   |
-|          | [./src/fax/emails/listNumbers.ts](./src/fax/emails/listNumbers.ts)                     | `FAX_EMAIL`                       |
-|          | [./src/fax/emails/update.ts](./src/fax/emails/update.ts)                               | `FAX_EMAIL` + `PHONE_NUMBER`      |
-|          | [./src/fax/emails/delete.ts](./src/fax/emails/delete.ts)                               | `FAX_EMAIL`                       |
+| Service  | Sample application name and location                                                     | Required parameters                 |
+|----------|------------------------------------------------------------------------------------------|-------------------------------------|
+| Services | [./src/fax/services/create.ts](./src/fax/services/create.ts)                             | `PHONE_NUMBER`                      |
+|          | [./src/fax/services/get.ts](./src/fax/services/get.ts)                                   | `FAX_SERVICE_ID`                    |
+|          | [./src/fax/services/list.ts](./src/fax/services/list.ts)                                 |                                     |
+|          | [./src/fax/services/listNumbers.ts](./src/fax/services/listNumbers.ts)                   | `FAX_SERVICE_ID`                    |
+|          | [./src/fax/services/listEmailsForNumber.ts](./src/fax/services/listEmailsForNumber.ts)   | `PHONE_NUMBER` + `FAX_SERVICE_ID`   |
+|          | [./src/fax/services/update.ts](./src/fax/services/update.ts)                             | `FAX_SERVICE_ID`                    |
+|          | [./src/fax/services/delete.ts](./src/fax/services/delete.ts)                             | `FAX_SERVICE_ID`                    |
+| Faxes    | [./src/fax/faxes/send-filePaths.ts](./src/fax/faxes/send-filePaths.ts)                   | `PHONE_NUMBER` + `FAX_CALLBACK_URL` |
+|          | [./src/fax/faxes/send-fileBase64.ts](./src/fax/faxes/send-fileBase64.ts)                 | `PHONE_NUMBER` + `FAX_CALLBACK_URL` |
+|          | [./src/fax/faxes/send-multipleRecipients.ts](./src/fax/faxes/send-multipleRecipients.ts) | `PHONE_NUMBER` + `FAX_CALLBACK_URL` |
+|          | [./src/fax/faxes/get.ts](./src/fax/faxes/get.ts)                                         | `FAX_ID`                            |
+|          | [./src/fax/faxes/list.ts](./src/fax/faxes/list.ts)                                       |                                     |
+|          | [./src/fax/faxes/downloadContent.ts](./src/fax/faxes/downloadContent.ts)                 | `FAX_ID`                            |
+|          | [./src/fax/faxes/deleteContent.ts](./src/fax/faxes/deleteContent.ts)                     | `FAX_ID`                            |
+| Emails   | [./src/fax/emails/add.ts](./src/fax/emails/add.ts)                                       | `FAX_EMAIL` + `PHONE_NUMBER`        |
+|          | [./src/fax/emails/list.ts](./src/fax/emails/list.ts)                                     |                                     |
+|          | [./src/fax/emails/listNumbers.ts](./src/fax/emails/listNumbers.ts)                       | `FAX_EMAIL`                         |
+|          | [./src/fax/emails/update.ts](./src/fax/emails/update.ts)                                 | `FAX_EMAIL` + `PHONE_NUMBER`        |
+|          | [./src/fax/emails/delete.ts](./src/fax/emails/delete.ts)                                 | `FAX_EMAIL`                         |
 
 ### Elastic SIP Trunk
 

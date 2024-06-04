@@ -2,11 +2,11 @@ import { ImageConversionMethod, WebhookContentType } from '../enums';
 import { FaxContentUrl } from '../fax-content-url';
 import { FaxBase64File } from '../fax-base64-file';
 
-export type FaxRequest = FaxRequestJson | FaxRequestFormData;
+export type SingleFaxRequest = SingleFaxRequestJson | SingleFaxRequestFormData;
 
-interface FaxRequestBase {
-  /** A phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. */
-  to: string;
+export type MultipleFaxRequest = MultipleFaxRequestJson | MultipleFaxRequestFormData;
+
+export interface FaxRequestBase {
   /** A phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. */
   from?: string;
   /**  */
@@ -24,7 +24,7 @@ interface FaxRequestBase {
   /** The URL to which a callback will be sent when the fax is completed. The callback will be sent as a POST request with a JSON body. The callback will be sent to the URL specified in the `callbackUrl` parameter, if provided, otherwise it will be sent to the URL specified in the `callbackUrl` field of the Fax Service object. */
   callbackUrl?: string;
   /** The content type of the callback. */
-  callbackContentType?: WebhookContentType;
+  callbackUrlContentType?: WebhookContentType;
   /** Determines how documents are converted to black and white. Defaults to value selected on Fax Service object. */
   imageConversionMethod?: ImageConversionMethod;
   /** ID of the fax service used. */
@@ -36,9 +36,31 @@ interface FaxRequestBase {
 export type FaxRequestJson = FaxRequestBase & {
   /** An array of base64 encoded files */
   files: FaxBase64File[];
+  filePaths?: never;
+}
+
+export type SingleFaxRequestJson = FaxRequestJson & {
+  /** A phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. */
+  to: string;
+}
+
+export type MultipleFaxRequestJson = FaxRequestJson & {
+  /** A list of phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. */
+  to: string[];
 }
 
 export interface FaxRequestFormData extends FaxRequestBase {
   /** The file(s) you want to send as a fax as body attachment. */
-  file?: any;
+  filePaths?: string | string[];
+  files?: never;
+}
+
+export type SingleFaxRequestFormData = FaxRequestFormData & {
+  /** A phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. */
+  to: string;
+}
+
+export type MultipleFaxRequestFormData = FaxRequestFormData & {
+  /** A list of phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. */
+  to: string[];
 }
