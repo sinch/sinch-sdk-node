@@ -23,7 +23,7 @@ export class VerificationEventService {
   private handleVerificationRequestEvent(event: Verification.VerificationRequestEvent, res: Response) {
     switch (event.method) {
       case 'sms':
-        const smsRequestEventResponse: Verification.SMSRequestEventResponse = {
+        const smsRequestEventResponse: Verification.SmsRequestEventResponse = {
           action: 'allow',
           sms: {
             code: '123456'

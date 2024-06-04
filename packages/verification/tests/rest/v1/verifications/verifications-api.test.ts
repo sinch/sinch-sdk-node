@@ -171,7 +171,7 @@ describe('VerificationsApi', () => {
       const requestData = Verification.reportVerificationByIdHelper.buildSmsRequest(
         'some_verification_id',
         '0000');
-      const expectedResponse: Verification.SMSVerificationReportResponse = {
+      const expectedResponse: Verification.SmsVerificationReportResponse = {
         id: 'some_verification_id',
         method: 'sms',
         status: 'SUCCESSFUL',
@@ -241,7 +241,7 @@ describe('VerificationsApi', () => {
       const requestData = Verification.reportVerificationByIdentityHelper.buildSmsRequest(
         '+33444555666',
         '0000');
-      const expectedResponse: Verification.SMSVerificationReportResponse = {
+      const expectedResponse: Verification.SmsVerificationReportResponse = {
         id: '018beea3-a942-0094-4a3a-d6b2f2c65057',
         method: 'sms',
         status: 'FAIL',

@@ -1,11 +1,3 @@
-export type { TypeEnum as IdentityTypeEnum } from './identity/identity';
-export type {
-  MethodEnum as VerificationRequestEventMethodEnum,
-} from './verification-request-event/verification-request-event';
-export type {
-  MethodEnum as VerificationResultEventMethodEnum,
-} from './verification-result-event/verification-result-event';
-
 export type ActionEnum = 'allow' | 'deny';
 
 export type VerificationStatusEnum = 'PENDING'

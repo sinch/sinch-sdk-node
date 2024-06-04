@@ -1,5 +1,5 @@
-import { Identity } from '../identity';
-import { ReasonEnum, SourceEnum, VerificationStatusEnum } from '../enums';
+import { Identity } from '../../identity';
+import { ReasonEnum, SourceEnum, VerificationStatusEnum } from '../../enums';
 
 export interface VerificationResultEvent {
 

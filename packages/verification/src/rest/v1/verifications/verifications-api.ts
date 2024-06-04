@@ -5,7 +5,7 @@ import {
   StartFlashCallVerificationResponse,
   FlashCallVerificationReportResponse,
   StartSmsVerificationResponse,
-  SMSVerificationReportResponse,
+  SmsVerificationReportResponse,
   ReportSmsVerificationByIdRequestData,
   ReportFlashCallVerificationByIdRequestData,
   ReportCalloutVerificationByIdRequestData,
@@ -40,7 +40,7 @@ export class VerificationsApi extends VerificationDomainApi {
    * Report the received verification code to verify it, using the Verification ID of the Verification request.
    * @param { ReportSmsVerificationByIdRequestData } data - The data to provide to the API call.
    */
-  public async reportSmsById(data: ReportSmsVerificationByIdRequestData): Promise<SMSVerificationReportResponse> {
+  public async reportSmsById(data: ReportSmsVerificationByIdRequestData): Promise<SmsVerificationReportResponse> {
     this.client = this.getSinchClient();
     (data.reportSmsVerificationByIdRequestBody as any).method = 'sms';
     const getParams = this.client.extractQueryParams<ReportSmsVerificationByIdRequestData>(data, [] as never[]);
@@ -59,7 +59,7 @@ export class VerificationsApi extends VerificationDomainApi {
       = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return this.client.processCall<SMSVerificationReportResponse>({
+    return this.client.processCall<SmsVerificationReportResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -76,7 +76,7 @@ export class VerificationsApi extends VerificationDomainApi {
     data: ReportFlashCallVerificationByIdRequestData,
   ): Promise<FlashCallVerificationReportResponse> {
     this.client = this.getSinchClient();
-    (data.reportFlashCallVerificationByIdRequestBody as any).method = 'flashCall';
+    (data.reportFlashCallVerificationByIdRequestBody as any).method = 'flashcall';
     const getParams = this.client.extractQueryParams<ReportFlashCallVerificationByIdRequestData>(
       data,
       [] as never[]);
@@ -144,7 +144,7 @@ export class VerificationsApi extends VerificationDomainApi {
    */
   public async reportSmsByIdentity(
     data: ReportSmsVerificationByIdentityRequestData,
-  ): Promise<SMSVerificationReportResponse> {
+  ): Promise<SmsVerificationReportResponse> {
     this.client = this.getSinchClient();
     (data.reportSmsVerificationByIdentityRequestBody as any).method = 'sms';
     const getParams = this.client.extractQueryParams<ReportSmsVerificationByIdentityRequestData>(data, [] as never[]);
@@ -163,7 +163,7 @@ export class VerificationsApi extends VerificationDomainApi {
       = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return this.client.processCall<SMSVerificationReportResponse>({
+    return this.client.processCall<SmsVerificationReportResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -180,7 +180,7 @@ export class VerificationsApi extends VerificationDomainApi {
     data: ReportFlashCallVerificationByIdentityRequestData,
   ): Promise<FlashCallVerificationReportResponse> {
     this.client = this.getSinchClient();
-    (data.reportFlashCallVerificationByIdentityRequestBody as any).method = 'flashCall';
+    (data.reportFlashCallVerificationByIdentityRequestBody as any).method = 'flashcall';
     const getParams = this.client.extractQueryParams<ReportFlashCallVerificationByIdentityRequestData>(
       data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -312,7 +312,7 @@ export class VerificationsApi extends VerificationDomainApi {
     data: StartFlashCallVerificationRequestData,
   ): Promise<StartFlashCallVerificationResponse> {
     this.client = this.getSinchClient();
-    (data.startVerificationWithFlashCallRequestBody as any).method = 'flashCall';
+    (data.startVerificationWithFlashCallRequestBody as any).method = 'flashcall';
     const getParams = this.client.extractQueryParams<StartFlashCallVerificationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json; charset=UTF-8',

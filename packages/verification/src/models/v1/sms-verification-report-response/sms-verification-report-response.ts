@@ -1,7 +1,7 @@
 import { ReasonEnum, SourceEnum, VerificationStatusEnum } from '../enums';
 import { Identity } from '../identity';
 
-export interface SMSVerificationReportResponse {
+export interface SmsVerificationReportResponse {
 
   /** The unique ID of the verification request. */
   id?: string;

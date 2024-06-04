@@ -1,8 +1,8 @@
 import { ReasonEnum, SourceEnum, VerificationStatusEnum } from '../enums';
 import { Identity } from '../identity';
-import { VerificationPriceSMS } from '../verification-price-sms';
+import { VerificationPriceSms } from '../verification-price-sms';
 
-export interface SMSVerificationStatusResponse {
+export interface SmsVerificationStatusResponse {
 
   /** The unique ID of the verification request. */
   id?: string;
@@ -15,7 +15,7 @@ export interface SMSVerificationStatusResponse {
   /** The reference ID that was optionally passed together with the verification request. */
   reference?: string;
   /** Prices associated with this verification */
-  price?: VerificationPriceSMS;
+  price?: VerificationPriceSms;
   /** @see Identity */
   identity?: Identity;
   /** The ID of the country to which the verification was sent. */

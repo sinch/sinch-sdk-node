@@ -1,5 +1,5 @@
-import { Identity } from '../identity';
-import { Price } from '../price';
+import { Identity } from '../../identity';
+import { Price } from '../../price';
 
 export interface VerificationRequestEvent {
 
