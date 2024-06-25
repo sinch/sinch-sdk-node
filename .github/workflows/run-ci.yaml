@@ -25,10 +25,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Clone sinch-sdk-mockserver repository
-        run: |
-          echo "${{ secrets.PAT_CI }}" | gh auth login --with-token
-          git clone https://github.com/sinch/sinch-sdk-mockserver.git
+      - name: Checkout current repository
+        uses: actions/checkout@v3
+      - name: Checkout sinch-sdk-mockserver repository
+        uses: actions/checkout@v3
+        with:
+          repository: sinch/sinch-sdk-mockserver
+          token: ${{ secrets.PAT_CI }}
+          path: sinch-sdk-mockserver
       - name: Checkout the dev branch
         run: |
           cd sinch-sdk-mockserver
