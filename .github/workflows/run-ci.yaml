@@ -43,6 +43,7 @@ jobs:
           docker-compose up -d
       - name: Wait for the mock servers to be healthy
         run: |
+          cd sinch-sdk-mockserver
           while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q authentication-server) | grep -q '"healthy"'; do
             echo "Waiting for authentication-server to be healthy..."
             sleep 2
