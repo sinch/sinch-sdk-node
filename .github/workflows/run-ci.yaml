@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Clone sinch-sdk-mockserver repository
-        run: git clone https://github.com/your-org/sinch-sdk-mockserver.git
+        run: git clone https://github.com/sinch/sinch-sdk-mockserver.git
       - name: Checkout the dev branch
         run: |
           cd sinch-sdk-mockserver
