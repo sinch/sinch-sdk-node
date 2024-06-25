@@ -61,6 +61,7 @@ jobs:
       - name: Run e2e tests
         run: |
           yarn install
+          yarn run build
           yarn run e2e
 
   sonarcloud:
