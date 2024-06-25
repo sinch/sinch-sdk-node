@@ -59,7 +59,9 @@ jobs:
         run: |
           cp sinch-sdk-mockserver/features/fax/*.feature ./packages/fax/tests/e2e/features/
       - name: Run e2e tests
-        run: yarn run e2e
+        run: |
+          yarn install
+          yarn run e2e
 
   sonarcloud:
     runs-on: ubuntu-latest
