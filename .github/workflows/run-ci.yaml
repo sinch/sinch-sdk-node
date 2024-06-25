@@ -20,6 +20,44 @@ jobs:
       - run: yarn run build
       - run: yarn run test
 
+  e2e:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Clone sinch-sdk-mockserver repository
+        run: git clone https://github.com/your-org/sinch-sdk-mockserver.git
+      - name: Checkout the dev branch
+        run: |
+          cd sinch-sdk-mockserver
+          git checkout DEVEXP-337_Mockserver-POC
+      - name: Build custom Docker image
+        run: |
+          cd sinch-sdk-mockserver
+          docker build -t sinch-mockserver -f Dockerfile .
+      - name: Start mock servers with Docker Compose
+        run: |
+          cd sinch-sdk-mockserver
+          docker-compose up -d
+      - name: Wait for the mock servers to be healthy
+        run: |
+          while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q authentication-server) | grep -q '"healthy"'; do
+            echo "Waiting for authentication-server to be healthy..."
+            sleep 2
+          done
+          while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q fax-server) | grep -q '"healthy"'; do
+            echo "Waiting for fax-server to be healthy..."
+            sleep 2
+          done
+      - name: Create target directories for feature files
+        run: |
+          mkdir -p ./packages/fax/tests/e2e/features
+      - name: Copy feature files
+        run: |
+          cp sinch-sdk-mockserver/features/fax/*.feature ./packages/fax/tests/e2e/features/
+      - name: Run e2e tests
+        run: yarn run e2e
+
   sonarcloud:
     runs-on: ubuntu-latest
     steps:
