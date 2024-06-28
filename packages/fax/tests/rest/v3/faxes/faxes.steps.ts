@@ -1,9 +1,9 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { FileBuffer, PageResult } from '@sinch/sdk-client';
 import * as assert from 'assert';
-import { FaxService, Fax } from '../../../../src';
+import { FaxService, Fax, FaxesApi } from '../../../../src';
 
-let faxService: FaxService;
+let faxesApi: FaxesApi;
 let listResponse: PageResult<Fax.Fax>;
 const faxList: Fax.Fax[] = [];
 let sendFaxResponse: Fax.Fax[];
@@ -11,18 +11,19 @@ let fax: Fax.Fax;
 let fileBuffer: FileBuffer;
 let deleteContentResponse: void;
 
-Given('the Fax service is available', function () {
-  faxService = new FaxService({
+Given('the Fax service "Faxes" is available', function () {
+  const faxService = new FaxService({
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
     authHostname: 'http://localhost:3011',
   });
   faxService.setHostname('http://localhost:3012');
+  faxesApi = faxService.faxes;
 });
 
 When('I send a fax with a contentUrl only to a single recipient', async function () {
-  sendFaxResponse = await faxService.faxes.send({
+  sendFaxResponse = await faxesApi.send({
     sendFaxRequestBody: {
       to: '+12015555555',
       contentUrl: 'https://developers.sinch.com/fax/fax.pdf',
@@ -37,7 +38,7 @@ Then('the response contains a list of fax objects with a single element received
 });
 
 When('I send a fax with a contentUrl only to multiple recipients', async function () {
-  sendFaxResponse = await faxService.faxes.send({
+  sendFaxResponse = await faxesApi.send({
     sendFaxRequestBody: {
       to: ['+12015555555', '+12016666666'],
       contentUrl: 'https://developers.sinch.com/fax/fax.pdf',
@@ -53,7 +54,7 @@ Then('the response contains a list of fax objects with multiple elements receive
 });
 
 When('I send a fax with a contentUrl and a binary file attachment to a single recipient', async function () {
-  sendFaxResponse = await faxService.faxes.send({
+  sendFaxResponse = await faxesApi.send({
     sendFaxRequestBody: {
       to: '+12015555555',
       contentUrl: 'https://developers.sinch.com/fax/fax.pdf',
@@ -69,7 +70,7 @@ Then('the response contains a list of fax objects with a single element received
 });
 
 When('I send a fax with a contentUrl and a binary file attachment to multiple recipients', async function () {
-  sendFaxResponse = await faxService.faxes.send({
+  sendFaxResponse = await faxesApi.send({
     sendFaxRequestBody: {
       to: ['+12015555555', '+12016666666'],
       contentUrl: 'https://developers.sinch.com/fax/fax.pdf',
@@ -86,7 +87,7 @@ Then('the response contains a list of fax objects with multiple elements receive
 });
 
 When('I send a fax with a contentUrl and a base64 file encoded to a single recipient', async function () {
-  sendFaxResponse = await faxService.faxes.send({
+  sendFaxResponse = await faxesApi.send({
     sendFaxRequestBody: {
       to: '+12015555555',
       contentUrl: 'https://developers.sinch.com/fax/fax.pdf',
@@ -111,7 +112,7 @@ Then('the response contains a list of fax objects with a single element received
 });
 
 When('I send a fax with a contentUrl and a base64 file encoded to multiple recipients', async function () {
-  sendFaxResponse = await faxService.faxes.send({
+  sendFaxResponse = await faxesApi.send({
     sendFaxRequestBody: {
       to: ['+12015555555', '+12016666666'],
       contentUrl: 'https://developers.sinch.com/fax/fax.pdf',
@@ -137,7 +138,7 @@ Then('the response contains a list of fax objects with multiple elements receive
 });
 
 When('I retrieve a fax', async function () {
-  fax = await faxService.faxes.get({
+  fax = await faxesApi.get({
     id: '01W4FFL35P4NC4K35CR3P35M1N1',
   });
 });
@@ -167,7 +168,7 @@ Then('the response contains a fax object', function () {
 });
 
 When('I send a request to list faxes', async function () {
-  listResponse = await faxService.faxes.list({});
+  listResponse = await faxesApi.list({});
 });
 
 Then('the response contains {string} faxes', function (expectedAnswer: string) {
@@ -176,7 +177,7 @@ Then('the response contains {string} faxes', function (expectedAnswer: string) {
 });
 
 When('I send a request to list all the faxes', async function () {
-  for await (const fax of faxService.faxes.list({})) {
+  for await (const fax of faxesApi.list({})) {
     faxList.push(fax);
   }
 });
@@ -187,7 +188,7 @@ Then('the faxes list contains {string} faxes', function (expectedAnswer: string)
 });
 
 When('I send a request to download a fax content as PDF', async function () {
-  fileBuffer = await faxService.faxes.downloadContent({
+  fileBuffer = await faxesApi.downloadContent({
     id: '01W4FFL35P4NC4K35CR3P35DWLD',
   });
 });
@@ -197,7 +198,7 @@ Then('the response contains a PDF document', function () {
 });
 
 When('I send a request to delete a fax content on the server', async function () {
-  deleteContentResponse = await faxService.faxes.deleteContent({
+  deleteContentResponse = await faxesApi.deleteContent({
     id: '01W4FFL35P4NC4K35CR3P35DEL0',
   });
 });
