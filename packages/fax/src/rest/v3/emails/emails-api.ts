@@ -2,6 +2,7 @@ import {
   AddEmailToNumbersRequestData,
   DeleteEmailRequestData,
   Email,
+  ListEmailsForNumberRequestData,
   ListEmailsForProjectRequestData,
   ListNumbersByEmailRequestData,
   ServicePhoneNumber,
@@ -17,8 +18,11 @@ import {
   SinchClientParameters,
 } from '@sinch/sdk-client';
 import { FaxDomainApi } from '../fax-domain-api';
+import { ServicesApi } from '../services';
 
 export class EmailsApi extends FaxDomainApi {
+
+  private servicesApi: ServicesApi;
 
   /**
    * Initialize your interface
@@ -27,6 +31,7 @@ export class EmailsApi extends FaxDomainApi {
    */
   constructor(sinchClientParameters: SinchClientParameters) {
     super(sinchClientParameters, 'EmailsApi');
+    this.servicesApi = new ServicesApi(sinchClientParameters);
   }
 
   /**
@@ -127,6 +132,16 @@ export class EmailsApi extends FaxDomainApi {
   }
 
   /**
+   * List emails for a number
+   * List any emails for a number.
+   * @param { ListEmailsForNumberRequestData } data - The data to provide to the API call.
+   * @return {ApiListPromise<string>} - The list of emails for a given number
+   */
+  public listByNumber(data: ListEmailsForNumberRequestData): ApiListPromise<string> {
+    return this.servicesApi.listEmailsForNumber(data);
+  }
+
+  /**
    * Get numbers for email
    * Get configured numbers for an email
    * @param { ListNumbersByEmailRequestData } data - The data to provide to the API call.
@@ -135,7 +150,6 @@ export class EmailsApi extends FaxDomainApi {
   public listNumbers(data: ListNumbersByEmailRequestData): ApiListPromise<ServicePhoneNumber> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListNumbersByEmailRequestData>(data, [
-      'email',
       'pageSize',
       'page']);
     const headers: { [key: string]: string | undefined } = {

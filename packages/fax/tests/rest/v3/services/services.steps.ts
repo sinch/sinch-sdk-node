@@ -14,18 +14,18 @@ const numbersList: Fax.ServicePhoneNumber[] = [];
 let listEmailsResponse: PageResult<string>;
 const emailsList: string[] = [];
 
-Given('the Fax service "Services" is available', function () {
+Given('the Fax service "Services" is available', () => {
   const faxService = new FaxService({
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
     authHostname: 'http://localhost:3011',
+    faxHostname: 'http://localhost:3012',
   });
-  faxService.setHostname('http://localhost:3012');
   servicesApi = faxService.services;
 });
 
-When('I send a request to create a new service', async function () {
+When('I send a request to create a new service', async () => {
   createServiceResponse = await servicesApi.create({
     createServiceRequestBody: {
       name: 'Fax service for e2e tests',
@@ -133,22 +133,18 @@ When('I send a request to list the numbers associated to a fax service', async (
   });
 });
 
-Then('the response contains {string} numbers associated to the fax service', function (expectedAnswer: string) {
+Then('the response contains {string} numbers associated to the fax service', (expectedAnswer: string) => {
   const expectedNumbers = parseInt(expectedAnswer, 10);
   assert.strictEqual(listNumbersResponse.data.length, expectedNumbers);
 });
 
 When('I send a request to list all the numbers associated to a fax service', async () => {
-  listNumbersResponse = await servicesApi.listNumbers({
-    serviceId: '01W4FFL35P4NC4K35FAXSERVICE',
-  });
   for await (const number of servicesApi.listNumbers({ serviceId: '01W4FFL35P4NC4K35FAXSERVICE' })) {
     numbersList.push(number);
   }
 });
 
-// eslint-disable-next-line max-len
-Then('the phone numbers list contains {string} numbers associated to the fax service', function (expectedAnswer: string) {
+Then('the phone numbers list contains {string} numbers associated to the fax service', (expectedAnswer: string) => {
   const expectedNumbers = parseInt(expectedAnswer, 10);
   assert.strictEqual(numbersList.length, expectedNumbers);
 });
@@ -160,7 +156,7 @@ When('I send a request to list the emails associated to a phone number', async (
   });
 });
 
-Then('the response contains {string} emails associated to the phone number', function (expectedAnswer: string) {
+Then('the response contains {string} emails associated to the phone number', (expectedAnswer: string) => {
   const expectedNumbers = parseInt(expectedAnswer, 10);
   assert.strictEqual(listEmailsResponse.data.length, expectedNumbers);
 });
@@ -174,7 +170,7 @@ When('I send a request to list all the emails associated to a phone number', asy
   }
 });
 
-Then('the emails list contains {string} emails associated to a phone number', function (expectedAnswer: string) {
+Then('the emails list contains {string} emails associated to a phone number', (expectedAnswer: string) => {
   const expectedNumbers = parseInt(expectedAnswer, 10);
   assert.strictEqual(emailsList.length, expectedNumbers);
 });

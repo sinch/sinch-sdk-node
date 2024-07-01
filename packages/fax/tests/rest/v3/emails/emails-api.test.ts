@@ -100,6 +100,35 @@ describe('EmailsApi', () => {
     });
   });
 
+  describe('getEmailsForNumber', () => {
+    it('should make a GET request to list the emails for a number', async () => {
+      // Given
+      const requestData: Fax.ListEmailsForNumberRequestData = {
+        serviceId: 'serviceId',
+        phoneNumber: '+15551235656',
+      };
+      const mockData: string[] = [
+        'user@example.com',
+      ];
+      const expectedResponse = {
+        data: mockData,
+        hasNextPage: false,
+        nextPageValue: '',
+        nextPage: jest.fn(),
+      };
+
+      // When
+      fixture.listByNumber.mockResolvedValue(expectedResponse);
+      emailsApi.listByNumber = fixture.listByNumber;
+      const response = await emailsApi.listByNumber(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(response.data).toBeDefined();
+      expect(fixture.listByNumber).toHaveBeenCalledWith(requestData);
+    });
+  });
+
   describe ('getNumbersByEmail', () => {
     it('should make a GET request to list the configured numbers for an email', async () => {
       // Given

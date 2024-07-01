@@ -2,6 +2,7 @@ import {
   AddEmailToNumbersRequestData,
   DeleteEmailRequestData,
   Email,
+  ListEmailsForNumberRequestData,
   ListEmailsForProjectRequestData,
   ListNumbersByEmailRequestData,
   ServicePhoneNumber,
@@ -17,19 +18,23 @@ export class EmailsApiFixture implements Partial<Readonly<EmailsApi>> {
    */
   public addToNumbers: jest.Mock<Promise<Email>, [AddEmailToNumbersRequestData]> = jest.fn();
   /**
-   * Fixture associated to function deleteEmail
+   * Fixture associated to function delete
    */
   public delete: jest.Mock<Promise<void>, [DeleteEmailRequestData]> = jest.fn();
   /**
-   * Fixture associated to function getEmailsForProject
+   * Fixture associated to function list
    */
   public list: jest.Mock<ApiListPromise<Email>, [ListEmailsForProjectRequestData]> = jest.fn();
   /**
-   * Fixture associated to function getNumbersByEmail
+   * Fixture associated to function listByNumber
+   */
+  public listByNumber: jest.Mock<ApiListPromise<string>, [ListEmailsForNumberRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function listNumbers
    */
   public listNumbers: jest.Mock<ApiListPromise<ServicePhoneNumber>, [ListNumbersByEmailRequestData]> = jest.fn();
   /**
-   * Fixture associated to function updateEmail
+   * Fixture associated to function update
    */
   public update: jest.Mock<Promise<Email>, [UpdateEmailRequestData]> = jest.fn();
 }
