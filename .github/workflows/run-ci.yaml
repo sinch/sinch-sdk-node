@@ -51,12 +51,18 @@ jobs:
             echo "Waiting for fax-server to be healthy..."
             sleep 2
           done
+          while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q numbers-server) | grep -q '"healthy"'; do
+            echo "Waiting for numbers-server to be healthy..."
+            sleep 2
+          done
       - name: Create target directories for feature files
         run: |
           mkdir -p ./packages/fax/tests/e2e/features
+          mkdir -p ./packages/numbers/tests/e2e/features
       - name: Copy feature files
         run: |
           cp sinch-sdk-mockserver/features/fax/*.feature ./packages/fax/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/numbers/*.feature ./packages/numbers/tests/e2e/features/
       - name: Run e2e tests
         run: |
           yarn install
