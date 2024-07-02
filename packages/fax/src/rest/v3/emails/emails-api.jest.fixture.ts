@@ -26,9 +26,9 @@ export class EmailsApiFixture implements Partial<Readonly<EmailsApi>> {
    */
   public list: jest.Mock<ApiListPromise<Email>, [ListEmailsForProjectRequestData]> = jest.fn();
   /**
-   * Fixture associated to function listByNumber
+   * Fixture associated to function listForNumber
    */
-  public listByNumber: jest.Mock<ApiListPromise<string>, [ListEmailsForNumberRequestData]> = jest.fn();
+  public listForNumber: jest.Mock<ApiListPromise<string>, [ListEmailsForNumberRequestData]> = jest.fn();
   /**
    * Fixture associated to function listNumbers
    */

@@ -118,14 +118,14 @@ describe('EmailsApi', () => {
       };
 
       // When
-      fixture.listByNumber.mockResolvedValue(expectedResponse);
-      emailsApi.listByNumber = fixture.listByNumber;
-      const response = await emailsApi.listByNumber(requestData);
+      fixture.listForNumber.mockResolvedValue(expectedResponse);
+      emailsApi.listForNumber = fixture.listForNumber;
+      const response = await emailsApi.listForNumber(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
       expect(response.data).toBeDefined();
-      expect(fixture.listByNumber).toHaveBeenCalledWith(requestData);
+      expect(fixture.listForNumber).toHaveBeenCalledWith(requestData);
     });
   });
 

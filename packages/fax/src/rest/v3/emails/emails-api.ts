@@ -137,7 +137,7 @@ export class EmailsApi extends FaxDomainApi {
    * @param { ListEmailsForNumberRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<string>} - The list of emails for a given number
    */
-  public listByNumber(data: ListEmailsForNumberRequestData): ApiListPromise<string> {
+  public listForNumber(data: ListEmailsForNumberRequestData): ApiListPromise<string> {
     return this.servicesApi.listEmailsForNumber(data);
   }
 

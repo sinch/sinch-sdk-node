@@ -25,7 +25,7 @@ Given('the Fax service "Emails" is available', () => {
 });
 
 When('I send a request to list the emails associated to a phone number via the "Emails" Service', async () => {
-  listEmailsResponse = await emailsApi.listByNumber({
+  listEmailsResponse = await emailsApi.listForNumber({
     serviceId: '01W4FFL35P4NC4K35FAXSERVICE',
     phoneNumber: '+12014444444',
   });
@@ -39,7 +39,7 @@ Then('the "Emails" Service response contains {string} emails associated to the p
 });
 
 When('I send a request to list all the emails associated to a phone number via the "Emails" Service', async () => {
-  for await (const email of emailsApi.listByNumber({
+  for await (const email of emailsApi.listForNumber({
     serviceId: '01W4FFL35P4NC4K35FAXSERVICE',
     phoneNumber: '+12014444444' })
   ) {
