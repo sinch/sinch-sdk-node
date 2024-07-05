@@ -201,7 +201,7 @@ export class ConversationApi extends ConversationDomainApi {
     const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
 
     const operationProperties: PaginatedApiProperties = {
-      pagination: PaginationEnum.TOKEN,
+      pagination: PaginationEnum.TOKEN2,
       apiName: this.apiName,
       operationId: 'ListConversations',
       dataKey: 'conversations',
@@ -249,7 +249,7 @@ export class ConversationApi extends ConversationDomainApi {
     const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
 
     const operationProperties: PaginatedApiProperties = {
-      pagination: PaginationEnum.TOKEN,
+      pagination: PaginationEnum.TOKEN2,
       apiName: this.apiName,
       operationId: 'ListRecentConversations',
       dataKey: 'conversations',

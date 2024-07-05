@@ -116,7 +116,7 @@ export class EventsApi extends ConversationDomainApi {
     const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
 
     const operationProperties: PaginatedApiProperties = {
-      pagination: PaginationEnum.TOKEN,
+      pagination: PaginationEnum.TOKEN2,
       apiName: this.apiName,
       operationId: 'ListEvents',
       dataKey: 'events',
