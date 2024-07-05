@@ -6,6 +6,8 @@ export enum PaginationEnum {
   NONE,
   /** Used by the Numbers API */
   TOKEN,
+  /** Used by the Conversation API */
+  TOKEN2,
   /** used by the SMS API */
   PAGE,
   /** used by the Elastic SIP Trunking API */

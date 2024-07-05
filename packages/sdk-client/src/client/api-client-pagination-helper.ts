@@ -60,6 +60,13 @@ class SinchIterator<T> implements AsyncIterator<T> {
       return updateQueryParamsAndSendRequest(
         this.apiClient, newParams, requestOptions, this.paginatedOperationProperties);
     }
+    if (this.paginatedOperationProperties.pagination === PaginationEnum.TOKEN2) {
+      const newParams = {
+        page_token: pageResult.nextPageValue,
+      };
+      return updateQueryParamsAndSendRequest(
+        this.apiClient, newParams, requestOptions, this.paginatedOperationProperties);
+    }
     if (this.paginatedOperationProperties.pagination === PaginationEnum.PAGE
       || this.paginatedOperationProperties.pagination === PaginationEnum.PAGE3) {
       const newParams = {
@@ -136,6 +143,11 @@ export const createNextPageMethod = <T>(
       pageToken: nextPageValue,
     };
     break;
+  case PaginationEnum.TOKEN2:
+    newParams = {
+      page_token: nextPageValue,
+    };
+    break;
   case PaginationEnum.PAGE:
   case PaginationEnum.PAGE2:
   case PaginationEnum.PAGE3:
@@ -167,7 +179,10 @@ export function hasMore(
   context: PaginationContext,
 ): boolean {
   if (context.pagination === PaginationEnum.TOKEN) {
-    return !!response['nextPageToken'] || !!response['next_page_token'];
+    return !!response['nextPageToken'];
+  }
+  if (context.pagination === PaginationEnum.TOKEN2) {
+    return !!response['next_page_token'];
   }
   if (context.pagination === PaginationEnum.PAGE) {
     const requestedPageSize = context.requestOptions.queryParams?.page_size;
@@ -190,7 +205,10 @@ export function calculateNextPage(
   context: PaginationContext,
 ): string {
   if (context.pagination === PaginationEnum.TOKEN) {
-    return response['nextPageToken'] || response['next_page_token'];
+    return response['nextPageToken'];
+  }
+  if (context.pagination === PaginationEnum.TOKEN2) {
+    return response['next_page_token'];
   }
   if (context.pagination === PaginationEnum.PAGE) {
     const currentPage: number = response.page || 0;
