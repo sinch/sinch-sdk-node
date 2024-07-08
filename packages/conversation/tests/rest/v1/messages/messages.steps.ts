@@ -9,6 +9,7 @@ let listResponse: PageResult<Conversation.ConversationMessage>;
 const messagesList: Conversation.ConversationMessage[] = [];
 let message: Conversation.ConversationMessage;
 let deleteMessageResponse: void;
+let pagesIteration: number;
 
 Given('the Conversation service "Messages" is available', function () {
   const conversationService = new ConversationService({
@@ -63,10 +64,12 @@ When('I iterate manually over the messages pages', async () => {
   listResponse = await messagesApi.list({
     page_size: 2,
   });
+  pagesIteration = 1;
   let reachedEndOfPages = false;
   while (!reachedEndOfPages) {
     if (listResponse.hasNextPage) {
       listResponse = await listResponse.nextPage();
+      pagesIteration++;
     } else {
       reachedEndOfPages = true;
     }
@@ -76,6 +79,11 @@ When('I iterate manually over the messages pages', async () => {
 Then('the messages list contains {string} messages',  (expectedAnswer: string) => {
   const expectedServices = parseInt(expectedAnswer, 10);
   assert.equal(messagesList.length, expectedServices);
+});
+
+Then('the result contains the data from {string} pages',  (expectedAnswer: string) => {
+  const expectedPagesCount = parseInt(expectedAnswer, 10);
+  assert.equal(pagesIteration, expectedPagesCount);
 });
 
 When('I send a request to retrieve a message', async () => {
