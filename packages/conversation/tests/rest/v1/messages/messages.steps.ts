@@ -6,10 +6,10 @@ import { PageResult } from '@sinch/sdk-client';
 let messagesApi: MessagesApi;
 let messageResponse: Conversation.SendMessageResponse;
 let listResponse: PageResult<Conversation.ConversationMessage>;
-const messagesList: Conversation.ConversationMessage[] = [];
+let messagesList: Conversation.ConversationMessage[];
+let pagesIteration: number;
 let message: Conversation.ConversationMessage;
 let deleteMessageResponse: void;
-let pagesIteration: number;
 
 Given('the Conversation service "Messages" is available', function () {
   const conversationService = new ConversationService({
@@ -55,20 +55,24 @@ Then('the response contains {string} messages', (expectedAnswer: string) => {
 });
 
 When('I send a request to list all the messages', async () => {
-  for await (const service of messagesApi.list({ page_size: 2 })) {
-    messagesList.push(service);
+  messagesList = [];
+  for await (const message of messagesApi.list({ page_size: 2 })) {
+    messagesList.push(message);
   }
 });
 
 When('I iterate manually over the messages pages', async () => {
+  messagesList = [];
   listResponse = await messagesApi.list({
     page_size: 2,
   });
+  messagesList.push(...listResponse.data);
   pagesIteration = 1;
   let reachedEndOfPages = false;
   while (!reachedEndOfPages) {
     if (listResponse.hasNextPage) {
       listResponse = await listResponse.nextPage();
+      messagesList.push(...listResponse.data);
       pagesIteration++;
     } else {
       reachedEndOfPages = true;
