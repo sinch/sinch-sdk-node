@@ -238,6 +238,8 @@ export class ConversationApi extends ConversationDomainApi {
       'page_token',
       'order',
     ]);
+    // Manually set the default page size to 10 otherwise the API returns an empty list
+    getParams.page_size = getParams.page_size !== undefined ? getParams.page_size : '10';
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

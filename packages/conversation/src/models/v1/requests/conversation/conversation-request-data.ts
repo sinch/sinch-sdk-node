@@ -30,8 +30,8 @@ export interface InjectMessageRequestData {
   'injectMessageRequestBody': InjectMessageRequest;
 }
 export interface ListConversationsRequestData {
-  /** Required. True if only active conversations should be listed. */
-  'only_active': boolean;
+  /** True if only active conversations should be listed. */
+  'only_active'?: boolean;
   /** The ID of the app involved in the conversations. Note that either `app_id` or `contact_id` is required in order for the operation to function correctly. */
   'app_id'?: string;
   /** Resource name (ID) of the contact. Note that either `app_id` or `contact_id` is required in order for the operation to function correctly. */
