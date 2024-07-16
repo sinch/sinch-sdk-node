@@ -6,7 +6,6 @@ import { WebhookTargetType } from '../enums';
  * Represents a destination for receiving callbacks from the Conversation API.
  */
 export interface Webhook {
-
   /** The app that this webhook belongs to. */
   app_id: string;
   /** @see ClientCredentials */
@@ -22,3 +21,11 @@ export interface Webhook {
   /** An array of triggers that should trigger the webhook and result in an event being sent to the target url. Refer to the list of [Webhook Triggers](/docs/conversation/callbacks#webhook-triggers) for a complete list. */
   triggers: WebhookTrigger[];
 }
+
+export interface UpdateWebhookRequestBody extends
+  Pick<Webhook, 'target'>,
+  Partial<Pick<Webhook, 'app_id' | 'triggers' | 'secret' | 'target_type' | 'client_credentials'>> {}
+
+export interface CreateWebhookRequestBody extends
+  Pick<Webhook, 'app_id' | 'target'>,
+  Partial<Pick<Webhook, 'triggers' | 'secret' | 'target_type' | 'client_credentials'>> {}
