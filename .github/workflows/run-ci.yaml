@@ -56,11 +56,11 @@ jobs:
             sleep 2
           done
           while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q conversation-server) | grep -q '"healthy"'; do
-            echo "Waiting for numbers-server to be healthy..."
+            echo "Waiting for conversation-server to be healthy..."
             sleep 2
           done
           while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q conversation-templates-server) | grep -q '"healthy"'; do
-            echo "Waiting for numbers-server to be healthy..."
+            echo "Waiting for conversation-templates-server to be healthy..."
             sleep 2
           done
       - name: Create target directories for feature files
