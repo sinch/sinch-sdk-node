@@ -1,7 +1,6 @@
 import { AppApi, Conversation, ConversationService, SupportedConversationRegion } from '../../../../src';
 import { Given, Then, When } from '@cucumber/cucumber';
 import * as assert from 'assert';
-import { ChannelCredentialsSmsResponse } from '../../../../src/models';
 
 let appsApi: AppApi;
 let appResponse: Conversation.AppResponse;
@@ -90,7 +89,7 @@ Then('the response contains the app details', () => {
   assert.equal(appResponse.delivery_report_based_fallback?.enabled, false);
   assert.equal(appResponse.delivery_report_based_fallback?.delivery_report_waiting_time, 0);
   assert.equal(appResponse.message_retry_settings?.retry_duration, 3600);
-  const channelCredentials = appResponse.channel_credentials![0] as ChannelCredentialsSmsResponse;
+  const channelCredentials = appResponse.channel_credentials![0] as Conversation.ChannelCredentialsSmsResponse;
   assert.equal(channelCredentials.channel, 'SMS');
   assert.equal(channelCredentials.static_bearer.claimed_identity, 'SpaceMonkeySquadron');
   assert.equal(channelCredentials.static_bearer.token, '00112233445566778899aabbccddeeff');
