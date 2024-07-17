@@ -43,25 +43,25 @@ jobs:
       - name: Wait for the mock servers to be healthy
         run: |
           cd sinch-sdk-mockserver
-          while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q authentication-server) | grep -q '"healthy"'; do
-            echo "Waiting for authentication-server to be healthy..."
-            sleep 2
-          done
-          while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q fax-server) | grep -q '"healthy"'; do
-            echo "Waiting for fax-server to be healthy..."
-            sleep 2
-          done
-          while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q numbers-server) | grep -q '"healthy"'; do
-            echo "Waiting for numbers-server to be healthy..."
-            sleep 2
-          done
-          while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q conversation-server) | grep -q '"healthy"'; do
-            echo "Waiting for conversation-server to be healthy..."
-            sleep 2
-          done
-          while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q conversation-templates-server) | grep -q '"healthy"'; do
-            echo "Waiting for conversation-templates-server to be healthy..."
-            sleep 2
+          servers=(
+            "authentication-server"
+            "fax-server"
+            "numbers-server"
+            "conversation-server"
+            "conversation-templates-server"
+          )
+          
+          for server in "${servers[@]}"; do
+            SECONDS=0
+            while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q $server) | grep -q '"healthy"'; do
+              if [ $SECONDS -ge 30 ]; then
+                echo "Timeout: $server did not become healthy within 30 seconds."
+                exit 1
+              fi
+              echo "Waiting for $server to be healthy..."
+              sleep 2
+            done
+            echo "$server is healthy!"
           done
       - name: Create target directories for feature files
         run: |
