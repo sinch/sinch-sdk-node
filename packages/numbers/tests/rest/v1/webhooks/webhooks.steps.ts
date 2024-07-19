@@ -16,7 +16,6 @@ const processEvent = async (response: Response) => {
   });
   rawEvent = await response.text();
   rawEvent = rawEvent.replace(/\s+/g, '');
-  console.log(rawEvent);
   event = numbersCallbackWebhook.parseEvent(JSON.parse(rawEvent));
 };
 
