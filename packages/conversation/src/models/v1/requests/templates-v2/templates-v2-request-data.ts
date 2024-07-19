@@ -2,7 +2,7 @@ import { V2Template } from '../../v2-template';
 
 export interface V2CreateTemplateRequestData {
   /** Required. The template to create. */
-  'createTemplateRequestBody': V2Template;
+  'createTemplateRequestBody': Omit<V2Template, 'create_time' | 'update_time'>;
 }
 export interface V2DeleteTemplateRequestData {
   /** Required. The ID of the template to delete. */
@@ -26,5 +26,5 @@ export interface V2UpdateTemplateRequestData {
   /** The id of the template to be updated. Specified or automatically generated during template creation. Unique per project. */
   'template_id': string;
   /** Required. The updated template. */
-  'updateTemplateRequestBody': V2Template;
+  'updateTemplateRequestBody': Omit<V2Template, 'id' | 'create_time' | 'update_time'>;
 }
