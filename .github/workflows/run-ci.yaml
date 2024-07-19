@@ -73,7 +73,6 @@ jobs:
           cp sinch-sdk-mockserver/features/fax/*.feature ./packages/fax/tests/e2e/features/
           cp sinch-sdk-mockserver/features/numbers/*.feature ./packages/numbers/tests/e2e/features/
           cp sinch-sdk-mockserver/features/conversation/*.feature ./packages/conversation/tests/e2e/features/
-          cp sinch-sdk-mockserver/features/conversation-templates/*.feature ./packages/conversation/tests/e2e/features/
       - name: Run e2e tests
         run: |
           yarn install
