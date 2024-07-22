@@ -58,7 +58,11 @@ When('I send a request to list the conversation templates with the V2 API', asyn
 });
 
 Then('the response contains the list of conversation templates with the V2 structure', () => {
-  assert.equal(templatesList.templates?.length, 2);
+  assert.ok(templatesList.templates);
+  assert.equal(templatesList.templates.length, 2);
+});
+
+Then('for each templateV2 in the templateV2 list response, it defines a translation with version "latest" on top of each current translation version', () => {
   for(const templateV2 of templatesList.templates!) {
     assert.ok(templateV2.version);
     let latestVersionCount = 0;
