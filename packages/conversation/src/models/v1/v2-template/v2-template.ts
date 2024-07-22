@@ -1,7 +1,8 @@
 import { V2TemplateTranslation } from '../v2-template-translation';
 
 export interface V2Template {
-
+  /** The id of the template. Specify this yourself during creation. Otherwise, we will generate an ID for you. This must be unique for a given project. */
+  id?: string;
   /** The description of the template. */
   description?: string;
   /** The version of the template. While creating a template, this will be defaulted to 1. When updating a template, you must supply the latest version of the template in order for the update to be successful. */
