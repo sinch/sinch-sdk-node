@@ -43,26 +43,36 @@ jobs:
       - name: Wait for the mock servers to be healthy
         run: |
           cd sinch-sdk-mockserver
-          while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q authentication-server) | grep -q '"healthy"'; do
-            echo "Waiting for authentication-server to be healthy..."
-            sleep 2
-          done
-          while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q fax-server) | grep -q '"healthy"'; do
-            echo "Waiting for fax-server to be healthy..."
-            sleep 2
-          done
-          while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q numbers-server) | grep -q '"healthy"'; do
-            echo "Waiting for numbers-server to be healthy..."
-            sleep 2
+          servers=(
+            "authentication-server"
+            "fax-server"
+            "numbers-server"
+            "conversation-server"
+            "conversation-templates-server"
+          )
+          
+          for server in "${servers[@]}"; do
+            SECONDS=0
+            while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q $server) | grep -q '"healthy"'; do
+              if [ $SECONDS -ge 30 ]; then
+                echo "Timeout: $server did not become healthy within 30 seconds."
+                exit 1
+              fi
+              echo "Waiting for $server to be healthy..."
+              sleep 2
+            done
+            echo "$server is healthy!"
           done
       - name: Create target directories for feature files
         run: |
           mkdir -p ./packages/fax/tests/e2e/features
           mkdir -p ./packages/numbers/tests/e2e/features
+          mkdir -p ./packages/conversation/tests/e2e/features
       - name: Copy feature files
         run: |
           cp sinch-sdk-mockserver/features/fax/*.feature ./packages/fax/tests/e2e/features/
           cp sinch-sdk-mockserver/features/numbers/*.feature ./packages/numbers/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/conversation/*.feature ./packages/conversation/tests/e2e/features/
       - name: Run e2e tests
         run: |
           yarn install
