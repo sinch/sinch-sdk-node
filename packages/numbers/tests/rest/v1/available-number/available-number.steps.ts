@@ -1,25 +1,24 @@
-import { AvailableNumberApi, NumbersService, Numbers } from '../../../../src';
+import { NumbersService, Numbers } from '../../../../src';
 import { Given, Then, When } from '@cucumber/cucumber';
 import assert from 'assert';
 
-let availableNumberApi: AvailableNumberApi;
+let numbersService: NumbersService;
 let availableNumbersResponse: Numbers.AvailableNumbersResponse;
 let availablePhoneNumber: Numbers.AvailableNumber;
 let activeNumber: Numbers.ActiveNumber;
 
 Given('the Numbers service "Available Number" is available', function () {
-  const numbersService = new NumbersService({
+  numbersService = new NumbersService({
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
     authHostname: 'http://localhost:3011',
     numbersHostname: 'http://localhost:3013',
   });
-  availableNumberApi = numbersService.availableNumber;
 });
 
 When('I send a request to list the available phone numbers', async () => {
-  availableNumbersResponse = await availableNumberApi.list({
+  availableNumbersResponse = await numbersService.searchForAvailableNumbers({
     regionCode: 'US',
     type: 'LOCAL',
   });
@@ -43,7 +42,7 @@ Then('a phone number contains all the expected properties', () => {
 });
 
 When('I send a request to check the availability of the phone number {string}', async (phoneNumber: string) => {
-  availablePhoneNumber = await availableNumberApi.checkAvailability({ phoneNumber });
+  availablePhoneNumber = await numbersService.checkAvailability({ phoneNumber });
 });
 
 Then('the response displays the phone number {string} details', (phoneNumber: string) => {
@@ -59,7 +58,7 @@ Then('the response contains an error about the number {string} not being availab
 });
 
 When('I send a request to rent a number with some criteria', async () => {
-  activeNumber = await availableNumberApi.rentAny({
+  activeNumber = await numbersService.rentAny({
     rentAnyNumberRequestBody: {
       regionCode: 'US',
       type: 'LOCAL',
@@ -121,7 +120,7 @@ Then('the response contains an active phone number', () => {
 });
 
 When('I send a request to rent the phone number {string}', async (phoneNumber: string) => {
-  activeNumber = await availableNumberApi.rent({
+  activeNumber = await numbersService.rent({
     phoneNumber,
     rentNumberRequestBody: {
       smsConfiguration: {
@@ -139,7 +138,7 @@ Then('the response contains this active phone number {string}', (phoneNumber: st
 });
 
 When('I send a request to rent the unavailable phone number {string}', async (phoneNumber: string) => {
-  activeNumber = await availableNumberApi.rent({
+  activeNumber = await numbersService.rent({
     phoneNumber,
     rentNumberRequestBody: {
       smsConfiguration: {

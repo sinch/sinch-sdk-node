@@ -20,7 +20,7 @@ import { Numbers } from '@sinch/sdk-core';
   const numbersService = initNumbersService();
   let response;
   try {
-    response = await numbersService.activeNumber.get(requestData);
+    response = await numbersService.get(requestData);
   } catch (error) {
     console.error(`ERROR: The phone number ${requestData.phoneNumber} is not active`);
     throw error;

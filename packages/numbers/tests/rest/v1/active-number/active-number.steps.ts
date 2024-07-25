@@ -1,27 +1,26 @@
 import { Given, Then, When } from '@cucumber/cucumber';
-import { ActiveNumberApi, NumbersService, Numbers } from '../../../../src';
+import { NumbersService, Numbers } from '../../../../src';
 import { PageResult } from '@sinch/sdk-client';
 import assert from 'assert';
 
-let activeNumberApi: ActiveNumberApi;
+let numbersService: NumbersService;
 let listActiveNumbersResponse: PageResult<Numbers.ActiveNumber>;
 const activeNumbersList: Numbers.ActiveNumber[] = [];
 let activeNumber: Numbers.ActiveNumber;
 let error: any;
 
 Given('the Numbers service "Active Number" is available', function () {
-  const numbersService = new NumbersService({
+  numbersService = new NumbersService({
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
     authHostname: 'http://localhost:3011',
     numbersHostname: 'http://localhost:3013',
   });
-  activeNumberApi = numbersService.activeNumber;
 });
 
 When('I send a request to list the active phone numbers', async () => {
-  listActiveNumbersResponse = await activeNumberApi.list({
+  listActiveNumbersResponse = await numbersService.list({
     regionCode: 'US',
     type: 'LOCAL',
   });
@@ -37,7 +36,7 @@ When('I send a request to list all the active phone numbers', async () => {
     regionCode: 'US',
     type: 'LOCAL',
   };
-  for await (const number of activeNumberApi.list(requestData)) {
+  for await (const number of numbersService.list(requestData)) {
     activeNumbersList.push(number);
   }
 });
@@ -57,7 +56,7 @@ Then('the phone numbers list contains {string} active phone numbers', (expectedA
 });
 
 When('I send a request to update the phone number {string}', async (phoneNumber: string) => {
-  activeNumber = await activeNumberApi.update({
+  activeNumber = await numbersService.update({
     phoneNumber,
     updateActiveNumberRequestBody: {
       displayName: 'Updated description during E2E tests',
@@ -108,7 +107,7 @@ Then('the response contains a phone number with updated parameters', () => {
 
 When('I send a request to retrieve the phone number {string}', async (phoneNumber: string) => {
   try {
-    activeNumber = await activeNumberApi.get({ phoneNumber });
+    activeNumber = await numbersService.get({ phoneNumber });
   } catch (e) {
     error = e;
   }
@@ -140,7 +139,7 @@ Then('the response contains an error about the number {string} not being an acti
 });
 
 When('I send a request to release the phone number {string}', async (phoneNumber: string) => {
-  activeNumber = await activeNumberApi.release({ phoneNumber });
+  activeNumber = await numbersService.release({ phoneNumber });
 });
 
 Then('the response contains details about the phone number {string} to be released', (phoneNumber: string) => {
