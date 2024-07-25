@@ -44,6 +44,7 @@ jobs:
       - name: Wait for the mock servers to be healthy
         run: |
           cd sinch-sdk-mockserver
+          chmod +x ./scripts/healthcheck.sh
           ./scripts/healthcheck.sh
       - name: Create target directories for feature files
         run: |
