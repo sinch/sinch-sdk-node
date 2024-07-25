@@ -43,26 +43,8 @@ jobs:
       - name: Wait for the mock servers to be healthy
         run: |
           cd sinch-sdk-mockserver
-          servers=(
-            "authentication-server"
-            "fax-server"
-            "numbers-server"
-            "conversation-server"
-            "conversation-templates-server"
-          )
-          
-          for server in "${servers[@]}"; do
-            SECONDS=0
-            while ! docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q $server) | grep -q '"healthy"'; do
-              if [ $SECONDS -ge 30 ]; then
-                echo "Timeout: $server did not become healthy within 30 seconds."
-                exit 1
-              fi
-              echo "Waiting for $server to be healthy..."
-              sleep 2
-            done
-            echo "$server is healthy!"
-          done
+          chmod +x ./scripts/healthcheck.sh
+          ./scripts/healthcheck.sh
       - name: Create target directories for feature files
         run: |
           mkdir -p ./packages/fax/tests/e2e/features
