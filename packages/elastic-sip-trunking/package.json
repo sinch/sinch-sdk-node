@@ -24,7 +24,8 @@
   "scripts": {
     "build": "yarn run clean && yarn run compile",
     "clean": "rimraf dist tsconfig.tsbuildinfo tsconfig.build.tsbuildinfo",
-    "compile": "tsc -p tsconfig.build.json && tsc -p tsconfig.tests.json && rimraf dist/tests tsconfig.build.tsbuildinfo"
+    "compile": "tsc -p tsconfig.build.json && tsc -p tsconfig.tests.json && rimraf dist/tests tsconfig.build.tsbuildinfo",
+    "test:e2e": "cucumber-js"
   },
   "dependencies": {
     "@sinch/sdk-client": "^1.0.0"
