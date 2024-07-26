@@ -68,6 +68,7 @@ class SinchIterator<T> implements AsyncIterator<T> {
         this.apiClient, newParams, requestOptions, this.paginatedOperationProperties);
     }
     if (this.paginatedOperationProperties.pagination === PaginationEnum.PAGE
+      || this.paginatedOperationProperties.pagination === PaginationEnum.PAGE2
       || this.paginatedOperationProperties.pagination === PaginationEnum.PAGE3) {
       const newParams = {
         page: pageResult.nextPageValue,
@@ -310,7 +311,7 @@ const calculateLastPageValue = (
   case PaginationEnum.PAGE:
     return Math.ceil(response.count! / pageSize) - 1;
   case PaginationEnum.PAGE2:
-    return Math.ceil(response.totalItems! / pageSize) - 1;
+    return Math.ceil(response.totalItems! / pageSize);
   }
 };
 

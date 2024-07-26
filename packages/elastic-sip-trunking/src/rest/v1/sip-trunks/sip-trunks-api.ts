@@ -226,8 +226,6 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
    */
   public list(data: ListSipTrunksRequestData): ApiListPromise<SipTrunk> {
     this.client = this.getSinchClient();
-    data['page'] = data['page'] !== undefined ? data['page'] : 1;
-    data['pageSize'] = data['pageSize'] !== undefined ? data['pageSize'] : 1000;
     const getParams = this.client.extractQueryParams<ListSipTrunksRequestData>(data, ['page', 'pageSize', 'domain']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
