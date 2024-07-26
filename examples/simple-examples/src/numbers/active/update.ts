@@ -29,7 +29,7 @@ import { Numbers } from '@sinch/sdk-core';
   };
 
   const numbersService = initNumbersService();
-  const response = await numbersService.activeNumber.update(requestData);
+  const response = await numbersService.update(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

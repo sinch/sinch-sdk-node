@@ -38,7 +38,7 @@ import { Numbers } from '@sinch/sdk-core';
   };
 
   const numbersService = initNumbersService();
-  const response = await numbersService.availableNumber.rent(requestData);
+  const response = await numbersService.rent(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

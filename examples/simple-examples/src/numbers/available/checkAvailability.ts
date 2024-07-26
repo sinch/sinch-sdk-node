@@ -21,7 +21,7 @@ import { Numbers } from '@sinch/sdk-core';
   const numbersService = initNumbersService();
   let response;
   try {
-    response = await numbersService.availableNumber.checkAvailability(requestData);
+    response = await numbersService.checkAvailability(requestData);
   } catch (error) {
     console.error(`ERROR: the phone number ${requestData.phoneNumber} is not available`);
   }

@@ -30,7 +30,7 @@ const populateActiveNumbersList = (
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response = await numbersService.activeNumber.list(requestData);
+  let response = await numbersService.list(requestData);
 
   const activeNumbersList: Numbers.ActiveNumber[] = [];
   const phoneNumbersList: (string | undefined)[] = [];
@@ -59,7 +59,7 @@ const populateActiveNumbersList = (
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const activeNumber of numbersService.activeNumber.list(requestData)) {
+  for await (const activeNumber of numbersService.list(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`${activeNumber.phoneNumber} - Voice Configuration: ${activeNumber.voiceConfiguration?.type}`);
     } else {

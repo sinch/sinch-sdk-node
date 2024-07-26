@@ -68,7 +68,7 @@ dotenv.config();
   try {
     // Send the HTTP request with the SDK method
     availableNumbersResponse
-    = await sinchClient.numbers.availableNumber.list(listAvailableNumbersRequestData);
+    = await sinchClient.numbers.searchForAvailableNumbers(listAvailableNumbersRequestData);
   } catch (error) {
     // Catch error if any, log it and stop the program
     console.error(`ERROR: An error occurred when trying to list the available numbers for the type ${type}`);
@@ -100,7 +100,7 @@ dotenv.config();
   let rentNumberResponse;
   try {
     // Send the HTTP request with the SDK method
-    rentNumberResponse = await sinchClient.numbers.availableNumber.rent(rentNumberRequestData);
+    rentNumberResponse = await sinchClient.numbers.rent(rentNumberRequestData);
   } catch (error) {
     // Catch error if any, log it and stop the program
     console.error(`ERROR: Impossible to rent the number ${phoneNumber1}`);
@@ -129,7 +129,7 @@ dotenv.config();
   let rentAnyNumberResponse;
   try {
     // Send the HTTP request with the SDK method
-    rentAnyNumberResponse = await sinchClient.numbers.availableNumber.rentAny(rentAnyNumberRequestData);
+    rentAnyNumberResponse = await sinchClient.numbers.rentAny(rentAnyNumberRequestData);
   } catch (error) {
     // Catch error if any, log it and stop the program
     console.error(`ERROR: Impossible to rent a number in the region ${regionCode} of type ${type}`);
@@ -152,7 +152,7 @@ dotenv.config();
   let getActiveNumberResponse;
   try {
     // Send the HTTP request with the SDK method
-    getActiveNumberResponse = await sinchClient.numbers.activeNumber.get(getActiveNumberRequestData);
+    getActiveNumberResponse = await sinchClient.numbers.get(getActiveNumberRequestData);
   } catch (error) {
     // Catch error if any, log it and stop the program
     console.error(`ERROR: Impossible to get details for the number ${phoneNumber1}`);
@@ -172,7 +172,7 @@ dotenv.config();
 
   // The ActiveNumbersResponse is paginated. Let's fetch all the pages using the iterator functionality
   const activeNumbersList: Numbers.ActiveNumber[] = [];
-  for await (const activeNumber of sinchClient.numbers.activeNumber.list(listActiveNumbersRequestData)) {
+  for await (const activeNumber of sinchClient.numbers.list(listActiveNumbersRequestData)) {
     activeNumbersList.push(activeNumber);
   }
 
@@ -201,7 +201,7 @@ dotenv.config();
   try {
     // Send the HTTP request with the SDK method
     updateActiveNumberResponse
-      = await sinchClient.numbers.activeNumber.update(updateActiveNumberRequestData);
+      = await sinchClient.numbers.update(updateActiveNumberRequestData);
   } catch (error) {
     // Catch error if any, log it and stop the program
     console.log(`ERROR: Impossible to update the number ${phoneNumber1}`);
@@ -222,7 +222,7 @@ dotenv.config();
   let releaseActiveNumberResponse;
   try {
     // Send the HTTP request with the SDK method
-    releaseActiveNumberResponse = await sinchClient.numbers.activeNumber.release(releaseActiveNumberRequestData);
+    releaseActiveNumberResponse = await sinchClient.numbers.release(releaseActiveNumberRequestData);
   } catch (error) {
     // Catch error if any, log it and stop the program
     console.error(`ERROR: Impossible to release the number ${phoneNumber1}`);
@@ -241,7 +241,7 @@ dotenv.config();
 
   try {
     // Send the HTTP request with the SDK method
-    releaseActiveNumberResponse = await sinchClient.numbers.activeNumber.release(releaseActiveNumberRequestData);
+    releaseActiveNumberResponse = await sinchClient.numbers.release(releaseActiveNumberRequestData);
   } catch (error) {
     // Catch error if any, log it and stop the program
     console.error(`ERROR: Impossible to release the number ${phoneNumber2}`);
