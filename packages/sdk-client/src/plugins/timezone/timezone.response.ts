@@ -6,13 +6,21 @@ const buggyOperationIds: string[] = [
   'VerificationStatusById',
   'VerificationStatusByIdentity',
   'VerificationStatusByReference',
+  'CreateSipTrunk',
+  'UpdateSipTrunk',
+  'GetSipTrunkById',
+  'GetSipTrunks',
 ];
 
-const buggyFields: Record<string, string>  = {
-  'GetCallResult': 'timestamp',
-  'VerificationStatusById': 'verificationTimestamp',
-  'VerificationStatusByIdentity': 'verificationTimestamp',
-  'VerificationStatusByReference': 'verificationTimestamp',
+const buggyFields: Record<string, string[]>  = {
+  'GetCallResult': ['timestamp'],
+  'VerificationStatusById': ['verificationTimestamp'],
+  'VerificationStatusByIdentity': ['verificationTimestamp'],
+  'VerificationStatusByReference': ['verificationTimestamp'],
+  'CreateSipTrunk': ['createTime'],
+  'UpdateSipTrunk': ['createTime', 'updateTime'],
+  'GetSipTrunkById': ['createTime', 'updateTime'],
+  'GetSipTrunks': ['createTime', 'updateTime'],
 };
 
 export class TimezoneResponse<V extends Record<string, any> | undefined = Record<string, any>>
@@ -27,21 +35,23 @@ implements ResponsePlugin<V | Record<string, any>> {
         if (res && buggyOperationIds.includes(context.operationId) ) {
           for (const key in res) {
             if (Object.prototype.hasOwnProperty.call(res, key)) {
-              const buggyKey = buggyFields[context.operationId];
-              if (key === buggyKey && typeof res[buggyKey] === 'string') {
-                let timestampValue = res[key] as string;
-                // Check the formats +XX:XX, +XX and Z
-                const timeZoneRegex = /([+-]\d{2}(:\d{2})|Z)$/;
-                if (!timeZoneRegex.test(timestampValue)) {
-                  const hourMinutesTimezoneRegex = /([+-]\d{2})$/;
-                  // A timestamp with no minutes in the timezone cannot be converted into a Date => assume it's :00
-                  if (hourMinutesTimezoneRegex.test(timestampValue)) {
-                    timestampValue = timestampValue + ':00';
-                  } else {
-                    timestampValue = timestampValue + 'Z';
+              const buggyKeys = buggyFields[context.operationId];
+              for (const buggyKey of buggyKeys) {
+                if (key === buggyKey && typeof res[buggyKey] === 'string') {
+                  let timestampValue = res[key] as string;
+                  // Check the formats +XX:XX, +XX and Z
+                  const timeZoneRegex = /([+-]\d{2}(:\d{2})|Z)$/;
+                  if (!timeZoneRegex.test(timestampValue)) {
+                    const hourMinutesTimezoneRegex = /([+-]\d{2})$/;
+                    // A timestamp with no minutes in the timezone cannot be converted into a Date => assume it's :00
+                    if (hourMinutesTimezoneRegex.test(timestampValue)) {
+                      timestampValue = timestampValue + ':00';
+                    } else {
+                      timestampValue = timestampValue + 'Z';
+                    }
                   }
+                  res[key] = timestampValue;
                 }
-                res[key] = timestampValue;
               }
             }
           }
