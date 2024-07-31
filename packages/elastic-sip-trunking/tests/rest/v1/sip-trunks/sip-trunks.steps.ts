@@ -52,8 +52,8 @@ When('I send a request to list the existing SIP trunks', async () => {
 });
 
 Then('the response contains {string} SIP trunks', (expectedAnswer: string) => {
-  const expectedMessagesCount = parseInt(expectedAnswer, 10);
-  assert.equal(listResponse.data.length, expectedMessagesCount);
+  const expectedSipTrunksCount = parseInt(expectedAnswer, 10);
+  assert.equal(listResponse.data.length, expectedSipTrunksCount);
 });
 
 When('I send a request to list all the SIP trunks', async () => {
@@ -81,8 +81,8 @@ When('I iterate manually over the SIP trunks pages', async () => {
 });
 
 Then('the SIP trunks list contains {string} SIP trunks',  (expectedAnswer: string) => {
-  const expectedServices = parseInt(expectedAnswer, 10);
-  assert.equal(sipTrunksList.length, expectedServices);
+  const expectedSipTrunksCount = parseInt(expectedAnswer, 10);
+  assert.equal(sipTrunksList.length, expectedSipTrunksCount);
 });
 
 Then('the SIP trunks iteration result contains the data from {string} pages',  (expectedAnswer: string) => {
