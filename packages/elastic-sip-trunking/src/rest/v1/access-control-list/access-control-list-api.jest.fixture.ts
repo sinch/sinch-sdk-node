@@ -14,6 +14,7 @@ import {
   UpdateAccessControlListRequestData,
   UpdateIpRangeFromAccessControlListRequestData,
   AddAccessControlListToTrunk,
+  GetAccessControlListRequestData,
 } from '../../../models';
 import { ApiListPromise } from '@sinch/sdk-client';
 
@@ -44,6 +45,11 @@ export class AccessControlListApiFixture implements Partial<Readonly<AccessContr
    */
   public create: jest.Mock<
     Promise<AccessControlList>, [CreateAccessControlListRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function get
+   */
+  public get: jest.Mock<
+    Promise<AccessControlList>, [GetAccessControlListRequestData]> = jest.fn();
   /**
    * Fixture associated to function delete
    */

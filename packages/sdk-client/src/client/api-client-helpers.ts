@@ -84,7 +84,7 @@ export const reviveDates = (input: any): any => {
     return newObj;
   } else if (isDateString(input)) {
     // Convert string date to Date object
-    return new Date(input);
+    return new Date(addTimezoneIfMissing(input));
   } else {
     // Return other types as-is
     return input;
@@ -97,4 +97,19 @@ const isDateString = (value: any): boolean => {
     return !isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value.slice(0,10);
   }
   return false;
+};
+
+const addTimezoneIfMissing = (timestampValue: string): string => {
+  // Check the formats +XX:XX, +XX and Z
+  const timeZoneRegex = /([+-]\d{2}(:\d{2})|Z)$/;
+  if (!timeZoneRegex.test(timestampValue)) {
+    const hourMinutesTimezoneRegex = /([+-]\d{2})$/;
+    // A timestamp with no minutes in the timezone cannot be converted into a Date => assume it's :00
+    if (hourMinutesTimezoneRegex.test(timestampValue)) {
+      timestampValue = timestampValue + ':00';
+    } else {
+      timestampValue = timestampValue + 'Z';
+    }
+  }
+  return timestampValue;
 };

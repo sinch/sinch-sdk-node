@@ -1,7 +1,6 @@
 import { ResponsePlugin } from '../plugins/core/response-plugin';
 import { VersionRequest } from '../plugins/version';
 import { ExceptionResponse } from '../plugins/exception';
-import { TimezoneResponse } from '../plugins/timezone';
 import {
   ApiClient,
   ApiCallParameters,
@@ -42,7 +41,6 @@ export class ApiFetchClient extends ApiClient {
       ...options,
       requestPlugins: [new VersionRequest(), ...(options.requestPlugins || [])],
       responsePlugins: [
-        new TimezoneResponse(),
         new ExceptionResponse(),
         ...(options.responsePlugins || []),
       ],
