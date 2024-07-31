@@ -95,8 +95,6 @@ export class SipEndpointsApi extends ElasticSipTrunkingDomainApi {
    */
   public list(data: ListSipEndpointsRequestData): ApiListPromise<SipEndpoint> {
     this.client = this.getSinchClient();
-    data['page'] = data['page'] !== undefined ? data['page'] : 1;
-    data['pageSize'] = data['pageSize'] !== undefined ? data['pageSize'] : 1000;
     const getParams = this.client.extractQueryParams<ListSipEndpointsRequestData>(data, ['page', 'pageSize']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -111,7 +109,7 @@ export class SipEndpointsApi extends ElasticSipTrunkingDomainApi {
     const operationProperties: PaginatedApiProperties = {
       pagination: PaginationEnum.PAGE2,
       apiName: this.apiName,
-      operationId: 'GetSipEndpoint',
+      operationId: 'GetSipEndpoints',
       dataKey: 'endpoints',
     };
 

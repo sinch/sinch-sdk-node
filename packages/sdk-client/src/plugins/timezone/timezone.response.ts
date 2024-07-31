@@ -10,6 +10,11 @@ const buggyOperationIds: string[] = [
   'UpdateSipTrunk',
   'GetSipTrunkById',
   'GetSipTrunks',
+  'CreateSipEndpoint',
+  'UpdateSipEndpoint',
+  'GetSipEndpointById',
+  'GetSipEndpoints',
+
 ];
 
 const buggyFields: Record<string, string[]>  = {
@@ -21,6 +26,10 @@ const buggyFields: Record<string, string[]>  = {
   'UpdateSipTrunk': ['createTime', 'updateTime'],
   'GetSipTrunkById': ['createTime', 'updateTime'],
   'GetSipTrunks': ['createTime', 'updateTime'],
+  'CreateSipEndpoint': ['createTime'],
+  'UpdateSipEndpoint': ['createTime', 'updateTime'],
+  'GetSipEndpointById': ['createTime', 'updateTime'],
+  'GetSipEndpoints': ['createTime', 'updateTime'],
 };
 
 export class TimezoneResponse<V extends Record<string, any> | undefined = Record<string, any>>
