@@ -1,1 +1,1 @@
-export type { IpRange } from './ip-range';
+export type { IpRange, IpRangeRequest } from './ip-range';

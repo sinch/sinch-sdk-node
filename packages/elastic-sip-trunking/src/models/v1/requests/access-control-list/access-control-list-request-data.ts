@@ -1,4 +1,4 @@
-import { IpRange } from '../../ip-range';
+import { IpRangeRequest } from '../../ip-range';
 import { UpdateAccessControlListRequest } from '../../update-access-control-list-request';
 import { CreateAccessControlListRequest } from '../../create-access-control-list-request';
 
@@ -6,7 +6,7 @@ export interface AddIpRangeToAccessControlListRequestData {
     /** The ID of the access control list entry. that you want to work with */
     'accessControlListId': string;
     /**  */
-    'addIpRangeRequestBody': Omit<IpRange, 'accessControlListId' | 'id' | 'createTime' | 'updateTime' | 'projectId'>;
+    'addIpRangeRequestBody': IpRangeRequest;
 }
 export interface CreateAccessControlListRequestData {
     /** The Access Control List details used to create an Access Control List */
@@ -44,5 +44,5 @@ export interface UpdateIpRangeFromAccessControlListRequestData {
     /** The ID of the IP range that you want to update. */
     'ipRangeId': string;
     /** The IP range details used to update the IP range property from an Access Control List */
-    'updateIpRangeRequestBody': Omit<IpRange, 'accessControlListId' | 'id' | 'createTime' | 'updateTime' | 'projectId'>;
+    'updateIpRangeRequestBody': IpRangeRequest;
 }

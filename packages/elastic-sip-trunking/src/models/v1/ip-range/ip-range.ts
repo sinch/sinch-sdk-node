@@ -19,3 +19,5 @@ export interface IpRange {
   /** The ID of the access control list. */
   accessControlListId?: string;
 }
+
+export type IpRangeRequest = Omit<IpRange, 'accessControlListId' | 'id' | 'createTime' | 'updateTime' | 'projectId'>;

@@ -118,7 +118,9 @@ When('I send a request to retrieve an Access Control List', async () => {
 
 Then('the response contains the Access Control List details', () => {
   assert.equal(accessControlList.id, '01W4FFL35P4NC4K35SIPACL001');
+  assert.equal(accessControlList.name, 'My Access Control List');
   assert.deepEqual(accessControlList.createTime, new Date('2024-06-06T14:42:42Z'));
+  assert.ok(accessControlList.ipRanges);
 });
 
 When('I send a request to update an Access Control List', async () => {
