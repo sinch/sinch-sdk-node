@@ -108,7 +108,7 @@ Then('the response contains the conversation event details', () => {
   };
   assert.deepEqual(event.channel_identity, channelIdentity);
   const composingEvent: Conversation.ComposingEvent = {
-    composing_event: {}
+    composing_event: {},
   };
   assert.deepEqual(event.app_event, composingEvent);
 });

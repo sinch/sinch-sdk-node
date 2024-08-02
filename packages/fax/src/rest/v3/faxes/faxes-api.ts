@@ -2,9 +2,9 @@ import {
   ApiListPromise,
   buildPageResultPromise,
   createIteratorMethodsForPagination,
-  DateFormat,
   FileBuffer,
-  formatDate,
+  formatCreateTimeFilter,
+  formatCreateTimeRangeFilter,
   PaginatedApiProperties,
   PaginationEnum,
   RequestBody,
@@ -137,9 +137,9 @@ export class FaxesApi extends FaxDomainApi {
       'from',
       'pageSize',
       'page']);
-    (getParams as any).createTime = JSON.stringify(this.formatCreateTimeFilter(data.createTime));
-    (getParams as any)['createTime>'] = JSON.stringify(this.formatCreateTimeRangeFilter(data.createTimeRange?.from));
-    (getParams as any)['createTime<'] = JSON.stringify(this.formatCreateTimeRangeFilter(data.createTimeRange?.to));
+    (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data.createTime));
+    (getParams as any)['createTime>'] = JSON.stringify(formatCreateTimeRangeFilter(data.createTimeRange?.from));
+    (getParams as any)['createTime<'] = JSON.stringify(formatCreateTimeRangeFilter(data.createTimeRange?.to));
 
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -173,33 +173,6 @@ export class FaxesApi extends FaxDomainApi {
 
     return listPromise as ApiListPromise<Fax>;
   }
-
-  formatCreateTimeFilter = (createTime: string | Date | undefined): string | undefined => {
-    if (createTime !== undefined) {
-      if (typeof createTime === 'string') {
-        if (createTime.indexOf('T') > -1) {
-          return createTime.substring(0, createTime.indexOf('T'));
-        }
-        return createTime;
-      } else {
-        return formatDate(createTime, 'day');
-      }
-    }
-    return undefined;
-  };
-
-  formatCreateTimeRangeFilter = (timeBoundary: string | Date | DateFormat | undefined): string | undefined => {
-    if (timeBoundary !== undefined) {
-      if (typeof timeBoundary === 'string') {
-        return timeBoundary;
-      } else if (timeBoundary instanceof Date) {
-        return formatDate(timeBoundary);
-      } else {
-        return formatDate(timeBoundary.date, timeBoundary.unit);
-      }
-    }
-    return undefined;
-  };
 
   /**
    * Send a fax or multiple faxes
