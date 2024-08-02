@@ -45,7 +45,7 @@ export const formatCreateTimeFilter = (createTime: string | Date | undefined): s
 };
 
 export const formatCreateTimeRangeFilter = (
-  timeBoundary: string | Date | DateFormat | undefined
+  timeBoundary: string | Date | DateFormat | undefined,
 ): string | undefined => {
   if (timeBoundary !== undefined) {
     if (typeof timeBoundary === 'string') {
