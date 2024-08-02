@@ -5,5 +5,5 @@ export interface Money {
   /** The 3-letter currency code defined in ISO 4217. */
   currencyCode?: string;
   /** The amount with 4 decimals and decimal delimiter `.`. */
-  amount?: string;
+  amount?: number;
 }

@@ -100,8 +100,8 @@ const isDateString = (value: any): boolean => {
 };
 
 const addTimezoneIfMissing = (timestampValue: string): string => {
-  // Check the formats +XX:XX, +XX and Z
-  const timeZoneRegex = /([+-]\d{2}(:\d{2})|Z)$/;
+  // Check the formats +XX:XX, +XX, +XXXX and Z
+  const timeZoneRegex = /([+-]\d{2}(:\d{2})|[+-]\d{4}|Z)$/;
   if (!timeZoneRegex.test(timestampValue)) {
     const hourMinutesTimezoneRegex = /([+-]\d{2})$/;
     // A timestamp with no minutes in the timezone cannot be converted into a Date => assume it's :00

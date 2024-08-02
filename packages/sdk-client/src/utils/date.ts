@@ -29,3 +29,32 @@ export const formatDate = (date: Date, unit?: ChronoUnit): string => {
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
   }
 };
+
+export const formatCreateTimeFilter = (createTime: string | Date | undefined): string | undefined => {
+  if (createTime !== undefined) {
+    if (typeof createTime === 'string') {
+      if (createTime.indexOf('T') > -1) {
+        return createTime.substring(0, createTime.indexOf('T'));
+      }
+      return createTime;
+    } else {
+      return formatDate(createTime, 'day');
+    }
+  }
+  return undefined;
+};
+
+export const formatCreateTimeRangeFilter = (
+  timeBoundary: string | Date | DateFormat | undefined
+): string | undefined => {
+  if (timeBoundary !== undefined) {
+    if (typeof timeBoundary === 'string') {
+      return timeBoundary;
+    } else if (timeBoundary instanceof Date) {
+      return formatDate(timeBoundary);
+    } else {
+      return formatDate(timeBoundary.date, timeBoundary.unit);
+    }
+  }
+  return undefined;
+};

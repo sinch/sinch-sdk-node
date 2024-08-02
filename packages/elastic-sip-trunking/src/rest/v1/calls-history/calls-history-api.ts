@@ -7,6 +7,8 @@ import {
   PaginationEnum,
   buildPageResultPromise,
   createIteratorMethodsForPagination,
+  formatCreateTimeFilter,
+  formatCreateTimeRangeFilter,
 } from '@sinch/sdk-client';
 import { ElasticSipTrunkingDomainApi } from '../elastic-sip-trunking-domain-api';
 
@@ -22,16 +24,18 @@ export class CallsHistoryApi extends ElasticSipTrunkingDomainApi {
   }
 
   /**
-   * Find calls
    * Find calls by query parameters.
    * @param { FindCallsRequestData } data - The data to provide to the API call.
    * @return { ApiListPromise<Call> }
    */
   public find(data: FindCallsRequestData): ApiListPromise<Call> {
     this.client = this.getSinchClient();
-    data['createTime'] = data['createTime'] !== undefined ? data['createTime'] : 'now-24h';
     const getParams = this.client.extractQueryParams<FindCallsRequestData>(data, [
       'from', 'to', 'trunkId', 'createTime', 'callResult', 'direction', 'page', 'pageSize']);
+    (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data.createTime));
+    (getParams as any)['createTime>'] = JSON.stringify(formatCreateTimeRangeFilter(data.createTimeRange?.from));
+    (getParams as any)['createTime<'] = JSON.stringify(formatCreateTimeRangeFilter(data.createTimeRange?.to));
+
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

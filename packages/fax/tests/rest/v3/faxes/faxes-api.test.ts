@@ -1,4 +1,4 @@
-import { DateFormat, FileBuffer, SinchClientParameters } from '@sinch/sdk-client';
+import { FileBuffer, SinchClientParameters } from '@sinch/sdk-client';
 import {
   Fax,
   FaxesApi,
@@ -150,82 +150,6 @@ describe('FaxesApi', () => {
       expect(response).toEqual(expectedResponse);
       expect(response.data).toBeDefined();
       expect(fixture.list).toHaveBeenCalledWith(requestData);
-    });
-
-    it('should format a createTime parameter', () => {
-      const dateUndefined = undefined;
-      let formattedDateFilter = faxesApi.formatCreateTimeFilter(dateUndefined);
-      expect(formattedDateFilter).toBeUndefined();
-
-      const dateString =  '2024-05-01';
-      formattedDateFilter = faxesApi.formatCreateTimeFilter(dateString);
-      expect(formattedDateFilter).toBe('2024-05-01');
-
-      const dateWithSecondsString ='2024-05-01T13:00:00Z';
-      formattedDateFilter = faxesApi.formatCreateTimeFilter(dateWithSecondsString);
-      expect(formattedDateFilter).toBe('2024-05-01');
-
-      const dateWithSeconds = new Date('2024-05-01T13:00:00Z');
-      formattedDateFilter = faxesApi.formatCreateTimeFilter(dateWithSeconds);
-      expect(formattedDateFilter).toBe('2024-05-01');
-    });
-
-    it('should format a datetime range filter', () => {
-      const dateTimeRangeUndefined = undefined;
-      let formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeUndefined);
-      expect(formattedDateTimeRangeFilter).toBeUndefined();
-
-      const dateTimeRangeString = '2024-05-01';
-      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeString);
-      expect(formattedDateTimeRangeFilter).toBe('2024-05-01');
-
-      const dateTimeRangeNoUnit: DateFormat = {
-        date: new Date('2024-05-01T13:15:30Z'),
-      };
-      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeNoUnit);
-      expect(formattedDateTimeRangeFilter).toBe('2024-05-01T13:15:30Z');
-
-      const dateTimeRangeWithYear: DateFormat = {
-        date: new Date('2024-05-01T13:15:30Z'),
-        unit: 'year',
-      };
-      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeWithYear);
-      expect(formattedDateTimeRangeFilter).toBe('2024');
-
-      const dateTimeRangeWithMonth: DateFormat = {
-        date: new Date('2024-05-01T13:15:30Z'),
-        unit: 'month',
-      };
-      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeWithMonth);
-      expect(formattedDateTimeRangeFilter).toBe('2024-05');
-
-      const dateTimeRangeWithDay: DateFormat = {
-        date: new Date('2024-05-01T13:15:30Z'),
-        unit: 'day',
-      };
-      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeWithDay);
-      expect(formattedDateTimeRangeFilter).toBe('2024-05-01');
-
-      const dateTimeRangeWithHours: DateFormat = {
-        date: new Date('2024-05-01T13:15:30Z'),
-        unit: 'hour',
-      };
-      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeWithHours);
-      expect(formattedDateTimeRangeFilter).toBe('2024-05-01T13:00:00Z');
-
-      const dateTimeRangeWithMinutes: DateFormat = {
-        date: new Date('2024-05-01T13:15:30Z'),
-        unit: 'minute',
-      };
-      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeWithMinutes);
-      expect(formattedDateTimeRangeFilter).toBe('2024-05-01T13:15:00Z');
-
-      const dateTimeRangeWithSeconds: DateFormat = {
-        date: new Date('2024-05-01T13:15:30Z'),
-        unit: 'second',
-      };
-      formattedDateTimeRangeFilter = faxesApi.formatCreateTimeRangeFilter(dateTimeRangeWithSeconds);
-      expect(formattedDateTimeRangeFilter).toBe('2024-05-01T13:15:30Z');
     });
   });
 
