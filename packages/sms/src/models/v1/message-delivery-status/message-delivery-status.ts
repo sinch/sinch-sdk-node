@@ -10,7 +10,7 @@ export interface MessageDeliveryStatus {
   /** The number of messages that currently has this code. */
   count: number;
   /** Only for `full` report. A list of the phone number recipients which messages has this status code. */
-  recipients: string[];
+  recipients?: string[];
   /** The simplified status as described in _Delivery Report Statuses_. */
   status: DeliveryReportStatusEnum;
 }
