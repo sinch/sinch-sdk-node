@@ -48,7 +48,10 @@ export class ExceptionResponse<
           );
         } else if (!res) {
           res = {} as V;
-          if (context.response.status !== 204 && context.response.status !== 200) {
+          if (context.response.status !== 204
+            && context.response.status !== 200
+            && context.response.status !== 202
+          ) {
             res = {} as V;
             error = new EmptyResponseError<V>(
               context.response.statusText,
