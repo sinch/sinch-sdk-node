@@ -10,6 +10,7 @@ let listResponse: PageResult<Sms.SendSMSResponse>;
 let batchesList: Sms.SendSMSResponse[];
 let pagesIteration: number;
 let batch: Sms.SendSMSResponse;
+let deliveryFeedbackResponse: void;
 
 Given('the SMS service "Batches" is available', () => {
   const smsService = new SmsService({
@@ -238,4 +239,19 @@ When('I send a request to cancel an SMS batch', async () => {
 Then('the response contains the SMS batch details with a cancelled status', () => {
   assert.equal(batch.id, '01W4FFL35P4NC4K35SMSBATCH1');
   assert.equal(batch.canceled, true);
+});
+
+When('I send a request to send delivery feedbacks', async () => {
+  deliveryFeedbackResponse = await batchesApi.sendDeliveryFeedback({
+    batch_id: '01W4FFL35P4NC4K35SMSBATCH1',
+    deliveryFeedbackRequestBody: {
+      recipients: [
+        '+12017777777',
+      ],
+    },
+  });
+});
+
+Then('the delivery feedback response contains no data', () => {
+  assert.deepEqual(deliveryFeedbackResponse, {});
 });
