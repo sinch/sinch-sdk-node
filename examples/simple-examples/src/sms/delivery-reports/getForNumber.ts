@@ -17,7 +17,7 @@ import { Sms } from '@sinch/sdk-core';
 
   const requestData: Sms.GetDeliveryReportByPhoneNumberRequestData = {
     batch_id: batchId,
-    recipient_msisdn: recipientPhoneNumber,
+    phone_number: recipientPhoneNumber,
   };
 
   const smsService = initSmsServiceWithServicePlanId();
@@ -25,7 +25,7 @@ import { Sms } from '@sinch/sdk-core';
   try {
     response = await smsService.deliveryReports.getForNumber(requestData);
   } catch (error) {
-    console.error(`ERROR: Impossible to retrieve the delivery report by batch ID ${requestData.batch_id} for the recipient ${requestData.recipient_msisdn}`);
+    console.error(`ERROR: Impossible to retrieve the delivery report by batch ID ${requestData.batch_id} for the recipient ${requestData.phone_number}`);
     throw error;
   }
 

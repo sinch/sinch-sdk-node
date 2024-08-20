@@ -58,7 +58,7 @@ describe('DeliveryReportsApi', () => {
       // Given
       const requestData: Sms.GetDeliveryReportByPhoneNumberRequestData = {
         batch_id: '01HF28S9AAGRKWP2CY92BJB569',
-        recipient_msisdn: '+33444555666',
+        phone_number: '+33444555666',
       };
       const expectedResponse: Sms.RecipientDeliveryReport = {
         batch_id: '01HF28S9AAGRKWP2CY92BJB569',

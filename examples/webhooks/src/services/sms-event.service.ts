@@ -18,7 +18,7 @@ export class SmsEventService {
   }
 
   private handleDeliveryReportEvent(event: Sms.DeliveryReport): void {
-    console.log(`The batch ${event.batch_id} has the following statuses:\n${event.statuses.map((status) => ' - \'' + status.status + '\' for the recipients: ' + status.recipients.join(', ')).join('\n')} `);
+    console.log(`The batch ${event.batch_id} has the following statuses:\n${event.statuses.map((status) => ' - \'' + status.status + '\' for the recipients: ' + status.recipients?.join(', ')).join('\n')} `);
   }
 
   private handleSmsEvent(event: Sms.MOText): void {
