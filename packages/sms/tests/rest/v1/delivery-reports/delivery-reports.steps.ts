@@ -24,6 +24,11 @@ Given('the SMS service "Delivery Reports" is available', () => {
 When('I send a request to retrieve a summary SMS delivery report', async () => {
   const requestData: Sms.GetDeliveryReportByBatchIdRequestData = {
     batch_id: '01W4FFL35P4NC4K35SMSBATCH1',
+    status: [
+      'Delivered',
+      'Failed',
+    ],
+    code: '15,0',
   };
   deliveryReport = await deliveryReportsApi.get(requestData);
 });
