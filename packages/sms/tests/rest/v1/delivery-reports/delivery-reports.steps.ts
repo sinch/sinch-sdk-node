@@ -28,7 +28,7 @@ When('I send a request to retrieve a summary SMS delivery report', async () => {
       'Delivered',
       'Failed',
     ],
-    code: '15,0',
+    code: [15, 0],
   };
   deliveryReport = await deliveryReportsApi.get(requestData);
 });
