@@ -9,7 +9,7 @@ export * from './api-update-mt-message';
 export * from './api-update-text-mt-message';
 export * from './binary-request';
 export * from './binary-response';
-export * from './create-group-response';
+export * from './group';
 export * from './delivery-report';
 export * from './delivery-report-list';
 export * from './dry-run-request';

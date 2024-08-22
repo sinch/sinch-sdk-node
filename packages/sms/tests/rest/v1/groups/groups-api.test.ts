@@ -31,7 +31,7 @@ describe('GroupsApi', () => {
           ],
         },
       };
-      const expectedResponse: Sms.CreateGroupResponse = {
+      const expectedResponse: Sms.Group = {
         id: '01HF6EFE21REWJC3B3JWG4FYZ7',
         name: 'My group',
         size: 2,
@@ -96,7 +96,7 @@ describe('GroupsApi', () => {
       // Given
       const requestData: Sms.ListGroupsRequestData = {};
 
-      const mockData: Sms.GroupResponse[] =[
+      const mockData: Sms.Group[] =[
         {
           id: '01HF6EFE21REWJC3B3JWG4FYZ7',
           name: 'My group',
@@ -137,7 +137,7 @@ describe('GroupsApi', () => {
           ],
         },
       };
-      const expectedResponse: Sms.GroupResponse = {
+      const expectedResponse: Sms.Group = {
         id: '01HF6EFE21REWJC3B3JWG4FYZ7',
         name: 'My new group name',
         size: 1,
@@ -162,7 +162,7 @@ describe('GroupsApi', () => {
       const requestData: Sms.GetGroupRequestData = {
         group_id: '01HF6EFE21REWJC3B3JWG4FYZ7',
       };
-      const expectedResponse: Sms.GroupResponse = {
+      const expectedResponse: Sms.Group = {
         id: '01HF6EFE21REWJC3B3JWG4FYZ7',
         name: 'My new group name',
         size: 1,
@@ -193,7 +193,7 @@ describe('GroupsApi', () => {
           ],
         },
       };
-      const expectedResponse: Sms.GroupResponse = {
+      const expectedResponse: Sms.Group = {
         id: '01HF6EFE21REWJC3B3JWG4FYZ7',
         name: 'My new group name',
         size: 3,
