@@ -104,7 +104,7 @@ When('I send a request to update an SMS group', async () => {
   group = await groupsApi.update({
     group_id: '01W4FFL35P4NC4K35SMSGROUP1',
     updateGroupRequestBody: {
-      name: null,
+      name: 'Updated group name',
       add: [
         '+12017771111',
         '+12017772222',
@@ -121,12 +121,26 @@ When('I send a request to update an SMS group', async () => {
 
 Then('the response contains the updated SMS group details', () => {
   assert.equal(group.id, '01W4FFL35P4NC4K35SMSGROUP1');
-  assert.equal(group.name, undefined);
+  assert.equal(group.name, 'Updated group name');
   assert.equal(group.size, 6);
   assert.deepEqual(group.created_at, new Date('2024-06-06T08:59:22.156Z'));
   assert.deepEqual(group.modified_at, new Date('2024-06-06T09:19:58.147Z'));
   assert.ok(group.child_groups);
   assert.equal(group.child_groups[0], '01W4FFL35P4NC4K35SUBGROUP1');
+});
+
+When('I send a request to update an SMS group to remove its name', async () => {
+  group = await groupsApi.update({
+    group_id: '01W4FFL35P4NC4K35SMSGROUP2',
+    updateGroupRequestBody: {
+      name: null,
+    },
+  });
+});
+
+Then('the response contains the updated SMS group details where the name has been removed', () => {
+  assert.equal(group.id, '01W4FFL35P4NC4K35SMSGROUP2');
+  assert.equal(group.name, undefined);
 });
 
 When('I send a request to replace an SMS group', async () => {
