@@ -1,6 +1,6 @@
 import { GroupAutoUpdate } from '../group-auto-update';
 
-export interface CreateGroupResponse {
+export interface Group {
 
   /** The ID used to reference this group. */
   id?: string;

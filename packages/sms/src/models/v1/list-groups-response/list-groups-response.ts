@@ -1,4 +1,4 @@
-import { CreateGroupResponse } from '../create-group-response';
+import { Group } from '../group';
 
 export interface ListGroupsResponse {
 
@@ -9,7 +9,7 @@ export interface ListGroupsResponse {
   /** The total number of groups. */
   count?: number;
   /** List of GroupObjects */
-  groups?: CreateGroupResponse[];
+  groups?: Group[];
 }
 
 
