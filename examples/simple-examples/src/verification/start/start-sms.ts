@@ -4,9 +4,8 @@ import {
   getVerificationIdentityFromConfig,
   initVerificationService,
   printFullResponse,
-} from '../../../config';
+} from '../../config';
 
-/** @deprecated see ../../start/start-sms.ts instead */
 (async () => {
   console.log('***************************');
   console.log('* StartVerification - SMS *');
@@ -23,7 +22,7 @@ import {
   );
 
   const verificationService = initVerificationService();
-  const response = await verificationService.verifications.startSms(requestData);
+  const response = await verificationService.startVerifications.startSms(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

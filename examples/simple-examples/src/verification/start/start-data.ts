@@ -4,28 +4,28 @@ import {
   getVerificationIdentityFromConfig,
   initVerificationService,
   printFullResponse,
-} from '../../../config';
+} from '../../config';
 
-/** @deprecated see ../../start/start-phonecall.ts instead */
 (async () => {
-  console.log('*******************************');
-  console.log('* StartVerification - callout *');
-  console.log('*******************************');
+  console.log('****************************');
+  console.log('* StartVerification - data *');
+  console.log('****************************');
 
   const verificationIdentity = getVerificationIdentityFromConfig();
 
-  const requestData = Verification.startVerificationHelper.buildCalloutRequest(
+  const requestData = Verification.startVerificationHelper.buildDataRequest(
     verificationIdentity,
-    `test-reference-for-callout-verification_${verificationIdentity}`,
+    `test-reference-for-seamless-verification_${verificationIdentity}`,
   );
 
   const verificationService = initVerificationService();
-  const response = await verificationService.verifications.startCallout(requestData);
+  const response = await verificationService.startVerifications.startData(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 
   if (printFormat === 'pretty') {
     console.log(`Verification ID = ${response.id}`);
+    console.log(`Data verification specific field: targetUri = ${response.seamless?.targetUri}`);
   } else {
     printFullResponse(response);
   }

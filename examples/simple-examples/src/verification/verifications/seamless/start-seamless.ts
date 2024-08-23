@@ -6,6 +6,7 @@ import {
   printFullResponse,
 } from '../../../config';
 
+/** @deprecated see ../../start/start-data.ts instead */
 (async () => {
   console.log('********************************');
   console.log('* StartVerification - seamless *');
@@ -25,7 +26,7 @@ import {
 
   if (printFormat === 'pretty') {
     console.log(`Verification ID = ${response.id}`);
-    console.log(`Seamless verification specific field: template = ${response.seamless?.targetUri}`);
+    console.log(`Seamless verification specific field: targetUri = ${response.seamless?.targetUri}`);
   } else {
     printFullResponse(response);
   }

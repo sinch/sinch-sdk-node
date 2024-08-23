@@ -50,19 +50,22 @@ const sinch = new SinchClient(credentials);
 const verificationService: VerificationService = sinch.verification;
 
 // Build the request data
-const requestData: Verification.StartVerificationRequestData = {
-  initiateVerificationRequestBody: {
+const requestData: Verification.StartSmsVerificationRequestData = {
+  startVerificationWithSmsRequestBody: {
     identity: {
       type: 'number',
       endpoint: '+17813334444',
     },
-    method: 'sms',
+    smsOptions: {
+      codeType: 'Alphanumeric',
+      locale: 'sv-SE',
+    },
   },
 };
 
 // Use the 'verification' service registered on the Sinch client
-const verificationInitResponse: Verification.InitiateVerificationResponse
-  = await verificationService.verifications.start(requestData);
+const startVerificationResponse: Verification.StartSmsVerificationResponse
+  = await verificationService.startVerifications.startSms(requestData);
 ```
 
 ### Standalone
@@ -87,19 +90,22 @@ const credentials: ApplicationCredentials = {
 const verificationService = new VerificationService(credentials);
 
 // Build the request data
-const requestData: Verification.StartVerificationRequestData = {
-  initiateVerificationRequestBody: {
+const requestData: Verification.StartSmsVerificationRequestData = {
+  startVerificationWithSmsRequestBody: {
     identity: {
       type: 'number',
       endpoint: '+17813334444',
     },
-    method: 'sms',
+    smsOptions: {
+      codeType: 'Alphanumeric',
+      locale: 'sv-SE',
+    },
   },
 };
 
 // Use the standalone declaration of the 'verification' service
-const verificationInitResponse: Verification.InitiateVerificationResponse 
-    = await verificationService.verifications.start(requestData);
+const startVerificationResponse: Verification.StartSmsVerificationResponse 
+    = await verificationService.startVerifications.startSms(requestData);
 ```
 
 ## Promises
@@ -108,18 +114,18 @@ All the methods that interact with the Sinch APIs use Promises. You can use `awa
 
 ```typescript
 // Method 1: Wait for the Promise to complete (you need to be in an 'async' method)
-let verificationInitResponse: Verification.InitiateVerificationResponse;
+let startVerificationResponse: Verification.StartSmsVerificationResponse;
 try {
-  verificationInitResponse = await verificationService.verifications.start(requestData);
-  console.log(`Verification ID = ${verificationInitResponse.id}`);
+  startVerificationResponse = await verificationService.startVerifications.startSms(requestData);
+  console.log(`Verification ID = ${startVerificationResponse.id}`);
 } catch (error: any) {
-  console.error(`ERROR ${error.statusCode}: Impossible to start the verification for the number ${requestData.initiateVerificationRequestBody.identity.endpoint}`);
+  console.error(`ERROR ${error.statusCode}: Impossible to start the verification for the number ${requestData.startVerificationWithSmsRequestBody.identity.endpoint}`);
 }
 
 // Method 2: Resolve the promise
-verificationService.verifications.start(requestData)
+verificationService.startVerifications.startSms(requestData)
   .then(response => console.log(`Verification ID = ${response.id}`))
-  .catch(error => console.error(`ERROR ${error.statusCode}: Impossible to start the verification for the number ${requestData.initiateVerificationRequestBody.identity.endpoint}`));
+  .catch(error => console.error(`ERROR ${error.statusCode}: Impossible to start the verification for the number ${requestData.startVerificationWithSmsRequestBody.identity.endpoint}`));
 ```
 
 ## Contact

@@ -4,9 +4,11 @@ import {
   SmsVerificationReportRequest,
 } from '../../verification-report-request';
 import {
+  StartDataVerification,
   StartSeamlessVerification,
   StartVerificationWithCallout,
   StartVerificationWithFlashCall,
+  StartVerificationWithPhoneCall,
   StartVerificationWithSms,
 } from '../../start-verification-request';
 
@@ -60,11 +62,22 @@ export interface StartFlashCallVerificationRequestData {
   'startVerificationWithFlashCallRequestBody': StartVerificationWithFlashCall;
 }
 
+export interface StartPhoneCallVerificationRequestData {
+  'startVerificationWithPhoneCallRequestBody': StartVerificationWithPhoneCall;
+}
+
+/** @deprecated */
 export interface StartCalloutVerificationRequestData {
   /** Request body to start a verification with a callout */
   'startVerificationWithCalloutRequestBody': StartVerificationWithCallout;
 }
 
+export interface StartDataVerificationRequestData {
+  /** Request body to start a seamless verification */
+  'startDataVerificationRequestBody': StartDataVerification;
+}
+
+/** @deprecated */
 export interface StartSeamlessVerificationRequestData {
   /** Request body to start a seamless verification */
   'startSeamlessVerificationRequestBody': StartSeamlessVerification;

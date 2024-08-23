@@ -1,6 +1,7 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import { VerificationStatusApi } from './verification-status';
 import { VerificationsApi } from './verifications';
+import { StartVerificationsApi } from './start-verifications';
 
 /**
  * The Verification Service exposes the following APIs:
@@ -9,6 +10,8 @@ import { VerificationsApi } from './verifications';
  */
 export class VerificationService {
   public readonly verificationStatus: VerificationStatusApi;
+  public readonly startVerifications: StartVerificationsApi;
+  /** @deprecated */
   public readonly verifications: VerificationsApi;
 
   /**
@@ -22,6 +25,7 @@ export class VerificationService {
    */
   constructor(params: SinchClientParameters) {
     this.verificationStatus = new VerificationStatusApi(params);
+    this.startVerifications = new StartVerificationsApi(params);
     this.verifications = new VerificationsApi(params);
   }
 
@@ -31,6 +35,7 @@ export class VerificationService {
    */
   public setHostname(hostname: string) {
     this.verificationStatus.setHostname(hostname);
+    this.startVerifications.setHostname(hostname);
     this.verifications.setHostname(hostname);
   }
 }

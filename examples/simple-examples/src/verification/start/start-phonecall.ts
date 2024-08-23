@@ -4,23 +4,22 @@ import {
   getVerificationIdentityFromConfig,
   initVerificationService,
   printFullResponse,
-} from '../../../config';
+} from '../../config';
 
-/** @deprecated see ../../start/start-phonecall.ts instead */
 (async () => {
-  console.log('*******************************');
-  console.log('* StartVerification - callout *');
-  console.log('*******************************');
+  console.log('**********************************');
+  console.log('* StartVerification - phoneCall *');
+  console.log('**********************************');
 
   const verificationIdentity = getVerificationIdentityFromConfig();
 
-  const requestData = Verification.startVerificationHelper.buildCalloutRequest(
+  const requestData = Verification.startVerificationHelper.buildPhoneCallRequest(
     verificationIdentity,
     `test-reference-for-callout-verification_${verificationIdentity}`,
   );
 
   const verificationService = initVerificationService();
-  const response = await verificationService.verifications.startCallout(requestData);
+  const response = await verificationService.startVerifications.startPhoneCall(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

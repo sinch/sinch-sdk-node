@@ -10,11 +10,25 @@ export interface StartVerificationWithFlashCall extends StartVerificationBase {
   flashCallOptions?: FlashCallOptions;
 }
 
+export interface StartVerificationWithPhoneCall extends StartVerificationBase {
+  /** @see PhoneCallOptions */
+  phoneCallOptions?: PhoneCallOptions;
+}
+
+export interface StartVerificationWithPhoneCallServerModel extends StartVerificationBase {
+  /** @see CalloutOptions */
+  calloutOptions?: CalloutOptions;
+}
+
+/** @deprecated */
 export interface StartVerificationWithCallout extends StartVerificationBase {
   /** @see CalloutOptions */
   calloutOptions?: CalloutOptions;
 }
 
+export interface StartDataVerification extends StartVerificationBase {}
+
+/** @deprecated */
 export interface StartSeamlessVerification extends StartVerificationBase {}
 
 export interface StartVerificationBase {
@@ -50,18 +64,23 @@ export interface FlashCallOptions {
   dialTimeout?: number;
 }
 
+/** @deprecated */
+export type CalloutOptions = PhoneCallOptions;
+
 /**
  * An optional object for Phone Call Verification, with default values assumed for all contained values if not provided.
  */
-export interface CalloutOptions {
-  /** @see CalloutOptionsSpeech */
-  speech?: CalloutOptionsSpeech;
+export interface PhoneCallOptions {
+  /** @see PhoneCallOptionsSpeech */
+  speech?: PhoneCallOptionsSpeech;
 }
+/** @deprecated */
+export type CalloutOptionsSpeech = PhoneCallOptionsSpeech;
 
 /**
  * Text-To-Speech engine settings
  */
-export interface CalloutOptionsSpeech {
+export interface PhoneCallOptionsSpeech {
   /** A `language-region` identifier according to [IANA](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry). Only a subset of those identifiers is accepted. */
   locale?: string;
 }

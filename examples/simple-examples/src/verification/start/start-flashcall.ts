@@ -4,9 +4,8 @@ import {
   getVerificationIdentityFromConfig,
   initVerificationService,
   printFullResponse,
-} from '../../../config';
+} from '../../config';
 
-/** @deprecated see ../../start/start-flashcall.ts instead */
 (async () => {
   console.log('*********************************');
   console.log('* StartVerification - flashCall *');
@@ -21,7 +20,7 @@ import {
   );
 
   const verificationService = initVerificationService();
-  const response = await verificationService.verifications.startFlashCall(requestData);
+  const response = await verificationService.startVerifications.startFlashCall(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

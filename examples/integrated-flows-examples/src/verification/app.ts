@@ -18,9 +18,9 @@ dotenv.config();
 
   enum VerificationMethods {
     SMS ='sms',
-    CALLOUT = 'callout',
+    PHONE_CALL = 'phone call',
     FLASH_CALL = 'flash call',
-    SEAMLESS = 'seamless',
+    DATA = 'data',
   }
 
   inquirer.prompt([
@@ -41,13 +41,13 @@ dotenv.config();
       case VerificationMethods.SMS:
         startSmsVerificationFlow(answers.phoneNumber);
         break;
-      case VerificationMethods.CALLOUT:
-        startCalloutVerificationFlow(answers.phoneNumber);
+      case VerificationMethods.PHONE_CALL:
+        startPhoneCallVerificationFlow(answers.phoneNumber);
         break;
       case VerificationMethods.FLASH_CALL:
         startFlashCallVerificationFlow(answers.phoneNumber);
         break;
-      case VerificationMethods.SEAMLESS:
+      case VerificationMethods.DATA:
         startSeamlessVerificationFlow(answers.phoneNumber);
         break;
       }
@@ -55,7 +55,7 @@ dotenv.config();
 
   const startSmsVerificationFlow = async (phoneNumber: string) => {
     const requestData = Verification.startVerificationHelper.buildSmsRequest(phoneNumber);
-    const response = await sinch.verification.verifications.startSms(requestData);
+    const response = await sinch.verification.startVerifications.startSms(requestData);
     console.log('Verification request sent! Please check the SMS on your you phone to get the OTP.');
     const answers = await inquirer.prompt([
       {
@@ -72,9 +72,9 @@ dotenv.config();
 
   };
 
-  const startCalloutVerificationFlow = async (phoneNumber: string) => {
-    const requestData = Verification.startVerificationHelper.buildCalloutRequest(phoneNumber);
-    const response = await sinch.verification.verifications.startCallout(requestData);
+  const startPhoneCallVerificationFlow = async (phoneNumber: string) => {
+    const requestData = Verification.startVerificationHelper.buildPhoneCallRequest(phoneNumber);
+    const response = await sinch.verification.startVerifications.startPhoneCall(requestData);
     console.log('Verification request sent! Please answer to the phone call ans listen to the OTP.');
     const answers = await inquirer.prompt([
       {
@@ -91,7 +91,7 @@ dotenv.config();
 
   const startFlashCallVerificationFlow = async (phoneNumber: string) => {
     const requestData = Verification.startVerificationHelper.buildFlashCallRequest(phoneNumber);
-    const response = await sinch.verification.verifications.startFlashCall(requestData);
+    const response = await sinch.verification.startVerifications.startFlashCall(requestData);
     console.log('Verification request sent! Please check the phone number calling you.');
     const answers = await inquirer.prompt([
       {
@@ -109,10 +109,10 @@ dotenv.config();
   };
 
   const startSeamlessVerificationFlow = async (phoneNumber: string) => {
-    const requestData = Verification.startVerificationHelper.buildSeamlessRequest(phoneNumber);
+    const requestData = Verification.startVerificationHelper.buildDataRequest(phoneNumber);
     let response;
     try {
-      response = await sinch.verification.verifications.startSeamless(requestData);
+      response = await sinch.verification.startVerifications.startData(requestData);
     } catch (error: any) {
       console.log(`Impossible to process the seamless verification: ${error.data})`);
       return;
