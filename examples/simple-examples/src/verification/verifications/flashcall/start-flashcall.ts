@@ -6,7 +6,6 @@ import {
   printFullResponse,
 } from '../../../config';
 
-/** @deprecated see ../../start/start-flashcall.ts instead */
 (async () => {
   console.log('*********************************');
   console.log('* StartVerification - flashCall *');

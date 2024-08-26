@@ -4,33 +4,28 @@ import {
   getVerificationIdentityFromConfig,
   initVerificationService,
   printFullResponse,
-} from '../../config';
+} from '../../../config';
 
 (async () => {
-  console.log('***************************');
-  console.log('* StartVerification - SMS *');
-  console.log('***************************');
+  console.log('**********************************');
+  console.log('* StartVerification - phoneCall *');
+  console.log('**********************************');
 
   const verificationIdentity = getVerificationIdentityFromConfig();
 
-  const requestData = Verification.startVerificationHelper.buildSmsRequest(
+  const requestData = Verification.startVerificationHelper.buildPhoneCallRequest(
     verificationIdentity,
-    `test-reference-for-sms-verification_${verificationIdentity}`,
-    {
-      locale: 'sv-SE',
-    },
+    `test-reference-for-callout-verification_${verificationIdentity}`,
   );
 
   const verificationService = initVerificationService();
-  const response = await verificationService.startVerifications.startSms(requestData);
+  const response = await verificationService.verifications.startPhoneCall(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 
   if (printFormat === 'pretty') {
     console.log(`Verification ID = ${response.id}`);
-    console.log(`SMS verification specific field: template = ${response.sms?.template}`);
   } else {
     printFullResponse(response);
   }
-
 })();

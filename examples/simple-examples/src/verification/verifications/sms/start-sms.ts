@@ -6,7 +6,6 @@ import {
   printFullResponse,
 } from '../../../config';
 
-/** @deprecated see ../../start/start-sms.ts instead */
 (async () => {
   console.log('***************************');
   console.log('* StartVerification - SMS *');

@@ -1,9 +1,9 @@
-import { StartVerificationsApi, VerificationService, Verification  } from '../../../../src';
+import { VerificationsApi, VerificationService, Verification  } from '../../../../src';
 import { Given, When, Then } from '@cucumber/cucumber';
 import * as assert from 'assert';
 import { RequestFailedError } from '@sinch/sdk-client/src';
 
-let startVerificationApi: StartVerificationsApi;
+let startVerificationApi: VerificationsApi;
 let startSmsVerificationResponse: Verification.StartSmsVerificationResponse;
 let startPhoneCallVerificationResponse: Verification.StartPhoneCallVerificationResponse;
 let startFlashCallVerificationResponse: Verification.StartFlashCallVerificationResponse;
@@ -15,7 +15,7 @@ Given('the Verification service "Start" is available', () => {
     applicationSecret: 'appSecret',
     verificationHostname: 'http://localhost:3018',
   });
-  startVerificationApi = verificationService.startVerifications;
+  startVerificationApi = verificationService.verifications;
 });
 
 When('I send a request to start a verification with a SMS', async () => {

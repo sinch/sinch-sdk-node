@@ -4,7 +4,7 @@ import {
   getVerificationIdentityFromConfig,
   initVerificationService,
   printFullResponse,
-} from '../../config';
+} from '../../../config';
 
 (async () => {
   console.log('****************************');
@@ -19,7 +19,7 @@ import {
   );
 
   const verificationService = initVerificationService();
-  const response = await verificationService.startVerifications.startData(requestData);
+  const response = await verificationService.verifications.startData(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

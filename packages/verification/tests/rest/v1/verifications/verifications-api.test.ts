@@ -84,6 +84,67 @@ describe('VerificationsApi', () => {
       expect(fixture.startFlashCall).toHaveBeenCalledWith(requestData);
     });
 
+    it('should make a POST request to start a verification with a PhoneCall', async () => {
+      // Given
+      const requestData = Verification.startVerificationHelper.buildPhoneCallRequest('+46700000000');
+      const expectedResponse: Verification.StartPhoneCallVerificationResponse = {
+        id: 'some_verification_id',
+        method: 'callout',
+        _links,
+      };
+
+      // When
+      fixture.startPhoneCall.mockResolvedValue(expectedResponse);
+      verificationsApi.startPhoneCall = fixture.startPhoneCall;
+      const response = await verificationsApi.startPhoneCall(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.startPhoneCall).toHaveBeenCalledWith(requestData);
+    });
+
+    it('should format the startPhoneCall request body', () => {
+      const requestData = Verification.startVerificationHelper.buildPhoneCallRequest(
+        '+46700000000',
+        undefined,
+        'en-US');
+      const expectedResult: Verification.StartVerificationWithPhoneCallServerModel = {
+        identity: {
+          endpoint: '+46700000000',
+          type: 'number',
+        },
+        calloutOptions: {
+          speech: {
+            locale: 'en-US',
+          },
+        },
+      };
+      const formattedRequestData = verificationsApi.performStartPhoneCallRequestBodyTransformation(
+        requestData.startVerificationWithPhoneCallRequestBody);
+      expect(formattedRequestData).toEqual(expectedResult);
+    });
+
+    it('should make a POST request to start a data verification (seamless)', async () => {
+      // Given
+      const requestData = Verification.startVerificationHelper.buildDataRequest('+46700000000');
+      const expectedResponse: Verification.StartDataVerificationResponse = {
+        id: 'some_verification_id',
+        method: 'seamless',
+        seamless: {
+          targetUri: 'https://target-uri.com',
+        },
+      };
+
+      // When
+      fixture.startData.mockResolvedValue(expectedResponse);
+      verificationsApi.startData = fixture.startData;
+      const response = await verificationsApi.startData(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.startData).toHaveBeenCalledWith(requestData);
+    });
+
     it('should make a POST request to start a verification with a Callout', async () => {
       // Given
       const requestData = Verification.startVerificationHelper.buildCalloutRequest('+46700000000');
@@ -103,7 +164,7 @@ describe('VerificationsApi', () => {
       expect(fixture.startCallout).toHaveBeenCalledWith(requestData);
     });
 
-    it('should make a POST request to start a data verification (seamless)', async () => {
+    it('should make a POST request to start a seamless verification', async () => {
       // Given
       const requestData = Verification.startVerificationHelper.buildSeamlessRequest('+46700000000');
       const expectedResponse: Verification.StartSeamlessVerificationResponse = {
