@@ -2,25 +2,24 @@ import { Verification } from '@sinch/sdk-core';
 import {
   getPrintFormat,
   getVerificationCodeFromConfig,
-  getVerificationIdentityFromConfig,
+  getVerificationIdFromConfig,
   initVerificationService,
   printFullResponse,
 } from '../../../config';
 
-/** @deprecated see ./report-with-identity_phonecall.ts instead */
 (async () => {
-  console.log('******************************************');
-  console.log('* ReportVerificationByIdentity - callout *');
-  console.log('******************************************');
+  console.log('**************************************');
+  console.log('* ReportVerificationById - phoneCall *');
+  console.log('**************************************');
 
-  const verificationIdentity = getVerificationIdentityFromConfig();
+  const verificationId = getVerificationIdFromConfig();
   const verificationCode = getVerificationCodeFromConfig();
 
-  const requestData = Verification.reportVerificationByIdentityHelper.buildCalloutRequest(
-    verificationIdentity, verificationCode);
+  const requestData = Verification.reportVerificationByIdHelper.buildPhoneCallRequest(
+    verificationId, verificationCode);
 
   const verificationService = initVerificationService();
-  const response = await verificationService.verifications.reportCalloutByIdentity(requestData);
+  const response = await verificationService.verifications.reportPhoneCallById(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

@@ -6,7 +6,7 @@ import {
   printFullResponse,
 } from '../../../config';
 
-/** @deprecated see ../../start/start-phonecall.ts instead */
+/** @deprecated see ./start-phonecall.ts instead */
 (async () => {
   console.log('*******************************');
   console.log('* StartVerification - callout *');

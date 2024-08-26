@@ -3,6 +3,8 @@ import {
   ReportCalloutVerificationByIdRequestData,
   ReportFlashCallVerificationByIdentityRequestData,
   ReportFlashCallVerificationByIdRequestData,
+  ReportPhoneCallVerificationByIdentityRequestData,
+  ReportPhoneCallVerificationByIdRequestData,
   ReportSmsVerificationByIdentityRequestData,
   ReportSmsVerificationByIdRequestData,
   StartCalloutVerificationRequestData,
@@ -176,6 +178,14 @@ export const startVerificationHelper = {
   },
 };
 export const reportVerificationByIdHelper = {
+  /**
+   * Builds a request object for reporting an SMS verification by its ID.
+   *
+   * @param {string} id - The unique identifier for the SMS verification request.
+   * @param {string} code - The verification code received via SMS.
+   * @param {string} [cli] - An optional CLI (Caller Line Identification) that can be included in the request.
+   * @return {ReportSmsVerificationByIdRequestData} The request data object used to report the SMS verification.
+   */
   buildSmsRequest: (
     id: string,
     code: string,
@@ -191,6 +201,34 @@ export const reportVerificationByIdHelper = {
       },
     };
   },
+  /**
+   * Builds a request object for reporting a phone call verification by its ID.
+   *
+   * @param {string} id - The unique identifier for the phone call verification request.
+   * @param {string} code - The verification code received during the phone call.
+   * @return {ReportPhoneCallVerificationByIdRequestData} The request data object used to report the phone call verification.
+   */
+  buildPhoneCallRequest: (
+    id: string,
+    code: string,
+  ): ReportPhoneCallVerificationByIdRequestData => {
+    return {
+      id,
+      reportPhoneCallVerificationByIdRequestBody: {
+        phoneCall: {
+          code,
+        },
+      },
+    };
+  },
+  /**
+   * Builds a request object for reporting a callout verification by its ID.
+   *
+   * @param {string} id - The unique identifier for the callout verification request.
+   * @param {string} code - The verification code received during the callout.
+   * @return {ReportCalloutVerificationByIdRequestData} The request data object used to report the callout verification.
+   * @deprecated
+   */
   buildCalloutRequest: (
     id: string,
     code: string,
@@ -204,6 +242,13 @@ export const reportVerificationByIdHelper = {
       },
     };
   },
+  /**
+   * Builds a request object for reporting a flash call verification by its ID.
+   *
+   * @param {string} id - The unique identifier for the flash call verification request.
+   * @param {string} cli - The CLI (Caller Line Identification) received during the flash call.
+   * @return {ReportFlashCallVerificationByIdRequestData} The request data object used to report the flash call verification.
+   */
   buildFlashCallRequest: (
     id: string,
     cli: string,
@@ -219,6 +264,14 @@ export const reportVerificationByIdHelper = {
   },
 };
 export const reportVerificationByIdentityHelper = {
+  /**
+   * Builds a request object for reporting an SMS verification by the phone number identity.
+   *
+   * @param {string} identity - The phone number for which the verification process has been initiated.
+   * @param {string} code - The verification code received via SMS.
+   * @param {string} [cli] - The CLI (Caller Line Identification) that may be used during the verification.
+   * @return {ReportSmsVerificationByIdentityRequestData} The request data object used to report the SMS verification.
+   */
   buildSmsRequest: (
     identity: string,
     code: string,
@@ -234,6 +287,34 @@ export const reportVerificationByIdentityHelper = {
       },
     };
   },
+  /**
+   * Builds a request object for reporting a phone call verification by the phone number identity.
+   *
+   * @param {string} identity - The phone number for which the verification process has been initiated.
+   * @param {string} code - The verification code received via the phone call.
+   * @return {ReportPhoneCallVerificationByIdentityRequestData} The request data object used to report the phone call verification.
+   */
+  buildPhoneCallRequest: (
+    identity: string,
+    code: string,
+  ): ReportPhoneCallVerificationByIdentityRequestData => {
+    return {
+      endpoint: identity,
+      reportPhoneCallVerificationByIdentityRequestBody: {
+        phoneCall: {
+          code,
+        },
+      },
+    };
+  },
+  /**
+   * Builds a request object for reporting a callout verification by the phone number identity.
+   *
+   * @param {string} identity - The phone number for which the callout verification process has been initiated.
+   * @param {string} code - The verification code received during the callout.
+   * @return {ReportCalloutVerificationByIdentityRequestData} The request data object used to report the callout verification.
+   * @deprecated
+   */
   buildCalloutRequest: (
     identity: string,
     code: string,
@@ -247,6 +328,13 @@ export const reportVerificationByIdentityHelper = {
       },
     };
   },
+  /**
+   * Builds a request object for reporting a flash call verification by the phone number identity.
+   *
+   * @param {string} identity - The phone number for which the flash call verification process has been initiated.
+   * @param {string} cli - The CLI (Caller Line Identification) received during the flash call.
+   * @return {ReportFlashCallVerificationByIdentityRequestData} The request data object used to report the flash call verification.
+   */
   buildFlashCallRequest: (
     identity: string,
     cli: string,

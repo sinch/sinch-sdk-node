@@ -1,8 +1,10 @@
 import { ReasonEnum, SourceEnum, VerificationStatusEnum } from '../enums';
 import { Identity } from '../identity';
 
-export interface CalloutVerificationReportResponse {
+/** @deprecated */
+export type CalloutVerificationReportResponse = PhoneCallVerificationReportResponse;
 
+export interface PhoneCallVerificationReportResponse {
   /** The unique ID of the verification request. */
   id?: string;
   /** The method of the verification request. This will always be `callout`. */

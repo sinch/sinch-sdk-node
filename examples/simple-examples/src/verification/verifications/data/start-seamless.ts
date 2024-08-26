@@ -6,7 +6,7 @@ import {
   printFullResponse,
 } from '../../../config';
 
-/** @deprecated see ../../start/start-data.ts instead */
+/** @deprecated see ./start-data.ts instead */
 (async () => {
   console.log('********************************');
   console.log('* StartVerification - seamless *');

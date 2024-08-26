@@ -16,8 +16,8 @@ export interface StartVerificationWithPhoneCall extends StartVerificationBase {
 }
 
 export interface StartVerificationWithPhoneCallServerModel extends StartVerificationBase {
-  /** @see CalloutOptions */
-  calloutOptions?: CalloutOptions;
+  /** @see PhoneCallOptions */
+  calloutOptions?: PhoneCallOptions;
 }
 
 /** @deprecated */

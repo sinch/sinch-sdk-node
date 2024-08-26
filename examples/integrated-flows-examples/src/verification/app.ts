@@ -83,9 +83,9 @@ dotenv.config();
         message: 'Enter the verification code:',
       },
     ]);
-    const reportRequestData = Verification.reportVerificationByIdHelper.buildCalloutRequest(
+    const reportRequestData = Verification.reportVerificationByIdHelper.buildPhoneCallRequest(
       response.id!, answers.code);
-    const reportResponse = await sinch.verification.verifications.reportCalloutById(reportRequestData);
+    const reportResponse = await sinch.verification.verifications.reportPhoneCallById(reportRequestData);
     console.log(`Verification status: ${reportResponse.status}${reportResponse.status === 'SUCCESSFUL'?'':' - Reason: ' + reportResponse.reason}`);
   };
 
