@@ -236,6 +236,43 @@ describe('VerificationsApi', () => {
     it('should make a PUT request to report the verification code (OTP) received by a phone call to verify it,'
       + 'using the verification ID of the verification request', async () => {
       // Given
+      const requestData = Verification.reportVerificationByIdHelper.buildPhoneCallRequest(
+        'some_verification_id',
+        '0000');
+      const expectedResponse: Verification.PhoneCallVerificationReportResponse = {
+        id: 'some_verification_id',
+        method: 'callout',
+        status: 'SUCCESSFUL',
+        callComplete: true,
+      };
+
+      // When
+      fixture.reportPhoneCallById.mockResolvedValue(expectedResponse);
+      verificationsApi.reportPhoneCallById = fixture.reportPhoneCallById;
+      const response = await verificationsApi.reportPhoneCallById(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.reportPhoneCallById).toHaveBeenCalledWith(requestData);
+    });
+
+    it('should format the reportPhoneCallById request body', () => {
+      const requestData = Verification.reportVerificationByIdHelper.buildPhoneCallRequest(
+        'some_verification_id',
+        '0000');
+      const expectedResult: Verification.PhoneCallVerificationReportRequestServerModel = {
+        callout: {
+          code: '0000',
+        },
+      };
+      const formattedRequestData = verificationsApi.performReportPhoneCallByIdRequestBodyTransformation(
+        requestData.reportPhoneCallVerificationByIdRequestBody);
+      expect(formattedRequestData).toEqual(expectedResult);
+    });
+
+    it('should make a PUT request to report the verification code (OTP) received by a callout to verify it,'
+      + 'using the verification ID of the verification request', async () => {
+      // Given
       const requestData = Verification.reportVerificationByIdHelper.buildCalloutRequest(
         'some_verification_id',
         '0000');
@@ -308,6 +345,44 @@ describe('VerificationsApi', () => {
     });
 
     it('should make a PUT request to report the verification code (OTP) received by a phone call to verify it,'
+      + 'using the identity of the user', async () => {
+      // Given
+      const requestData = Verification.reportVerificationByIdentityHelper.buildPhoneCallRequest(
+        '+33444555666',
+        '0000');
+      const expectedResponse: Verification.PhoneCallVerificationReportResponse = {
+        id: '018beea3-a942-0094-4a3a-d6b2f2c65057',
+        method: 'callout',
+        status: 'FAIL',
+        reason: 'Expired',
+        callComplete: true,
+      };
+
+      // When
+      fixture.reportPhoneCallByIdentity.mockResolvedValue(expectedResponse);
+      verificationsApi.reportPhoneCallByIdentity = fixture.reportPhoneCallByIdentity;
+      const response = await verificationsApi.reportPhoneCallByIdentity(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.reportPhoneCallByIdentity).toHaveBeenCalledWith(requestData);
+    });
+
+    it('should format the reportPhoneCallByIdentity request body', () => {
+      const requestData = Verification.reportVerificationByIdentityHelper.buildPhoneCallRequest(
+        '+33444555666',
+        '0000');
+      const expectedResult: Verification.PhoneCallVerificationReportRequestServerModel = {
+        callout: {
+          code: '0000',
+        },
+      };
+      const formattedRequestData = verificationsApi.performReportPhoneCallByIdentityRequestBodyTransformation(
+        requestData.reportPhoneCallVerificationByIdentityRequestBody);
+      expect(formattedRequestData).toEqual(expectedResult);
+    });
+
+    it('should make a PUT request to report the verification code (OTP) received by a callout to verify it,'
       + 'using the identity of the user', async () => {
       // Given
       const requestData = Verification.reportVerificationByIdentityHelper.buildCalloutRequest(

@@ -7,20 +7,19 @@ import {
   printFullResponse,
 } from '../../../config';
 
-/** @deprecated see ./report-with-identity_phonecall.ts instead */
 (async () => {
-  console.log('******************************************');
-  console.log('* ReportVerificationByIdentity - callout *');
-  console.log('******************************************');
+  console.log('********************************************');
+  console.log('* ReportVerificationByIdentity - phoneCall *');
+  console.log('********************************************');
 
   const verificationIdentity = getVerificationIdentityFromConfig();
   const verificationCode = getVerificationCodeFromConfig();
 
-  const requestData = Verification.reportVerificationByIdentityHelper.buildCalloutRequest(
+  const requestData = Verification.reportVerificationByIdentityHelper.buildPhoneCallRequest(
     verificationIdentity, verificationCode);
 
   const verificationService = initVerificationService();
-  const response = await verificationService.verifications.reportCalloutByIdentity(requestData);
+  const response = await verificationService.verifications.reportPhoneCallByIdentity(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

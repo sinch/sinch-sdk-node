@@ -1,1 +1,4 @@
-export type { CalloutVerificationReportResponse } from './callout-verification-report-response';
+export type {
+  PhoneCallVerificationReportResponse,
+  CalloutVerificationReportResponse,
+} from './callout-verification-report-response';

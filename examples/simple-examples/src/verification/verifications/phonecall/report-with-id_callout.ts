@@ -7,6 +7,7 @@ import {
   printFullResponse,
 } from '../../../config';
 
+/** @deprecated see ./report-with-id_phonecall.ts instead */
 (async () => {
   console.log('************************************');
   console.log('* ReportVerificationById - callout *');

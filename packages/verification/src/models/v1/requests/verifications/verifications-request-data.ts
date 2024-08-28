@@ -1,6 +1,7 @@
 import {
   CalloutVerificationReportRequest,
   FlashCallVerificationReportRequest,
+  PhoneCallVerificationReportRequest,
   SmsVerificationReportRequest,
 } from '../../verification-report-request';
 import {
@@ -27,6 +28,12 @@ export interface ReportFlashCallVerificationByIdRequestData extends ReportVerifi
   'reportFlashCallVerificationByIdRequestBody': FlashCallVerificationReportRequest;
 }
 
+export interface ReportPhoneCallVerificationByIdRequestData extends ReportVerificationByIdRequestDataBase {
+  /** Request body to report a verification started with a phone call by its ID */
+  'reportPhoneCallVerificationByIdRequestBody': PhoneCallVerificationReportRequest;
+}
+
+/** @deprecated */
 export interface ReportCalloutVerificationByIdRequestData extends ReportVerificationByIdRequestDataBase {
   /** Request body to report a verification started with a callout by its ID */
   'reportCalloutVerificationByIdRequestBody': CalloutVerificationReportRequest;
@@ -47,6 +54,12 @@ export interface ReportFlashCallVerificationByIdentityRequestData extends Report
   'reportFlashCallVerificationByIdentityRequestBody': FlashCallVerificationReportRequest;
 }
 
+export interface ReportPhoneCallVerificationByIdentityRequestData extends ReportVerificationByIdentityRequestDataBase {
+  /** Request body to report a verification started with a callout by its identity */
+  'reportPhoneCallVerificationByIdentityRequestBody': PhoneCallVerificationReportRequest;
+}
+
+/** @deprecated */
 export interface ReportCalloutVerificationByIdentityRequestData extends ReportVerificationByIdentityRequestDataBase {
   /** Request body to report a verification started with a callout by its identity */
   'reportCalloutVerificationByIdentityRequestBody': CalloutVerificationReportRequest;

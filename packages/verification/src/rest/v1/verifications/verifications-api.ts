@@ -22,6 +22,12 @@ import {
   StartVerificationWithPhoneCall,
   StartDataVerificationRequestData,
   StartDataVerificationResponse,
+  ReportPhoneCallVerificationByIdRequestData,
+  PhoneCallVerificationReportRequest,
+  StartVerificationWithPhoneCallServerModel,
+  PhoneCallVerificationReportRequestServerModel,
+  ReportPhoneCallVerificationByIdentityRequestData,
+  PhoneCallVerificationReportResponse,
 } from '../../../models';
 import {
   RequestBody,
@@ -109,9 +115,58 @@ export class VerificationsApi extends VerificationDomainApi {
   }
 
   /**
+   * Report a Phone Call verification with ID
+   * Report the received verification code to verify it, using the Verification ID of the Verification request.
+   * @param { ReportCalloutVerificationByIdRequestData } data - The data to provide to the API call.
+   */
+  public async reportPhoneCallById(
+    data: ReportPhoneCallVerificationByIdRequestData,
+  ): Promise<PhoneCallVerificationReportResponse> {
+    this.client = this.getSinchClient();
+    (data.reportPhoneCallVerificationByIdRequestBody as any).method = 'callout';
+    const getParams = this.client.extractQueryParams<ReportPhoneCallVerificationByIdRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json',
+    };
+
+    // Special fields handling: see method for details
+    const requestDataBody = this.performReportPhoneCallByIdRequestBodyTransformation(
+      data.reportPhoneCallVerificationByIdRequestBody);
+
+    const body: RequestBody = requestDataBody
+      ? JSON.stringify(requestDataBody)
+      : '{}';
+
+    const path = `/verification/v1/verifications/id/${data['id']}`;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<PhoneCallVerificationReportResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'ReportPhoneCallVerificationById',
+    });
+  }
+
+  performReportPhoneCallByIdRequestBodyTransformation(
+    body: PhoneCallVerificationReportRequest,
+  ): PhoneCallVerificationReportRequestServerModel {
+    const requestDataBody: any = { ...body };
+    (requestDataBody).callout = { ...requestDataBody.phoneCall };
+    delete requestDataBody.phoneCall;
+    return requestDataBody;
+  }
+
+  /**
    * Report a Callout verification with ID
    * Report the received verification code to verify it, using the Verification ID of the Verification request.
    * @param { ReportCalloutVerificationByIdRequestData } data - The data to provide to the API call.
+   * @deprecated
    */
   public async reportCalloutById(
     data: ReportCalloutVerificationByIdRequestData,
@@ -212,9 +267,58 @@ export class VerificationsApi extends VerificationDomainApi {
   }
 
   /**
+   * Report a Phone Call verification using Identity
+   * Report the received verification code (OTP) to verify it, using the identity of the user (in most cases, the phone number).
+   * @param { ReportPhoneCallVerificationByIdentityRequestData } data - The data to provide to the API call.
+   */
+  public async reportPhoneCallByIdentity(
+    data: ReportPhoneCallVerificationByIdentityRequestData,
+  ): Promise<PhoneCallVerificationReportResponse> {
+    this.client = this.getSinchClient();
+    (data.reportPhoneCallVerificationByIdentityRequestBody as any).method = 'callout';
+    const getParams = this.client.extractQueryParams<ReportPhoneCallVerificationByIdentityRequestData>(
+      data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json',
+    };
+
+    // Special fields handling: see method for details
+    const requestDataBody = this.performReportPhoneCallByIdentityRequestBodyTransformation(
+      data.reportPhoneCallVerificationByIdentityRequestBody);
+
+    const body: RequestBody = requestDataBody
+      ? JSON.stringify(requestDataBody)
+      : '{}';
+    const path = `/verification/v1/verifications/number/${data['endpoint']}`;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<PhoneCallVerificationReportResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'ReportPhoneCallVerificationByIdentity',
+    });
+  }
+
+  performReportPhoneCallByIdentityRequestBodyTransformation(
+    body: PhoneCallVerificationReportRequest,
+  ): PhoneCallVerificationReportRequestServerModel {
+    const requestDataBody: any = { ...body };
+    (requestDataBody).callout = { ...requestDataBody.phoneCall };
+    delete requestDataBody.phoneCall;
+    return requestDataBody;
+  }
+
+  /**
    * Report a Callout verification using Identity
    * Report the received verification code (OTP) to verify it, using the identity of the user (in most cases, the phone number).
    * @param { ReportCalloutVerificationByIdentityRequestData } data - The data to provide to the API call.
+   * @deprecated
    */
   public async reportCalloutByIdentity(
     data: ReportCalloutVerificationByIdentityRequestData,
@@ -382,7 +486,9 @@ export class VerificationsApi extends VerificationDomainApi {
     });
   }
 
-  performStartPhoneCallRequestBodyTransformation(body: StartVerificationWithPhoneCall): StartVerificationWithPhoneCall {
+  performStartPhoneCallRequestBodyTransformation(
+    body: StartVerificationWithPhoneCall,
+  ): StartVerificationWithPhoneCallServerModel {
     const requestDataBody = { ...body };
     if (requestDataBody.phoneCallOptions !== undefined) {
       (requestDataBody as any).calloutOptions = { ...requestDataBody.phoneCallOptions };
