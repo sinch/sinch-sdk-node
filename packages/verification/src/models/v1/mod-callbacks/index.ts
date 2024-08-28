@@ -1,3 +1,4 @@
+export * from './verification-callback-event';
 // 'Verification Request Event' received from Sinch server
 export * from './verification-request-event';
 // Response to send to Sinch server for a 'Verification Request Event'
