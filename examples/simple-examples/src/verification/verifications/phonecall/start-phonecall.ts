@@ -7,25 +7,24 @@ import {
 } from '../../../config';
 
 (async () => {
-  console.log('********************************');
-  console.log('* StartVerification - seamless *');
-  console.log('********************************');
+  console.log('**********************************');
+  console.log('* StartVerification - phoneCall *');
+  console.log('**********************************');
 
   const verificationIdentity = getVerificationIdentityFromConfig();
 
-  const requestData = Verification.startVerificationHelper.buildSeamlessRequest(
+  const requestData = Verification.startVerificationHelper.buildPhoneCallRequest(
     verificationIdentity,
-    `test-reference-for-seamless-verification_${verificationIdentity}`,
+    `test-reference-for-callout-verification_${verificationIdentity}`,
   );
 
   const verificationService = initVerificationService();
-  const response = await verificationService.verifications.startSeamless(requestData);
+  const response = await verificationService.verifications.startPhoneCall(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 
   if (printFormat === 'pretty') {
     console.log(`Verification ID = ${response.id}`);
-    console.log(`Seamless verification specific field: template = ${response.seamless?.targetUri}`);
   } else {
     printFullResponse(response);
   }

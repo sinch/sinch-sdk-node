@@ -1,7 +1,9 @@
 import { LinksObject } from '../links-object';
 
-export interface StartSeamlessVerificationResponse {
+/** @deprecated */
+export type StartSeamlessVerificationResponse = StartDataVerificationResponse;
 
+export interface StartDataVerificationResponse {
   /** Verification identifier used to query for status. */
   id: string;
   /** The value of the method used for the Verification. For Data Verifications, this will always be `seamless`. */
@@ -13,7 +15,6 @@ export interface StartSeamlessVerificationResponse {
 }
 
 interface SeamlessContent {
-
   /** The target URI. */
   targetUri?: string;
 }

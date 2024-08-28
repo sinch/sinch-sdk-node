@@ -6,16 +6,16 @@ export * from './verification-report-request';
 export * from './start-sms-verification-response';
 export * from './sms-verification-report-response';
 export * from './sms-verification-status-response';
-// Models associated to Callout verification workflow
-export * from './start-callout-verification-response';
+// Models associated to PhoneCall verification workflow
+export * from './start-phonecall-verification-response';
 export * from './callout-verification-report-response';
 export * from './callout-verification-status-response';
 // Models associated to Flashcall verification workflow
 export * from './start-flashcall-verification-response';
 export * from './flashcall-verification-report-response';
 export * from './flashcall-verification-status-response';
-// Models associated to Seamless verification workflow
-export * from './start-seamless-verification-response';
+// Models associated to Data verification workflow
+export * from './start-data-verification-response';
 // Wrapper for the various types of Verification Status Response
 export * from './verification-status-response';
 // Models associated to callback events

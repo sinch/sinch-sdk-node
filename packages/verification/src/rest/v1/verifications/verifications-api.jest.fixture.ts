@@ -17,6 +17,10 @@ import {
   ReportSmsVerificationByIdentityRequestData,
   ReportFlashCallVerificationByIdentityRequestData,
   ReportCalloutVerificationByIdentityRequestData,
+  StartDataVerificationRequestData,
+  StartPhoneCallVerificationResponse,
+  StartPhoneCallVerificationRequestData,
+  StartDataVerificationResponse,
 } from '../../../models';
 
 export class VerificationsApiFixture implements Partial<Readonly<VerificationsApi>> {
@@ -72,6 +76,18 @@ export class VerificationsApiFixture implements Partial<Readonly<VerificationsAp
   public startFlashCall: jest.Mock<
     Promise<StartFlashCallVerificationResponse>,
     [StartFlashCallVerificationRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function startPhoneCall
+   */
+  public startPhoneCall: jest.Mock<Promise<
+    StartPhoneCallVerificationResponse>,
+    [StartPhoneCallVerificationRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function startData
+   */
+  public startData: jest.Mock<
+    Promise<StartDataVerificationResponse>,
+    [StartDataVerificationRequestData]> = jest.fn();
   /**
    * Fixture associated to function startCallout
    */

@@ -17,6 +17,11 @@ import {
   StartCalloutVerificationRequestData,
   StartSeamlessVerificationRequestData,
   StartVerificationWithSms,
+  StartPhoneCallVerificationRequestData,
+  StartPhoneCallVerificationResponse,
+  StartVerificationWithPhoneCall,
+  StartDataVerificationRequestData,
+  StartDataVerificationResponse,
 } from '../../../models';
 import {
   RequestBody,
@@ -251,7 +256,7 @@ export class VerificationsApi extends VerificationDomainApi {
     (data.startVerificationWithSmsRequestBody as any).method = 'sms';
     const getParams = this.client.extractQueryParams<StartSmsVerificationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
     if (data.startVerificationWithSmsRequestBody.smsOptions?.locale !== undefined) {
@@ -303,6 +308,7 @@ export class VerificationsApi extends VerificationDomainApi {
     return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
   }
 
+
   /**
    * Start verification with a FlashCall
    * This method is used by the mobile and web Verification SDKs to start a verification. It can also be used to request a verification from your backend, by making a request.
@@ -315,7 +321,7 @@ export class VerificationsApi extends VerificationDomainApi {
     (data.startVerificationWithFlashCallRequestBody as any).method = 'flashcall';
     const getParams = this.client.extractQueryParams<StartFlashCallVerificationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
@@ -338,9 +344,90 @@ export class VerificationsApi extends VerificationDomainApi {
   }
 
   /**
+   * Start verification with a phone call
+   * This method is used by the mobile and web Verification SDKs to start a verification. It can also be used to request a verification from your backend, by making a request.
+   * @param { StartPhoneCallVerificationRequestData } data - The data to provide to the API call.
+   */
+  public async startPhoneCall(
+    data: StartPhoneCallVerificationRequestData,
+  ): Promise<StartPhoneCallVerificationResponse> {
+    this.client = this.getSinchClient();
+    (data.startVerificationWithPhoneCallRequestBody as any).method = 'callout';
+    const getParams = this.client.extractQueryParams<StartPhoneCallVerificationRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    // Special fields handling: see method for details
+    const requestDataBody = this.performStartPhoneCallRequestBodyTransformation(
+      data.startVerificationWithPhoneCallRequestBody);
+
+    const body: RequestBody = requestDataBody
+      ? JSON.stringify(requestDataBody)
+      : '{}';
+
+    const path = '/verification/v1/verifications';
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined, path);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<StartPhoneCallVerificationResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'StartVerificationWithPhoneCall',
+    });
+  }
+
+  performStartPhoneCallRequestBodyTransformation(body: StartVerificationWithPhoneCall): StartVerificationWithPhoneCall {
+    const requestDataBody = { ...body };
+    if (requestDataBody.phoneCallOptions !== undefined) {
+      (requestDataBody as any).calloutOptions = { ...requestDataBody.phoneCallOptions };
+      delete requestDataBody.phoneCallOptions;
+    }
+    return requestDataBody;
+  }
+
+  /**
+   * Start data verification
+   * This method is used by the mobile and web Verification SDKs to start a verification. It can also be used to request a verification from your backend, by making a request.
+   * @param { StartDataVerificationRequestData } data - The data to provide to the API call.
+   */
+  public async startData(data: StartDataVerificationRequestData): Promise<StartDataVerificationResponse> {
+    this.client = this.getSinchClient();
+    (data.startDataVerificationRequestBody as any).method = 'seamless';
+    const getParams = this.client.extractQueryParams<StartDataVerificationRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = data['startDataVerificationRequestBody']
+      ? JSON.stringify(data['startDataVerificationRequestBody'])
+      : '{}';
+    const path = '/verification/v1/verifications';
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined, path);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<StartDataVerificationResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'StartDataVerification',
+    });
+  }
+
+  /**
    * Start verification with a callout
    * This method is used by the mobile and web Verification SDKs to start a verification. It can also be used to request a verification from your backend, by making a request.
    * @param { StartCalloutVerificationRequestData } data - The data to provide to the API call.
+   * @deprecated
    */
   public async startCallout(data: StartCalloutVerificationRequestData): Promise<StartCalloutVerificationResponse> {
     this.client = this.getSinchClient();
@@ -373,6 +460,7 @@ export class VerificationsApi extends VerificationDomainApi {
    * Start seamless verification (= data verification)
    * This method is used by the mobile and web Verification SDKs to start a verification. It can also be used to request a verification from your backend, by making a request.
    * @param { StartSeamlessVerificationRequestData } data - The data to provide to the API call.
+   * @deprecated
    */
   public async startSeamless(data: StartSeamlessVerificationRequestData): Promise<StartSeamlessVerificationResponse> {
     this.client = this.getSinchClient();
