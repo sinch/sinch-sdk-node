@@ -2,7 +2,10 @@ import { CallResult, ReasonEnum, VerificationStatusEnum } from '../enums';
 import { Identity } from '../identity';
 import { VerificationPriceCall } from '../verification-price-call';
 
-export interface CalloutVerificationStatusResponse {
+/** @deprecated */
+export type CalloutVerificationStatusResponse = PhoneCallVerificationStatusResponse;
+
+export interface PhoneCallVerificationStatusResponse {
   /** The unique ID of the verification request. */
   id?: string;
   /** The method of the verification request. This will always be `callout`. */

@@ -61,7 +61,7 @@ describe('VerificationStatusApi', () => {
         endpoint: '+33444555666',
         method: 'callout',
       };
-      const expectedResponse: Verification.CalloutVerificationStatusResponse = {
+      const expectedResponse: Verification.PhoneCallVerificationStatusResponse = {
         id: '018bec2b-d123-b7b3-833e-4b177e3420df',
         method: 'callout',
         status: 'FAIL',
