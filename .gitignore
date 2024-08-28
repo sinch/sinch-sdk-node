@@ -5,3 +5,4 @@ tsconfig.build.tsbuildinfo
 tsconfig.tsbuildinfo
 packages/**/dist
 .env
+*.feature
