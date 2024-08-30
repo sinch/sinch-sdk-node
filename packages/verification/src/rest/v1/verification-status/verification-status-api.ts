@@ -63,8 +63,13 @@ export class VerificationStatusApi extends VerificationDomainApi {
       'Accept': 'application/json',
     };
 
+    let verificationMethod = data['method'];
+    if (verificationMethod === 'phonecall') {
+      verificationMethod = 'callout';
+    }
+
     const body: RequestBody = '';
-    const path = `/verification/v1/verifications/${data['method']}/number/${data['endpoint']}`;
+    const path = `/verification/v1/verifications/${verificationMethod}/number/${data['endpoint']}`;
     const basePathUrl = this.client.apiClientOptions.hostname + path;
 
     const requestOptions
