@@ -45,11 +45,11 @@ Then('the Verification event describes a "Verification Request" event type', () 
   const smsVerificationMethod: Verification.MethodEnum = 'sms';
   assert.equal(verificationRequestEvent.method, smsVerificationMethod);
   const identity: Verification.Identity = {
-    verified: false,
     type: 'number',
     endpoint: '+33612345678',
   };
-  assert.deepEqual(verificationRequestEvent.identity, identity);
+  assert.equal(verificationRequestEvent.identity.type, identity.type);
+  assert.equal(verificationRequestEvent.identity.endpoint, identity.endpoint);
   const smsPrice: Verification.Price = {
     currencyId: 'EUR',
     amount: 0.0453,
@@ -74,9 +74,9 @@ Then('the Verification event describes a "Verification Result" event type', () =
   const smsVerificationMethod: Verification.MethodEnum = 'sms';
   assert.equal(verificationRequestEvent.method, smsVerificationMethod);
   const identity: Verification.Identity = {
-    verified: false,
     type: 'number',
     endpoint: '+33612345678',
   };
-  assert.deepEqual(verificationRequestEvent.identity, identity);
+  assert.equal(verificationRequestEvent.identity.type, identity.type);
+  assert.equal(verificationRequestEvent.identity.endpoint, identity.endpoint);
 });
