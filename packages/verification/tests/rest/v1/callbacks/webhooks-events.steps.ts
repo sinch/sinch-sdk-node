@@ -14,7 +14,6 @@ const processEvent = async (response: Response) => {
     formattedHeaders[name.toLowerCase()] = value;
   });
   rawEvent = await response.text();
-  rawEvent = rawEvent.replace(/\s+/g, '');
   event = verificationCallbackWebhook.parseEvent(JSON.parse(rawEvent));
 };
 
@@ -25,17 +24,17 @@ Given('the Verification Webhooks handler is available', () => {
   });
 });
 
-Then('the Verification event header contains a valid authorization', () => {
+When('I send a request to trigger a "Verification Request" event', async () => {
+  const response = await fetch('http://localhost:3018/webhooks/verification/verification-request-event');
+  await processEvent(response);
+});
+
+Then('the header of the Verification event "Verification Request" contains a valid authorization', () => {
   assert.ok(verificationCallbackWebhook.validateAuthenticationHeader(
     formattedHeaders,
     rawEvent,
     '/webhooks/verification',
     'POST'));
-});
-
-When('I send a request to trigger a "Verification Request" event', async () => {
-  const response = await fetch('http://localhost:3018/webhooks/verification/verification-request-event');
-  await processEvent(response);
 });
 
 Then('the Verification event describes a "Verification Request" event type', () => {
@@ -65,6 +64,14 @@ Then('the Verification event describes a "Verification Request" event type', () 
 When('I send a request to trigger a "Verification Result" event', async () => {
   const response = await fetch('http://localhost:3018/webhooks/verification/verification-result-event');
   await processEvent(response);
+});
+
+Then('the header of the Verification event "Verification Result" contains a valid authorization', () => {
+  assert.ok(verificationCallbackWebhook.validateAuthenticationHeader(
+    formattedHeaders,
+    rawEvent,
+    '/webhooks/verification',
+    'POST'));
 });
 
 Then('the Verification event describes a "Verification Result" event type', () => {
