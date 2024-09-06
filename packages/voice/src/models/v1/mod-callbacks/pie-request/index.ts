@@ -1,1 +1,1 @@
-export type { PieRequest, MenuResult } from './pie-request';
+export type { PieRequest, MenuResult, PieInformationType } from './pie-request';

@@ -1,10 +1,11 @@
-import { AceRequest, DiceRequest, IceRequest, NotifyRequest, PieRequest } from '../../../models';
+import { AceRequest, DiceRequest, IceRequest, NotifyRequest, PieRequest, VoiceCallbackEvent } from '../../../models';
 import { CallbackProcessor, SinchClientParameters, validateAuthenticationHeader } from '@sinch/sdk-client';
 import { IncomingHttpHeaders } from 'http';
 
+/** @deprecated - use Voice.VoiceCallbackEvent instead */
 export type VoiceCallback = IceRequest | AceRequest | DiceRequest | PieRequest | NotifyRequest;
 
-export class VoiceCallbackWebhooks implements CallbackProcessor<VoiceCallback>{
+export class VoiceCallbackWebhooks implements CallbackProcessor<VoiceCallbackEvent>{
   private readonly sinchClientParameters: SinchClientParameters;
 
   constructor(sinchClientParameters: SinchClientParameters) {
@@ -38,9 +39,9 @@ export class VoiceCallbackWebhooks implements CallbackProcessor<VoiceCallback>{
    * Reviver for a Voice Event.
    * This method ensures the object can be treated as a Voice Event and should be called before any action is taken to manipulate the object.
    * @param {any} eventBody - The event body containing the voice event notification.
-   * @return {VoiceCallback} - The parsed voice event object.
+   * @return {VoiceCallbackEvent} - The parsed voice event object.
    */
-  public parseEvent(eventBody: any): VoiceCallback {
+  public parseEvent(eventBody: any): VoiceCallbackEvent {
     if (eventBody.timestamp) {
       eventBody.timestamp = new Date(eventBody.timestamp);
     }
