@@ -1,14 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
-import {
-  Verification,
-  VerificationCallback,
-} from '@sinch/sdk-core';
+import { Verification } from '@sinch/sdk-core';
 
 @Injectable()
 export class VerificationEventService {
 
-  handleEvent(event: VerificationCallback, res: Response) {
+  handleEvent(event: Verification.VerificationCallbackEvent, res: Response) {
     console.log(`:: INCOMING EVENT :: ${event.event}`);
     switch (event.event) {
       case 'VerificationRequestEvent':

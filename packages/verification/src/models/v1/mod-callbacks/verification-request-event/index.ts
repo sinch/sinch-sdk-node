@@ -1,1 +1,1 @@
-export type { VerificationRequestEvent } from './verification-request-event';
+export type { VerificationRequestEvent, MethodEnum } from './verification-request-event';
