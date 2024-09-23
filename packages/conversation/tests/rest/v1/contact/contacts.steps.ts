@@ -23,7 +23,7 @@ Given('the Conversation service "Contacts" is available', function () {
   contactsApi = conversationService.contact;
 });
 
-When('I send a request to create an contact', async () => {
+When('I send a request to create a contact', async () => {
   contact = await contactsApi.create({
     contactCreateRequestBody: {
       channel_identities: [

@@ -90,7 +90,7 @@ When('I send a request to update a call that doesn\'t exist', async () => {
   }
 });
 
-Then('the update call response contains an error', () => {
+Then('the update call response contains a "not found" error', () => {
   assert.equal(updateCallResponse, undefined);
   const voiceError = JSON.parse(error.data) as Voice.VoiceError;
   assert.equal(voiceError.errorCode, 40400);
