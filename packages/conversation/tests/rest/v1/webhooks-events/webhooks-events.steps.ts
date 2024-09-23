@@ -217,17 +217,17 @@ Then('the Conversation event describes a "MESSAGE_INBOUND_SMART_CONVERSATION_RED
   assert.equal(messageInboundSmartConversationRedactionEvent.trigger, expectedTrigger);
 });
 
-When('I send a request to trigger a "MESSAGE_SUBMIT" event for a media message', async () => {
+When('I send a request to trigger a "MESSAGE_SUBMIT" event for a "media" message', async () => {
   const response = await fetch('http://localhost:3014/webhooks/conversation/message-submit/media');
   await processEvent(response);
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-Then('the header of the Conversation event {} for a media message contains a valid signature', (_event) => {
+Then('the header of the Conversation event {} for a {} message contains a valid signature', (_event, _messageType) => {
   assert.ok(conversationCallbackWebhook.validateAuthenticationHeader(formattedHeaders, rawEvent));
 });
 
-Then('the Conversation event describes a "MESSAGE_SUBMIT" event type for a media message', () => {
+Then('the Conversation event describes a "MESSAGE_SUBMIT" event type for a "media" message', () => {
   const messageSubmitEvent = event as Conversation.MessageSubmitEvent;
   assert.ok(messageSubmitEvent.message_submit_notification);
   const expectedTrigger: Conversation.WebhookTrigger = 'MESSAGE_SUBMIT';
@@ -235,17 +235,12 @@ Then('the Conversation event describes a "MESSAGE_SUBMIT" event type for a media
   assert.ok(messageSubmitEvent.message_submit_notification.submitted_message?.media_message);
 });
 
-When('I send a request to trigger a "MESSAGE_SUBMIT" event for a text message', async () => {
+When('I send a request to trigger a "MESSAGE_SUBMIT" event for a "text" message', async () => {
   const response = await fetch('http://localhost:3014/webhooks/conversation/message-submit/text');
   await processEvent(response);
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-Then('the header of the Conversation event {} for a text message contains a valid signature', (_event) => {
-  assert.ok(conversationCallbackWebhook.validateAuthenticationHeader(formattedHeaders, rawEvent));
-});
-
-Then('the Conversation event describes a "MESSAGE_SUBMIT" event type for a text message', () => {
+Then('the Conversation event describes a "MESSAGE_SUBMIT" event type for a "text" message', () => {
   const messageSubmitEvent = event as Conversation.MessageSubmitEvent;
   assert.ok(messageSubmitEvent.message_submit_notification);
   const expectedTrigger: Conversation.WebhookTrigger = 'MESSAGE_SUBMIT';
@@ -253,12 +248,12 @@ Then('the Conversation event describes a "MESSAGE_SUBMIT" event type for a text 
   assert.ok(messageSubmitEvent.message_submit_notification.submitted_message?.text_message);
 });
 
-When('I send a request to trigger a "SMART_CONVERSATIONS" event for a media message', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/smart-conversation/media');
+When('I send a request to trigger a "SMART_CONVERSATIONS" event for a "media" message', async () => {
+  const response = await fetch('http://localhost:3014/webhooks/conversation/smart-conversations/media');
   await processEvent(response);
 });
 
-Then('the Conversation event describes a "SMART_CONVERSATIONS" event type for a media message', () => {
+Then('the Conversation event describes a "SMART_CONVERSATIONS" event type for a "media" message', () => {
   const smartConversationsEvent = event as Conversation.SmartConversationsEvent;
   assert.ok(smartConversationsEvent.smart_conversation_notification);
   const expectedTrigger: Conversation.WebhookTrigger = 'SMART_CONVERSATIONS';
@@ -267,12 +262,12 @@ Then('the Conversation event describes a "SMART_CONVERSATIONS" event type for a 
   assert.ok(smartConversationsEvent.smart_conversation_notification.analysis_results?.ml_offensive_analysis_result);
 });
 
-When('I send a request to trigger a "SMART_CONVERSATIONS" event for a text message', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/smart-conversation/text');
+When('I send a request to trigger a "SMART_CONVERSATIONS" event for a "text" message', async () => {
+  const response = await fetch('http://localhost:3014/webhooks/conversation/smart-conversations/text');
   await processEvent(response);
 });
 
-Then('the Conversation event describes a "SMART_CONVERSATIONS" event type for a text message', () => {
+Then('the Conversation event describes a "SMART_CONVERSATIONS" event type for a "text" message', () => {
   const smartConversationsEvent = event as Conversation.SmartConversationsEvent;
   assert.ok(smartConversationsEvent.smart_conversation_notification);
   const expectedTrigger: Conversation.WebhookTrigger = 'SMART_CONVERSATIONS';
