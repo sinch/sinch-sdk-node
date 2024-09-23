@@ -15,7 +15,6 @@ const processEvent = async (response: Response) => {
     formattedHeaders[name.toLowerCase()] = value;
   });
   rawEvent = await response.text();
-  rawEvent = rawEvent.replace(/\s+/g, '');
   event = conversationCallbackWebhook.parseEvent(JSON.parse(rawEvent));
 };
 
@@ -23,13 +22,14 @@ Given('the Conversation Webhooks handler is available', () => {
   conversationCallbackWebhook = new ConversationCallbackWebhooks(APP_SECRET);
 });
 
-Then('the Conversation event header contains a valid signature', () => {
-  assert.ok(conversationCallbackWebhook.validateAuthenticationHeader(formattedHeaders, rawEvent));
-});
-
 When('I send a request to trigger a "CAPABILITY" event', async () => {
   const response = await fetch('http://localhost:3014/webhooks/conversation/capability-lookup');
   await processEvent(response);
+});
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('the header of the Conversation event {string} contains a valid signature', (_event) => {
+  assert.ok(conversationCallbackWebhook.validateAuthenticationHeader(formattedHeaders, rawEvent));
 });
 
 Then('the Conversation event describes a "CAPABILITY" event type', () => {
@@ -123,9 +123,14 @@ Then('the Conversation event describes a "CONVERSATION_STOP" event type', () => 
   assert.equal(conversationStopEvent.trigger, expectedTrigger);
 });
 
-When('I send a request to trigger a "EVENT_DELIVERY" event with a FAILED status', async () => {
+When('I send a request to trigger a "EVENT_DELIVERY" event with a "FAILED" status', async () => {
   const response = await fetch('http://localhost:3014/webhooks/conversation/event-delivery-report/failed');
   await processEvent(response);
+});
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('the header of the Conversation event {} with a {} status contains a valid signature', (_event, _status) => {
+  assert.ok(conversationCallbackWebhook.validateAuthenticationHeader(formattedHeaders, rawEvent));
 });
 
 Then('the Conversation event describes a "EVENT_DELIVERY" event type', () => {
@@ -144,7 +149,7 @@ Then('the Conversation event describes a FAILED event delivery status and its re
   assert.equal(eventDeliveryReport.reason.code, expectedReasonCode);
 });
 
-When('I send a request to trigger a "EVENT_DELIVERY" event with a DELIVERED status', async () => {
+When('I send a request to trigger a "EVENT_DELIVERY" event with a "DELIVERED" status', async () => {
   const response = await fetch('http://localhost:3014/webhooks/conversation/event-delivery-report/succeeded');
   await processEvent(response);
 });
@@ -161,12 +166,12 @@ Then('the Conversation event describes a "EVENT_INBOUND" event type', () => {
   assert.equal(eventInbound.trigger, expectedTrigger);
 });
 
-When('I send a request to trigger a "MESSAGE_DELIVERY" event with a FAILED status', async () => {
+When('I send a request to trigger a "MESSAGE_DELIVERY" event with a "FAILED" status', async () => {
   const response = await fetch('http://localhost:3014/webhooks/conversation/message-delivery-report/failed');
   await processEvent(response);
 });
 
-When('I send a request to trigger a "MESSAGE_DELIVERY" event with a QUEUED status', async () => {
+When('I send a request to trigger a "MESSAGE_DELIVERY" event with a "QUEUED_ON_CHANNEL" status', async () => {
   const response = await fetch('http://localhost:3014/webhooks/conversation/message-delivery-report/succeeded');
   await processEvent(response);
 });
@@ -212,12 +217,17 @@ Then('the Conversation event describes a "MESSAGE_INBOUND_SMART_CONVERSATION_RED
   assert.equal(messageInboundSmartConversationRedactionEvent.trigger, expectedTrigger);
 });
 
-When('I send a request to trigger a "MESSAGE_SUBMIT" event for a media message', async () => {
+When('I send a request to trigger a "MESSAGE_SUBMIT" event for a "media" message', async () => {
   const response = await fetch('http://localhost:3014/webhooks/conversation/message-submit/media');
   await processEvent(response);
 });
 
-Then('the Conversation event describes a "MESSAGE_SUBMIT" event type for a media message', () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('the header of the Conversation event {} for a {} message contains a valid signature', (_event, _messageType) => {
+  assert.ok(conversationCallbackWebhook.validateAuthenticationHeader(formattedHeaders, rawEvent));
+});
+
+Then('the Conversation event describes a "MESSAGE_SUBMIT" event type for a "media" message', () => {
   const messageSubmitEvent = event as Conversation.MessageSubmitEvent;
   assert.ok(messageSubmitEvent.message_submit_notification);
   const expectedTrigger: Conversation.WebhookTrigger = 'MESSAGE_SUBMIT';
@@ -225,12 +235,12 @@ Then('the Conversation event describes a "MESSAGE_SUBMIT" event type for a media
   assert.ok(messageSubmitEvent.message_submit_notification.submitted_message?.media_message);
 });
 
-When('I send a request to trigger a "MESSAGE_SUBMIT" event for a text message', async () => {
+When('I send a request to trigger a "MESSAGE_SUBMIT" event for a "text" message', async () => {
   const response = await fetch('http://localhost:3014/webhooks/conversation/message-submit/text');
   await processEvent(response);
 });
 
-Then('the Conversation event describes a "MESSAGE_SUBMIT" event type for a text message', () => {
+Then('the Conversation event describes a "MESSAGE_SUBMIT" event type for a "text" message', () => {
   const messageSubmitEvent = event as Conversation.MessageSubmitEvent;
   assert.ok(messageSubmitEvent.message_submit_notification);
   const expectedTrigger: Conversation.WebhookTrigger = 'MESSAGE_SUBMIT';
@@ -238,12 +248,12 @@ Then('the Conversation event describes a "MESSAGE_SUBMIT" event type for a text 
   assert.ok(messageSubmitEvent.message_submit_notification.submitted_message?.text_message);
 });
 
-When('I send a request to trigger a "SMART_CONVERSATIONS" event for a media message', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/smart-conversation/media');
+When('I send a request to trigger a "SMART_CONVERSATIONS" event for a "media" message', async () => {
+  const response = await fetch('http://localhost:3014/webhooks/conversation/smart-conversations/media');
   await processEvent(response);
 });
 
-Then('the Conversation event describes a "SMART_CONVERSATIONS" event type for a media message', () => {
+Then('the Conversation event describes a "SMART_CONVERSATIONS" event type for a "media" message', () => {
   const smartConversationsEvent = event as Conversation.SmartConversationsEvent;
   assert.ok(smartConversationsEvent.smart_conversation_notification);
   const expectedTrigger: Conversation.WebhookTrigger = 'SMART_CONVERSATIONS';
@@ -252,12 +262,12 @@ Then('the Conversation event describes a "SMART_CONVERSATIONS" event type for a 
   assert.ok(smartConversationsEvent.smart_conversation_notification.analysis_results?.ml_offensive_analysis_result);
 });
 
-When('I send a request to trigger a "SMART_CONVERSATIONS" event for a text message', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/smart-conversation/text');
+When('I send a request to trigger a "SMART_CONVERSATIONS" event for a "text" message', async () => {
+  const response = await fetch('http://localhost:3014/webhooks/conversation/smart-conversations/text');
   await processEvent(response);
 });
 
-Then('the Conversation event describes a "SMART_CONVERSATIONS" event type for a text message', () => {
+Then('the Conversation event describes a "SMART_CONVERSATIONS" event type for a "text" message', () => {
   const smartConversationsEvent = event as Conversation.SmartConversationsEvent;
   assert.ok(smartConversationsEvent.smart_conversation_notification);
   const expectedTrigger: Conversation.WebhookTrigger = 'SMART_CONVERSATIONS';
