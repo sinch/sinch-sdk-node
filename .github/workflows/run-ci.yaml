@@ -32,10 +32,6 @@ jobs:
           token: ${{ secrets.PAT_CI }}
           fetch-depth: 0
           path: sinch-sdk-mockserver
-      - name: Build custom Docker image
-        run: |
-          cd sinch-sdk-mockserver
-          docker build -t sinch-sdk-mockserver -f Dockerfile .
       - name: Install Docker Compose
         run: |
           sudo apt-get update
@@ -44,11 +40,6 @@ jobs:
         run: |
           cd sinch-sdk-mockserver
           docker-compose up -d
-      - name: Wait for the mock servers to be healthy
-        run: |
-          cd sinch-sdk-mockserver
-          chmod +x ./scripts/healthcheck.sh
-          ./scripts/healthcheck.sh
       - name: Create target directories for feature files
         run: |
           mkdir -p ./packages/fax/tests/e2e/features
@@ -57,6 +48,7 @@ jobs:
           mkdir -p ./packages/elastic-sip-trunking/tests/e2e/features
           mkdir -p ./packages/sms/tests/e2e/features
           mkdir -p ./packages/verification/tests/e2e/features
+          mkdir -p ./packages/voice/tests/e2e/features
       - name: Copy feature files
         run: |
           cp sinch-sdk-mockserver/features/fax/*.feature ./packages/fax/tests/e2e/features/
@@ -65,6 +57,7 @@ jobs:
           cp sinch-sdk-mockserver/features/elastic-sip-trunking/*.feature ./packages/elastic-sip-trunking/tests/e2e/features/
           cp sinch-sdk-mockserver/features/sms/*.feature ./packages/sms/tests/e2e/features/
           cp sinch-sdk-mockserver/features/verification/*.feature ./packages/verification/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/voice/*.feature ./packages/voice/tests/e2e/features/
       - name: Run e2e tests
         run: |
           yarn install

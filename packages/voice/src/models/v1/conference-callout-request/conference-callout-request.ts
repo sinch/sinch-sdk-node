@@ -1,5 +1,6 @@
 import { Destination } from '../destination';
 import { ConferenceDtmfOptions } from '../conference-dtmf-options';
+import { MusicOnHold } from '../enums';
 
 /**
  * The conference callout calls a phone number or a user. When the call is answered, it's connected to a conference room.
@@ -28,7 +29,7 @@ export interface ConferenceCalloutRequest {
   /** The text that will be spoken as a greeting. */
   greeting?: string;
   /** Means "music-on-hold." It's an optional parameter that specifies what the first participant should listen to while they're alone in the conference, waiting for other participants to join. It can take one of these pre-defined values:<ul><li>`ring` (progress tone)</li><li>`music1` (music file)</li><li>`music2` (music file)</li><li>`music3` (music file)</li></ul></br>If no “music-on-hold” is specified, the user will only hear silence. */
-  mohClass?: string;
+  mohClass?: MusicOnHold;
   /** Used to input custom data. */
   custom?: string;
   /** can be either “pstn” for PSTN endpoint or “mxp” for data (app or web) clients. */
