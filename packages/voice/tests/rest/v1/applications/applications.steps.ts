@@ -19,7 +19,7 @@ Given('the Voice service "Applications" is available', () => {
   applicationsApi = voiceService.applications;
 });
 
-When('I send a request get information about my owned numbers', async () => {
+When('I send a request to get information about my owned numbers', async () => {
   listNumbersResponse = await applicationsApi.listNumbers({});
 });
 
@@ -36,7 +36,7 @@ Then('the response contains details about the numbers that I own', () => {
   assert.equal(number2.capability, 'voice');
 });
 
-When('I send a request assign some numbers to a Voice Application', async () => {
+When('I send a request to assign some numbers to a Voice Application', async () => {
   assignNumbersResponse = await applicationsApi.assignNumbers({
     assignNumbersRequestBody: {
       numbers: [
@@ -52,7 +52,7 @@ Then('the assign numbers response contains no data', () => {
   assert.deepEqual(assignNumbersResponse, {});
 });
 
-When('I send a request unassign a number from a Voice Application', async () => {
+When('I send a request to unassign a number from a Voice Application', async () => {
   unassignNumberResponse = await applicationsApi.unassignNumber({
     unassignNumbersRequestBody: {
       number: '+12012222222',
@@ -64,7 +64,7 @@ Then('the unassign number response contains no data', () => {
   assert.deepEqual(unassignNumberResponse, {});
 });
 
-When('I send a request get information about a specific number', async () => {
+When('I send a request to get information about a specific number', async () => {
   queryNumberResponse = await applicationsApi.queryNumber({
     number: '+12015555555',
   });
@@ -84,7 +84,7 @@ Then('the response contains details about the specific number', () => {
   assert.deepEqual(number.rate, rate);
 });
 
-When('I send a request get the callback URLs associated to an application', async () => {
+When('I send a request to get the callback URLs associated to an application', async () => {
   callbackURLs = await applicationsApi.getCallbackURLs({
     applicationkey: 'f00dcafe-abba-c0de-1dea-dabb1ed4caf3',
   });
@@ -96,7 +96,7 @@ Then('the response contains callback URLs details', () => {
   assert.equal(callbackURLs.url.fallback, 'https://my.fallback-server.com/voice');
 });
 
-When('I send a request update the callback URLs associated to an application', async () => {
+When('I send a request to update the callback URLs associated to an application', async () => {
   updateCallbackURLsResponse = await applicationsApi.updateCallbackURLs({
     applicationkey: 'f00dcafe-abba-c0de-1dea-dabb1ed4caf3',
     updateCallbacksRequestBody: {
