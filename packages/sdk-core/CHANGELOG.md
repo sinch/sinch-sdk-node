@@ -1,3 +1,12 @@
+## Version 1.2.0
+- Update dependency `@sinch/numbers` to version `1.2.0`
+- Update dependency `@sinch/sms` to version `1.2.0`
+- Update dependency `@sinch/verification` to version `1.2.0`
+- Update dependency `@sinch/voice` to version `1.2.0`
+- Update dependency `@sinch/conversation` to version `1.2.0`
+- Update dependency `@sinch/fax` to version `1.2.0`
+- Update dependency `@sinch/elastic-sip-trunking` to version `1.2.0`
+
 ## Version 1.1.0
 - Update dependency `@sinch/numbers` to version `1.1.0`
 - Update dependency `@sinch/sms` to version `1.1.0`

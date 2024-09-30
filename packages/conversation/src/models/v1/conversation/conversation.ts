@@ -20,8 +20,7 @@ export interface Conversation {
   /**
    * Arbitrary data set by the Conversation API clients. Up to 1024 characters long.
    * NOTE: This field has been deprecated due to changes in the system architecture or functionality.
-   * It is no longer actively maintained and may be removed in future versions. Please avoid relying on this field in new code.
-   * @deprecated
+   * @deprecated It is no longer actively maintained and may be removed in future versions. Please avoid relying on this field in new code.
    */
   metadata?: string;
   /** Arbitrary data set by the Conversation API clients and/or provided in the `conversation_metadata` field of a SendMessageRequest. A valid JSON object. */

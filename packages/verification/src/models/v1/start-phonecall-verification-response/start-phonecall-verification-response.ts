@@ -1,6 +1,6 @@
 import { LinksObject } from '../links-object';
 
-/** @deprecated */
+/** @deprecated Use StartPhoneCallVerificationResponse instead */
 export type StartCalloutVerificationResponse = StartPhoneCallVerificationResponse;
 
 export interface StartPhoneCallVerificationResponse {

@@ -1,7 +1,7 @@
 import { ReasonEnum, SourceEnum, VerificationStatusEnum } from '../enums';
 import { Identity } from '../identity';
 
-/** @deprecated */
+/** @deprecated Use PhoneCallVerificationReportResponse instead */
 export type CalloutVerificationReportResponse = PhoneCallVerificationReportResponse;
 
 export interface PhoneCallVerificationReportResponse {

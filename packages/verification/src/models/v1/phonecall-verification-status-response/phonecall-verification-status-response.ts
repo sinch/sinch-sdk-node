@@ -2,7 +2,7 @@ import { CallResult, ReasonEnum, VerificationStatusEnum } from '../enums';
 import { Identity } from '../identity';
 import { VerificationPriceCall } from '../verification-price-call';
 
-/** @deprecated */
+/** @deprecated Use PhoneCallVerificationStatusResponse instead  */
 export type CalloutVerificationStatusResponse = PhoneCallVerificationStatusResponse;
 
 export interface PhoneCallVerificationStatusResponse {

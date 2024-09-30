@@ -82,7 +82,8 @@ export const startVerificationHelper = {
    * @param {string} [reference] - An optional reference identifier for the callout.
    * @param {string} [locale] - An optional locale string to specify the language or region for the callout.
    * @return {StartCalloutVerificationRequestData} The constructed callout request object.
-   * @deprecated */
+   * @deprecated Use the method buildPhoneCallRequest() instead
+   */
   buildCalloutRequest: (
     phoneNumber: string,
     reference?: string,
@@ -160,7 +161,7 @@ export const startVerificationHelper = {
    * @param {string} phoneNumber - The phone number to verify.
    * @param {string} [reference] - An optional reference identifier for the verification request.
    * @return {StartSeamlessVerificationRequestData} The constructed seamless verification request data.
-   * @deprecated
+   * @deprecated Use the method buildDataRequest() instead
    */
   buildSeamlessRequest: (
     phoneNumber: string,
@@ -227,7 +228,7 @@ export const reportVerificationByIdHelper = {
    * @param {string} id - The unique identifier for the callout verification request.
    * @param {string} code - The verification code received during the callout.
    * @return {ReportCalloutVerificationByIdRequestData} The request data object used to report the callout verification.
-   * @deprecated
+   * @deprecated Use the method buildPhoneCallRequest() instead
    */
   buildCalloutRequest: (
     id: string,
@@ -313,7 +314,7 @@ export const reportVerificationByIdentityHelper = {
    * @param {string} identity - The phone number for which the callout verification process has been initiated.
    * @param {string} code - The verification code received during the callout.
    * @return {ReportCalloutVerificationByIdentityRequestData} The request data object used to report the callout verification.
-   * @deprecated
+   * @deprecated Use the method buildPhoneCallRequest() instead
    */
   buildCalloutRequest: (
     identity: string,

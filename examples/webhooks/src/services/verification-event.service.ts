@@ -29,7 +29,7 @@ export class VerificationEventService {
         res.status(200).json(smsRequestEventResponse);
         break;
       case 'callout':
-        const calloutRequestEventResponse: Verification.CalloutRequestEventResponse = {
+        const calloutRequestEventResponse: Verification.PhoneCallRequestEventResponse = {
           action: 'allow',
           callout: {
             code: '123456',

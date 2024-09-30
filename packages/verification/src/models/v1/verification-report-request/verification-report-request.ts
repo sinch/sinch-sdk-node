@@ -30,7 +30,7 @@ export interface PhoneCallVerificationReportRequestServerModel {
   callout: PhoneCallContent;
 }
 
-/** @deprecated */
+/** @deprecated Use PhoneCallVerificationReportRequest instead */
 export interface CalloutVerificationReportRequest {
   /** A configuration object containing settings specific to Phone Call verifications */
   callout: CalloutContent;
@@ -41,5 +41,5 @@ interface PhoneCallContent {
   code?: string;
 }
 
-/** @deprecated */
+/** @deprecated Use PhoneCallContent instead */
 type CalloutContent = PhoneCallContent;
