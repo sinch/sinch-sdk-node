@@ -18,7 +18,9 @@ jobs:
       - name: Cache Node.js modules
         uses: actions/cache@v3
         with:
-          path: '**/node_modules'
+          path: |
+            node_modules
+            packages/**/node_modules
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.node-version }}-
@@ -35,7 +37,8 @@ jobs:
       - name: Cache build output
         uses: actions/cache@v3
         with:
-          path: './build'
+          path: |
+            packages/**/dist
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-build-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.node-version }}-build-
@@ -67,7 +70,9 @@ jobs:
       - name: Restore Node.js modules cache
         uses: actions/cache@v3
         with:
-          path: '**/node_modules'
+          path: |
+            node_modules
+            packages/**/node_modules
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.node-version }}-
@@ -75,7 +80,8 @@ jobs:
       - name: Restore build output
         uses: actions/cache@v3
         with:
-          path: './build'
+          path: |
+            packages/**/dist
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-build-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.node-version }}-build-
