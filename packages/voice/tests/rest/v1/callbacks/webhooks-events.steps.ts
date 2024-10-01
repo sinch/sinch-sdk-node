@@ -21,7 +21,7 @@ const processEvent = async (response: Response) => {
 Given('the Voice Webhooks handler is available', () => {
   voiceCallbackWebhooks = new VoiceCallbackWebhooks({
     applicationKey: 'appKey',
-    applicationSecret: 'appSecret',
+    applicationSecret: 'YXBwU2VjcmV0', // base64 value for 'appSecret'
   });
 });
 
