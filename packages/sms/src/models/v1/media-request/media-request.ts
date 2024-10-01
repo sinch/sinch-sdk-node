@@ -1,5 +1,5 @@
 import { MediaBody } from '../media-body';
-import { ParameterObj } from '../parameter-obj';
+import { ParameterGroup } from '../parameter-group';
 import { DeliveryReportEnum } from '../enums';
 
 /**
@@ -12,8 +12,8 @@ export interface MediaRequest {
   from?: string;
   /** @see MediaBody */
   body: MediaBody;
-  /** @see ParameterObj */
-  parameters?: ParameterObj;
+  /** @see ParameterGroup */
+  parameters?: ParameterGroup;
   /** MMS */
   type?: 'mt_media';
   /** Request delivery report callback. Note that delivery reports can be fetched from the API regardless of this setting. */

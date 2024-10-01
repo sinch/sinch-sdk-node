@@ -1,4 +1,4 @@
-import { ParameterObj } from '../parameter-obj';
+import { ParameterGroup } from '../parameter-group';
 import { DeliveryReportEnum } from '../enums';
 
 export interface ApiUpdateTextMtMessage {
@@ -19,8 +19,8 @@ export interface ApiUpdateTextMtMessage {
   expire_at?: Date;
   /** Override the default callback URL for this batch.  Constraints: Must be valid URL.  */
   callback_url?: string;
-  /** @see ParameterObj */
-  parameters?: ParameterObj;
+  /** @see ParameterGroup */
+  parameters?: ParameterGroup;
   /** The message content */
   body?: string;
 }

@@ -1,4 +1,4 @@
-import { ParameterObj } from '../parameter-obj';
+import { ParameterGroup } from '../parameter-group';
 import { DeliveryReportEnum } from '../enums';
 
 export interface TextResponse {
@@ -10,8 +10,8 @@ export interface TextResponse {
   from?: string;
   /** Indicates if the batch has been canceled or not. */
   canceled?: boolean;
-  /** @see ParameterObj */
-  parameters?: ParameterObj;
+  /** @see ParameterGroup */
+  parameters?: ParameterGroup;
   /** The message content */
   body?: string;
   /** Regular SMS */

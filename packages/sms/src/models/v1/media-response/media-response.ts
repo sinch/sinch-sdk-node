@@ -1,5 +1,5 @@
 import { MediaBody } from '../media-body';
-import { ParameterObj } from '../parameter-obj';
+import { ParameterGroup } from '../parameter-group';
 import { DeliveryReportEnum } from '../enums';
 
 export interface MediaResponse {
@@ -13,8 +13,8 @@ export interface MediaResponse {
   canceled?: boolean;
   /** @see MediaBody */
   body?: MediaBody;
-  /** @see ParameterObj */
-  parameters?: ParameterObj;
+  /** @see ParameterGroup */
+  parameters?: ParameterGroup;
   /** Media message */
   type?: 'mt_media';
   /** Timestamp for when batch was created. YYYY-MM-DDThh:mm:ss.SSSZ format */
