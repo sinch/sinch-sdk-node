@@ -15,16 +15,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            packages/**/node_modules
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ matrix.node-version }}-
-
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
@@ -67,16 +57,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Restore Node.js modules cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            packages/**/node_modules
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ matrix.node-version }}-
-
       - name: Restore build output
         uses: actions/cache@v3
         with:
@@ -117,7 +97,9 @@ jobs:
           cp sinch-sdk-mockserver/features/voice/*.feature ./packages/voice/tests/e2e/features/
 
       - name: Run e2e tests
-        run: yarn run e2e
+        run: |
+          yarn install
+          yarn run e2e
 
   sonarcloud:
     runs-on: ubuntu-latest
