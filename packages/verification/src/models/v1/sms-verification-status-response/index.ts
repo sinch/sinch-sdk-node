@@ -1,1 +1,1 @@
-export * from './sms-verification-status-response';
+export type { SMSVerificationStatusResponse, SmsVerificationStatusResponse } from './sms-verification-status-response';

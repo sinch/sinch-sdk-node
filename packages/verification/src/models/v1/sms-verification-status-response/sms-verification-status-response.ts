@@ -25,3 +25,6 @@ export interface SmsVerificationStatusResponse {
   /** Free text that the client is sending, used to show if the call/SMS was intercepted or not. */
   source?: SourceEnum;
 }
+
+/** @deprecated Use SmsVerificationStatusResponse instead */
+export type SMSVerificationStatusResponse = SmsVerificationStatusResponse;

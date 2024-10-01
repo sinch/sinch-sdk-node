@@ -2,7 +2,7 @@ import { AceRequest, DiceRequest, IceRequest, NotifyRequest, PieRequest, VoiceCa
 import { CallbackProcessor, SinchClientParameters, validateAuthenticationHeader } from '@sinch/sdk-client';
 import { IncomingHttpHeaders } from 'http';
 
-/** @deprecated - use Voice.VoiceCallbackEvent instead */
+/** @deprecated Use Voice.VoiceCallbackEvent instead */
 export type VoiceCallback = IceRequest | AceRequest | DiceRequest | PieRequest | NotifyRequest;
 
 export class VoiceCallbackWebhooks implements CallbackProcessor<VoiceCallbackEvent>{

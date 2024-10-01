@@ -33,7 +33,7 @@ export interface ReportPhoneCallVerificationByIdRequestData extends ReportVerifi
   'reportPhoneCallVerificationByIdRequestBody': PhoneCallVerificationReportRequest;
 }
 
-/** @deprecated */
+/** @deprecated Use ReportPhoneCallVerificationByIdRequestData instead */
 export interface ReportCalloutVerificationByIdRequestData extends ReportVerificationByIdRequestDataBase {
   /** Request body to report a verification started with a callout by its ID */
   'reportCalloutVerificationByIdRequestBody': CalloutVerificationReportRequest;
@@ -59,7 +59,7 @@ export interface ReportPhoneCallVerificationByIdentityRequestData extends Report
   'reportPhoneCallVerificationByIdentityRequestBody': PhoneCallVerificationReportRequest;
 }
 
-/** @deprecated */
+/** @deprecated Use ReportPhoneCallVerificationByIdentityRequestData instead */
 export interface ReportCalloutVerificationByIdentityRequestData extends ReportVerificationByIdentityRequestDataBase {
   /** Request body to report a verification started with a callout by its identity */
   'reportCalloutVerificationByIdentityRequestBody': CalloutVerificationReportRequest;
@@ -76,21 +76,22 @@ export interface StartFlashCallVerificationRequestData {
 }
 
 export interface StartPhoneCallVerificationRequestData {
+  /** Request body to start a verification with a phone call */
   'startVerificationWithPhoneCallRequestBody': StartVerificationWithPhoneCall;
 }
 
-/** @deprecated */
+/** @deprecated Use StartPhoneCallVerificationRequestData instead */
 export interface StartCalloutVerificationRequestData {
   /** Request body to start a verification with a callout */
   'startVerificationWithCalloutRequestBody': StartVerificationWithCallout;
 }
 
 export interface StartDataVerificationRequestData {
-  /** Request body to start a seamless verification */
+  /** Request body to start a data verification */
   'startDataVerificationRequestBody': StartDataVerification;
 }
 
-/** @deprecated */
+/** @deprecated Use StartDataVerificationRequestData instead */
 export interface StartSeamlessVerificationRequestData {
   /** Request body to start a seamless verification */
   'startSeamlessVerificationRequestBody': StartSeamlessVerification;

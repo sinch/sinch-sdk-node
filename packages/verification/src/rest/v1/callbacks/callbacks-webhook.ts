@@ -2,7 +2,7 @@ import { VerificationCallbackEvent, VerificationRequestEvent, VerificationResult
 import { CallbackProcessor, SinchClientParameters, validateAuthenticationHeader } from '@sinch/sdk-client';
 import { IncomingHttpHeaders } from 'http';
 
-/** @deprecated - use Verification.VerificationCallback instead */
+/** @deprecated Use Verification.VerificationCallback instead */
 export type VerificationCallback = VerificationRequestEvent | VerificationResultEvent;
 
 export class VerificationCallbackWebhooks implements CallbackProcessor<VerificationCallbackEvent>{

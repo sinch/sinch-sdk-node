@@ -18,3 +18,6 @@ export interface SmsVerificationReportResponse {
   /** @see Identity */
   identity?: Identity;
 }
+
+/** @deprecated Use SmsVerificationReportResponse instead */
+export type SMSVerificationReportResponse = SmsVerificationReportResponse;

@@ -1,5 +1,17 @@
 import { GroupAutoUpdate } from '../group-auto-update';
 
+/** @deprecated Use Group instead */
+export type CreateGroupResponse = Group;
+
+/** @deprecated Use Group instead */
+export type GroupResponse = Group;
+
+/** @deprecated Use Group instead */
+export type ReplaceGroupResponse = Group;
+
+/** @deprecated Use Group instead */
+export type UpdateGroupResponse = Group;
+
 export interface Group {
 
   /** The ID used to reference this group. */

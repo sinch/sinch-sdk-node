@@ -71,8 +71,17 @@ export class DeliveryReportsApi extends SmsDomainApi {
       'Accept': 'application/json',
     };
 
+    // TODO: Remove in v2.0
+    let phoneNumber;
+    if (data['phone_number']) {
+      phoneNumber = data['phone_number'];
+    }
+    else if (data['recipient_msisdn']) {
+      phoneNumber = data['recipient_msisdn'];
+    }
+
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}/delivery_report/${data['phone_number']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}/delivery_report/${phoneNumber}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
