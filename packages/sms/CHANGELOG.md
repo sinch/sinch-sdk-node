@@ -8,6 +8,13 @@
 - [Bugfix] In the interface `UpdateGroupRequest`, the property `name` can also be set to null to remove an existing name set.
 - [Deprecation Notice] All variations of a group response (`GroupResponse`, `CreateGroupResponse`, `ReplaceGroupResponse` and `UpdateGroupResponse`) are deprecated and replaced by the unique interface `Group`.
 - [Deprecation Notice] In the interface `GetDeliveryReportByPhoneNumberRequestData`, the request parameter `recipient_msisdn` is deprecated and should be replaced by `phone_number`.
+- [Deprecation Notice] The "parameters" related interfaces have been updated and the interface `ParameterGroup`uses an index signature to allow for arbitrary keys instead of extending a `Record<string, any>`:
+
+| Deprecated               | New             |
+|--------------------------|-----------------|
+| ParameterObj             | ParameterGroup  |
+| ParameterObjParameterKey | ParameterValues |
+
 - [E2E] Add Cucumber steps implementation.
 
 ## Version 1.1.0
