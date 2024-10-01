@@ -27,9 +27,9 @@ import {
 export class NumbersService {
   public readonly availableRegions: AvailableRegionsApi;
   public readonly callbacks: CallbacksApi;
-  /** @deprecated use the methods exposed at the Numbers Service level instead */
+  /** @deprecated Use the methods exposed at the Numbers Service level instead */
   public readonly availableNumber: AvailableNumberApi;
-  /** @deprecated use the methods exposed at the Numbers Service level instead */
+  /** @deprecated Use the methods exposed at the Numbers Service level instead */
   public readonly activeNumber: ActiveNumberApi;
 
   /**

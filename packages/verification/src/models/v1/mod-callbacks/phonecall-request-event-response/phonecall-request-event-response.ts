@@ -1,13 +1,19 @@
 import { ActionEnum } from '../../enums';
 
-export interface CalloutRequestEventResponse {
+/** @deprecated Use PhoneCallRequestEventResponse instead */
+export type CalloutRequestEventResponse = PhoneCallRequestEventResponse;
+
+export interface PhoneCallRequestEventResponse {
   /** Determines whether the verification can be executed. */
   action?: ActionEnum;
-  /** @see CalloutProperties */
-  callout?: CalloutProperties;
+  /** @see PhoneCallProperties */
+  callout?: PhoneCallProperties;
 }
 
-export interface CalloutProperties {
+/** @deprecated Use PhoneCallProperties instead */
+export type CalloutProperties = PhoneCallProperties;
+
+export interface PhoneCallProperties {
   /** The Phone Call PIN that should be entered by the user. Sinch servers automatically generate PIN codes for Phone Call verification. If you want to set your own code, you can specify it in the response to the Verification Request Event. */
   code?: string;
   /** @see SpeechProperties */

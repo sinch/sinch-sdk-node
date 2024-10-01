@@ -1,3 +1,15 @@
+## Version 1.2.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.2.0`.
+- [Bugfix] Fix issue with pagination to iterate over multiple pages.
+- [Bugfix] `ListConversationsRequestData`: the property `only_active` becomes optional.
+- [Bugfix] Template V2: add an optional `id` property to the `V2Template` interface.
+- [Bugfix] `conversations.listRecent()`: Add a page_size value by default. Without it the API returns an empty list.
+- [Bugfix][Breaking] `InjectConversationEvent` interface: only `AppEvent` is allowed (`ContactEvent` and `ContactMessageEvent` are no longer allowed).
+- [Bugfix][Breaking]
+  - Template V2: For "create" and "update" operations, the request bodies interface no longer accept read-only properties.
+  - Webhooks: For "create" and "update" operations, the request bodies interface no longer accept read-only properties.
+- [E2E] Add Cucumber steps implementation.
+
 ## Version 1.1.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.1.0`
 

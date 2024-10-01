@@ -1,1 +1,1 @@
-export type { Group } from './group';
+export type { Group, GroupResponse, CreateGroupResponse, ReplaceGroupResponse, UpdateGroupResponse } from './group';

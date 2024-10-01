@@ -1,6 +1,6 @@
 import { LinksObject } from '../links-object';
 
-/** @deprecated */
+/** @deprecated Use StartDataVerificationResponse instead */
 export type StartSeamlessVerificationResponse = StartDataVerificationResponse;
 
 export interface StartDataVerificationResponse {

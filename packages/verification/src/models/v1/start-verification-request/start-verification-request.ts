@@ -20,7 +20,7 @@ export interface StartVerificationWithPhoneCallServerModel extends StartVerifica
   calloutOptions?: PhoneCallOptions;
 }
 
-/** @deprecated */
+/** @deprecated Use StartVerificationWithPhoneCall instead */
 export interface StartVerificationWithCallout extends StartVerificationBase {
   /** @see CalloutOptions */
   calloutOptions?: CalloutOptions;
@@ -28,8 +28,8 @@ export interface StartVerificationWithCallout extends StartVerificationBase {
 
 export interface StartDataVerification extends StartVerificationBase {}
 
-/** @deprecated */
-export interface StartSeamlessVerification extends StartVerificationBase {}
+/** @deprecated Use StartDataVerification instead */
+export type StartSeamlessVerification = StartDataVerification;
 
 export interface StartVerificationBase {
   /** @see Identity */
@@ -64,7 +64,7 @@ export interface FlashCallOptions {
   dialTimeout?: number;
 }
 
-/** @deprecated */
+/** @deprecated Use PhoneCallOptions instead */
 export type CalloutOptions = PhoneCallOptions;
 
 /**
@@ -74,7 +74,7 @@ export interface PhoneCallOptions {
   /** @see PhoneCallOptionsSpeech */
   speech?: PhoneCallOptionsSpeech;
 }
-/** @deprecated */
+/** @deprecated Use PhoneCallOptionsSpeech instead */
 export type CalloutOptionsSpeech = PhoneCallOptionsSpeech;
 
 /**

@@ -1,1 +1,6 @@
-export type { SmsRequestEventResponse } from './sms-request-event-response';
+export type {
+  SMSRequestEventResponse,
+  SmsRequestEventResponse,
+  SmsContent,
+  SmsProperties,
+} from './sms-request-event-response';
