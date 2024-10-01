@@ -49,17 +49,11 @@
 | SMSVerificationReportResponse | SmsVerificationReportResponse |
 
 - [Deprecation Notice] The type `VerificationCallback` becomes `VerificationCallbackEvent` and is accessible on the `Verification` namespace.
-```typescript
-// Deprecated
-handleEvent(event: VerificationCallback, res: Response) {
-  console.log(event);
-}
 
-// New
-handleEvent(event: Verification.VerificationCallbackEvent, res: Response) {
-  console.log(event);
-}
-```
+| Deprecated                                                                                                                  | New                                                                                                                                           |
+|-----------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| <pre><code>handleEvent(event: VerificationCallback, res: Response) {<br/>&nbsp;&nbsp;console.log(event);<br/>}</code></pre> | <pre><code>handleEvent(event: Verification.VerificationCallbackEvent, res: Response) {<br/>&nbsp;&nbsp;console.log(event);<br/>}</code></pre> |
+
 - [Deprecation Notice] The type `TypeEnum` should be replaced with the type `IdentityType`.
 - [Deprecation Notice] The type `FlashCallContent` should be replaced with the type `FlashCallProperties`.
 - [Deprecation Notice] The type `SmsContent` should be replaced with the type `SmsProperties`.

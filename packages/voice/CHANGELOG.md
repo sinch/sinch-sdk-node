@@ -1,19 +1,13 @@
 ## Version 1.2.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.2.0`.
 - [Feature] In the interface `Participant`, the property `type` defines a list of string values on top of a generic string.
-- [Breaking TS] In the interface `ConferenceCalloutRequest`, the property `mohClass` was declared as a `string` and is now a `MusicOnHold` type;
+- [Breaking] In the interface `ConferenceCalloutRequest`, the property `mohClass` was declared as a `string` and is now a `MusicOnHold` type;
 - [Deprecation Notice] The type `VoiceCallback` becomes `VoiceCallbackEvent` and is accessible on the `Voice` namespace.
-```typescript
-// Deprecated
-handleEvent(event: VoiceCallback, res: Response) {
-  console.log(event);
-}
 
-// New
-handleEvent(event: Voice.VoiceCallbackEvent, res: Response) {
-  console.log(event);
-}
-```
+| Deprecated                                                                                                           | New                                                                                                                             |
+|----------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| <pre><code>handleEvent(event: VoiceCallback, res: Response) {<br/>&nbsp;&nbsp;console.log(event);<br/>}</code></pre> | <pre><code>handleEvent(event: Voice.VoiceCallbackEvent, res: Response) {<br/>&nbsp;&nbsp;console.log(event);<br/>}</code></pre> |
+
 - [E2E] Add Cucumber steps implementation.
 
 ## Version 1.1.0

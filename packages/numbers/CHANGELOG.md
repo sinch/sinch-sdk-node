@@ -3,27 +3,17 @@
 - [Deprecation notice] `availableNumber` and `activeNumber` subdomain are deprecated and all methods are now defined on the upper numbers service.
    All the methods names are the same except `availableNumber.list()` -> `searchForAvailableNumbers()`
 
-```typescript
-// Deprecated
-numbersService.availableNumber.checkAvailability();
-numbersService.availableNumber.list();
-numbersService.availableNumber.rent();
-numbersService.availableNumber.rentAny();
-numbersService.activeNumber.get();
-numbersService.activeNumber.list();
-numbersService.activeNumber.update();
-numbersService.activeNumber.release();
+| Deprecated                                           | New                                          |
+|------------------------------------------------------|----------------------------------------------|
+| `numbersService.availableNumber.checkAvailability()` | `numbersService.checkAvailability()`         |
+| `numbersService.availableNumber.list()`              | `numbersService.searchForAvailableNumbers()` |
+| `numbersService.availableNumber.rent()`              | `numbersService.rent()`                      |
+| `numbersService.availableNumber.rentAny()`           | `numbersService.rentAny()`                   |
+| `numbersService.activeNumber.get()`                  | `numbersService.get()`                       |
+| `numbersService.activeNumber.list()`                 | `numbersService.list()`                      |
+| `numbersService.activeNumber.update()`               | `numbersService.update()`                    |
+| `numbersService.activeNumber.release()`              | `numbersService.release()`                   |
 
-// New
-numbersService.checkAvailability();
-numbersService.searchForAvailableNumbers(); // Mind the function name change
-numbersService.rent();
-numbersService.rentAny();
-numbersService.get();
-numbersService.list();
-numbersService.update();
-numbersService.release();
-```
 - [E2E] Add Cucumber steps implementation.
 
 ## Version 1.1.0

@@ -5,7 +5,7 @@
 - [Bugfix] Template V2: add an optional `id` property to the `V2Template` interface.
 - [Bugfix] `conversations.listRecent()`: Add a page_size value by default. Without it the API returns an empty list.
 - [Bugfix][Breaking] `InjectConversationEvent` interface: only `AppEvent` is allowed (`ContactEvent` and `ContactMessageEvent` are no longer allowed).
-- [Bugfix][Breaking TS] 
+- [Bugfix][Breaking]
   - Template V2: For "create" and "update" operations, the request bodies interface no longer accept read-only properties.
   - Webhooks: For "create" and "update" operations, the request bodies interface no longer accept read-only properties.
 - [E2E] Add Cucumber steps implementation.
