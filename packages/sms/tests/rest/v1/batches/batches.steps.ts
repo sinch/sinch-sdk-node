@@ -2,6 +2,7 @@ import { BatchesApi, SmsService, Sms } from '../../../../src';
 import { Given, When, Then } from '@cucumber/cucumber';
 import * as assert from 'assert';
 import { PageResult } from '@sinch/sdk-client';
+import { ParameterGroup } from '../../../../src/models';
 
 let batchesApi: BatchesApi;
 let sendSmsResponse: Sms.TextResponse;
@@ -51,6 +52,54 @@ Then('the response contains the text SMS details', () => {
   assert.deepEqual(sendSmsResponse.send_at, new Date('2024-06-06T09:25:00Z'));
   assert.deepEqual(sendSmsResponse.expire_at, new Date('2024-06-09T09:25:00Z'));
   assert.equal(sendSmsResponse.feedback_enabled, true);
+  assert.equal(sendSmsResponse.flash_message, false);
+});
+
+When('I send a request to send a text message with multiple parameters', async () => {
+  const sendSmsRequest: Sms.SendTextSMSRequestData = {
+    sendSMSRequestBody: {
+      body: 'Hello ${name}! Get 20% off with this discount code ${code}',
+      to: ['+12017777777', '+12018888888'],
+      from: '+12015555555',
+      parameters: {
+        name: {
+          '+12017777777': 'John',
+          '+12018888888': 'Paul',
+          default: 'there',
+        },
+        code: {
+          '+12017777777': 'HALLOWEEN20 🎃',
+        },
+      },
+      delivery_report: 'full',
+    },
+  };
+  sendSmsResponse = await batchesApi.sendTextMessage(sendSmsRequest);
+});
+
+Then('the response contains the text SMS details with multiple parameters', () => {
+  assert.equal(sendSmsResponse.id, '01W4FFL35P4NC4K35SMSBATCH2');
+  assert.deepEqual(sendSmsResponse.to, ['12017777777', '12018888888']);
+  assert.equal(sendSmsResponse.from, '12015555555');
+  assert.equal(sendSmsResponse.canceled, false);
+  const parameters: ParameterGroup = {
+    name: {
+      default: 'there',
+      '+12017777777': 'John',
+      '+12018888888': 'Paul',
+    },
+    code: {
+      '+12017777777': 'HALLOWEEN20 🎃',
+    },
+  };
+  assert.deepEqual(sendSmsResponse.parameters, parameters);
+  assert.equal(sendSmsResponse.body, 'Hello ${name}! Get 20% off with this discount code ${code}');
+  assert.equal(sendSmsResponse.type, 'mt_text');
+  assert.deepEqual(sendSmsResponse.created_at, new Date('2024-06-06T09:22:14.304Z'));
+  assert.deepEqual(sendSmsResponse.modified_at, new Date('2024-06-06T09:22:14.304Z'));
+  const fullDeliveryReport: Sms.DeliveryReportEnum = 'full';
+  assert.equal(sendSmsResponse.delivery_report, fullDeliveryReport);
+  assert.deepEqual(sendSmsResponse.expire_at, new Date('2024-06-06T09:22:14.304Z'));
   assert.equal(sendSmsResponse.flash_message, false);
 });
 
@@ -154,19 +203,19 @@ When('I send a request to retrieve an SMS batch', async () => {
 
 Then('the response contains the SMS batch details', () => {
   assert.equal(batch.id, '01W4FFL35P4NC4K35SMSBATCH1');
-  assert.deepEqual(sendSmsResponse.to, ['12017777777']);
-  assert.equal(sendSmsResponse.from, '12015555555');
-  assert.equal(sendSmsResponse.canceled, false);
-  assert.equal(sendSmsResponse.body, 'SMS body message');
-  assert.equal(sendSmsResponse.type, 'mt_text');
-  assert.deepEqual(sendSmsResponse.created_at, new Date('2024-06-06T09:22:14.304Z'));
-  assert.deepEqual(sendSmsResponse.modified_at, new Date('2024-06-06T09:22:14.304Z'));
+  assert.deepEqual(batch.to, ['12017777777']);
+  assert.equal(batch.from, '12015555555');
+  assert.equal(batch.canceled, false);
+  assert.equal(batch.body, 'SMS body message');
+  assert.equal(batch.type, 'mt_text');
+  assert.deepEqual(batch.created_at, new Date('2024-06-06T09:22:14.304Z'));
+  assert.deepEqual(batch.modified_at, new Date('2024-06-06T09:22:14.304Z'));
   const fullDeliveryReport: Sms.DeliveryReportEnum = 'full';
-  assert.equal(sendSmsResponse.delivery_report, fullDeliveryReport);
-  assert.deepEqual(sendSmsResponse.send_at, new Date('2024-06-06T09:25:00Z'));
-  assert.deepEqual(sendSmsResponse.expire_at, new Date('2024-06-09T09:25:00Z'));
-  assert.equal(sendSmsResponse.feedback_enabled, true);
-  assert.equal(sendSmsResponse.flash_message, false);
+  assert.equal(batch.delivery_report, fullDeliveryReport);
+  assert.deepEqual(batch.send_at, new Date('2024-06-06T09:25:00Z'));
+  assert.deepEqual(batch.expire_at, new Date('2024-06-09T09:25:00Z'));
+  assert.equal(batch.feedback_enabled, true);
+  assert.equal((batch as Sms.TextResponse).flash_message, false);
 });
 
 When('I send a request to update an SMS batch', async () => {

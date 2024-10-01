@@ -1,5 +1,5 @@
 import { MediaBody } from '../media-body';
-import { ParameterObj } from '../parameter-obj';
+import { ParameterGroup } from '../parameter-group';
 import { DeliveryReportEnum } from '../enums';
 
 export interface ApiUpdateMmsMtMessage {
@@ -22,8 +22,8 @@ export interface ApiUpdateMmsMtMessage {
   callback_url?: string;
   /** @see MediaBody */
   body?: MediaBody;
-  /** @see ParameterObj */
-  parameters?: ParameterObj;
+  /** @see ParameterGroup */
+  parameters?: ParameterGroup;
   /** Whether or not you want the media included in your message to be checked against [Sinch MMS channel best practices](/docs/mms/bestpractices/). If set to true, your message will be rejected if it doesn\'t conform to the listed recommendations, otherwise no validation will be performed.  */
   strict_validation?: boolean;
 }
