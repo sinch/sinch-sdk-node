@@ -16,7 +16,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install
 
       - name: Run ESLint
         run: npx eslint "packages/**/{src,tests}/**/*.ts"
@@ -24,26 +24,9 @@ jobs:
       - name: Build project
         run: yarn run build
 
-      - name: Cache build output
-        uses: actions/cache@v3
-        with:
-          path: |
-            packages/**/dist
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-build-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ matrix.node-version }}-build-
-
       - name: Run unit tests
         run: yarn run test
 
-  e2e:
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [ 18.x, 20.x ]
-    steps:
-      - uses: actions/checkout@v3
       - name: Checkout sinch-sdk-mockserver repository
         uses: actions/checkout@v3
         with:
@@ -51,20 +34,6 @@ jobs:
           token: ${{ secrets.PAT_CI }}
           fetch-depth: 0
           path: sinch-sdk-mockserver
-
-      - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Restore build output
-        uses: actions/cache@v3
-        with:
-          path: |
-            packages/**/dist
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-build-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ matrix.node-version }}-build-
 
       - name: Install Docker Compose
         run: |
@@ -97,9 +66,7 @@ jobs:
           cp sinch-sdk-mockserver/features/voice/*.feature ./packages/voice/tests/e2e/features/
 
       - name: Run e2e tests
-        run: |
-          yarn install
-          yarn run e2e
+        run: yarn run e2e
 
   sonarcloud:
     runs-on: ubuntu-latest
