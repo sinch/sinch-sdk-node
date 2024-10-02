@@ -1,6 +1,6 @@
 name: Build and test Sinch Node.js SDK
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
