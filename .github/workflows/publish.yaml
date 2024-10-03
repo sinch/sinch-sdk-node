@@ -1,0 +1,44 @@
+name: Publish Packages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Authenticate to npm
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build packages
+        run: yarn run build
+
+      - name: Run tests
+        run: yarn run test
+
+      - name: Publish packages
+        run: |
+          cd packages/sdk-client && npm publish
+          cd ../numbers && npm publish
+          cd ../sms && npm publish
+          cd ../verification && npm publish
+          cd ../voice && npm publish
+          cd ../conversation && npm publish
+          cd ../fax && npm publish
+          cd ../elastic-sip-trunking && npm publish
+          cd ../sdk-core && npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
