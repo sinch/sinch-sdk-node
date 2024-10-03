@@ -1,6 +1,5 @@
 ## Version 1.2.0
 - [Feature] Support a new mode of pagination to support the Conversation API.
-- [Feature] Implement new strategy for selecting which credentials to use with the SMS API.
 - [Feature] Remove the `TimezoneResponse` plugin and autocorrect the timezones when reviving the dates in the API responses.
 - [Feature] Add utility methods to support the dateRange filters for EST and Fax APIs.
 - [Bugfix] Handle HTTP status 202 in the `ExceptionResponse` plugin.
