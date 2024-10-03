@@ -32,6 +32,7 @@
   },
   "devDependencies": {},
   "publishConfig": {
-    "directory": "dist"
+    "directory": "dist",
+    "access": "public"
   }
 }
