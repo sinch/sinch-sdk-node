@@ -44,7 +44,6 @@ describe('SMS API', () => {
 
   it('should log a warning when using an unsupported region', async () => {
     paramsWithProjectId.smsRegion = 'bzh';
-    paramsWithProjectId.forceOAuth2ForSmsApi = true;
     smsApi = new SmsDomainApi(paramsWithProjectId, 'dummy');
     console.warn = jest.fn();
     smsApi.getSinchClient();
@@ -109,30 +108,20 @@ describe('SMS API', () => {
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://sms.api.sinch.com');
   });
 
-  it('should not update the credentials when adding servicePlanId credentials on default region', () => {
-    smsApi = new SmsDomainApi(paramsWithProjectId, 'dummy');
-    smsApi.getSinchClient();
-    expect(smsApi.client?.apiClientOptions.projectId).toBe('PROJECT_ID');
-    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.us.sms.api.sinch.com');
-    smsApi.setCredentials(paramsWithServicePlanId);
-    expect(smsApi.client?.apiClientOptions.projectId).toBe('PROJECT_ID');
-    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.us.sms.api.sinch.com');
-  });
-
-  it('should update the credentials and URL when forcing servicePlanId credentials', () => {
+  it('should update the credentials and URL when adding SMS credentials to the unified credentials', () => {
     smsApi = new SmsDomainApi(paramsWithProjectId, 'dummy');
     smsApi.getSinchClient();
     expect(smsApi.client?.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.us.sms.api.sinch.com');
     smsApi.setCredentials({
       ...paramsWithServicePlanId,
-      forceServicePlanIdUsageForSmsApi: true,
     });
     expect(smsApi.client?.apiClientOptions.projectId).toBe('SERVICE_PLAN_ID');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://us.sms.api.sinch.com');
   });
 
-  it('should update the credentials and URL when adding servicePlanId credentials on BR region', () => {
+  // eslint-disable-next-line max-len
+  it('should update the credentials and URL when adding SMS credentials on BR region to the unified credentials', () => {
     smsApi = new SmsDomainApi(paramsWithProjectId, 'dummy');
     smsApi.getSinchClient();
     expect(smsApi.client?.apiClientOptions.projectId).toBe('PROJECT_ID');
@@ -141,6 +130,36 @@ describe('SMS API', () => {
       ...paramsWithServicePlanId,
       smsRegion: SmsRegion.BRAZIL,
     });
+    expect(smsApi.client?.apiClientOptions.projectId).toBe('SERVICE_PLAN_ID');
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://br.sms.api.sinch.com');
+  });
+
+  // eslint-disable-next-line max-len
+  it('should not update the credentials nor URL when adding unified credentials to the SMS credentials', () => {
+    smsApi = new SmsDomainApi(paramsWithServicePlanId, 'dummy');
+    smsApi.getSinchClient();
+    expect(smsApi.client?.apiClientOptions.projectId).toBe('SERVICE_PLAN_ID');
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://us.sms.api.sinch.com');
+    smsApi.setCredentials({
+      ...paramsWithProjectId,
+    });
+    expect(smsApi.client?.apiClientOptions.projectId).toBe('SERVICE_PLAN_ID');
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://us.sms.api.sinch.com');
+  });
+
+  // eslint-disable-next-line max-len
+  it('should update the region in the URL when adding unified credentials and region to the SMS credentials', () => {
+    smsApi = new SmsDomainApi(paramsWithServicePlanId, 'dummy');
+    smsApi.getSinchClient();
+    expect(smsApi.client?.apiClientOptions.projectId).toBe('SERVICE_PLAN_ID');
+    expect(smsApi.client?.apiClientOptions.hostname).toBe('https://us.sms.api.sinch.com');
+    console.warn = jest.fn();
+    smsApi.setCredentials({
+      ...paramsWithProjectId,
+      smsRegion: SmsRegion.BRAZIL,
+    });
+    expect(console.warn).toHaveBeenCalledWith(
+      'As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
     expect(smsApi.client?.apiClientOptions.projectId).toBe('SERVICE_PLAN_ID');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://br.sms.api.sinch.com');
   });

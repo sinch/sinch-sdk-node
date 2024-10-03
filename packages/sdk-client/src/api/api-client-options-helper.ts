@@ -1,4 +1,4 @@
-import { SmsRegion, SinchClientParameters } from '../domain';
+import { SinchClientParameters } from '../domain';
 import { ApiClientOptions } from './api-client-options';
 import {
   ApiTokenRequest,
@@ -36,36 +36,27 @@ export const buildApplicationSignedApiClientOptions = (
   return apiClientOptions;
 };
 
-export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (
-  params: SinchClientParameters, region: SmsRegion, apiName: string,
-): ApiClientOptions => {
+export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
   let apiClientOptions: ApiClientOptions | undefined;
-  // Check the region: if US or EU, try to use the OAuth2 authentication with the access key / secret under the project Id
-  if ( params.forceOAuth2ForSmsApi
-    || (!params.forceServicePlanIdUsageForSmsApi && (region === SmsRegion.UNITED_STATES || region === SmsRegion.EUROPE))
-  ) {
-    // Let's check the required parameters for OAuth2 authentication
-    if (params.projectId && params.keyId && params.keySecret) {
-      apiClientOptions = {
-        projectId: params.projectId,
-        requestPlugins: [new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname)],
-        useServicePlanId: false,
-      };
+
+  if (params.servicePlanId && params.apiToken) {
+    apiClientOptions = {
+      projectId: params.servicePlanId,
+      requestPlugins: [new ApiTokenRequest(params.apiToken)],
+      useServicePlanId: true,
+    };
+    if (params.projectId || params.keyId || params.keySecret) {
+      console.warn('As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
     }
+  } else if (params.projectId && params.keyId && params.keySecret) {
+    apiClientOptions = {
+      projectId: params.projectId,
+      requestPlugins: [new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname)],
+      useServicePlanId: false,
+    };
   }
   if (!apiClientOptions) {
-    // The API client options couldn't be initialized for with the projectId unified authentication.
-    // Let's try with the servicePlanId
-    if (params.servicePlanId && params.apiToken) {
-      apiClientOptions = {
-        projectId: params.servicePlanId,
-        requestPlugins: [new ApiTokenRequest(params.apiToken)],
-        useServicePlanId: true,
-      };
-    }
-  }
-  if (!apiClientOptions) {
-    throw new Error(`Invalid parameters for the ${apiName} API: check your configuration`);
+    throw new Error('Invalid parameters for the SMS API: check your configuration');
   }
   addPlugins(apiClientOptions, params);
   return apiClientOptions;

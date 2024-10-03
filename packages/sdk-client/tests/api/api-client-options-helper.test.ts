@@ -5,7 +5,6 @@ import {
   buildOAuth2ApiClientOptions,
   Oauth2TokenRequest,
   PluginRunner,
-  SmsRegion,
   SigningRequest,
   SinchClientParameters,
   XTimestampRequest,
@@ -147,30 +146,48 @@ describe('API Client Options helper', () => {
 
 
   describe('buildFlexibleOAuth2OrApiTokenApiClientOptions', () => {
+
     // eslint-disable-next-line max-len
-    it('should build some API client options to perform OAuth2 authentication when the credentials are present and the region is supported', () => {
+    it('should build some ApiClientOptions to perform OAuth2 authentication when only unified credentials are provided', () => {
       // Given
       const params: SinchClientParameters = {
         projectId: 'PROJECT_ID',
         keyId: 'KEY_ID',
         keySecret: 'KEY_SECRET',
-        servicePlanId: 'SERVICE_PLAN_ID',
-        apiToken: 'API_TOKEN',
       };
-      const region = SmsRegion.EUROPE;
 
       // When
-      const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');
+      const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params);
 
       // Then
       expect(apiClientOptions).toBeDefined();
+      expect(apiClientOptions.useServicePlanId).toBeFalsy();
       expect(apiClientOptions.requestPlugins?.length).toBe(1);
       expect(apiClientOptions.requestPlugins?.[0]).toBeInstanceOf(Oauth2TokenRequest);
       expect(apiClientOptions.responsePlugins).toBeUndefined();
     });
 
     // eslint-disable-next-line max-len
-    it('should build some API client options to perform API token authentication when the credentials are present and the region is not supported by OAuth2 authentication', () => {
+    it('should build some ApiClientOptions to perform API token authentication when only SMS credentials are provided', () => {
+      // Given
+      const params: SinchClientParameters = {
+        servicePlanId: 'SERVICE_PLAN_ID',
+        apiToken: 'API_TOKEN',
+      };
+
+      // When
+      const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params);
+
+      // Then
+      expect(apiClientOptions).toBeDefined();
+      expect(apiClientOptions.useServicePlanId).toBeTruthy();
+      expect(apiClientOptions.requestPlugins?.length).toBe(1);
+      expect(apiClientOptions.requestPlugins?.[0]).toBeInstanceOf(ApiTokenRequest);
+      expect(apiClientOptions.responsePlugins).toBeUndefined();
+    });
+
+    // eslint-disable-next-line max-len
+    it('should build some ApiClientOptions to perform API token authentication when both set of credentials are provided', () => {
       // Given
       const params: SinchClientParameters = {
         projectId: 'PROJECT_ID',
@@ -179,41 +196,22 @@ describe('API Client Options helper', () => {
         servicePlanId: 'SERVICE_PLAN_ID',
         apiToken: 'API_TOKEN',
       };
-      const region = SmsRegion.CANADA;
+      console.warn = jest.fn();
 
       // When
-      const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');
+      const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params);
 
       // Then
       expect(apiClientOptions).toBeDefined();
+      expect(apiClientOptions.useServicePlanId).toBeTruthy();
       expect(apiClientOptions.requestPlugins?.length).toBe(1);
       expect(apiClientOptions.requestPlugins?.[0]).toBeInstanceOf(ApiTokenRequest);
       expect(apiClientOptions.responsePlugins).toBeUndefined();
+      expect(console.warn).toHaveBeenCalledWith(
+        'As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
     });
 
-    it('should force the usage of API token authentication even when the region supports OAuth2 authentication', () => {
-      // Given
-      const params: SinchClientParameters = {
-        projectId: 'PROJECT_ID',
-        keyId: 'KEY_ID',
-        keySecret: 'KEY_SECRET',
-        servicePlanId: 'SERVICE_PLAN_ID',
-        apiToken: 'API_TOKEN',
-        forceServicePlanIdUsageForSmsApi: true,
-      };
-      const region = SmsRegion.EUROPE;
-
-      // When
-      const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');
-
-      // Then
-      expect(apiClientOptions).toBeDefined();
-      expect(apiClientOptions.requestPlugins?.length).toBe(1);
-      expect(apiClientOptions.requestPlugins?.[0]).toBeInstanceOf(ApiTokenRequest);
-      expect(apiClientOptions.responsePlugins).toBeUndefined();
-    });
-
-    it('should build some API client options with additional plugins', () => {
+    it('should build some ApiClientOptions with additional plugins', () => {
       // Given
       const params: SinchClientParameters = {
         servicePlanId: 'SERVICE_PLAN_ID',
@@ -221,10 +219,9 @@ describe('API Client Options helper', () => {
         requestPlugins: [dummyRequestPlugin],
         responsePlugins: [dummyResponsePlugin],
       };
-      const region = SmsRegion.CANADA;
 
       // When
-      const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');
+      const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params);
 
       // Then
       expect(apiClientOptions.requestPlugins?.length).toBe(2);
@@ -237,13 +234,12 @@ describe('API Client Options helper', () => {
       const params: SinchClientParameters = {
         projectId: 'PROJECT_ID',
       };
-      const region = SmsRegion.EUROPE;
 
       // When
-      const buildApiClientOptionsFunction = () => buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');
+      const buildApiClientOptionsFunction = () => buildFlexibleOAuth2OrApiTokenApiClientOptions(params);
 
       // Then
-      expect(buildApiClientOptionsFunction).toThrow('Invalid parameters for the foo API: check your configuration');
+      expect(buildApiClientOptionsFunction).toThrow('Invalid parameters for the SMS API: check your configuration');
     });
 
     // eslint-disable-next-line max-len
@@ -252,49 +248,14 @@ describe('API Client Options helper', () => {
       const params: SinchClientParameters = {
         servicePlanId: 'SERVICE_PLAN_ID',
       };
-      const region = SmsRegion.EUROPE;
 
       // When
-      const buildApiClientOptionsFunction = () => buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');
+      const buildApiClientOptionsFunction = () => buildFlexibleOAuth2OrApiTokenApiClientOptions(params);
 
       // Then
-      expect(buildApiClientOptionsFunction).toThrow('Invalid parameters for the foo API: check your configuration');
+      expect(buildApiClientOptionsFunction).toThrow('Invalid parameters for the SMS API: check your configuration');
     });
 
-    // eslint-disable-next-line max-len
-    it('should throw an exception when the parameters are inconsistent: unsupported region for OAuth2 authentication', () => {
-      // Given
-      const params: SinchClientParameters = {
-        projectId: 'PROJECT_ID',
-        keyId: 'KEY_ID',
-        keySecret: 'KEY_SECRET',
-      };
-      const region = SmsRegion.CANADA;
-
-      // When
-      const buildApiClientOptionsFunction = () => buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');
-
-      // Then
-      expect(buildApiClientOptionsFunction).toThrow('Invalid parameters for the foo API: check your configuration');
-    });
-
-    // eslint-disable-next-line max-len
-    it('should throw an exception when the parameters are inconsistent: missing parameters when forcing API Token authentication', () => {
-      // Given
-      const params: SinchClientParameters = {
-        projectId: 'PROJECT_ID',
-        keyId: 'KEY_ID',
-        keySecret: 'KEY_SECRET',
-        forceServicePlanIdUsageForSmsApi: true,
-      };
-      const region = SmsRegion.EUROPE;
-
-      // When
-      const buildApiClientOptionsFunction = () => buildFlexibleOAuth2OrApiTokenApiClientOptions(params, region, 'foo');
-
-      // Then
-      expect(buildApiClientOptionsFunction).toThrow('Invalid parameters for the foo API: check your configuration');
-    });
   });
 
 });

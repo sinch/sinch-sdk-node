@@ -84,7 +84,7 @@ export class SmsDomainApi implements Api {
       if(!Object.values(SupportedSmsRegion).includes(region as SupportedSmsRegion)) {
         console.warn(`The region "${region}" is not known as a supported region for the SMS API`);
       }
-      const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(this.sinchClientParameters, region, 'SMS');
+      const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(this.sinchClientParameters);
       this.client = new ApiFetchClient(apiClientOptions);
       const useZapStack = !this.client.apiClientOptions.useServicePlanId;
       this.client.apiClientOptions.hostname = this.sinchClientParameters.smsHostname
