@@ -1,6 +1,6 @@
 import { Money } from '../money';
-import { SMSConfiguration } from '../sms-configuration';
-import { VoiceConfiguration } from '../voice-configuration';
+import { SMSConfigurationResponse } from '../sms-configuration';
+import { VoiceConfigurationResponse } from '../voice-configuration';
 import { CapabilitiesEnum, NumberTypeEnum } from '../enums';
 
 /**
@@ -28,9 +28,9 @@ export interface ActiveNumber {
   /** The timestamp when the subscription will expire if an expiration date has been set. */
   expireAt?: Date | null;
   /** @see SMSConfiguration */
-  smsConfiguration?: SMSConfiguration;
+  smsConfiguration?: SMSConfigurationResponse;
   /** @see VoiceConfiguration */
-  voiceConfiguration?: VoiceConfiguration;
+  voiceConfiguration?: VoiceConfigurationResponse;
   /** The active number\'s callback URL to be called for provisioning / deprovisioning updates */
   callbackUrl?: string;
 }
