@@ -92,7 +92,7 @@ Then('the response contains a rented phone number', () => {
   assert.equal(activeNumber.paymentIntervalMonths, 1);
   assert.deepEqual(activeNumber.nextChargeDate, new Date('2024-06-06T14:42:42.022227Z'));
   assert.equal(activeNumber.expireAt, null);
-  const expectedSmsConfiguration: Numbers.SMSConfiguration = {
+  const expectedSmsConfiguration: Numbers.SMSConfigurationResponse = {
     servicePlanId: '',
     campaignId: '',
     scheduledProvisioning: {
@@ -104,7 +104,7 @@ Then('the response contains a rented phone number', () => {
     },
   };
   assert.deepEqual(activeNumber.smsConfiguration, expectedSmsConfiguration);
-  const expectedVoiceConfiguration: Numbers.VoiceConfiguration = {
+  const expectedVoiceConfiguration: Numbers.VoiceConfigurationResponse = {
     type: 'RTC',
     appId: '',
     trunkId: '',
@@ -211,7 +211,7 @@ When('I send a request to update the phone number {string}', async (phoneNumber:
 Then('the response contains a phone number with updated parameters', () => {
   assert.equal(activeNumber.displayName, 'Updated description during E2E tests');
   assert.equal(activeNumber.callbackUrl, 'https://my-callback-server.com/numbers');
-  const smsConfiguration: Numbers.SMSConfiguration = {
+  const smsConfiguration: Numbers.SMSConfigurationResponse = {
     servicePlanId: 'SpaceMonkeySquadron',
     campaignId: '',
     scheduledProvisioning: {
@@ -223,7 +223,7 @@ Then('the response contains a phone number with updated parameters', () => {
     },
   };
   assert.deepEqual(activeNumber.smsConfiguration, smsConfiguration);
-  const voiceVonfiguration: Numbers.VoiceConfiguration = {
+  const voiceVonfiguration: Numbers.VoiceConfigurationResponse = {
     type: 'RTC',
     appId: 'sunshine-rain-drop-very-beautifulday',
     trunkId: '',

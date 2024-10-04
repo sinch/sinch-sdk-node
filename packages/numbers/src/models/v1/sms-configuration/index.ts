@@ -1,1 +1,1 @@
-export type { SMSConfiguration } from './sms-configuration';
+export type { SMSConfiguration, SMSConfigurationResponse } from './sms-configuration';
