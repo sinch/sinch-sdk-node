@@ -27,7 +27,7 @@ const populateCallsList = (
   const requestData: ElasticSipTrunking.FindCallsRequestData = {
     trunkId,
     callResult: 'COMPLETED',
-    direction: 'INBOUND',
+    direction: 'inbound',
   };
 
   const elasticSipTrunkingService = initElasticSipTrunkingService();

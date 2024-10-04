@@ -1,3 +1,22 @@
+## Version 1.2.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.2.0`.
+- [Bugfix] Remove the "scheduledProvisioning" properties for SMS and Voice in the update number request.
+- [Deprecation notice] `availableNumber` and `activeNumber` subdomain are deprecated and all methods are now defined on the upper numbers service.
+   All the methods names are the same except `availableNumber.list()` -> `searchForAvailableNumbers()`
+
+| Deprecated                                           | New                                          |
+|------------------------------------------------------|----------------------------------------------|
+| `numbersService.availableNumber.checkAvailability()` | `numbersService.checkAvailability()`         |
+| `numbersService.availableNumber.list()`              | `numbersService.searchForAvailableNumbers()` |
+| `numbersService.availableNumber.rent()`              | `numbersService.rent()`                      |
+| `numbersService.availableNumber.rentAny()`           | `numbersService.rentAny()`                   |
+| `numbersService.activeNumber.get()`                  | `numbersService.get()`                       |
+| `numbersService.activeNumber.list()`                 | `numbersService.list()`                      |
+| `numbersService.activeNumber.update()`               | `numbersService.update()`                    |
+| `numbersService.activeNumber.release()`              | `numbersService.release()`                   |
+
+- [E2E] Add Cucumber steps implementation.
+
 ## Version 1.1.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.1.0`
 - [Feature] Update voiceConfiguration object to support Fax and EST configuration properties

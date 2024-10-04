@@ -21,6 +21,10 @@ describe('API Client Pagination Helper', () => {
     pagination: PaginationEnum.TOKEN,
     ...paginationTokenProperties,
   };
+  const paginationContextToken2: PaginationContext = {
+    pagination: PaginationEnum.TOKEN2,
+    ...paginationTokenProperties,
+  };
   const paginationContextPage: PaginationContext = {
     pagination: PaginationEnum.PAGE,
     ...paginationTokenProperties,
@@ -61,6 +65,38 @@ describe('API Client Pagination Helper', () => {
         totalSize: 2,
       };
       const paginationContext = { ...paginationContextToken };
+
+      // When
+      const hasMoreElements = hasMore(response, paginationContext);
+
+      // Then
+      expect(hasMoreElements).toBeFalsy();
+    });
+
+    it('should return "true" when the PaginationContext is "TOKEN2" and there are more elements', async () => {
+      // Given
+      const response = {
+        elements: ['H', 'He'],
+        next_page_token: 'nextPageToken',
+        totalSize: 10,
+      };
+      const paginationContext = { ...paginationContextToken2 };
+
+      // When
+      const hasMoreElements = hasMore(response, paginationContext);
+
+      // Then
+      expect(hasMoreElements).toBeTruthy();
+    });
+
+    it('should return "false" when the PaginationContext is "TOKEN2" and there are no more elements', async () => {
+      // Given
+      const response = {
+        elements: ['H', 'He'],
+        next_page_token: '',
+        totalSize: 2,
+      };
+      const paginationContext = { ...paginationContextToken2 };
 
       // When
       const hasMoreElements = hasMore(response, paginationContext);
@@ -185,6 +221,22 @@ describe('API Client Pagination Helper', () => {
         totalSize: 10,
       };
       const paginationContext = { ...paginationContextToken };
+
+      // When
+      const nextPage = calculateNextPage(response, paginationContext);
+
+      // Then
+      expect(nextPage).toBe('nextPageToken');
+    });
+
+    it('should return the next page token when the PaginationContext is "TOKEN2"', () => {
+      // Given
+      const response = {
+        elements: ['H', 'He'],
+        next_page_token: 'nextPageToken',
+        totalSize: 10,
+      };
+      const paginationContext = { ...paginationContextToken2 };
 
       // When
       const nextPage = calculateNextPage(response, paginationContext);

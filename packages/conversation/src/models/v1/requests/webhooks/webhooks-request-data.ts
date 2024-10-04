@@ -1,8 +1,8 @@
-import { Webhook } from '../../webhook';
+import { CreateWebhookRequestBody, UpdateWebhookRequestBody } from '../../webhook';
 
 export interface CreateWebhookRequestData {
   /** Required. The Webhook to create */
-  'webhookCreateRequestBody': Webhook;
+  'webhookCreateRequestBody': CreateWebhookRequestBody;
 }
 export interface DeleteWebhookRequestData {
   /** The unique ID of the webhook. */
@@ -20,7 +20,7 @@ export interface UpdateWebhookRequestData {
   /** The unique ID of the webhook. */
   'webhook_id': string;
   /** Required. The Webhook to update */
-  'webhookUpdateRequestBody': Webhook;
+  'webhookUpdateRequestBody': UpdateWebhookRequestBody;
   /** The set of field mask paths. */
   'update_mask'?: Array<string>;
 }

@@ -9,7 +9,7 @@ export interface AddAccessControlListToTrunkRequestData {
 }
 export interface CreateSipTrunkRequestData {
     /** The SIP trunk details to be used to create a SIP trunk */
-    'createSipTrunkRequestBody': SipTrunk;
+    'createSipTrunkRequestBody': Pick<SipTrunk, 'name' | 'hostName' | 'enableCallerName'>;
 }
 export interface DeleteAccessControlListFromTrunkRequestData {
     /** The ID of the trunk that you want to work with */
@@ -41,5 +41,5 @@ export interface UpdateSipTrunkRequestData {
     /** The ID of the SIP trunk. */
     'sipTrunkId': string;
     /** The SIP trunk details to be used to update the SIP trunk */
-    'updateSipTrunkRequestBody': SipTrunk;
+    'updateSipTrunkRequestBody': Partial<Pick<SipTrunk, 'name' | 'hostName' | 'enableCallerName'>>;
 }

@@ -1,7 +1,6 @@
 import { ResponsePlugin } from '../plugins/core/response-plugin';
 import { VersionRequest } from '../plugins/version';
 import { ExceptionResponse } from '../plugins/exception';
-import { TimezoneResponse } from '../plugins/timezone';
 import {
   ApiClient,
   ApiCallParameters,
@@ -19,7 +18,6 @@ import {
   ResponseJSONParseError,
 } from '../api/api-errors';
 import fetch, { Response, Headers } from 'node-fetch';
-import FormData = require('form-data');
 import { buildErrorContext, manageExpiredToken, reviveDates } from './api-client-helpers';
 import {
   buildPaginationContext,
@@ -43,7 +41,6 @@ export class ApiFetchClient extends ApiClient {
       ...options,
       requestPlugins: [new VersionRequest(), ...(options.requestPlugins || [])],
       responsePlugins: [
-        new TimezoneResponse(),
         new ExceptionResponse(),
         ...(options.responsePlugins || []),
       ],
@@ -281,29 +278,4 @@ export class ApiFetchClient extends ApiClient {
     return fileName;
   }
 
-  /** @inheritDoc */
-  public processFormData(data: any, type: string): FormData | string {
-
-    let encodedData: FormData | string;
-
-    if (type === 'multipart/form-data') {
-      const formData: FormData = new FormData();
-      for (const key in data) {
-        if (Object.prototype.hasOwnProperty.call(data, key)) {
-          formData.append(key, data[key]);
-        }
-      }
-      encodedData = formData;
-    } else {
-      const formData: string[] = [];
-      for (const key in data) {
-        if (Object.prototype.hasOwnProperty.call(data, key)) {
-          formData.push(`${key}=${encodeURIComponent(data[key])}`);
-        }
-      }
-      encodedData = formData.join('&');
-    }
-
-    return encodedData;
-  }
 }

@@ -16,6 +16,9 @@ import {
   const requestData = Verification.startVerificationHelper.buildSmsRequest(
     verificationIdentity,
     `test-reference-for-sms-verification_${verificationIdentity}`,
+    {
+      locale: 'sv-SE',
+    },
   );
 
   const verificationService = initVerificationService();

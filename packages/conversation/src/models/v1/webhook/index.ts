@@ -1,1 +1,1 @@
-export type { Webhook } from './webhook';
+export type { Webhook, CreateWebhookRequestBody, UpdateWebhookRequestBody } from './webhook';

@@ -1,5 +1,6 @@
 import { FaxDirection, FaxStatus } from '../../enums';
-import { FaxRequest } from '../../fax-request';
+import { SingleFaxRequest, MultipleFaxRequest } from '../../fax-request';
+import { DateRangeFilter } from '../../date-range-filter';
 
 export interface DeleteFaxContentRequestData {
   /** The ID of the fax. */
@@ -16,8 +17,10 @@ export interface GetFaxRequestData {
   'id': string;
 }
 export interface ListFaxesRequestData {
-  /** Filter calls based on  `createTime`. If you make the query more precise, fewer results will be returned. For example, `2021-02-01` will return all calls from the first of February 2021, and `2021-02-01T14:00:00Z` will return all calls after 14:00 on the first of February. This field also supports `<=` and `>=` to search for calls in a range `?createTime>=2021-10-01&startTime<=2021-10-30` to get a list of calls for all of October 2021. It is also possible to submit partial dates. For example, `createTime=2021-02` will return all calls for February 2021.  If not value is submitted, the default value is the prior week. */
-  'createTime'?: string;
+  /** Filter calls based on `createTime`. It can be a year, a month or a day. */
+  'createTime'?: string | Date;
+  /** Filter calls based on `createTime`. It will filter the faxes on a range of dates. */
+  'createTimeRange'?: DateRangeFilter;
   /** Limits results to faxes with the specified direction. */
   'direction'?: FaxDirection;
   /** Limits results to faxes with the specified status. */
@@ -31,6 +34,13 @@ export interface ListFaxesRequestData {
   /** The page you want to retrieve returned from a previous List request, if any */
   'page'?: string;
 }
-export interface SendFaxRequestData {
-  'sendFaxRequestBody': FaxRequest;
+
+export type SendFaxRequestData = SendSingleFaxRequestData | SendMultipleFaxRequestData;
+
+export interface SendSingleFaxRequestData {
+  'sendFaxRequestBody': SingleFaxRequest;
+}
+
+export interface SendMultipleFaxRequestData {
+  'sendFaxRequestBody': MultipleFaxRequest;
 }

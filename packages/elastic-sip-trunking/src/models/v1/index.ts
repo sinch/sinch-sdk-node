@@ -2,6 +2,7 @@ export * from './access-control-list';
 export * from './add-access-control-list-to-trunk';
 export * from './call';
 export * from './country-permission';
+export * from './create-access-control-list-request';
 export * from './ip-range';
 export * from './list-country-permissions-response';
 export * from './money';

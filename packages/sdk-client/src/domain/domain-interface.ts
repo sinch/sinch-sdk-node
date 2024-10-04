@@ -24,7 +24,7 @@ export interface UnifiedCredentials {
   keySecret: string;
   /** The region for the SMS API. Default region is US */
   smsRegion?: SmsRegion;
-  /** boolean to force the usage of the OAuth2 authentication for the SMS API - to be used when a region other of US and EU supports OAuth2 but the SDK doesn't by default */
+  /** @deprecated boolean to force the usage of the OAuth2 authentication for the SMS API - to be used when a region other of US and EU supports OAuth2 but the SDK doesn't by default */
   forceOAuth2ForSmsApi?: boolean;
   /** The region for the Fax API. Default is auto-routing */
   faxRegion?: FaxRegion;
@@ -37,7 +37,7 @@ export interface ServicePlanIdCredentials {
   servicePlanId: string;
   /** Your API token. You can find this on your [Dashboard](https://dashboard.sinch.com/sms/api/rest). */
   apiToken: string;
-  /** boolean to force the usage of the service plan Id + API token as credentials for the SMS API */
+  /** @deprecated boolean to force the usage of the service plan Id + API token as credentials for the SMS API */
   forceServicePlanIdUsageForSmsApi?: boolean;
   /** The region for the SMS API. Default region is US */
   smsRegion?: SmsRegion;

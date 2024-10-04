@@ -104,7 +104,6 @@ export class BatchesApi extends SmsDomainApi {
    */
   public async dryRun(data: DryRunRequestData): Promise<DryRunResponse> {
     this.client = this.getSinchClient();
-    data['number_of_recipients'] = data['number_of_recipients'] !== undefined ? data['number_of_recipients'] : 100;
     const getParams = this.client.extractQueryParams<DryRunRequestData>(data, [
       'per_recipient',
       'number_of_recipients']);
@@ -164,7 +163,6 @@ export class BatchesApi extends SmsDomainApi {
   */
   public list(data: ListBatchesRequestData): ApiListPromise<SendSMSResponse> {
     this.client = this.getSinchClient();
-    data['page_size'] = data['page_size'] !== undefined ? data['page_size'] : 30;
     const getParams = this.client.extractQueryParams<ListBatchesRequestData>(
       data,
       ['page', 'page_size', 'from', 'start_date', 'end_date', 'client_reference'],

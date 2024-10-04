@@ -6,14 +6,14 @@ import {
 import { getPrintFormat, printFullResponse } from '../../../config';
 
 const populateGroupsList = (
-  groupsPage: PageResult<Sms.CreateGroupResponse>,
-  fullGroupsList: Sms.CreateGroupResponse[],
+  groupsPage: PageResult<Sms.Group>,
+  fullGroupsList: Sms.Group[],
   groupsList: string[],
 ) => {
   // Populate the data structure that holds the response content
   fullGroupsList.push(...groupsPage.data);
   // Populate the data structure that holds the response content for pretty print
-  groupsPage.data.map((group: Sms.CreateGroupResponse) => {
+  groupsPage.data.map((group: Sms.Group) => {
     groupsList.push(`Group ID: ${group.id} - Group name: ${group.name}`);
   });
 };
@@ -39,7 +39,7 @@ export const list = async(smsService: SmsService) => {
   }
 
   // Init data structure to hold the response content
-  const fullGroupsList: Sms.CreateGroupResponse[] = [];
+  const fullGroupsList: Sms.Group[] = [];
   // Init data structure to hold the response content for pretty print
   const groupsList: string[] = [];
 

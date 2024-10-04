@@ -1,6 +1,6 @@
 {
   "name": "@sinch/sdk-client",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Core services related to interacting with Sinch API",
   "homepage": "",
   "repository": {
@@ -38,6 +38,7 @@
     "typescript": "^5.2.2"
   },
   "publishConfig": {
-    "directory": "dist"
+    "directory": "dist",
+    "access": "public"
   }
 }

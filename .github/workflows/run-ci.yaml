@@ -7,18 +7,66 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [18.x, 20.x, 22.x]
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install
-      - run: npx eslint "packages/**/src/**/*.ts"
-      - run: npx eslint "packages/**/tests/**/*.ts"
-      - run: yarn run build
-      - run: yarn run test
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run ESLint
+        run: npx eslint "packages/**/{src,tests}/**/*.ts"
+
+      - name: Build project
+        run: yarn run build
+
+      - name: Run unit tests
+        run: yarn run test
+
+      - name: Checkout sinch-sdk-mockserver repository
+        uses: actions/checkout@v3
+        with:
+          repository: sinch/sinch-sdk-mockserver
+          token: ${{ secrets.PAT_CI }}
+          fetch-depth: 0
+          path: sinch-sdk-mockserver
+
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      - name: Start mock servers with Docker Compose
+        run: |
+          cd sinch-sdk-mockserver
+          docker-compose up -d
+
+      - name: Create target directories for feature files
+        run: |
+          mkdir -p ./packages/fax/tests/e2e/features
+          mkdir -p ./packages/numbers/tests/e2e/features
+          mkdir -p ./packages/conversation/tests/e2e/features
+          mkdir -p ./packages/elastic-sip-trunking/tests/e2e/features
+          mkdir -p ./packages/sms/tests/e2e/features
+          mkdir -p ./packages/verification/tests/e2e/features
+          mkdir -p ./packages/voice/tests/e2e/features
+
+      - name: Copy feature files
+        run: |
+          cp sinch-sdk-mockserver/features/fax/*.feature ./packages/fax/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/numbers/*.feature ./packages/numbers/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/conversation/*.feature ./packages/conversation/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/elastic-sip-trunking/*.feature ./packages/elastic-sip-trunking/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/sms/*.feature ./packages/sms/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/verification/*.feature ./packages/verification/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/voice/*.feature ./packages/voice/tests/e2e/features/
+
+      - name: Run e2e tests
+        run: yarn run e2e
 
   sonarcloud:
     runs-on: ubuntu-latest

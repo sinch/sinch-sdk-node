@@ -24,9 +24,11 @@ export interface MenuResult {
   /** The ID of the menu that triggered the prompt input event. */
   menuId?: string;
   /** The type of information that's returned. */
-  type?: string;
+  type?: PieInformationType;
   /** The value of the returned information. */
   value?: string;
   /** The type of input received. */
   inputMethod?: string;
 }
+
+export type PieInformationType = 'error' | 'return' | 'sequence' | 'timeout' | 'hangup' | 'invalidinput';

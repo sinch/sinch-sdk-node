@@ -149,20 +149,21 @@ yarn run numbers:regions:list
 
 ### Verification
 
-| Service             | Sample application name and location                                                                                                                         | Required parameters                                                                        |
-|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
-| Verifications       | [./src/verification/verifications/sms/start-sms.ts](./src/verification/verifications/sms/start-sms.ts)                                                       | `VERIFICATION_IDENTITY`                                                                    |
-|                     | [./src/verification/verifications/sms/report-with-id_sms.ts](./src/verification/verifications/sms/report-with-id_sms.ts)                                     | `VERIFICATION_ID` + `VERIFICATION_CODE`                                                    |
-|                     | [./src/verification/verifications/sms/report-with-identity_sms.ts](./src/verification/verifications/sms/report-with-identity_sms.ts)                         | `VERIFICATION_IDENTITY` + `VERIFICATION_CODE`                                              |
-|                     | [./src/verification/verifications/flashcall/start-flashcall.ts](./src/verification/verifications/flashcall/start-flashcall.ts)                               | `VERIFICATION_IDENTITY`                                                                    |
-|                     | [./src/verification/verifications/flashcall/report-with-id_flashcall.ts](./src/verification/verifications/flashcall/report-with-id_flashcall.ts)             | `VERIFICATION_ID` + `VERIFICATION_CLI`                                                     |
-|                     | [./src/verification/verifications/flashcall/report-with-identity_flashcall.ts](./src/verification/verifications/flashcall/report-with-identity_flashcall.ts) | `VERIFICATION_IDENTITY` + `VERIFICATION_CLI`                                               |
-|                     | [./src/verification/verifications/callout/start-callout.ts](./src/verification/verifications/callout/start-callout.ts)                                       | `VERIFICATION_IDENTITY`                                                                    |
-|                     | [./src/verification/verifications/callout/report-with-id_callout.ts](./src/verification/verifications/callout/report-with-id_callout.ts)                     | `VERIFICATION_ID` + `VERIFICATION_CODE`                                                    |
-|                     | [./src/verification/verifications/callout/report-with-identity_callout.ts](./src/verification/verifications/callout/report-with-identity_callout.ts)         | `VERIFICATION_IDENTITY` + `VERIFICATION_CODE`                                              |
-| Verification-status | [./src/verification/verification-status/verification-by-id.ts](./src/verification/verification-status/verification-by-id.ts)                                 | `VERIFICATION_ID`                                                                          |
-|                     | [./src/verification/verification-status/verification-by-identity.ts](./src/verification/verification-status/verification-by-identity.ts)                     | `VERIFICATION_IDENTITY`                                                                    |
-|                     | [./src/verification/verification-status/verification-by-reference.ts](./src/verification/verification-status/verification-by-reference.ts)                   | `VERIFICATION_REFERENCE`                                                                   |
+| Service             | Sample application name and location                                                                                                                         | Required parameters                           |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| Start Verifications | [./src/verification/verifications/sms/start-sms.ts](./src/verification/verifications/sms/start-sms.ts)                                                       | `VERIFICATION_IDENTITY`                       |
+|                     | [./src/verification/verifications/phonecall/start-phonecall.ts](./src/verification/verifications/phonecall/start-phonecall.ts)                               | `VERIFICATION_IDENTITY`                       |
+|                     | [./src/verification/verifications/flashcall/start-flashcall.ts](./src/verification/verifications/flashcall/start-flashcall.ts)                               | `VERIFICATION_IDENTITY`                       |
+|                     | [./src/verification/verifications/data/start-data.ts](./src/verification/verifications/data/start-data.ts)                                                   | `VERIFICATION_IDENTITY`                       |
+| Verifications       | [./src/verification/verifications/sms/report-with-id_sms.ts](./src/verification/verifications/sms/report-with-id_sms.ts)                                     | `VERIFICATION_ID` + `VERIFICATION_CODE`       |
+|                     | [./src/verification/verifications/sms/report-with-identity_sms.ts](./src/verification/verifications/sms/report-with-identity_sms.ts)                         | `VERIFICATION_IDENTITY` + `VERIFICATION_CODE` |
+|                     | [./src/verification/verifications/flashcall/report-with-id_flashcall.ts](./src/verification/verifications/flashcall/report-with-id_flashcall.ts)             | `VERIFICATION_ID` + `VERIFICATION_CLI`        |
+|                     | [./src/verification/verifications/flashcall/report-with-identity_flashcall.ts](./src/verification/verifications/flashcall/report-with-identity_flashcall.ts) | `VERIFICATION_IDENTITY` + `VERIFICATION_CLI`  |
+|                     | [./src/verification/verifications/callout/report-with-id_callout.ts](./src/verification/verifications/phonecall/report-with-id_callout.ts)                   | `VERIFICATION_ID` + `VERIFICATION_CODE`       |
+|                     | [./src/verification/verifications/callout/report-with-identity_callout.ts](./src/verification/verifications/phonecall/report-with-identity_callout.ts)       | `VERIFICATION_IDENTITY` + `VERIFICATION_CODE` |
+| Verification-status | [./src/verification/verification-status/verification-by-id.ts](./src/verification/verification-status/verification-by-id.ts)                                 | `VERIFICATION_ID`                             |
+|                     | [./src/verification/verification-status/verification-by-identity.ts](./src/verification/verification-status/verification-by-identity.ts)                     | `VERIFICATION_IDENTITY`                       |
+|                     | [./src/verification/verification-status/verification-by-reference.ts](./src/verification/verification-status/verification-by-reference.ts)                   | `VERIFICATION_REFERENCE`                      |
 
 ### Voice
 
@@ -255,25 +256,27 @@ yarn run numbers:regions:list
 
 ### Fax
 
-| Service  | Sample application name and location                                                   | Required parameters               |
-|----------|----------------------------------------------------------------------------------------|-----------------------------------|
-| Services | [./src/fax/services/create.ts](./src/fax/services/create.ts)                           | `PHONE_NUMBER`                    |
-|          | [./src/fax/services/get.ts](./src/fax/services/get.ts)                                 | `FAX_SERVICE_ID`                  |
-|          | [./src/fax/services/list.ts](./src/fax/services/list.ts)                               |                                   |
-|          | [./src/fax/services/listNumbers.ts](./src/fax/services/listNumbers.ts)                 | `FAX_SERVICE_ID`                  |
-|          | [./src/fax/services/listEmailsForNumber.ts](./src/fax/services/listEmailsForNumber.ts) | `PHONE_NUMBER` + `FAX_SERVICE_ID` |
-|          | [./src/fax/services/update.ts](./src/fax/services/update.ts)                           | `FAX_SERVICE_ID`                  |
-|          | [./src/fax/services/delete.ts](./src/fax/services/delete.ts)                           | `FAX_SERVICE_ID`                  |
-| Faxes    | [./src/fax/faxes/send.ts](./src/fax/faxes/send.ts)                                     | `PHONE_NUMBER`                    |
-|          | [./src/fax/faxes/get.ts](./src/fax/faxes/get.ts)                                       | `FAX_ID`                          |
-|          | [./src/fax/faxes/list.ts](./src/fax/faxes/list.ts)                                     |                                   |
-|          | [./src/fax/faxes/downloadContent.ts](./src/fax/faxes/downloadContent.ts)               | `FAX_ID`                          |
-|          | [./src/fax/faxes/deleteContent.ts](./src/fax/faxes/deleteContent.ts)                   | `FAX_ID`                          |
-| Emails   | [./src/fax/emails/add.ts](./src/fax/emails/add.ts)                                     | `FAX_EMAIL` + `PHONE_NUMBER`      |
-|          | [./src/fax/emails/list.ts](./src/fax/emails/list.ts)                                   |                                   |
-|          | [./src/fax/emails/listNumbers.ts](./src/fax/emails/listNumbers.ts)                     | `FAX_EMAIL`                       |
-|          | [./src/fax/emails/update.ts](./src/fax/emails/update.ts)                               | `FAX_EMAIL` + `PHONE_NUMBER`      |
-|          | [./src/fax/emails/delete.ts](./src/fax/emails/delete.ts)                               | `FAX_EMAIL`                       |
+| Service  | Sample application name and location                                                     | Required parameters                 |
+|----------|------------------------------------------------------------------------------------------|-------------------------------------|
+| Services | [./src/fax/services/create.ts](./src/fax/services/create.ts)                             | `PHONE_NUMBER`                      |
+|          | [./src/fax/services/get.ts](./src/fax/services/get.ts)                                   | `FAX_SERVICE_ID`                    |
+|          | [./src/fax/services/list.ts](./src/fax/services/list.ts)                                 |                                     |
+|          | [./src/fax/services/listNumbers.ts](./src/fax/services/listNumbers.ts)                   | `FAX_SERVICE_ID`                    |
+|          | [./src/fax/services/listEmailsForNumber.ts](./src/fax/services/listEmailsForNumber.ts)   | `PHONE_NUMBER` + `FAX_SERVICE_ID`   |
+|          | [./src/fax/services/update.ts](./src/fax/services/update.ts)                             | `FAX_SERVICE_ID`                    |
+|          | [./src/fax/services/delete.ts](./src/fax/services/delete.ts)                             | `FAX_SERVICE_ID`                    |
+| Faxes    | [./src/fax/faxes/send-filePaths.ts](./src/fax/faxes/send-filePaths.ts)                   | `PHONE_NUMBER` + `FAX_CALLBACK_URL` |
+|          | [./src/fax/faxes/send-fileBase64.ts](./src/fax/faxes/send-fileBase64.ts)                 | `PHONE_NUMBER` + `FAX_CALLBACK_URL` |
+|          | [./src/fax/faxes/send-multipleRecipients.ts](./src/fax/faxes/send-multipleRecipients.ts) | `PHONE_NUMBER` + `FAX_CALLBACK_URL` |
+|          | [./src/fax/faxes/get.ts](./src/fax/faxes/get.ts)                                         | `FAX_ID`                            |
+|          | [./src/fax/faxes/list.ts](./src/fax/faxes/list.ts)                                       |                                     |
+|          | [./src/fax/faxes/downloadContent.ts](./src/fax/faxes/downloadContent.ts)                 | `FAX_ID`                            |
+|          | [./src/fax/faxes/deleteContent.ts](./src/fax/faxes/deleteContent.ts)                     | `FAX_ID`                            |
+| Emails   | [./src/fax/emails/add.ts](./src/fax/emails/add.ts)                                       | `FAX_EMAIL` + `PHONE_NUMBER`        |
+|          | [./src/fax/emails/list.ts](./src/fax/emails/list.ts)                                     |                                     |
+|          | [./src/fax/emails/listNumbers.ts](./src/fax/emails/listNumbers.ts)                       | `FAX_EMAIL`                         |
+|          | [./src/fax/emails/update.ts](./src/fax/emails/update.ts)                                 | `FAX_EMAIL` + `PHONE_NUMBER`        |
+|          | [./src/fax/emails/delete.ts](./src/fax/emails/delete.ts)                                 | `FAX_EMAIL`                         |
 
 ### Elastic SIP Trunk
 

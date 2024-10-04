@@ -5,7 +5,7 @@ import {
   StartFlashCallVerificationResponse,
   FlashCallVerificationReportResponse,
   StartSmsVerificationResponse,
-  SMSVerificationReportResponse,
+  SmsVerificationReportResponse,
   ReportSmsVerificationByIdRequestData,
   ReportFlashCallVerificationByIdRequestData,
   ReportCalloutVerificationByIdRequestData,
@@ -17,6 +17,17 @@ import {
   StartCalloutVerificationRequestData,
   StartSeamlessVerificationRequestData,
   StartVerificationWithSms,
+  StartPhoneCallVerificationRequestData,
+  StartPhoneCallVerificationResponse,
+  StartVerificationWithPhoneCall,
+  StartDataVerificationRequestData,
+  StartDataVerificationResponse,
+  ReportPhoneCallVerificationByIdRequestData,
+  PhoneCallVerificationReportRequest,
+  StartVerificationWithPhoneCallServerModel,
+  PhoneCallVerificationReportRequestServerModel,
+  ReportPhoneCallVerificationByIdentityRequestData,
+  PhoneCallVerificationReportResponse,
 } from '../../../models';
 import {
   RequestBody,
@@ -40,12 +51,12 @@ export class VerificationsApi extends VerificationDomainApi {
    * Report the received verification code to verify it, using the Verification ID of the Verification request.
    * @param { ReportSmsVerificationByIdRequestData } data - The data to provide to the API call.
    */
-  public async reportSmsById(data: ReportSmsVerificationByIdRequestData): Promise<SMSVerificationReportResponse> {
+  public async reportSmsById(data: ReportSmsVerificationByIdRequestData): Promise<SmsVerificationReportResponse> {
     this.client = this.getSinchClient();
     (data.reportSmsVerificationByIdRequestBody as any).method = 'sms';
     const getParams = this.client.extractQueryParams<ReportSmsVerificationByIdRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
@@ -59,7 +70,7 @@ export class VerificationsApi extends VerificationDomainApi {
       = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return this.client.processCall<SMSVerificationReportResponse>({
+    return this.client.processCall<SmsVerificationReportResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -76,12 +87,12 @@ export class VerificationsApi extends VerificationDomainApi {
     data: ReportFlashCallVerificationByIdRequestData,
   ): Promise<FlashCallVerificationReportResponse> {
     this.client = this.getSinchClient();
-    (data.reportFlashCallVerificationByIdRequestBody as any).method = 'flashCall';
+    (data.reportFlashCallVerificationByIdRequestBody as any).method = 'flashcall';
     const getParams = this.client.extractQueryParams<ReportFlashCallVerificationByIdRequestData>(
       data,
       [] as never[]);
     const headers: { [key: string]: string | undefined } = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
@@ -104,9 +115,58 @@ export class VerificationsApi extends VerificationDomainApi {
   }
 
   /**
+   * Report a Phone Call verification with ID
+   * Report the received verification code to verify it, using the Verification ID of the Verification request.
+   * @param { ReportCalloutVerificationByIdRequestData } data - The data to provide to the API call.
+   */
+  public async reportPhoneCallById(
+    data: ReportPhoneCallVerificationByIdRequestData,
+  ): Promise<PhoneCallVerificationReportResponse> {
+    this.client = this.getSinchClient();
+    (data.reportPhoneCallVerificationByIdRequestBody as any).method = 'callout';
+    const getParams = this.client.extractQueryParams<ReportPhoneCallVerificationByIdRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    // Special fields handling: see method for details
+    const requestDataBody = this.performReportPhoneCallByIdRequestBodyTransformation(
+      data.reportPhoneCallVerificationByIdRequestBody);
+
+    const body: RequestBody = requestDataBody
+      ? JSON.stringify(requestDataBody)
+      : '{}';
+
+    const path = `/verification/v1/verifications/id/${data['id']}`;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<PhoneCallVerificationReportResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'ReportPhoneCallVerificationById',
+    });
+  }
+
+  performReportPhoneCallByIdRequestBodyTransformation(
+    body: PhoneCallVerificationReportRequest,
+  ): PhoneCallVerificationReportRequestServerModel {
+    const requestDataBody: any = { ...body };
+    (requestDataBody).callout = { ...requestDataBody.phoneCall };
+    delete requestDataBody.phoneCall;
+    return requestDataBody;
+  }
+
+  /**
    * Report a Callout verification with ID
    * Report the received verification code to verify it, using the Verification ID of the Verification request.
    * @param { ReportCalloutVerificationByIdRequestData } data - The data to provide to the API call.
+   * @deprecated Use the method reportPhoneCallById() instead
    */
   public async reportCalloutById(
     data: ReportCalloutVerificationByIdRequestData,
@@ -115,7 +175,7 @@ export class VerificationsApi extends VerificationDomainApi {
     (data.reportCalloutVerificationByIdRequestBody as any).method = 'callout';
     const getParams = this.client.extractQueryParams<ReportCalloutVerificationByIdRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
@@ -144,12 +204,12 @@ export class VerificationsApi extends VerificationDomainApi {
    */
   public async reportSmsByIdentity(
     data: ReportSmsVerificationByIdentityRequestData,
-  ): Promise<SMSVerificationReportResponse> {
+  ): Promise<SmsVerificationReportResponse> {
     this.client = this.getSinchClient();
     (data.reportSmsVerificationByIdentityRequestBody as any).method = 'sms';
     const getParams = this.client.extractQueryParams<ReportSmsVerificationByIdentityRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
@@ -163,7 +223,7 @@ export class VerificationsApi extends VerificationDomainApi {
       = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
     const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return this.client.processCall<SMSVerificationReportResponse>({
+    return this.client.processCall<SmsVerificationReportResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -180,11 +240,11 @@ export class VerificationsApi extends VerificationDomainApi {
     data: ReportFlashCallVerificationByIdentityRequestData,
   ): Promise<FlashCallVerificationReportResponse> {
     this.client = this.getSinchClient();
-    (data.reportFlashCallVerificationByIdentityRequestBody as any).method = 'flashCall';
+    (data.reportFlashCallVerificationByIdentityRequestBody as any).method = 'flashcall';
     const getParams = this.client.extractQueryParams<ReportFlashCallVerificationByIdentityRequestData>(
       data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
@@ -207,9 +267,58 @@ export class VerificationsApi extends VerificationDomainApi {
   }
 
   /**
+   * Report a Phone Call verification using Identity
+   * Report the received verification code (OTP) to verify it, using the identity of the user (in most cases, the phone number).
+   * @param { ReportPhoneCallVerificationByIdentityRequestData } data - The data to provide to the API call.
+   */
+  public async reportPhoneCallByIdentity(
+    data: ReportPhoneCallVerificationByIdentityRequestData,
+  ): Promise<PhoneCallVerificationReportResponse> {
+    this.client = this.getSinchClient();
+    (data.reportPhoneCallVerificationByIdentityRequestBody as any).method = 'callout';
+    const getParams = this.client.extractQueryParams<ReportPhoneCallVerificationByIdentityRequestData>(
+      data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    // Special fields handling: see method for details
+    const requestDataBody = this.performReportPhoneCallByIdentityRequestBodyTransformation(
+      data.reportPhoneCallVerificationByIdentityRequestBody);
+
+    const body: RequestBody = requestDataBody
+      ? JSON.stringify(requestDataBody)
+      : '{}';
+    const path = `/verification/v1/verifications/number/${data['endpoint']}`;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<PhoneCallVerificationReportResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'ReportPhoneCallVerificationByIdentity',
+    });
+  }
+
+  performReportPhoneCallByIdentityRequestBodyTransformation(
+    body: PhoneCallVerificationReportRequest,
+  ): PhoneCallVerificationReportRequestServerModel {
+    const requestDataBody: any = { ...body };
+    (requestDataBody).callout = { ...requestDataBody.phoneCall };
+    delete requestDataBody.phoneCall;
+    return requestDataBody;
+  }
+
+  /**
    * Report a Callout verification using Identity
    * Report the received verification code (OTP) to verify it, using the identity of the user (in most cases, the phone number).
    * @param { ReportCalloutVerificationByIdentityRequestData } data - The data to provide to the API call.
+   * @deprecated Use the method reportPhoneCallByIdentity() instead
    */
   public async reportCalloutByIdentity(
     data: ReportCalloutVerificationByIdentityRequestData,
@@ -219,7 +328,7 @@ export class VerificationsApi extends VerificationDomainApi {
     const getParams = this.client.extractQueryParams<ReportCalloutVerificationByIdentityRequestData>(
       data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
@@ -251,9 +360,12 @@ export class VerificationsApi extends VerificationDomainApi {
     (data.startVerificationWithSmsRequestBody as any).method = 'sms';
     const getParams = this.client.extractQueryParams<StartSmsVerificationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
+    if (data.startVerificationWithSmsRequestBody.smsOptions?.locale !== undefined) {
+      headers['Accept-Language'] = data.startVerificationWithSmsRequestBody.smsOptions.locale;
+    }
 
     // Special fields handling: see method for details
     const requestDataBody = this.performStartSmsRequestBodyTransformation(data.startVerificationWithSmsRequestBody);
@@ -284,6 +396,8 @@ export class VerificationsApi extends VerificationDomainApi {
         requestDataBody.smsOptions.expiry = this.formatTime(expiry);
       }
     }
+    // Remove the `locale` property from the body as it is used as a header parameter for the API call
+    delete requestDataBody.smsOptions?.locale;
 
     return requestDataBody;
   }
@@ -298,6 +412,7 @@ export class VerificationsApi extends VerificationDomainApi {
     return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
   }
 
+
   /**
    * Start verification with a FlashCall
    * This method is used by the mobile and web Verification SDKs to start a verification. It can also be used to request a verification from your backend, by making a request.
@@ -307,10 +422,10 @@ export class VerificationsApi extends VerificationDomainApi {
     data: StartFlashCallVerificationRequestData,
   ): Promise<StartFlashCallVerificationResponse> {
     this.client = this.getSinchClient();
-    (data.startVerificationWithFlashCallRequestBody as any).method = 'flashCall';
+    (data.startVerificationWithFlashCallRequestBody as any).method = 'flashcall';
     const getParams = this.client.extractQueryParams<StartFlashCallVerificationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
@@ -333,16 +448,99 @@ export class VerificationsApi extends VerificationDomainApi {
   }
 
   /**
+   * Start verification with a phone call
+   * This method is used by the mobile and web Verification SDKs to start a verification. It can also be used to request a verification from your backend, by making a request.
+   * @param { StartPhoneCallVerificationRequestData } data - The data to provide to the API call.
+   */
+  public async startPhoneCall(
+    data: StartPhoneCallVerificationRequestData,
+  ): Promise<StartPhoneCallVerificationResponse> {
+    this.client = this.getSinchClient();
+    (data.startVerificationWithPhoneCallRequestBody as any).method = 'callout';
+    const getParams = this.client.extractQueryParams<StartPhoneCallVerificationRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    // Special fields handling: see method for details
+    const requestDataBody = this.performStartPhoneCallRequestBodyTransformation(
+      data.startVerificationWithPhoneCallRequestBody);
+
+    const body: RequestBody = requestDataBody
+      ? JSON.stringify(requestDataBody)
+      : '{}';
+
+    const path = '/verification/v1/verifications';
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined, path);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<StartPhoneCallVerificationResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'StartVerificationWithPhoneCall',
+    });
+  }
+
+  performStartPhoneCallRequestBodyTransformation(
+    body: StartVerificationWithPhoneCall,
+  ): StartVerificationWithPhoneCallServerModel {
+    const requestDataBody = { ...body };
+    if (requestDataBody.phoneCallOptions !== undefined) {
+      (requestDataBody as any).calloutOptions = { ...requestDataBody.phoneCallOptions };
+      delete requestDataBody.phoneCallOptions;
+    }
+    return requestDataBody;
+  }
+
+  /**
+   * Start data verification
+   * This method is used by the mobile and web Verification SDKs to start a verification. It can also be used to request a verification from your backend, by making a request.
+   * @param { StartDataVerificationRequestData } data - The data to provide to the API call.
+   */
+  public async startData(data: StartDataVerificationRequestData): Promise<StartDataVerificationResponse> {
+    this.client = this.getSinchClient();
+    (data.startDataVerificationRequestBody as any).method = 'seamless';
+    const getParams = this.client.extractQueryParams<StartDataVerificationRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = data['startDataVerificationRequestBody']
+      ? JSON.stringify(data['startDataVerificationRequestBody'])
+      : '{}';
+    const path = '/verification/v1/verifications';
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined, path);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<StartDataVerificationResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'StartDataVerification',
+    });
+  }
+
+  /**
    * Start verification with a callout
    * This method is used by the mobile and web Verification SDKs to start a verification. It can also be used to request a verification from your backend, by making a request.
    * @param { StartCalloutVerificationRequestData } data - The data to provide to the API call.
+   * @deprecated Use the method startPhoneCall() instead
    */
   public async startCallout(data: StartCalloutVerificationRequestData): Promise<StartCalloutVerificationResponse> {
     this.client = this.getSinchClient();
     (data.startVerificationWithCalloutRequestBody as any).method = 'callout';
     const getParams = this.client.extractQueryParams<StartCalloutVerificationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
@@ -368,13 +566,14 @@ export class VerificationsApi extends VerificationDomainApi {
    * Start seamless verification (= data verification)
    * This method is used by the mobile and web Verification SDKs to start a verification. It can also be used to request a verification from your backend, by making a request.
    * @param { StartSeamlessVerificationRequestData } data - The data to provide to the API call.
+   * @deprecated Use the method startData() instead
    */
   public async startSeamless(data: StartSeamlessVerificationRequestData): Promise<StartSeamlessVerificationResponse> {
     this.client = this.getSinchClient();
     (data.startSeamlessVerificationRequestBody as any).method = 'seamless';
     const getParams = this.client.extractQueryParams<StartSeamlessVerificationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 

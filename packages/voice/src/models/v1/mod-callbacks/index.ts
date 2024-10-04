@@ -8,3 +8,4 @@ export * from './notify-request';
 export * from './pie-request';
 export * from './pie-response';
 export * from './callback-response';
+export * from './voice-callback-event';

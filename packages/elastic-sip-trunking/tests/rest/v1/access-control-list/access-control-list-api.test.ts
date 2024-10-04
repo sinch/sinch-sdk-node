@@ -131,6 +131,45 @@ describe('AccessControlListApi', () => {
     });
   });
 
+  describe ('getAccessControlListById', () => {
+    // eslint-disable-next-line max-len
+    it('should make a GET request to retrieve an access control list', async () => {
+      // Given
+      const requestData: ElasticSipTrunking.GetAccessControlListRequestData = {
+        id: '01HA9BRJW4J3QE4WBKVC337V4E',
+      };
+      const expectedResponse: ElasticSipTrunking.AccessControlList = {
+        name: 'My new ACL',
+        projectId: '3acb7ae1-cf3d-4112-ba5e-3a9d8c71cd47',
+        enabled: true,
+        id: '01HA9BRJW4J3QE4WBKVC337V4E',
+        createTime: new Date('2023-09-14T07:39:19Z'),
+        updateTime: null,
+        ipRanges: [
+          {
+            description: 'Location 1',
+            ipAddress: '15.15.15.15',
+            range: 20,
+            projectId: '3acb7ae1-cf3d-4112-ba5e-3a9d8c71cd47',
+            accessControlListId: '01HA9BRJW4J3QE4WBKVC337V4E',
+            id: '01HA9BRJYR9Q7ZBDYMXHVWT8S8',
+            createTime: new Date('2023-09-14T07:39:19Z'),
+            updateTime: null,
+          },
+        ],
+      };
+
+      // When
+      fixture.get.mockResolvedValue(expectedResponse);
+      accessControlListApi.get = fixture.get;
+      const response = await accessControlListApi.get(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.get).toHaveBeenCalledWith(requestData);
+    });
+  });
+
   describe ('deleteAccessControlList', () => {
     it('should make a DELETE request to delete an access control list entry', async () => {
       // Given
@@ -187,7 +226,7 @@ describe('AccessControlListApi', () => {
     });
   });
 
-  describe ('getAccessControlList', () => {
+  describe ('getAccessControlLists', () => {
     it('should make a GET request to fetch the list of Access Control List entries', async () => {
       // Given
       const requestData: ElasticSipTrunking.ListAccessControlListRequestData = {};

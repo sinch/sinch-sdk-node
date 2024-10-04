@@ -1,1 +1,7 @@
-export type { VoiceConfiguration } from './voice-configuration';
+export type {
+  VoiceConfiguration,
+  VoiceConfigurationRtc,
+  VoiceConfigurationFax,
+  VoiceConfigurationEst,
+  VoiceConfigurationResponse,
+} from './voice-configuration';

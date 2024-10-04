@@ -1,7 +1,7 @@
 export interface DryRunResponsePerRecipientInner {
 
   recipient?: string;
-  message_part?: string;
+  number_of_parts?: number;
   body?: string;
   encoding?: string;
 }

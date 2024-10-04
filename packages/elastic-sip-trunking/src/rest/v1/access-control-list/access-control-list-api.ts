@@ -13,6 +13,7 @@ import {
   ListAccessControlListsForTrunkRequestData,
   AddAccessControlListToTrunk,
   IpRange,
+  GetAccessControlListRequestData,
 } from '../../../models';
 import {
   RequestBody,
@@ -184,6 +185,33 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
   }
 
   /**
+   * Get Access Control List
+   * Search for an Access Control List by ID.
+   * @param { GetAccessControlListRequestData } data - The data to provide to the API call.
+   */
+  public async get(data: GetAccessControlListRequestData): Promise<AccessControlList> {
+    this.client = this.getSinchClient();
+    const getParams = this.client.extractQueryParams<GetAccessControlListRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = '';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/accessControlLists/${data['id']}`;
+
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<AccessControlList>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'GetAccessControlListById',
+    });
+  }
+
+  /**
    * List ACLs
    * Fetches the list of Access Control List entries.
    * @param { ListAccessControlListRequestData } data - The data to provide to the API call.
@@ -205,7 +233,7 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
     const operationProperties: PaginatedApiProperties = {
       pagination: PaginationEnum.PAGE2,
       apiName: this.apiName,
-      operationId: 'GetAccessControlList',
+      operationId: 'GetAccessControlLists',
       dataKey: 'accessControlLists',
     };
 

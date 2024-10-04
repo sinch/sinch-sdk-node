@@ -71,6 +71,7 @@
               "ignoreRegExpLiterals": true,
               "ignorePattern": "^import.+|test"
           }
-      ]
+      ],
+      "new-cap": "off"
   }
 }

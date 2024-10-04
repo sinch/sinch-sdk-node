@@ -8,14 +8,30 @@ export interface GetDeliveryReportByBatchIdRequestData {
   /** Comma separated list of delivery_report_statuses to include */
   'status'?: DeliveryReportStatusEnum[];
   /** Comma separated list of delivery_receipt_error_codes to include */
-  'code'?: string;
+  'code'?: string | number | number[];
 }
-export interface GetDeliveryReportByPhoneNumberRequestData {
+
+export type GetDeliveryReportByPhoneNumberRequestData =
+  GetDeliveryReportByPhoneNumberRequestDataBC | GetDeliveryReportByPhoneNumberRequestDataDeprecated;
+
+export interface GetDeliveryReportByPhoneNumberRequestDataBC {
   /** The batch ID you received from sending a message. */
   'batch_id': string;
   /** Phone number for which you to want to search. */
-  'recipient_msisdn': string;
+  'phone_number': string;
+  /** @deprecated Use phone_number instead */
+  recipient_msisdn?: never;
 }
+
+export interface GetDeliveryReportByPhoneNumberRequestDataDeprecated {
+  /** The batch ID you received from sending a message. */
+  'batch_id': string;
+  /** @deprecated: use phone_number instead */
+  recipient_msisdn: string;
+  /** Phone number for which you to want to search. */
+  phone_number?: never;
+}
+
 export interface ListDeliveryReportsRequestData {
   /** The page number starting from 0. */
   'page'?: number;

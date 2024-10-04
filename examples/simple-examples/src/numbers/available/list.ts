@@ -13,7 +13,7 @@ import { Numbers } from '@sinch/sdk-core';
   };
 
   const numbersService = initNumbersService();
-  const response = await numbersService.availableNumber.list(requestData);
+  const response = await numbersService.searchForAvailableNumbers(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

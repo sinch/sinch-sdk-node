@@ -1,32 +1,34 @@
-export * from './callout-request-event-response';
-export * from './callout-request-event-response-callout';
-export * from './callout-request-event-response-callout-speech';
-export * from './callout-verification-report-response';
-export * from './callout-verification-status-response';
-export * from './flashcall-request-event-response';
-export * from './flashcall-verification-report-response';
-export * from './flashcall-verification-status-response';
-export * from './verification-report-response-price';
-export * from './identity';
+// Models associated to API requests
+export * from './requests';
 export * from './start-verification-request';
-export * from './links-object';
-export * from './price';
-export * from './start-flashcall-verification-response';
-export * from './start-callout-verification-response';
-export * from './start-seamless-verification-response';
+export * from './verification-report-request';
+// Models associated to SMS verification workflow
 export * from './start-sms-verification-response';
-export * from './sms-request-event-response';
 export * from './sms-verification-report-response';
 export * from './sms-verification-status-response';
+// Models associated to PhoneCall verification workflow
+export * from './start-phonecall-verification-response';
+export * from './phonecall-verification-report-response';
+export * from './phonecall-verification-status-response';
+// Models associated to Flashcall verification workflow
+export * from './start-flashcall-verification-response';
+export * from './flashcall-verification-report-response';
+export * from './flashcall-verification-status-response';
+// Models associated to Data verification workflow
+export * from './start-data-verification-response';
+// Wrapper for the various types of Verification Status Response
+export * from './verification-status-response';
+// Models associated to callback events
+export * from './mod-callbacks';
+// Common models
+export * from './identity';
+export * from './links-object';
+export * from './price';
 export * from './verification-price-call';
 export * from './verification-price-sms';
-export * from './verification-report-request';
-export * from './verification-status-response';
-export * from './verification-request-event';
-export * from './verification-request-event-response';
-export * from './verification-result-event';
-export * from './verification-result-event-response';
+// Error model
 export * from './verification-error';
+// Enums
 export * from './enums';
+// Helper methods
 export * from './helper';
-export * from './requests';

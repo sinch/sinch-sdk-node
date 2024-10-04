@@ -1,10 +1,11 @@
-import { VerificationRequestEvent, VerificationResultEvent } from '../../../models';
+import { VerificationCallbackEvent, VerificationRequestEvent, VerificationResultEvent } from '../../../models';
 import { CallbackProcessor, SinchClientParameters, validateAuthenticationHeader } from '@sinch/sdk-client';
 import { IncomingHttpHeaders } from 'http';
 
+/** @deprecated Use Verification.VerificationCallback instead */
 export type VerificationCallback = VerificationRequestEvent | VerificationResultEvent;
 
-export class VerificationCallbackWebhooks implements CallbackProcessor<VerificationCallback>{
+export class VerificationCallbackWebhooks implements CallbackProcessor<VerificationCallbackEvent>{
 
   private readonly sinchClientParameters: SinchClientParameters;
 
@@ -39,9 +40,9 @@ export class VerificationCallbackWebhooks implements CallbackProcessor<Verificat
    * Reviver for a Verification Event.
    * This method ensures the object can be treated as a Verification Event and should be called before any action is taken to manipulate the object.
    * @param {any} eventBody - The event body containing the verification event notification.
-   * @return {VerificationCallback} - The parsed verification event object.
+   * @return {VerificationCallbackEvent} - The parsed verification event object.
    */
-  public parseEvent(eventBody: any): VerificationCallback {
+  public parseEvent(eventBody: any): VerificationCallbackEvent {
     if (eventBody.event) {
       switch (eventBody.event) {
       case 'VerificationRequestEvent':

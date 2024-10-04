@@ -34,7 +34,6 @@ export class DeliveryReportsApi extends SmsDomainApi {
    */
   public async get(data: GetDeliveryReportByBatchIdRequestData): Promise<DeliveryReport> {
     this.client = this.getSinchClient();
-    data['type'] = data['type'] !== undefined ? data['type'] : 'summary';
     const getParams = this.client.extractQueryParams<GetDeliveryReportByBatchIdRequestData>(
       data,
       ['type', 'status', 'code'],
@@ -72,8 +71,17 @@ export class DeliveryReportsApi extends SmsDomainApi {
       'Accept': 'application/json',
     };
 
+    // TODO: Remove in v2.0
+    let phoneNumber;
+    if (data['phone_number']) {
+      phoneNumber = data['phone_number'];
+    }
+    else if (data['recipient_msisdn']) {
+      phoneNumber = data['recipient_msisdn'];
+    }
+
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}/delivery_report/${data['recipient_msisdn']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/xms/v1/${this.client.apiClientOptions.projectId}/batches/${data['batch_id']}/delivery_report/${phoneNumber}`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
@@ -95,8 +103,6 @@ export class DeliveryReportsApi extends SmsDomainApi {
    */
   public list(data: ListDeliveryReportsRequestData): ApiListPromise<RecipientDeliveryReport> {
     this.client = this.getSinchClient();
-    data['page'] = data['page'] !== undefined ? data['page'] : 0;
-    data['page_size'] = data['page_size'] !== undefined ? data['page_size'] : 30;
     const getParams = this.client.extractQueryParams<ListDeliveryReportsRequestData>(
       data,
       ['page', 'page_size', 'start_date', 'end_date', 'status', 'code', 'client_reference'],

@@ -1,1 +1,1 @@
-export type { Identity } from './identity';
+export type { Identity, IdentityType, TypeEnum } from './identity';

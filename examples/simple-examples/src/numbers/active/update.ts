@@ -1,4 +1,5 @@
 import {
+  getFaxServiceIdFromConfig,
   getNumberCallbackUrlFromConfig,
   getPhoneNumberFromConfig,
   getPrintFormat,
@@ -16,6 +17,7 @@ import { Numbers } from '@sinch/sdk-core';
   const phoneNumber = getPhoneNumberFromConfig();
   const servicePlanId = getServicePlanIdFromConfig();
   const callbackUrl = getNumberCallbackUrlFromConfig();
+  const faxServiceId = getFaxServiceIdFromConfig();
 
   const requestData: Numbers.UpdateActiveNumberRequestData= {
     phoneNumber,
@@ -24,12 +26,16 @@ import { Numbers } from '@sinch/sdk-core';
       smsConfiguration: {
         servicePlanId,
       },
+      voiceConfiguration: {
+        type: 'FAX',
+        serviceId: faxServiceId,
+      },
       callbackUrl,
     },
   };
 
   const numbersService = initNumbersService();
-  const response = await numbersService.activeNumber.update(requestData);
+  const response = await numbersService.update(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

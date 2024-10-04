@@ -75,10 +75,10 @@ describe('FaxesApi', () => {
         status: 'FAILURE',
         headerTimeZone: 'America/New_York',
         retryDelaySeconds: 60,
-        callbackContentType: 'multipart/form-data',
+        callbackUrlContentType: 'multipart/form-data',
         errorType: 'LINE_ERROR',
-        errorId: 89,
-        errorCode: 'The call dropped prematurely',
+        errorCode: 89,
+        errorMessage: 'The call dropped prematurely',
         projectId: 'projectId',
         serviceId: 'serviceId',
         maxRetries: 3,
@@ -117,10 +117,10 @@ describe('FaxesApi', () => {
           status: 'FAILURE',
           headerTimeZone: 'America/New_York',
           retryDelaySeconds: 60,
-          callbackContentType: 'multipart/form-data',
+          callbackUrlContentType: 'multipart/form-data',
           errorType: 'LINE_ERROR',
-          errorId: 89,
-          errorCode: 'The call dropped prematurely',
+          errorCode: 89,
+          errorMessage: 'The call dropped prematurely',
           projectId: 'projectId',
           serviceId: 'serviceId',
           maxRetries: 3,
@@ -156,29 +156,87 @@ describe('FaxesApi', () => {
   describe ('sendFax', () => {
     it('should make a POST request to create and send a fax', async () => {
       // Given
-      const requestData: Fax.SendFaxRequestData = {
+      const requestData: Fax.SendSingleFaxRequestData = {
         sendFaxRequestBody: {
           to: '+12015555555',
         },
       };
-      const expectedResponse: Fax.Fax = {
-        id: 'fax_id',
-        direction: 'OUTBOUND',
-        to: '+12015555555',
-        status: 'IN_PROGRESS',
-        headerTimeZone: 'America/New_York',
-        retryDelaySeconds: 60,
-        callbackContentType: 'multipart/form-data',
-        projectId: 'projectId',
-        serviceId: 'serviceId',
-        maxRetries: 3,
-        createTime: new Date('2024-02-27T12:28:09Z'),
-        headerPageNumbers: true,
-        contentUrl: [
-          'https://developers.sinch.com/fax/fax.pdf',
-        ],
-        imageConversionMethod: 'HALFTONE',
+      const expectedResponse: Fax.Fax[] = [
+        {
+          id: 'fax_id',
+          direction: 'OUTBOUND',
+          to: '+12015555555',
+          status: 'IN_PROGRESS',
+          headerTimeZone: 'America/New_York',
+          retryDelaySeconds: 60,
+          callbackUrlContentType: 'multipart/form-data',
+          projectId: 'projectId',
+          serviceId: 'serviceId',
+          maxRetries: 3,
+          createTime: new Date('2024-02-27T12:28:09Z'),
+          headerPageNumbers: true,
+          contentUrl: [
+            'https://developers.sinch.com/fax/fax.pdf',
+          ],
+          imageConversionMethod: 'HALFTONE',
+        },
+      ];
+
+      // When
+      fixture.send.mockResolvedValue(expectedResponse);
+      faxesApi.send = fixture.send;
+      const response = await faxesApi.send(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.send).toHaveBeenCalledWith(requestData);
+    });
+
+    it('should make a POST request to create and send multiple faxes', async () => {
+      // Given
+      const requestData: Fax.SendMultipleFaxRequestData = {
+        sendFaxRequestBody: {
+          to: ['+12015555555', '+12015555566'],
+        },
       };
+      const expectedResponse: Fax.Fax[] = [
+        {
+          id: 'fax_id',
+          direction: 'OUTBOUND',
+          to: '+12015555555',
+          status: 'IN_PROGRESS',
+          headerTimeZone: 'America/New_York',
+          retryDelaySeconds: 60,
+          callbackUrlContentType: 'multipart/form-data',
+          projectId: 'projectId',
+          serviceId: 'serviceId',
+          maxRetries: 3,
+          createTime: new Date('2024-02-27T12:28:09Z'),
+          headerPageNumbers: true,
+          contentUrl: [
+            'https://developers.sinch.com/fax/fax.pdf',
+          ],
+          imageConversionMethod: 'HALFTONE',
+        },
+        {
+          id: 'fax_id',
+          direction: 'OUTBOUND',
+          to: '+12015555566',
+          status: 'IN_PROGRESS',
+          headerTimeZone: 'America/New_York',
+          retryDelaySeconds: 60,
+          callbackUrlContentType: 'multipart/form-data',
+          projectId: 'projectId',
+          serviceId: 'serviceId',
+          maxRetries: 3,
+          createTime: new Date('2024-02-27T12:28:09Z'),
+          headerPageNumbers: true,
+          contentUrl: [
+            'https://developers.sinch.com/fax/fax.pdf',
+          ],
+          imageConversionMethod: 'HALFTONE',
+        },
+      ];
 
       // When
       fixture.send.mockResolvedValue(expectedResponse);

@@ -8,6 +8,9 @@ export interface SMSConfiguration {
   servicePlanId: string;
   /** Only for US virtual numbers. This campaign ID relates to <a href=\"https://community.sinch.com/t5/10DLC/What-is-10DLC/ta-p/7845\" target=\"_blank\">10DLC numbers</a>. So, it is the current campaign ID for this number. The `campaignId` is found on your TCR platform. */
   campaignId?: string;
+}
+
+export interface SMSConfigurationResponse extends SMSConfiguration {
   /** @see ScheduledProvisioning */
   scheduledProvisioning?: ScheduledProvisioning | null;
 }

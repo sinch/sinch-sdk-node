@@ -4,7 +4,7 @@ export interface CreateSipEndpointRequestData {
     /** The ID of the SIP trunk. */
     'sipTrunkId': string;
     /** The body containing the SIP Endpoint to create for the SIP trunk */
-    'createSipEndpointRequestBody': SipEndpoint;
+    'createSipEndpointRequestBody': Omit<SipEndpoint, 'id' | 'sipTrunkId' | 'createTime' | 'updateTime'>;
 }
 export interface DeleteSipEndpointRequestData {
     /** The ID of the SIP trunk. */
@@ -32,5 +32,5 @@ export interface UpdateSipEndpointRequestData {
     /** The ID of the SIP endpoint. */
     'sipEndpointId': string;
     /** The body containing the SIP Endpoint details to update */
-    'updateSipEndpointRequestBody': SipEndpoint;
+    'updateSipEndpointRequestBody': Omit<SipEndpoint, 'id' | 'sipTrunkId' | 'createTime' | 'updateTime'>;
 }

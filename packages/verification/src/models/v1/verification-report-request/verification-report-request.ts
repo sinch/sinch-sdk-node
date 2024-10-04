@@ -20,12 +20,26 @@ interface FlashCallContent {
   cli: string;
 }
 
+export interface PhoneCallVerificationReportRequest {
+  /** A configuration object containing settings specific to Phone Call verifications */
+  phoneCall: PhoneCallContent;
+}
+
+export interface PhoneCallVerificationReportRequestServerModel {
+  /** A configuration object containing settings specific to Phone Call verifications */
+  callout: PhoneCallContent;
+}
+
+/** @deprecated Use PhoneCallVerificationReportRequest instead */
 export interface CalloutVerificationReportRequest {
   /** A configuration object containing settings specific to Phone Call verifications */
   callout: CalloutContent;
 }
 
-interface CalloutContent {
+interface PhoneCallContent {
   /** The code which was received by the user submitting the Phone Call verification. */
   code?: string;
 }
+
+/** @deprecated Use PhoneCallContent instead */
+type CalloutContent = PhoneCallContent;

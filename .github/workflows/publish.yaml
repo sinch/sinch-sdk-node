@@ -1,0 +1,85 @@
+name: Publish Packages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Authenticate to npm
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build packages
+        run: yarn run build
+
+      - name: Run tests
+        run: yarn run test
+
+      - name: Checkout sinch-sdk-mockserver repository
+        uses: actions/checkout@v3
+        with:
+          repository: sinch/sinch-sdk-mockserver
+          token: ${{ secrets.PAT_CI }}
+          fetch-depth: 0
+          path: sinch-sdk-mockserver
+
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      - name: Start mock servers with Docker Compose
+        run: |
+          cd sinch-sdk-mockserver
+          docker-compose up -d
+
+      - name: Create target directories for feature files
+        run: |
+          mkdir -p ./packages/fax/tests/e2e/features
+          mkdir -p ./packages/numbers/tests/e2e/features
+          mkdir -p ./packages/conversation/tests/e2e/features
+          mkdir -p ./packages/elastic-sip-trunking/tests/e2e/features
+          mkdir -p ./packages/sms/tests/e2e/features
+          mkdir -p ./packages/verification/tests/e2e/features
+          mkdir -p ./packages/voice/tests/e2e/features
+
+      - name: Copy feature files
+        run: |
+          cp sinch-sdk-mockserver/features/fax/*.feature ./packages/fax/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/numbers/*.feature ./packages/numbers/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/conversation/*.feature ./packages/conversation/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/elastic-sip-trunking/*.feature ./packages/elastic-sip-trunking/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/sms/*.feature ./packages/sms/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/verification/*.feature ./packages/verification/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/voice/*.feature ./packages/voice/tests/e2e/features/
+
+      - name: Run e2e tests
+        run: yarn run e2e
+
+      - name: Publish packages
+        run: |
+          cd packages/sdk-client && npm publish
+          cd ../numbers && npm publish
+          cd ../sms && npm publish
+          cd ../verification && npm publish
+          cd ../voice && npm publish
+          cd ../conversation && npm publish
+          cd ../fax && npm publish
+          cd ../elastic-sip-trunking && npm publish
+          cd ../sdk-core && npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

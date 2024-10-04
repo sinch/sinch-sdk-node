@@ -6,4 +6,5 @@
 .DS_Store
 
 .env
-fax-pdf/
+fax-pdf/*
+!fax-pdf/you-faxed.pdf

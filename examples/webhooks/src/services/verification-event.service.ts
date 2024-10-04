@@ -1,14 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
-import {
-  Verification,
-  VerificationCallback,
-} from '@sinch/sdk-core';
+import { Verification } from '@sinch/sdk-core';
 
 @Injectable()
 export class VerificationEventService {
 
-  handleEvent(event: VerificationCallback, res: Response) {
+  handleEvent(event: Verification.VerificationCallbackEvent, res: Response) {
     console.log(`:: INCOMING EVENT :: ${event.event}`);
     switch (event.event) {
       case 'VerificationRequestEvent':
@@ -23,7 +20,7 @@ export class VerificationEventService {
   private handleVerificationRequestEvent(event: Verification.VerificationRequestEvent, res: Response) {
     switch (event.method) {
       case 'sms':
-        const smsRequestEventResponse: Verification.SMSRequestEventResponse = {
+        const smsRequestEventResponse: Verification.SmsRequestEventResponse = {
           action: 'allow',
           sms: {
             code: '123456'
@@ -32,7 +29,7 @@ export class VerificationEventService {
         res.status(200).json(smsRequestEventResponse);
         break;
       case 'callout':
-        const calloutRequestEventResponse: Verification.CalloutRequestEventResponse = {
+        const calloutRequestEventResponse: Verification.PhoneCallRequestEventResponse = {
           action: 'allow',
           callout: {
             code: '123456',

@@ -1,6 +1,6 @@
 {
   "name": "@sinch/fax",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Sinch Fax API",
   "homepage": "",
   "repository": {
@@ -25,13 +25,15 @@
   "scripts": {
     "build": "yarn run clean && yarn run compile",
     "clean": "rimraf dist tsconfig.tsbuildinfo",
-    "compile": "tsc -p tsconfig.build.json && tsc -p tsconfig.tests.json && rimraf dist/tests && rimraf tsconfig.build.tsbuildinfo"
+    "compile": "tsc -p tsconfig.build.json && tsc -p tsconfig.tests.json && rimraf dist/tests && rimraf tsconfig.build.tsbuildinfo",
+    "test:e2e": "cucumber-js"
   },
   "dependencies": {
-    "@sinch/sdk-client": "^1.1.0"
+    "@sinch/sdk-client": "^1.2.0"
   },
   "devDependencies": {},
   "publishConfig": {
-    "directory": "dist"
+    "directory": "dist",
+    "access": "public"
   }
 }

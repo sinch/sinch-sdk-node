@@ -106,7 +106,9 @@
     "fax:services:listEmailsForNumber": "ts-node src/fax/services/listEmailsForNumber.ts",
     "fax:services:update": "ts-node src/fax/services/update.ts",
     "fax:services:delete": "ts-node src/fax/services/delete.ts",
-    "fax:faxes:send": "ts-node src/fax/faxes/send.ts",
+    "fax:faxes:send-filePaths": "ts-node src/fax/faxes/send-filePaths.ts",
+    "fax:faxes:send-fileBase64": "ts-node src/fax/faxes/send-fileBase64.ts",
+    "fax:faxes:send-multipleRecipients": "ts-node src/fax/faxes/send-multipleRecipients.ts",
     "fax:faxes:get": "ts-node src/fax/faxes/get.ts",
     "fax:faxes:list": "ts-node src/fax/faxes/list.ts",
     "fax:faxes:download": "ts-node src/fax/faxes/downloadContent.ts",
@@ -151,14 +153,14 @@
     "sms:inbounds:list": "ts-node src/sms/inbounds/list.ts",
     "sms:inbounds:get": "ts-node src/sms/inbounds/get.ts",
     "verification:verifications:start-sms": "ts-node src/verification/verifications/sms/start-sms.ts",
-    "verification:verifications:start-callout": "ts-node src/verification/verifications/callout/start-callout.ts",
+    "verification:verifications:start-phonecall": "ts-node src/verification/verifications/phonecall/start-phonecall.ts",
     "verification:verifications:start-flashcall": "ts-node src/verification/verifications/flashcall/start-flashcall.ts",
-    "verification:verifications:start-seamless": "ts-node src/verification/verifications/seamless/start-seamless.ts",
+    "verification:verifications:start-data": "ts-node src/verification/verifications/data/start-data.ts",
     "verification:verifications:report-with-id:sms": "ts-node src/verification/verifications/sms/report-with-id_sms.ts",
-    "verification:verifications:report-with-id:callout": "ts-node src/verification/verifications/callout/report-with-id_callout.ts",
+    "verification:verifications:report-with-id:callout": "ts-node src/verification/verifications/phonecall/report-with-id_callout.ts",
     "verification:verifications:report-with-id:flashcall": "ts-node src/verification/verifications/flashcall/report-with-id_flashcall.ts",
     "verification:verifications:report-with-identity:sms": "ts-node src/verification/verifications/sms/report-with-identity_sms.ts",
-    "verification:verifications:report-with-identity:callout": "ts-node src/verification/verifications/callout/report-with-identity_callout.ts",
+    "verification:verifications:report-with-identity:callout": "ts-node src/verification/verifications/phonecall/report-with-identity_callout.ts",
     "verification:verifications:report-with-identity:flashcall": "ts-node src/verification/verifications/flashcall/report-with-identity_flashcall.ts",
     "verification:verification-status:verification-by-id": "ts-node src/verification/verification-status/verification-by-id.ts",
     "verification:verification-status:verification-by-identity": "ts-node src/verification/verification-status/verification-by-identity.ts",
@@ -181,7 +183,7 @@
     "voice:conferences:kickAll": "ts-node src/voice/conferences/kickAll.ts"
   },
   "dependencies": {
-    "@sinch/sdk-core": "^1.1.0",
+    "@sinch/sdk-core": "^1.2.0",
     "dotenv": "^16.3.1"
   },
   "devDependencies": {

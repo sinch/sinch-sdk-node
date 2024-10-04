@@ -1,14 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
-import {
-  VoiceCallback,
-  Voice,
-} from '@sinch/sdk-core';
+import { Voice } from '@sinch/sdk-core';
 
 @Injectable()
 export class VoiceEventService {
 
-  handleEvent(event: VoiceCallback, res: Response) {
+  handleEvent(event: Voice.VoiceCallbackEvent, res: Response) {
     console.log(`:: INCOMING EVENT :: ${event.event}`);
     switch (event.event) {
       case 'ice':
