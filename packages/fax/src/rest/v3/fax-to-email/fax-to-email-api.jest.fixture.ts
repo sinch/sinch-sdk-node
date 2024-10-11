@@ -8,10 +8,10 @@ import {
   ServicePhoneNumber,
   UpdateEmailRequestData,
 } from '../../../models';
-import { EmailsApi } from './emails-api';
+import { FaxToEmailApi } from './fax-to-email-api';
 import { ApiListPromise } from '@sinch/sdk-client';
 
-export class EmailsApiFixture implements Partial<Readonly<EmailsApi>> {
+export class FaxToEmailApiFixture implements Partial<Readonly<FaxToEmailApi>> {
 
   /**
    * Fixture associated to function addToNumbers

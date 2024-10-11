@@ -1,6 +1,7 @@
 export * from './bar-code';
 export * from './date-range-filter';
 export * from './email';
+export * from './errors';
 export * from './fax';
 export * from './fax-base64-file';
 export * from './fax-content-url';
@@ -9,7 +10,6 @@ export * from './fax-request';
 export * from './faxes-list';
 export * from './mod-events';
 export * from './service';
-export * from './service-email-settings';
 export * from './service-phone-number';
 export * from './update-email-request';
 export * from './webhook-event-parsed';

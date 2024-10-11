@@ -1,9 +1,9 @@
-import { EmailsApi, Fax, FaxService } from '../../../../src';
+import { FaxToEmailApi, Fax, FaxService } from '../../../../src';
 import { Given, Then, When } from '@cucumber/cucumber';
 import * as assert from 'assert';
 import { PageResult } from '@sinch/sdk-client';
 
-let emailsApi: EmailsApi;
+let faxToEmailApi: FaxToEmailApi;
 let listEmailsResponse: PageResult<string>;
 const emailsList: string[] = [];
 let listFaxEmails: PageResult<Fax.Email>;
@@ -21,11 +21,11 @@ Given('the Fax service "Emails" is available', () => {
     authHostname: 'http://localhost:3011',
     faxHostname: 'http://localhost:3012',
   });
-  emailsApi = faxService.emails;
+  faxToEmailApi = faxService.faxToEmail;
 });
 
 When('I send a request to list the emails associated to a phone number via the "Emails" Service', async () => {
-  listEmailsResponse = await emailsApi.listForNumber({
+  listEmailsResponse = await faxToEmailApi.listForNumber({
     serviceId: '01W4FFL35P4NC4K35FAXSERVICE',
     phoneNumber: '+12014444444',
   });
@@ -39,7 +39,7 @@ Then('the "Emails" Service response contains {string} emails associated to the p
 });
 
 When('I send a request to list all the emails associated to a phone number via the "Emails" Service', async () => {
-  for await (const email of emailsApi.listForNumber({
+  for await (const email of faxToEmailApi.listForNumber({
     serviceId: '01W4FFL35P4NC4K35FAXSERVICE',
     phoneNumber: '+12014444444' })
   ) {
@@ -55,7 +55,7 @@ Then('the emails list from the "Emails" Service contains {string} emails associa
 });
 
 When('I send a request to list the emails associated to the project', async () => {
-  listFaxEmails = await emailsApi.list({});
+  listFaxEmails = await faxToEmailApi.list({});
 });
 
 Then('the response contains {string} emails associated to the project', (expectedAnswer: string) => {
@@ -64,7 +64,7 @@ Then('the response contains {string} emails associated to the project', (expecte
 });
 
 When('I send a request to list all the emails associated to the project', async () => {
-  for await (const email of emailsApi.list({})) {
+  for await (const email of faxToEmailApi.list({})) {
     faxEmailsList.push(email);
   }
 });
@@ -75,7 +75,7 @@ Then('the emails list contains {string} emails associated to the project', (expe
 });
 
 When('I send a request to add a new email to the project', async () => {
-  email = await emailsApi.addToNumbers({
+  email = await faxToEmailApi.addToNumbers({
     emailRequestBody : {
       email: 'spaceship@galaxy.far.far.away',
       phoneNumbers: ['+12016666666'],
@@ -90,7 +90,7 @@ Then('the response contains the added email', () => {
 });
 
 When('I send a request to update the phone numbers associated to an email', async () => {
-  email = await emailsApi.update({
+  email = await faxToEmailApi.update({
     email: 'spaceship@galaxy.far.far.away',
     updateEmailRequestBody: {
       phoneNumbers: [
@@ -108,7 +108,7 @@ Then('the response contains the updated email', () => {
 });
 
 When('I send a request to delete an email from the project', async () => {
-  deleteEmailResponse = await emailsApi.delete({
+  deleteEmailResponse = await faxToEmailApi.delete({
     email: 'spaceship@galaxy.far.far.away',
   });
 });
@@ -118,7 +118,7 @@ Then('the delete email response contains no data', () => {
 });
 
 When('I send a request to list the phone numbers associated to an email', async () => {
-  listNumbersResponse = await emailsApi.listNumbers({
+  listNumbersResponse = await faxToEmailApi.listNumbers({
     email: 'cookie.monster@nom.nom',
     pageSize: 2,
   });
@@ -130,7 +130,7 @@ Then('the response contains {string} phone numbers associated to the email', (ex
 });
 
 When('I send a request to list all the phone numbers associated to an email', async () => {
-  for await (const number of emailsApi.listNumbers({ email: 'cookie.monster@nom.nom' })) {
+  for await (const number of faxToEmailApi.listNumbers({ email: 'cookie.monster@nom.nom' })) {
     numbersList.push(number);
   }
 });

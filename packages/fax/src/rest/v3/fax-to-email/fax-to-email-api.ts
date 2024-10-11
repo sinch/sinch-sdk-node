@@ -20,7 +20,7 @@ import {
 import { FaxDomainApi } from '../fax-domain-api';
 import { ServicesApi } from '../services';
 
-export class EmailsApi extends FaxDomainApi {
+export class FaxToEmailApi extends FaxDomainApi {
 
   private servicesApi: ServicesApi;
 
@@ -30,7 +30,7 @@ export class EmailsApi extends FaxDomainApi {
    * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
    */
   constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'EmailsApi');
+    super(sinchClientParameters, 'FaxToEmailApi');
     this.servicesApi = new ServicesApi(sinchClientParameters);
   }
 

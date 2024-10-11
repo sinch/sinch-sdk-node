@@ -1,5 +1,5 @@
 export * from './callbacks';
-export * from './emails';
+export * from './fax-to-email';
 export * from './faxes';
 export * from './services';
 export * from './enums';

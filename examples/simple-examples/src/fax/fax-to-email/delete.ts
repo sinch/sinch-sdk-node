@@ -13,7 +13,7 @@ import { getFaxEmailFromConfig, initFaxService } from '../../config';
   };
 
   const faxService = initFaxService();
-  await faxService.emails.delete(requestData);
+  await faxService.faxToEmail.delete(requestData);
 
   console.log(`The email '${requestData.email}' has been successfully removed`);
 })();

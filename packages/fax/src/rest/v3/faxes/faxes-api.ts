@@ -131,6 +131,7 @@ export class FaxesApi extends FaxDomainApi {
   public list(data: ListFaxesRequestData): ApiListPromise<Fax> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListFaxesRequestData>(data, [
+      'serviceId',
       'direction',
       'status',
       'to',
