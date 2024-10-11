@@ -10,4 +10,4 @@ export interface CallError {
   errorCode?: CallErrorCodeEnum;
 }
 
-export type CallErrorCodeEnum = '11' | '15' | '16' | '17' | '19' | '30' | '32' | '34' | '43' | '49';
+export type CallErrorCodeEnum = '11' | '15' | '16' | '17' | '19' | '30' | '32' | '34' | '43' | '49' | string;
