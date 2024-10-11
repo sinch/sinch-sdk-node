@@ -1,4 +1,3 @@
-
 /**
  * Give us any URL on the Internet (including ones with basic authentication) At least one file or contentUrl parameter is required.
  * Please note: If you are passing fax a secure URL (starting with https://), make sure that your SSL certificate (including your intermediate cert, if you have one) is installed properly, valid, and up-to-date.

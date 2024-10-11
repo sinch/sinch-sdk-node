@@ -26,7 +26,7 @@ import {
   };
 
   const faxService = initFaxService();
-  const response = await faxService.emails.update(requestData);
+  const response = await faxService.faxToEmail.update(requestData);
 
   const printFormat = getPrintFormat(process.argv);
 

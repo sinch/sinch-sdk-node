@@ -11,8 +11,8 @@ import { DateFormat } from '@sinch/sdk-client';
  * - `from: '2024-02'` will return all faxes for February 2024
  */
 export interface DateRangeFilter {
-  /** */
+  /** Start of the date range */
   from?: string | Date | DateFormat;
-  /** */
+  /** End of the date range */
   to?: string | Date | DateFormat;
 }

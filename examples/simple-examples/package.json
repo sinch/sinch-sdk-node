@@ -113,11 +113,11 @@
     "fax:faxes:list": "ts-node src/fax/faxes/list.ts",
     "fax:faxes:download": "ts-node src/fax/faxes/downloadContent.ts",
     "fax:faxes:delete": "ts-node src/fax/faxes/deleteContent.ts",
-    "fax:emails:add": "ts-node src/fax/emails/add.ts",
-    "fax:emails:list": "ts-node src/fax/emails/list.ts",
-    "fax:emails:listNumbers": "ts-node src/fax/emails/listNumbers.ts",
-    "fax:emails:update": "ts-node src/fax/emails/update.ts",
-    "fax:emails:delete": "ts-node src/fax/emails/delete.ts",
+    "fax:fax-to-email:add": "ts-node src/fax/fax-to-email/add.ts",
+    "fax:fax-to-email:list": "ts-node src/fax/fax-to-email/list.ts",
+    "fax:fax-to-email:listNumbers": "ts-node src/fax/fax-to-email/listNumbers.ts",
+    "fax:fax-to-email:update": "ts-node src/fax/fax-to-email/update.ts",
+    "fax:fax-to-email:delete": "ts-node src/fax/fax-to-email/delete.ts",
     "numbers:regions:list": "ts-node src/numbers/regions/list.ts",
     "numbers:available:list": "ts-node src/numbers/available/list.ts",
     "numbers:available:checkAvailability": "ts-node src/numbers/available/checkAvailability.ts",
@@ -183,7 +183,7 @@
     "voice:conferences:kickAll": "ts-node src/voice/conferences/kickAll.ts"
   },
   "dependencies": {
-    "@sinch/sdk-core": "^1.2.0",
+    "@sinch/sdk-core": "^1.3.0",
     "dotenv": "^16.3.1"
   },
   "devDependencies": {

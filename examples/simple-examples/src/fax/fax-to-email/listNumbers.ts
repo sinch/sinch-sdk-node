@@ -32,7 +32,7 @@ const populateServiceNumbersList = (
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response = await faxService.emails.listNumbers(requestData);
+  let response = await faxService.faxToEmail.listNumbers(requestData);
 
   // Init data structure to hold the response content
   const fullServiceNumbersList: Fax.ServicePhoneNumber[] = [];
@@ -63,7 +63,7 @@ const populateServiceNumbersList = (
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const number of faxService.emails.listNumbers(requestData)) {
+  for await (const number of faxService.faxToEmail.listNumbers(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`Phone numbers: '${number.phoneNumber}'`);
     } else {

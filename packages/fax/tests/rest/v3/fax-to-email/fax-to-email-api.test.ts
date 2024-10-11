@@ -1,20 +1,20 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
 import { Fax } from '../../../../src';
-import { EmailsApi, EmailsApiFixture } from '../../../../src';
+import { FaxToEmailApi, FaxToEmailApiFixture } from '../../../../src';
 
 describe('EmailsApi', () => {
-  let emailsApi: EmailsApi;
-  let fixture: EmailsApiFixture;
+  let faxToEmailApi: FaxToEmailApi;
+  let fixture: FaxToEmailApiFixture;
   let credentials: SinchClientParameters;
 
   beforeEach(() => {
-    fixture = new EmailsApiFixture();
+    fixture = new FaxToEmailApiFixture();
     credentials = {
       projectId: 'PROJECT_ID',
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    emailsApi = new EmailsApi(credentials);
+    faxToEmailApi = new FaxToEmailApi(credentials);
   });
 
 
@@ -39,8 +39,8 @@ describe('EmailsApi', () => {
 
       // When
       fixture.addToNumbers.mockResolvedValue(expectedResponse);
-      emailsApi.addToNumbers = fixture.addToNumbers;
-      const response = await emailsApi.addToNumbers(requestData);
+      faxToEmailApi.addToNumbers = fixture.addToNumbers;
+      const response = await faxToEmailApi.addToNumbers(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
@@ -58,8 +58,8 @@ describe('EmailsApi', () => {
 
       // When
       fixture.delete.mockResolvedValue(expectedResponse);
-      emailsApi.delete = fixture.delete;
-      const response = await emailsApi.delete(requestData);
+      faxToEmailApi.delete = fixture.delete;
+      const response = await faxToEmailApi.delete(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
@@ -91,8 +91,8 @@ describe('EmailsApi', () => {
 
       // When
       fixture.list.mockResolvedValue(expectedResponse);
-      emailsApi.list = fixture.list;
-      const response = await emailsApi.list(requestData);
+      faxToEmailApi.list = fixture.list;
+      const response = await faxToEmailApi.list(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
@@ -119,8 +119,8 @@ describe('EmailsApi', () => {
 
       // When
       fixture.listForNumber.mockResolvedValue(expectedResponse);
-      emailsApi.listForNumber = fixture.listForNumber;
-      const response = await emailsApi.listForNumber(requestData);
+      faxToEmailApi.listForNumber = fixture.listForNumber;
+      const response = await faxToEmailApi.listForNumber(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
@@ -152,8 +152,8 @@ describe('EmailsApi', () => {
 
       // When
       fixture.listNumbers.mockResolvedValue(expectedResponse);
-      emailsApi.listNumbers = fixture.listNumbers;
-      const response = await emailsApi.listNumbers(requestData);
+      faxToEmailApi.listNumbers = fixture.listNumbers;
+      const response = await faxToEmailApi.listNumbers(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
@@ -185,8 +185,8 @@ describe('EmailsApi', () => {
 
       // When
       fixture.update.mockResolvedValue(expectedResponse);
-      emailsApi.update = fixture.update;
-      const response = await emailsApi.update(requestData);
+      faxToEmailApi.update = fixture.update;
+      const response = await faxToEmailApi.update(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);

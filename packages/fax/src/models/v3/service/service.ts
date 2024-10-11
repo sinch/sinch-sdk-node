@@ -1,11 +1,9 @@
 import { ImageConversionMethod, WebhookContentType } from '../enums';
-import { ServiceEmailSettings } from '../service-email-settings';
 
 /**
  * You can use the default created service, or create multiple services within the same project to have different default behavior for all your different faxing use cases.
  */
 export interface ServiceRequest {
-
   /** A friendly name for the service. Maximum is 60 characters. */
   name?: string;
   /** The URL to which Sinch will post when someone sends a fax to your Sinch number. To accept incoming faxes this must be set and your Sinch phone number must be configured to receive faxes. */
@@ -20,14 +18,14 @@ export interface ServiceRequest {
   numberOfRetries?: number;
   /** The number of seconds to wait between retries if the fax is not yet completed. */
   retryDelaySeconds?: number;
-  /** Determines how documents are converted to black and white. Value should be halftone or monochrome. Defaults to value selected on Fax Settings page */
+  /** Determines how documents are converted to black and white on OUTBOUND faxes only. Image conversion is not done on INBOUND faxes. Defaults to value selected on Fax Service object. */
   imageConversionMethod?: ImageConversionMethod;
   /** Save fax documents with sinch when you send faxes */
   saveOutboundFaxDocuments?: boolean;
   /** Save fax documents with sinch when you receive faxes */
   saveInboundFaxDocuments?: boolean;
-  /** @see ServiceEmailSettings */
-  emailSettings?: ServiceEmailSettings;
+  /** If set to true, barcodes will be detected on incoming faxes. */
+  scanIncomingBarcodes?: boolean;
 }
 
 export interface ServiceResponse extends ServiceRequest {

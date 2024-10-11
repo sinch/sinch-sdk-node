@@ -26,7 +26,7 @@ const populateEmailsList = (
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response = await faxService.emails.list(requestData);
+  let response = await faxService.faxToEmail.list(requestData);
 
   // Init data structure to hold the response content
   const fullEmailsList: Fax.Email[] = [];
@@ -57,7 +57,7 @@ const populateEmailsList = (
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const email of faxService.emails.list(requestData)) {
+  for await (const email of faxService.faxToEmail.list(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`Email '${email.email}' - Phone numbers: '${email.phoneNumbers?.join(', ')}'`);
     } else {
