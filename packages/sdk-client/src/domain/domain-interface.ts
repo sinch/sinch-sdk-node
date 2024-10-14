@@ -36,7 +36,7 @@ export interface UnifiedCredentials {
 export interface MailgunCredentials {
   /** Your API Key created from the [Mailgun Dashboard](https://app.mailgun.com/settings/api_security) */
   mailgunApiKey: string;
-  /** The region for the Mailgun API. Default region is empty */
+  /** The region for the Mailgun API. Default region is empty and targets the US endpoint */
   mailgunRegion?: string;
 }
 
