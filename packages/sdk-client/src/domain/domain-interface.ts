@@ -8,12 +8,13 @@ import { ResponsePlugin } from '../plugins/core/response-plugin';
  *  - API Token: SMS on all regions
  *  - Application Signed: Verification and Voice
  */
-export interface SinchClientParameters extends
-  Partial<UnifiedCredentials>,
-  Partial<ServicePlanIdCredentials>,
-  Partial<ApplicationCredentials>,
-  ApiHostname,
-  ApiPlugins {}
+export type SinchClientParameters = Partial<
+  UnifiedCredentials
+  & MailgunCredentials
+  & ServicePlanIdCredentials
+  & ApplicationCredentials
+  & ApiHostname
+  & ApiPlugins>;
 
 export interface UnifiedCredentials {
   /** The project ID associated with the API Client. You can find this on your [Dashboard](https://dashboard.sinch.com/account/access-keys). */
@@ -30,6 +31,13 @@ export interface UnifiedCredentials {
   faxRegion?: FaxRegion;
   /** The region for the Conversation API. Default region is US */
   conversationRegion?: ConversationRegion;
+}
+
+export interface MailgunCredentials {
+  /** Your API Key created from the [Mailgun Dashboard](https://app.mailgun.com/settings/api_security) */
+  mailgunApiKey: string;
+  /** The region for the Mailgun API. Default region is empty and targets the US endpoint */
+  mailgunRegion?: string;
 }
 
 export interface ServicePlanIdCredentials {
@@ -63,6 +71,8 @@ export interface ApiHostname {
   elasticSipTrunkingHostname?: string;
   /** Override the hostname for the Fax API - Note the regions become ineffective */
   faxHostname?: string;
+  /** Override the hostname for the Mailgun API - Note the regions become ineffective */
+  mailgunHostname?: string;
   /** Override the hostname for the Numbers API */
   numbersHostname?: string;
   /** Override the hostname for the SMS API - Note the regions become ineffective */
@@ -157,4 +167,17 @@ export type ConversationRegion = SupportedConversationRegion | string;
 
 export const ConversationRegion = {
   ...SupportedConversationRegion,
+};
+
+// ////////////////////
+// Mailgun regions
+export enum SupportedMailgunRegion {
+  DEFAULT = '',
+  EUROPE = 'eu',
+}
+
+export type MailgunRegion = SupportedMailgunRegion | string;
+
+export const MailgunRegion = {
+  ...SupportedMailgunRegion,
 };
