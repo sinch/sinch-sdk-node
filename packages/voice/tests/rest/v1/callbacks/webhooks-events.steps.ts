@@ -156,3 +156,41 @@ Then('the Voice event describes a "ACE" event', () => {
   assert.equal(aceEvent.custom, 'Custom text');
   assert.equal(aceEvent.applicationKey, 'f00dcafe-abba-c0de-1dea-dabb1ed4caf3');
 });
+
+When('I send a request to trigger a "ICE" event', async () => {
+  const response = await fetch('http://localhost:3019/webhooks/voice/ice');
+  await processEvent(response);
+});
+
+Then('the header of the "ICE" event contains a valid authorization', () => {
+  assert.ok(voiceCallbackWebhooks.validateAuthenticationHeader(
+    formattedHeaders,
+    rawEvent,
+    '/webhooks/voice',
+    'POST'));
+});
+
+Then('the Voice event describes a "ICE" event', () => {
+  const iceEvent = event as Voice.IceRequest;
+  assert.equal(iceEvent.callid, '1ce0ffee-ca11-ca11-ca11-abcdef000053');
+  assert.equal(iceEvent.event, 'ice');
+  assert.deepEqual(iceEvent.timestamp, new Date('2024-06-06T17:20:14Z'));
+  assert.equal(iceEvent.callResourceUrl, 'https://calling-use1.api.sinch.com/calling/v1/calls/id/1ce0ffee-ca11-ca11-ca11-abcdef000053');
+  assert.equal(iceEvent.version, 1);
+  assert.equal(iceEvent.applicationKey, 'f00dcafe-abba-c0de-1dea-dabb1ed4caf3');
+  const price: Voice.VoicePrice = {
+    currencyId: 'USD',
+    amount: 0.0,
+  };
+  assert.deepEqual(iceEvent.userRate, price);
+  assert.equal(iceEvent.cli, '12015555555');
+  const destination: Voice.Participant = {
+    type: 'did',
+    endpoint: '+12017777777',
+  };
+  assert.deepEqual(iceEvent.to, destination);
+  assert.equal(iceEvent.domain, 'pstn');
+  assert.equal(iceEvent.originationType, 'PSTN');
+  assert.equal(iceEvent.rdnis, '');
+
+});
