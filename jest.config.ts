@@ -25,6 +25,11 @@ const config: Config.InitialOptions = {
       coveragePathIgnorePatterns: ['node_modules', 'tests'],
     },
     {
+      displayName: 'Mailgun',
+      testMatch: ['<rootDir>/packages/mailgun/tests/**/*.test.ts'],
+      coveragePathIgnorePatterns: ['node_modules', 'tests'],
+    },
+    {
       displayName: 'Numbers',
       testMatch: ['<rootDir>/packages/numbers/tests/**/*.test.ts'],
       coveragePathIgnorePatterns: ['node_modules', 'tests'],

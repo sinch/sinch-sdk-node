@@ -118,6 +118,11 @@
     "fax:fax-to-email:listNumbers": "ts-node src/fax/fax-to-email/listNumbers.ts",
     "fax:fax-to-email:update": "ts-node src/fax/fax-to-email/update.ts",
     "fax:fax-to-email:delete": "ts-node src/fax/fax-to-email/delete.ts",
+    "mailgun:email:sendEmail": "ts-node src/mailgun/emails/sendEmail.ts",
+    "mailgun:email:sendMimeEmail": "ts-node src/mailgun/emails/sendMimeEmail.ts",
+    "mailgun:email:getEmail": "ts-node src/mailgun/emails/getEmail.ts",
+    "mailgun:email:purgeDomainQueues": "ts-node src/mailgun/emails/purgeDomainQueues.ts",
+    "mailgun:email:getSendingQueuesStatus": "ts-node src/mailgun/emails/getSendingQueuesStatus.ts",
     "numbers:regions:list": "ts-node src/numbers/regions/list.ts",
     "numbers:available:list": "ts-node src/numbers/available/list.ts",
     "numbers:available:checkAvailability": "ts-node src/numbers/available/checkAvailability.ts",
@@ -184,10 +189,12 @@
   },
   "dependencies": {
     "@sinch/sdk-core": "^1.2.0",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "nodemailer": "^6.9.16"
   },
   "devDependencies": {
     "@types/node": "^20.8.7",
+    "@types/nodemailer": "^6.4.16",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }

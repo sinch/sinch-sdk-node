@@ -3,6 +3,7 @@ import {
   SmsRegion,
   ConversationService,
   FaxService,
+  MailgunService,
   NumbersService,
   SmsService,
   VerificationService,
@@ -28,6 +29,15 @@ export const initElasticSipTrunkingService = (): ElasticSipTrunkingService => {
 
 export const initFaxService = (): FaxService => {
   return initClient().fax;
+};
+
+const initMailgunClient = (): Pick<SinchClient, 'mailgun'> => {
+  const mailgunApiKey = process.env.MAILGUN_API_KEY || '';
+  return new SinchClient({ mailgunApiKey });
+};
+
+export const initMailgunService = (): MailgunService => {
+  return initMailgunClient().mailgun;
 };
 
 export const initNumbersService = (): NumbersService => {
@@ -217,6 +227,22 @@ export const getAccessControlListIdFromConfig = () => {
 
 export const getIpRangeIdFromConfig = () => {
   return readVariable('IP_RANGE_ID');
+};
+
+export const getMailgunDomainFromConfig = () => {
+  return readVariable('MAILGUN_DOMAIN');
+};
+
+export const getMailgunSenderFromConfig = () => {
+  return readVariable('MAILGUN_SENDER_ADDRESS');
+};
+
+export const getMailgunRecipientFromConfig = () => {
+  return readVariable('MAILGUN_RECIPIENT_ADDRESS');
+};
+
+export const getMailgunStorageKeyFromConfig = () => {
+  return readVariable('MAILGUN_STORAGE_KEY');
 };
 
 const readVariable = ( name: string): string => {

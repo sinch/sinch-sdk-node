@@ -50,4 +50,9 @@ describe('API client helpers', () => {
     expect(reviveDates(obj)).toStrictEqual(expected);
   });
 
+  it('should revive RFC 2822 dates', () => {
+    const date = 'Thu, 06 Jun 2024 07:40:00 +0000';
+    expect(reviveDates(date)).toEqual(new Date('2024-06-06T07:40:00.000Z'));
+  });
+
 });

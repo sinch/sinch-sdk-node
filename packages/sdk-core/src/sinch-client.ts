@@ -1,5 +1,6 @@
 import { ConversationService } from '@sinch/conversation';
 import { FaxService } from '@sinch/fax';
+import { MailgunService } from '@sinch/mailgun';
 import { NumbersService } from '@sinch/numbers';
 import { SmsService } from '@sinch/sms';
 import { VerificationService } from '@sinch/verification';
@@ -13,6 +14,7 @@ export class SinchClient {
   public readonly conversation: ConversationService;
   public readonly fax: FaxService;
   public readonly elasticSipTrunking: ElasticSipTrunkingService;
+  public readonly mailgun: MailgunService;
   public readonly numbers: NumbersService;
   public readonly sms: SmsService;
   public readonly verification: VerificationService;
@@ -27,6 +29,7 @@ export class SinchClient {
     this.conversation = new ConversationService(params);
     this.elasticSipTrunking = new ElasticSipTrunkingService(params);
     this.fax = new FaxService(params);
+    this.mailgun = new MailgunService(params);
     this.numbers = new NumbersService(params);
     this.sms = new SmsService(params);
     this.verification = new VerificationService(params);

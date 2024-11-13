@@ -54,6 +54,7 @@ jobs:
           mkdir -p ./packages/sms/tests/e2e/features
           mkdir -p ./packages/verification/tests/e2e/features
           mkdir -p ./packages/voice/tests/e2e/features
+          mkdir -p ./packages/mailgun/tests/e2e/features
 
       - name: Copy feature files
         run: |
@@ -64,6 +65,7 @@ jobs:
           cp sinch-sdk-mockserver/features/sms/*.feature ./packages/sms/tests/e2e/features/
           cp sinch-sdk-mockserver/features/verification/*.feature ./packages/verification/tests/e2e/features/
           cp sinch-sdk-mockserver/features/voice/*.feature ./packages/voice/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/mailgun/*.feature ./packages/mailgun/tests/e2e/features/
 
       - name: Run e2e tests
         run: yarn run e2e

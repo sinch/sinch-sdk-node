@@ -92,9 +92,17 @@ export const reviveDates = (input: any): any => {
 };
 
 const isDateString = (value: any): boolean => {
-  if (typeof value === 'string' && value.length >= 10) {
+  // ISO 8601
+  const iso8601DateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (typeof value === 'string' && value.length >= 10 && iso8601DateRegex.test(value.substring(0, 10))) {
     const date = new Date(value);
     return !isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value.slice(0,10);
+  }
+  // RFC 2822
+  const rfc2822DateRegex = /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}/;
+  if (typeof value === 'string' && value.length >= 16 && rfc2822DateRegex.test(value.substring(0, 16))) {
+    const date = new Date(value);
+    return !isNaN(date.getTime())&& date.toUTCString().slice(0, 16) === value.slice(0,16);
   }
   return false;
 };
