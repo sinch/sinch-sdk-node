@@ -1,6 +1,5 @@
 export * from './emails/request/override-properties/override-properties';
 export * from './emails/request/send-email-request/send-email-request';
-export * from './emails/request/send-email-request-base/send-email-request-base';
 export * from './emails/request/send-mime-email-request/send-mime-email-request';
 export * from './emails/request/template-properties/template-properties';
 export * from './emails/response/bad-request/bad-request';
