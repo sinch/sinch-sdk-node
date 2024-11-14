@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { MailgunCredentials } from '@sinch/sdk-client';
 import { EmailsApi, EmailsApiFixture } from '../../../../src';
 import {
   sendEmailRequestWithHtml,
@@ -14,14 +14,12 @@ import {
 describe('EmailsApi', () => {
   let emailsApi: EmailsApi;
   let fixture: EmailsApiFixture;
-  let credentials: SinchClientParameters;
+  let credentials: MailgunCredentials;
 
   beforeEach(() => {
     fixture = new EmailsApiFixture();
     credentials = {
-      projectId: 'PROJECT_ID',
-      keyId: 'KEY_ID',
-      keySecret: 'KEY_SECRET',
+      mailgunApiKey: 'API_KEY',
     };
     emailsApi = new EmailsApi(credentials);
   });
