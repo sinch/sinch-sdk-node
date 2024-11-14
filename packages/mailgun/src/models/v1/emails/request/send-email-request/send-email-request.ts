@@ -22,6 +22,8 @@ export type MessageContentWhereHtmlContentCanBeFromTemplateOnly = {
   text?: string;
   /** Body of the message (HTML version) */
   html?: never;
+  /** @see TemplateProperties */
+  templateProperties?: TemplateProperties;
 } & CommonEmailProperties;
 
 export interface CommonEmailProperties {
@@ -39,8 +41,6 @@ export interface CommonEmailProperties {
   attachment?: string;
   /** Attachment with `inline` disposition.  Can be used to send inline images (see example).  You can post multiple `inline` values */
   inline?: string;
-  /** @see TemplateProperties */
-  templateProperties?: TemplateProperties;
   /** @see OverrideProperties */
   overrideProperties?: OverrideProperties;
   /** h: prefix followed by a Header/Value pair. For example: h:X-Mailgun-Sending-Ip-Pool=xx.xx.xxx.x. */
@@ -87,8 +87,10 @@ export const transformSendEmailRequestIntoApiRequestBody = (sdkRequest: SendEmai
   if (sdkRequest['inline'] !== undefined && sdkRequest['inline'] !== null) {
     formData.append('inline', sdkRequest['inline']);
   }
-  if (sdkRequest['templateProperties'] !== undefined && sdkRequest['templateProperties'] !== null) {
-    const templateProperties = sdkRequest['templateProperties'];
+  if ('templateProperties' in sdkRequest
+    && sdkRequest.templateProperties !== null
+    && sdkRequest.templateProperties !== undefined) {
+    const templateProperties = sdkRequest.templateProperties;
     if (templateProperties['text'] !== undefined && templateProperties['text'] !== null) {
       formData.append('t:text', templateProperties['text']);
     }

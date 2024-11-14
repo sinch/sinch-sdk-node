@@ -1,5 +1,8 @@
 import FormData = require('form-data');
-import { transformSendEmailRequestIntoApiRequestBody } from '../../../../../src/models';
+import { Mailgun } from '../../../../../src';
+import {
+  transformSendEmailRequestIntoApiRequestBody,
+} from '../../../../../src/models';
 import { sendEmailRequestWithHtml, sendEmailRequestWithTemplate } from './send-email-request.models';
 
 describe('SendEmailRequest', () => {
@@ -135,11 +138,14 @@ describe('SendEmailRequest', () => {
     expect(appendSpy).toHaveBeenCalledWith('o:testmode',
       sendEmailRequestWithTemplate.overrideProperties?.isTestMode);
     expect(appendSpy).toHaveBeenCalledWith('t:text',
-      sendEmailRequestWithTemplate.templateProperties?.text);
+      // eslint-disable-next-line max-len
+      (sendEmailRequestWithTemplate as Mailgun.MessageContentWhereHtmlContentCanBeFromTemplateOnly).templateProperties?.text);
     expect(appendSpy).toHaveBeenCalledWith('t:version',
-      sendEmailRequestWithTemplate.templateProperties?.version);
+      // eslint-disable-next-line max-len
+      (sendEmailRequestWithTemplate as Mailgun.MessageContentWhereHtmlContentCanBeFromTemplateOnly).templateProperties?.version);
     expect(appendSpy).toHaveBeenCalledWith('t:variables',
-      sendEmailRequestWithTemplate.templateProperties?.variables);
+      // eslint-disable-next-line max-len
+      (sendEmailRequestWithTemplate as Mailgun.MessageContentWhereHtmlContentCanBeFromTemplateOnly).templateProperties?.variables);
     expect(appendSpy).toHaveBeenCalledWith('h:X-Mailgun-Sending-Ip-Pool',
       sendEmailRequestWithTemplate['h:X-Mailgun-Sending-Ip-Pool']);
     expect(appendSpy).toHaveBeenCalledWith('v:first_name',
