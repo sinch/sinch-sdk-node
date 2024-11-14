@@ -6,7 +6,7 @@ import {
 } from '../../../models/v1/emails/request';
 import {
   genericResponse,
-  getEmailResponse,
+  getStoredEmailResponse,
   sendEmailResponse,
   sendingQueuesStatusResponse,
 } from '../../../models/v1/emails/response';
@@ -63,13 +63,13 @@ describe('EmailsApi', () => {
       const storageKey: string = 'storageKey';
 
       // When
-      fixture.getEmail.mockResolvedValue(getEmailResponse);
-      emailsApi.getEmail = fixture.getEmail;
-      const response = await emailsApi.getEmail(domainName, storageKey);
+      fixture.getStoredEmail.mockResolvedValue(getStoredEmailResponse);
+      emailsApi.getStoredEmail = fixture.getStoredEmail;
+      const response = await emailsApi.getStoredEmail(domainName, storageKey);
 
       // Then
-      expect(response).toEqual(getEmailResponse);
-      expect(fixture.getEmail).toHaveBeenCalledWith(domainName, storageKey);
+      expect(response).toEqual(getStoredEmailResponse);
+      expect(fixture.getStoredEmail).toHaveBeenCalledWith(domainName, storageKey);
     });
   });
 

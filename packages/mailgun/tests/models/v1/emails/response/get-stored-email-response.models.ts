@@ -1,6 +1,6 @@
 import { Mailgun } from '../../../../../src';
 
-export const getEmailResponseFromApi: Mailgun.GetEmailResponseFromApi = {
+export const getStoredEmailResponseFromApi: Mailgun.GetStoredEmailResponseFromApi = {
   'X-Mailgun-Deliver-By': new Date('Wed, 06 Jun 2024 07:40:00 +0000'),
   subject: '"Mailgun is awesome"',
   Subject: '"Mailgun is awesome"',
@@ -17,7 +17,7 @@ export const getEmailResponseFromApi: Mailgun.GetEmailResponseFromApi = {
     ['Subject', '"Mailgun is awesome"'],
     ['From', 'foo.bar@my-domain.com'],
     ['To', 'cool.barr@cool.com, bar.baz@gmail.com'],
-    ['X-Mailgun-Deliver-By', 'Wed, 06 Jun 2024 07:40:00 +0000'],
+    ['X-Mailgun-Deliver-By', new Date('Wed, 06 Jun 2024 07:40:00 +0000')],
     ['Message-Id', '<xxxxxxxxxxxxx.111111111111111@my-domain.com>'],
     ['Content-Transfer-Encoding', '7bit'],
     ['Content-Type', 'text/html; charset=ascii'],
@@ -30,19 +30,23 @@ export const getEmailResponseFromApi: Mailgun.GetEmailResponseFromApi = {
   'Mime-Version': '1.0',
 };
 
-export const getEmailResponse: Mailgun.GetEmailResponse = {
-  contentTransferEncoding: '7bit',
-  contentType: 'text/html; charset=ascii',
-  messageId: '<xxxxxxxxxxxxx.111111111111111@my-domain.com>',
-  mimeVersion: '1.0',
-  to: 'cool.barr@cool.com, bar.baz@gmail.com',
-  deliveryTime: new Date('Wed, 06 Jun 2024 07:40:00 +0000'),
+export const getStoredEmailResponse: Mailgun.GetStoredEmailResponse = {
   sender: 'foo.bar@my-domain.com',
   recipients: 'cool.barr@cool.com, bar.baz@gmail.com',
   from: 'foo.bar@my-domain.com',
   subject: '"Mailgun is awesome"',
   bodyHtml: '<html>This is some html</html>',
   bodyPlain: 'This is some html',
+  messageHeaders: {
+    'Content-Transfer-Encoding': '7bit',
+    'Content-Type': 'text/html; charset=ascii',
+    'From': 'foo.bar@my-domain.com',
+    'Message-Id': '<xxxxxxxxxxxxx.111111111111111@my-domain.com>',
+    'Mime-Version': '1.0',
+    'Subject': '"Mailgun is awesome"',
+    'To': 'cool.barr@cool.com, bar.baz@gmail.com',
+    'X-Mailgun-Deliver-By': new Date('Wed, 06 Jun 2024 07:40:00 +0000'),
+  },
   strippedHtml: '<html>This is some html</html>',
   strippedText: 'This is some html',
   strippedSignature: 'This is a signature',

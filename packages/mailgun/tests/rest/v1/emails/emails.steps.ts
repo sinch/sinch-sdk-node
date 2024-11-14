@@ -5,7 +5,7 @@ import * as assert from 'assert';
 let emailsApi: EmailsApi;
 let sendEmailResponse: Mailgun.SendEmailResponse;
 let sendMimeEmailResponse: Mailgun.SendEmailResponse;
-let getEmailResponse: Mailgun.GetEmailResponse;
+let getEmailResponse: Mailgun.GetStoredEmailResponse;
 let sendingQueuesStatusResponse: Mailgun.SendingQueuesStatusResponse;
 let purgeDomainQueuesResponse: Mailgun.GenericResponse;
 const domainName = 'sandbox123.mailgun.org';
@@ -67,12 +67,11 @@ Then('the sendMimeEmail response contains information about the email', () => {
 });
 
 When('I send a request to retrieve a stored email', async () => {
-  getEmailResponse = await emailsApi.getEmail(domainName, 'storageKey');
+  getEmailResponse = await emailsApi.getStoredEmail(domainName, 'storageKey');
 });
 
 Then('the getEmail response contains the email details', () => {
   assert.equal(getEmailResponse.from, 'sender@e2e.tst');
-  assert.equal(getEmailResponse.to, '%recipient%');
   assert.equal(getEmailResponse.subject, 'Hello from mailgun');
   assert.equal(getEmailResponse.recipients, 'recipient@e2e.tst');
   assert.equal(getEmailResponse.strippedHtml,
@@ -82,11 +81,16 @@ Then('the getEmail response contains the email details', () => {
   assert.equal(getEmailResponse.bodyHtml,
     '<h1>Hello %recipient.name%</h1><span style="color:blue">This is an HTML email</span>');
   assert.equal(getEmailResponse.bodyPlain, 'Message text only');
-  assert.deepEqual(getEmailResponse.deliveryTime, new Date('Thu, 06 Jun 2024 07:40:00 +0000'));
-  assert.equal(getEmailResponse.contentType,
-    'multipart/alternative; boundary="44eea75a00c7df3bdd541c89727faec0ce8d5b09663245a35789d6b264c6"');
-  assert.equal(getEmailResponse.contentTransferEncoding, undefined);
-  assert.equal(getEmailResponse.mimeVersion, '1.0');
+  const expectedMessageHeaders: Mailgun.MessageHeaders = {
+    'Content-Type': 'multipart/alternative; boundary="44eea75a00c7df3bdd541c89727faec0ce8d5b09663245a35789d6b264c6"',
+    'Message-Id': '<20240606162145.5f329edde3b4ed71@sandbox123.mailgun.org>',
+    'Mime-Version': '1.0',
+    'X-Mailgun-Deliver-By': new Date('Thu, 06 Jun 2024 07:40:00 +0000'),
+    From: 'sender@e2e.tst',
+    Subject: 'Hello from mailgun',
+    To: '%recipient%',
+  };
+  assert.deepEqual(getEmailResponse.messageHeaders, expectedMessageHeaders);
 });
 
 When('I send a request to get the sending queue status', async () => {

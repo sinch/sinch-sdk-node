@@ -1,8 +1,8 @@
 import {
   GenericResponse,
   GenericResponseFromApi,
-  GetEmailResponse,
-  GetEmailResponseFromApi,
+  GetStoredEmailResponse,
+  GetStoredEmailResponseFromApi,
   SendEmailRequest,
   SendEmailResponse,
   SendEmailResponseFromApi,
@@ -94,7 +94,7 @@ export class EmailsApi extends MailgunDomainApi {
    * @param { string } domainName - Domain name that was used to send the email
    * @param { string } storageKey - Storage key from the emails associated events
    */
-  public async getEmail(domainName: string, storageKey: string): Promise<GetEmailResponse> {
+  public async getStoredEmail(domainName: string, storageKey: string): Promise<GetStoredEmailResponse> {
     this.client = this.getSinchClient();
     const getParams = {};
     const headers: { [key: string]: string | undefined } = {
@@ -107,7 +107,7 @@ export class EmailsApi extends MailgunDomainApi {
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
     const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    const apiResponse = await this.client.processCall<GetEmailResponseFromApi>({
+    const apiResponse = await this.client.processCall<GetStoredEmailResponseFromApi>({
       url,
       requestOptions,
       apiName: this.apiName,

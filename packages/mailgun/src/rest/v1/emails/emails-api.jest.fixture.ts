@@ -1,7 +1,7 @@
 import { EmailsApi } from './emails-api';
 import {
   GenericResponse,
-  GetEmailResponse,
+  GetStoredEmailResponse,
   SendEmailResponse,
   SendingQueuesStatusResponse,
   SendEmailRequest,
@@ -18,9 +18,9 @@ export class EmailsApiFixture implements Partial<Readonly<EmailsApi>> {
    */
   public sendMimeEmail: jest.Mock<Promise<SendEmailResponse>, [string, SendMimeEmailRequest]> = jest.fn();
   /**
-   * Fixture associated to function getEmail
+   * Fixture associated to function getStoredEmail
    */
-  public getEmail: jest.Mock<Promise<GetEmailResponse>, [string, string]> = jest.fn();
+  public getStoredEmail: jest.Mock<Promise<GetStoredEmailResponse>, [string, string]> = jest.fn();
   /**
    * Fixture associated to function purgeDomainQueues
    */

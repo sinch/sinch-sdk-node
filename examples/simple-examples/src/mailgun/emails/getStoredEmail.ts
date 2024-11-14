@@ -16,7 +16,7 @@ import {
   const mailgunService = initMailgunService();
   let response;
   try {
-    response = await mailgunService.emails.getEmail(domainName, storageKey);
+    response = await mailgunService.emails.getStoredEmail(domainName, storageKey);
   } catch (error) {
     console.error('Error when retrieving a message');
     throw error;

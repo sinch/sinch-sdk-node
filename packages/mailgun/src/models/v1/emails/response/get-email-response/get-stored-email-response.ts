@@ -1,4 +1,6 @@
-export const transformGetEmailResponseIntoClientResponse = (apiResponse: GetEmailResponseFromApi): GetEmailResponse => {
+export const transformGetEmailResponseIntoClientResponse = (
+  apiResponse: GetStoredEmailResponseFromApi,
+): GetStoredEmailResponse => {
   return {
     sender: apiResponse['sender'],
     recipients: apiResponse['recipients'],
@@ -20,7 +22,7 @@ function convertHeaders(headers: MessageHeadersFromApi): MessageHeaders {
   }, {} as MessageHeaders);
 }
 
-export interface GetEmailResponse {
+export interface GetStoredEmailResponse {
   sender: string,
   recipients: string,
   from: string,
@@ -33,7 +35,7 @@ export interface GetEmailResponse {
   strippedSignature: string,
 }
 
-export interface GetEmailResponseFromApi {
+export interface GetStoredEmailResponseFromApi {
   sender: string;
   recipients: string;
   from: string;
@@ -44,10 +46,11 @@ export interface GetEmailResponseFromApi {
   'stripped-html': string;
   'stripped-text': string;
   'stripped-signature': string;
+  [key: string]: any;
 }
 
-export type MessageHeadersFromApi = [string, string][];
+export type MessageHeadersFromApi = [string, string | Date][];
 
 export type MessageHeaders= {
-  [key: string]: string;
+  [key: string]: string | Date;
 };
