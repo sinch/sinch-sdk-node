@@ -16,7 +16,13 @@ import {
   transformSendingQueuesStatusResponseIntoClientResponse,
   transformSendMimeEmailRequestIntoApiRequestBody,
 } from '../../../models';
-import { RequestBody, SinchClientParameters, MAILGUN_STORAGE_HOSTNAMES } from '@sinch/sdk-client';
+import {
+  RequestBody,
+  SinchClientParameters,
+  MailgunStorageRegion,
+  MAILGUN_STORAGE_HOSTNAMES_US,
+  MAILGUN_STORAGE_HOSTNAMES_EUROPE,
+} from '@sinch/sdk-client';
 import { MailgunDomainApi } from '../mailgun-domain-api';
 
 export class EmailsApi extends MailgunDomainApi {
@@ -29,7 +35,7 @@ export class EmailsApi extends MailgunDomainApi {
    */
   constructor(sinchClientParameters: SinchClientParameters) {
     super(sinchClientParameters, 'EmailsApi');
-    this.storageHostnames = MAILGUN_STORAGE_HOSTNAMES;
+    this.storageHostnames = [];
   }
 
   /**
@@ -123,9 +129,27 @@ export class EmailsApi extends MailgunDomainApi {
    *
    * The storage hosts are `storage-us-east4.api.mailgun.net`, `storage-us-west1.api.mailgun.net`, and `storage-europe-west1.api.mailgun.net`.
    * @param { string } domainName - The name of the domain you want to delete envelope from
+   * @param { MailgunStorageRegion } storageRegion - The region where the domain is defined (us or europe)
    */
-  public async purgeDomainQueues(domainName: string): Promise<GenericResponse> {
-    const requests = this.storageHostnames.map((hostname) =>
+  public async purgeDomainQueues(domainName: string, storageRegion: MailgunStorageRegion): Promise<GenericResponse> {
+    let storagesToPurge: string[];
+    if (storageRegion === MailgunStorageRegion.US) {
+      storagesToPurge = [
+        ...MAILGUN_STORAGE_HOSTNAMES_US,
+        ...this.storageHostnames,
+      ];
+    } else if (storageRegion === MailgunStorageRegion.EUROPE) {
+      storagesToPurge = [
+        ...MAILGUN_STORAGE_HOSTNAMES_EUROPE,
+        ...this.storageHostnames,
+      ];
+    } else {
+      console.warn(`Trying to purge the queues for the domain '${domainName}' on an unsupported region: '${storageRegion}'`);
+      storagesToPurge = [
+        ...this.storageHostnames,
+      ];
+    }
+    const requests = storagesToPurge.map((hostname) =>
       this.purgeStorageQueue(hostname, domainName)
         .then((response) => {
           return { hostname, response };

@@ -6,9 +6,11 @@ export const CONVERSATION_TEMPLATES_HOSTNAME = `https://${REGION_PATTERN}templat
 export const ELASTIC_SIP_TRUNKING_HOSTNAME = 'https://elastic-trunking.api.sinch.com';
 export const FAX_HOSTNAME = `https://${REGION_PATTERN}fax.api.sinch.com`;
 export const MAILGUN_HOSTNAME = `https://api.${REGION_PATTERN}mailgun.net`;
-export const MAILGUN_STORAGE_HOSTNAMES = [
+export const MAILGUN_STORAGE_HOSTNAMES_US = [
   'https://storage-us-east4.api.mailgun.net',
   'https://storage-us-west1.api.mailgun.net',
+];
+export const MAILGUN_STORAGE_HOSTNAMES_EUROPE = [
   'https://storage-europe-west1.api.mailgun.net',
 ];
 export const NUMBERS_HOSTNAME = 'https://numbers.api.sinch.com';

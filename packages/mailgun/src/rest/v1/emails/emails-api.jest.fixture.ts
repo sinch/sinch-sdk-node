@@ -7,6 +7,7 @@ import {
   SendEmailRequest,
   SendMimeEmailRequest,
 } from '../../../models';
+import { MailgunStorageRegion } from '@sinch/sdk-client';
 
 export class EmailsApiFixture implements Partial<Readonly<EmailsApi>> {
   /**
@@ -24,7 +25,7 @@ export class EmailsApiFixture implements Partial<Readonly<EmailsApi>> {
   /**
    * Fixture associated to function purgeDomainQueues
    */
-  public purgeDomainQueues: jest.Mock<Promise<GenericResponse>, [string]> = jest.fn();
+  public purgeDomainQueues: jest.Mock<Promise<GenericResponse>, [string, MailgunStorageRegion]> = jest.fn();
   /**
    * Fixture associated to function getSendingQueuesStatus
    */

@@ -181,3 +181,14 @@ export type MailgunRegion = SupportedMailgunRegion | string;
 export const MailgunRegion = {
   ...SupportedMailgunRegion,
 };
+
+export enum SupportedMailgunStorageRegion {
+  US,
+  EUROPE
+}
+
+export type MailgunStorageRegion = SupportedMailgunStorageRegion | string;
+
+export const MailgunStorageRegion = {
+  ...SupportedMailgunStorageRegion,
+};

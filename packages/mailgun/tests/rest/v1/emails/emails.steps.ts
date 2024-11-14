@@ -108,7 +108,7 @@ Then('the response contains the sending queues status', () => {
 
 When('I send a request to purge the domain queues', async () => {
   emailsApi.setStorageHostnames(['http://localhost:3021']);
-  purgeDomainQueuesResponse = await emailsApi.purgeDomainQueues(domainName);
+  purgeDomainQueuesResponse = await emailsApi.purgeDomainQueues(domainName, 'anyRegion');
 });
 
 Then('the response indicates the purge has been done', () => {
