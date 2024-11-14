@@ -1,1 +1,1 @@
-export type { GetEmailResponse } from './get-email-response';
+export type { GetEmailResponse, MessageHeaders } from './get-email-response';
