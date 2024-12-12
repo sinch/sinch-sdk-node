@@ -7,7 +7,7 @@ let sendEmailResponse: Mailgun.SendEmailResponse;
 let sendMimeEmailResponse: Mailgun.SendEmailResponse;
 let getEmailResponse: Mailgun.GetStoredEmailResponse;
 let sendingQueuesStatusResponse: Mailgun.SendingQueuesStatusResponse;
-let purgeSendingQueueResponse: void;
+let purgeSendingQueueResponse: Record<string, never>;
 const domainName = 'sandbox123.mailgun.org';
 
 Given('the Mailgun service "Emails" is available', () => {

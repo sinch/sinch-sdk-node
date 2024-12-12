@@ -77,7 +77,7 @@ describe('EmailsApi', () => {
       // Given
       const domainName: string = 'domainName';
       const storageHostname: MailgunStorageHostname = 'storageHostname';
-      const expectedResponse: void = undefined;
+      const expectedResponse: Record<string, never> = {};
 
       // When
       fixture.purgeSendingQueue.mockResolvedValue(expectedResponse);

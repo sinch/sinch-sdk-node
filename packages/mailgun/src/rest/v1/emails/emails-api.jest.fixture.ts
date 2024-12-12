@@ -24,7 +24,7 @@ export class EmailsApiFixture implements Partial<Readonly<EmailsApi>> {
   /**
    * Fixture associated to function purgeSendingQueue
    */
-  public purgeSendingQueue: jest.Mock<Promise<void>, [string, MailgunStorageHostname]> = jest.fn();
+  public purgeSendingQueue: jest.Mock<Promise<Record<string, never>>, [string, MailgunStorageHostname]> = jest.fn();
   /**
    * Fixture associated to function getSendingQueuesStatus
    */

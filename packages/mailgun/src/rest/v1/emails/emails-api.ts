@@ -131,7 +131,7 @@ export class EmailsApi extends MailgunDomainApi {
   public async purgeSendingQueue(
     domainName: string,
     storageHostname: MailgunStorageHostname,
-  ): Promise<void> {
+  ): Promise<Record<string, never>> {
     this.client = this.getSinchClient();
     const getParams = {};
     const headers: { [key: string]: string | undefined } = {
@@ -156,6 +156,8 @@ export class EmailsApi extends MailgunDomainApi {
       apiName: this.apiName,
       operationId: 'purgeSendingQueue',
     });
+
+    return {};
   }
 
   /**
