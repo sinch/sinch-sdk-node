@@ -219,6 +219,7 @@ export class FaxesApi extends FaxDomainApi {
       headers['Content-Type'] = 'application/json';
       body = JSON.stringify(data['sendFaxRequestBody']);
     } else {
+      headers['Content-Type'] = 'multipart/form-data';
       const formData = new FormData();
       let requestData;
       if (Array.isArray(data.sendFaxRequestBody.to)) {
