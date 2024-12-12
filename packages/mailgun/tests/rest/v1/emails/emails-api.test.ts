@@ -5,7 +5,6 @@ import {
   sendMimeEmailRequest,
 } from '../../../models/v1/emails/request';
 import {
-  genericResponse,
   getStoredEmailResponse,
   sendEmailResponse,
   sendingQueuesStatusResponse,
@@ -78,14 +77,15 @@ describe('EmailsApi', () => {
       // Given
       const domainName: string = 'domainName';
       const storageHostname: MailgunStorageHostname = 'storageHostname';
+      const expectedResponse: void = undefined;
 
       // When
-      fixture.purgeSendingQueue.mockResolvedValue(genericResponse);
+      fixture.purgeSendingQueue.mockResolvedValue(expectedResponse);
       emailsApi.purgeSendingQueue = fixture.purgeSendingQueue;
       const response = await emailsApi.purgeSendingQueue(domainName, storageHostname);
 
       // Then
-      expect(response).toEqual(genericResponse);
+      expect(response).toEqual(expectedResponse);
       expect(fixture.purgeSendingQueue).toHaveBeenCalledWith(domainName, storageHostname);
     });
   });

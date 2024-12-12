@@ -7,7 +7,7 @@ let sendEmailResponse: Mailgun.SendEmailResponse;
 let sendMimeEmailResponse: Mailgun.SendEmailResponse;
 let getEmailResponse: Mailgun.GetStoredEmailResponse;
 let sendingQueuesStatusResponse: Mailgun.SendingQueuesStatusResponse;
-let purgeSendingQueueResponse: Mailgun.GenericResponse;
+let purgeSendingQueueResponse: void;
 const domainName = 'sandbox123.mailgun.org';
 
 Given('the Mailgun service "Emails" is available', () => {
@@ -111,5 +111,5 @@ When('I send a request to purge a sending queue', async () => {
 });
 
 Then('the response indicates the purge has been done', () => {
-  assert.equal(purgeSendingQueueResponse.message, 'done');
+  assert.deepEqual(purgeSendingQueueResponse, {} );
 });

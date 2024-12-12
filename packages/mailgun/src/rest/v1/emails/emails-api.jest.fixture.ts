@@ -1,6 +1,5 @@
 import { EmailsApi } from './emails-api';
 import {
-  GenericResponse,
   GetStoredEmailResponse,
   SendEmailResponse,
   SendingQueuesStatusResponse,
@@ -25,7 +24,7 @@ export class EmailsApiFixture implements Partial<Readonly<EmailsApi>> {
   /**
    * Fixture associated to function purgeSendingQueue
    */
-  public purgeSendingQueue: jest.Mock<Promise<GenericResponse>, [string, MailgunStorageHostname]> = jest.fn();
+  public purgeSendingQueue: jest.Mock<Promise<void>, [string, MailgunStorageHostname]> = jest.fn();
   /**
    * Fixture associated to function getSendingQueuesStatus
    */

@@ -1,5 +1,4 @@
 import {
-  GenericResponse,
   GenericResponseFromApi,
   GetStoredEmailResponse,
   GetStoredEmailResponseFromApi,
@@ -9,7 +8,6 @@ import {
   SendingQueuesStatusResponse,
   SendingQueuesStatusResponseFromApi,
   SendMimeEmailRequest,
-  transformGenericResponseIntoClientResponse,
   transformGetEmailResponseIntoClientResponse,
   transformSendEmailRequestIntoApiRequestBody,
   transformSendEmailResponseIntoClientResponse,
@@ -133,7 +131,7 @@ export class EmailsApi extends MailgunDomainApi {
   public async purgeSendingQueue(
     domainName: string,
     storageHostname: MailgunStorageHostname,
-  ): Promise<GenericResponse> {
+  ): Promise<void> {
     this.client = this.getSinchClient();
     const getParams = {};
     const headers: { [key: string]: string | undefined } = {
@@ -152,14 +150,12 @@ export class EmailsApi extends MailgunDomainApi {
     );
     const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    const apiResponse = await this.client.processCall<GenericResponseFromApi>({
+    await this.client.processCall<GenericResponseFromApi>({
       url,
       requestOptions,
       apiName: this.apiName,
       operationId: 'purgeSendingQueue',
     });
-
-    return transformGenericResponseIntoClientResponse(apiResponse);
   }
 
   /**
