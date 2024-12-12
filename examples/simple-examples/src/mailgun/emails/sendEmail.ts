@@ -20,7 +20,7 @@ import { Mailgun } from '@sinch/sdk-core';
     from: sender,
     to: recipient,
     subject: 'First email from the Node.js SDK',
-    html: 'Hello!<br>This is an email sent with the <span color="blue">Node.js SDK</span>.',
+    html: 'Hello!<br>This is an email sent with the <span style="color: blue">Node.js SDK</span>.<br>🦦',
   };
 
   const mailgunService = initMailgunService();
