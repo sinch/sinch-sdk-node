@@ -20,7 +20,7 @@ Given('the Mailgun service "Emails" is available', () => {
 
 When('I send a request to send a text email', async () => {
   sendEmailResponse = await emailsApi.sendEmail(domainName, {
-    from: 'Excited E2E user <sender@e2e.tst>',
+    from: 'Excited E2E user ✉️ <sender@e2e.tst>',
     to: 'destination@e2e.tst',
     subject: 'E2E test text email',
     text: 'Hello, this is a text message for E2E testing.',
@@ -107,8 +107,7 @@ Then('the response contains the sending queues status', () => {
 });
 
 When('I send a request to purge the domain queues', async () => {
-  emailsApi.setStorageHostnames(['http://localhost:3021']);
-  purgeDomainQueuesResponse = await emailsApi.purgeDomainQueues(domainName, 'anyRegion');
+  purgeDomainQueuesResponse = await emailsApi.purgeDomainQueue(domainName, 'http://localhost:3021');
 });
 
 Then('the response indicates the purge has been done', () => {

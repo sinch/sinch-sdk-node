@@ -19,9 +19,7 @@ import {
 import {
   RequestBody,
   SinchClientParameters,
-  MailgunStorageRegion,
-  MAILGUN_STORAGE_HOSTNAMES_US,
-  MAILGUN_STORAGE_HOSTNAMES_EUROPE,
+  MailgunStorageHostname,
 } from '@sinch/sdk-client';
 import { MailgunDomainApi } from '../mailgun-domain-api';
 
@@ -49,6 +47,7 @@ export class EmailsApi extends MailgunDomainApi {
     const getParams = this.client.extractQueryParams<SendEmailRequest>(request, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       Accept: 'application/json',
+      'Content-Type': 'multipart/form-data; charset=utf-8',
     };
     const body: RequestBody = transformSendEmailRequestIntoApiRequestBody(request);
     const basePathUrl = `${this.client.apiClientOptions.hostname}/v3/${domainName}/messages`;
@@ -129,52 +128,12 @@ export class EmailsApi extends MailgunDomainApi {
    *
    * The storage hosts are `storage-us-east4.api.mailgun.net`, `storage-us-west1.api.mailgun.net`, and `storage-europe-west1.api.mailgun.net`.
    * @param { string } domainName - The name of the domain you want to delete envelope from
-   * @param { MailgunStorageRegion } storageRegion - The region where the domain is defined (us or europe)
+   * @param { MailgunStorageHostname } storageHostname - The storage hostname to be purged
    */
-  public async purgeDomainQueues(domainName: string, storageRegion: MailgunStorageRegion): Promise<GenericResponse> {
-    let storagesToPurge: string[];
-    if (storageRegion === MailgunStorageRegion.US) {
-      storagesToPurge = [
-        ...MAILGUN_STORAGE_HOSTNAMES_US,
-        ...this.storageHostnames,
-      ];
-    } else if (storageRegion === MailgunStorageRegion.EUROPE) {
-      storagesToPurge = [
-        ...MAILGUN_STORAGE_HOSTNAMES_EUROPE,
-        ...this.storageHostnames,
-      ];
-    } else {
-      console.warn(`Trying to purge the queues for the domain '${domainName}' on an unsupported region: '${storageRegion}'`);
-      storagesToPurge = [
-        ...this.storageHostnames,
-      ];
-    }
-    const requests = storagesToPurge.map((hostname) =>
-      this.purgeStorageQueue(hostname, domainName)
-        .then((response) => {
-          return { hostname, response };
-        })
-        .catch(() => {
-          console.log(`Request failed at: ${hostname}`);
-          return null;
-        }),
-    );
-
-    const results = await Promise.allSettled(requests);
-
-    const successfulResponses = results
-      .filter((result) => result.status === 'fulfilled' && result.value)
-      .map((result) => (result as PromiseFulfilledResult<{ hostname: string; response: GenericResponse }>).value);
-
-    if (successfulResponses.length > 0) {
-      successfulResponses.forEach(({ hostname }) => console.log(`Domain queue successfully purged at: ${hostname}`));
-      return successfulResponses[0].response;
-    } else {
-      throw new Error('All requests failed. Domain may not exist in any region.');
-    }
-  }
-
-  public async purgeStorageQueue(storageHostname: string, domainName: string): Promise<GenericResponse> {
+  public async purgeDomainQueue(
+    domainName: string,
+    storageHostname: MailgunStorageHostname,
+  ): Promise<GenericResponse> {
     this.client = this.getSinchClient();
     const getParams = {};
     const headers: { [key: string]: string | undefined } = {
@@ -197,7 +156,7 @@ export class EmailsApi extends MailgunDomainApi {
       url,
       requestOptions,
       apiName: this.apiName,
-      operationId: 'purgeDomainQueues',
+      operationId: 'purgeDomainQueue',
     });
 
     return transformGenericResponseIntoClientResponse(apiResponse);
@@ -229,10 +188,6 @@ export class EmailsApi extends MailgunDomainApi {
     });
 
     return transformSendingQueuesStatusResponseIntoClientResponse(apiResponse);
-  }
-
-  public setStorageHostnames(storageHostnames: string[]) {
-    this.storageHostnames = storageHostnames;
   }
 
 }

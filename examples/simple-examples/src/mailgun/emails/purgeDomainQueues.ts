@@ -1,19 +1,18 @@
 import { getMailgunDomainFromConfig, initMailgunService, printFullResponse } from '../../config';
-import { MailgunStorageRegion } from '@sinch/sdk-client';
 
 (async () => {
-  console.log('*********************');
-  console.log('* PurgeDomainQueues *');
-  console.log('*********************');
+  console.log('********************');
+  console.log('* PurgeDomainQueue *');
+  console.log('********************');
 
   const domainName = getMailgunDomainFromConfig();
 
   const mailgunService = initMailgunService();
   let response;
   try {
-    response = await mailgunService.emails.purgeDomainQueues(domainName, MailgunStorageRegion.US);
+    response = await mailgunService.emails.purgeDomainQueue(domainName, 'https://storage-us-west1.api.mailgun.net');
   } catch (error) {
-    console.error('Error when trying to purge the domain queues');
+    console.error('Error when trying to purge the domain queue');
     throw error;
   }
 

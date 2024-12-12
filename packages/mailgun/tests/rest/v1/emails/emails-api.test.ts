@@ -1,4 +1,4 @@
-import { MailgunCredentials, MailgunStorageRegion } from '@sinch/sdk-client';
+import { MailgunCredentials, MailgunStorageHostname } from '@sinch/sdk-client';
 import { EmailsApi, EmailsApiFixture } from '../../../../src';
 import {
   sendEmailRequestWithHtml,
@@ -77,16 +77,16 @@ describe('EmailsApi', () => {
     it('should make a DELETE request to purge the domain queues', async () => {
       // Given
       const domainName: string = 'domainName';
-      const storageRegion = MailgunStorageRegion.US;
+      const storageHostname: MailgunStorageHostname = 'storageHostname';
 
       // When
-      fixture.purgeDomainQueues.mockResolvedValue(genericResponse);
-      emailsApi.purgeDomainQueues = fixture.purgeDomainQueues;
-      const response = await emailsApi.purgeDomainQueues(domainName, storageRegion);
+      fixture.purgeDomainQueue.mockResolvedValue(genericResponse);
+      emailsApi.purgeDomainQueue = fixture.purgeDomainQueue;
+      const response = await emailsApi.purgeDomainQueue(domainName, storageHostname);
 
       // Then
       expect(response).toEqual(genericResponse);
-      expect(fixture.purgeDomainQueues).toHaveBeenCalledWith(domainName, storageRegion);
+      expect(fixture.purgeDomainQueue).toHaveBeenCalledWith(domainName, storageHostname);
     });
   });
 

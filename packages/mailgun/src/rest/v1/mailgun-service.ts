@@ -16,11 +16,4 @@ export class MailgunService {
     this.emails.setHostname(hostname);
   }
 
-  /**
-   * Update the default hostname to purge the emails queues
-   * @param {string} storageHostnames - The new hostnames for the emails storage.
-   */
-  public setStorageHostnames(storageHostnames: string[]) {
-    this.emails.setStorageHostnames(storageHostnames);
-  }
 }
