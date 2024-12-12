@@ -130,7 +130,7 @@ export class EmailsApi extends MailgunDomainApi {
    * @param { string } domainName - The name of the domain you want to delete envelope from
    * @param { MailgunStorageHostname } storageHostname - The storage hostname to be purged
    */
-  public async purgeDomainQueue(
+  public async purgeSendingQueue(
     domainName: string,
     storageHostname: MailgunStorageHostname,
   ): Promise<GenericResponse> {
@@ -156,7 +156,7 @@ export class EmailsApi extends MailgunDomainApi {
       url,
       requestOptions,
       apiName: this.apiName,
-      operationId: 'purgeDomainQueue',
+      operationId: 'purgeSendingQueue',
     });
 
     return transformGenericResponseIntoClientResponse(apiResponse);

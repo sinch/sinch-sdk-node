@@ -73,20 +73,20 @@ describe('EmailsApi', () => {
     });
   });
 
-  describe('purgeDomainQueues', () => {
-    it('should make a DELETE request to purge the domain queues', async () => {
+  describe('purgeSendingQueue', () => {
+    it('should make a DELETE request to purge a sending queue', async () => {
       // Given
       const domainName: string = 'domainName';
       const storageHostname: MailgunStorageHostname = 'storageHostname';
 
       // When
-      fixture.purgeDomainQueue.mockResolvedValue(genericResponse);
-      emailsApi.purgeDomainQueue = fixture.purgeDomainQueue;
-      const response = await emailsApi.purgeDomainQueue(domainName, storageHostname);
+      fixture.purgeSendingQueue.mockResolvedValue(genericResponse);
+      emailsApi.purgeSendingQueue = fixture.purgeSendingQueue;
+      const response = await emailsApi.purgeSendingQueue(domainName, storageHostname);
 
       // Then
       expect(response).toEqual(genericResponse);
-      expect(fixture.purgeDomainQueue).toHaveBeenCalledWith(domainName, storageHostname);
+      expect(fixture.purgeSendingQueue).toHaveBeenCalledWith(domainName, storageHostname);
     });
   });
 

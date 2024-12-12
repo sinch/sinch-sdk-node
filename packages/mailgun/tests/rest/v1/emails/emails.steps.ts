@@ -7,7 +7,7 @@ let sendEmailResponse: Mailgun.SendEmailResponse;
 let sendMimeEmailResponse: Mailgun.SendEmailResponse;
 let getEmailResponse: Mailgun.GetStoredEmailResponse;
 let sendingQueuesStatusResponse: Mailgun.SendingQueuesStatusResponse;
-let purgeDomainQueuesResponse: Mailgun.GenericResponse;
+let purgeSendingQueueResponse: Mailgun.GenericResponse;
 const domainName = 'sandbox123.mailgun.org';
 
 Given('the Mailgun service "Emails" is available', () => {
@@ -106,10 +106,10 @@ Then('the response contains the sending queues status', () => {
   assert.equal(sendingQueuesStatusResponse.scheduled.disabled?.reason, '');
 });
 
-When('I send a request to purge the domain queues', async () => {
-  purgeDomainQueuesResponse = await emailsApi.purgeDomainQueue(domainName, 'http://localhost:3021');
+When('I send a request to purge a sending queue', async () => {
+  purgeSendingQueueResponse = await emailsApi.purgeSendingQueue(domainName, 'http://localhost:3021');
 });
 
 Then('the response indicates the purge has been done', () => {
-  assert.equal(purgeDomainQueuesResponse.message, 'done');
+  assert.equal(purgeSendingQueueResponse.message, 'done');
 });
