@@ -1,3 +1,10 @@
+export type SendEmailResponse = Omit<SendEmailResponseFromApi, never>
+
+export interface SendEmailResponseFromApi {
+  message: string;
+  id: string;
+}
+
 export const transformSendEmailResponseIntoClientResponse = (
   apiResponse: SendEmailResponseFromApi,
 ): SendEmailResponse => {
@@ -6,10 +13,3 @@ export const transformSendEmailResponseIntoClientResponse = (
   } = apiResponse;
   return response;
 };
-
-export type SendEmailResponse = Omit<SendEmailResponseFromApi, never>
-
-export interface SendEmailResponseFromApi {
-  message: string;
-  id: string;
-}

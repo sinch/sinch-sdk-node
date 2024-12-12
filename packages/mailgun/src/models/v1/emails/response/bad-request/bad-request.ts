@@ -1,3 +1,8 @@
+export type BadRequest = Omit<BadRequestFromApi, never>;
+export interface BadRequestFromApi {
+  message: string;
+}
+
 export const transformBadRequestIntoClientResponse = (
   apiResponse: BadRequestFromApi,
 ): BadRequest => {
@@ -6,8 +11,3 @@ export const transformBadRequestIntoClientResponse = (
   } = apiResponse;
   return response;
 };
-
-export type BadRequest = Omit<BadRequestFromApi, never>;
-export interface BadRequestFromApi {
-  message: string;
-}

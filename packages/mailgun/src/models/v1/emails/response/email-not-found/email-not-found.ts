@@ -1,3 +1,9 @@
+export type EmailNotFound = Omit<EmailNotFoundFromApi, never>;
+
+export interface EmailNotFoundFromApi {
+  message: string;
+}
+
 export const transformEmailNotFoundIntoClientResponse = (
   apiResponse: EmailNotFoundFromApi,
 ): EmailNotFound => {
@@ -6,9 +12,3 @@ export const transformEmailNotFoundIntoClientResponse = (
   } = apiResponse;
   return response;
 };
-
-export type EmailNotFound = Omit<EmailNotFoundFromApi, never>;
-
-export interface EmailNotFoundFromApi {
-  message: string;
-}

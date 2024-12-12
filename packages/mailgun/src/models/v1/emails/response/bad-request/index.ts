@@ -1,1 +1,8 @@
-export type { BadRequest } from './bad-request';
+export type {
+  BadRequest,
+  BadRequestFromApi,
+} from './bad-request';
+export {
+  transformBadRequestIntoClientResponse,
+} from './bad-request';
+

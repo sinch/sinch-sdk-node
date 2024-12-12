@@ -1,13 +1,8 @@
-import { QueueStatusDisabledDetails } from '../queue-status-disabled-details';
-
-export const transformExceededQueueQuota = (
-  apiResponse: ExceededQueueQuotaFromApi,
-): ExceededQueueQuota => {
-  return {
-    disabled: apiResponse.disabled,
-    isDisabled: apiResponse.is_disabled,
-  };
-};
+import {
+  QueueStatusDisabledDetails,
+  QueueStatusDisabledDetailsFromApi,
+  transformQueueStatusDisabledDetailsIntoClientResponse,
+} from '../queue-status-disabled-details';
 
 export interface ExceededQueueQuota {
   /** @see QueueStatusDisabledDetails */
@@ -16,7 +11,16 @@ export interface ExceededQueueQuota {
 }
 
 export interface ExceededQueueQuotaFromApi {
-  /** @see QueueStatusDisabledDetails */
-  disabled?: QueueStatusDisabledDetails;
+  /** @see QueueStatusDisabledDetailsFromApi */
+  disabled?: QueueStatusDisabledDetailsFromApi;
   is_disabled: boolean;
 }
+
+export const transformExceededQueueQuota = (
+  apiResponse: ExceededQueueQuotaFromApi,
+): ExceededQueueQuota => {
+  return {
+    disabled: transformQueueStatusDisabledDetailsIntoClientResponse(apiResponse['disabled']),
+    isDisabled: apiResponse['is_disabled'],
+  };
+};

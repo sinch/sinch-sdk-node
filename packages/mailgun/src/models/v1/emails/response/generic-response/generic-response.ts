@@ -1,3 +1,9 @@
+export type GenericResponse = Omit<GenericResponseFromApi, never>
+
+export interface GenericResponseFromApi {
+  message: string;
+}
+
 export const transformGenericResponseIntoClientResponse = (
   apiResponse: GenericResponseFromApi,
 ): GenericResponse => {
@@ -6,9 +12,3 @@ export const transformGenericResponseIntoClientResponse = (
   } = apiResponse;
   return response;
 };
-
-export type GenericResponse = Omit<GenericResponseFromApi, never>
-
-export interface GenericResponseFromApi {
-  message: string;
-}
