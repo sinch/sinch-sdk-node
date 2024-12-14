@@ -22,7 +22,7 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-typescript": "^7.24.7",
-    "@cucumber/cucumber": "^10.3.1",
+    "@cucumber/cucumber": "^11.1.1",
     "@types/jest": "^29.5.13",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
