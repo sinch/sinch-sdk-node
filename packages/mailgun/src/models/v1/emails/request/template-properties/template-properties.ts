@@ -1,4 +1,3 @@
-import FormData = require('form-data');
 import { YesNoEnum } from '../enum';
 
 export interface TemplateProperties {
@@ -10,14 +9,3 @@ export interface TemplateProperties {
   variables?: string;
 }
 
-export const appendTemplatePropertiesToFormData = (templateProperties: TemplateProperties, formData: FormData) => {
-  if (templateProperties['text'] != null) {
-    formData.append('t:text', String(templateProperties['text']));
-  }
-  if (templateProperties['version'] != null) {
-    formData.append('t:version', templateProperties['version']);
-  }
-  if (templateProperties['variables'] != null) {
-    formData.append('t:variables', templateProperties['variables']);
-  }
-};

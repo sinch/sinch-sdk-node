@@ -1,7 +1,5 @@
-import { appendTemplatePropertiesToFormData, TemplateProperties } from '../template-properties';
-import { appendOverridePropertiesToFormData, OverrideProperties } from '../override-properties';
-import { appendFilteredPropertiesToFormData } from '../helper';
-import FormData = require('form-data');
+import { TemplateProperties } from '../template-properties';
+import { OverrideProperties } from '../override-properties';
 
 export interface SendMimeEmailRequest {
   /** MIME string of the message.  Make sure to use `multipart/form-data` content type to send this as a file upload */
@@ -22,24 +20,3 @@ export interface SendMimeEmailRequest {
   [key: `v:${string}`]: string | number;
 }
 
-export const transformSendMimeEmailRequestIntoApiRequestBody = (sdkRequest: SendMimeEmailRequest): FormData => {
-  const formData = new FormData();
-  if (sdkRequest['to'] != null) {
-    formData.append('to', sdkRequest['to']);
-  }
-  if ('message' in sdkRequest && sdkRequest['message'] != null) {
-    formData.append('message', sdkRequest['message'], { filename: 'MimeMessage' });
-  }
-  if ('template' in sdkRequest && sdkRequest['template'] != null) {
-    formData.append('template', sdkRequest['template']);
-  }
-  if (sdkRequest.templateProperties != null) {
-    appendTemplatePropertiesToFormData(sdkRequest.templateProperties, formData);
-  }
-  if (sdkRequest.overrideProperties != null) {
-    appendOverridePropertiesToFormData(sdkRequest.overrideProperties, formData);
-  }
-  appendFilteredPropertiesToFormData(sdkRequest, 'h:', formData);
-  appendFilteredPropertiesToFormData(sdkRequest, 'v:', formData);
-  return formData;
-};

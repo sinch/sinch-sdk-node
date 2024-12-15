@@ -8,7 +8,7 @@ export const appendFilteredPropertiesToFormData = (
   for (const [key, value] of Object.entries(obj)) {
     if (key.startsWith(prefix) && value != null) {
       if (value instanceof Date) {
-        formData.append(key, value.toISOString());
+        formData.append(key, value.toUTCString());
       } else {
         formData.append(key, String(value));
       }

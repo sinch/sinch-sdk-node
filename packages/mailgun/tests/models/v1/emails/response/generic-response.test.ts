@@ -1,7 +1,7 @@
+import { genericResponse, genericResponseFromApi } from './generic-response.models';
 import {
   transformGenericResponseIntoClientResponse,
-} from '../../../../../src/models';
-import { genericResponse, genericResponseFromApi } from './generic-response.models';
+} from '../../../../../src/models/v1/emails/response/generic-response/generic-response.transform';
 
 describe('GenericResponse', () => {
 

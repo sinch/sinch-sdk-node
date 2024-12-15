@@ -1,7 +1,7 @@
+import { getStoredEmailResponse, getStoredEmailResponseFromApi } from './get-stored-email-response.models';
 import {
   transformGetEmailResponseIntoClientResponse,
-} from '../../../../../src/models';
-import { getStoredEmailResponse, getStoredEmailResponseFromApi } from './get-stored-email-response.models';
+} from '../../../../../src/models/v1/emails/response/get-email-response/get-stored-email-response.transform';
 
 describe('GetEmailResponse', () => {
 

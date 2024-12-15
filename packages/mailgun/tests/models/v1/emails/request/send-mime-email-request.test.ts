@@ -1,6 +1,8 @@
 import FormData = require('form-data');
-import { transformSendMimeEmailRequestIntoApiRequestBody } from '../../../../../src/models';
 import { sendMimeEmailRequest } from './send-mime-email-request.models';
+import {
+  transformSendMimeEmailRequestIntoApiRequestBody,
+} from '../../../../../src/models/v1/emails/request/send-mime-email-request/send-mime-email-request.transform';
 
 describe('SendMimeEmailRequest', () => {
 

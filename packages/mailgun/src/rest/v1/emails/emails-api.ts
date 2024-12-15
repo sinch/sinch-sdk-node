@@ -1,18 +1,9 @@
 import {
-  GenericResponseFromApi,
   GetStoredEmailResponse,
-  GetStoredEmailResponseFromApi,
   SendEmailRequest,
   SendEmailResponse,
-  SendEmailResponseFromApi,
   SendingQueuesStatusResponse,
-  SendingQueuesStatusResponseFromApi,
   SendMimeEmailRequest,
-  transformGetEmailResponseIntoClientResponse,
-  transformSendEmailRequestIntoApiRequestBody,
-  transformSendEmailResponseIntoClientResponse,
-  transformSendingQueuesStatusResponseIntoClientResponse,
-  transformSendMimeEmailRequestIntoApiRequestBody,
 } from '../../../models';
 import {
   RequestBody,
@@ -20,6 +11,33 @@ import {
   MailgunStorageHostname,
 } from '@sinch/sdk-client';
 import { MailgunDomainApi } from '../mailgun-domain-api';
+import {
+  transformSendEmailRequestIntoApiRequestBody,
+} from '../../../models/v1/emails/request/send-email-request/send-email-request.transform';
+import {
+  transformSendMimeEmailRequestIntoApiRequestBody,
+} from '../../../models/v1/emails/request/send-mime-email-request/send-mime-email-request.transform';
+import {
+  transformSendEmailResponseIntoClientResponse,
+} from '../../../models/v1/emails/response/send-email-response/send-email-response.transform';
+import {
+  transformGetEmailResponseIntoClientResponse,
+} from '../../../models/v1/emails/response/get-email-response/get-stored-email-response.transform';
+import {
+  transformSendingQueuesStatusResponseIntoClientResponse,
+} from '../../../models/v1/emails/response/sending-queues-status-response/sending-queues-status-response.transform';
+import {
+  SendEmailResponseFromApi,
+} from '../../../models/v1/emails/response/send-email-response/send-email-response';
+import {
+  GetStoredEmailResponseFromApi,
+} from '../../../models/v1/emails/response/get-email-response/get-stored-email-response';
+import {
+  GenericResponseFromApi,
+} from '../../../models/v1/emails/response/generic-response/generic-response';
+import {
+  SendingQueuesStatusResponseFromApi,
+} from '../../../models/v1/emails/response/sending-queues-status-response/sending-queues-status-response';
 
 export class EmailsApi extends MailgunDomainApi {
   storageHostnames: string[];

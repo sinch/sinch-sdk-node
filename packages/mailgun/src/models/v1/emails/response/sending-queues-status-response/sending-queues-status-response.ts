@@ -1,4 +1,5 @@
-import { ExceededQueueQuota, ExceededQueueQuotaFromApi, transformExceededQueueQuota } from '../exceeded-queue-quota';
+import { ExceededQueueQuota } from '../exceeded-queue-quota';
+import { ExceededQueueQuotaFromApi } from '../exceeded-queue-quota/exceeded-queue-quota';
 
 export interface SendingQueuesStatusResponse {
   /** @see ExceededQueueQuota */
@@ -13,12 +14,3 @@ export interface SendingQueuesStatusResponseFromApi {
   /** @see ExceededQueueQuotaFromApi */
   regular: ExceededQueueQuotaFromApi;
 }
-
-export const transformSendingQueuesStatusResponseIntoClientResponse = (
-  apiResponse: SendingQueuesStatusResponseFromApi,
-): SendingQueuesStatusResponse => {
-  return {
-    scheduled: transformExceededQueueQuota(apiResponse['scheduled']),
-    regular: transformExceededQueueQuota(apiResponse['regular']),
-  };
-};

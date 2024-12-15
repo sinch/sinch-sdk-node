@@ -1,6 +1,8 @@
 import FormData = require('form-data');
 import { sendEmailRequestWithHtml, sendEmailRequestWithTemplate } from './send-email-request.models';
-import { transformSendEmailRequestIntoApiRequestBody } from '../../../../../src/models';
+import {
+  transformSendEmailRequestIntoApiRequestBody,
+} from '../../../../../src/models/v1/emails/request/send-email-request/send-email-request.transform';
 
 describe('SendEmailRequest', () => {
 

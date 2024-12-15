@@ -8,7 +8,7 @@ export const sendEmailRequestWithHtml: Mailgun.SendEmailRequest = {
   subject: 'subject value',
   text: 'text value',
   html: 'html value',
-  amp_html: 'amp_html value',
+  ampHtml: 'amp_html value',
   attachment: 'attachment value',
   inline: 'inline value',
   overrideProperties: {
@@ -43,7 +43,7 @@ export const sendEmailRequestWithTemplate: Mailgun.SendEmailRequest = {
   subject: 'subject value',
   text: 'text value',
   template: 'template value',
-  amp_html: 'amp_html value',
+  ampHtml: 'amp_html value',
   attachment: 'attachment value',
   inline: 'inline value',
   templateProperties: {

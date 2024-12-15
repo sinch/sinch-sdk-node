@@ -32,7 +32,7 @@ describe('appendFilteredPropertiesToFormData', () => {
     expect(appendSpy).toHaveBeenCalledWith('v:last_name', 'Smith');
     expect(appendSpy).toHaveBeenCalledWith('v:my_message_id', '123');
     expect(appendSpy).toHaveBeenCalledWith('v:date1', '2024-06-06T13:42:42Z');
-    expect(appendSpy).toHaveBeenCalledWith('v:date2', '2024-06-06T13:42:42.000Z');
+    expect(appendSpy).toHaveBeenCalledWith('v:date2', 'Thu, 06 Jun 2024 13:42:42 GMT');
   });
 
   it('should not append properties with null or undefined values', () => {

@@ -1,6 +1,9 @@
 import { Mailgun } from '../../../../../src';
+import {
+  SendingQueuesStatusResponseFromApi,
+} from '../../../../../src/models/v1/emails/response/sending-queues-status-response/sending-queues-status-response';
 
-export const sendingQueuesStatusResponseFromApi: Mailgun.SendingQueuesStatusResponseFromApi = {
+export const sendingQueuesStatusResponseFromApi: SendingQueuesStatusResponseFromApi = {
   scheduled: {
     is_disabled: false,
     disabled: {
