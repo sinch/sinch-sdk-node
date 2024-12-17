@@ -1,6 +1,7 @@
 import { Mailgun } from '../../../../../src';
+import { SendEmailResponseFromApi } from '../../../../../src/models/v1/emails/response/send-email-response/send-email-response';
 
-export const sendEmailResponseFromApi: Mailgun.SendEmailResponseFromApi = {
+export const sendEmailResponseFromApi: SendEmailResponseFromApi = {
   id: 'id value',
   message: 'Queued. Thank you.',
 };

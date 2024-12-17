@@ -1,27 +1,3 @@
-export const transformGetEmailResponseIntoClientResponse = (
-  apiResponse: GetStoredEmailResponseFromApi,
-): GetStoredEmailResponse => {
-  return {
-    sender: apiResponse['sender'],
-    recipients: apiResponse['recipients'],
-    from: apiResponse['from'],
-    subject: apiResponse['subject'],
-    bodyHtml: apiResponse['body-html'],
-    bodyPlain: apiResponse['body-plain'],
-    messageHeaders: convertHeaders(apiResponse['message-headers']),
-    strippedHtml: apiResponse['stripped-html'],
-    strippedText: apiResponse['stripped-text'],
-    strippedSignature: apiResponse['stripped-signature'],
-  };
-};
-
-function convertHeaders(headers: MessageHeadersFromApi): MessageHeaders {
-  return headers.reduce((acc, [key, value]) => {
-    acc[key] = value;
-    return acc;
-  }, {} as MessageHeaders);
-}
-
 export interface GetStoredEmailResponse {
   sender: string,
   recipients: string,
@@ -51,6 +27,6 @@ export interface GetStoredEmailResponseFromApi {
 
 export type MessageHeadersFromApi = [string, string | Date][];
 
-export type MessageHeaders= {
+export type MessageHeaders = {
   [key: string]: string | Date;
 };

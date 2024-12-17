@@ -1,7 +1,5 @@
-import {
-  transformBadRequestIntoClientResponse,
-} from '../../../../../src/models';
 import { badRequest, badRequestFromApi } from './bad-request.models';
+import { transformBadRequestIntoClientResponse } from '../../../../../src/models/v1/emails/response/bad-request/bad-request.transform';
 
 describe('BadRequest', () => {
 
