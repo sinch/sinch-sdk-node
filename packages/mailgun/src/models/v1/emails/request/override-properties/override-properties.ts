@@ -13,7 +13,7 @@ export interface OverrideProperties {
   /** Specify an alias of the domain key specified in `o:secondary-dkim`. Also formatted as `public_signing_domain/selector`. `o:secondary-dkim` option must also be provided. Mailgun will sign the message with the provided key of the secondary DKIM, but use the public secondary DKIM name and selector. Note: We will perform a DNS check prior to signing the message to ensure the public keys matches the secondary DKIM. */
   secondaryDkimPublic?: string;
   /** Specifies the scheduled delivery time in RFC-2822 format (https://documentation.mailgun.com/docs/mailgun/user-manual/get-started/#date-format). Depending on your plan, you can schedule messages up to 3 or 7 days in advance. If your domain has a custom message_ttl (time-to-live) setting, this value determines the maximum scheduling duration. */
-  deliveryTime?: Date;
+  deliveryTime?: Date | string;
   /** Toggles Timezone Optimization (TZO) on a per message basis. String should be set to preferred delivery time in `HH:mm` or `hh:mmaa` format, where `HH:mm` is used for 24 hour format without AM/PM and hh:mmaa is used for 12 hour format with AM/PM. See **Sending a Message with TZO** for details.  *Please note that TZO is only available on certain plans. See www.mailgun.com/pricing for more info* */
   timeZoneLocalize?: string;
   /** Toggles click tracking on a per-message basis, see [Tracking Clicks](https://documentation.mailgun.com/docs/mailgun/user-manual/tracking-messages/#tracking-clicks).  Has higher priority than domain-level setting. */

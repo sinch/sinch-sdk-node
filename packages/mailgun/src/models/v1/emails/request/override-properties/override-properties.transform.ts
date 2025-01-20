@@ -1,8 +1,11 @@
 import { OverrideProperties } from './override-properties';
-import { appendDeliveryTimeOptimizePeriodToFormData } from '../helpers';
+import {
+  appendArrayToFormData,
+  appendDeliveryTimeOptimizePeriodToFormData,
+  transformDateIntoApiRequestFormat,
+} from '../helpers';
 import { transformYesNoHtmlonlyEnumIntoApiRequestFormat } from '../yes-no-htmlonly-enum/yes-no-htmlonly-enum.transform';
 import { transformYesNoEnumIntoApiRequestFormat } from '../yes-no-enum/yes-no-enum.transform';
-import { appendArrayToFormData } from '../helpers';
 import FormData = require('form-data');
 
 // eslint-disable-next-line valid-jsdoc
@@ -26,7 +29,7 @@ export const appendOverridePropertiesToFormData = (sdkRequest: OverridePropertie
     formData.append('o:secondary-dkim-public', sdkRequest['secondaryDkimPublic']);
   }
   if (sdkRequest['deliveryTime'] != null) {
-    formData.append('o:deliverytime', sdkRequest['deliveryTime']);
+    formData.append('o:deliverytime', transformDateIntoApiRequestFormat(sdkRequest['deliveryTime']));
   }
   if (sdkRequest['timeZoneLocalize'] != null) {
     formData.append('o:time-zone-localize', sdkRequest['timeZoneLocalize']);

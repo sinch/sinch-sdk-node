@@ -27,14 +27,14 @@ describe('SendEmailRequest', () => {
     expect(appendSpy).toHaveBeenCalledWith('text', 'text value');
     expect(appendSpy).toHaveBeenCalledWith('html', 'html value');
     expect(appendSpy).toHaveBeenCalledWith('amp-html', 'amp_html value');
-    expect(appendSpy).toHaveBeenCalledWith('attachment', 'attachment value');
-    expect(appendSpy).toHaveBeenCalledWith('inline', 'inline value');
+    expect(appendSpy).toHaveBeenCalledWith('attachment', Buffer.from('attachment value'), { filename: 'file' });
+    expect(appendSpy).toHaveBeenCalledWith('inline', Buffer.from('inline value'), { filename: 'file' });
     expect(appendSpy).toHaveBeenCalledWith('o:tag', 'tag value');
     expect(appendSpy).toHaveBeenCalledWith('o:sending-ip', 'sendingIp value');
     expect(appendSpy).toHaveBeenCalledWith('o:sending-ip-pool', 'sendingIpPool value');
-    expect(appendSpy).toHaveBeenCalledWith('o:deliverytime', 'deliveryTime value');
+    expect(appendSpy).toHaveBeenCalledWith('o:deliverytime', 'Thu, 06 Jun 2024 13:42:42 GMT');
     expect(appendSpy).toHaveBeenCalledWith('o:deliverytime-optimize-period', '24h');
-    expect(appendSpy).toHaveBeenCalledWith('o:dkim', 'yes');
+    expect(appendSpy).toHaveBeenCalledWith('o:dkim', 'true');
     expect(appendSpy).toHaveBeenCalledWith('o:secondary-dkim', 'secondaryDkim value');
     expect(appendSpy).toHaveBeenCalledWith('o:secondary-dkim-public', 'secondaryDkimPublic value');
     expect(appendSpy).toHaveBeenCalledWith('o:require-tls', 'false');
@@ -48,7 +48,7 @@ describe('SendEmailRequest', () => {
     expect(appendSpy).toHaveBeenCalledWith('h:X-Mailgun-Sending-Ip-Pool', 'xx.xx.xxx.x');
     expect(appendSpy).toHaveBeenCalledWith('v:first_name', 'John');
     expect(appendSpy).toHaveBeenCalledWith('v:last_name', 'Smith');
-    expect(appendSpy).toHaveBeenCalledWith('v:my_message_id', '123');
+    expect(appendSpy).toHaveBeenCalledWith('v:my_message_id', 123);
   });
 
   it('should transform a client object using a template into an API object', () => {
@@ -62,31 +62,32 @@ describe('SendEmailRequest', () => {
     expect(appendSpy).toHaveBeenCalledWith('text', 'text value');
     expect(appendSpy).toHaveBeenCalledWith('template', 'template value');
     expect(appendSpy).toHaveBeenCalledWith('amp-html', 'amp_html value');
-    expect(appendSpy).toHaveBeenCalledWith('attachment', 'attachment value');
-    expect(appendSpy).toHaveBeenCalledWith('inline', 'inline value');
+    expect(appendSpy).toHaveBeenCalledWith('attachment', Buffer.from('attachment value'), { filename: 'file' });
+    expect(appendSpy).toHaveBeenCalledWith('inline', Buffer.from('inline value'), { filename: 'file' });
     expect(appendSpy).toHaveBeenCalledWith('o:tag', 'tag value');
     expect(appendSpy).toHaveBeenCalledWith('o:sending-ip', 'sendingIp value');
     expect(appendSpy).toHaveBeenCalledWith('o:sending-ip-pool', 'sendingIpPool value');
-    expect(appendSpy).toHaveBeenCalledWith('o:deliverytime', 'deliveryTime value');
+    expect(appendSpy).toHaveBeenCalledWith('o:deliverytime', 'Thu, 06 Jun 2024 13:42:42 GMT');
     expect(appendSpy).toHaveBeenCalledWith('o:deliverytime-optimize-period', '36h');
     expect(appendSpy).toHaveBeenCalledWith('o:dkim', 'true');
     expect(appendSpy).toHaveBeenCalledWith('o:secondary-dkim', 'secondaryDkim value');
     expect(appendSpy).toHaveBeenCalledWith('o:secondary-dkim-public', 'secondaryDkimPublic value');
-    expect(appendSpy).toHaveBeenCalledWith('o:require-tls', 'yes');
-    expect(appendSpy).toHaveBeenCalledWith('o:skip-verification', 'no');
+    expect(appendSpy).toHaveBeenCalledWith('o:require-tls', 'true');
+    expect(appendSpy).toHaveBeenCalledWith('o:skip-verification', 'false');
     expect(appendSpy).toHaveBeenCalledWith('o:time-zone-localize', '04:15AM');
     expect(appendSpy).toHaveBeenCalledWith('o:tracking', 'yes');
     expect(appendSpy).toHaveBeenCalledWith('o:tracking-clicks', 'no');
     expect(appendSpy).toHaveBeenCalledWith('o:tracking-opens', 'true');
     expect(appendSpy).toHaveBeenCalledWith('o:tracking-pixel-location-top', 'false');
     expect(appendSpy).toHaveBeenCalledWith('o:testmode', 'false');
-    expect(appendSpy).toHaveBeenCalledWith('t:text', 'yes');
+    expect(appendSpy).toHaveBeenCalledWith('t:text', 'true');
     expect(appendSpy).toHaveBeenCalledWith('t:version', 'version value');
-    expect(appendSpy).toHaveBeenCalledWith('t:variables', 'variables value');
+    expect(appendSpy).toHaveBeenCalledWith('t:variables',
+      '{"orders":[{"id":123,"name":"Dark Chocolate Box"},{"id":456,"name":"Calissons x12"}]}');
     expect(appendSpy).toHaveBeenCalledWith('h:X-Mailgun-Sending-Ip-Pool', 'xx.xx.xxx.x');
     expect(appendSpy).toHaveBeenCalledWith('v:first_name', 'John');
     expect(appendSpy).toHaveBeenCalledWith('v:last_name', 'Smith');
-    expect(appendSpy).toHaveBeenCalledWith('v:my_message_id', '123');
+    expect(appendSpy).toHaveBeenCalledWith('v:my_message_id', 123);
   });
 
 });

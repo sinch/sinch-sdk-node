@@ -77,3 +77,11 @@ export const appendSerializedMapToFormData = (
   });
   formData.append(key, serializedData);
 };
+
+export const transformDateIntoApiRequestFormat = (date: Date | string): string => {
+  if (date instanceof Date) {
+    return date.toUTCString();
+  } else {
+    return date;
+  }
+};
