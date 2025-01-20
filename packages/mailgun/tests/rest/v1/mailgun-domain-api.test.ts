@@ -73,10 +73,10 @@ describe('Mailgun API', () => {
     mailgunApi.getSinchClient();
     expect(mailgunApi.client).toBeDefined();
     expect(mailgunApi.client?.apiClientOptions.hostname).toBe('https://api.mailgun.net');
-    mailgunApi.setRegion(MailgunRegion.DEFAULT);
-    expect(mailgunApi.client?.apiClientOptions.hostname).toBe('https://api.mailgun.net');
     mailgunApi.setRegion(MailgunRegion.EUROPE);
     expect(mailgunApi.client?.apiClientOptions.hostname).toBe('https://api.eu.mailgun.net');
+    mailgunApi.setRegion(MailgunRegion.DEFAULT);
+    expect(mailgunApi.client?.apiClientOptions.hostname).toBe('https://api.mailgun.net');
     mailgunApi.setRegion('bzh');
     expect(mailgunApi.client?.apiClientOptions.hostname).toBe('https://api.bzh.mailgun.net');
     mailgunApi.setRegion('');

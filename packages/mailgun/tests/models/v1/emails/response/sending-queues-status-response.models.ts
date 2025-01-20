@@ -23,14 +23,14 @@ export const sendingQueuesStatusResponseFromApi: SendingQueuesStatusResponseFrom
 export const sendingQueuesStatusResponse: Mailgun.SendingQueuesStatusResponse = {
   scheduled: {
     isDisabled: false,
-    disabled: {
+    details: {
       reason: 'reason value',
       until: 'until value',
     },
   },
   regular: {
     isDisabled: false,
-    disabled: {
+    details: {
       reason: 'reason value',
       until: 'until value',
     },

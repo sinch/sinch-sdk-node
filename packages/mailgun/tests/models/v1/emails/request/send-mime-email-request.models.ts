@@ -6,14 +6,25 @@ export const sendMimeEmailRequest: Mailgun.SendMimeEmailRequest = {
   template: 'template value',
   templateProperties: {
     version: 'version value',
-    text: 'yes',
-    variables: 'variables value',
+    text: true,
+    variables: {
+      orders: [
+        {
+          id: 123,
+          name: 'Dark Chocolate Box',
+        },
+        {
+          id: 456,
+          name: 'Calissons x12',
+        },
+      ],
+    },
   },
   overrideProperties: {
     tag: 'tag value',
     sendingIp: 'sendingIp value',
     sendingIpPool: 'sendingIpPool value',
-    deliveryTime: 'deliveryTime value',
+    deliveryTime: new Date('2024-06-06T13:42:42Z'),
     deliveryTimeOptimizePeriod: 72,
     enableDkimSignature: false,
     secondaryDkim: 'secondaryDkim value',
@@ -27,8 +38,12 @@ export const sendMimeEmailRequest: Mailgun.SendMimeEmailRequest = {
     trackingPixelLocationTop: 'no',
     isTestMode: false,
   },
-  'h:X-Mailgun-Sending-Ip-Pool': 'xx.xx.xxx.x',
-  'v:first_name': 'John',
-  'v:last_name': 'Smith',
-  'v:my_message_id': 123,
+  customHeaders: {
+    'X-Mailgun-Sending-Ip-Pool': 'xx.xx.xxx.x',
+  },
+  customVariables: {
+    'first_name': 'John',
+    'last_name': 'Smith',
+    'my_message_id': 123,
+  },
 };
