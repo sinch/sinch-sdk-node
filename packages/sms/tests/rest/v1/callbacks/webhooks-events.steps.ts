@@ -20,7 +20,8 @@ When('I send a request to trigger an "incoming SMS" event', async () => {
   await processEvent(response);
 });
 
-Then('the header of the event {string} contains a valid signature', () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('the header of the event {string} contains a valid signature', (_eventName: string) => {
   assert.ok(true);
 });
 
@@ -62,7 +63,8 @@ When('I send a request to trigger an "SMS recipient delivery report" event with 
   await processEvent(response);
 });
 
-Then('the header of the event "DeliveryReport" with the status {string} contains a valid signature', () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,max-len
+Then('the header of the event "DeliveryReport" with the status {string} contains a valid signature', (_statusName: string) => {
   assert.ok(true);
 });
 
