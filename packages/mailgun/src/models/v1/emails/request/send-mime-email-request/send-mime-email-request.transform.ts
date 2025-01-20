@@ -15,7 +15,7 @@ export const transformSendMimeEmailRequestIntoApiRequestBody = (sdkRequest: Send
     appendArrayToFormData(sdkRequest['to'], 'to', formData);
   }
   if (sdkRequest['message'] != null) {
-    formData.append('message', sdkRequest['message']);
+    formData.append('message', sdkRequest['message'], { filename: 'MimeMessage' });
   }
   if (sdkRequest['template'] != null) {
     formData.append('template', sdkRequest['template']);
