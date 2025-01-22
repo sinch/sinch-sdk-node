@@ -147,7 +147,7 @@ export class EmailsApi extends MailgunDomainApi {
   }
 
 
-  // //
+  // Manually added method - the logic is too specific to be generated //
 
   /**
  * Delete scheduled and undelivered mail

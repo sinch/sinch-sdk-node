@@ -1,6 +1,9 @@
-import { OverrideProperties } from '../override-properties';
 import { EmailAttachment } from '../email-attachment';
+import { OverrideProperties } from '../override-properties';
 
+/**
+ * Sending email message request.  Use to send with HTML content inline within message.
+ */
 export interface SendEmailHtmlInlineRequest {
   /** Email address of the recipient(s).  Example: `\"Bob <bob@host.com>\"`. You can use commas to separate multiple recipients */
   to: string | string[];
@@ -20,15 +23,11 @@ export interface SendEmailHtmlInlineRequest {
   attachment?: EmailAttachment;
   /** Attachment with `inline` disposition.  Can be used to send inline images (see example).  You can post multiple `inline` values */
   inline?: EmailAttachment;
-  /** A valid JSON-encoded dictionary, where key is a plain recipient address and value is a dictionary with variables that can be referenced in the message body. See <strong>Batch Sending</strong> for more information */
-  recipientVariables?: {
-    [key: string]: Record<string, string | number | boolean | Date>;
-  };
+  /** A valid JSON-encoded dictionary, where key is a plain recipient address and value is a dictionary with variables that can be referenced in the message body.  See **Batch Sending** for more information */
+  recipientVariables?: { [key: string]: Record<string, string | number | boolean | Date> };
   /** @see OverrideProperties */
   overrideProperties?: OverrideProperties;
-  /** List of  */
   customVariables?: Record<string, string | number | boolean | Date>;
-  /** List of  */
   customHeaders?: Record<string, string | number | boolean | Date>;
   /** Body of the message (HTML version) */
   html?: string;

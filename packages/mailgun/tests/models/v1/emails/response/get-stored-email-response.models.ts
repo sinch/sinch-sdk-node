@@ -3,7 +3,7 @@ import {
   GetStoredEmailResponseFromApi,
 } from '../../../../../src/models/v1/emails/response/get-stored-email-response/get-stored-email-response';
 
-export const getStoredEmailResponseFromApi: GetStoredEmailResponseFromApi = {
+export const getStoredEmailResponseFromApi: GetStoredEmailResponseFromApi & { [key: string]: any; } = {
   'X-Mailgun-Deliver-By': new Date('Wed, 06 Jun 2024 07:40:00 +0000'),
   subject: '"Mailgun is awesome"',
   Subject: '"Mailgun is awesome"',

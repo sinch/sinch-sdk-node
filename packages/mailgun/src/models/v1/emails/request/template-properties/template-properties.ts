@@ -1,3 +1,6 @@
+/**
+ * Template\'s related properties.  Define template\'s related information & [variables](https://documentation.mailgun.com/docs/mailgun/user-manual/sending-messages/#template-variables)
+ */
 export interface TemplateProperties {
   /** Render template in case of template sending */
   text?: boolean;

@@ -1,6 +1,9 @@
 import { YesNoEnum } from '../yes-no-enum';
 import { YesNoHtmlonlyEnum } from '../yes-no-htmlonly-enum';
 
+/**
+ * Per-message basis overload parameters.  See [Passing Sending Options](https://documentation.mailgun.com/docs/mailgun/user-manual/sending-messages/#passing-sending-options)
+ */
 export interface OverrideProperties {
   /** Tag string.  See [Tagging](https://documentation.mailgun.com/docs/mailgun/user-manual/tracking-messages/#tagging) for more information */
   tag?: string | string[];

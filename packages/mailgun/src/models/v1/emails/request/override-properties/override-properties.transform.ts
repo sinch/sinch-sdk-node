@@ -1,11 +1,9 @@
 import { OverrideProperties } from './override-properties';
-import {
-  appendArrayToFormData,
-  appendDeliveryTimeOptimizePeriodToFormData,
-  transformDateIntoApiRequestFormat,
-} from '../helpers';
+import { appendDeliveryTimeOptimizePeriodToFormData } from '../helpers';
+import { transformDateIntoApiRequestFormat } from '../helpers';
 import { transformYesNoHtmlonlyEnumIntoApiRequestFormat } from '../yes-no-htmlonly-enum/yes-no-htmlonly-enum.transform';
 import { transformYesNoEnumIntoApiRequestFormat } from '../yes-no-enum/yes-no-enum.transform';
+import { appendArrayToFormData } from '../helpers';
 import FormData = require('form-data');
 
 // eslint-disable-next-line valid-jsdoc

@@ -1,4 +1,5 @@
 import { SendMimeEmailRequest } from './send-mime-email-request';
+import { appendSerializedMapToFormData } from '../helpers';
 import { appendTemplatePropertiesToFormData } from '../template-properties/template-properties.transform';
 import { appendOverridePropertiesToFormData } from '../override-properties/override-properties.transform';
 import { appendCustomDataToFormData } from '../helpers';
@@ -21,7 +22,7 @@ export const transformSendMimeEmailRequestIntoApiRequestBody = (sdkRequest: Send
     formData.append('template', sdkRequest['template']);
   }
   if (sdkRequest['recipientVariables'] != null) {
-    formData.append('recipient-variables', sdkRequest['recipientVariables']);
+    appendSerializedMapToFormData(sdkRequest['recipientVariables'], 'recipient-variables', formData);
   }
   if (sdkRequest['templateProperties'] != null) {
     appendTemplatePropertiesToFormData(sdkRequest['templateProperties'], formData);

@@ -1,13 +1,17 @@
 import { SendEmailHtmlInlineRequest } from './send-email-html-inline-request';
-import { appendArrayToFormData, appendCustomDataToFormData, appendSerializedMapToFormData } from '../helpers';
+import { appendSerializedMapToFormData } from '../helpers';
 import { appendOverridePropertiesToFormData } from '../override-properties/override-properties.transform';
+import { appendCustomDataToFormData } from '../helpers';
+import { appendArrayToFormData } from '../helpers';
 import FormData = require('form-data');
 
 // eslint-disable-next-line valid-jsdoc
 /**
  * ** INTERNAL METHOD ** IT SHOULD NOT BE USED DIRECTLY BY SDK USERS AS IT CAN BE REMOVED OR MODIFIED WITHOUT NOTICE
  */
-export const transformSendEmailHtmlInlineRequestIntoApiRequestBody = (sdkRequest: SendEmailHtmlInlineRequest) => {
+export const transformSendEmailHtmlInlineRequestIntoApiRequestBody = (
+  sdkRequest: SendEmailHtmlInlineRequest,
+): FormData => {
   const formData = new FormData();
   if (sdkRequest['to'] != null) {
     appendArrayToFormData(sdkRequest['to'], 'to', formData);

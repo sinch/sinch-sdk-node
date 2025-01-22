@@ -1,7 +1,9 @@
 import { SendEmailHtmlInTemplateRequest } from './send-email-html-in-template-request';
-import { appendArrayToFormData, appendCustomDataToFormData, appendSerializedMapToFormData } from '../helpers';
+import { appendSerializedMapToFormData } from '../helpers';
 import { appendOverridePropertiesToFormData } from '../override-properties/override-properties.transform';
+import { appendCustomDataToFormData } from '../helpers';
 import { appendTemplatePropertiesToFormData } from '../template-properties/template-properties.transform';
+import { appendArrayToFormData } from '../helpers';
 import FormData = require('form-data');
 
 // eslint-disable-next-line valid-jsdoc
@@ -10,7 +12,7 @@ import FormData = require('form-data');
  */
 export const transformSendEmailHtmlInTemplateRequestIntoApiRequestBody = (
   sdkRequest: SendEmailHtmlInTemplateRequest,
-) => {
+): FormData => {
   const formData = new FormData();
   if (sdkRequest['to'] != null) {
     appendArrayToFormData(sdkRequest['to'], 'to', formData);

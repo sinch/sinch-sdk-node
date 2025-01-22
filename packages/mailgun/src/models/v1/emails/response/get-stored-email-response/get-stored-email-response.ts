@@ -24,7 +24,5 @@ export interface GetStoredEmailResponseFromApi {
   'stripped-html': string;
   'stripped-text': string;
   'stripped-signature': string;
-  /** List of EmailHeadersFromApi */
   'message-headers': EmailHeadersFromApi;
-  [key: string]: any;
 }
