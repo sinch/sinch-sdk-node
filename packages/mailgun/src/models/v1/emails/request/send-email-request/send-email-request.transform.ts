@@ -12,7 +12,6 @@ import FormData = require('form-data');
 export const transformSendEmailRequestIntoApiRequestBody = (sdkRequest: SendEmailRequest): FormData => {
   if ((sdkRequest as SendEmailHtmlInTemplateRequest).template != null) {
     return transformSendEmailHtmlInTemplateRequestIntoApiRequestBody(sdkRequest as SendEmailHtmlInTemplateRequest);
-  } else {
-    return transformSendEmailHtmlInlineRequestIntoApiRequestBody(sdkRequest as SendEmailHtmlInlineRequest);
   }
+  return transformSendEmailHtmlInlineRequestIntoApiRequestBody(sdkRequest as SendEmailHtmlInlineRequest);
 };
