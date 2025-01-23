@@ -97,7 +97,7 @@ export class EmailsApi extends MailgunDomainApi {
   public async sendEmail(domainName: string, request: SendEmailRequest): Promise<SendEmailResponse> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<SendEmailRequest>(request, [] as never[]);
-    const body: RequestBody = transformSendEmailRequestIntoApiRequestBody(request);
+    const body = transformSendEmailRequestIntoApiRequestBody(request);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': `multipart/form-data; charset=utf-8; boundary=${body.getBoundary()}`,
       Accept: 'application/json',
@@ -126,7 +126,7 @@ export class EmailsApi extends MailgunDomainApi {
   public async sendMimeEmail(domainName: string, request: SendMimeEmailRequest): Promise<SendEmailResponse> {
     this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<SendMimeEmailRequest>(request, [] as never[]);
-    const body: RequestBody = transformSendMimeEmailRequestIntoApiRequestBody(request);
+    const body = transformSendMimeEmailRequestIntoApiRequestBody(request);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': `multipart/form-data; charset=utf-8; boundary=${body.getBoundary()}`,
       Accept: 'application/json',
