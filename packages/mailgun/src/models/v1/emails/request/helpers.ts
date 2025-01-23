@@ -10,11 +10,13 @@ export const appendDeliveryTimeOptimizePeriodToFormData = (sdkRequest: OverrideP
 export const appendArrayToFormData = (data: string | string[] | EmailAttachment, key: string, formData: FormData) => {
   if (Array.isArray(data)) {
     const array = data;
+    // If all the elements are attachments, we append them as files
     if (array.every((item) => isEmailAttachment(key, item))) {
       array.forEach((file) => {
         appendFileToFormData(file, key, formData);
       });
     } else {
+      // Otherwise, we append them as strings
       array.forEach((element) => {
         formData.append(key, element);
       });
