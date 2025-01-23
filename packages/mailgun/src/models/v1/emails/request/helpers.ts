@@ -1,14 +1,15 @@
 import FormData = require('form-data');
 import { OverrideProperties } from './override-properties';
 import { AttachedFile, AttachedFileData, EmailAttachment } from './email-attachment';
-import { getAttachmentInfo, isAttachedFile, isEmailAttachment } from './helpers-attachments';
+import { getAttachmentInfo, isAttachedFile, isEmailAttachment, isString } from './helpers-attachments';
 
 export const appendDeliveryTimeOptimizePeriodToFormData = (sdkRequest: OverrideProperties, formData: FormData) => {
   formData.append('o:deliverytime-optimize-period', `${sdkRequest.deliveryTimeOptimizePeriod}h`);
 };
 
-export const appendArrayToFormData = (array: string | string[] | EmailAttachment, key: string, formData: FormData) => {
-  if (Array.isArray(array)) {
+export const appendArrayToFormData = (data: string | string[] | EmailAttachment, key: string, formData: FormData) => {
+  if (Array.isArray(data)) {
+    const array = data;
     if (array.every((item) => isEmailAttachment(key, item))) {
       array.forEach((file) => {
         appendFileToFormData(file, key, formData);
@@ -19,7 +20,7 @@ export const appendArrayToFormData = (array: string | string[] | EmailAttachment
       });
     }
   } else {
-    const element = array;
+    const element = data;
     if (isEmailAttachment(key, element)) {
       appendFileToFormData(element, key, formData);
     } else {
@@ -41,7 +42,7 @@ const appendFileToFormData = (
 const getFileFromAttachment = (
   attachment: string | AttachedFile | AttachedFileData,
 ): Buffer | AttachedFileData => {
-  if (typeof attachment === 'string') {
+  if (isString(attachment)) {
     return Buffer.from(attachment);
   }
   if (isAttachedFile(attachment)) {
@@ -78,10 +79,9 @@ export const appendSerializedMapToFormData = (
   formData.append(key, serializedData);
 };
 
-export const transformDateIntoApiRequestFormat = (date: Date | string): string => {
-  if (date instanceof Date) {
-    return date.toUTCString();
-  } else {
-    return date;
+export const transformDateIntoApiRequestFormat = (data: Date | string): string => {
+  if (data instanceof Date) {
+    return data.toUTCString();
   }
+  return data;
 };

@@ -1,19 +1,19 @@
 import { AttachedFile, AttachedFileData, EmailAttachment } from './email-attachment';
 
 export const isEmailAttachment = (key: string, value: unknown): value is EmailAttachment => {
-  if (['attachment', 'inline'].includes(key)) {
-    if (Array.isArray(value)) {
-      return value.every(isCustomAttachment);
-    }
-    return isCustomAttachment(value);
+  if (!['attachment', 'inline'].includes(key)) {
+    return false;
   }
-  return false;
+  if (Array.isArray(value)) {
+    return value.every(isCustomAttachment);
+  }
+  return isCustomAttachment(value);
 };
 
 const isCustomAttachment = (v: unknown): boolean =>
   isReadStream(v)
   || isAttachedFile(v)
-  || typeof v === 'string'
+  || isString(v)
   || isFileLike(v)
   || isBuffer(v);
 
@@ -38,29 +38,32 @@ const isBuffer = (data: unknown): data is Buffer => {
   return typeof Buffer !== 'undefined' && Buffer.isBuffer(data);
 };
 
+export const isString = (data: unknown): data is string => {
+  return typeof data === 'string';
+};
+
 type AttachmentInfo = {
   filename?: string;
   contentType?: string;
   knownLength?: number;
 };
 
-export const getAttachmentInfo = (attachment: string | File | AttachedFile | AttachedFileData): AttachmentInfo => {
-  const attachedFile = isAttachedFile(attachment);
-  const isString = typeof attachment === 'string';
-  if (!isString) {
-    if (typeof Buffer !== 'undefined' && Buffer.isBuffer(attachment)) {
+export const getAttachmentInfo = (attachment: string | AttachedFile | AttachedFileData): AttachmentInfo => {
+  if (!isString(attachment)) {
+    if (isBuffer(attachment)) {
       return {
         filename: 'file',
         contentType: undefined,
         knownLength: attachment.byteLength,
       };
     }
-    if (attachedFile) {
+    if (isAttachedFile(attachment)) {
       const { filename, contentType, knownLength } = attachment;
       return { filename, contentType, knownLength };
     }
   }
 
+  // No need to fill the rest of the data as the server will correctly process the request anyway
   return {
     filename: 'file',
     contentType: undefined,
