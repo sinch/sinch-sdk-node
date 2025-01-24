@@ -105,6 +105,7 @@ describe('Request helpers', () => {
       appendArrayToFormData(data as any, ATTACHMENT_KEY, formData);
       // Then
       expect(appendSpy).toHaveBeenCalledTimes(1);
+      expect(appendSpy).toHaveBeenCalledWith(ATTACHMENT_KEY, 'first');
       const expectedErrorMessage = 'Unknown value \'{"incorrectKey":"text"}\' with type \'object\' '
       + `for property '${ATTACHMENT_KEY}'. The key '${ATTACHMENT_KEY}' should have type of Buffer, Stream or String.`;
       expect(consoleErrorSpy).toHaveBeenCalledWith(expectedErrorMessage);

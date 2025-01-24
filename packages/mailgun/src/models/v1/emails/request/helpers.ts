@@ -15,21 +15,21 @@ export const appendDeliveryTimeOptimizePeriodToFormData = (sdkRequest: OverrideP
 };
 
 export const appendArrayToFormData = (data: string | string[] | EmailAttachment, key: string, formData: FormData) => {
-  if (Array.isArray(data)) {
-    const array = data;
-    // Append all items as files if they are attachments
-    if (array.every((item) => isEmailAttachment(key, item))) {
-      array.forEach((file) => {
-        appendFileToFormData(file, key, formData);
-      });
-    } else {
-      // Append all items as strings
-      array.forEach((element) => {
-        appendAnyObjectToFormData(element, key, formData);
-      });
-    }
-  } else {
+  if (!Array.isArray(data)) {
     appendElementToFormData(data, key, formData);
+    return;
+  }
+  const array = data;
+  // Append all items as files if they are attachments
+  if (array.every((item) => isEmailAttachment(key, item))) {
+    array.forEach((file) => {
+      appendFileToFormData(file, key, formData);
+    });
+  } else {
+    // Append all items as strings
+    array.forEach((element) => {
+      appendAnyObjectToFormData(element, key, formData);
+    });
   }
 };
 
