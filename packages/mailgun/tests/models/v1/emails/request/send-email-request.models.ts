@@ -15,9 +15,9 @@ export const sendEmailRequestWithHtml: Mailgun.SendEmailRequest = {
     tag: 'tag value',
     sendingIp: 'sendingIp value',
     sendingIpPool: 'sendingIpPool value',
-    deliveryTime: 'deliveryTime value',
+    deliveryTime: new Date('2024-06-06T13:42:42Z'),
     deliveryTimeOptimizePeriod: 24,
-    enableDkimSignature: 'yes',
+    enableDkimSignature: true,
     secondaryDkim: 'secondaryDkim value',
     secondaryDkimPublic: 'secondaryDkimPublic value',
     requireTls: false,
@@ -29,10 +29,14 @@ export const sendEmailRequestWithHtml: Mailgun.SendEmailRequest = {
     trackingPixelLocationTop: 'no',
     isTestMode: false,
   },
-  'h:X-Mailgun-Sending-Ip-Pool': 'xx.xx.xxx.x',
-  'v:first_name': 'John',
-  'v:last_name': 'Smith',
-  'v:my_message_id': 123,
+  customHeaders: {
+    'X-Mailgun-Sending-Ip-Pool': 'xx.xx.xxx.x',
+  },
+  customVariables: {
+    'first_name': 'John',
+    'last_name': 'Smith',
+    'my_message_id': 123,
+  },
 };
 
 export const sendEmailRequestWithTemplate: Mailgun.SendEmailRequest = {
@@ -48,20 +52,31 @@ export const sendEmailRequestWithTemplate: Mailgun.SendEmailRequest = {
   inline: 'inline value',
   templateProperties: {
     version: 'version value',
-    text: 'yes',
-    variables: 'variables value',
+    text: true,
+    variables: {
+      orders: [
+        {
+          id: 123,
+          name: 'Dark Chocolate Box',
+        },
+        {
+          id: 456,
+          name: 'Calissons x12',
+        },
+      ],
+    },
   },
   overrideProperties: {
     tag: 'tag value',
     sendingIp: 'sendingIp value',
     sendingIpPool: 'sendingIpPool value',
-    deliveryTime: 'deliveryTime value',
+    deliveryTime: new Date('2024-06-06T13:42:42Z'),
     deliveryTimeOptimizePeriod: 36,
     enableDkimSignature: true,
     secondaryDkim: 'secondaryDkim value',
     secondaryDkimPublic: 'secondaryDkimPublic value',
-    requireTls: 'yes',
-    skipVerification: 'no',
+    requireTls: true,
+    skipVerification: false,
     timeZoneLocalize: '04:15AM',
     tracking: 'yes',
     trackingClicks: 'no',
@@ -69,8 +84,12 @@ export const sendEmailRequestWithTemplate: Mailgun.SendEmailRequest = {
     trackingPixelLocationTop: false,
     isTestMode: false,
   },
-  'h:X-Mailgun-Sending-Ip-Pool': 'xx.xx.xxx.x',
-  'v:first_name': 'John',
-  'v:last_name': 'Smith',
-  'v:my_message_id': 123,
+  customHeaders: {
+    'X-Mailgun-Sending-Ip-Pool': 'xx.xx.xxx.x',
+  },
+  customVariables: {
+    'first_name': 'John',
+    'last_name': 'Smith',
+    'my_message_id': 123,
+  },
 };

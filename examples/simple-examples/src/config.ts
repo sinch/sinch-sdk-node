@@ -245,6 +245,10 @@ export const getMailgunStorageKeyFromConfig = () => {
   return readVariable('MAILGUN_STORAGE_KEY');
 };
 
+export const getMailgunTemplateNameFromConfig = () => {
+  return readVariable('MAILGUN_TEMPLATE_NAME');
+};
+
 const readVariable = ( name: string): string => {
   const value = process.env[name];
   if (!value) {

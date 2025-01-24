@@ -15,7 +15,7 @@ describe('SendMimeEmailRequest', () => {
     expect(appendSpy).toHaveBeenCalledWith('o:tag', 'tag value');
     expect(appendSpy).toHaveBeenCalledWith('o:sending-ip', 'sendingIp value');
     expect(appendSpy).toHaveBeenCalledWith('o:sending-ip-pool', 'sendingIpPool value');
-    expect(appendSpy).toHaveBeenCalledWith('o:deliverytime', 'deliveryTime value');
+    expect(appendSpy).toHaveBeenCalledWith('o:deliverytime', 'Thu, 06 Jun 2024 13:42:42 GMT');
     expect(appendSpy).toHaveBeenCalledWith('o:deliverytime-optimize-period', '72h');
     expect(appendSpy).toHaveBeenCalledWith('o:dkim', 'false');
     expect(appendSpy).toHaveBeenCalledWith('o:secondary-dkim', 'secondaryDkim value');
@@ -28,13 +28,14 @@ describe('SendMimeEmailRequest', () => {
     expect(appendSpy).toHaveBeenCalledWith('o:tracking-clicks', 'no');
     expect(appendSpy).toHaveBeenCalledWith('o:tracking-pixel-location-top', 'no');
     expect(appendSpy).toHaveBeenCalledWith('o:testmode', 'false');
-    expect(appendSpy).toHaveBeenCalledWith('t:text', 'yes');
+    expect(appendSpy).toHaveBeenCalledWith('t:text', 'true');
     expect(appendSpy).toHaveBeenCalledWith('t:version', 'version value');
-    expect(appendSpy).toHaveBeenCalledWith('t:variables', 'variables value');
+    expect(appendSpy).toHaveBeenCalledWith('t:variables',
+      '{"orders":[{"id":123,"name":"Dark Chocolate Box"},{"id":456,"name":"Calissons x12"}]}');
     expect(appendSpy).toHaveBeenCalledWith('h:X-Mailgun-Sending-Ip-Pool', 'xx.xx.xxx.x');
     expect(appendSpy).toHaveBeenCalledWith('v:first_name', 'John');
     expect(appendSpy).toHaveBeenCalledWith('v:last_name', 'Smith');
-    expect(appendSpy).toHaveBeenCalledWith('v:my_message_id', '123');
+    expect(appendSpy).toHaveBeenCalledWith('v:my_message_id', 123);
   });
 
 });

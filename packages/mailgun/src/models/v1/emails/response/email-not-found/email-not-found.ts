@@ -1,4 +1,6 @@
-export type EmailNotFound = Omit<EmailNotFoundFromApi, never>;
+export interface EmailNotFound {
+  message: string;
+}
 
 export interface EmailNotFoundFromApi {
   message: string;

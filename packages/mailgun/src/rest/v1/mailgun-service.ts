@@ -15,5 +15,4 @@ export class MailgunService {
   public setHostname(hostname: string) {
     this.emails.setHostname(hostname);
   }
-
 }
