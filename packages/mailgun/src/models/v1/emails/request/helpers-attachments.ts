@@ -1,16 +1,19 @@
 import { AttachedFile, AttachedFileData, EmailAttachment } from './email-attachment';
 
+export const ATTACHMENT_KEY = 'attachment';
+export const INLINE_KEY = 'inline';
+export const ATTACHMENT_KEYS = [ATTACHMENT_KEY, INLINE_KEY];
+
 export const isEmailAttachment = (key: string, value: unknown): value is EmailAttachment => {
-  if (!['attachment', 'inline'].includes(key)) {
+  if (!ATTACHMENT_KEYS.includes(key)) {
     return false;
   }
-  if (Array.isArray(value)) {
-    return value.every(isCustomAttachment);
-  }
-  return isCustomAttachment(value);
+  return Array.isArray(value)
+    ? value.every(isCustomAttachment)
+    : isCustomAttachment(value);
 };
 
-const isCustomAttachment = (v: unknown): boolean =>
+export const isCustomAttachment = (v: unknown): boolean =>
   isReadStream(v)
   || isAttachedFile(v)
   || isString(v)

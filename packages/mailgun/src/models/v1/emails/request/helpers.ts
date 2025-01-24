@@ -1,7 +1,14 @@
 import FormData = require('form-data');
 import { OverrideProperties } from './override-properties';
 import { AttachedFile, AttachedFileData, EmailAttachment } from './email-attachment';
-import { getAttachmentInfo, isAttachedFile, isEmailAttachment, isString } from './helpers-attachments';
+import {
+  ATTACHMENT_KEYS,
+  getAttachmentInfo,
+  isAttachedFile,
+  isCustomAttachment,
+  isEmailAttachment,
+  isString,
+} from './helpers-attachments';
 
 export const appendDeliveryTimeOptimizePeriodToFormData = (sdkRequest: OverrideProperties, formData: FormData) => {
   formData.append('o:deliverytime-optimize-period', `${sdkRequest.deliveryTimeOptimizePeriod}h`);
@@ -10,24 +17,53 @@ export const appendDeliveryTimeOptimizePeriodToFormData = (sdkRequest: OverrideP
 export const appendArrayToFormData = (data: string | string[] | EmailAttachment, key: string, formData: FormData) => {
   if (Array.isArray(data)) {
     const array = data;
-    // If all the elements are attachments, we append them as files
+    // Append all items as files if they are attachments
     if (array.every((item) => isEmailAttachment(key, item))) {
       array.forEach((file) => {
         appendFileToFormData(file, key, formData);
       });
     } else {
-      // Otherwise, we append them as strings
+      // Append all items as strings
       array.forEach((element) => {
-        formData.append(key, element);
+        appendAnyObjectToFormData(element, key, formData);
       });
     }
   } else {
-    const element = data;
-    if (isEmailAttachment(key, element)) {
-      appendFileToFormData(element, key, formData);
-    } else {
-      formData.append(key, element);
-    }
+    appendElementToFormData(data, key, formData);
+  }
+};
+
+const appendElementToFormData = (
+  element: string | AttachedFile | AttachedFileData,
+  key: string,
+  formData: FormData,
+): void => {
+  if (isEmailAttachment(key, element)) {
+    appendFileToFormData(element, key, formData);
+  } else {
+    appendAnyObjectToFormData(element, key, formData);
+  }
+};
+
+const appendAnyObjectToFormData = (
+  element: any,
+  key: string,
+  formData: FormData,
+): void => {
+  if (ATTACHMENT_KEYS.includes(key) && !isCustomAttachment(element)) {
+    console.error(
+      `Unknown value '${JSON.stringify(element)}' with type '${typeof element}' for property '${key}'. `
+      + `The key '${key}' should have type of Buffer, Stream or String.`);
+    return;
+  }
+  if (typeof element === 'object') {
+    console.warn('The received value is an object. \n'
+      + '"JSON.Stringify" will be used to avoid TypeError \n'
+      + 'To remove this warning: \n'
+      + 'Consider switching to built-in FormData or converting the value on your own.\n');
+    formData.append(key, JSON.stringify(element));
+  } else {
+    formData.append(key, element);
   }
 };
 
