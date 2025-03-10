@@ -20,6 +20,11 @@ When('I send a request to trigger an "incoming SMS" event', async () => {
   await processEvent(response);
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('the header of the event {string} contains a valid signature', (_event) => {
+
+});
+
 Then('the SMS event describes an "incoming SMS" event', () => {
   const incomingSmsEvent = event as Sms.MOText;
   assert.equal(incomingSmsEvent.id, '01W4FFL35P4NC4K35SMSBATCH8');
@@ -56,6 +61,11 @@ Then('the SMS event describes an "SMS delivery report" event', () => {
 When('I send a request to trigger an "SMS recipient delivery report" event with the status {string}', async (status: string) => {
   const response = await fetch(`http://localhost:3017/webhooks/sms/recipient-delivery-report-sms-${status.toLowerCase()}`);
   await processEvent(response);
+});
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,max-len
+Then('the header of the event {string} with the status {string} contains a valid signature', (_event: string, _status: string) => {
+
 });
 
 Then('the SMS event describes an SMS recipient delivery report event with the status "Delivered"', () => {
