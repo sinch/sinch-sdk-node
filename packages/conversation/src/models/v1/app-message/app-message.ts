@@ -1,6 +1,6 @@
 import { Agent } from '../agent';
 import { LocationMessage, LocationMessageItem } from '../location-message';
-import { MediaMessage, MediaMessageItem } from '../media-message';
+import { MediaMessage, MediaProperties } from '../media-message';
 import { TextMessage, TextMessageItem } from '../text-message';
 import { TemplateMessageItem } from '../template-message';
 import { TemplateReference } from '../template-reference';
@@ -83,8 +83,8 @@ export interface AppCarouselMessage extends AppMessageBase {
 }
 
 export interface AppMediaMessage extends AppMessageBase {
-  /** @see MediaMessageItem */
-  media_message: MediaMessageItem;
+  /** @see MediaProperties */
+  media_message: MediaProperties;
   // Exclude other message types
   card_message?: never;
   choice_message?: never;
