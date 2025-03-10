@@ -137,7 +137,7 @@ export const locationMessage: Conversation.LocationMessage = {
   location_message: locationMessageItem,
 };
 
-export const mediaMessageItem: Conversation.MediaMessageItem = {
+export const mediaMessageItem: Conversation.MediaProperties = {
   url: 'https://url-to-media.com',
   thumbnail_url: 'https://url-to-thumbnail.com',
 };
