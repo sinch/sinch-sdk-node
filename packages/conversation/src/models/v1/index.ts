@@ -59,7 +59,6 @@ export * from './list-section';
 export * from './list-webhooks-response';
 export * from './location-message';
 export * from './media-card-message';
-export * from './media-carousel-message';
 export * from './media-message';
 export * from './merge-contact-request';
 export * from './message-retry-settings';

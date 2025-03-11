@@ -2,7 +2,7 @@ import { ChoiceResponseMessage } from '../choice-response-message';
 import { FallbackMessage } from '../fallback-message';
 import { LocationMessageItem } from '../location-message';
 import { MediaCardMessage } from '../media-card-message';
-import { MediaMessageItem } from '../media-message';
+import { MediaProperties } from '../media-message';
 import { ReplyTo } from '../reply-to';
 import { TextMessageItem } from '../text-message';
 import { ProductResponseMessage } from '../product-response-message';
@@ -88,8 +88,8 @@ interface ContactMessageMediaCardMessage extends ContactMessageBase {
 }
 
 interface ContactMessageMediaMessage extends ContactMessageBase {
-  /** @see MediaMessageItem */
-  media_message: MediaMessageItem;
+  /** @see MediaProperties */
+  media_message: MediaProperties;
   // Exclude other message types
   channel_specific_message?: never;
   choice_response_message?: never;

@@ -25,6 +25,10 @@ import { getAppIdFromConfig, getContactIdFromConfig, initConversationService, pr
                     title: 'Choice 1.1',
                     description: 'Description for choice 1.1',
                     postback_data: '1.1',
+                    media: {
+                      url: 'https://example.com/follow-the-white-rabbit.jpg',
+                      filename_override: 'red-pill-or-blue-pill.jpg',
+                    },
                   },
                 },
               ],
