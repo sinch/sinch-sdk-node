@@ -1,7 +1,8 @@
 import { ListSection } from '../list-section';
+import { MediaProperties } from '../media-message';
 
 /**
- * A message containing a list of options to choose from
+ * A message containing a list of options to choose from. All items must be of the same type.
  */
 export interface ListMessage {
   /** A message containing a list of options to choose from */
@@ -13,6 +14,8 @@ export interface ListMessageItem {
   title: string;
   /** This is an optional field, containing a description for the message. */
   description?: string;
+  /** @see MediaProperties */
+  media?: MediaProperties;
   /** List of ListSection objects containing choices to be presented in the list message. */
   sections: ListSection[];
   /** Additional properties for the message. Required if sending a product list message. */

@@ -148,7 +148,7 @@ export class ConversationApi extends ConversationDomainApi {
 
   /**
    * Inject a message
-   * This operation injects a conversation message in to a specific conversation.
+   * This operation injects a conversation message into a specific conversation.
    * @param { InjectMessageRequestData } data - The data to provide to the API call.
    */
   public async injectMessage(data: InjectMessageRequestData): Promise<any> {
