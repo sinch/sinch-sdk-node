@@ -4,7 +4,7 @@ import { UpdateGroupRequest } from '../../update-group-request';
 
 export interface CreateGroupRequestData {
   /**  */
-  'createGroupRequestBody'?: CreateGroupRequest;
+  'createGroupRequestBody': CreateGroupRequest;
 }
 export interface DeleteGroupRequestData {
   /** ID of a group that you are interested in getting. */
@@ -24,7 +24,7 @@ export interface ReplaceGroupRequestData {
   /** ID of a group that you are interested in getting. */
   'group_id': string;
   /**  */
-  'replaceGroupRequestBody'?: ReplaceGroupRequest;
+  'replaceGroupRequestBody': ReplaceGroupRequest;
 }
 export interface GetGroupRequestData {
   /** ID of a group that you are interested in getting. */
@@ -34,5 +34,5 @@ export interface UpdateGroupRequestData {
   /** ID of a group that you are interested in getting. */
   'group_id': string;
   /**  */
-  'updateGroupRequestBody'?: UpdateGroupRequest;
+  'updateGroupRequestBody': UpdateGroupRequest;
 }
