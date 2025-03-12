@@ -13,8 +13,12 @@ describe('SMS Callback Webhook', () => {
 
   it('should not throw an error when parsing the \'mo_text\' event', () => {
     const payload = {
+      id: '01XXXXX21XXXXX119Z8P1XXXXX',
       type:  'mo_text',
+      from: '16051234567',
+      to: '13185551234',
       body: 'This is the SMS body',
+      operator_id: 'operator',
       sent_at: DATE_AS_STRING,
       received_at: DATE_AS_STRING,
     };
@@ -27,15 +31,47 @@ describe('SMS Callback Webhook', () => {
 
   it('should not throw an error when parsing the \'mo_binary\' event', () => {
     const payload = {
+      id: '01XXXXX21XXXXX119Z8P1XXXXX',
       type:  'mo_binary',
+      from: '16051234567',
+      to: '13185551234',
       body: 'VGhpcyBpcyB0aGUgU01TIGJvZHk=',
       udh: '5573657244617461486561646572',
+      operator_id: 'operator',
       sent_at: DATE_AS_STRING,
       received_at: DATE_AS_STRING,
     };
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
     expect(parsedResultFunction).not.toThrow();
     const parsedResult: Sms.MOBinary = parsedResultFunction() as Sms.MOBinary;
+    expect(parsedResult.sent_at).toStrictEqual(DATE_AS_DATE);
+    expect(parsedResult.received_at).toStrictEqual(DATE_AS_DATE);
+  });
+
+  it('should not throw an error when parsing the \'mo_media\' event', () => {
+    const payload = {
+      id: '01XXXXX21XXXXX119Z8P1XXXXX',
+      type:  'mo_media',
+      from: '16051234567',
+      to: '13185551234',
+      body: {
+        subject: 'This is the subject',
+        message: 'This is the message',
+        media: [
+          {
+            url: 'https://some.s3.example.com/inbounds/image.png',
+            code: 1,
+            content_type: 'image/png',
+            status: 'Failed',
+          },
+        ],
+      },
+      sent_at: DATE_AS_STRING,
+      received_at: DATE_AS_STRING,
+    };
+    const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
+    expect(parsedResultFunction).not.toThrow();
+    const parsedResult: Sms.MOText = parsedResultFunction() as Sms.MOText;
     expect(parsedResult.sent_at).toStrictEqual(DATE_AS_DATE);
     expect(parsedResult.received_at).toStrictEqual(DATE_AS_DATE);
   });
@@ -119,7 +155,7 @@ describe('SMS Callback Webhook', () => {
       unknownProperty: 'anyValue',
     };
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
-    expect(parsedResultFunction).toThrow('Unknown SMS event');
+    expect(parsedResultFunction).toThrow(`Unknown SMS event: {"unknownProperty":"anyValue"}`);
   });
 
   it('should throw an error when parsing a non-existing event type', () => {
