@@ -11,9 +11,9 @@ export interface BinaryResponse {
   canceled?: boolean;
   /** The message content provided. Base64 encoded. */
   body?: string;
-  /** The <a href=\"https://community.sinch.com/t5/Glossary/UDH-User-Data-Header/ta-p/7776\" target=\"_blank\">UDH</a> header of a binary message HEX encoded. Max 140 bytes including the `body`. */
+  /** The [UDH](https://community.sinch.com/t5/Glossary/UDH-User-Data-Header/ta-p/7776) header of a binary message HEX encoded. Max 140 bytes including the `body`. */
   udh?: string;
-  /** SMS in <a href=\"https://community.sinch.com/t5/Glossary/Binary-SMS/ta-p/7470\" target=\"_blank\">binary</a> format. */
+  /** SMS in [binary](https://community.sinch.com/t5/Glossary/Binary-SMS/ta-p/7470) format. */
   type?: 'mt_binary';
   /** Timestamp for when batch was created.   Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601). For example: `YYYY-MM-DDThh:mm:ss.SSSZ`. */
   created_at?: Date;
@@ -23,20 +23,15 @@ export interface BinaryResponse {
   delivery_report?: DeliveryReportEnum;
   /** If set, the date and time the message should be delivered. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601). For example: `YYYY-MM-DDThh:mm:ss.SSSZ`. */
   send_at?: Date;
-  /** If set, the date and time the message will expire. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601). For example: `YYYY-MM-DDThh:mm:ss.SSSZ`. */
+  /** If set, the system will stop trying to deliver the message at this point.
+   * Must be after `send_at`. Default and max is 3 days after `send_at`. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601): `YYYY-MM-DDThh:mm:ss.SSSZ`. */
   expire_at?: Date;
   /** The callback URL provided in the request. */
   callback_url?: string;
   /** The string input to identify this batch message. If set, the identifier will be added in the delivery report/callback of this batch. */
   client_reference?: string;
-  /** If set to true, then [feedback](/docs/sms/api-reference/sms/tag/Batches/#tag/Batches/operation/deliveryFeedback) is expected after successful delivery. */
+  /** If set to true then [feedback](https://developers.sinch.com/docs/sms/api-reference/sms/tag/Batches/#tag/Batches/operation/deliveryFeedback) is expected after successful delivery. */
   feedback_enabled?: boolean;
-  /** If sent as a flash message, displays `true`. */
-  flash_message?: boolean;
-  /** If set to `true`, the message was shortened when exceeding one part. */
-  truncate_concat?: boolean;
-  /** Displays the number of message parts set in the request. */
-  max_number_of_message_parts?: number;
   /** The type of number for the sender number. */
   from_ton?: number;
   /** Number Plan Indicator for the sender number. */
