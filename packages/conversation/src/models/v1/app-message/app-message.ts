@@ -154,13 +154,16 @@ export interface AppContactInfoMessage extends AppMessageBase {
 
 interface AppMessageBase {
   /**
-   * Channel specific messages, overriding any transcoding.
-   * The key in the map must point to a valid conversation channel as defined by the enum ConversationChannel.
+   * Allows you to specify a channel and define a corresponding channel specific message payload that will override the standard Conversation API message types.
+   * The key in the map must point to a valid conversation channel as defined in the enum `ConversationChannel`. The message content must be provided in string format.
+   * You may use the [transcoding endpoint](https://developers.sinch.com/docs/conversation/api-reference/conversation/tag/Transcoding/) to help create your message.
+   * For more information about how to construct an explicit channel message for a particular channel, see that [channel's corresponding documentation](https://developers.sinch.com/docs/conversation/channel-support/) (for example, using explicit channel messages with [the WhatsApp channel](https://developers.sinch.com/docs/conversation/channel-support/whatsapp/message-support/#explicit-channel-messages)).
    */
   explicit_channel_message?: { [key in ConversationChannel ]?: string; };
   /**
-   * The option to override the omni-channel template configuration with a channel-specific template
-   * (for channels on which channel-specific templates can be created. For more information, see [Channel Specific Templates](https://developers.sinch.com/docs/conversation/templates/#channel-specific-templates)).
+   * Override the message's content for specified channels.
+   * The key in the map must point to a valid conversation channel as defined in the enum `ConversationChannel`.
+   * The content defined under the specified channel will be sent on that channel.
    */
   explicit_channel_omni_message?: { [key in ChannelSpecificTemplate]?: OmniMessageOverride; };
   /**

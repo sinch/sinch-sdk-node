@@ -53,7 +53,78 @@ describe('MessagesApi', () => {
   });
 
   describe ('getMessage', () => {
-    it('should make a GET request to retrieve a specific message by its ID', async () => {
+
+    it('should make a GET request to retrieve a specific app message [Flows] by its ID', async () => {
+      // Given
+      const requestData: Conversation.GetMessageRequestData = {
+        message_id: 'message_id',
+      };
+      const expectedResponse: Conversation.ConversationMessage = {
+        id: 'id',
+        direction: 'TO_CONTACT',
+        accept_time: new Date('2019-08-24T14:15:22Z'),
+        app_message: {
+          card_message: {
+            choices: [],
+            description: 'description',
+            height: 'UNSPECIFIED_HEIGHT',
+            media_message: {
+              url: 'url',
+            },
+            title: 'title',
+          },
+          explicit_channel_message: {
+            INSTAGRAM: '{ "transcoded_message": "value"}',
+          },
+          channel_specific_message: {
+            WHATSAPP: {
+              message_type: 'FLOWS',
+              message: {
+                header: {
+                  type: 'text',
+                  text: 'text for the header',
+                },
+                body: {
+                  text: 'text for the body',
+                },
+                footer: {
+                  text: 'text for the footer',
+                },
+                flow_id: 'flow_id',
+                flow_cta: 'click here',
+                flow_token: 'flow_token',
+                flow_mode: 'published',
+                flow_action: 'navigate',
+                flow_action_payload: {
+                  screen: 'screen',
+                  data: {},
+                },
+              },
+            },
+          },
+        },
+        channel_identity: {
+          app_id: 'app_id',
+          channel: 'WHATSAPP',
+          identity: 'identity',
+        },
+        contact_id: 'contact_id',
+        conversation_id: 'conversation_id',
+        metadata: 'metadata',
+        injected: true,
+      };
+
+      // When
+      fixture.get.mockResolvedValue(expectedResponse);
+      messagesApi.get = fixture.get;
+      const response = await messagesApi.get(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.get).toHaveBeenCalledWith(requestData);
+    });
+
+    it('should make a GET request to retrieve a specific app message [Order Details] by its ID', async () => {
       // Given
       const requestData: Conversation.GetMessageRequestData = {
         message_id: 'message_id',
@@ -70,7 +141,64 @@ describe('MessagesApi', () => {
             },
             title: 'title',
           },
-          explicit_channel_message: {},
+          explicit_channel_message: {
+            INSTAGRAM: '{ "transcoded_message": "value"}',
+          },
+          channel_specific_message: {
+            WHATSAPP: {
+              message_type: 'ORDER_DETAILS',
+              message: {
+                header: {
+                  type: 'image',
+                  image: {
+                    link: 'URL for the media',
+                  },
+                },
+                body: {
+                  text: 'text for the body',
+                },
+                footer: {
+                  text: 'text for the footer',
+                },
+                payment: {
+                  type: 'br',
+                  reference_id: 'reference_id',
+                  type_of_goods: 'digital-goods',
+                  total_amount_value: 100,
+                  order: {
+                    items: [
+                      {
+                        retailer_id: 'retailer_id',
+                        name: 'name',
+                        amount_value: 100,
+                        quantity: 1,
+                        sale_amount_value: 100,
+                      },
+                    ],
+                    subtotal_value: 100,
+                    tax_value: 20,
+                    tax_description: 'tax_description',
+                    catalog_id: 'catalog_id',
+                    expiration_time: new Date('2019-08-25T14:15:22Z'),
+                    expiration_description: 'expiration_description',
+                    shipping_value: 10,
+                    shipping_description: 'shipping_description',
+                    discount_value: 0,
+                    discount_description: 'discount_description',
+                    discount_program_name: 'discount_program_name',
+                  },
+                  payment_settings: {
+                    dynamic_pix: {
+                      code: 'code',
+                      merchant_name: 'merchant_name',
+                      key: 'key',
+                      key_type: 'CPF',
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         channel_identity: {
           app_id: 'app_id',
@@ -83,6 +211,123 @@ describe('MessagesApi', () => {
         id: 'id',
         metadata: 'metadata',
         injected: true,
+      };
+
+      // When
+      fixture.get.mockResolvedValue(expectedResponse);
+      messagesApi.get = fixture.get;
+      const response = await messagesApi.get(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.get).toHaveBeenCalledWith(requestData);
+    });
+
+    it('should make a GET request to retrieve a specific app message [Order Status] by its ID', async () => {
+      // Given
+      const requestData: Conversation.GetMessageRequestData = {
+        message_id: 'message_id',
+      };
+      const expectedResponse: Conversation.ConversationMessage = {
+        id: 'id',
+        direction: 'TO_CONTACT',
+        accept_time: new Date('2019-08-24T14:15:22Z'),
+        app_message: {
+          card_message: {
+            choices: [],
+            description: 'description',
+            height: 'UNSPECIFIED_HEIGHT',
+            media_message: {
+              url: 'url',
+            },
+            title: 'title',
+          },
+          explicit_channel_message: {
+            INSTAGRAM: '{ "transcoded_message": "value"}',
+          },
+          channel_specific_message: {
+            WHATSAPP: {
+              message_type: 'ORDER_STATUS',
+              message: {
+                header: {
+                  type: 'video',
+                  video: {
+                    link: 'URL for the media',
+                  },
+                },
+                body: {
+                  text: 'text for the body',
+                },
+                footer: {
+                  text: 'text for the footer',
+                },
+                payment: {
+                  reference_id: 'reference_id',
+                  order: {
+                    status: 'shipped',
+                    description: 'description',
+                  },
+                },
+              },
+            },
+          },
+        },
+        channel_identity: {
+          app_id: 'app_id',
+          channel: 'WHATSAPP',
+          identity: 'identity',
+        },
+        contact_id: 'contact_id',
+        conversation_id: 'conversation_id',
+        metadata: 'metadata',
+        injected: true,
+      };
+
+      // When
+      fixture.get.mockResolvedValue(expectedResponse);
+      messagesApi.get = fixture.get;
+      const response = await messagesApi.get(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.get).toHaveBeenCalledWith(requestData);
+    });
+
+    // eslint-disable-next-line max-len
+    it('should make a GET request to retrieve a specific contact message [Channel specific message - Flow] by its ID', async () => {
+      // Given
+      const requestData: Conversation.GetMessageRequestData = {
+        message_id: 'message_id',
+      };
+      const expectedResponse: Conversation.ConversationMessage = {
+        id: 'id',
+        direction: 'TO_APP',
+        contact_message: {
+          channel_specific_message: {
+            message_type: 'nfm_reply',
+            message: {
+              type: 'nfm_reply',
+              nfm_reply: {
+                name: 'flow',
+                body: 'message body',
+                response_json: '{}',
+              },
+            },
+          },
+          reply_to: null,
+        },
+        channel_identity: {
+          channel: 'WHATSAPP',
+          identity: 'identity',
+          app_id: 'app_id',
+        },
+        conversation_id: 'conversation_id',
+        contact_id: 'contact_id',
+        metadata: 'metadata',
+        accept_time: new Date('2019-08-24T14:15:22Z'),
+        sender_id: '',
+        processing_mode: 'CONVERSATION',
+        injected: false,
       };
 
       // When
@@ -162,6 +407,7 @@ describe('MessagesApi', () => {
       message: {
         ...Conversation.messageBuilder.text(textMessageItem),
       },
+      message_content_type: 'CONTENT_MARKETING',
     };
     const requestDataWithContactId: Conversation.SendMessageRequestData<Conversation.ContactId> = {
       sendMessageRequestBody: {

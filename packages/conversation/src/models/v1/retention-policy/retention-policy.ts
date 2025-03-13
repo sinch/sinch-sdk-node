@@ -1,5 +1,5 @@
 /**
- * The retention policy configured for the app. For more information about retention policies, see [Retention Policy](/docs/conversation/keyconcepts/#retention-policy).
+ * The retention policy configured for the app. For more information about retention policies, see [Retention Policy](https://developers.sinch.com/docs/conversation/keyconcepts/#retention-policy).
  */
 export interface RetentionPolicy {
 

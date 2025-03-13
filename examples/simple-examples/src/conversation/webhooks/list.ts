@@ -19,7 +19,7 @@ import { getAppIdFromConfig, getPrintFormat, initConversationService, printFullR
 
   if (printFormat === 'pretty') {
     if (response.webhooks && response.webhooks.length > 0) {
-      console.log(`${response.webhooks.map((webhook) => `Webhook id: ${webhook.id} - Triggers: ${webhook.triggers.join(', ')}`).join('\n')}`);
+      console.log(`${response.webhooks.map((webhook) => `Webhook id: ${webhook.id} - Triggers: ${webhook.triggers?.join(', ')}`).join('\n')}`);
     } else {
       console.log('Sorry, no webhooks were found.');
     }

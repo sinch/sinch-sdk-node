@@ -200,6 +200,11 @@ export const bookProductDetails: Conversation.ProductItem = {
 export const listMessageItem: Conversation.ListMessageItem = {
   title: 'Choose your icecream flavor',
   description: 'The best icecream in town!',
+  media: {
+    url: 'https://icecream.capytown.com/image.jpg',
+    thumbnail_url: 'https://icecream.capytown.com/thumbnail.jpg',
+    filename_override: 'icecream.jpg',
+  },
   sections: [
     {
       title: 'Fruit flavors',

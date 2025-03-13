@@ -128,5 +128,5 @@ interface ContactMessageTextMessage extends ContactMessageBase {
 
 interface ContactMessageBase {
   /** @see ReplyTo */
-  reply_to?: ReplyTo;
+  reply_to?: ReplyTo | null;
 }

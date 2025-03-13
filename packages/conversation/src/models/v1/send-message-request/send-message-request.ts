@@ -21,7 +21,7 @@ export interface SendMessageRequestBase<T extends Recipient> {
 
   /** The ID of the app sending the message. */
   app_id: string;
-  /** Overwrites the default callback url for delivery receipts for this message The REST URL should be of the form: `http://host[:port]/path` */
+  /** Overwrites the default callback url for delivery receipts for this message. Note that you may [define a `secret_for_overridden_callback_urls` at the app level](https://developers.sinch.com/docs/conversation/api-reference/conversation/tag/App/#tag/App/operation/App_UpdateApp!path=callback_settings/secret_for_overridden_callback_urls&t=request); this secret will be used to sign the contents of delivery receipts when the default callback URL is overridden by this property. The REST URL should be of the form: `http://host[:port]/path` */
   callback_url?: string;
   /** Explicitly define the channels and order in which they are tried when sending the message. All channels provided in this field must be configured in the corresponding Conversation API app, or the request will be rejected. Which channels the API will try and their priority is defined by: 1. `channel_priority_order` if available. 2. `recipient.identified_by.channel_identities` if available. 3. When recipient is a `contact_id`:     - if a conversation with the contact exists: the active channel of the conversation is tried first.     - the existing channels for the contact are ordered by contact channel preferences if given.     - lastly the existing channels for the contact are ordered by the app priority. */
   channel_priority_order?: ConversationChannel[];
@@ -29,7 +29,7 @@ export interface SendMessageRequestBase<T extends Recipient> {
   channel_properties?: { [K in ChannelPropertyKey]?: string; };
   /** Metadata that should be associated with the message. Returned in the `metadata` field of a [Message Delivery Receipt](https://developers.sinch.com/docs/conversation/callbacks/#message-delivery-receipt). Up to 1024 characters long. */
   message_metadata?: string;
-  /** Metadata that should be associated with the conversation. This metadata will be propagated on MO callbacks associated with this conversation. Up to 1024 characters long. Note that the MO callback will always use the last metadata available in the conversation. Important notes:   - If you send a message with the `conversation_metadata` field populated, and then send another message without populating the `conversation_metadata` field, the original metadata will continue be propagated on the related MO callbacks.  - If you send a message with the `conversation_metadata` field populated, and then send another message with a different value for `conversation_metadata` in the same conversation, the latest metadata value overwrites the existing one. So, future MO callbacks will include the new metadata.  - The `conversation_metadata` only accepts json objects.  Currently only returned in the `message_metadata` field of an [Inbound Message](/docs/conversation/callbacks/#inbound-message) callback. */
+  /** Metadata that will be associated with the conversation in `CONVERSATION` mode and with the specified recipient identities in `DISPATCH` mode. This metadata will be propagated on MO callbacks associated with the respective conversation or user identity. Up to 2048 characters long. Note that the MO callback will always use the last metadata available. Important notes:   - If you send a message with the `conversation_metadata` field populated, and then send another message without populating the `conversation_metadata` field, the original metadata will continue be propagated on the related MO callbacks.  - If you send a message with the `conversation_metadata` field populated, and then send another message with a different value for `conversation_metadata` in the same conversation, the latest metadata value overwrites the existing one. So, future MO callbacks will include the new metadata.  - The `conversation_metadata` only accepts json objects.  Currently only returned in the `message_metadata` field of an [Inbound Message](https://developers.sinch.com/docs/conversation/callbacks/#inbound-message) callback. */
   conversation_metadata?: object;
   /** @see MessageQueue */
   queue?: MessageQueue;
@@ -41,12 +41,14 @@ export interface SendMessageRequestBase<T extends Recipient> {
    * The SDK will take care of the formatting: example of valid input for 10 seconds: 10 (number), "10" (string), "10s" (string)
    */
   ttl?: string | number;
-  /** Overrides the app's [Processing Mode](../../../../../conversation/processing-modes/). Default value is `DEFAULT`. */
+  /** Overrides the app's [Processing Mode](https://developers.sinch.com/docs/conversation/processing-modes/). Default value is `DEFAULT`. */
   processing_strategy?: ProcessingStrategy;
-  /** An arbitrary identifier that will be propagated to callbacks related to this message, including MO replies. Only applicable to messages sent with the `CONVERSATION` processing mode. Up to 128 characters long. */
+  /** An arbitrary identifier that will be propagated to callbacks related to this message, including MO messages from the recipient. The `correlation_id` is associated with the conversation in `CONVERSATION` mode and with the specified recipient identities in `DISPATCH` mode. The MO callbacks will always include the last `correlation_id` available, (which is similar to how the `conversation_metadata` property functions). Up to 128 characters long. */
   correlation_id?: string;
   /** Update strategy for the `conversation_metadata` field. */
   conversation_metadata_update_strategy?: ConversationMetadataUpdateStrategy;
+  /** This field classifies the message content for use with Sinch's [consent management functionality](https://developers.sinch.com/docs/conversation/consent-management/). Note that this field is currently only used with Sinch's consent management functionality, and is not referenced elsewhere by the Conversation API. */
+  message_content_type?: 'CONTENT_UNKNOWN' | 'CONTENT_MARKETING' | 'CONTENT_NOTIFICATION';
 }
 
 export type ChannelPropertyKey =
