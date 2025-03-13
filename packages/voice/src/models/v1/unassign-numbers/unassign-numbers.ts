@@ -5,5 +5,5 @@ export interface UnassignNumbers {
   /** Indicates the application where the number(s) was assigned. If empty, the application key that is used to sign the request will be used. */
   applicationkey?: string;
   /** (optional) indicates the DID capability that was assigned to the chosen application. Please note that the DID needs to support the selected capability. */
-  capability?: 'voice' | 'sms';
+  capability?: 'voice' | 'sms' | string;
 }

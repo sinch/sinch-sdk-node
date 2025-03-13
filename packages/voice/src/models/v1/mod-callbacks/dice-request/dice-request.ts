@@ -1,13 +1,12 @@
 import { CallHeader } from '../../call-header';
 import { VoicePrice } from '../../voice-price';
-import { Participant } from '../../participant';
-import { ReasonEnum, ResultEnum } from '../../enums';
+import { ResultEnum } from '../../enums';
+import { Destination } from '../../destination';
 
 /**
  * The request body of a Disconnected Call Event.
  */
 export interface DiceRequest {
-
   /** Must have the value `dice`. */
   event?: 'dice';
   /** The unique ID assigned to this call. */
@@ -15,7 +14,7 @@ export interface DiceRequest {
   /** The timestamp in UTC format. */
   timestamp?: Date;
   /** The reason the call was disconnected. */
-  reason?: ReasonEnum;
+  reason?: DiceReasonEnum;
   /** The result of the call. */
   result?: ResultEnum;
   /** The current API version. */
@@ -26,16 +25,17 @@ export interface DiceRequest {
   debit?: VoicePrice;
   /** An object containing currency and rate per minute for the call. */
   userRate?: VoicePrice;
-  /** @see Participant */
-  to?: Participant;
+  /** An object containing information about the recipient of the call. */
+  to?: Destination;
   /** The duration of the call in seconds. */
   duration?: number;
   /** Information about the initiator of the call. */
   from?: string;
-  /** If the call was initiated by a Sinch SDK client, call headers are the headers specified by the *caller* client. Read more about call headers [here](../../../call-headers/). */
+  /** If the call was initiated by a Sinch SDK client, call headers are the headers specified by the *caller* client. Read more about call headers [here](https://developers.sinch.com/call-headers/). */
   callHeaders?: CallHeader[];
   /** The unique application key. You can find it in the Sinch [dashboard](https://dashboard.sinch.com/voice/apps). */
   applicationKey?: string;
 }
 
-
+export type DiceReasonEnum = 'N/A' | 'TIMEOUT' | 'CALLERHANGUP' | 'CALLEEHANGUP' | 'BLOCKED' | 'MANAGERHANGUP'
+  | 'NOCREDITPARTNER' | 'GENERALERROR' | 'CANCEL' | 'USERNOTFOUND' | 'CALLBACKERROR' | string;

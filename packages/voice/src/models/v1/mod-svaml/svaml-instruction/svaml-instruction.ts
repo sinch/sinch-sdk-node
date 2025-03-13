@@ -7,7 +7,7 @@ import { SvamlInstructionStartRecording } from '../svaml-instruction-start-recor
 import { SvamlInstructionStopRecording } from '../svaml-instruction-stop-recording';
 
 /**
- * Instructions allow an application to play a message or file, start recording, and various other tasks. For more information about instructions, see the [SVAML](../../svaml/) documentation.
+ * Instructions allow an application to play a message or file, start recording, and various other tasks. For more information about instructions, see the [SVAML](https://developers.sinch.com/docs/voice/api-reference/svaml/) documentation.
  */
 export type SvamlInstruction = SvamlInstructionPlayFiles
   | SvamlInstructionSay

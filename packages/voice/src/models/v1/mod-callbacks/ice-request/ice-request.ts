@@ -1,12 +1,12 @@
 import { CallHeader } from '../../call-header';
-import { Participant } from '../../participant';
 import { VoicePrice } from '../../voice-price';
+import { Domain } from '../../enums';
+import { Destination } from '../../destination';
 
 /**
  * The request body of an Incoming Call Event.
  */
 export interface IceRequest {
-
   /** Must have the value `ice`. */
   event?: 'ice';
   /** The unique ID assigned to this call. */
@@ -24,18 +24,18 @@ export interface IceRequest {
   /** The number that will be displayed to the recipient of the call. To set your own CLI, you may use your verified number or your Dashboard virtual number and add it to the `connectPSTN` SVAML response to the Incoming Call Event request.  It must be in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format. */
   cli?: string;
   /** An object containing information about the recipient of the call. */
-  to?: Participant;
+  to?: Destination;
   /** The domain destination of the incoming call. */
-  domain?: string;
+  domain?: Domain;
   /** The unique application key. You can find it in the Sinch [dashboard](https://dashboard.sinch.com/voice/apps). */
   applicationKey?: string;
   /** The origination domain of the incoming call. */
-  originationType?: string;
+  originationType?: Domain;
   /** The duration of the call in seconds. */
   duration?: number;
   /** The redirected dialled number identification service. */
   rdnis?: string;
-  /** If the call is initiated by a Sinch SDK client, call headers are the headers specified by the *caller* client. Read more about call headers [here](../../../call-headers). */
+  /** If the call is initiated by a Sinch SDK client, call headers are the headers specified by the *caller* client. Read more about call headers [here](https://developers.sinch.com/call-headers). */
   callHeaders?: CallHeader[];
 }
 

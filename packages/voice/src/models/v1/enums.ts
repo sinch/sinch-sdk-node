@@ -1,5 +1,11 @@
-export type ResultEnum = 'N/A' | 'ANSWERED' | 'BUSY' | 'NOANSWER' | 'FAILED';
+/**
+ * Contains the result of a call.
+ */
+export type ResultEnum = 'N/A' | 'ANSWERED' | 'BUSY' | 'NOANSWER' | 'FAILED' | string;
 
+/**
+ * Contains the reason why a call ended.
+ */
 export type ReasonEnum = 'N/A'
   | 'TIMEOUT'
   | 'CALLERHANGUP'
@@ -9,7 +15,8 @@ export type ReasonEnum = 'N/A'
   | 'MANAGERHANGUP'
   | 'CANCEL'
   | 'GENERALERROR'
-  | 'INVALIDSVAMLACTION';
+  | 'INVALIDSVAMLACTION'
+  | string;
 
 export type TtsVoice = 'arb' | 'arb/female' | 'Zeina'
   | 'az-AZ' | 'az-AZ/female' | 'az-AZ/male' |'Banu' | 'Babek'
@@ -66,5 +73,19 @@ export type TtsVoice = 'arb' | 'arb/female' | 'Zeina'
   | 'uz-UZ' | 'uz-UZ/female' | 'uz-UZ/male' | 'Madina' | 'Sardor'
   | 'vi-VN' | 'vi-VN/female' | 'vi-VN/male' | 'HoaiMy' | 'NamMinh'
   | 'cy-GB' | 'cy-GB/female' | 'Gwyneth'
+  | string;
 
-export type MusicOnHold = 'ring' | 'music1' | 'music2' | 'music3';
+/**
+ * Available Music On Hold values
+ */
+export type MusicOnHold = 'ring' | 'music1' | 'music2' | 'music3' | string;
+
+/**
+ * Valid values are `voice` and `sms`
+ */
+export type Capability = 'voice' | 'sms' | string;
+
+/**
+ * Can be either `pstn` for PSTN endpoint or `mxp` for data (app or web) clients.
+ */
+export type Domain = 'pstn' | 'mxp' | 'PSTN' | 'MXP';
