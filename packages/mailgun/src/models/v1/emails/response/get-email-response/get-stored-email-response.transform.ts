@@ -15,8 +15,8 @@ export const transformGetEmailResponseIntoClientResponse = (
   return {
     sender: apiResponse['sender'],
     recipients: apiResponse['recipients'],
-    from: apiResponse['From'],
-    subject: apiResponse['Subject'],
+    from: apiResponse['from'],
+    subject: apiResponse['subject'],
     bodyHtml: apiResponse['body-html'],
     bodyPlain: apiResponse['body-plain'],
     messageHeaders: convertHeaders(apiResponse['message-headers']),
