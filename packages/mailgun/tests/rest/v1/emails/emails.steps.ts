@@ -81,7 +81,7 @@ Then('the getEmail response contains the email details', () => {
   assert.equal(getEmailResponse.bodyHtml,
     '<h1>Hello %recipient.name%</h1><span style="color:blue">This is an HTML email</span>');
   assert.equal(getEmailResponse.bodyPlain, 'Message text only');
-  const expectedMessageHeaders: Mailgun.MessageHeaders = {
+  const expectedMessageHeaders: Mailgun.EmailHeaders = {
     'Content-Type': 'multipart/alternative; boundary="44eea75a00c7df3bdd541c89727faec0ce8d5b09663245a35789d6b264c6"',
     'Message-Id': '<20240606162145.5f329edde3b4ed71@sandbox123.mailgun.org>',
     'Mime-Version': '1.0',
@@ -99,11 +99,11 @@ When('I send a request to get the sending queue status', async () => {
 
 Then('the response contains the sending queues status', () => {
   assert.equal(sendingQueuesStatusResponse.regular.isDisabled, false);
-  assert.equal(sendingQueuesStatusResponse.regular.disabled?.until, '');
-  assert.equal(sendingQueuesStatusResponse.regular.disabled?.reason, '');
+  assert.equal(sendingQueuesStatusResponse.regular.details?.until, '');
+  assert.equal(sendingQueuesStatusResponse.regular.details?.reason, '');
   assert.equal(sendingQueuesStatusResponse.scheduled.isDisabled, false);
-  assert.equal(sendingQueuesStatusResponse.scheduled.disabled?.until, '');
-  assert.equal(sendingQueuesStatusResponse.scheduled.disabled?.reason, '');
+  assert.equal(sendingQueuesStatusResponse.scheduled.details?.until, '');
+  assert.equal(sendingQueuesStatusResponse.scheduled.details?.reason, '');
 });
 
 When('I send a request to purge a sending queue', async () => {

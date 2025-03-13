@@ -1,6 +1,9 @@
-export type QueueStatusDisabledDetails = Omit<QueueStatusDisabledDetailsFromApi, never>;
+export interface QueueStatusDisabledDetails {
+  until: string;
+  reason: string;
+}
 
 export interface QueueStatusDisabledDetailsFromApi {
-  'reason': string;
-  'until': string;
+  until: string;
+  reason: string;
 }

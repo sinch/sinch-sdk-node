@@ -1,5 +1,6 @@
-import { SendingQueuesStatusResponse, SendingQueuesStatusResponseFromApi } from './sending-queues-status-response';
-import { transformExceededQueueQuota } from '../exceeded-queue-quota/exceeded-queue-quota.transform';
+import { SendingQueuesStatusResponse } from './sending-queues-status-response';
+import { SendingQueuesStatusResponseFromApi } from './sending-queues-status-response';
+import { transformExceededQueueQuotaIntoClientResponse } from '../exceeded-queue-quota/exceeded-queue-quota.transform';
 
 // eslint-disable-next-line valid-jsdoc
 /**
@@ -8,8 +9,9 @@ import { transformExceededQueueQuota } from '../exceeded-queue-quota/exceeded-qu
 export const transformSendingQueuesStatusResponseIntoClientResponse = (
   apiResponse: SendingQueuesStatusResponseFromApi,
 ): SendingQueuesStatusResponse => {
-  return {
-    scheduled: transformExceededQueueQuota(apiResponse['scheduled']),
-    regular: transformExceededQueueQuota(apiResponse['regular']),
+  const response: SendingQueuesStatusResponse = {
+    regular: transformExceededQueueQuotaIntoClientResponse(apiResponse['regular']),
+    scheduled: transformExceededQueueQuotaIntoClientResponse(apiResponse['scheduled']),
   };
+  return response;
 };

@@ -3,14 +3,14 @@ import { ExceededQueueQuotaFromApi } from '../exceeded-queue-quota/exceeded-queu
 
 export interface SendingQueuesStatusResponse {
   /** @see ExceededQueueQuota */
-  scheduled: ExceededQueueQuota;
-  /** @see ExceededQueueQuota */
   regular: ExceededQueueQuota;
+  /** @see ExceededQueueQuota */
+  scheduled: ExceededQueueQuota;
 }
 
 export interface SendingQueuesStatusResponseFromApi {
   /** @see ExceededQueueQuotaFromApi */
-  scheduled: ExceededQueueQuotaFromApi;
-  /** @see ExceededQueueQuotaFromApi */
   regular: ExceededQueueQuotaFromApi;
+  /** @see ExceededQueueQuotaFromApi */
+  scheduled: ExceededQueueQuotaFromApi;
 }

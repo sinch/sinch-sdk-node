@@ -1,57 +1,66 @@
 import { OverrideProperties } from './override-properties';
+import { appendDeliveryTimeOptimizePeriodToFormData } from '../helpers';
+import { transformDateIntoApiRequestFormat } from '../helpers';
+import { transformYesNoHtmlonlyEnumIntoApiRequestFormat } from '../yes-no-htmlonly-enum/yes-no-htmlonly-enum.transform';
+import { transformYesNoEnumIntoApiRequestFormat } from '../yes-no-enum/yes-no-enum.transform';
+import { appendArrayToFormData } from '../helpers';
 import FormData = require('form-data');
 
 // eslint-disable-next-line valid-jsdoc
 /**
  * ** INTERNAL METHOD ** IT SHOULD NOT BE USED DIRECTLY BY SDK USERS AS IT CAN BE REMOVED OR MODIFIED WITHOUT NOTICE
  */
-export const appendOverridePropertiesToFormData = (overrideProperties: OverrideProperties, formData: FormData) => {
-  if (overrideProperties['tag'] != null) {
-    formData.append('o:tag', overrideProperties['tag']);
+export const appendOverridePropertiesToFormData = (sdkRequest: OverrideProperties, formData: FormData): FormData => {
+  if (sdkRequest['tag'] != null) {
+    appendArrayToFormData(sdkRequest['tag'], 'o:tag', formData);
   }
-  if (overrideProperties['deliveryTimeOptimizePeriod'] != null) {
-    formData.append('o:deliverytime-optimize-period', `${overrideProperties['deliveryTimeOptimizePeriod']}h`);
+  if (sdkRequest['deliveryTimeOptimizePeriod'] != null) {
+    appendDeliveryTimeOptimizePeriodToFormData(sdkRequest, formData);
   }
-  if (overrideProperties['enableDkimSignature'] != null) {
-    formData.append('o:dkim', String(overrideProperties['enableDkimSignature']));
+  if (sdkRequest['enableDkimSignature'] != null) {
+    formData.append('o:dkim', String(sdkRequest['enableDkimSignature']));
   }
-  if (overrideProperties['secondaryDkim'] != null) {
-    formData.append('o:secondary-dkim', overrideProperties['secondaryDkim']);
+  if (sdkRequest['secondaryDkim'] != null) {
+    formData.append('o:secondary-dkim', sdkRequest['secondaryDkim']);
   }
-  if (overrideProperties['secondaryDkimPublic'] != null) {
-    formData.append('o:secondary-dkim-public', overrideProperties['secondaryDkimPublic']);
+  if (sdkRequest['secondaryDkimPublic'] != null) {
+    formData.append('o:secondary-dkim-public', sdkRequest['secondaryDkimPublic']);
   }
-  if (overrideProperties['deliveryTime'] != null) {
-    formData.append('o:deliverytime', overrideProperties['deliveryTime']);
+  if (sdkRequest['deliveryTime'] != null) {
+    formData.append('o:deliverytime', transformDateIntoApiRequestFormat(sdkRequest['deliveryTime']));
   }
-  if (overrideProperties['timeZoneLocalize'] != null) {
-    formData.append('o:time-zone-localize', overrideProperties['timeZoneLocalize']);
+  if (sdkRequest['timeZoneLocalize'] != null) {
+    formData.append('o:time-zone-localize', sdkRequest['timeZoneLocalize']);
   }
-  if (overrideProperties['tracking'] != null) {
-    formData.append('o:tracking', String(overrideProperties['tracking']));
+  if (sdkRequest['trackingClicks'] != null) {
+    formData.append('o:tracking-clicks', transformYesNoHtmlonlyEnumIntoApiRequestFormat(sdkRequest['trackingClicks']));
   }
-  if (overrideProperties['trackingClicks'] != null) {
-    formData.append('o:tracking-clicks', String(overrideProperties['trackingClicks']));
+  if (sdkRequest['tracking'] != null) {
+    formData.append('o:tracking', transformYesNoHtmlonlyEnumIntoApiRequestFormat(sdkRequest['tracking']));
   }
-  if (overrideProperties['trackingOpens'] != null) {
-    formData.append('o:tracking-opens', String(overrideProperties['trackingOpens']));
+  if (sdkRequest['trackingOpens'] != null) {
+    formData.append('o:tracking-opens', transformYesNoEnumIntoApiRequestFormat(sdkRequest['trackingOpens']));
   }
-  if (overrideProperties['trackingPixelLocationTop'] != null) {
-    formData.append('o:tracking-pixel-location-top', String(overrideProperties['trackingPixelLocationTop']));
+  if (sdkRequest['trackingPixelLocationTop'] != null) {
+    formData.append(
+      'o:tracking-pixel-location-top',
+      transformYesNoHtmlonlyEnumIntoApiRequestFormat(sdkRequest['trackingPixelLocationTop']),
+    );
   }
-  if (overrideProperties['sendingIp'] != null) {
-    formData.append('o:sending-ip', overrideProperties['sendingIp']);
+  if (sdkRequest['sendingIp'] != null) {
+    formData.append('o:sending-ip', sdkRequest['sendingIp']);
   }
-  if (overrideProperties['sendingIpPool'] != null) {
-    formData.append('o:sending-ip-pool', overrideProperties['sendingIpPool']);
+  if (sdkRequest['sendingIpPool'] != null) {
+    formData.append('o:sending-ip-pool', sdkRequest['sendingIpPool']);
   }
-  if (overrideProperties['requireTls'] != null) {
-    formData.append('o:require-tls', String(overrideProperties['requireTls']));
+  if (sdkRequest['requireTls'] != null) {
+    formData.append('o:require-tls', String(sdkRequest['requireTls']));
   }
-  if (overrideProperties['skipVerification'] != null) {
-    formData.append('o:skip-verification', String(overrideProperties['skipVerification']));
+  if (sdkRequest['skipVerification'] != null) {
+    formData.append('o:skip-verification', String(sdkRequest['skipVerification']));
   }
-  if (overrideProperties['isTestMode'] != null) {
-    formData.append('o:testmode', String(overrideProperties['isTestMode']));
+  if (sdkRequest['isTestMode'] != null) {
+    formData.append('o:testmode', String(sdkRequest['isTestMode']));
   }
+  return formData;
 };

@@ -1,4 +1,5 @@
-import { SendEmailResponse, SendEmailResponseFromApi } from './send-email-response';
+import { SendEmailResponse } from './send-email-response';
+import { SendEmailResponseFromApi } from './send-email-response';
 
 // eslint-disable-next-line valid-jsdoc
 /**
@@ -7,8 +8,9 @@ import { SendEmailResponse, SendEmailResponseFromApi } from './send-email-respon
 export const transformSendEmailResponseIntoClientResponse = (
   apiResponse: SendEmailResponseFromApi,
 ): SendEmailResponse => {
-  const {
-    ...response
-  } = apiResponse;
+  const response: SendEmailResponse = {
+    id: apiResponse['id'],
+    message: apiResponse['message'],
+  };
   return response;
 };

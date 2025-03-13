@@ -1,6 +1,9 @@
-export type SendEmailResponse = Omit<SendEmailResponseFromApi, never>
+export interface SendEmailResponse {
+  id: string;
+  message: string;
+}
 
 export interface SendEmailResponseFromApi {
-  message: string;
   id: string;
+  message: string;
 }
