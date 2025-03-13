@@ -13,11 +13,11 @@ export interface PaymentOrderDetailsChannelSpecificMessage extends WhatsAppInter
  */
 export interface PaymentOrderDetailsChannelSpecificMessagePayment {
   /** The country/currency associated with the payment message. */
-  type: 'br';
+  type: 'br' | string;
   /** Unique reference ID. */
   reference_id: string;
   /** The type of good associated with this order. */
-  type_of_goods: 'digital-goods' | 'physical-goods';
+  type_of_goods: 'digital-goods' | 'physical-goods' | string;
   /** @see PaymentOrderDetailsChannelSpecificMessagePaymentPaymentSettings */
   payment_settings?: PaymentOrderDetailsChannelSpecificMessagePaymentPaymentSettings;
   /** Integer representing the total amount of the transaction. */
@@ -88,5 +88,5 @@ export interface PaymentOrderDetailsChannelSpecificMessagePaymentPaymentSettings
   /** Pix key. */
   key: string;
   /** Pix key type. */
-  key_type: 'CPF' | 'CNPJ' | 'EMAIL' | 'PHONE' | 'EVP';
+  key_type: 'CPF' | 'CNPJ' | 'EMAIL' | 'PHONE' | 'EVP' | string;
 }
