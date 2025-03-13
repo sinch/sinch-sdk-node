@@ -155,7 +155,7 @@ describe('SMS Callback Webhook', () => {
       unknownProperty: 'anyValue',
     };
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
-    expect(parsedResultFunction).toThrow(`Unknown SMS event: {"unknownProperty":"anyValue"}`);
+    expect(parsedResultFunction).toThrow('Unknown SMS event: {"unknownProperty":"anyValue"}');
   });
 
   it('should throw an error when parsing a non-existing event type', () => {

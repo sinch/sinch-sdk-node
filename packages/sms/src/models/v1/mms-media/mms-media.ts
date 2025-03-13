@@ -7,7 +7,7 @@ export interface MmsMedia {
   /** Content type of binary. [More info](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) */
   content_type: string;
   /** Status of the uploaded media. */
-  status: 'Uploaded' | 'Failed';
+  status: 'Uploaded' | 'Failed' | string;
   /** URL to be used to download attachment. */
   url?: string;
 }

@@ -6,7 +6,8 @@ export type DeliveryReportEnum =
   | 'summary'
   | 'full'
   | 'per_recipient'
-  | 'per_recipient_final';
+  | 'per_recipient_final'
+  | string;
 
 /**
  * The simplified status as described in _Delivery Report Statuses_.
@@ -21,7 +22,8 @@ export type DeliveryStatusEnum =
   | 'Delivered'
   | 'Failed'
   | 'Expired'
-  | 'Unknown';
+  | 'Unknown'
+  | string;
 
 /** @deprecated */
 export type DeliveryReportStatusEnum = DeliveryReportEnum;
