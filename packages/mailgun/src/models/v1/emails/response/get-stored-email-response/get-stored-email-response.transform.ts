@@ -10,10 +10,10 @@ export const transformGetStoredEmailResponseIntoClientResponse = (
   apiResponse: GetStoredEmailResponseFromApi,
 ): GetStoredEmailResponse => {
   const response: GetStoredEmailResponse = {
+    from: apiResponse['From'],
+    subject: apiResponse['Subject'],
     sender: apiResponse['sender'],
     recipients: apiResponse['recipients'],
-    from: apiResponse['from'],
-    subject: apiResponse['subject'],
     bodyPlain: apiResponse['body-plain'],
     strippedHtml: apiResponse['stripped-html'],
     strippedText: apiResponse['stripped-text'],
