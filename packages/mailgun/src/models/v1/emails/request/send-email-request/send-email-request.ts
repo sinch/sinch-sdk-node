@@ -23,13 +23,13 @@ export type MessageContentWithHtmlInTemplate = {
 export interface CommonEmailProperties {
   /** Email address of the recipient(s).  Example: `\"Bob <bob@host.com>\"`. You can use commas to separate multiple recipients */
   to: string;
-  /** Email address for `From` header */
+  /** Email address for the `From` header. Note: not required if sending with a template that has a pre-set From header, but it will override it if provided. */
   from: string;
   /** Same as `To` but for `Cc` */
   cc?: string;
   /** Same as `To` but for `Bcc` */
   bcc?: string;
-  /** Message subject */
+  /** Message subject. Note: not required if sending with a template that has a pre-set Subject header, but it will override it if provided. */
   subject: string;
   /** Body of the message (text version) */
   text?: string;
