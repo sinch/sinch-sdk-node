@@ -1,21 +1,9 @@
-import { WhatsAppInteractiveBody } from '../whatsapp-interactive-body';
-import { WhatsAppInteractiveFooter } from '../whatsapp-interactive-footer';
-import { WhatsAppInteractiveTextHeader } from '../whatsapp-interactive-text-header';
-import { WhatsAppInteractiveImageHeader } from '../whatsapp-interactive-image-header';
-import { WhatsAppInteractiveDocumentHeader } from '../whatsapp-interactive-document-header';
-import { WhatsAppInteractiveVideoHeader } from '../whatsapp-interactive-video-header';
+import { WhatsAppInteractiveMessageBase } from '../whatsapp-interactive-message-base';
 
 /**
  * A message type for sending WhatsApp Flows.
  */
-export interface FlowChannelSpecificMessage {
-
-  /** @see FlowChannelSpecificMessageHeader */
-  header?: FlowChannelSpecificMessageHeader;
-  /** @see WhatsAppInteractiveBody */
-  body?: WhatsAppInteractiveBody;
-  /** @see WhatsAppInteractiveFooter */
-  footer?: WhatsAppInteractiveFooter;
+export interface FlowChannelSpecificMessage extends WhatsAppInteractiveMessageBase {
   /** ID of the Flow. */
   flow_id: string;
   /** Generated token which is an identifier. */
@@ -29,12 +17,6 @@ export interface FlowChannelSpecificMessage {
   /** @see FlowChannelSpecificMessageFlowActionPayload */
   flow_action_payload?: FlowChannelSpecificMessageFlowActionPayload;
 }
-
-type FlowChannelSpecificMessageHeader =
-  WhatsAppInteractiveTextHeader
-  | WhatsAppInteractiveImageHeader
-  | WhatsAppInteractiveDocumentHeader
-  | WhatsAppInteractiveVideoHeader;
 
 interface FlowChannelSpecificMessageFlowActionPayload {
   /** The ID of the screen displayed first. This must be an entry screen. */

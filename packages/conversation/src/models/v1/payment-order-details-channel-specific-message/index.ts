@@ -1,0 +1,8 @@
+export type {
+  PaymentOrderDetailsChannelSpecificMessage,
+  PaymentOrderDetailsChannelSpecificMessagePayment,
+  PaymentOrderDetailsChannelSpecificMessagePaymentOrder,
+  PaymentOrderDetailsChannelSpecificMessagePaymentOrderItems,
+  PaymentOrderDetailsChannelSpecificMessagePaymentPaymentSettings,
+  PaymentOrderDetailsChannelSpecificMessagePaymentPaymentSettingsDynamicPix,
+} from './payment-order-details-channel-specific-message';

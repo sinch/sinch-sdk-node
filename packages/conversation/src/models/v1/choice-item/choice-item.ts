@@ -1,4 +1,4 @@
-import { MediaMessageItem } from '../media-message';
+import { MediaProperties } from '../media-message';
 
 export interface ChoiceItemWrapper {
 
@@ -12,8 +12,8 @@ export interface ChoiceItem {
   title: string;
   /** Optional parameter. The description (or subtitle) of this choice item. */
   description?: string;
-  /** @see MediaMessageItem */
-  media_message?: MediaMessageItem;
+  /** @see MediaProperties */
+  media?: MediaProperties;
   /** Optional parameter. Postback data that will be returned in the MO if the user selects this option. */
   postback_data?: string;
 }

@@ -4,6 +4,9 @@
  */
 export type ConversationMetadataReportView = 'NONE' | 'FULL';
 
+/**
+ * Update strategy for the `conversation_metadata` field. Only supported in `CONVERSATION` processing mode.
+ */
 export type ConversationMetadataUpdateStrategy = 'REPLACE' | 'MERGE_PATCH';
 
 /**
@@ -36,8 +39,14 @@ export type GetChannelProfileConversationChannel = 'MESSENGER' | 'INSTAGRAM' | '
  */
 export type MessageQueue = 'NORMAL_PRIORITY' | 'HIGH_PRIORITY';
 
+/**
+ * Whether or not Conversation API should store contacts and conversations for the app. For more information, see [Processing Modes](https://developers.sinch.com/docs/conversation/processing-modes/).
+ */
 export type ProcessingMode = 'CONVERSATION' | 'DISPATCH';
 
+/**
+ * Overrides the app's [Processing Mode](https://developers.sinch.com/docs/conversation/processing-modes/). Default value is `DEFAULT`.
+ */
 export type ProcessingStrategy = 'DEFAULT' | 'DISPATCH_ONLY';
 
 export type WebhookTargetType = 'DISMISS' | 'HTTP';
