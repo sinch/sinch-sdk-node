@@ -29,6 +29,21 @@ describe('GroupsApi', () => {
             '+33111222333',
             '+33444555666',
           ],
+          child_groups: [
+            'groupId1',
+            'groupId2',
+          ],
+          auto_update: {
+            to: 'short_code',
+            add: {
+              first_word: 'JOIN',
+              second_word: 'Sinch',
+            },
+            remove: {
+              first_word: 'LEAVE',
+              second_word: 'Sinch',
+            },
+          },
         },
       };
       const expectedResponse: Sms.Group = {
@@ -37,6 +52,21 @@ describe('GroupsApi', () => {
         size: 2,
         created_at: new Date('2023-11-16T12:34:56.789Z'),
         modified_at: new Date('2023-11-16T12:34:56.789Z'),
+        auto_update: {
+          to: 'short_code',
+          add: {
+            first_word: 'JOIN',
+            second_word: 'Sinch',
+          },
+          remove: {
+            first_word: 'LEAVE',
+            second_word: 'Sinch',
+          },
+        },
+        child_groups: [
+          'groupId1',
+          'groupId2',
+        ],
       };
 
       // When
@@ -103,7 +133,21 @@ describe('GroupsApi', () => {
           size: 2,
           created_at: new Date('2023-11-16T12:34:56.789Z'),
           modified_at: new Date('2023-11-16T12:34:56.789Z'),
-          child_groups: [],
+          auto_update: {
+            to: 'short_code',
+            add: {
+              first_word: 'JOIN',
+              second_word: 'Sinch',
+            },
+            remove: {
+              first_word: 'LEAVE',
+              second_word: 'Sinch',
+            },
+          },
+          child_groups: [
+            'groupId1',
+            'groupId2',
+          ],
         },
       ];
       const expectedResponse = {
@@ -134,6 +178,21 @@ describe('GroupsApi', () => {
           name: 'My new group name',
           members: [
             '+33777888999',
+          ],
+          auto_update: {
+            to: 'short_code',
+            add: {
+              first_word: 'JOIN',
+              second_word: 'Sinch',
+            },
+            remove: {
+              first_word: 'LEAVE',
+              second_word: 'Sinch',
+            },
+          },
+          child_groups: [
+            'groupId1',
+            'groupId2',
           ],
         },
       };
@@ -187,10 +246,28 @@ describe('GroupsApi', () => {
       const requestData: Sms.UpdateGroupRequestData = {
         group_id: '01HF6EFE21REWJC3B3JWG4FYZ7',
         updateGroupRequestBody: {
+          name: 'My new group name',
           add: [
             '+33111222333',
             '+33444555666',
           ],
+          remove: [
+            '+33333222111',
+            '+33666555444',
+          ],
+          add_from_group: 'groupId1',
+          remove_from_group: 'groupId2',
+          auto_update: {
+            to: 'short_code',
+            add: {
+              first_word: 'JOIN',
+              second_word: 'Sinch',
+            },
+            remove: {
+              first_word: 'LEAVE',
+              second_word: 'Sinch',
+            },
+          },
         },
       };
       const expectedResponse: Sms.Group = {
@@ -199,6 +276,21 @@ describe('GroupsApi', () => {
         size: 3,
         created_at: new Date('2023-11-16T12:34:56.789Z'),
         modified_at: new Date('2023-11-16T12:44:56.789Z'),
+        auto_update: {
+          to: 'short_code',
+          add: {
+            first_word: 'JOIN',
+            second_word: 'Sinch',
+          },
+          remove: {
+            first_word: 'LEAVE',
+            second_word: 'Sinch',
+          },
+        },
+        child_groups: [
+          'groupId1',
+          'groupId2',
+        ],
       };
 
       // When
