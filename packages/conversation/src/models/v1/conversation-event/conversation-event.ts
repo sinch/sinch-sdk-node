@@ -23,7 +23,7 @@ interface ConversationEventBase {
   contact_id?: string;
   /** @see ChannelIdentity */
   channel_identity: ChannelIdentity;
-  /**  */
+  /** The processed time of the message in UTC timezone. Must be less than current_time and greater than (current_time - 30 days). */
   accept_time?: Date;
   /** Whether or not Conversation API should store contacts and conversations for the app. For more information, see [Processing Modes](../../../../../conversation/processing-modes/). */
   processing_mode: ProcessingMode;

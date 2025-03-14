@@ -123,7 +123,7 @@ describe('EventsApi', () => {
           accept_time: new Date('2019-08-24T14:15:22Z'),
         },
         {
-          id: 'contact_message_event_id',
+          id: 'contact_message_event_payment_status_update',
           channel_identity: {
             identity: 'identity',
             app_id: 'app_id',
@@ -142,6 +142,44 @@ describe('EventsApi', () => {
           contact_id: 'contact_id',
           conversation_id: 'conversation_id',
           accept_time: new Date('2019-08-24T14:15:22Z'),
+        },
+        {
+          id: 'contact_message_event_shortlink_activated',
+          channel_identity: {
+            identity: 'identity',
+            app_id: '',
+            channel: 'MESSENGER',
+          },
+          processing_mode: 'CONVERSATION',
+          direction: 'TO_APP',
+          contact_message_event: {
+            shortlink_activated_event: {
+              payload: 'payload',
+              title: 'title',
+              ref: 'ref',
+              source: 'SHORTLINK',
+              type: 'OPEN_THREAD',
+              existing_thread: true,
+            },
+          },
+        },
+        {
+          id: 'contact_message_event_shortlink_activated',
+          channel_identity: {
+            identity: 'identity',
+            app_id: '',
+            channel: 'MESSENGER',
+          },
+          processing_mode: 'CONVERSATION',
+          direction: 'TO_APP',
+          contact_message_event: {
+            reaction_event: {
+              emoji: '\\u{2764}\\u{FE0F}',
+              action: 'REACTION_ACTION_UNREACT',
+              message_id: 'message_id',
+              reaction_category: 'love',
+            },
+          },
         },
       ];
       const expectedResponse = {

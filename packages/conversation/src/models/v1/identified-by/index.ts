@@ -1,1 +1,1 @@
-export type { IdentifiedBy, IdentifiedByItem } from './identified-by';
+export type { IdentifiedBy, ChannelIdentities, IdentifiedByItem } from './identified-by';

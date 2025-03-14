@@ -135,7 +135,7 @@ export class AppApi extends ConversationDomainApi {
 
   /**
    * Update an app
-   * Updates a particular app as specified by the App ID. Note that this is a &#x60;PATCH&#x60; operation, so any specified field values will replace existing values. Therefore, **if you\&#39;d like to add additional configurations to an existing Conversation API app, ensure that you include existing values AND new values in the call**. For example, if you\&#39;d like to add new &#x60;channel_credentials&#x60;, you can [get](/docs/conversation/api-reference/conversation/tag/App/#tag/App/operation/App_GetApp) your existing Conversation API app, extract the existing &#x60;channel_credentials&#x60; list, append your new configuration to that list, and include the updated &#x60;channel_credentials&#x60; list in this update call.
+   * Updates a particular app as specified by the App ID. Note that this is a &#x60;PATCH&#x60; operation, so any specified field values will replace existing values. Therefore, **if you\&#39;d like to add additional configurations to an existing Conversation API app, ensure that you include existing values AND new values in the call**. For example, if you\&#39;d like to add new &#x60;channel_credentials&#x60;, you can [get](https://developers.sinch.com/docs/conversation/api-reference/conversation/tag/App/#tag/App/operation/App_GetApp) your existing Conversation API app, extract the existing &#x60;channel_credentials&#x60; list, append your new configuration to that list, and include the updated &#x60;channel_credentials&#x60; list in this update call.
    * @param { UpdateAppRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateAppRequestData): Promise<AppResponse> {

@@ -59,6 +59,29 @@ describe('AppApi', () => {
         line_credentials: {
           token: 'line_token',
           secret: 'line_secret',
+          is_default: true,
+        },
+      };
+      const channelCredentialsLineEnterpriseJapan: Conversation.ChannelCredentialsLineEnterprise = {
+        channel: 'LINE',
+        credential_ordinal_number: 1,
+        line_enterprise_credentials: {
+          line_japan: {
+            token: 'line_japan_token',
+            secret: 'line_japan_secret',
+          },
+          is_default: false,
+        },
+      };
+      const channelCredentialsLineEnterpriseThailand: Conversation.ChannelCredentialsLineEnterprise = {
+        channel: 'LINE',
+        credential_ordinal_number: 2,
+        line_enterprise_credentials: {
+          line_thailand: {
+            token: 'line_thailand_token',
+            secret: 'line_thailand_secret',
+          },
+          is_default: false,
         },
       };
       const channelCredentialsMms: Conversation.ChannelCredentialsMms = {
@@ -143,6 +166,8 @@ describe('AppApi', () => {
             channelCredentialsKakaoTalk,
             channelCredentialsKakaoTalkChat,
             channelCredentialsLine,
+            channelCredentialsLineEnterpriseJapan,
+            channelCredentialsLineEnterpriseThailand,
             channelCredentialsMms,
             channelCredentialsMessenger,
             channelCredentialsRcs,
@@ -159,6 +184,70 @@ describe('AppApi', () => {
       const expectedResponse: Conversation.AppResponse = {
         id: 'app_id',
         display_name: 'Test App',
+        channel_credentials: [
+          {
+            channel: 'MESSENGER',
+            static_token: {
+              token: 'messenger_static_token',
+            },
+            callback_secret: '',
+            state: {
+              status: 'PENDING',
+              description: '',
+            },
+            channel_known_id: '',
+            credential_ordinal_number: 0,
+          },
+          {
+            channel: 'LINE',
+            line_credentials: {
+              token: 'line_token',
+              secret: 'line_secret',
+              is_default: true,
+            },
+            callback_secret: '',
+            state: {
+              status: 'PENDING',
+              description: '',
+            },
+            channel_known_id: '',
+            credential_ordinal_number: 0,
+          },
+          {
+            channel: 'LINE',
+            line_enterprise_credentials: {
+              is_default: false,
+              line_japan: {
+                token: 'line_japan_token',
+                secret: 'line_japan_secret',
+              },
+            },
+            callback_secret: '',
+            state: {
+              status: 'PENDING',
+              description: '',
+            },
+            channel_known_id: '',
+            credential_ordinal_number: 1,
+          },
+          {
+            channel: 'LINE',
+            line_enterprise_credentials: {
+              is_default: false,
+              line_thailand: {
+                token: 'line_thailand_token',
+                secret: 'line_thailand_secret',
+              },
+            },
+            callback_secret: '',
+            state: {
+              status: 'PENDING',
+              description: '',
+            },
+            channel_known_id: '',
+            credential_ordinal_number: 2,
+          },
+        ],
       };
 
       // When

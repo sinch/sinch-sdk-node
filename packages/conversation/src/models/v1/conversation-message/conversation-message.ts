@@ -29,7 +29,7 @@ interface ConversationMessageBase {
   sender_id?: string;
   /** Output only. The processing mode. */
   processing_mode?: ProcessingMode;
-  /** The status of the message, eventTime of the status and reason if status is failed */
+  /** @deprecated The status of the message, eventTime of the status and reason if status is failed */
   message_status?: MessageStatus | null;
 }
 

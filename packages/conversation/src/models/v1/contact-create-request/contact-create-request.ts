@@ -11,7 +11,7 @@ export interface ContactCreateRequest {
   channel_identities: ChannelIdentity[];
   /** List of channels defining the channel priority. The channel at the top of the list is tried first. */
   channel_priority?: ConversationChannel[];
-  /** The display name. A default \'Unknown\' will be assigned if left empty. */
+  /** The display name. A default 'Unknown' will be assigned if left empty. */
   display_name?: string;
   /** Email of the contact. */
   email?: string;

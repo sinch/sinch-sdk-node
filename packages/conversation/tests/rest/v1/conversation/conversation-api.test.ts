@@ -28,6 +28,7 @@ describe('ConversationApi', () => {
         createConversationRequestBody: {
           app_id: 'app_id',
           contact_id: 'contact_id',
+          correlation_id: 'correlation_id',
         },
       };
       const expectedResponse: Conversation.Conversation = {
@@ -140,6 +141,13 @@ describe('ConversationApi', () => {
               description: 'description',
             },
           },
+          accept_time: new Date('2019-08-24T14:15:22Z'),
+          channel_identity: {
+            channel: 'MESSENGER',
+            identity: 'identity',
+          },
+          direction: 'TO_CONTACT',
+          contact_id: 'contact_id',
         },
       };
       const expectedResponse: any = {};
