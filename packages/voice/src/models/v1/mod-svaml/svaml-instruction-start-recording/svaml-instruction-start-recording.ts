@@ -2,10 +2,9 @@
  * Starts a recording of the call.
  */
 export interface SvamlInstructionStartRecording {
-
   /** The `name` property. Must have the value `startRecording`. */
   name: 'startRecording';
-  /** An object that specifies details about the recording. For more details, see [Recording Options](../../recording/#recording-options). */
+  /** An object that specifies details about the recording. For more details, see [Recording Options](https://developers.sinch.com/docs/voice/api-reference/recording/#recording-options). */
   options?: StartRecordingOptions;
 }
 

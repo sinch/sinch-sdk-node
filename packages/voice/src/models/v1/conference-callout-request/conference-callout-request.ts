@@ -1,19 +1,18 @@
-import { Destination } from '../destination';
+import { DestinationMxp, DestinationPstn, DestinationSip } from '../destination';
 import { ConferenceDtmfOptions } from '../conference-dtmf-options';
-import { MusicOnHold } from '../enums';
+import { Domain, MusicOnHold } from '../enums';
 
 /**
  * The conference callout calls a phone number or a user. When the call is answered, it's connected to a conference room.
  */
 export interface ConferenceCalloutRequest {
-
   /** The number that will be displayed as the incoming caller. To set your own CLI, you may use your verified number or your Dashboard number. The number must be in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format. */
   cli?: string;
   /** @see Destination */
-  destination: Destination;
+  destination: DestinationPstn | DestinationMxp | DestinationSip;
   /** The conferenceId of the conference to which you want the callee to join. If the conferenceId doesn't exist a conference room will be created. */
   conferenceId: string;
-  /** Options to control how DTMF signals are used by the participant in the conference. For information on how to use this feature, read more [here](../../../conference-dtmf). */
+  /** Options to control how DTMF signals are used by the participant in the conference. For information on how to use this feature, read more [here](https://developers.sinch.com/docs/voice/api-reference/conference-dtmf). */
   conferenceDtmfOptions?: ConferenceDtmfOptions;
   /** When the destination picks up, this DTMF tones will be played to the callee. Valid characters in the string are "0"-"9", "#" and "w". A "w" will render a 500 ms pause. Example: "ww1234#w#" will render a 1s pause, the DTMF tones "1", "2", "3", "4" and "#" followed by a 0.5s pause and finally the DTMF tone for "#". This can be used if the callout destination for instance require a conference PIN code or an extension to be entered. */
   dtmf?: string;
@@ -24,7 +23,7 @@ export interface ConferenceCalloutRequest {
   enableDice?: boolean;
   /** If `enablePie` is set to true and the application has a callback URL specified, you will receive a PIE callback after a `runMenu` action, with the information of the action that the user took. If it's set to false, no PIE event will be sent to your backend. */
   enablePie?: boolean;
-  /** The voice and language you want to use for the prompts. This can either be defined by the ISO 639 locale and language code or by specifying a particular voice. Supported languages and voices are detailed [here](../../../voice-locales/) */
+  /** The voice and language you want to use for the prompts. This can either be defined by the ISO 639 locale and language code or by specifying a particular voice. Supported languages and voices are detailed [here](https://developers.sinch.com/docs/voice/api-reference/voice-locales/) */
   locale?: string;
   /** The text that will be spoken as a greeting. */
   greeting?: string;
@@ -32,6 +31,6 @@ export interface ConferenceCalloutRequest {
   mohClass?: MusicOnHold;
   /** Used to input custom data. */
   custom?: string;
-  /** can be either “pstn” for PSTN endpoint or “mxp” for data (app or web) clients. */
-  domain?: string;
+  /** @see Domain */
+  domain?: Domain;
 }

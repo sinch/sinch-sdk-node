@@ -1,5 +1,6 @@
 /**
  * An object containing information about the participant (caller or callee) of the call.
+ * @deprecated Use `Destination` instead.
  */
 export interface Participant {
 

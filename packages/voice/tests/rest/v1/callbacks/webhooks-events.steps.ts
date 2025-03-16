@@ -124,7 +124,7 @@ Then('the Voice event describes a "DICE" event', () => {
     amount: 0.0095,
   };
   assert.deepEqual(diceEvent.userRate, userRate);
-  const destinationParticipant: Voice.Participant = {
+  const destinationParticipant: Voice.Destination = {
     type: 'number',
     endpoint: '12017777777',
   };
@@ -184,7 +184,7 @@ Then('the Voice event describes a "ICE" event', () => {
   };
   assert.deepEqual(iceEvent.userRate, price);
   assert.equal(iceEvent.cli, '12015555555');
-  const destination: Voice.Participant = {
+  const destination: Voice.Destination = {
     type: 'did',
     endpoint: '+12017777777',
   };
