@@ -18,7 +18,7 @@ export interface NotifyRequest {
   /** The details about the 'amd' or 'amd_beep' event type */
   amd?: AmdStatus;
   /** The URL where the recording or transcription is available */
-  destination: string
+  destination?: string
 }
 
 type NotifyRequestType =
