@@ -32,8 +32,9 @@ export interface PaymentOrderDetailsChannelSpecificMessagePayment {
 export interface PaymentOrderDetailsChannelSpecificMessagePaymentOrder {
   /** Unique ID of the Facebook catalog being used by the business. */
   catalog_id?: string;
-  /** Expiration timestamp for the order. */
-  expiration_time?: Date;
+  /** UTC timestamp indicating when the order should expire. The timestamp must be given in seconds. The minimum threshold for the timestamp is 300 seconds.*/
+  // TODO v2: expose this property as a Date object
+  expiration_time?: string;
   /** Description of the expiration. */
   expiration_description?: string;
   /** Value representing the subtotal amount of this order. */
