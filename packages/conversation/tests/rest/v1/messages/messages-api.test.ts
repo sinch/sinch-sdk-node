@@ -179,7 +179,7 @@ describe('MessagesApi', () => {
                     tax_value: 20,
                     tax_description: 'tax_description',
                     catalog_id: 'catalog_id',
-                    expiration_time: new Date('2019-08-25T14:15:22Z'),
+                    expiration_time: 'expiration_time_in_seconds',
                     expiration_description: 'expiration_description',
                     shipping_value: 10,
                     shipping_description: 'shipping_description',
