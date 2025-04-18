@@ -1,10 +1,8 @@
-import { WhatsAppInteractiveBody } from '../whatsapp-interactive-body';
-import { WhatsAppInteractiveFooter } from '../whatsapp-interactive-footer';
-import { WhatsappInteractiveHeader } from '../whatsapp-interactive-header';
+import { WhatsAppInteractiveBody, WhatsAppInteractiveFooter, WhatsAppInteractiveHeader } from './common';
 
 export interface WhatsAppInteractiveMessageBase {
-  /** @see WhatsappInteractiveHeader */
-  header?: WhatsappInteractiveHeader;
+  /** @see WhatsAppInteractiveHeader */
+  header?: WhatsAppInteractiveHeader;
   /** @see WhatsAppInteractiveBody */
   body?: WhatsAppInteractiveBody;
   /** @see WhatsAppInteractiveFooter */

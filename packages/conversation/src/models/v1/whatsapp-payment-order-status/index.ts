@@ -1,5 +1,8 @@
 export type {
+  WhatsAppPaymentOrderStatus,
+  OrderStatusPayment,
+  OrderStatusPaymentDetails,
   PaymentOrderStatusChannelSpecificMessage,
   PaymentOrderStatusChannelSpecificMessagePayment,
   PaymentOrderStatusChannelSpecificMessagePaymentOrder,
-} from './payment-order-status-channel-specific-message';
+} from './whatsapp-payment-order-status';
