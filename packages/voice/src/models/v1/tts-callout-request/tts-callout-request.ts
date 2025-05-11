@@ -1,6 +1,5 @@
-import { DestinationMxp, DestinationPstn, DestinationSip } from '../destination';
+import { Destination } from '../destination';
 import { TtsVoice } from '../enums';
-import { Participant } from '../participant';
 
 /**
  * The text-to-speech callout calls a phone number and plays a synthesized text messages or pre-recorded sound files.
@@ -10,7 +9,7 @@ export interface TtsCalloutRequest {
   /** The number that will be displayed as the incoming caller. To set your own CLI, you may use your verified number or your Dashboard number. The number must be in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format. */
   cli?: string;
   /** The type of device and number or endpoint to call. */
-  destination: DestinationPstn | DestinationMxp | DestinationSip;
+  destination: Destination;
   /** When the destination picks up, this DTMF tones will be played to the callee. Valid characters in the string are "0"-"9", "#", and "w". A "w" will render a 500 ms pause. For example, "ww1234#w#" will render a 1s pause, the DTMF tones "1", "2", "3", "4" and "#" followed by a 0.5s pause and finally the DTMF tone for "#". This can be used if the callout destination for instance require a conference PIN code or an extension to be entered. */
   dtmf?: string;
   /** Can be either `pstn` for PSTN endpoint or `mxp` for data (app or web) clients. */

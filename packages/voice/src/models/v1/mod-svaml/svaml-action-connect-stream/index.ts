@@ -1,1 +1,1 @@
-export type { SvamlActionConnectStream, ConnectStreamProps, StreamDestination } from './svaml-action-connect-stream';
+export type { SvamlActionConnectStream, ConnectStreamProps } from './svaml-action-connect-stream';
