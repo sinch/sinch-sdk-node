@@ -1,9 +1,12 @@
 import { WhatsAppInteractiveMessageBase } from '../whatsapp-interactive-message-base';
 
+/** @deprecated */
+export type FlowChannelSpecificMessage = WhatsAppFlow;
+
 /**
  * A message type for sending WhatsApp Flows.
  */
-export interface FlowChannelSpecificMessage extends WhatsAppInteractiveMessageBase {
+export interface WhatsAppFlow extends WhatsAppInteractiveMessageBase {
   /** ID of the Flow. */
   flow_id: string;
   /** Generated token which is an identifier. */
@@ -14,11 +17,14 @@ export interface FlowChannelSpecificMessage extends WhatsAppInteractiveMessageBa
   flow_cta: string;
   /** */
   flow_action?: 'navigate' | 'data_exchange';
-  /** @see FlowChannelSpecificMessageFlowActionPayload */
-  flow_action_payload?: FlowChannelSpecificMessageFlowActionPayload;
+  /** @see FlowActionPayload */
+  flow_action_payload?: FlowActionPayload;
 }
 
-interface FlowChannelSpecificMessageFlowActionPayload {
+/** @deprecated */
+export type FlowChannelSpecificMessageFlowActionPayload = FlowActionPayload;
+
+export interface FlowActionPayload {
   /** The ID of the screen displayed first. This must be an entry screen. */
   screen?: string;
   /** Data for the first screen. */
