@@ -4,6 +4,7 @@ import {
   SvamlActionConnectMxp,
   SvamlActionConnectConf,
   SvamlActionConnectSip,
+  SvamlActionConnectStream,
   SvamlActionRunMenu,
   SvamlActionPark,
   SvamlInstructionPlayFiles,
@@ -19,6 +20,7 @@ export type IceSvamlAction = SvamlActionHangup
   | SvamlActionConnectMxp
   | SvamlActionConnectConf
   | SvamlActionConnectSip
+  | SvamlActionConnectStream
   | SvamlActionRunMenu
   | SvamlActionPark;
 

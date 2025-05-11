@@ -3,6 +3,7 @@ export * from './svaml-action-connect-conf';
 export * from './svaml-action-connect-mxp';
 export * from './svaml-action-connect-pstn';
 export * from './svaml-action-connect-sip';
+export * from './svaml-action-connect-stream';
 export * from './svaml-action-continue';
 export * from './svaml-action-hangup';
 export * from './svaml-action-park';

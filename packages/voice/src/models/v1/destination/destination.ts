@@ -1,5 +1,6 @@
 /**
  * The type of device and number or endpoint to call.
+ * @deprecated Use `Participant` instead
  */
 export interface Destination {
 
