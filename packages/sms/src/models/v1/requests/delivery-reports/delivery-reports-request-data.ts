@@ -1,14 +1,19 @@
-import { DeliveryReportStatusEnum } from '../../enums';
+import { DeliveryReceiptCodeEnum, DeliveryStatusEnum } from '../../enums';
 
 export interface GetDeliveryReportByBatchIdRequestData {
   /** The batch ID you received from sending a message. */
   'batch_id': string;
-  /** The type of delivery report.  - A `summary` will count the number of messages sent per status.  - A `full` report give that of a `summary` report but in addition, lists phone numbers. */
+  /**
+   * The type of delivery report.
+   * - A `summary` will count the number of messages sent per status.
+   * - A `full` report give that of a `summary` report but in addition, lists phone numbers.
+   */
   'type'?: 'summary' | 'full';
-  /** Comma separated list of delivery_report_statuses to include */
-  'status'?: DeliveryReportStatusEnum[];
-  /** Comma separated list of delivery_receipt_error_codes to include */
-  'code'?: string | number | number[];
+  /** Comma separated list of delivery report statuses to include */
+  'status'?: DeliveryStatusEnum | DeliveryStatusEnum[];
+  /** Comma separated list of delivery receipt codes to include */
+  // TODO V2: remove string type
+  'code'?: string | DeliveryReceiptCodeEnum | DeliveryReceiptCodeEnum[];
 }
 
 export type GetDeliveryReportByPhoneNumberRequestData =
@@ -42,9 +47,10 @@ export interface ListDeliveryReportsRequestData {
   /** Only list messages received before this date/time. */
   'end_date'?: Date;
   /** Comma separated list of delivery report statuses to include. */
-  'status'?: DeliveryReportStatusEnum[];
-  /** Comma separated list of delivery receipt error codes to include. */
-  'code'?: string;
+  'status'?: DeliveryStatusEnum | DeliveryStatusEnum[];
+  /** Comma separated list of delivery receipt codes to include. */
+  // TODO V2: remove string type
+  'code'?: string | DeliveryReceiptCodeEnum | DeliveryReceiptCodeEnum[];
   /** Client reference to include */
   'client_reference'?: string;
 }

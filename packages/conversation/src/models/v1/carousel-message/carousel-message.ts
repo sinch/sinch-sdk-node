@@ -2,13 +2,16 @@ import { CardMessageItem } from '../card-message';
 import { Choice } from '../choice';
 
 /**
- * Message containing a list of cards often rendered horizontally on supported channels. Supported types for media are only images, such as .png, .jpg, .jpeg extensions.
+ * Field containing a Carrousel Message.
  */
 export interface CarouselMessage {
-  /** Message containing a list of cards often rendered horizontally on supported channels. Supported types for media are only images, such as .png, .jpg, .jpeg extensions. */
+  /** Message containing a list of cards often rendered horizontally on supported channels. */
   carousel_message: CarouselMessageItem;
 }
 
+/**
+ * Message containing a list of cards often rendered horizontally on supported channels.
+ */
 export interface CarouselMessageItem {
   /** A list of up to 10 cards. */
   cards: CardMessageItem[];

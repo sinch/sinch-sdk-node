@@ -33,7 +33,7 @@ export class ContactApi extends ConversationDomainApi {
 
   /**
    * Create a Contact
-   * Most Conversation API contacts are [created automatically](/docs/conversation/contact-management/) when a message is sent to a new recipient. You can also create a new contact manually using this API call.
+   * Most Conversation API contacts are [created automatically](https://developers.sinch.com/docs/conversation/contact-management/) when a message is sent to a new recipient. You can also create a new contact manually using this API call.
    * @param { CreateContactRequestData } data - The data to provide to the API call.
    */
   public async create(data: CreateContactRequestData): Promise<Contact> {

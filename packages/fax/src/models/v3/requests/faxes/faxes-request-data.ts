@@ -17,6 +17,8 @@ export interface GetFaxRequestData {
   'id': string;
 }
 export interface ListFaxesRequestData {
+  /** Limits results to faxes that were sent using the specified service. */
+  'serviceId'?: string;
   /** Filter calls based on `createTime`. It can be a year, a month or a day. */
   'createTime'?: string | Date;
   /** Filter calls based on `createTime`. It will filter the faxes on a range of dates. */

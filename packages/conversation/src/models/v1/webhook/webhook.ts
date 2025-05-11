@@ -7,7 +7,7 @@ import { WebhookTargetType } from '../enums';
  */
 export interface Webhook {
   /** The app that this webhook belongs to. */
-  app_id: string;
+  app_id?: string;
   /** @see ClientCredentials */
   client_credentials?: ClientCredentials;
   /** The ID of the webhook. */
@@ -18,8 +18,8 @@ export interface Webhook {
   target: string;
   /** @see WebhookTargetType */
   target_type?: WebhookTargetType;
-  /** An array of triggers that should trigger the webhook and result in an event being sent to the target url. Refer to the list of [Webhook Triggers](/docs/conversation/callbacks#webhook-triggers) for a complete list. */
-  triggers: WebhookTrigger[];
+  /** An array of triggers that should trigger the webhook and result in an event being sent to the target url. Refer to the list of [Webhook Triggers](https://developers.sinch.com/docs/conversation/callbacks/#webhook-triggers) for a complete list. */
+  triggers?: WebhookTrigger[];
 }
 
 export interface UpdateWebhookRequestBody extends

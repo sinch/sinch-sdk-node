@@ -8,7 +8,7 @@ import { ProcessingMode } from '../enums';
 export interface InjectConversationEventRequest {
   /** @see AppEvent */
   app_event: AppEvent;
-  /** Optional. The ID of the event\'s conversation. Will not be present for apps in Dispatch Mode. */
+  /** Optional. The ID of the event's conversation. Will not be present for apps in Dispatch Mode. */
   conversation_id?: string;
   /** Optional. The ID of the contact. Will not be present for apps in Dispatch Mode. */
   contact_id?: string;

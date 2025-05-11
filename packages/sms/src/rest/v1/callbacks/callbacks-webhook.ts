@@ -1,8 +1,8 @@
-import { DeliveryReport, MOBinary, MOText, RecipientDeliveryReport } from '../../../models';
+import { DeliveryReport, MOBinary, MOMedia, MOText, RecipientDeliveryReport } from '../../../models';
 import { CallbackProcessor } from '@sinch/sdk-client';
 import { IncomingHttpHeaders } from 'http';
 
-export type SmsCallback = DeliveryReport | RecipientDeliveryReport | MOText | MOBinary;
+export type SmsCallback = DeliveryReport | RecipientDeliveryReport | MOText | MOBinary | MOMedia;
 
 export class SmsCallbackWebhooks implements CallbackProcessor<SmsCallback>{
 
@@ -25,6 +25,7 @@ export class SmsCallbackWebhooks implements CallbackProcessor<SmsCallback>{
       let recipientDeliveryReport: RecipientDeliveryReport | null = null;
       let moText: MOText | null = null;
       let moBinary: MOBinary | null = null;
+      let moMedia: MOMedia | null = null;
       switch (eventBody.type) {
       case 'delivery_report_sms':
       case 'delivery_report_mms':
@@ -57,12 +58,20 @@ export class SmsCallbackWebhooks implements CallbackProcessor<SmsCallback>{
           moBinary.sent_at = new Date(moBinary.sent_at);
         }
         return moBinary;
+      case 'mo_media':
+        moMedia = eventBody as MOMedia;
+        if (moMedia.received_at) {
+          moMedia.received_at = new Date(moMedia.received_at);
+        }
+        if (moMedia.sent_at) {
+          moMedia.sent_at = new Date(moMedia.sent_at);
+        }
+        return moMedia;
       default:
         throw new Error(`Unknown SMS event type: ${eventBody.type}`);
       }
     }
-    console.log(eventBody);
-    throw new Error('Unknown SMS event');
+    throw new Error(`Unknown SMS event: ${JSON.stringify(eventBody)}`);
   };
 
 }

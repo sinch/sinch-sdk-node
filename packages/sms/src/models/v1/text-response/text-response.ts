@@ -32,7 +32,7 @@ export interface TextResponse {
   callback_url?: string;
   /** The client identifier of a batch message. If set, the identifier will be added in the delivery report/callback of this batch */
   client_reference?: string;
-  /** If set to `true`, then [feedback](/docs/sms/api-reference/sms/tag/Batches/#tag/Batches/operation/deliveryFeedback) is expected after successful delivery. */
+  /** If set to `true`, then [feedback](https://developers.sinch.com/docs/sms/api-reference/sms/tag/Batches/#tag/Batches/operation/deliveryFeedback) is expected after successful delivery. */
   feedback_enabled?: boolean;
   /** Shows message on screen without user interaction while not saving the message to the inbox. */
   flash_message?: boolean;

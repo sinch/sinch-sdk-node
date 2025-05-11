@@ -4,6 +4,7 @@ export * from './instagram-credentials';
 export * from './kakaotalk-credentials';
 export * from './kakaotalkchat-credentials';
 export * from './line-credentials';
+export * from './line-enterprise-credentials';
 export * from './mms-credentials';
 export * from './sms-credentials';
 export * from './static-bearer-credential';

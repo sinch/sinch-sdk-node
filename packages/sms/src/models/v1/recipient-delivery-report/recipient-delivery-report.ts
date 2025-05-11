@@ -1,4 +1,4 @@
-import { DeliveryReportStatusEnum } from '../enums';
+import { DeliveryReceiptCodeEnum, DeliveryStatusEnum } from '../enums';
 
 export interface RecipientDeliveryReport {
 
@@ -10,8 +10,8 @@ export interface RecipientDeliveryReport {
   batch_id: string;
   /** The client identifier of the batch this delivery report belongs to, if set when submitting batch. */
   client_reference?: string;
-  /** The detailed status code. */
-  code: number;
+  /** The detailed [status code](https://developers.sinch.com/docs/sms/api-reference/sms/tag/Delivery-reports/#tag/Delivery-reports/section/Delivery-report-error-codes). */
+  code: DeliveryReceiptCodeEnum;
   /** Applied encoding for message. Present only if smart encoding is enabled. */
   encoding?: 'GSM' | 'UNICODE';
   /** The number of parts the message was split into. Present only if `max_number_of_message_parts` parameter was set. */
@@ -23,7 +23,7 @@ export interface RecipientDeliveryReport {
   /** Phone number that was queried. */
   recipient: string;
   /** The simplified status as described in _Delivery Report Statuses_. */
-  status: DeliveryReportStatusEnum;
+  status: DeliveryStatusEnum;
   /** The recipient delivery report type. */
   type: 'recipient_delivery_report_sms' | 'recipient_delivery_report_mms';
 }

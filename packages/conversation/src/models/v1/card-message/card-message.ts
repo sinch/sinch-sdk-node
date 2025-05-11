@@ -1,15 +1,18 @@
-import { MediaCarouselMessage } from '../media-carousel-message';
 import { Choice } from '../choice';
 import { CardHeight } from '../enums';
+import { MediaProperties } from '../media-message';
 
 /**
- * Message containing text, media and choices.
+ * Field containing a Card Message.
  */
 export interface CardMessage {
   /** Message containing text, media and choices. */
   card_message: CardMessageItem;
 }
 
+/**
+ * Message containing text, media and choices.
+ */
 export interface CardMessageItem {
   /** You may include choices in your Card Message. The number of choices is limited to 10. */
   choices?: Choice[];
@@ -17,8 +20,8 @@ export interface CardMessageItem {
   description?: string;
   /** @see CardHeight */
   height?: CardHeight;
-  /** @see MediaCarouselMessage */
-  media_message?: MediaCarouselMessage;
+  /** @see MediaProperties */
+  media_message?: MediaProperties;
   /** The title of the card message. */
   title?: string;
 }

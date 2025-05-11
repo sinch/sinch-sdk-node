@@ -2,7 +2,6 @@
  * The request body of a Prompt Input Event.
  */
 export interface PieRequest {
-
   /** Must have the value `pie`. */
   event?: 'pie';
   /** The unique ID assigned to this call. */
@@ -20,15 +19,12 @@ export interface PieRequest {
 }
 
 export interface MenuResult {
-
   /** The ID of the menu that triggered the prompt input event. */
   menuId?: string;
   /** The type of information that's returned. */
-  type?: PieInformationType;
+  type?: 'error' | 'return' | 'sequence' | 'timeout' | 'hangup' | 'invalidinput' | string;
   /** The value of the returned information. */
   value?: string;
   /** The type of input received. */
-  inputMethod?: string;
+  inputMethod?: 'dtmf' | 'voice' | string;
 }
-
-export type PieInformationType = 'error' | 'return' | 'sequence' | 'timeout' | 'hangup' | 'invalidinput';

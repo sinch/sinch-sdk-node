@@ -41,13 +41,13 @@ Then('the response contains a summary SMS delivery report', () => {
   assert.equal(status.code, 15);
   assert.equal(status.count, 1);
   assert.equal(status.recipients, undefined);
-  const failedStatus: Sms.DeliveryReportStatusEnum = 'Failed';
+  const failedStatus: Sms.DeliveryStatusEnum = 'Failed';
   assert.equal(status.status, failedStatus);
   status = deliveryReport.statuses[1];
   assert.equal(status.code, 0);
   assert.equal(status.count, 1);
   assert.equal(status.recipients, undefined);
-  const deliveredStatus: Sms.DeliveryReportStatusEnum = 'Delivered';
+  const deliveredStatus: Sms.DeliveryStatusEnum = 'Delivered';
   assert.equal(status.status, deliveredStatus);
   assert.equal(deliveryReport.total_message_count, 2);
   assert.equal(deliveryReport.type, 'delivery_report_sms');
@@ -69,7 +69,7 @@ Then('the response contains a full SMS delivery report', () => {
   assert.equal(status.code, 0);
   assert.equal(status.count, 1);
   assert.equal(status.recipients[0], '12017777777');
-  const deliveredStatus: Sms.DeliveryReportStatusEnum = 'Delivered';
+  const deliveredStatus: Sms.DeliveryStatusEnum = 'Delivered';
   assert.equal(status.status, deliveredStatus);
 });
 
@@ -85,7 +85,7 @@ Then('the response contains the recipient\'s delivery report details', () => {
   assert.equal(recipientDeliveryReport.batch_id, '01W4FFL35P4NC4K35SMSBATCH1');
   assert.equal(recipientDeliveryReport.recipient, '12017777777');
   assert.equal(recipientDeliveryReport.client_reference, 'reference_e2e');
-  const deliveredStatus: Sms.DeliveryReportStatusEnum = 'Delivered';
+  const deliveredStatus: Sms.DeliveryStatusEnum = 'Delivered';
   assert.equal(recipientDeliveryReport.status, deliveredStatus);
   assert.equal(recipientDeliveryReport.type, 'recipient_delivery_report_sms');
   assert.equal(recipientDeliveryReport.code, 0);

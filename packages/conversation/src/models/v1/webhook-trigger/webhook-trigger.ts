@@ -1,4 +1,5 @@
 /**
+ * Each webhook can subscribe to one or more of the following triggers:
  * - `UNSPECIFIED_TRIGGER`: Using this value will cause errors.
  * - `MESSAGE_DELIVERY`: Subscribe to delivery receipts for a message sent.
  * - `EVENT_DELIVERY`: Subscribe to delivery receipts for a event sent.

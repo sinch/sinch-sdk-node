@@ -1,9 +1,11 @@
 import { TemplateReference } from '../template-reference';
 import { ConversationChannel } from '../conversation-channel';
 
+/**
+ * Message referring to predefined template
+ */
 export interface TemplateMessage {
-
-  /** */
+  /** Template Message */
   template_message: TemplateMessageItem;
 }
 

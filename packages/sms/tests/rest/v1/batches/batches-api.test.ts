@@ -220,7 +220,6 @@ describe('BatchesApi', () => {
         client_reference: 'Sinch Node.js SDK',
         send_at: new Date('2023-11-20T12:34:56.789Z'),
         expire_at: new Date('2023-11-23T12:34:56.789Z'),
-        flash_message: false,
         udh: textToHex('UserDataHeader'),
       };
 
@@ -236,15 +235,6 @@ describe('BatchesApi', () => {
   });
 
   describe ('sendSMS', () => {
-    const commonResponseData = {
-      canceled: false,
-      created_at: new Date('2023-11-16T12:34:56.789Z'),
-      modified_at: new Date('2023-11-16T12:34:56.789Z'),
-      send_at: new Date('2023-11-20T12:34:56.789Z'),
-      expire_at: new Date('2023-11-23T12:34:56.789Z'),
-      flash_message: false,
-    };
-
     it('should make a POST request to send a message', async () => {
       // Given
       const requestData: Sms.SendSMSRequestData = {
@@ -268,7 +258,12 @@ describe('BatchesApi', () => {
         from: '17818510001',
         body: 'Hello, this is a SMS from Sinch',
         delivery_report: 'none',
-        ...commonResponseData,
+        canceled: false,
+        created_at: new Date('2023-11-16T12:34:56.789Z'),
+        modified_at: new Date('2023-11-16T12:34:56.789Z'),
+        send_at: new Date('2023-11-20T12:34:56.789Z'),
+        expire_at: new Date('2023-11-23T12:34:56.789Z'),
+        flash_message: false,
       };
 
       // When
@@ -289,10 +284,23 @@ describe('BatchesApi', () => {
           to: [
             '+33444555666',
           ],
-          from: '+17818510001',
-          body: 'Hello, this is a SMS from Sinch',
+          body: 'Hello ${name}, this is a SMS from Sinch',
+          parameters: {
+            name: {
+              '+33444555666': 'Bob',
+            },
+          },
           delivery_report: 'none',
           send_at: new Date('2023-11-20T12:34:56.789Z'),
+          expire_at: new Date('2023-11-23T12:34:56.789Z'),
+          callback_url: 'https://override.callback.url',
+          client_reference: 'my-client-reference',
+          feedback_enabled: true,
+          flash_message: true,
+          truncate_concat: true,
+          max_number_of_message_parts: 2,
+          from_ton: 6,
+          from_npi: 18,
         },
       };
 
@@ -303,9 +311,14 @@ describe('BatchesApi', () => {
           '33444555666',
         ],
         from: '17818510001',
-        body: 'Hello, this is a SMS from Sinch',
+        body: 'Hello ${name}, this is a SMS from Sinch',
         delivery_report: 'none',
-        ...commonResponseData,
+        canceled: false,
+        created_at: new Date('2023-11-16T12:34:56.789Z'),
+        modified_at: new Date('2023-11-16T12:34:56.789Z'),
+        send_at: new Date('2023-11-20T12:34:56.789Z'),
+        expire_at: new Date('2023-11-23T12:34:56.789Z'),
+        flash_message: false,
       };
 
       // When
@@ -331,6 +344,12 @@ describe('BatchesApi', () => {
           delivery_report: 'none',
           udh: textToHex('UserDataHeader'),
           send_at: new Date('2023-11-20T12:34:56.789Z'),
+          expire_at: new Date('2023-11-23T12:34:56.789Z'),
+          callback_url: 'https://override.callback.url',
+          client_reference: 'my-client-reference',
+          feedback_enabled: true,
+          from_ton: 6,
+          from_npi: 18,
         },
       };
 
@@ -344,7 +363,11 @@ describe('BatchesApi', () => {
         body: 'SGVsbG8sIHRoaXMgaXMgYSBTTVMgZnJvbSBTaW5jaA==',
         delivery_report: 'none',
         udh: textToHex('UserDataHeader'),
-        ...commonResponseData,
+        canceled: false,
+        created_at: new Date('2023-11-16T12:34:56.789Z'),
+        modified_at: new Date('2023-11-16T12:34:56.789Z'),
+        send_at: new Date('2023-11-20T12:34:56.789Z'),
+        expire_at: new Date('2023-11-23T12:34:56.789Z'),
       };
 
       // When
@@ -368,10 +391,21 @@ describe('BatchesApi', () => {
           from: '+17818510001',
           body: {
             url: 'https://media.body.url',
-            message: 'Text message coming along with the media file',
+            message: 'Hello ${name}, this is a SMS from Sinch',
+            subject: 'Subject of the media message',
+          },
+          parameters: {
+            name: {
+              '+33444555666': 'Bob',
+            },
           },
           delivery_report: 'none',
           send_at: new Date('2023-11-20T12:34:56.789Z'),
+          expire_at: new Date('2023-11-23T12:34:56.789Z'),
+          callback_url: 'https://override.callback.url',
+          client_reference: 'my-client-reference',
+          feedback_enabled: true,
+          strict_validation: true,
         },
       };
 
@@ -384,10 +418,15 @@ describe('BatchesApi', () => {
         from: '17818510001',
         body: {
           url: 'https://media.body.url',
-          message: 'Text message coming along with the media file',
+          message: 'Hello ${name}, this is a SMS from Sinch',
+          subject: 'Subject of the media message',
         },
         delivery_report: 'none',
-        ...commonResponseData,
+        canceled: false,
+        created_at: new Date('2023-11-16T12:34:56.789Z'),
+        modified_at: new Date('2023-11-16T12:34:56.789Z'),
+        send_at: new Date('2023-11-20T12:34:56.789Z'),
+        expire_at: new Date('2023-11-23T12:34:56.789Z'),
       };
 
       // When
