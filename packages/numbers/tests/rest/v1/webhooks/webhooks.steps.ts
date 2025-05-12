@@ -15,7 +15,6 @@ const processEvent = async (response: Response) => {
     formattedHeaders[name.toLowerCase()] = value;
   });
   rawEvent = await response.text();
-  rawEvent = rawEvent.replace(/\s+/g, '');
   event = numbersCallbackWebhook.parseEvent(JSON.parse(rawEvent));
 };
 
