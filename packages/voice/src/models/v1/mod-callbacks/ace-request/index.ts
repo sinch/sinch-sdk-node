@@ -1,1 +1,1 @@
-export type { AceRequest, AnsweringMachineDetection } from './ace-request';
+export type { AceRequest } from './ace-request';
