@@ -192,5 +192,69 @@ Then('the Voice event describes a "ICE" event', () => {
   assert.equal(iceEvent.domain, 'pstn');
   assert.equal(iceEvent.originationType, 'PSTN');
   assert.equal(iceEvent.rdnis, '');
+});
 
+When('I send a request to trigger a "recording_finished" event', async () => {
+  const response = await fetch('http://localhost:3019/webhooks/voice/notify/recording_finished');
+  await processEvent(response);
+});
+
+Then('the header of the "recording_finished" event contains a valid authorization', () => {
+  assert.ok(voiceCallbackWebhooks.validateAuthenticationHeader(
+    formattedHeaders,
+    rawEvent,
+    '/webhooks/voice',
+    'POST'));
+});
+
+Then('the Voice event describes a "notify" event with a "recording_finished" type', () => {
+  const notifyEvent = event as Voice.NotifyRequest;
+  assert.equal(notifyEvent.callid, '33dd8e62-0ac6-4e0c-a89f-36d121f861f9');
+  assert.equal(notifyEvent.event, 'notify');
+  assert.equal(notifyEvent.version, 1);
+  assert.equal(notifyEvent.type, 'recording_finished');
+});
+
+When('I send a request to trigger a "recording_available" event', async () => {
+  const response = await fetch('http://localhost:3019/webhooks/voice/notify/recording_available');
+  await processEvent(response);
+});
+
+Then('the header of the "recording_available" event contains a valid authorization', () => {
+  assert.ok(voiceCallbackWebhooks.validateAuthenticationHeader(
+    formattedHeaders,
+    rawEvent,
+    '/webhooks/voice',
+    'POST'));
+});
+
+Then('the Voice event describes a "notify" event with a "recording_available" type', () => {
+  const notifyEvent = event as Voice.NotifyRequest;
+  assert.equal(notifyEvent.callid, '33dd8e62-0ac6-4e0c-a89f-36d121f861f9');
+  assert.equal(notifyEvent.event, 'notify');
+  assert.equal(notifyEvent.version, 1);
+  assert.equal(notifyEvent.type, 'recording_available');
+  assert.equal(notifyEvent.destination, 'azure://sinchsdk/voice-recordings/my-recording.mp3');
+});
+
+When('I send a request to trigger a "transcription_available" event', async () => {
+  const response = await fetch('http://localhost:3019/webhooks/voice/notify/transcription_available');
+  await processEvent(response);
+});
+
+Then('the header of the "transcription_available" event contains a valid authorization', () => {
+  assert.ok(voiceCallbackWebhooks.validateAuthenticationHeader(
+    formattedHeaders,
+    rawEvent,
+    '/webhooks/voice',
+    'POST'));
+});
+
+Then('the Voice event describes a "notify" event with a "transcription_available" type', () => {
+  const notifyEvent = event as Voice.NotifyRequest;
+  assert.equal(notifyEvent.callid, '33dd8e62-0ac6-4e0c-a89f-36d121f861f9');
+  assert.equal(notifyEvent.event, 'notify');
+  assert.equal(notifyEvent.version, 1);
+  assert.equal(notifyEvent.type, 'transcription_available');
+  assert.equal(notifyEvent.destination, 'azure://sinchsdk/voice-recordings/my-recording-transcript.json');
 });
