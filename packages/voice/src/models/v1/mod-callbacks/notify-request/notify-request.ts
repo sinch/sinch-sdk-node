@@ -1,3 +1,5 @@
+import { AnsweringMachineDetection } from '../../answering-machine-detection';
+
 /**
  * The request body of a Notify Event.
  */
@@ -16,7 +18,7 @@ export interface NotifyRequest {
   /** An optional parameter containing notification-specific information. */
   custom?: string;
   /** The results of the detection and/or the beep detection. */
-  amd?: AmdStatus;
+  amd?: AnsweringMachineDetection;
   /** The URL where the recording or transcription is available */
   destination?: string
 }
@@ -28,12 +30,3 @@ type NotifyRequestType =
   | 'amd'
   | 'amd_beep'
   | string; // wildcard as there is no specification of the list of all notifications
-
-interface AmdStatus {
-  /** The status of the AMD. */
-  status?: 'machine' | 'human' | string;
-  /** The reason for the AMD status. */
-  reason?: 'greeting' | 'beep' | 'n/a' | string;
-  /** The duration of the amd processing. */
-  duration?: number;
-}

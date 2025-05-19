@@ -1,3 +1,5 @@
+import { AnsweringMachineDetection } from '../../answering-machine-detection';
+
 /**
  * The request body of an Answered Call Event.
  */
@@ -16,13 +18,4 @@ export interface AceRequest {
   amd?: AnsweringMachineDetection;
   /** The unique application key. You can find it in the Sinch [dashboard](https://dashboard.sinch.com/voice/apps). */
   applicationKey?: string;
-}
-
-export interface AnsweringMachineDetection {
-  /** The determination by the system of who answered the call. */
-  status?: 'machine' | 'human' | 'notsure' | 'hangup' | string;
-  /** The reason that the system used to determine who answered the call. */
-  reason?: 'longgreeting' | 'initialsilence' | string;
-  /** The length of the call. */
-  duration?: number;
 }
