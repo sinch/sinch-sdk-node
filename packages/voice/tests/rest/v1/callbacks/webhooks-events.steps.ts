@@ -14,7 +14,7 @@ const processEvent = async (response: Response) => {
     formattedHeaders[name.toLowerCase()] = value;
   });
   rawEvent = await response.text();
-  event = voiceCallbackWebhooks.parseEvent(JSON.parse(rawEvent));
+  event = voiceCallbackWebhooks.parseEvent(rawEvent);
 };
 
 

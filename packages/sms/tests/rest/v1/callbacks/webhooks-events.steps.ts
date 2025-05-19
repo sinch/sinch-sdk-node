@@ -8,7 +8,7 @@ let event: SmsCallback;
 
 const processEvent = async (response: Response) => {
   rawEvent = await response.text();
-  event = smsCallbackWebhook.parseEvent(JSON.parse(rawEvent));
+  event = smsCallbackWebhook.parseEvent(rawEvent);
 };
 
 Given('the SMS Webhooks handler is available', () => {

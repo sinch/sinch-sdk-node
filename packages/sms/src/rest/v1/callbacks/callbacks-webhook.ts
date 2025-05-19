@@ -21,6 +21,9 @@ export class SmsCallbackWebhooks implements CallbackProcessor<SmsCallback>{
    * @return {SmsCallback} - The parsed SMS event object
    */
   public parseEvent(eventBody: any): SmsCallback {
+    if (typeof eventBody === 'string') {
+      eventBody = JSON.parse(eventBody);
+    }
     if (eventBody.type) {
       let recipientDeliveryReport: RecipientDeliveryReport | null = null;
       let moText: MOText | null = null;

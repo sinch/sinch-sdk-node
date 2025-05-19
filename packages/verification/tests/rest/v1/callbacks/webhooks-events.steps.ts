@@ -14,7 +14,7 @@ const processEvent = async (response: Response) => {
     formattedHeaders[name.toLowerCase()] = value;
   });
   rawEvent = await response.text();
-  event = verificationCallbackWebhook.parseEvent(JSON.parse(rawEvent));
+  event = verificationCallbackWebhook.parseEvent(rawEvent);
 };
 
 Given('the Verification Webhooks handler is available', () => {
