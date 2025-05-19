@@ -218,6 +218,7 @@ export const iceInstructionHelper = {
   sendDtmf: svamlInstructionHelper.buildSendDtmf,
   setCookie: svamlInstructionHelper.buildSetCookie,
   startRecording: svamlInstructionHelper.buildStartRecording,
+  stopRecording: svamlInstructionHelper.buildStopRecording,
   answer: svamlInstructionHelper.buildAnswer,
 };
 
@@ -225,6 +226,7 @@ export const pieActionHelper = {
   hangup: svamlActionHelper.buildHangup,
   continue: svamlActionHelper.buildContinue,
   connectConf: svamlActionHelper.buildConnectConf,
+  connectPstn: svamlActionHelper.buildConnectPstn,
   connectSip: svamlActionHelper.buildConnectSip,
   runMenu: svamlActionHelper.buildRunMenu,
 };
