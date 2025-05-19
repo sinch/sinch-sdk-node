@@ -15,7 +15,7 @@ export interface NotifyRequest {
   type?: NotifyRequestType;
   /** An optional parameter containing notification-specific information. */
   custom?: string;
-  /** The details about the 'amd' or 'amd_beep' event type */
+  /** The results of the detection and/or the beep detection. */
   amd?: AmdStatus;
   /** The URL where the recording or transcription is available */
   destination?: string
@@ -30,10 +30,10 @@ type NotifyRequestType =
   | string; // wildcard as there is no specification of the list of all notifications
 
 interface AmdStatus {
-  /** */
+  /** The status of the AMD. */
   status?: 'machine' | 'human' | string;
-  /** */
+  /** The reason for the AMD status. */
   reason?: 'greeting' | 'beep' | 'n/a' | string;
-  /** */
+  /** The duration of the amd processing. */
   duration?: number;
 }
