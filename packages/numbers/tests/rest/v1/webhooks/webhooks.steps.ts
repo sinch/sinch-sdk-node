@@ -15,7 +15,7 @@ const processEvent = async (response: Response) => {
     formattedHeaders[name.toLowerCase()] = value;
   });
   rawEvent = await response.text();
-  event = numbersCallbackWebhook.parseEvent(JSON.parse(rawEvent));
+  event = numbersCallbackWebhook.parseEvent(rawEvent);
 };
 
 Given('the Numbers Webhooks handler is available', function () {

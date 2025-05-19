@@ -15,7 +15,7 @@ const processEvent = async (response: Response) => {
     formattedHeaders[name.toLowerCase()] = value;
   });
   rawEvent = await response.text();
-  event = conversationCallbackWebhook.parseEvent(JSON.parse(rawEvent));
+  event = conversationCallbackWebhook.parseEvent(rawEvent);
 };
 
 Given('the Conversation Webhooks handler is available', () => {
