@@ -1,5 +1,61 @@
 import { Sms, SmsCallbackWebhooks } from '../../../../src';
 
+describe('SMS Webhook Signature Validation', () => {
+
+  // eslint-disable-next-line max-len
+  const SMS_BODY = '{"at":"2025-01-13T09:22:40.914Z","batch_id":"01JHFFHQ0P99JPPNQPJDV7JTBP","client_reference":"a client reference","code":0,"operator_status_at":"2025-01-13T09:22:00Z","recipient":"33662162466","status":"Delivered","type":"recipient_delivery_report_sms"}';
+  const NONCE = '01JHFFHWYY7HSS4FWTMDTQEK8V';
+  const TIMESTAMP = '1736760161';
+  const SECRET = 'SMSWebhooksSecret';
+  const VALID_SIGNATURE = 'ZoHei66PPN/kZjw7hFVfGhJOnml3iGNCMWoyQVcE5o0=';
+
+  let callbackWebhooks: SmsCallbackWebhooks;
+
+  beforeEach(() => {
+    callbackWebhooks = new SmsCallbackWebhooks(SECRET);
+  });
+
+  it('should authorize a valid authorization header', () => {
+    const headers = {
+      'x-sinch-webhook-signature': VALID_SIGNATURE,
+      'x-sinch-webhook-signature-algorithm': 'HmacSHA256',
+      'x-sinch-webhook-signature-nonce': NONCE,
+      'x-sinch-webhook-signature-timestamp': TIMESTAMP,
+    };
+    const validationStatus = callbackWebhooks.validateAuthenticationHeader(
+      headers, SMS_BODY,
+    );
+    expect(validationStatus).toBeTruthy();
+  });
+
+  it('should reject a signature id the secret is not set', () => {
+    callbackWebhooks = new SmsCallbackWebhooks();
+    const headers = {
+      'x-sinch-webhook-signature': VALID_SIGNATURE,
+      'x-sinch-webhook-signature-algorithm': 'HmacSHA256',
+      'x-sinch-webhook-signature-nonce': NONCE,
+      'x-sinch-webhook-signature-timestamp': TIMESTAMP,
+    };
+    const validationStatus = callbackWebhooks.validateAuthenticationHeader(
+      headers, SMS_BODY,
+    );
+    expect(validationStatus).toBeFalsy();
+  });
+
+  it('should reject an invalid authorization header', () => {
+    const headers = {
+      'x-sinch-webhook-signature': 'invalid-signature',
+      'x-sinch-webhook-signature-algorithm': 'HmacSHA256',
+      'x-sinch-webhook-signature-nonce': NONCE,
+      'x-sinch-webhook-signature-timestamp': TIMESTAMP,
+    };
+    const validationStatus = callbackWebhooks.validateAuthenticationHeader(
+      headers, SMS_BODY,
+    );
+    expect(validationStatus).toBeFalsy();
+  });
+});
+
 describe('SMS Callback Webhook', () => {
   let callbackWebhooks: SmsCallbackWebhooks;
 
@@ -9,7 +65,6 @@ describe('SMS Callback Webhook', () => {
   beforeEach(() => {
     callbackWebhooks = new SmsCallbackWebhooks();
   });
-
 
   it('should not throw an error when parsing the \'mo_text\' event', () => {
     const payload = {
