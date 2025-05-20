@@ -1,18 +1,21 @@
 import { Given, Then, When } from '@cucumber/cucumber';
 import { SmsCallbackWebhooks, SmsCallback, Sms } from '../../../../src';
 import assert from 'assert';
+import { IncomingHttpHeaders } from 'http';
 
 let smsCallbackWebhook: SmsCallbackWebhooks;
 let rawEvent: any;
 let event: SmsCallback;
+let formattedHeaders: IncomingHttpHeaders;
 
 const processEvent = async (response: Response) => {
+  formattedHeaders = Object.fromEntries(response.headers.entries());
   rawEvent = await response.text();
   event = smsCallbackWebhook.parseEvent(rawEvent);
 };
 
 Given('the SMS Webhooks handler is available', () => {
-  smsCallbackWebhook = new SmsCallbackWebhooks();
+  smsCallbackWebhook = new SmsCallbackWebhooks('KayakingTheSwell');
 });
 
 When('I send a request to trigger an "incoming SMS" event', async () => {
@@ -22,7 +25,7 @@ When('I send a request to trigger an "incoming SMS" event', async () => {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 Then('the header of the event {string} contains a valid signature', (_event) => {
-
+  assert.ok(smsCallbackWebhook.validateAuthenticationHeader(formattedHeaders, rawEvent));
 });
 
 Then('the SMS event describes an "incoming SMS" event', () => {
@@ -65,7 +68,7 @@ When('I send a request to trigger an "SMS recipient delivery report" event with 
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,max-len
 Then('the header of the event {string} with the status {string} contains a valid signature', (_event: string, _status: string) => {
-
+  assert.ok(smsCallbackWebhook.validateAuthenticationHeader(formattedHeaders, rawEvent));
 });
 
 Then('the SMS event describes an SMS recipient delivery report event with the status "Delivered"', () => {
