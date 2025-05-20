@@ -9,10 +9,7 @@ let event: Voice.VoiceCallbackEvent;
 let formattedHeaders: IncomingHttpHeaders;
 
 const processEvent = async (response: Response) => {
-  formattedHeaders = {};
-  response.headers.forEach((value, name) => {
-    formattedHeaders[name.toLowerCase()] = value;
-  });
+  formattedHeaders = Object.fromEntries(response.headers.entries());
   rawEvent = await response.text();
   event = voiceCallbackWebhooks.parseEvent(rawEvent);
 };
