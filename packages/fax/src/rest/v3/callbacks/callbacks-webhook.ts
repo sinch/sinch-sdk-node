@@ -11,6 +11,9 @@ export class FaxCallbackWebhooks implements CallbackProcessor<FaxWebhookEventPar
    * @return {FaxWebhookEventParsed} - The parsed Fax event object
    */
   public parseEvent(eventBody: any): FaxWebhookEventParsed {
+    if (typeof eventBody === 'string') {
+      eventBody = JSON.parse(eventBody);
+    }
     let incomingFaxEvent: IncomingFaxEvent | null = null;
     let faxCompletedEvent: FaxCompletedEvent | null = null;
     if (eventBody.event) {

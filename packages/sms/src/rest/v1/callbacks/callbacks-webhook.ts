@@ -1,17 +1,31 @@
 import { DeliveryReport, MOBinary, MOMedia, MOText, RecipientDeliveryReport } from '../../../models';
-import { CallbackProcessor } from '@sinch/sdk-client';
+import { CallbackProcessor, validateWebhookSignature } from '@sinch/sdk-client';
 import { IncomingHttpHeaders } from 'http';
 
 export type SmsCallback = DeliveryReport | RecipientDeliveryReport | MOText | MOBinary | MOMedia;
 
 export class SmsCallbackWebhooks implements CallbackProcessor<SmsCallback>{
 
+  private readonly appSecret: string | undefined;
+
+  constructor(appSecret?: string) {
+    this.appSecret = appSecret;
+  }
+
   public validateAuthenticationHeader(
+    headers: IncomingHttpHeaders,
+    body: any,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _headers: IncomingHttpHeaders, _body: any, _path: string, _method: string,
+    _path?: string, _method?: string,
   ): boolean {
-    // No header validation is implemented for SMS API
-    return true;
+    if (!this.appSecret) {
+      return false;
+    }
+    return validateWebhookSignature(
+      this.appSecret,
+      headers,
+      body,
+    );
   }
 
   /**
@@ -21,6 +35,9 @@ export class SmsCallbackWebhooks implements CallbackProcessor<SmsCallback>{
    * @return {SmsCallback} - The parsed SMS event object
    */
   public parseEvent(eventBody: any): SmsCallback {
+    if (typeof eventBody === 'string') {
+      eventBody = JSON.parse(eventBody);
+    }
     if (eventBody.type) {
       let recipientDeliveryReport: RecipientDeliveryReport | null = null;
       let moText: MOText | null = null;

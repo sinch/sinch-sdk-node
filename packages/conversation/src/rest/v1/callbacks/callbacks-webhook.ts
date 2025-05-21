@@ -86,6 +86,9 @@ export class ConversationCallbackWebhooks implements CallbackProcessor<Conversat
    * @throws {Error} If the eventBody is not valid or cannot be parsed.
    */
   public parseEvent(eventBody: any): ConversationWebhookEventParsed {
+    if (typeof eventBody === 'string') {
+      eventBody = JSON.parse(eventBody);
+    }
     if ('message' in eventBody) {
       return {
         ...eventBody,

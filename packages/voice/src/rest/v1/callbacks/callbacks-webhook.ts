@@ -42,6 +42,9 @@ export class VoiceCallbackWebhooks implements CallbackProcessor<VoiceCallbackEve
    * @return {VoiceCallbackEvent} - The parsed voice event object.
    */
   public parseEvent(eventBody: any): VoiceCallbackEvent {
+    if (typeof eventBody === 'string') {
+      eventBody = JSON.parse(eventBody);
+    }
     if (eventBody.timestamp) {
       eventBody.timestamp = new Date(eventBody.timestamp);
     }

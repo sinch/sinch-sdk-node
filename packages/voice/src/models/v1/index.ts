@@ -1,3 +1,4 @@
+export * from './answering-machine-detection';
 export * from './call-header';
 export * from './conference-callout-request';
 export * from './conference-dtmf-options';
