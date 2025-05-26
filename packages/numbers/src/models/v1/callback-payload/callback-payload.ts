@@ -9,11 +9,11 @@ export interface CallbackPayload {
   /** The unique identifier of the resource, depending on the resource type. For example, a phone number, a hosting order ID, or a brand ID. */
   resourceId?: string;
   /** The type of the resource. */
-  resourceType?: string;
+  resourceType?: 'ACTIVE_NUMBER' | string;
   /** The type of the event. */
   eventType?: EventTypeEnum;
   /** The status of the event. For example, `SUCCEEDED` or `FAILED`. */
-  status?: string;
+  status?: 'SUCCEEDED' | 'FAILED' | string;
   /** If the status is FAILED, a failure code will be provided. For numbers provisioning to SMS platform, there won\'t be any extra `failureCode`, as the result is binary. For campaign provisioning-related failures, refer to the list for the possible values. */
   failureCode?: FailureCodeEnum;
 }
