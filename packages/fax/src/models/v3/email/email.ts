@@ -1,5 +1,4 @@
 interface EmailBase {
-
   email?: string;
   /** Numbers you want to associate with this email. */
   phoneNumbers?: string[];

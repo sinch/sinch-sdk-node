@@ -9,7 +9,7 @@ export interface BinaryRequest {
   body: string;
   /** The UDH header of a binary message HEX encoded. Max 140 bytes including the `body`. */
   udh: string;
-  /** SMS in <a href=\"https://community.sinch.com/t5/Glossary/Binary-SMS/ta-p/7470\" target=\"_blank\">binary</a> format. */
+  /** SMS in [binary](https://community.sinch.com/t5/Glossary/Binary-SMS/ta-p/7470) format. */
   type?: 'mt_binary';
   /** Request delivery report callback. Note that delivery reports can be fetched from the API regardless of this setting.  */
   delivery_report?: DeliveryReportEnum;
@@ -23,14 +23,8 @@ export interface BinaryRequest {
   callback_url?: string;
   /** The client identifier of a batch message. If set, the identifier will be added in the delivery report/callback of this batch. */
   client_reference?: string;
-  /** If set to true then [feedback](/docs/sms/api-reference/sms/tag/Batches/#tag/Batches/operation/deliveryFeedback) is expected after successful delivery. */
+  /** If set to true then [feedback](https://developers.sinch.com/docs/sms/api-reference/sms/tag/Batches/#tag/Batches/operation/deliveryFeedback) is expected after successful delivery. */
   feedback_enabled?: boolean;
-  /** Shows message on screen without user interaction while not saving the message to the inbox. */
-  flash_message?: boolean;
-  /** If set to `true`, the message will be shortened when exceeding one part. */
-  truncate_concat?: boolean;
-  /** Message will be dispatched only if it is not split to more parts than the maximum number of message parts. */
-  max_number_of_message_parts?: number;
   /** The type of number for the sender number. Use to override the automatic detection. */
   from_ton?: number;
   /** Number Plan Indicator for the sender number. Use to override the automatic detection. */

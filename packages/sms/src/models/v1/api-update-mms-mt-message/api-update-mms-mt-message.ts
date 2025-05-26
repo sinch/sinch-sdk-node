@@ -3,7 +3,6 @@ import { ParameterGroup } from '../parameter-group';
 import { DeliveryReportEnum } from '../enums';
 
 export interface ApiUpdateMmsMtMessage {
-
   /** Sender number. Must be valid phone number, short code or alphanumeric. */
   from?: string;
   /** MMS */
@@ -14,16 +13,21 @@ export interface ApiUpdateMmsMtMessage {
   to_remove?: string[];
   /** Request delivery report callback.     Note that delivery reports can be fetched from the API regardless of this setting.  */
   delivery_report?: DeliveryReportEnum;
-  /** If set, in the future the message will be delayed until `send_at` occurs. Formatted as <a href=\"https://en.wikipedia.org/wiki/ISO_8601\" target=\"_blank\">ISO-8601</a>: `YYYY-MM-DDThh:mm:ss.SSSZ`.  Constraints: Must be before expire_at. If set in the past, messages will be sent immediately.  */
+  /** If set, in the future the message will be delayed until `send_at` occurs. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601): `YYYY-MM-DDThh:mm:ss.SSSZ`.  Constraints: Must be before expire_at. If set in the past, messages will be sent immediately.  */
   send_at?: Date;
-  /** If set, the system will stop trying to deliver the message at this point.  Constraints: Must be after `send_at`  Default: 3 days after `send_at`  */
+  /** If set, the system will stop trying to deliver the message at this point.
+   * Must be after `send_at`. Default and max is 3 days after `send_at`. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601): `YYYY-MM-DDThh:mm:ss.SSSZ`.  */
   expire_at?: Date;
   /** Override the default callback URL for this batch.  Constraints: Must be valid URL.  */
   callback_url?: string;
+  /** The client identifier of a batch message. If set, the identifier will be added in the delivery report/callback of this batch */
+  client_reference?: string;
+  /** If set to `true`, then [feedback](https://developers.sinch.com/docs/sms/api-reference/sms/tag/Batches/#tag/Batches/operation/deliveryFeedback) is expected after successful delivery. */
+  feedback_enabled?: boolean;
   /** @see MediaBody */
   body?: MediaBody;
   /** @see ParameterGroup */
   parameters?: ParameterGroup;
-  /** Whether or not you want the media included in your message to be checked against [Sinch MMS channel best practices](/docs/mms/bestpractices/). If set to true, your message will be rejected if it doesn\'t conform to the listed recommendations, otherwise no validation will be performed.  */
+  /** Whether or not you want the media included in your message to be checked against [Sinch MMS channel best practices](https://developers.sinch.com/docs/mms/bestpractices/). If set to true, your message will be rejected if it doesn't conform to the listed recommendations, otherwise no validation will be performed.  */
   strict_validation?: boolean;
 }

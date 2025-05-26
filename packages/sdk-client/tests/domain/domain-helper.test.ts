@@ -10,6 +10,7 @@ import {
   VERIFICATION_HOSTNAME,
   VOICE_APPLICATION_MANAGEMENT_HOSTNAME,
   VOICE_HOSTNAME,
+  MAILGUN_HOSTNAME,
 } from '../../src';
 
 describe('Domain Helper', () => {
@@ -29,6 +30,9 @@ describe('Domain Helper', () => {
 
     const formattedVoiceHostname = formatRegionalizedHostname(VOICE_HOSTNAME, '-bzh');
     expect(formattedVoiceHostname).toBe('https://calling-bzh.api.sinch.com');
+
+    const formattedMailgunHostname = formatRegionalizedHostname(MAILGUN_HOSTNAME, 'bzh.');
+    expect(formattedMailgunHostname).toBe('https://api.bzh.mailgun.net');
   });
 
   it('should leave the hostname untouched', () => {

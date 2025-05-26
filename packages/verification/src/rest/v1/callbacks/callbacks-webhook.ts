@@ -43,6 +43,9 @@ export class VerificationCallbackWebhooks implements CallbackProcessor<Verificat
    * @return {VerificationCallbackEvent} - The parsed verification event object.
    */
   public parseEvent(eventBody: any): VerificationCallbackEvent {
+    if (typeof eventBody === 'string') {
+      eventBody = JSON.parse(eventBody);
+    }
     if (eventBody.event) {
       switch (eventBody.event) {
       case 'VerificationRequestEvent':

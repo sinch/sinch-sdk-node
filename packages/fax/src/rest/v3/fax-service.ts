@@ -1,5 +1,5 @@
 import { FaxRegion, SinchClientParameters } from '@sinch/sdk-client';
-import { EmailsApi } from './emails';
+import { FaxToEmailApi } from './fax-to-email';
 import { FaxesApi } from './faxes';
 import { ServicesApi } from './services';
 
@@ -10,7 +10,9 @@ import { ServicesApi } from './services';
  *  - emails
  */
 export class FaxService {
-  public readonly emails: EmailsApi;
+  /** @deprecated Use faxToEmail instead */
+  public readonly emails: FaxToEmailApi;
+  public readonly faxToEmail: FaxToEmailApi;
   public readonly faxes: FaxesApi;
   public readonly services: ServicesApi;
 
@@ -26,7 +28,8 @@ export class FaxService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
-    this.emails = new EmailsApi(params);
+    this.emails = new FaxToEmailApi(params);
+    this.faxToEmail = new FaxToEmailApi(params);
     this.faxes = new FaxesApi(params);
     this.services = new ServicesApi(params);
   }
@@ -37,6 +40,7 @@ export class FaxService {
    */
   public setHostname(hostname: string) {
     this.emails.setHostname(hostname);
+    this.faxToEmail.setHostname(hostname);
     this.faxes.setHostname(hostname);
     this.services.setHostname(hostname);
   }
@@ -47,6 +51,7 @@ export class FaxService {
    */
   public setRegion(region: FaxRegion) {
     this.emails.setRegion(region);
+    this.faxToEmail.setRegion(region);
     this.faxes.setRegion(region);
     this.services.setRegion(region);
   }

@@ -1,1 +1,7 @@
-export type { EventInbound, EventInboundEvent } from './event-inbound';
+export type {
+  EventInbound,
+  EventInboundEvent,
+  EventInboundEventBase,
+  EventInboundContactEvent,
+  EventInboundContactMessageEvent,
+} from './event-inbound';

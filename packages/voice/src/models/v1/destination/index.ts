@@ -1,1 +1,1 @@
-export type { Destination } from './destination';
+export type { Destination, DestinationDid, DestinationMxp, DestinationPstn, DestinationSip } from './destination';

@@ -4,7 +4,7 @@ import { CarouselMessage, CarouselMessageItem } from './carousel-message';
 import { ChoiceMessage, ChoiceMessageItem } from './choice-message';
 import { ContactInfoMessage, ContactInfoMessageItem } from './contact-info-message';
 import { LocationMessage, LocationMessageItem } from './location-message';
-import { MediaMessage, MediaMessageItem } from './media-message';
+import { MediaMessage, MediaProperties } from './media-message';
 import { TemplateMessage, TemplateMessageItem } from './template-message';
 import { ListMessage, ListMessageItem } from './list-message';
 import { V2TemplateTranslation } from './v2-template-translation';
@@ -42,7 +42,7 @@ export const messageBuilder = {
       location_message: locationMessageItem,
     } as LocationMessage;
   },
-  media: (mediaMessageItem: MediaMessageItem): MediaMessage => {
+  media: (mediaMessageItem: MediaProperties): MediaMessage => {
     return {
       media_message: mediaMessageItem,
     } as MediaMessage;
@@ -78,7 +78,7 @@ export const templateV1Helper = {
   buildLocationMessageContent: (locationMessageItem: LocationMessageItem): string => {
     return JSON.stringify(messageBuilder.location(locationMessageItem));
   },
-  buildMediaMessageContent: (mediaMessageItem: MediaMessageItem): string => {
+  buildMediaMessageContent: (mediaMessageItem: MediaProperties): string => {
     return JSON.stringify(messageBuilder.media(mediaMessageItem));
   },
   buildTemplateMessageContent: (templateMessageItem: TemplateMessageItem): string => {
@@ -109,7 +109,7 @@ export const templateV2Helper = {
   buildLocationMessageContent: (locationMessageItem: LocationMessageItem): LocationMessage => {
     return messageBuilder.location(locationMessageItem);
   },
-  buildMediaMessageContent: (mediaMessageItem: MediaMessageItem): MediaMessage => {
+  buildMediaMessageContent: (mediaMessageItem: MediaProperties): MediaMessage => {
     return messageBuilder.media(mediaMessageItem);
   },
   buildTemplateMessageContent: (templateMessageItem: TemplateMessageItem): TemplateMessage => {

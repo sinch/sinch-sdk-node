@@ -25,10 +25,7 @@ import {
       imageConversionMethod: 'MONOCHROME',
       saveOutboundFaxDocuments: true,
       saveInboundFaxDocuments: true,
-      emailSettings: {
-        pdfPassword: 'pwd',
-        useBodyAsCoverPage: true,
-      },
+      scanIncomingBarcodes: true,
     },
   };
 

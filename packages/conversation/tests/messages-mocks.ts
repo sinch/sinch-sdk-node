@@ -137,9 +137,10 @@ export const locationMessage: Conversation.LocationMessage = {
   location_message: locationMessageItem,
 };
 
-export const mediaMessageItem: Conversation.MediaMessageItem = {
+export const mediaMessageItem: Conversation.MediaProperties = {
   url: 'https://url-to-media.com',
   thumbnail_url: 'https://url-to-thumbnail.com',
+  filename_override: 'new-filename.jpg',
 };
 
 export const mediaMessage: Conversation.MediaMessage = {
@@ -199,6 +200,11 @@ export const bookProductDetails: Conversation.ProductItem = {
 export const listMessageItem: Conversation.ListMessageItem = {
   title: 'Choose your icecream flavor',
   description: 'The best icecream in town!',
+  media: {
+    url: 'https://icecream.capytown.com/image.jpg',
+    thumbnail_url: 'https://icecream.capytown.com/thumbnail.jpg',
+    filename_override: 'icecream.jpg',
+  },
   sections: [
     {
       title: 'Fruit flavors',

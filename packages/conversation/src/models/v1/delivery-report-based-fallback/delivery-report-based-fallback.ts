@@ -1,6 +1,6 @@
 
 /**
- * This object contains additional settings related to [delivery report based fallback](../../../../../conversation/keyconcepts/#delivery-report-base-message-fallback). Note that this **paid** functionality is available for open beta testing.
+ * This object contains additional settings related to [delivery report based fallback](https://developers.sinch.com/docs/conversation/keyconcepts/#delivery-report-base-message-fallback). Note that this **paid** functionality is available for open beta testing.
  */
 export interface DeliveryReportBasedFallback {
 

@@ -23,7 +23,7 @@ import {
   const printFormat = getPrintFormat(process.argv);
 
   if (printFormat === 'pretty') {
-    console.log(`Webhook id: ${response.id} - Triggers: ${response.triggers.join(', ')}`);
+    console.log(`Webhook id: ${response.id} - Triggers: ${response.triggers?.join(', ')}`);
   } else {
     printFullResponse(response);
   }

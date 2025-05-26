@@ -11,6 +11,7 @@ import {
   TelegramCredentials,
   WeChatCredentials,
 } from '../mod-credentials';
+import { LineEnterpriseCredentials } from '../mod-credentials/line-enterprise-credentials';
 
 /**
  * Enables access to the underlying messaging channel.
@@ -21,6 +22,7 @@ export type ConversationChannelCredentialRequest =
   | ChannelCredentialsKakaoTalk
   | ChannelCredentialsKakaoTalkChat
   | ChannelCredentialsLine
+  | ChannelCredentialsLineEnterprise
   | ChannelCredentialsMessenger
   | ChannelCredentialsMms
   | ChannelCredentialsRcs
@@ -40,6 +42,7 @@ export type ConversationChannelCredentialResponse =
   | ChannelCredentialsKakaoTalkResponse
   | ChannelCredentialsKakaoTalkChatResponse
   | ChannelCredentialsLineResponse
+  | ChannelCredentialsLineEnterpriseResponse
   | ChannelCredentialsMessengerResponse
   | ChannelCredentialsMmsResponse
   | ChannelCredentialsRcsResponse
@@ -173,6 +176,15 @@ export interface ChannelCredentialsLine extends ConversationChannelCredentialReq
 export interface ChannelCredentialsLineResponse
   extends ChannelCredentialsLine, ConversationChannelCredentialResponseBase {}
 
+export interface ChannelCredentialsLineEnterprise extends ConversationChannelCredentialRequestBase {
+  channel: 'LINE';
+  /** @see LineCredentials */
+  line_enterprise_credentials: LineEnterpriseCredentials;
+}
+
+export interface ChannelCredentialsLineEnterpriseResponse
+  extends ChannelCredentialsLineEnterprise, ConversationChannelCredentialResponseBase {}
+
 export interface ChannelCredentialsWeChat extends ConversationChannelCredentialRequestBase {
   channel: 'WECHAT';
   /** @see WeChatCredentials */
@@ -194,16 +206,20 @@ export interface ChannelCredentialsAppleBCResponse
 interface ConversationChannelCredentialRequestBase {
   /** The secret used to verify the channel callbacks for channels which support callback verification. The callback verification is not needed for Sinch-managed channels because the callbacks are not leaving Sinch internal networks. Max length is 256 characters. Note: leaving channel_callback_secret empty for channels with callback verification will disable the verification. */
   callback_secret?: string;
+  /** The ordinal number of the credential. This field is used when the application supports multiple credential integrations per channel. Currently, this is only applicable to the `LINE` channel. For other channels, this value will always be set to `0`. In the case in which there are multiple credential integrations per channel on a single app, this field must have a unique value for each multi-credential channel entry. */
+  credential_ordinal_number?: number;
 }
 
 interface ConversationChannelCredentialResponseBase {
   /**
-   * Output only. The state of the channel credentials integration.
+   * The state of the channel credentials integration.
    * When a channel is activated, the user is prompted for credentials that must be validated and in some cases exchanged by a long-lived token (Instagram).
    */
   state?: ChannelIntegrationState;
-  /** Output only. Additional identifier set by the channel that represents a specific id used by the channel. */
+  /** Additional identifier set by the channel that represents a specific id used by the channel. */
   channel_known_id?: string
+  /** The ordinal number of the credential. This field is used when the application supports multiple credential integrations per channel. Currently, this is only applicable to the `LINE` channel. For other channels, this value will always be set to `0`. In the case in which there are multiple credential integrations per channel on a single app, this field must have a unique value for each multi-credential channel entry. */
+  credential_ordinal_number?: number;
 }
 
 export interface ChannelIntegrationState {

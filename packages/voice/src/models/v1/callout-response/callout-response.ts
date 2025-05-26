@@ -6,5 +6,3 @@ export interface CalloutResponse {
   /** The returned call identifier. */
   callId?: string;
 }
-
-

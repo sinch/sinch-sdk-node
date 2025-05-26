@@ -4,7 +4,6 @@ import { FaxMoney } from '../fax-money';
 import { ErrorType, FaxDirection, FaxStatus, ImageConversionMethod, WebhookContentType } from '../enums';
 
 export interface Fax {
-
   /** The id of a fax */
   id?: string;
   /** @see FaxDirection */
@@ -41,13 +40,13 @@ export interface Fax {
   callbackUrl?: string;
   /** The content type of the callback. */
   callbackUrlContentType?: WebhookContentType;
-  /** Determines how documents are converted to black and white. Defaults to value selected on Fax Service object. */
+  /** Determines how documents are converted to black and white on OUTBOUND faxes only. Image conversion is not done on INBOUND faxes. Defaults to value selected on Fax Service object. */
   imageConversionMethod?: ImageConversionMethod;
   /** @see ErrorType */
   errorType?: ErrorType;
-  /** One of the error numbers listed in the [Fax Error Messages section](#FaxErrors). */
+  /** One of the error numbers listed in the [Fax Error Messages section](https://developers.sinch.com/docs/fax/api-reference/fax/tag/Error-Messages/). */
   errorCode?: number;
-  /** One of the error messages listed in the [Fax Error Messages section](#FaxErrors). */
+  /** One of the error messages listed in the [Fax Error Messages section](https://developers.sinch.com/docs/fax/api-reference/fax/tag/Error-Messages/). */
   errorMessage?: string;
   /** The `Id` of the project associated with the call. */
   projectId?: string;

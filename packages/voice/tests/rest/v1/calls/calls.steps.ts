@@ -25,7 +25,7 @@ When('I send a request to get a call\'s information', async () => {
 
 Then('the response contains the information about the call', () => {
   assert.equal(callInformation.callId, '1ce0ffee-ca11-ca11-ca11-abcdef000003');
-  const participant: Voice.Participant = {
+  const participant: Voice.Destination = {
     type: 'Number',
     endpoint: '+12017777777',
   };

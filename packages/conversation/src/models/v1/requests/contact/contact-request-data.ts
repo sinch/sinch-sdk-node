@@ -26,11 +26,11 @@ export interface ListContactsRequestData {
   'page_size'?: number;
   /** Optional. Next page token previously returned if any. */
   'page_token'?: string;
-  /** Optional. Contact identifier in an external system. If used, `channel` and `identity` query parameters can\'t be used. */
+  /** Optional. Contact identifier in an external system. If used, `channel` and `identity` query parameters can't be used. */
   'external_id'?: string;
-  /** Optional. Specifies a channel, and must be set to one of the enum values. If set, the `identity` parameter must be set and `external_id` can\'t be used. Used in conjunction with `identity` to uniquely identify the specified channel identity. */
+  /** Optional. Specifies a channel, and must be set to one of the enum values. If set, the `identity` parameter must be set and `external_id` can't be used. Used in conjunction with `identity` to uniquely identify the specified channel identity. */
   'channel'?: ConversationChannel;
-  /** Optional. If set, the `channel` parameter must be set and `external_id` can\'t be used. Used in conjunction with `channel` to uniquely identify the specified channel identity. This will differ from channel to channel. For example, a phone number for SMS, WhatsApp, and Viber Business. */
+  /** Optional. If set, the `channel` parameter must be set and `external_id` can't be used. Used in conjunction with `channel` to uniquely identify the specified channel identity. This will differ from channel to channel. For example, a phone number for SMS, WhatsApp, and Viber Business. */
   'identity'?: string;
 }
 export interface MergeContactRequestData {

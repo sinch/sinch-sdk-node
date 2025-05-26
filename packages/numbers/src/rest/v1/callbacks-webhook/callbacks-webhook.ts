@@ -41,6 +41,9 @@ export class NumbersCallbackWebhooks implements CallbackProcessor<CallbackPayloa
    * @return {NumbersCallback} - The parsed voice event object.
    */
   public parseEvent(eventBody: any): NumbersCallback {
+    if (typeof eventBody === 'string') {
+      eventBody = JSON.parse(eventBody);
+    }
     // There is a bug in the API which doesn't send the timezone along with the timestamp
     // As the server formats the timestamp as GMT, we check if the timezone is missing and add it if needed
     const timestamp = eventBody.timestamp;

@@ -1,1 +1,1 @@
-export type { MediaMessage, MediaMessageItem } from './media-message';
+export type { MediaMessage, MediaProperties } from './media-message';

@@ -1,1 +1,1 @@
-export type { DiceRequest } from './dice-request';
+export type { DiceRequest, DiceReasonEnum } from './dice-request';

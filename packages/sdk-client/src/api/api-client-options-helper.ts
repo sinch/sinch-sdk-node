@@ -2,6 +2,7 @@ import { SinchClientParameters } from '../domain';
 import { ApiClientOptions } from './api-client-options';
 import {
   ApiTokenRequest,
+  BasicAuthenticationRequest,
   Oauth2TokenRequest,
   SigningRequest,
   XTimestampRequest,
@@ -15,6 +16,19 @@ export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiNa
     projectId: params.projectId,
     requestPlugins: [new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname)],
     useServicePlanId: false,
+  };
+  addPlugins(apiClientOptions, params);
+  return apiClientOptions;
+};
+
+export const buildMailgunApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
+  if (!params.mailgunApiKey) {
+    throw new Error('Invalid configuration for the Mailgun API: the "mailgunApiKey" must be provided');
+  }
+  const apiClientOptions: ApiClientOptions = {
+    requestPlugins: [
+      new BasicAuthenticationRequest('api', params.mailgunApiKey),
+    ],
   };
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
