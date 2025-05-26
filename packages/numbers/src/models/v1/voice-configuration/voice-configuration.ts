@@ -22,7 +22,7 @@ export interface VoiceConfigurationFax {
 export interface VoiceConfigurationEst {
   /** The voice application type. */
   type: 'EST'
-  /** The trunk ID for the EST voice configuration. The `trunkId` can be found in your [Sinch Customer Dashboard](https://dashboard.sinch.com/sip/trunks) under sip, then trunks.*/
+  /** The trunk ID for the EST voice configuration. The `trunkId` can be found in your [Sinch Customer Dashboard](https://dashboard.sinch.com/trunks/your-trunks) under sip, then trunks.*/
   trunkId?: string;
 }
 
@@ -38,7 +38,7 @@ export interface VoiceConfigurationResponse {
   scheduledVoiceProvisioning?: ScheduledVoiceProvisioning | null;
   /** The type of voice configuration. Default is `RTC`. */
   type: 'RTC' | 'EST' | 'FAX';
-  /** The trunk ID for the EST voice configuration. The `trunkId` can be found in your [Sinch Customer Dashboard](https://dashboard.sinch.com/sip/trunks) under sip, then trunks.*/
+  /** The trunk ID for the EST voice configuration. The `trunkId` can be found in your [Sinch Customer Dashboard](https://dashboard.sinch.com/trunks/your-trunks) under sip, then trunks.*/
   trunkId?: string;
   /** The service ID for the FAX configuration. The `serviceId` can be found in your [Sinch Customer Dashboard](https://dashboard.sinch.com/fax/services) under fax, then services.*/
   serviceId?: string;
