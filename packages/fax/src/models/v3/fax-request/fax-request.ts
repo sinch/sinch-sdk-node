@@ -1,4 +1,4 @@
-import { ImageConversionMethod, WebhookContentType } from '../enums';
+import { ImageConversionMethod, Resolution, WebhookContentType } from '../enums';
 import { FaxContentUrl } from '../fax-content-url';
 import { FaxBase64File } from '../fax-base64-file';
 
@@ -31,6 +31,12 @@ export interface FaxRequestBase {
   serviceId?: string;
   /** The number of times the fax will be retired before cancel. Default value is set in your fax service. The maximum number of retries is 5. */
   maxRetries?: number;
+  /** @see Resolution */
+  resolution?: Resolution;
+  /** The cover page id you want to use for the fax */
+  coverPageId?: string;
+  /** You can use this to specify custom data for your cover page that will be sent as part of the fax. It is a key value store. Read more about how to use this [here](https://developers.sinch.com/docs/fax/api-reference/fax/tag/Cover-pages/). All keys used must be lower case. */
+  coverPageData?: { [key: string]: string; };
 }
 
 export type FaxRequestJson = FaxRequestBase & {

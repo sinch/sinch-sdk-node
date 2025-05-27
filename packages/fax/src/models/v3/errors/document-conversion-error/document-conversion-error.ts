@@ -10,5 +10,5 @@ export interface DocumentConversionError {
   errorCode?: DocumentConversionErrorCodeEnum;
 }
 
-export type DocumentConversionErrorCodeEnum = '4' | '54' | '55' | '57' | '69' | '122'
-  | '128' | '129' | '130' | '133 | string';
+export type DocumentConversionErrorCodeEnum = 4 | 54 | 55 | 57 | 69 | 122
+  | 128 | 129 | 130 | 133 | number;

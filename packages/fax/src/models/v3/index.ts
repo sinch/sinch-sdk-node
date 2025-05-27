@@ -8,6 +8,7 @@ export * from './fax-content-url';
 export * from './fax-money';
 export * from './fax-request';
 export * from './faxes-list';
+export * from './number-with-permissions';
 export * from './mod-events';
 export * from './service';
 export * from './service-phone-number';
