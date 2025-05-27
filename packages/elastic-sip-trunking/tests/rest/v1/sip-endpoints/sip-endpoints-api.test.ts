@@ -19,7 +19,7 @@ describe('SIPEndpointsApi', () => {
 
 
   describe ('createSipEndpoint', () => {
-    it('should make a POST request to create a new SIP Endpoint', async () => {
+    it('should make a POST request to create a new static SIP Endpoint', async () => {
       // Given
       const requestData: ElasticSipTrunking.CreateSipEndpointRequestData = {
         sipTrunkId: 'sipTrunkId',
@@ -36,6 +36,41 @@ describe('SIPEndpointsApi', () => {
         priority: 1,
         port: 5060,
         transport: 'UDP',
+        enabled: true,
+        sipTrunkId: 'sipTrunkId',
+        createTime: new Date('2022-01-01T00:00:00Z'),
+      };
+
+      // When
+      fixture.create.mockResolvedValue(expectedResponse);
+      sipEndpointsApi.create = fixture.create;
+      const response = await sipEndpointsApi.create(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.create).toHaveBeenCalledWith(requestData);
+    });
+
+    it('should make a POST request to create a new registered SIP Endpoint', async () => {
+      // Given
+      const requestData: ElasticSipTrunking.CreateSipEndpointRequestData = {
+        sipTrunkId: 'sipTrunkId',
+        createSipEndpointRequestBody: {
+          name: 'Acme Endpoint',
+          credentialUserName: 'username',
+          isRegistered: true,
+          priority: 1,
+          transport: 'TLS',
+        },
+      };
+      const expectedResponse: SipEndpoint = {
+        id: 'sipEndpointId',
+        name: 'Acme Endpoint',
+        credentialUserName: 'username',
+        isRegistered: true,
+        priority: 1,
+        port: 5060,
+        transport: 'TLS',
         enabled: true,
         sipTrunkId: 'sipTrunkId',
         createTime: new Date('2022-01-01T00:00:00Z'),

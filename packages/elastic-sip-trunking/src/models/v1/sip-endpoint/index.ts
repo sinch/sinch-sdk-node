@@ -1,1 +1,1 @@
-export type { SipEndpoint } from './sip-endpoint';
+export type { SipEndpoint, SipEndpointBase, RegisteredEndpoint, StaticEndpoint } from './sip-endpoint';
