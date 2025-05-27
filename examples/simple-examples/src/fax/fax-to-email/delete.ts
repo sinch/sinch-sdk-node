@@ -1,14 +1,16 @@
 import { Fax } from '@sinch/sdk-core';
-import { getFaxEmailFromConfig, initFaxService } from '../../config';
+import { getFaxEmailFromConfig, getFaxServiceIdFromConfig, initFaxService } from '../../config';
 
 (async () => {
   console.log('***************');
   console.log('* deleteEmail *');
   console.log('***************');
 
+  const serviceId = getFaxServiceIdFromConfig();
   const email = getFaxEmailFromConfig();
 
   const requestData: Fax.DeleteEmailRequestData = {
+    serviceId,
     email,
   };
 

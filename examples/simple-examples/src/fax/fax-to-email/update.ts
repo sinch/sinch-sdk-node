@@ -1,6 +1,7 @@
 import { Fax } from '@sinch/sdk-core';
 import {
   getFaxEmailFromConfig,
+  getFaxServiceIdFromConfig,
   getPhoneNumberFromConfig,
   getPrintFormat,
   initFaxService,
@@ -13,14 +14,21 @@ import {
   console.log('*************************');
 
   const phoneNumber = getPhoneNumberFromConfig();
+  const serviceId = getFaxServiceIdFromConfig();
   const email = getFaxEmailFromConfig();
 
   const requestData: Fax.UpdateEmailRequestData = {
+    serviceId,
     email,
     updateEmailRequestBody: {
       phoneNumbers: [
-        phoneNumber,
-        '+14155552222',
+        {
+          number: phoneNumber,
+          permissions: 'both',
+        },{
+          number: '+14155552222',
+          permissions: 'receive',
+        },
       ],
     },
   };
