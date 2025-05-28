@@ -1,7 +1,9 @@
+import { NumberWithPermissions } from '../number-with-permissions';
+
 interface EmailBase {
-  email?: string;
+  email: string;
   /** Numbers you want to associate with this email. */
-  phoneNumbers?: string[];
+  phoneNumbers: NumberWithPermissions[];
 }
 
 export interface EmailRequest extends EmailBase {}

@@ -55,7 +55,9 @@ Then('the emails list from the "Emails" Service contains {string} emails associa
 });
 
 When('I send a request to list the emails associated to the project', async () => {
-  listFaxEmails = await faxToEmailApi.list({});
+  listFaxEmails = await faxToEmailApi.list({
+    serviceId: '01W4FFL35P4NC4K35FAXSERVICE',
+  });
 });
 
 Then('the response contains {string} emails associated to the project', (expectedAnswer: string) => {
@@ -64,7 +66,9 @@ Then('the response contains {string} emails associated to the project', (expecte
 });
 
 When('I send a request to list all the emails associated to the project', async () => {
-  for await (const email of faxToEmailApi.list({})) {
+  for await (const email of faxToEmailApi.list({
+    serviceId: '01W4FFL35P4NC4K35FAXSERVICE',
+  })) {
     faxEmailsList.push(email);
   }
 });
@@ -76,26 +80,38 @@ Then('the emails list contains {string} emails associated to the project', (expe
 
 When('I send a request to add a new email to the project', async () => {
   email = await faxToEmailApi.addToNumbers({
+    serviceId: '01W4FFL35P4NC4K35FAXSERVICE',
     emailRequestBody : {
       email: 'spaceship@galaxy.far.far.away',
-      phoneNumbers: ['+12016666666'],
+      phoneNumbers: [{
+        number: '+12016666666',
+        permissions: 'both',
+      }],
     },
   });
 });
 
 Then('the response contains the added email', () => {
   assert.equal(email.email, 'spaceship@galaxy.far.far.away');
-  assert.deepEqual(email.phoneNumbers, ['+12016666666']);
+  assert.deepEqual(email.phoneNumbers[0].number, '+12016666666');
+  assert.deepEqual(email.phoneNumbers[0].permissions, 'both');
   assert.equal(email.projectId, '123c0ffee-dada-beef-cafe-baadc0de5678');
 });
 
 When('I send a request to update the phone numbers associated to an email', async () => {
   email = await faxToEmailApi.update({
+    serviceId: '01W4FFL35P4NC4K35FAXSERVICE',
     email: 'spaceship@galaxy.far.far.away',
     updateEmailRequestBody: {
       phoneNumbers: [
-        '+12016666666',
-        '+12017777777',
+        {
+          number: '+12016666666',
+          permissions: 'send',
+        },
+        {
+          number: '+12017777777',
+          permissions: 'receive',
+        },
       ],
     },
   });
@@ -103,12 +119,16 @@ When('I send a request to update the phone numbers associated to an email', asyn
 
 Then('the response contains the updated email', () => {
   assert.equal(email.email, 'spaceship@galaxy.far.far.away');
-  assert.deepEqual(email.phoneNumbers, ['+12016666666', '+12017777777']);
+  assert.deepEqual(email.phoneNumbers[0].number, '+12016666666');
+  assert.deepEqual(email.phoneNumbers[0].permissions, 'send');
+  assert.deepEqual(email.phoneNumbers[1].number, '+12017777777');
+  assert.deepEqual(email.phoneNumbers[1].permissions, 'receive');
   assert.equal(email.projectId, '123c0ffee-dada-beef-cafe-baadc0de5678');
 });
 
 When('I send a request to delete an email from the project', async () => {
   deleteEmailResponse = await faxToEmailApi.delete({
+    serviceId: '01W4FFL35P4NC4K35FAXSERVICE',
     email: 'spaceship@galaxy.far.far.away',
   });
 });
@@ -119,6 +139,7 @@ Then('the delete email response contains no data', () => {
 
 When('I send a request to list the phone numbers associated to an email', async () => {
   listNumbersResponse = await faxToEmailApi.listNumbers({
+    serviceId: '01W4FFL35P4NC4K35FAXSERVICE',
     email: 'cookie.monster@nom.nom',
     pageSize: 2,
   });
@@ -130,7 +151,10 @@ Then('the response contains {string} phone numbers associated to the email', (ex
 });
 
 When('I send a request to list all the phone numbers associated to an email', async () => {
-  for await (const number of faxToEmailApi.listNumbers({ email: 'cookie.monster@nom.nom' })) {
+  for await (const number of faxToEmailApi.listNumbers({
+    email: 'cookie.monster@nom.nom',
+    serviceId: '01W4FFL35P4NC4K35FAXSERVICE',
+  })) {
     numbersList.push(number);
   }
 });

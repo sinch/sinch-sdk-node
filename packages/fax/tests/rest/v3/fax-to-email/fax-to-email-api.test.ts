@@ -22,17 +22,24 @@ describe('EmailsApi', () => {
     it('should make a POST request to add an email to be used for sending and receiving faxes', async () => {
       // Given
       const requestData: Fax.AddEmailToNumbersRequestData = {
+        serviceId: 'serviceId',
         emailRequestBody: {
           email: 'user@domain.com',
           phoneNumbers: [
-            '+14155552222',
+            {
+              number: '+14155552222',
+              permissions: 'both',
+            },
           ],
         },
       };
       const expectedResponse: Fax.Email = {
         email: 'user@domain.com',
         phoneNumbers: [
-          '+14155552222',
+          {
+            number: '+14155552222',
+            permissions: 'both',
+          },
         ],
         projectId: 'projectId',
       };
@@ -52,6 +59,7 @@ describe('EmailsApi', () => {
     it('should make a DELETE request to delete an email and its numbers association', async () => {
       // Given
       const requestData: Fax.DeleteEmailRequestData = {
+        serviceId: 'serviceId',
         email: 'user@domain.com',
       };
       const expectedResponse = undefined;
@@ -71,13 +79,17 @@ describe('EmailsApi', () => {
     it('should make a GET request to list emails for the project', async () => {
       // Given
       const requestData: Fax.ListEmailsForProjectRequestData = {
+        serviceId: 'serviceId',
         pageSize: 2,
       };
       const mockData: Fax.Email[] = [
         {
           email: 'user@domain.com',
           phoneNumbers: [
-            '+14155552222',
+            {
+              number: '+14155552222',
+              permissions: 'both',
+            },
           ],
           projectId: 'projectId',
         },
@@ -133,6 +145,7 @@ describe('EmailsApi', () => {
     it('should make a GET request to list the configured numbers for an email', async () => {
       // Given
       const requestData: Fax.ListNumbersByEmailRequestData = {
+        serviceId: 'serviceId',
         email: 'user@domain.com',
         pageSize: 2,
       };
@@ -166,19 +179,32 @@ describe('EmailsApi', () => {
     it('should make a PUT request to set the numbers for an email', async () => {
       // Given
       const requestData: Fax.UpdateEmailRequestData = {
+        serviceId: 'serviceId',
         email: 'user@domain.com',
         updateEmailRequestBody: {
           phoneNumbers: [
-            '+14155552222',
-            '+14155553333',
+            {
+              number: '+14155552222',
+              permissions: 'both',
+            },
+            {
+              number: '+14155553333',
+              permissions: 'send',
+            },
           ],
         },
       };
       const expectedResponse: Fax.Email = {
         email: 'user@domain.com',
         phoneNumbers: [
-          '+14155552222',
-          '+14155553333',
+          {
+            number: '+14155552222',
+            permissions: 'both',
+          },
+          {
+            number: '+14155553333',
+            permissions: 'send',
+          },
         ],
         projectId: 'projectId',
       };

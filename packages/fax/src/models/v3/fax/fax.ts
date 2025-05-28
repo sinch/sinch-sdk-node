@@ -1,7 +1,7 @@
 import { BarCode } from '../bar-code';
 import { FaxContentUrl } from '../fax-content-url';
 import { FaxMoney } from '../fax-money';
-import { ErrorType, FaxDirection, FaxStatus, ImageConversionMethod, WebhookContentType } from '../enums';
+import { ErrorType, FaxDirection, FaxStatus, ImageConversionMethod, Resolution, WebhookContentType } from '../enums';
 
 export interface Fax {
   /** The id of a fax */
@@ -20,7 +20,7 @@ export interface Fax {
   status?: FaxStatus;
   /** The total price for this fax. This field is populated after the final fax price is calculated. */
   price?: FaxMoney;
-  /** The bar codes found in the fax. This field is populated when sinch detects bar codes on incoming faxes. */
+  /** The bar codes found in the fax. This field is populated when Sinch detects bar codes on incoming faxes. */
   barCodes?: BarCode[];
   /** A timestamp representing the time when the initial API call was made. */
   createTime?: Date;
@@ -48,14 +48,20 @@ export interface Fax {
   errorCode?: number;
   /** One of the error messages listed in the [Fax Error Messages section](https://developers.sinch.com/docs/fax/api-reference/fax/tag/Error-Messages/). */
   errorMessage?: string;
-  /** The `Id` of the project associated with the call. */
-  projectId?: string;
-  /** ID of the fax service used. */
-  serviceId?: string;
   /** The number of times the fax will be retired before cancel. Default value is set in your fax service. The maximum number of retries is 5. */
   maxRetries?: number;
   /** The number of times the fax has been retried. */
   retryCount?: number;
   /** Only shown on the fax result. This indicates if the content of the fax is stored with Sinch. (true or false) */
   hasFile?: string;
+  /** @see Resolution */
+  resolution?: Resolution;
+  /** The cover page id you want to use for the fax */
+  coverPageId?: string;
+  /** You can use this to specify custom data for your cover page that will be sent as part of the fax. It is a key value store. Read more about how to use this [here](https://developers.sinch.com/docs/fax/api-reference/fax/tag/Cover-pages/). All keys used must be lower case. */
+  coverPageData?: { [key: string]: string; };
+  /** The `Id` of the project associated with the call. */
+  projectId?: string;
+  /** ID of the fax service used. */
+  serviceId?: string;
 }
