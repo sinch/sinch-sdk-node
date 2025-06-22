@@ -18,6 +18,7 @@ export * from './list-available-regions-response';
 export * from './money';
 export * from './not-found';
 export * from './not-found-error';
+export * from './not-found-error-details';
 export * from './number-pattern-pattern';
 export * from './number-pattern-search-pattern';
 export * from './provisioning-status';

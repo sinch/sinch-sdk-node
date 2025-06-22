@@ -1,4 +1,4 @@
-import { ImageConversionMethod, WebhookContentType } from '../enums';
+import { ImageConversionMethod, Resolution, WebhookContentType } from '../enums';
 
 /**
  * You can use the default created service, or create multiple services within the same project to have different default behavior for all your different faxing use cases.
@@ -12,7 +12,7 @@ export interface ServiceRequest {
   webhookContentType?: WebhookContentType;
   /** If set to true this is the service used to create faxes when no serviceId is specified in the API endpoints. */
   defaultForProject?: boolean;
-  /** One of your sinch numbers connected to this service or any of your verified numbers */
+  /** One of your Sinch numbers connected to this service or any of your verified numbers */
   defaultFrom?: string;
   /** The number of times to retry sending a fax if it fails. Default is 3. Maximum is 5. */
   numberOfRetries?: number;
@@ -20,12 +20,16 @@ export interface ServiceRequest {
   retryDelaySeconds?: number;
   /** Determines how documents are converted to black and white on OUTBOUND faxes only. Image conversion is not done on INBOUND faxes. Defaults to value selected on Fax Service object. */
   imageConversionMethod?: ImageConversionMethod;
+  /** If a value is set, it will always add that cover page id to outbound faxes */
+  coverPageId?: string;
   /** Save fax documents with sinch when you send faxes */
   saveOutboundFaxDocuments?: boolean;
   /** Save fax documents with sinch when you receive faxes */
   saveInboundFaxDocuments?: boolean;
   /** If set to true, barcodes will be detected on incoming faxes. */
   scanIncomingBarcodes?: boolean;
+  /** @see Resolution */
+  resolution?: Resolution;
 }
 
 export interface ServiceResponse extends ServiceRequest {

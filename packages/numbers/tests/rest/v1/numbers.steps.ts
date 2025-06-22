@@ -62,7 +62,11 @@ Then('the response contains an error about the number {string} not being availab
   const notFoundError = notFound.error!;
   assert.equal(notFoundError.code, 404);
   assert.equal(notFoundError.status, 'NOT_FOUND');
-  assert.equal((notFoundError.details![0] as any).resourceName, phoneNumber);
+  assert.equal(notFoundError.details![0].type, 'ResourceInfo');
+  assert.equal(notFoundError.details![0].resourceType, 'AvailableNumber');
+  assert.equal(notFoundError.details![0].resourceName, phoneNumber);
+  assert.equal(notFoundError.details![0].owner, '');
+  assert.equal(notFoundError.details![0].description, '');
 });
 
 When('I send a request to rent a number with some criteria', async () => {
@@ -279,7 +283,11 @@ Then('the response contains an error about the number {string} not being a rente
   const notFoundError = notFound.error!;
   assert.equal(notFoundError.code, 404);
   assert.equal(notFoundError.status, 'NOT_FOUND');
-  assert.equal((notFoundError.details![0] as any).resourceName, phoneNumber);
+  assert.equal(notFoundError.details![0].type, 'ResourceInfo');
+  assert.equal(notFoundError.details![0].resourceType, 'ActiveNumber');
+  assert.equal(notFoundError.details![0].resourceName, phoneNumber);
+  assert.equal(notFoundError.details![0].owner, '');
+  assert.equal(notFoundError.details![0].description, '');
 });
 
 When('I send a request to release the phone number {string}', async (phoneNumber: string) => {

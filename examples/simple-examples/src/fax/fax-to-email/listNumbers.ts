@@ -2,7 +2,7 @@ import {
   Fax,
   PageResult,
 } from '@sinch/sdk-core';
-import { getFaxEmailFromConfig, getPrintFormat, initFaxService, printFullResponse } from '../../config';
+import { getFaxEmailFromConfig, getFaxServiceIdFromConfig, getPrintFormat, initFaxService, printFullResponse } from '../../config';
 
 const populateServiceNumbersList = (
   serviceNumbersPage: PageResult<Fax.ServicePhoneNumber>,
@@ -20,9 +20,11 @@ const populateServiceNumbersList = (
   console.log('* getNumbersByEmail *');
   console.log('*********************');
 
+  const serviceId = getFaxServiceIdFromConfig();
   const email = getFaxEmailFromConfig();
 
   const requestData: Fax.ListNumbersByEmailRequestData = {
+    serviceId,
     email,
     pageSize: 2,
   };

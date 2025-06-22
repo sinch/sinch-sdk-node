@@ -1,7 +1,7 @@
-import { RentAnyNumberRequestSmsConfiguration } from '../rent-any-number-request-sms-configuration';
-import { RentAnyNumberRequestVoiceConfiguration } from '../rent-any-number-request-voice-configuration';
 import { SearchPattern } from '../search-pattern';
 import { CapabilitiesEnum, NumberTypeEnum } from '../enums';
+import { VoiceConfiguration } from '../voice-configuration';
+import { SMSConfiguration } from '../sms-configuration';
 
 /**
  * Request message for searching and renting in one go any number that matches the search criteria.
@@ -15,10 +15,10 @@ export interface RentAnyNumberRequest {
   type: NumberTypeEnum;
   /** Number capabilities to filter by, `SMS` and/or `VOICE`. */
   capabilities?: CapabilitiesEnum[];
-  /** @see RentAnyNumberRequestSmsConfiguration */
-  smsConfiguration?: RentAnyNumberRequestSmsConfiguration;
-  /** @see RentAnyNumberRequestVoiceConfiguration */
-  voiceConfiguration?: RentAnyNumberRequestVoiceConfiguration;
+  /** @see SMSConfiguration */
+  smsConfiguration?: SMSConfiguration;
+  /** @see VoiceConfiguration */
+  voiceConfiguration?: VoiceConfiguration;
   /** The active number's callback URL to be called for provisioning / deprovisioning updates */
   callbackUrl?: string;
 }

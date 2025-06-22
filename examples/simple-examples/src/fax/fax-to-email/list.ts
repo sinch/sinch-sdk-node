@@ -1,5 +1,5 @@
 import { Fax, PageResult } from '@sinch/sdk-core';
-import { getPrintFormat, initFaxService, printFullResponse } from '../../config';
+import { getFaxServiceIdFromConfig, getPrintFormat, initFaxService, printFullResponse } from '../../config';
 
 const populateEmailsList = (
   emailsPage: PageResult<Fax.Email>,
@@ -17,7 +17,10 @@ const populateEmailsList = (
   console.log('* getEmailsForProject *');
   console.log('***********************');
 
+  const serviceId = getFaxServiceIdFromConfig();
+
   const requestData: Fax.ListEmailsForProjectRequestData = {
+    serviceId,
     pageSize: 2,
   };
 

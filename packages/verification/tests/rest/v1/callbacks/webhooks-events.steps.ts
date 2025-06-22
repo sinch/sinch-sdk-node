@@ -17,7 +17,7 @@ const processEvent = async (response: Response) => {
 Given('the Verification Webhooks handler is available', () => {
   verificationCallbackWebhook = new VerificationCallbackWebhooks({
     applicationKey: 'appKey',
-    applicationSecret: 'appSecret',
+    applicationSecret: 'YXBwU2VjcmV0', // base64 value for 'appSecret'
   });
 });
 

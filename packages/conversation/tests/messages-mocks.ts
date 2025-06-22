@@ -159,7 +159,6 @@ export const templateMessageItem: Conversation.TemplateMessageItem = {
   channel_template: {
     'KAKAOTALK': {
       template_id: 'templateIdForKakaoTalk',
-      version: '1',
       language_code: 'en-US',
     },
   },

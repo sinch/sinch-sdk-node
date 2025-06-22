@@ -46,5 +46,12 @@ Then('the response contains an error', () => {
   const notFound = JSON.parse(error.data) as Numbers.NotFound;
   const notFoundError = notFound.error!;
   assert.equal(notFoundError.code, 404);
+  assert.equal(notFoundError.message, 'Could not find project with ID: 12c0ffee-dada-beef-cafe-baadc0de5678');
   assert.equal(notFoundError.status, 'NOT_FOUND');
+  assert.equal(notFoundError.details![0].type, 'ResourceInfo');
+  assert.equal(notFoundError.details![0].resourceType, 'CallbackConfiguration');
+  assert.equal(notFoundError.details![0].resourceName, '');
+  assert.equal(notFoundError.details![0].owner, '');
+  assert.equal(notFoundError.details![0].description,
+    'Could not find project with ID: 12c0ffee-dada-beef-cafe-baadc0de5678');
 });
