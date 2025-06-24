@@ -1,0 +1,14 @@
+{
+  "name": "@sinch/code-snippets",
+  "version": "0.0.0",
+  "description": "Code snippets related to the Sinch Node.js SDK usage",
+  "author": "Sinch",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@sinch/sdk-core": "^1.2.0"
+  }
+}
