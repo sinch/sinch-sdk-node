@@ -13,18 +13,14 @@ dotenv.config();
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
-  const activeNumbersList = [];
-  // Fetch a page of Numbers
-  let response = await sinch.numbers.list({
+  const requestData = {
     regionCode: 'US',
     type: 'LOCAL',
-  });
-  // Fetch the data page by page manually
-  while (response.hasNextPage) {
-    activeNumbersList.push(...response.data);
-    response = await response.nextPage();
-  }
-  activeNumbersList.push(...response.data);
+  };
 
-  console.log(`Full list of numbers (length = ${activeNumbersList.length}):\n${JSON.stringify(activeNumbersList, null, 2)}`);
+  console.log('List of numbers printed one by one:');
+  // Use the iterator and fetch data from all the pages automatically
+  for await (const rentedNumber of sinch.numbers.list(requestData)) {
+    console.log(JSON.stringify(rentedNumber, null, 2));
+  }
 })();

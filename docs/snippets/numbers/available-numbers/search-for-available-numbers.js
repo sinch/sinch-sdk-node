@@ -16,7 +16,6 @@ dotenv.config();
   const response = await sinch.numbers.searchForAvailableNumbers({
     regionCode: 'US',
     type: 'LOCAL',
-    capabilities: ['SMS', 'VOICE'],
   });
 
   console.log(`Available numbers to rent:\n${JSON.stringify(response, null, 2)}`);

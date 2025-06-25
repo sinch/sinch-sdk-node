@@ -13,9 +13,7 @@ dotenv.config();
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
-  const response = await sinch.numbers.availableRegions.list({
-    types: ['LOCAL', 'MOBILE'],
-  });
+  const response = await sinch.numbers.availableRegions.list({});
 
   console.log(`Available regions:\n${JSON.stringify(response, null, 2)}`);
 })();

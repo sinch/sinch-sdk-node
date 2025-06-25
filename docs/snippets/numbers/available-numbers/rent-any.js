@@ -19,10 +19,6 @@ dotenv.config();
     rentAnyNumberRequestBody: {
       regionCode: 'US',
       type: 'LOCAL',
-      numberPattern: {
-        pattern: '+1781',
-        searchPattern: 'START',
-      },
       smsConfiguration: {
         servicePlanId: servicePlanIdToAssociateWithTheNumber,
       },
