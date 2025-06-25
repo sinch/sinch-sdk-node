@@ -11,7 +11,7 @@ dotenv.config();
   const keyId = process.env.SINCH_KEY_ID || 'MY_KEY_ID';
   const keySecret = process.env.SINCH_KEY_SECRET || 'MY_KEY_SECRET';
 
-  const servicePlanIdToAssociateWithTheNumber = 'MY_SERVICE_PLAN_ID';
+  const servicePlanIdToAssociateWithTheNumber = process.env.SINCH_SERVICE_PLAN_ID || 'MY_SERVICE_PLAN_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
