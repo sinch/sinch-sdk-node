@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "strict": true,
+    "target": "es2020",
+    "module": "es2020",
+    "moduleResolution": "node",
+    "pretty": true,
+    "baseUrl": ".",
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "**/*.js"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
