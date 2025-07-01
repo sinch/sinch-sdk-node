@@ -34,6 +34,7 @@ jobs:
           token: ${{ secrets.PAT_CI }}
           fetch-depth: 0
           path: sinch-sdk-mockserver
+          ref: 213a7ab2cbb607467d2d912e74877b97159bb467
 
       - name: Install Docker Compose
         run: |
