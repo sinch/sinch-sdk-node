@@ -15,7 +15,6 @@ const processEvent = async (response: Response) => {
     formattedHeaders[name.toLowerCase()] = value;
   });
   rawEvent = await response.text();
-  rawEvent = rawEvent.replace(/\s+/g, '');
   event = numbersCallbackWebhook.parseEvent(JSON.parse(rawEvent));
 };
 
@@ -23,27 +22,28 @@ Given('the Numbers Webhooks handler is available', function () {
   numbersCallbackWebhook = new NumbersCallbackWebhooks(SINCH_NUMBERS_CALLBACK_SECRET);
 });
 
-When('I send a request to trigger the success to provision to voice platform event', async () => {
+When('I send a request to trigger the "success" for "PROVISIONING_TO_VOICE_PLATFORM" event', async () => {
   const response = await fetch('http://localhost:3013/webhooks/numbers/provisioning_to_voice_platform/succeeded');
   await processEvent(response);
 });
 
-Then('the event header contains a valid signature', () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('the header of the "{}" for "{}" event contains a valid signature', (_state, _event) => {
   assert.ok(numbersCallbackWebhook.validateAuthenticationHeader(formattedHeaders, rawEvent));
 });
 
-Then('the event describes a success to provision to voice platform event', () => {
+Then('the event describes a "success" for "PROVISIONING_TO_VOICE_PLATFORM" event', () => {
   assert.equal(event.eventType, 'PROVISIONING_TO_VOICE_PLATFORM');
   assert.equal(event.status, 'SUCCEEDED');
   assert.equal(event.failureCode, null);
 });
 
-When('I send a request to trigger the failure to provision to voice platform event', async () => {
+When('I send a request to trigger the "failure" for "PROVISIONING_TO_VOICE_PLATFORM" event', async () => {
   const response = await fetch('http://localhost:3013/webhooks/numbers/provisioning_to_voice_platform/failed');
   await processEvent(response);
 });
 
-Then('the event describes a failure to provision to voice platform event', () => {
+Then('the event describes a "failure" for "PROVISIONING_TO_VOICE_PLATFORM" event', () => {
   assert.equal(event.eventType, 'PROVISIONING_TO_VOICE_PLATFORM');
   assert.equal(event.status, 'FAILED');
   assert.equal(event.failureCode, 'PROVISIONING_TO_VOICE_PLATFORM_FAILED');

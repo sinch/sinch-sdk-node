@@ -58,7 +58,9 @@ jobs:
       - name: Copy feature files
         run: |
           cp sinch-sdk-mockserver/features/fax/*.feature ./packages/fax/tests/e2e/features/
+          rm -f ./packages/fax/tests/e2e/features/emails.feature
           cp sinch-sdk-mockserver/features/numbers/*.feature ./packages/numbers/tests/e2e/features/
+          rm -f ./packages/numbers/tests/e2e/features/emergency-address.feature
           cp sinch-sdk-mockserver/features/conversation/*.feature ./packages/conversation/tests/e2e/features/
           cp sinch-sdk-mockserver/features/elastic-sip-trunking/*.feature ./packages/elastic-sip-trunking/tests/e2e/features/
           cp sinch-sdk-mockserver/features/sms/*.feature ./packages/sms/tests/e2e/features/

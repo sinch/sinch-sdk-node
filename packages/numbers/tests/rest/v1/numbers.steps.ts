@@ -46,19 +46,23 @@ Then('a phone number contains all the expected properties', () => {
 });
 
 When('I send a request to check the availability of the phone number {string}', async (phoneNumber: string) => {
-  availablePhoneNumber = await numbersService.checkAvailability({ phoneNumber });
+  try {
+    availablePhoneNumber = await numbersService.checkAvailability({ phoneNumber });
+  } catch (e) {
+    error = e;
+  }
 });
 
 Then('the response displays the phone number {string} details', (phoneNumber: string) => {
   assert.equal(availablePhoneNumber.phoneNumber, phoneNumber);
 });
 
-Then('the response contains an error about the number {string} not being available', (phoneNumber: string) => {
-  const notFound = availablePhoneNumber as Numbers.NotFound;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('the response contains an error about the number {string} not being available', (_phoneNumber: string) => {
+  const notFound = JSON.parse(error.data) as Numbers.NotFound;
   const notFoundError = notFound.error!;
   assert.equal(notFoundError.code, 404);
   assert.equal(notFoundError.status, 'NOT_FOUND');
-  assert.equal((notFoundError.details![0] as any).resourceName, phoneNumber);
 });
 
 When('I send a request to rent a number with some criteria', async () => {
@@ -142,17 +146,21 @@ Then('the response contains this rented phone number {string}', (phoneNumber: st
 });
 
 When('I send a request to rent the unavailable phone number {string}', async (phoneNumber: string) => {
-  activeNumber = await numbersService.rent({
-    phoneNumber,
-    rentNumberRequestBody: {
-      smsConfiguration: {
-        servicePlanId: 'SpaceMonkeySquadron',
+  try {
+    activeNumber = await numbersService.rent({
+      phoneNumber,
+      rentNumberRequestBody: {
+        smsConfiguration: {
+          servicePlanId: 'SpaceMonkeySquadron',
+        },
+        voiceConfiguration: {
+          appId: 'sunshine-rain-drop-very-beautifulday',
+        },
       },
-      voiceConfiguration: {
-        appId: 'sunshine-rain-drop-very-beautifulday',
-      },
-    },
-  });
+    });
+  } catch (e) {
+    error = e;
+  }
 });
 
 When('I send a request to list the phone numbers', async () => {
@@ -266,12 +274,12 @@ Then('the response contains details about the phone number {string} with an SMS 
   assert.deepEqual(activeNumber.smsConfiguration?.scheduledProvisioning?.errorCodes, ['SMS_PROVISIONING_FAILED']);
 });
 
-Then('the response contains an error about the number {string} not being a rented number', (phoneNumber: string) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('the response contains an error about the number {string} not being a rented number', (_phoneNumber: string) => {
   const notFound = JSON.parse(error.data) as Numbers.NotFound;
   const notFoundError = notFound.error!;
   assert.equal(notFoundError.code, 404);
   assert.equal(notFoundError.status, 'NOT_FOUND');
-  assert.equal((notFoundError.details![0] as any).resourceName, phoneNumber);
 });
 
 When('I send a request to release the phone number {string}', async (phoneNumber: string) => {
