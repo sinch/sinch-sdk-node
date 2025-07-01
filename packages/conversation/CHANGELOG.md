@@ -1,3 +1,6 @@
+## Version 1.2.1
+- [Tech] Update dependency `@sinch/sdk-client` to `1.2.1` - [Bugfix] Fix refresh token issue
+
 ## Version 1.2.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.2.0`.
 - [Bugfix] Fix issue with pagination to iterate over multiple pages.

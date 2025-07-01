@@ -1,3 +1,6 @@
+## Version 1.2.1
+- [Tech] Update dependency `@sinch/sdk-client` to `1.2.1` - [Bugfix] Fix refresh token issue
+
 ## Version 1.2.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.2.0`.
 - [Feature] Align "Dry Run" response interface with OAS update: `message_part?: string` becomes `number_of_parts?: number`.
