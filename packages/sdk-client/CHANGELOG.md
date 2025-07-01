@@ -1,3 +1,6 @@
+## Version 1.2.1
+- [Bugfix] Fix refresh token issue: during the refreshToken process, a missing binding was causing the API request to not be sent. The token was refreshed properly thought, enabling the later API calls to work.
+
 ## Version 1.2.0
 - [Feature] Support a new mode of pagination to support the Conversation API.
 - [Feature] Remove the `TimezoneResponse` plugin and autocorrect the timezones when reviving the dates in the API responses.
