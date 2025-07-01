@@ -11,8 +11,7 @@ export const manageExpiredToken = async (
   errorContext: ErrorContext,
   requestPlugins: RequestPlugin[] | undefined,
   requestOptions: RequestOptions,
-  callback: (props: any) => Promise<any>,
-) => {
+): Promise<RequestOptions> => {
   // Use the circuitBreaker variable to try to regenerate a valid JWT only 3 times
   if (!apiCallParameters.circuitBreaker) {
     apiCallParameters.circuitBreaker = 1;
@@ -26,12 +25,7 @@ export const manageExpiredToken = async (
       );
     }
   }
-  const optionsWithNewJwt = await invalidateAndRegenerateJwt(requestPlugins, requestOptions, errorContext);
-  const newApiCallParameters = {
-    ...apiCallParameters,
-    requestOptions: optionsWithNewJwt,
-  };
-  return callback(newApiCallParameters);
+  return await invalidateAndRegenerateJwt(requestPlugins, requestOptions, errorContext);
 };
 
 export function buildErrorContext(
