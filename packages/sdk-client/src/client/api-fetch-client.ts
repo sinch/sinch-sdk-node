@@ -26,6 +26,26 @@ import {
   hasMore,
 } from './api-client-pagination-helper';
 
+/**
+ * Context for response processing
+ */
+interface ResponseContext {
+  response: Response | undefined;
+  body: string | undefined;
+  apiCallParameters: ApiCallParameters;
+  origin: string | null;
+  errorContext: ErrorContext;
+}
+
+/**
+ * Context for plugin processing
+ */
+interface PluginContext {
+  result: Record<string, any> | undefined;
+  exception: Error | undefined;
+  responseContext: ResponseContext;
+}
+
 /** Client to process the call to the API using Fetch API */
 export class ApiFetchClient extends ApiClient {
 
@@ -48,138 +68,180 @@ export class ApiFetchClient extends ApiClient {
   }
 
   /** @inheritdoc */
-  public async processCall<T>(
-    apiCallParameters: ApiCallParameters,
-  ): Promise<T> {
-    // Read the "Origin" header if existing, for logging purposes
-    const origin = (apiCallParameters.requestOptions.headers as Headers).get('Origin');
-    const errorContext: ErrorContext = buildErrorContext(apiCallParameters, origin);
-
-    // Declare variables
-    let response: Response | undefined;
-    let body: string | undefined;
-    let exception: Error | undefined;
-
-    // Execute call
-    try {
-      response = await fetch(apiCallParameters.url, apiCallParameters.requestOptions);
-      // For OAuth flow, we check if the response is a 401 with an expired token
-      if (
-        response.status === 401
-        && response.headers.get('www-authenticate')?.includes('expired')
-      ) {
-        const requestOptions = await manageExpiredToken(
-          apiCallParameters,
-          errorContext,
-          this.apiClientOptions.requestPlugins);
-        response = await fetch(apiCallParameters.url, requestOptions);
-      }
-      body = await response.text();
-    } catch (error: any) {
-      this.buildFetchError(error, errorContext);
-    }
-
-    let result;
-    try {
-      // Try to parse the body if there is one
-      result = body ? JSON.parse(body) : undefined;
-    } catch (error: any) {
-      exception = new ResponseJSONParseError(
-        error.message || 'Fail to parse response body',
-        (response && response.status) || 0,
-        errorContext,
-        body,
-      );
-    }
-
-    // Load and invoke the response plugins to transform the response
-    const responsePlugins = this.loadResponsePlugins(
-      this.apiClientOptions.responsePlugins,
-      apiCallParameters,
-      response,
-      exception,
-      origin);
-    let transformedResponse = result;
-    for (const pluginRunner of responsePlugins) {
-      transformedResponse = await pluginRunner.transform(transformedResponse);
-    }
-
-    // If there has been an error at some point in the process, throw it
-    if (exception) {
-      throw exception;
-    }
-
-    // If everything went fine, we apply a last transformation to revive the dates, and we return the transformed API response
-    return reviveDates(transformedResponse);
+  public async processCall<T>(apiCallParameters: ApiCallParameters): Promise<T> {
+    const responseContext = await this.executeRequest(apiCallParameters);
+    return this.processResponse<T>(responseContext);
   }
 
+  /** @inheritdoc */
   public async processCallWithPagination<T>(
     apiCallParameters: ApiCallParametersWithPagination,
   ): Promise<PageResult<T>> {
-    // Read the "Origin" header if existing, for logging purposes
-    const origin = (apiCallParameters.requestOptions.headers as Headers).get('Origin');
-    const errorContext: ErrorContext = buildErrorContext(apiCallParameters, origin);
+    const responseContext = await this.executeRequest(apiCallParameters);
+    const transformedResponse = await this.processResponse<Record<string, any>>(responseContext);
+    return this.buildPageResult<T>(transformedResponse, apiCallParameters);
+  }
+
+  /** @inheritdoc */
+  public async processFileCall(apiCallParameters: ApiCallParameters): Promise<FileBuffer> {
+    const responseContext = await this.executeRequest(apiCallParameters, true);
+    return this.processFileResponse(responseContext);
+  }
+
+  private async executeRequest(
+    apiCallParameters: ApiCallParameters,
+    isFileDownload = false,
+  ): Promise<ResponseContext> {
+    const origin = this.getOriginHeader(apiCallParameters);
+    const errorContext = buildErrorContext(apiCallParameters, origin);
+
+    try {
+      const response = await this.sinchFetch(apiCallParameters, errorContext);
+      const body = isFileDownload ? undefined : await response.text();
+
+      return {
+        response,
+        body,
+        apiCallParameters,
+        origin,
+        errorContext,
+      };
+    } catch (error: any) {
+      throw this.buildFetchError(error, errorContext);
+    }
+  }
+
+  private async processResponse<T>(
+    context: ResponseContext,
+  ): Promise<T> {
+    const pluginContext = await this.parseAndValidateResponse(context);
+    const transformedResponse = await this.applyResponsePlugins(pluginContext);
+
+    if (pluginContext.exception) {
+      throw pluginContext.exception;
+    }
+
+    return reviveDates(transformedResponse) as T;
+  }
+
+  private async parseAndValidateResponse(
+    context: ResponseContext,
+  ): Promise<PluginContext> {
+    let result: Record<string, any> | undefined;
     let exception: Error | undefined;
 
-    // Execute call
+    try {
+      result = context.body ? JSON.parse(context.body) : undefined;
+    } catch (error: any) {
+      exception = new ResponseJSONParseError(
+        error.message || 'Failed to parse response body',
+        (context.response?.status || 0),
+        context.errorContext,
+        context.body,
+      );
+    }
+
+    return { result, exception, responseContext: context };
+  }
+
+  private async processFileResponse(context: ResponseContext): Promise<FileBuffer> {
+    if (!context.response) {
+      throw this.buildFetchError(
+        new Error('No response received'),
+        context.errorContext,
+      );
+    }
+
+    const buffer = await context.response.buffer();
+    const fileName = this.extractFileName(context.response.headers);
+
+    if (!buffer || !fileName) {
+      throw new Error('An error occurred while downloading the file');
+    }
+
+    return { fileName, buffer };
+  }
+
+  /**
+   * Handle fetch request with token refresh mechanism
+   * @param {ApiCallParameters} apiCallParameters
+   * @param {ErrorContext} errorContext
+   */
+  private async sinchFetch(apiCallParameters: ApiCallParameters, errorContext: ErrorContext) {
     let response = await fetch(apiCallParameters.url, apiCallParameters.requestOptions);
-    if (
-      response.status === 401
-      && response.headers.get('www-authenticate')?.includes('expired')
-    ) {
+
+    if (this.isTokenExpired(response)) {
       const requestOptions = await manageExpiredToken(
         apiCallParameters,
         errorContext,
         this.apiClientOptions.requestPlugins);
       response = await fetch(apiCallParameters.url, requestOptions);
     }
-    // When handling pagination, we won't return the raw response but a PageResult
-    const body = await response.text();
-    let result;
-    try {
-      // Try to parse the body if there is one
-      result = body ? JSON.parse(body) : undefined;
-    } catch (error: any) {
-      exception = new ResponseJSONParseError(
-        error.message || 'Fail to parse response body',
-        (response && response.status) || 0,
-        errorContext,
-        body,
-      );
-    }
 
-    // Load and invoke the response plugins to transform the response
-    const responsePlugins = this.loadResponsePlugins(
+    return response;
+  }
+
+  private isTokenExpired(response: Response): boolean {
+    return response.status === 401
+      && response.headers.get('www-authenticate')?.includes('expired') === true;
+  }
+
+  private async applyResponsePlugins(context: PluginContext): Promise<Record<string, any>> {
+    const plugins = this.loadResponsePlugins(
       this.apiClientOptions.responsePlugins,
-      apiCallParameters,
-      response,
-      exception,
-      origin);
-    let transformedResponse = result;
-    for (const pluginRunner of responsePlugins) {
-      transformedResponse = await pluginRunner.transform(transformedResponse);
-    }
+      context.responseContext,
+    );
 
-    // Revive Date objects
-    transformedResponse = reviveDates(transformedResponse);
+    return plugins.reduce(
+      async (promise, plugin) => {
+        const current = await promise;
+        return plugin.transform(current);
+      },
+      Promise.resolve(context.result || {}),
+    );
+  }
 
-    // If there has been an error at some point in the process, throw it
-    if (exception) {
-      throw exception;
-    }
+  private loadResponsePlugins(
+    plugins: ResponsePlugin<any>[] | undefined,
+    context: ResponseContext,
+  ) {
+    return (plugins || []).map(plugin =>
+      plugin.load({
+        response: context.response,
+        exception: undefined,
+        apiName: context.apiCallParameters.apiName,
+        operationId: context.apiCallParameters.operationId,
+        url: context.apiCallParameters.url,
+        requestOptions: context.apiCallParameters.requestOptions,
+        origin: context.origin,
+      }),
+    );
+  }
 
-    // Read the elements' array with its key
+  private getOriginHeader(apiCallParameters: ApiCallParameters): string | null {
+    return (apiCallParameters.requestOptions.headers as Headers).get('Origin');
+  }
+
+  private buildPageResult<T>(
+    transformedResponse: any,
+    apiCallParameters: ApiCallParametersWithPagination,
+  ): PageResult<T> {
     const responseData: Array<T> = transformedResponse[apiCallParameters.dataKey];
-    // Build the PageResult object
-    const nextPage = JSON.stringify(calculateNextPage(transformedResponse, buildPaginationContext(apiCallParameters)));
+    const paginationContext = buildPaginationContext(apiCallParameters);
+    const nextPage = JSON.stringify(calculateNextPage(transformedResponse, paginationContext));
+
     return {
       data: responseData || [],
-      hasNextPage: hasMore(transformedResponse, buildPaginationContext(apiCallParameters)),
+      hasNextPage: hasMore(transformedResponse, paginationContext),
       nextPageValue: nextPage,
       nextPage: () => createNextPageMethod<T>(
-        this, buildPaginationContext(apiCallParameters), apiCallParameters.requestOptions, nextPage),
+        this,
+        paginationContext,
+        apiCallParameters.requestOptions,
+        nextPage,
+      ),
     };
-  };
+  }
 
   private buildFetchError(error: any, errorContext: ErrorContext): Error {
     if (error instanceof GenericError) {
@@ -188,74 +250,8 @@ export class ApiFetchClient extends ApiClient {
       return new EmptyResponseError(
         error.message || 'Fail to fetch',
         errorContext,
-        undefined,
       );
     }
-  }
-
-  private loadResponsePlugins(
-    responsePlugins: ResponsePlugin<any>[] | undefined,
-    apiCallParameters: ApiCallParameters,
-    response: Response | undefined,
-    exception: Error | undefined,
-    origin: string | null,
-  ) {
-    return responsePlugins
-      ? responsePlugins.map((plugin) =>
-        plugin.load({
-          response,
-          exception,
-          apiName: apiCallParameters.apiName,
-          operationId: apiCallParameters.operationId,
-          url: apiCallParameters.url,
-          requestOptions: apiCallParameters.requestOptions,
-          origin,
-        }),
-      )
-      : [];
-  }
-
-  /** @inheritdoc */
-  public async processFileCall(
-    apiCallParameters: ApiCallParameters,
-  ): Promise<FileBuffer> {
-    // Read the "Origin" header if existing, for logging purposes
-    const origin = (apiCallParameters.requestOptions.headers as Headers).get('Origin');
-    const errorContext: ErrorContext = buildErrorContext(apiCallParameters, origin);
-
-    // Declare variables
-    let response: Response | undefined;
-    let body: Buffer | undefined;
-    let fileName: string | undefined;
-
-    // Execute call
-    try {
-      // Send the request with the refresh token mechanism
-      response = await fetch(apiCallParameters.url, apiCallParameters.requestOptions);
-      if (
-        response.status === 401
-        && response.headers.get('www-authenticate')?.includes('expired')
-      ) {
-        const requestOptions = await manageExpiredToken(
-          apiCallParameters,
-          errorContext,
-          this.apiClientOptions.requestPlugins);
-        response = await fetch(apiCallParameters.url, requestOptions);
-      }
-      body = await response.buffer();
-      fileName = this.extractFileName(response.headers);
-    } catch (error: any) {
-      this.buildFetchError(error, errorContext);
-    }
-
-    if (!body || !fileName) {
-      throw new Error('An error occurred while downloading the file');
-    }
-
-    return {
-      fileName,
-      buffer: body,
-    };
   }
 
   private extractFileName(headers: Headers) {
