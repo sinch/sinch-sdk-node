@@ -60,10 +60,6 @@ export class RequestFailedError<T> extends GenericError {
  * Empty response error class
  */
 export class EmptyResponseError extends GenericError {
-  /**
-   * Data decoded from the response body
-   */
-  public data?: string;
 
   constructor(message: string, errorContext: ErrorContext) {
     super(`[Empty response] ${message}`, errorContext);
