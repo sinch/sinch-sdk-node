@@ -105,6 +105,23 @@ describe('Voice models helpers', () => {
       expect(builtAction).toEqual(expectedResult);
     });
 
+    it('should build a connectStream action', () => {
+      const connectStreamProps: Voice.ConnectStreamProps = {
+        destination: {
+          type: 'Websocket',
+          endpoint: 'wss://example.com/stream',
+        },
+        maxDuration: 3000,
+        callHeaders: CALL_HEADERS,
+      };
+      const expectedResult: Voice.SvamlActionConnectStream = {
+        ...connectStreamProps,
+        name: 'connectStream',
+      };
+      const builtAction = Voice.svamlActionHelper.buildConnectStream(connectStreamProps);
+      expect(builtAction).toEqual(expectedResult);
+    });
+
     it('should build a continue action', () => {
       const expectedResult: Voice.SvamlActionContinue = {
         name: 'continue',
@@ -315,7 +332,7 @@ describe('Voice models helpers', () => {
   });
 
   describe('ICE response builder', () => {
-    it('should build an ICE response', () => {
+    it('should build an ICE response with a \'park\' action', () => {
       const parkProps: Voice.ParkProps = {
         introPrompt: '#tts[Welcome]',
         holdPrompt: '#tts[Thank you for your patience, your call is very important to us.]',
@@ -329,6 +346,33 @@ describe('Voice models helpers', () => {
         action: {
           name: 'park',
           ...parkProps,
+        },
+        instructions: [
+          {
+            name: 'setCookie',
+            key: 'sinch-app',
+            value: 'app-id-value',
+          },
+        ],
+      };
+      expect(iceResponse).toEqual(expectedResult);
+    });
+
+    it('should build an ICE response with a \'connectStream\' action', () => {
+      const connectStreamProps: Voice.ConnectStreamProps = {
+        destination: {
+          type: 'Websocket',
+          endpoint: 'wss://example.com/stream',
+        },
+      };
+      const iceResponse = new Voice.IceSvamletBuilder()
+        .setAction(Voice.iceActionHelper.connectStream(connectStreamProps))
+        .addInstruction(Voice.iceInstructionHelper.setCookie('sinch-app', 'app-id-value'))
+        .build();
+      const expectedResult: Voice.IceResponse = {
+        action: {
+          name: 'connectStream',
+          ...connectStreamProps,
         },
         instructions: [
           {

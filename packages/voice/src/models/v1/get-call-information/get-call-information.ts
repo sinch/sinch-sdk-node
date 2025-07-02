@@ -1,13 +1,13 @@
 import { ReasonEnum, ResultEnum } from '../enums';
 import { VoicePrice } from '../voice-price';
-import { DestinationMxp, DestinationPstn, DestinationSip } from '../destination';
+import { Participant } from '../destination';
 
 export interface GetCallInformation {
 
   /** Contains the caller information. */
-  from?: DestinationMxp | DestinationPstn | DestinationSip;
+  from?: Participant;
   /** Contains the callee information. */
-  to?: DestinationMxp | DestinationPstn | DestinationSip;
+  to?: Participant;
   /** Must be `pstn` for PSTN. */
   domain?: 'pstn' | string;
   /** The unique identifier of the call. */

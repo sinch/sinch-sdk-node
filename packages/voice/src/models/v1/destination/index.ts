@@ -1,1 +1,10 @@
-export type { Destination, DestinationDid, DestinationMxp, DestinationPstn, DestinationSip } from './destination';
+export type {
+  CalloutDestination,
+  Destination,
+  Participant,
+  DestinationDid,
+  DestinationMxp,
+  DestinationPstn,
+  DestinationSip,
+  DestinationStream,
+} from './destination';

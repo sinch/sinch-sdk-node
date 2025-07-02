@@ -31,6 +31,10 @@ import { Voice } from '@sinch/sdk-core';
           Voice.iceActionHelper.connectPstn({
             number: recipientPhoneNumber,
             cli: callingNumber,
+            amd: {
+              async: true,
+              enabled: true,
+            },
           }),
           Voice.iceInstructionHelper.say('Welcome to Sinch.', 'en-US/male'),
           Voice.iceInstructionHelper.startRecording({
