@@ -1,13 +1,12 @@
 /**
- * Known destination
+ * Known destination from event (ICE, DICE)
  */
 export type Destination = DestinationDid | DestinationMxp | DestinationPstn | DestinationSip;
 
 /**
- * Known destination
+ * Known callout destination (TTS, Conference, Custom)
  */
 export type CalloutDestination = DestinationMxp | DestinationPstn | DestinationSip;
-
 
 /**
  * An object containing information about the participant (caller or callee) of the call.
