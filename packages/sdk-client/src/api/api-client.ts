@@ -187,7 +187,7 @@ export class ApiClient {
   /**
    * Process HTTP call
    * @abstract
-   * @template T
+   * @template T - The type of the response object expected from the API call.
    * @param {ApiCallParameters} _httpCallParameters - Parameters for the HTTP call.
    * @return {Promise<T>} A promise that resolves to the result of the HTTP call.
    */
@@ -199,9 +199,9 @@ export class ApiClient {
   /**
    * Process HTTP call with Pagination
    * @abstract
-   * @template T
+   * @template T - The type of the response object expected in a page from the API call.
    * @param {ApiCallParametersWithPagination} _httpCallParameters - Parameters for the HTTP call.
-   * @return {Promise<T>} A promise that resolves to the result of the HTTP call.
+   * @return {Promise<PageResult<T>>} A promise that resolves to the result of the HTTP call.
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   processCallWithPagination<T>(_httpCallParameters: ApiCallParametersWithPagination): Promise<PageResult<T>> {
@@ -229,13 +229,15 @@ export class ApiClient {
  * @param {Object.<string, string|undefined>} object - The JSON object to filter.
  * @return {Object.<string, string>} An object without undefined values.
  */
-function filterUndefinedValues(object: { [key: string]: string | undefined }): {
+const filterUndefinedValues = (
+  object: { [key: string]: string | undefined },
+): {
   [key: string]: string;
-} {
+} => {
   return Object.keys(object)
     .filter((objectKey) => typeof object[objectKey] !== 'undefined')
     .reduce<{ [key: string]: string }>((acc, objectKey) => {
       acc[objectKey] = object[objectKey] as string;
       return acc;
     }, {});
-}
+};

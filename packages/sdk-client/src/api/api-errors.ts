@@ -8,8 +8,6 @@ export interface ErrorContext {
   operationId?: string;
   /** Base URL */
   url?: string;
-  /** Origin domain initiating the call */
-  origin?: string | null;
 }
 
 /**
@@ -18,11 +16,10 @@ export interface ErrorContext {
 export class GenericError extends Error {
   constructor(message: string, errorContext: ErrorContext) {
     const baseUrl = GenericError.formatUrl(errorContext.url);
-    const origin = GenericError.formatUrl(errorContext.origin);
     super(
       `[SDK] [apiName: ${errorContext.apiName || 'unknown'}]
         [operationId: ${errorContext.operationId || 'unknown'}] 
-        [baseUrl: ${baseUrl}] [origin: ${origin}] [errorType: SDK] ${message}`,
+        [baseUrl: ${baseUrl}] [errorType: SDK] ${message}`,
     );
   }
 
@@ -62,15 +59,10 @@ export class RequestFailedError<T> extends GenericError {
 /**
  * Empty response error class
  */
-export class EmptyResponseError<T> extends GenericError {
-  /**
-   * Data decoded from the response body
-   */
-  public data?: string;
+export class EmptyResponseError extends GenericError {
 
-  constructor(message: string, errorContext: ErrorContext, data?: T) {
+  constructor(message: string, errorContext: ErrorContext) {
     super(`[Empty response] ${message}`, errorContext);
-    this.data = JSON.stringify(data, null, 2);
   }
 }
 
