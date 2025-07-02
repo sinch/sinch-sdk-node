@@ -1,4 +1,4 @@
-import { Destination } from '../destination';
+import { CalloutDestination } from '../destination';
 
 /**
  * The custom callout, the server initiates a call from the servers that can be controlled by specifying how the call should progress at each call event.
@@ -7,7 +7,7 @@ export interface CustomCalloutRequest {
   /** The number that will be displayed as the incoming caller, to set your own CLI, you may use your verified number or your Dashboard virtual number, it must be in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format. */
   cli?: string;
   /** The type of device and number or endpoint to call. */
-  destination?: Destination;
+  destination?: CalloutDestination;
   /** When the destination picks up, this DTMF tones will be played to the callee. Valid characters in the string are "0"-"9", "#", and "w". A "w" will render a 500 ms pause. For example, "ww1234#w#" will render a 1s pause, the DTMF tones "1", "2", "3", "4" and "#" followed by a 0.5s pause and finally the DTMF tone for "#". This can be used if the callout destination for instance require a conference PIN code or an extension to be entered. */
   dtmf?: string;
   /** Can be used to input custom data. */

@@ -4,6 +4,12 @@
 export type Destination = DestinationDid | DestinationMxp | DestinationPstn | DestinationSip;
 
 /**
+ * Known destination
+ */
+export type CalloutDestination = DestinationMxp | DestinationPstn | DestinationSip;
+
+
+/**
  * An object containing information about the participant (caller or callee) of the call.
  */
 export type Participant = Destination;

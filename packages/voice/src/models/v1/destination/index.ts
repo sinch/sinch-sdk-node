@@ -1,4 +1,5 @@
 export type {
+  CalloutDestination,
   Destination,
   Participant,
   DestinationDid,

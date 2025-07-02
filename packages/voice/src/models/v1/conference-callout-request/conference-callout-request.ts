@@ -1,4 +1,4 @@
-import { Destination } from '../destination';
+import { CalloutDestination } from '../destination';
 import { ConferenceDtmfOptions } from '../conference-dtmf-options';
 import { Domain, MusicOnHold } from '../enums';
 
@@ -9,7 +9,7 @@ export interface ConferenceCalloutRequest {
   /** The number that will be displayed as the incoming caller. To set your own CLI, you may use your verified number or your Dashboard number. The number must be in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format. */
   cli?: string;
   /** The type of device and number or endpoint to call. */
-  destination: Destination;
+  destination: CalloutDestination;
   /** The conferenceId of the conference to which you want the callee to join. If the conferenceId doesn't exist a conference room will be created. */
   conferenceId: string;
   /** Options to control how DTMF signals are used by the participant in the conference. For information on how to use this feature, read more [here](https://developers.sinch.com/docs/voice/api-reference/conference-dtmf). */
