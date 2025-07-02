@@ -29,7 +29,6 @@ export class ExceptionResponse<
           apiName: context.apiName,
           operationId: context.operationId,
           url: context.url,
-          origin: context.origin,
         };
         let error: Error | undefined;
 
@@ -37,7 +36,6 @@ export class ExceptionResponse<
           error = new EmptyResponseError(
             'Fail to Fetch',
             errorContext,
-            undefined,
           );
         } else if (!context.response.ok) {
           error = new RequestFailedError<V>(
@@ -47,16 +45,13 @@ export class ExceptionResponse<
             res,
           );
         } else if (!res) {
-          res = {} as V;
           if (context.response.status !== 204
             && context.response.status !== 200
             && context.response.status !== 202
           ) {
-            res = {} as V;
-            error = new EmptyResponseError<V>(
+            error = new EmptyResponseError(
               context.response.statusText,
               errorContext,
-              res,
             );
           }
         }
