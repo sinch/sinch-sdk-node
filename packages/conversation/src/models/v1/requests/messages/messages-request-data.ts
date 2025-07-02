@@ -97,5 +97,5 @@ export interface UpdateMessageRequestData {
   /** Update message metadata request. */
   'updateMessageRequestBody': UpdateMessageRequest;
   /** Specifies the message source for which the request will be processed. Used for operations on messages in Dispatch Mode. For more information, see [Processing Modes](../../../../../conversation/processing-modes/). */
-  'messages_source'?: 'CONVERSATION_SOURCE' | 'DISPATCH_SOURCE';
+  'messages_source'?: MessageSource;
 }
