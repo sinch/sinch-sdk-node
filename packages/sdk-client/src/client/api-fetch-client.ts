@@ -33,7 +33,6 @@ interface ResponseContext {
   response: Response | undefined;
   body: string | undefined;
   apiCallParameters: ApiCallParameters;
-  origin: string | null;
   errorContext: ErrorContext;
 }
 
@@ -92,8 +91,7 @@ export class ApiFetchClient extends ApiClient {
     apiCallParameters: ApiCallParameters,
     isFileDownload = false,
   ): Promise<ResponseContext> {
-    const origin = this.getOriginHeader(apiCallParameters);
-    const errorContext = buildErrorContext(apiCallParameters, origin);
+    const errorContext = buildErrorContext(apiCallParameters);
 
     try {
       const response = await this.sinchFetch(apiCallParameters, errorContext);
@@ -103,7 +101,6 @@ export class ApiFetchClient extends ApiClient {
         response,
         body,
         apiCallParameters,
-        origin,
         errorContext,
       };
     } catch (error: any) {
@@ -213,13 +210,8 @@ export class ApiFetchClient extends ApiClient {
         operationId: context.apiCallParameters.operationId,
         url: context.apiCallParameters.url,
         requestOptions: context.apiCallParameters.requestOptions,
-        origin: context.origin,
       }),
     );
-  }
-
-  private getOriginHeader(apiCallParameters: ApiCallParameters): string | null {
-    return (apiCallParameters.requestOptions.headers as Headers).get('Origin');
   }
 
   private buildPageResult<T>(

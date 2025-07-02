@@ -8,8 +8,6 @@ export interface ErrorContext {
   operationId?: string;
   /** Base URL */
   url?: string;
-  /** Origin domain initiating the call */
-  origin?: string | null;
 }
 
 /**
@@ -18,11 +16,10 @@ export interface ErrorContext {
 export class GenericError extends Error {
   constructor(message: string, errorContext: ErrorContext) {
     const baseUrl = GenericError.formatUrl(errorContext.url);
-    const origin = GenericError.formatUrl(errorContext.origin);
     super(
       `[SDK] [apiName: ${errorContext.apiName || 'unknown'}]
         [operationId: ${errorContext.operationId || 'unknown'}] 
-        [baseUrl: ${baseUrl}] [origin: ${origin}] [errorType: SDK] ${message}`,
+        [baseUrl: ${baseUrl}] [errorType: SDK] ${message}`,
     );
   }
 

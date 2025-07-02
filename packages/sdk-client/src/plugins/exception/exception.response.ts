@@ -29,7 +29,6 @@ export class ExceptionResponse<
           apiName: context.apiName,
           operationId: context.operationId,
           url: context.url,
-          origin: context.origin,
         };
         let error: Error | undefined;
 

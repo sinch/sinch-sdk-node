@@ -29,13 +29,11 @@ export const manageExpiredToken = async (
 
 export function buildErrorContext(
   apiCallParameters: ApiCallParameters,
-  origin: string | null,
 ): ErrorContext {
   return {
     apiName: apiCallParameters.apiName,
     operationId: apiCallParameters.operationId,
     url: apiCallParameters.url,
-    origin,
   };
 }
 
