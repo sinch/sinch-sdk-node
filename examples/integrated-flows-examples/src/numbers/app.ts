@@ -18,7 +18,7 @@ dotenv.config();
   const keySecret = process.env.SINCH_KEY_SECRET || '';
   const sinchClient = new SinchClient({ projectId, keyId, keySecret });
 
-  const regionType: Numbers.RegionNumberTypeEnum = 'LOCAL';
+  const regionType: Numbers.NumberTypeEnum = 'LOCAL';
   const type: Numbers.NumberTypeEnum = 'LOCAL';
 
   console.log('+------------------------------------------------------------------------------+');
