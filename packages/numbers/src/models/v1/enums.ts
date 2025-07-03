@@ -21,3 +21,5 @@ export type NumberTypeEnum =  'MOBILE' |'LOCAL' |'TOLL_FREE' | string;
 export type SearchPatternEnum = 'START' | 'CONTAINS' | 'END' | string;
 
 export type CapabilitiesEnum = 'SMS' | 'VOICE' | string;
+
+export type OrderByEnum = 'phoneNumber' | 'displayName' | string;

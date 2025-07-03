@@ -26,6 +26,8 @@ export interface Fax {
   createTime?: Date;
   /** If the job is complete, this is a timestamp representing the time the job was completed. */
   completedTime?: Date;
+  /** The number of pages successfully sent to the receiving side in the fax. */
+  pagesSentSuccessfully?: number;
   /** Text that will be displayed at the top of each page of the fax. 50 characters maximum. Default header text is "-". Note that the header is not applied until the fax is transmitted, so it will not appear on fax PDFs or thumbnails. */
   headerText?: string;
   /** If true, page numbers will be displayed in the header. Default is true. */
