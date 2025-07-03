@@ -27,4 +27,6 @@ export interface ListMessageItemProperties {
   catalog_id?: string;
   /** Optional. Sets the text for the menu of a choice list message. */
   menu?: string;
+  /** Optional. Sets the text for the header of a WhatsApp choice list message. Ignored for other channels. */
+  whatsapp_header?: string;
 }

@@ -179,6 +179,29 @@ describe('AppApi', () => {
             channelCredentialsWeChat,
             channelCredetialsWhatsApp,
           ],
+          conversation_metadata_report_view: 'FULL',
+          processing_mode: 'DISPATCH',
+          retention_policy: {
+            retention_type: 'CONVERSATION_EXPIRE_POLICY',
+            ttl_days: 180,
+          },
+          dispatch_retention_policy: {
+            retention_type: 'MESSAGE_EXPIRE_POLICY',
+            ttl_days: 7,
+          },
+          smart_conversation: {
+            enabled: true,
+          },
+          callback_settings: {
+            secret_for_overridden_callback_urls: 'shh!!',
+          },
+          message_retry_settings: {
+            retry_duration: 3600,
+          },
+          delivery_report_based_fallback: {
+            enabled: true,
+            delivery_report_waiting_time: 60,
+          },
         },
       };
       const expectedResponse: Conversation.AppResponse = {

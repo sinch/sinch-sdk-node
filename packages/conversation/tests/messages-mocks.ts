@@ -102,6 +102,9 @@ export const choiceMessageItem: Conversation.ChoiceMessageItem = {
       },
     },
   ],
+  message_properties: {
+    whatsapp_footer: 'Order now!',
+  },
 };
 
 export const choiceMessage: Conversation.ChoiceMessage = {
@@ -222,6 +225,8 @@ export const listMessageItem: Conversation.ListMessageItem = {
   ],
   message_properties: {
     menu: 'menu text',
+    catalog_id: 'catalogId',
+    whatsapp_header: 'Tasty icecream in store for you!',
   },
 };
 
