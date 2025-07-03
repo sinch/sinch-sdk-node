@@ -12,6 +12,10 @@ import {
   UnifiedCredentials,
 } from '@sinch/sdk-client';
 
+export const DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING = '** DEPRECATION NOTICE ** '
+  + 'The "conversationRegion" property will become mandatory in the next major version of the SDK and not default '
+  + 'to "us" anymore. Please set it to a valid region.';
+
 export class ConversationDomainApi implements Api {
   public readonly apiName: string;
   public client?: ApiClient;
@@ -28,6 +32,9 @@ export class ConversationDomainApi implements Api {
    */
   public setHostname(hostname: string) {
     try {
+      // The 2 following lines are a workaround to detect if the hostname is set for the Conversation or Templates API - To be deleted in 2.0
+      this.sinchClientParameters.conversationHostname = hostname;
+      this.sinchClientParameters.conversationTemplatesHostname = hostname;
       this.client = this.getSinchClient();
       this.client.apiClientOptions.hostname = hostname;
     } catch (error) {
@@ -80,6 +87,17 @@ export class ConversationDomainApi implements Api {
   public getSinchClient(): ApiClient {
     if (!this.client) {
       const region = this.sinchClientParameters.conversationRegion ?? ConversationRegion.UNITED_STATES;
+      // Deprecation Notice - to remove in 2.0
+      const isConversationHostnameOverridden = !!this.sinchClientParameters.conversationHostname
+        && this.apiName !== 'TemplatesV1Api'
+        && this.apiName !== 'TemplatesV2Api';
+      const isConversationTemplatesHostnameOverridden = !!this.sinchClientParameters.conversationTemplatesHostname
+        && (this.apiName === 'TemplatesV1Api' || this.apiName === 'TemplatesV2Api');
+      if (!this.sinchClientParameters.conversationRegion
+        && !isConversationHostnameOverridden
+        && !isConversationTemplatesHostnameOverridden) {
+        console.warn(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+      }
       if(!Object.values(SupportedConversationRegion).includes(region as SupportedConversationRegion)) {
         console.warn(`The region "${region}" is not known as a supported region for the Conversation API`);
       }
