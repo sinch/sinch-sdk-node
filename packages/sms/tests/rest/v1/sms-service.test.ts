@@ -1,5 +1,6 @@
 import { SinchClientParameters, SmsRegion } from '@sinch/sdk-client';
 import { BatchesApi, DeliveryReportsApi, GroupsApi, InboundsApi, SmsService } from '../../../src';
+import { DEFAULT_SMS_REGION_DEPRECATION_WARNING } from '../../../src/rest/v1/sms-domain-api';
 
 describe('SMS Service', () => {
   const DEFAULT_HOSTNAME = 'https://zt.us.sms.api.sinch.com';
@@ -32,9 +33,16 @@ describe('SMS Service', () => {
     expect(smsService.inbounds).toBeInstanceOf(InboundsApi);
     expect(smsService.groups).toBeInstanceOf(GroupsApi);
     expect(smsService.batches.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(smsService.deliveryReports.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(smsService.inbounds.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(smsService.groups.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
   });
 
   it('should set a custom hostname for all APIs', () => {
