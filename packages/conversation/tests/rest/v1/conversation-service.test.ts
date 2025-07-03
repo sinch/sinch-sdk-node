@@ -12,6 +12,7 @@ import {
   TranscodingApi,
   WebhooksApi,
 } from '../../../src';
+import { DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING } from '../../../src/rest/v1/conversation-domain-api';
 
 describe('Conversation Service', () => {
   const DEFAULT_HOSTNAME = 'https://us.conversation.api.sinch.com';
@@ -20,6 +21,15 @@ describe('Conversation Service', () => {
   const DEFAULT_HOSTNAME_TEMPLATES = 'https://us.template.api.sinch.com';
   const EUROPE_HOSTNAME_TEMPLATES = 'https://eu.template.api.sinch.com';
   const CUSTOM_HOSTNAME_TEMPLATES = 'https://templates.new.host.name';
+  let warnSpy: jest.SpyInstance<void, [message?: any, ...optionalParams: any[]]>;
+
+  beforeEach(() => {
+    warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('should initialize all the APIs', () => {
     // Given
@@ -67,7 +77,10 @@ describe('Conversation Service', () => {
     expect(conversationService.conversation.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
     expect(conversationService.webhooks.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
     expect(conversationService.templatesV1.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME_TEMPLATES);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(conversationService.templatesV2.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME_TEMPLATES);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
   });
 
   it('should set a custom hostnames for the templates APIs only', () => {
@@ -84,15 +97,33 @@ describe('Conversation Service', () => {
 
     // Then
     expect(conversationService.contact.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(conversationService.app.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(conversationService.events.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(conversationService.messages.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(conversationService.transcoding.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(conversationService.capability.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(conversationService.conversation.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(conversationService.webhooks.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(conversationService.templatesV1.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(conversationService.templatesV2.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
   });
 
   it('should update the default region for all APIs', () => {
@@ -109,14 +140,24 @@ describe('Conversation Service', () => {
 
     // Then
     expect(conversationService.contact.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(conversationService.app.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(conversationService.events.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(conversationService.messages.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(conversationService.transcoding.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(conversationService.capability.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(conversationService.conversation.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(conversationService.webhooks.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(conversationService.templatesV1.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME_TEMPLATES);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(conversationService.templatesV2.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME_TEMPLATES);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
   });
 });

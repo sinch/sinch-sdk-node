@@ -32,9 +32,12 @@ export class ConversationDomainApi implements Api {
    */
   public setHostname(hostname: string) {
     try {
-      // The 2 following lines are a workaround to detect if the hostname is set for the Conversation or Templates API - To be deleted in 2.0
-      this.sinchClientParameters.conversationHostname = hostname;
-      this.sinchClientParameters.conversationTemplatesHostname = hostname;
+      // The next "if/else" block is a workaround to detect if the hostname is set for the Conversation or Templates API - To be deleted in 2.0
+      if (this.apiName === 'TemplatesV1Api' || this.apiName === 'TemplatesV2Api') {
+        this.sinchClientParameters.conversationTemplatesHostname = hostname;
+      } else {
+        this.sinchClientParameters.conversationHostname = hostname;
+      }
       this.client = this.getSinchClient();
       this.client.apiClientOptions.hostname = hostname;
     } catch (error) {

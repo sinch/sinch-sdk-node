@@ -5,6 +5,15 @@ describe('SMS Service', () => {
   const DEFAULT_HOSTNAME = 'https://zt.us.sms.api.sinch.com';
   const EUROPE_HOSTNAME = 'https://zt.eu.sms.api.sinch.com';
   const CUSTOM_HOSTNAME = 'https://new.host.name';
+  let warnSpy: jest.SpyInstance<void, [message?: any, ...optionalParams: any[]]>;
+
+  beforeEach(() => {
+    warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('should initialize all the APIs', () => {
     // Given
@@ -42,9 +51,13 @@ describe('SMS Service', () => {
 
     // Then
     expect(smsService.batches.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(smsService.deliveryReports.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(smsService.inbounds.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(smsService.groups.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
   });
 
   it('should update the default region for all APIs', () => {
@@ -61,8 +74,12 @@ describe('SMS Service', () => {
 
     // Then
     expect(smsService.batches.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(smsService.deliveryReports.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(smsService.inbounds.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(smsService.groups.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
   });
 });
