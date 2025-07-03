@@ -1,4 +1,4 @@
-import { CapabilitiesEnum, NumberTypeEnum, SearchPatternEnum } from '../../enums';
+import { CapabilitiesEnum, NumberTypeEnum, OrderByEnum, SearchPatternEnum } from '../../enums';
 import { ActiveNumberRequest } from '../../active-number-request';
 
 export interface GetActiveNumberRequestData {
@@ -22,12 +22,14 @@ export interface ListActiveNumbersRequestData {
   /** The next page token value returned from a previous List request, if any. */
   pageToken?: string;
   /** Supported fields for ordering by `phoneNumber` or `displayName`. */
-  orderBy?: string;
+  orderBy?: OrderByEnum;
 }
+
 export interface ReleaseNumberRequestData {
   /** Output only. The phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format with leading `+`. */
   phoneNumber: string;
 }
+
 export interface UpdateActiveNumberRequestData {
   /** Output only. The phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format with leading `+`. */
   phoneNumber: string;

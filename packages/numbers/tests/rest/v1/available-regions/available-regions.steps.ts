@@ -5,7 +5,7 @@ import * as assert from 'assert';
 let regionsApi: AvailableRegionsApi;
 let regions: Numbers.ListAvailableRegionsResponse;
 
-const countRegionType = (regions: Numbers.AvailableRegion[], type: Numbers.RegionNumberTypeEnum) => {
+const countRegionType = (regions: Numbers.AvailableRegion[], type: Numbers.NumberTypeEnum) => {
   return regions.reduce((count, region) => {
     return region.types?.includes(type) ? count + 1 : count;
   }, 0);
