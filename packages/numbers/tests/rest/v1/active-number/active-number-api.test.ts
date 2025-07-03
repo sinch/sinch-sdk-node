@@ -76,6 +76,7 @@ describe('ActiveNumberApi', () => {
       const requestData: Numbers.ListActiveNumbersRequestData = {
         type: 'LOCAL',
         regionCode: 'US',
+        orderBy: 'phoneNumber',
       };
       const mockData: Numbers.ActiveNumber[] = [
         {

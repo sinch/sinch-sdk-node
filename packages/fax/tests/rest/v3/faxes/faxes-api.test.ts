@@ -83,6 +83,7 @@ describe('FaxesApi', () => {
         serviceId: 'serviceId',
         maxRetries: 3,
         createTime: new Date('2024-02-27T12:28:09.000Z'),
+        pagesSentSuccessfully: 1,
         headerPageNumbers: true,
         retryCount: 3,
         contentUrl: [
