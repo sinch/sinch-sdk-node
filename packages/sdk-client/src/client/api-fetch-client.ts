@@ -15,6 +15,7 @@ import {
   EmptyResponseError,
   ErrorContext,
   GenericError,
+  RequestFailedError,
   ResponseJSONParseError,
 } from '../api/api-errors';
 import fetch, { Response, Headers } from 'node-fetch';
@@ -119,6 +120,14 @@ export class ApiFetchClient extends ApiClient {
         apiCallParameters.requestOptions,
         this.processCall);
     }
+    if (!response.ok) {
+      throw new RequestFailedError(
+        response.statusText,
+        response.status,
+        errorContext,
+        response,
+      );
+    }
     return response;
   }
 
@@ -150,6 +159,14 @@ export class ApiFetchClient extends ApiClient {
         this.apiClientOptions.requestPlugins,
         apiCallParameters.requestOptions,
         this.processCallWithPagination);
+    }
+    if (!response.ok) {
+      throw new RequestFailedError(
+        response.statusText,
+        response.status,
+        errorContext,
+        response,
+      );
     }
     // When handling pagination, we won't return the raw response but a PageResult
     const body = await response.text();
