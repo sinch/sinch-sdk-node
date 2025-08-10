@@ -142,7 +142,7 @@ export class ApiFetchClient extends ApiClient {
   }
 
   private async processFileResponse(context: ResponseContext): Promise<FileBuffer> {
-    if (!context.response) {
+    if (!context.response || !context.response.ok) {
       throw this.buildFetchError(
         new Error('No response received'),
         context.errorContext,
