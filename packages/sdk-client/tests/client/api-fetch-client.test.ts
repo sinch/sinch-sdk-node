@@ -179,3 +179,48 @@ describe('manageExpiredToken', () => {
   });
 
 });
+
+describe('processFileResponse', () => {
+
+  it('should return file buffer and file name when response is ok', async () => {
+    // Given
+    const apiClient = new ApiFetchClient({ requestPlugins: [] });
+    const bufferData = Buffer.from('file-content', 'utf-8');
+    const mockResponse = new Response('', { status: 200 });
+    mockResponse.buffer = jest.fn().mockResolvedValue(bufferData);
+    mockResponse.headers.set('content-disposition', 'attachment; filename="test.pdf"');
+
+    const context = {
+      response: mockResponse,
+      body: undefined,
+      apiCallParameters: {} as any,
+      errorContext: {} as any,
+    };
+
+    // When
+    const result = await apiClient['processFileResponse'](context);
+
+    // Then
+    expect(result).toEqual({
+      fileName: 'test.pdf',
+      buffer: bufferData,
+    });
+  });
+
+  it('should throw an error if response is not ok', async () => {
+    // Given
+    const apiClient = new ApiFetchClient({ requestPlugins: [] });
+    const mockResponse = new Response('', { status: 404 });
+    const context = {
+      response: mockResponse,
+      body: undefined,
+      apiCallParameters: {} as any,
+      errorContext: {} as any,
+    };
+
+    // When & Then
+    await expect(apiClient['processFileResponse'](context))
+      .rejects
+      .toThrow('No response received');
+  });
+});
