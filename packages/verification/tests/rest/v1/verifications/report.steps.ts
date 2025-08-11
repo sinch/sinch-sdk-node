@@ -16,9 +16,10 @@ Given('the Verification service "Report" is available', () => {
   reportVerificationApi = verificationService.verifications;
 });
 
-When('I send a request to report an SMS verification with the verification ID', async () => {
+// eslint-disable-next-line max-len
+When('I send a request to report an SMS verification by {string} with the verification ID {string}', async (_method: string, verificationId: string) => {
   reportSmsResponse = await reportVerificationApi.reportSmsById({
-    id: '1ce0ffee-c0de-5eed-d00d-f00dfeed1337',
+    id: verificationId,
     reportSmsVerificationByIdRequestBody: {
       sms: {
         code: 'OQP1',
@@ -27,9 +28,10 @@ When('I send a request to report an SMS verification with the verification ID', 
   });
 });
 
-When('I send a request to report an SMS verification with the phone number', async () => {
+// eslint-disable-next-line max-len
+When('I send a request to report an SMS verification by {string} with the phone number {string}', async (_method: string, phoneNumber: string) => {
   reportSmsResponse = await reportVerificationApi.reportSmsByIdentity({
-    endpoint: '+46123456789',
+    endpoint: phoneNumber,
     reportSmsVerificationByIdentityRequestBody: {
       sms: {
         code: 'OQP1',
@@ -38,16 +40,18 @@ When('I send a request to report an SMS verification with the phone number', asy
   });
 });
 
-Then('the response contains the details of an SMS verification report', () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('the response by {string} contains the details of an SMS verification report', (_method: string) => {
   assert.equal(reportSmsResponse.id, '1ce0ffee-c0de-5eed-d00d-f00dfeed1337');
   assert.equal(reportSmsResponse.method, 'sms');
   const successfulStatus: Verification.VerificationStatusEnum = 'SUCCESSFUL';
   assert.equal(reportSmsResponse.status, successfulStatus);
 });
 
-When('I send a request to report a Phone Call verification with the verification ID', async () => {
+// eslint-disable-next-line max-len
+When('I send a request to report a Phone Call verification by {string} with the verification ID {string}', async (_method: string, verificationId: string) => {
   reportPhoneCallResponse = await reportVerificationApi.reportPhoneCallById({
-    id: '1ce0ffee-c0de-5eed-d11d-f00dfeed1337',
+    id: verificationId,
     reportPhoneCallVerificationByIdRequestBody: {
       phoneCall: {
         code: '123456',
@@ -56,9 +60,10 @@ When('I send a request to report a Phone Call verification with the verification
   });
 });
 
-When('I send a request to report a Phone Call verification with the phone number', async () => {
+// eslint-disable-next-line max-len
+When('I send a request to report a Phone Call verification by {string} with the phone number {string}', async (_method: string, phoneNumber: string) => {
   reportPhoneCallResponse = await reportVerificationApi.reportPhoneCallByIdentity({
-    endpoint: '+33612345678',
+    endpoint: phoneNumber,
     reportPhoneCallVerificationByIdentityRequestBody: {
       phoneCall: {
         code: '123456',
@@ -67,7 +72,8 @@ When('I send a request to report a Phone Call verification with the phone number
   });
 });
 
-Then('the response contains the details of a Phone Call verification report', () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('the response by {string} contains the details of a Phone Call verification report', (_method: string) => {
   assert.equal(reportPhoneCallResponse.id, '1ce0ffee-c0de-5eed-d11d-f00dfeed1337');
   assert.equal(reportPhoneCallResponse.method, 'callout');
   const successfulStatus: Verification.VerificationStatusEnum = 'SUCCESSFUL';
@@ -75,9 +81,10 @@ Then('the response contains the details of a Phone Call verification report', ()
   assert.equal(reportPhoneCallResponse.callComplete, true);
 });
 
-When('I send a request to report a Flash Call verification with the verification ID', async () => {
+// eslint-disable-next-line max-len
+When('I send a request to report a Flash Call verification by {string} with the verification ID {string}', async (_method: string, verificationId: string) => {
   reportFlashCallResponse = await reportVerificationApi.reportFlashCallById({
-    id: '1ce0ffee-c0de-5eed-d11d-f00dfeed1337',
+    id: verificationId,
     reportFlashCallVerificationByIdRequestBody: {
       flashCall: {
         cli: '+18156540001',
@@ -86,9 +93,10 @@ When('I send a request to report a Flash Call verification with the verification
   });
 });
 
-When('I send a request to report a Flash Call verification with the phone number', async () => {
+// eslint-disable-next-line max-len
+When('I send a request to report a Flash Call verification by {string} with the phone number {string}', async (_method: string, phoneNumber: string) => {
   reportFlashCallResponse = await reportVerificationApi.reportFlashCallByIdentity({
-    endpoint: '+33612345678',
+    endpoint: phoneNumber,
     reportFlashCallVerificationByIdentityRequestBody: {
       flashCall: {
         cli: '+18156540001',
@@ -97,7 +105,8 @@ When('I send a request to report a Flash Call verification with the phone number
   });
 });
 
-Then('the response contains the details of a Flash Call verification report', () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('the response by {string} contains the details of a Flash Call verification report', (_method: string) => {
   assert.equal(reportFlashCallResponse.id, '1ce0ffee-c0de-5eed-d22d-f00dfeed1337');
   assert.equal(reportFlashCallResponse.method, 'flashcall');
   const successfulStatus: Verification.VerificationStatusEnum = 'SUCCESSFUL';
@@ -106,7 +115,8 @@ Then('the response contains the details of a Flash Call verification report', ()
   assert.equal(reportFlashCallResponse.callComplete, true);
 });
 
-Then('the response contains the details of a failed Flash Call verification report', () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('the response by {string} contains the details of a failed Flash Call verification report', (_method: string) => {
   assert.equal(reportFlashCallResponse.id, '1ce0ffee-c0de-5eed-d22d-f00dfeed1337');
   assert.equal(reportFlashCallResponse.method, 'flashcall');
   const failStatus: Verification.VerificationStatusEnum = 'FAIL';
