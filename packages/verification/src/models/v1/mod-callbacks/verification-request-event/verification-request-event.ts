@@ -8,7 +8,7 @@ export interface VerificationRequestEvent {
   /** The type of the event. */
   event: 'VerificationRequestEvent';
   /** The verification method. */
-  method: MethodEnum;
+  method: VerificationRequestMethod;
   /** @see Identity */
   identity: Identity;
   /** The amount of money and currency of the verification request. */
@@ -23,5 +23,7 @@ export interface VerificationRequestEvent {
   acceptLanguage?: string[];
 }
 
+/** @deprecated Use VerificationRequestMethod instead */
 export type MethodEnum = 'sms' | 'flashcall' | 'callout';
 
+export type VerificationRequestMethod = 'sms' | 'flashcall' | 'callout';

@@ -8,7 +8,7 @@ export interface VerificationResultEvent {
   /** The type of the event. */
   event: 'VerificationResultEvent';
   /** The verification method. */
-  method: MethodEnum;
+  method: VerificationResultMethod;
   /** @see Identity */
   identity: Identity;
   /** The status of the verification request. */
@@ -23,4 +23,4 @@ export interface VerificationResultEvent {
   custom?: string;
 }
 
-export type MethodEnum = 'sms' | 'flashcall' | 'callout' | 'seamless';
+export type VerificationResultMethod = 'sms' | 'flashcall' | 'callout' | 'seamless';

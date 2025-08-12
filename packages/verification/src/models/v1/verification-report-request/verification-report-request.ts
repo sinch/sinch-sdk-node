@@ -16,7 +16,7 @@ export interface FlashCallVerificationReportRequest {
 }
 
 interface FlashCallContent {
-  /** The caller ID of the FlashCall. */
+  /** The caller ID of the flash call. Caller ID in flash call verification refers to the phone number from which the call was made to the user's device. The verification system uses this incoming number as One Time Password (OTP) */
   cli: string;
 }
 

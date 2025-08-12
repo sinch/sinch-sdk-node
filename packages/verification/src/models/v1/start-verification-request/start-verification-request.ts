@@ -57,7 +57,7 @@ export interface SmsOptions {
 export type CodeType = 'Numeric' | 'Alpha' | 'Alphanumeric';
 
 /**
- * An optional object for flashCall verifications. It allows you to specify dial time out parameter for flashCall. FlashCallOptions object can be specified optionally, and only if the verification request was triggered from your backend (no SDK client) through an [Application signed request](/docs/voice/api-reference/authentication/signed-request).
+ * An optional object for Flash Call Verification, considered only when the verification request originates from your backend (not an SDK client) via an [Application signed request](https://developers.sinch.com/docs/voice/api-reference/authentication/signed-request).
  */
 export interface FlashCallOptions {
   /** The dial timeout in seconds. */
