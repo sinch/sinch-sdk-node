@@ -1,3 +1,20 @@
+## Version 1.3.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.3.0`.
+- [Feature] Fix `MediaProperties` model and support media property
+- [Feature] Support channel specific messages for whatsapp messages
+- [Feature] Support Line Enterprise credentials
+- [Feature] Support `whatsapp_footer` in Choice message and `whatsapp_header` in List message
+- [Feature] Support string input when parsing webhook events
+- **Deprecations**
+  - Inside a Conversation Message, the `message_status` property is deprecated, will be removed in 2.0
+  - Create conversation request: `metadata` property is deprecated, will be removed in 2.0
+  - Type `IdentifiedByItem` is deprecated, use `ChannelIdentities` instead
+  - Interface `EventInboundEvent` is deprecated, use `EventInboundContactEvent` or `EventInboundContactMessageEvent` instead
+  - *Warning about future deprecation*: `region` will become mandatory as a configuration parameter
+
+## Version 1.2.1
+- [Tech] Update dependency `@sinch/sdk-client` to `1.2.1` - [Bugfix] Fix refresh token issue
+
 ## Version 1.2.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.2.0`.
 - [Bugfix] Fix issue with pagination to iterate over multiple pages.

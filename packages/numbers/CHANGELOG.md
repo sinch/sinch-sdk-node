@@ -1,3 +1,17 @@
+## Version 1.3.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.3.0`.
+- [Feature] Support string input when parsing webhook events
+- [Feature] Details of an NotFound error have their own type `NotFoundErrorDetails[]` instead of a generic `object[]`
+- [Feature] Ordering rented number parameter defines its own enum `OrderByEnum`
+- [Feature] Remove unused models: `ListAvailableNumberRequest`, `NumberPatternPattern`, `NumberPatternSearchPattern` and the enum `NumberPatternSearchPatternEnum`
+- **Deprecations**:
+  - Interface `RentAnyNumberRequestSmsConfiguration` is deprecated, use `SMSConfiguration` instead
+  - Interface `RentAnyNumberRequestVoiceConfiguration` is deprecated, use `VoiceConfiguration` instead
+  - Type `RegionNumberTypeEnum` is deprecated, use `NumberTypeEnum` instead
+
+## Version 1.2.1
+- [Tech] Update dependency `@sinch/sdk-client` to `1.2.1` - [Bugfix] Fix refresh token issue
+
 ## Version 1.2.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.2.0`.
 - [Bugfix] Remove the "scheduledProvisioning" properties for SMS and Voice in the update number request.
