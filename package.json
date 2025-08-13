@@ -37,7 +37,7 @@
     "eslint-plugin-jest-formatting": "^3.1.0",
     "eslint-plugin-prettier": "^5.0.1",
     "jest": "^30.0.5",
-    "lerna": "^8.2.3"
+    "lerna": "^7.4.2"
   },
   "engines": {
     "node": ">=18.0.0"
