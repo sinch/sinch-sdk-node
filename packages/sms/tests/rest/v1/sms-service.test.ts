@@ -1,10 +1,20 @@
 import { SinchClientParameters, SmsRegion } from '@sinch/sdk-client';
 import { BatchesApi, DeliveryReportsApi, GroupsApi, InboundsApi, SmsService } from '../../../src';
+import { DEFAULT_SMS_REGION_DEPRECATION_WARNING } from '../../../src/rest/v1/sms-domain-api';
 
 describe('SMS Service', () => {
   const DEFAULT_HOSTNAME = 'https://zt.us.sms.api.sinch.com';
   const EUROPE_HOSTNAME = 'https://zt.eu.sms.api.sinch.com';
   const CUSTOM_HOSTNAME = 'https://new.host.name';
+  let warnSpy: jest.SpyInstance<void, [message?: any, ...optionalParams: any[]]>;
+
+  beforeEach(() => {
+    warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('should initialize all the APIs', () => {
     // Given
@@ -23,9 +33,16 @@ describe('SMS Service', () => {
     expect(smsService.inbounds).toBeInstanceOf(InboundsApi);
     expect(smsService.groups).toBeInstanceOf(GroupsApi);
     expect(smsService.batches.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(smsService.deliveryReports.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(smsService.inbounds.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(smsService.groups.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
   });
 
   it('should set a custom hostname for all APIs', () => {
@@ -42,9 +59,13 @@ describe('SMS Service', () => {
 
     // Then
     expect(smsService.batches.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(smsService.deliveryReports.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(smsService.inbounds.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(smsService.groups.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
   });
 
   it('should update the default region for all APIs', () => {
@@ -61,8 +82,12 @@ describe('SMS Service', () => {
 
     // Then
     expect(smsService.batches.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(smsService.deliveryReports.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(smsService.inbounds.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(smsService.groups.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
   });
 });

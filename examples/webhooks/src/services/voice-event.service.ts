@@ -31,7 +31,12 @@ export class VoiceEventService {
   private handleIceRequest(event: Voice.IceRequest, res: Response) {
     console.log(`ICE request: CLI = ${event.cli} - To = ${event.to?.endpoint} (${event.to?.type})`)
     const iceResponse = new Voice.IceSvamletBuilder()
-      .setAction(Voice.iceActionHelper.hangup())
+      .setAction(Voice.iceActionHelper.connectStream({
+        destination: {
+          type: 'Websocket',
+          endpoint: 'wss://example.com/stream',
+        },
+      }))
       .addInstruction(Voice.iceInstructionHelper.say('Thank you for calling Sinch! This call will now end.', 'en-US'))
       .build();
     res.status(200).json(iceResponse);

@@ -3,6 +3,7 @@ import {
   ConnectMxpProps,
   ConnectPstnProps,
   ConnectSipProps,
+  ConnectStreamProps,
   ParkProps,
   RunMenuProps,
   StartRecordingOptions,
@@ -10,6 +11,7 @@ import {
   SvamlActionConnectMxp,
   SvamlActionConnectPstn,
   SvamlActionConnectSip,
+  SvamlActionConnectStream,
   SvamlActionContinue,
   SvamlActionHangup,
   SvamlActionPark,
@@ -111,6 +113,12 @@ export const svamlActionHelper = {
       ...connectSipProps,
     };
   },
+  buildConnectStream: (connectStreamProps: ConnectStreamProps): SvamlActionConnectStream => {
+    return {
+      name: 'connectStream',
+      ...connectStreamProps,
+    };
+  },
   buildContinue: (): SvamlActionContinue => {
     return {
       name: 'continue',
@@ -208,6 +216,7 @@ export const iceActionHelper = {
   connectMxp: svamlActionHelper.buildConnectMxp,
   connectConf: svamlActionHelper.buildConnectConf,
   connectSip: svamlActionHelper.buildConnectSip,
+  connectStream: svamlActionHelper.buildConnectStream,
   runMenu: svamlActionHelper.buildRunMenu,
   park: svamlActionHelper.buildPark,
 };
@@ -218,6 +227,7 @@ export const iceInstructionHelper = {
   sendDtmf: svamlInstructionHelper.buildSendDtmf,
   setCookie: svamlInstructionHelper.buildSetCookie,
   startRecording: svamlInstructionHelper.buildStartRecording,
+  stopRecording: svamlInstructionHelper.buildStopRecording,
   answer: svamlInstructionHelper.buildAnswer,
 };
 
@@ -225,6 +235,7 @@ export const pieActionHelper = {
   hangup: svamlActionHelper.buildHangup,
   continue: svamlActionHelper.buildContinue,
   connectConf: svamlActionHelper.buildConnectConf,
+  connectPstn: svamlActionHelper.buildConnectPstn,
   connectSip: svamlActionHelper.buildConnectSip,
   runMenu: svamlActionHelper.buildRunMenu,
 };

@@ -3,6 +3,7 @@ export {
 } from './api-client-options';
 export {
   buildOAuth2ApiClientOptions,
+  buildMailgunApiClientOptions,
   buildApplicationSignedApiClientOptions,
   buildFlexibleOAuth2OrApiTokenApiClientOptions,
 } from './api-client-options-helper';

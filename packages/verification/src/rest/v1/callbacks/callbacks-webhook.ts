@@ -1,8 +1,13 @@
-import { VerificationCallbackEvent, VerificationRequestEvent, VerificationResultEvent } from '../../../models';
+import {
+  VerificationCallbackEvent,
+  VerificationRequestEvent,
+  VerificationResultEvent,
+  VerificationSmsDeliveredEvent,
+} from '../../../models';
 import { CallbackProcessor, SinchClientParameters, validateAuthenticationHeader } from '@sinch/sdk-client';
 import { IncomingHttpHeaders } from 'http';
 
-/** @deprecated Use Verification.VerificationCallback instead */
+/** @deprecated Use Verification.VerificationCallbackEvent instead */
 export type VerificationCallback = VerificationRequestEvent | VerificationResultEvent;
 
 export class VerificationCallbackWebhooks implements CallbackProcessor<VerificationCallbackEvent>{
@@ -43,12 +48,17 @@ export class VerificationCallbackWebhooks implements CallbackProcessor<Verificat
    * @return {VerificationCallbackEvent} - The parsed verification event object.
    */
   public parseEvent(eventBody: any): VerificationCallbackEvent {
+    if (typeof eventBody === 'string') {
+      eventBody = JSON.parse(eventBody);
+    }
     if (eventBody.event) {
       switch (eventBody.event) {
       case 'VerificationRequestEvent':
         return eventBody as VerificationRequestEvent;
       case 'VerificationResultEvent':
         return eventBody as VerificationResultEvent;
+      case 'VerificationSmsDeliveredEvent':
+        return eventBody as VerificationSmsDeliveredEvent;
       default:
         throw new Error(`Unknown Verification event type: ${eventBody.event}`);
       }

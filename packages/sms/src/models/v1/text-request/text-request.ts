@@ -2,7 +2,7 @@ import { ParameterGroup } from '../parameter-group';
 import { DeliveryReportEnum } from '../enums';
 
 export interface TextRequest {
-  /** List of Phone numbers and group IDs that will receive the batch. <a href=\"https://community.sinch.com/t5/Glossary/MSISDN/ta-p/7628\" target=\"_blank\">More info</a> */
+  /** List of Phone numbers and group IDs that will receive the batch. [More info](https://community.sinch.com/t5/Glossary/MSISDN/ta-p/7628) */
   to: string[];
   /** Sender number. Must be valid phone number, short code or alphanumeric. Required if Automatic Default Originator not configured. */
   from?: string;
@@ -24,7 +24,7 @@ export interface TextRequest {
   callback_url?: string;
   /** The client identifier of a batch message. If set, the identifier will be added in the delivery report/callback of this batch */
   client_reference?: string;
-  /** If set to `true`, then [feedback](/docs/sms/api-reference/sms/tag/Batches/#tag/Batches/operation/deliveryFeedback) is expected after successful delivery. */
+  /** If set to `true`, then [feedback](https://developers.sinch.com/docs/sms/api-reference/sms/tag/Batches/#tag/Batches/operation/deliveryFeedback) is expected after successful delivery. */
   feedback_enabled?: boolean;
   /** Shows message on screen without user interaction while not saving the message to the inbox. */
   flash_message?: boolean;

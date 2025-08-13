@@ -1,3 +1,18 @@
+## Version 1.3.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.3.0`.
+- [Feature] Add enum values for properties previsously defined as `string`
+- [Feature] Support Voice ICE instruction `stopRecording`
+- [Feature] Support Voice PIE action `connectPstn`
+- [Feature] Support Voice ICE action `connectStream` (beta feature)
+- [Feature] Support string input when parsing webhook events
+- **Deprecations**
+  - Interface `Participant` is deprecated, use `Destination` instead
+  - Endpoint `QueryNumber` is deprecated, it will be replaced by the `NumberLookup` API
+
+## Version 1.2.1
+- [Tech] Update dependency `@sinch/sdk-client` to `1.2.1`
+- [Bugfix] Fix refresh token issue
+
 ## Version 1.2.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.2.0`.
 - [Feature] In the interface `Participant`, the property `type` defines a list of string values on top of a generic string.

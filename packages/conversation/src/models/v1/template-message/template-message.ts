@@ -1,16 +1,18 @@
-import { TemplateReference } from '../template-reference';
+import { ChannelSpecificTemplateReference, TemplateReference } from '../template-reference';
 import { ConversationChannel } from '../conversation-channel';
 
+/**
+ * Message referring to predefined template
+ */
 export interface TemplateMessage {
-
-  /** */
+  /** Template Message */
   template_message: TemplateMessageItem;
 }
 
 export interface TemplateMessageItem {
 
   /** Optional. Channel specific template reference with parameters per channel. The channel template if exists overrides the omnichannel template. At least one of `channel_template` or `omni_template` needs to be present. The key in the map must point to a valid conversation channel as defined by the enum ConversationChannel. */
-  channel_template?: { [key in ConversationChannel]?: TemplateReference; };
+  channel_template?: { [key in ConversationChannel]?: ChannelSpecificTemplateReference; };
   /** @see TemplateReference */
   omni_template?: TemplateReference;
 }

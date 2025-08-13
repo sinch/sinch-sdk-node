@@ -9,18 +9,15 @@ let event: Verification.VerificationCallbackEvent;
 let formattedHeaders: IncomingHttpHeaders;
 
 const processEvent = async (response: Response) => {
-  formattedHeaders = {};
-  response.headers.forEach((value, name) => {
-    formattedHeaders[name.toLowerCase()] = value;
-  });
+  formattedHeaders = Object.fromEntries(response.headers.entries());
   rawEvent = await response.text();
-  event = verificationCallbackWebhook.parseEvent(JSON.parse(rawEvent));
+  event = verificationCallbackWebhook.parseEvent(rawEvent);
 };
 
 Given('the Verification Webhooks handler is available', () => {
   verificationCallbackWebhook = new VerificationCallbackWebhooks({
     applicationKey: 'appKey',
-    applicationSecret: 'appSecret',
+    applicationSecret: 'YXBwU2VjcmV0', // base64 value for 'appSecret'
   });
 });
 
@@ -29,7 +26,8 @@ When('I send a request to trigger a "Verification Request" event', async () => {
   await processEvent(response);
 });
 
-Then('the header of the Verification event "Verification Request" contains a valid authorization', () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('the header of the Verification event {string} contains a valid authorization', (_eventType: string) => {
   assert.ok(verificationCallbackWebhook.validateAuthenticationHeader(
     formattedHeaders,
     rawEvent,
@@ -66,14 +64,6 @@ When('I send a request to trigger a "Verification Result" event', async () => {
   await processEvent(response);
 });
 
-Then('the header of the Verification event "Verification Result" contains a valid authorization', () => {
-  assert.ok(verificationCallbackWebhook.validateAuthenticationHeader(
-    formattedHeaders,
-    rawEvent,
-    '/webhooks/verification',
-    'POST'));
-});
-
 Then('the Verification event describes a "Verification Result" event type', () => {
   const verificationRequestEvent = event as Verification.VerificationResultEvent;
   assert.equal(verificationRequestEvent.id, '1ce0ffee-c0de-5eed-d00d-f00dfeed1337');
@@ -86,4 +76,23 @@ Then('the Verification event describes a "Verification Result" event type', () =
   };
   assert.equal(verificationRequestEvent.identity.type, identity.type);
   assert.equal(verificationRequestEvent.identity.endpoint, identity.endpoint);
+});
+
+When('I send a request to trigger a "Verification SMS Delivered Event" event', async () => {
+  const response = await fetch('http://localhost:3018/webhooks/verification/verification-sms-delivery-event');
+  await processEvent(response);
+});
+
+Then('the Verification event describes a "Verification SMS Delivered Event" event type', () => {
+  const verificationSmsDeliveredEvent = event as Verification.VerificationSmsDeliveredEvent;
+  assert.equal(verificationSmsDeliveredEvent.smsResult, 'Successful');
+  assert.equal(verificationSmsDeliveredEvent.id, '0198511c-d1d1-8bf3-109b-85455d310123');
+  assert.equal(verificationSmsDeliveredEvent.event, 'VerificationSmsDeliveredEvent');
+  assert.equal(verificationSmsDeliveredEvent.method, 'sms');
+  const identity: Verification.Identity = {
+    type: 'number',
+    endpoint: '+33123456789',
+  };
+  assert.equal(verificationSmsDeliveredEvent.identity.type, identity.type);
+  assert.equal(verificationSmsDeliveredEvent.identity.endpoint, identity.endpoint);
 });

@@ -17,6 +17,11 @@ import { getAppIdFromConfig, getContactIdFromConfig, initConversationService, pr
           title: 'Card message title',
           description: 'Card message description',
           height: 'MEDIUM',
+          media_message: {
+            url: 'https://example.com/follow-the-white-rabbit.mpeg',
+            thumbnail_url: 'https://example.com/follow-the-white-rabbit.jpg',
+            filename_override: 'red-pill-or-blue-pill.jpg',
+          },
         },
       },
       recipient: {

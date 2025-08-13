@@ -12,6 +12,10 @@ import {
   SupportedSmsRegion,
 } from '@sinch/sdk-client';
 
+export const DEFAULT_SMS_REGION_DEPRECATION_WARNING = '** DEPRECATION NOTICE ** '
+  + 'The "smsRegion" property will become mandatory in the next major version of the SDK and not default '
+  + 'to "us" anymore. Please set it to a valid region.';
+
 export class SmsDomainApi implements Api {
   public readonly apiName: string;
   public client?: ApiClient;
@@ -28,6 +32,8 @@ export class SmsDomainApi implements Api {
    */
   public setHostname(hostname: string) {
     try {
+      // The following line is a workaround to detect if the hostname is set for the Conversation or Templates API - To be deleted in 2.0
+      this.sinchClientParameters.smsHostname = hostname;
       this.client = this.getSinchClient();
       this.client.apiClientOptions.hostname = hostname;
     } catch (error) {
@@ -81,6 +87,10 @@ export class SmsDomainApi implements Api {
   public getSinchClient(): ApiClient {
     if (!this.client) {
       const region = this.sinchClientParameters.smsRegion ?? SmsRegion.UNITED_STATES;
+      // Deprecation Notice - to remove in 2.0
+      if (!this.sinchClientParameters.smsRegion && !this.sinchClientParameters.smsHostname) {
+        console.warn(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+      }
       if(!Object.values(SupportedSmsRegion).includes(region as SupportedSmsRegion)) {
         console.warn(`The region "${region}" is not known as a supported region for the SMS API`);
       }

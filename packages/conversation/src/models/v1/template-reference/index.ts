@@ -1,1 +1,1 @@
-export type { TemplateReference } from './template-reference';
+export type { TemplateReference, ChannelSpecificTemplateReference } from './template-reference';

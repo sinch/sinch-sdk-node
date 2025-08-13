@@ -24,12 +24,15 @@ describe('DeliveryReportsApi', () => {
       // Given
       const requestData: Sms.GetDeliveryReportByBatchIdRequestData = {
         batch_id: '01HF28S9AAGRKWP2CY92BJB569',
+        code: 402,
+        status: 'Failed',
+        type: 'full',
       };
       const expectedResponse: Sms.DeliveryReport = {
         batch_id: '01HF28S9AAGRKWP2CY92BJB569',
         statuses: [
           {
-            code: 60,
+            code: 402,
             count: 1,
             recipients: [
               '33444555666',
@@ -62,7 +65,7 @@ describe('DeliveryReportsApi', () => {
       };
       const expectedResponse: Sms.RecipientDeliveryReport = {
         batch_id: '01HF28S9AAGRKWP2CY92BJB569',
-        code: 60,
+        code: 400,
         at: new Date('2023-11-12T17:20:00Z'),
         recipient: '33444555666',
         status: 'Failed',
@@ -83,15 +86,27 @@ describe('DeliveryReportsApi', () => {
   describe ('getDeliveryReports', () => {
     it('should make a GET request to list the delivery reports', async () => {
       // Given
-      const requestData: Sms.ListDeliveryReportsRequestData = {};
+      const requestData: Sms.ListDeliveryReportsRequestData = {
+        code: [401, 402],
+        status: ['Failed', 'Cancelled'],
+        start_date: new Date('2023-11-12T00:00:00Z'),
+        end_date: new Date('2023-11-19T23:59:59.999Z'),
+        client_reference: 'my-client-reference',
+      };
       const mockData: Sms.RecipientDeliveryReport[] = [
         {
           batch_id: '01HF28S9AAGRKWP2CY92BJB569',
-          code: 60,
+          code: 401,
           at: new Date('2023-11-12T17:20:00Z'),
           recipient: '33444555666',
           status: 'Failed',
           type: 'recipient_delivery_report_sms',
+          client_reference: 'my-client-reference',
+          applied_originator: 'Sinch',
+          encoding: 'GSM',
+          number_of_message_parts: 1,
+          operator: 'Sinch',
+          operator_status_at: new Date('2023-11-12T17:20:00Z'),
         },
       ];
       const expectedResponse = {

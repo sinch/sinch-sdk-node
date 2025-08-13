@@ -1,10 +1,9 @@
 import { BarCode } from '../bar-code';
 import { FaxContentUrl } from '../fax-content-url';
 import { FaxMoney } from '../fax-money';
-import { ErrorType, FaxDirection, FaxStatus, ImageConversionMethod, WebhookContentType } from '../enums';
+import { ErrorType, FaxDirection, FaxStatus, ImageConversionMethod, Resolution, WebhookContentType } from '../enums';
 
 export interface Fax {
-
   /** The id of a fax */
   id?: string;
   /** @see FaxDirection */
@@ -21,12 +20,14 @@ export interface Fax {
   status?: FaxStatus;
   /** The total price for this fax. This field is populated after the final fax price is calculated. */
   price?: FaxMoney;
-  /** The bar codes found in the fax. This field is populated when sinch detects bar codes on incoming faxes. */
+  /** The bar codes found in the fax. This field is populated when Sinch detects bar codes on incoming faxes. */
   barCodes?: BarCode[];
   /** A timestamp representing the time when the initial API call was made. */
   createTime?: Date;
   /** If the job is complete, this is a timestamp representing the time the job was completed. */
   completedTime?: Date;
+  /** The number of pages successfully sent to the receiving side in the fax. */
+  pagesSentSuccessfully?: number;
   /** Text that will be displayed at the top of each page of the fax. 50 characters maximum. Default header text is "-". Note that the header is not applied until the fax is transmitted, so it will not appear on fax PDFs or thumbnails. */
   headerText?: string;
   /** If true, page numbers will be displayed in the header. Default is true. */
@@ -41,22 +42,28 @@ export interface Fax {
   callbackUrl?: string;
   /** The content type of the callback. */
   callbackUrlContentType?: WebhookContentType;
-  /** Determines how documents are converted to black and white. Defaults to value selected on Fax Service object. */
+  /** Determines how documents are converted to black and white on OUTBOUND faxes only. Image conversion is not done on INBOUND faxes. Defaults to value selected on Fax Service object. */
   imageConversionMethod?: ImageConversionMethod;
   /** @see ErrorType */
   errorType?: ErrorType;
-  /** One of the error numbers listed in the [Fax Error Messages section](#FaxErrors). */
+  /** One of the error numbers listed in the [Fax Error Messages section](https://developers.sinch.com/docs/fax/api-reference/fax/tag/Error-Messages/). */
   errorCode?: number;
-  /** One of the error messages listed in the [Fax Error Messages section](#FaxErrors). */
+  /** One of the error messages listed in the [Fax Error Messages section](https://developers.sinch.com/docs/fax/api-reference/fax/tag/Error-Messages/). */
   errorMessage?: string;
-  /** The `Id` of the project associated with the call. */
-  projectId?: string;
-  /** ID of the fax service used. */
-  serviceId?: string;
   /** The number of times the fax will be retired before cancel. Default value is set in your fax service. The maximum number of retries is 5. */
   maxRetries?: number;
   /** The number of times the fax has been retried. */
   retryCount?: number;
   /** Only shown on the fax result. This indicates if the content of the fax is stored with Sinch. (true or false) */
   hasFile?: string;
+  /** @see Resolution */
+  resolution?: Resolution;
+  /** The cover page id you want to use for the fax */
+  coverPageId?: string;
+  /** You can use this to specify custom data for your cover page that will be sent as part of the fax. It is a key value store. Read more about how to use this [here](https://developers.sinch.com/docs/fax/api-reference/fax/tag/Cover-pages/). All keys used must be lower case. */
+  coverPageData?: { [key: string]: string; };
+  /** The `Id` of the project associated with the call. */
+  projectId?: string;
+  /** ID of the fax service used. */
+  serviceId?: string;
 }

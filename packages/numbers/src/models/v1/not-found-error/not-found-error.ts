@@ -1,3 +1,5 @@
+import { NotFoundErrorDetails } from '../not-found-error-details';
+
 export interface NotFoundError {
   /** @see CodeEnum */
   code?: CodeEnum;
@@ -5,7 +7,7 @@ export interface NotFoundError {
   /** @see StatusEnum */
   status?: StatusEnum;
   /** List of objects */
-  details?: object[];
+  details?: NotFoundErrorDetails[];
 }
 
 export type CodeEnum = '404';

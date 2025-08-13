@@ -36,7 +36,7 @@ import {
   const printFormat = getPrintFormat(process.argv);
 
   if (printFormat === 'pretty') {
-    console.log(`Webhook updated! New triggers: '${response.triggers.join(', ')}`);
+    console.log(`Webhook updated! New triggers: '${response.triggers?.join(', ')}`);
     console.log(`Verifying the target (it should the original URL): '${response.target}'`);
   } else {
     printFullResponse(response);

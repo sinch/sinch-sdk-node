@@ -33,16 +33,20 @@ When('I send a request to create a SIP Endpoint', async () => {
 });
 
 Then('the SIP Endpoint is created', () => {
-  assert.equal(sipEndpoint.id, '01W4FFL35P4NC4K35SIPENDP01');
-  assert.equal(sipEndpoint.sipTrunkId, '01W4FFL35P4NC4K35SIPTRUNK1');
-  assert.equal(sipEndpoint.name, 'Capsule Corp Endpoint');
-  assert.equal(sipEndpoint.address, '127.0.0.1');
-  assert.equal(sipEndpoint.port, 5060);
-  assert.equal(sipEndpoint.transport, 'UDP');
-  assert.equal(sipEndpoint.priority, 2);
-  assert.equal(sipEndpoint.enabled, true);
-  assert.deepEqual(sipEndpoint.createTime, new Date('2024-06-06T14:42:42.337854345Z'));
-  assert.equal(sipEndpoint.updateTime, null);
+  if ('address' in sipEndpoint) {
+    assert.equal(sipEndpoint.id, '01W4FFL35P4NC4K35SIPENDP01');
+    assert.equal(sipEndpoint.sipTrunkId, '01W4FFL35P4NC4K35SIPTRUNK1');
+    assert.equal(sipEndpoint.name, 'Capsule Corp Endpoint');
+    assert.equal(sipEndpoint.address, '127.0.0.1');
+    assert.equal(sipEndpoint.port, 5060);
+    assert.equal(sipEndpoint.transport, 'UDP');
+    assert.equal(sipEndpoint.priority, 2);
+    assert.equal(sipEndpoint.enabled, true);
+    assert.deepEqual(sipEndpoint.createTime, new Date('2024-06-06T14:42:42.337854345Z'));
+    assert.equal(sipEndpoint.updateTime, null);
+  } else {
+    throw new Error('Expected StaticEndpoint but got RegisteredEndpoint');
+  }
 });
 
 When('I send a request to list the existing SIP Endpoints', async () => {
@@ -118,15 +122,19 @@ When('I send a request to update a SIP Endpoint', async () => {
 });
 
 Then('the response contains the SIP Endpoint details with updated data', () => {
-  assert.equal(sipEndpoint.id, '01W4FFL35P4NC4K35SIPENDP01');
-  assert.equal(sipEndpoint.name, 'Capsule Corp Endpoint - updated');
-  assert.equal(sipEndpoint.address, '127.0.0.2');
-  assert.equal(sipEndpoint.port, 5061);
-  assert.equal(sipEndpoint.transport, 'TCP');
-  assert.equal(sipEndpoint.priority, 3);
-  assert.equal(sipEndpoint.enabled, false);
-  assert.deepEqual(sipEndpoint.createTime, new Date('2024-06-06T14:42:42Z'));
-  assert.deepEqual(sipEndpoint.updateTime, new Date('2024-06-06T14:45:11.428052267Z'));
+  if ('address' in sipEndpoint) {
+    assert.equal(sipEndpoint.id, '01W4FFL35P4NC4K35SIPENDP01');
+    assert.equal(sipEndpoint.name, 'Capsule Corp Endpoint - updated');
+    assert.equal(sipEndpoint.address, '127.0.0.2');
+    assert.equal(sipEndpoint.port, 5061);
+    assert.equal(sipEndpoint.transport, 'TCP');
+    assert.equal(sipEndpoint.priority, 3);
+    assert.equal(sipEndpoint.enabled, false);
+    assert.deepEqual(sipEndpoint.createTime, new Date('2024-06-06T14:42:42Z'));
+    assert.deepEqual(sipEndpoint.updateTime, new Date('2024-06-06T14:45:11.428052267Z'));
+  } else {
+    throw new Error('Expected StaticEndpoint but got RegisteredEndpoint');
+  }
 });
 
 When('I send a request to delete a SIP Endpoint', async () => {

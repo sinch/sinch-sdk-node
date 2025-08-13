@@ -9,3 +9,5 @@ export * from './verification-request-event-response';
 // 'Verification Result Event' received from Sinch server (no response data needed)
 export * from './verification-result-event';
 export * from './verification-result-event-response';
+// 'Verification Sms Delivered Event' received from Sinch server
+export * from './verification-sms-delivered-event';

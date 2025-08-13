@@ -1,1 +1,1 @@
-export type { VerificationResultEvent } from './verification-result-event';
+export type { VerificationResultEvent, VerificationResultMethod } from './verification-result-event';

@@ -1,8 +1,7 @@
 /**
- * Hangs up a call. Available to use in a response to an [Incoming Call Event](../../../docs/voice/api-reference/voice/tag/Callbacks/#tag/Callbacks/operation/ice) callback or an [Answered Call Event](../../../docs/voice/api-reference/voice/tag/Callbacks/#tag/Callbacks/operation/ace) callback.
+ * Hangs up a call. Available to use in a response to an [Incoming Call Event](https://developers.sinch.com/docs/voice/api-reference/voice/tag/Callbacks/#tag/Callbacks/operation/ice) callback or an [Answered Call Event](https://developers.sinch.com/docs/voice/api-reference/voice/tag/Callbacks/#tag/Callbacks/operation/ace) callback.
  */
 export interface SvamlActionHangup {
-
   /** The name property. Must have the value `hangup`. */
   name: 'hangup';
 }

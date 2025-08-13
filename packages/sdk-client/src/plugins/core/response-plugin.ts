@@ -22,9 +22,6 @@ export interface ResponsePluginContext {
   /** Base url */
   url: string;
 
-  /** Origin domain initiating the call */
-  origin?: string | null;
-
   /** Request parameters */
   requestOptions: RequestOptions;
 }

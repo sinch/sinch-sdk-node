@@ -1,5 +1,5 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
-import { EmailsApi, FaxesApi, FaxService, ServicesApi } from '../../../src';
+import { FaxToEmailApi, FaxesApi, FaxService, ServicesApi } from '../../../src';
 
 describe('Fax Service', () => {
   const DEFAULT_HOSTNAME = 'https://fax.api.sinch.com';
@@ -18,9 +18,11 @@ describe('Fax Service', () => {
 
     // Then
     expect(faxService.faxes).toBeInstanceOf(FaxesApi);
-    expect(faxService.emails).toBeInstanceOf(EmailsApi);
+    expect(faxService.faxToEmail).toBeInstanceOf(FaxToEmailApi);
+    expect(faxService.emails).toBeInstanceOf(FaxToEmailApi);
     expect(faxService.services).toBeInstanceOf(ServicesApi);
     expect(faxService.faxes.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(faxService.faxToEmail.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(faxService.emails.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(faxService.services.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
   });
@@ -39,6 +41,7 @@ describe('Fax Service', () => {
 
     // Then
     expect(faxService.faxes.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(faxService.faxToEmail.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
     expect(faxService.emails.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
     expect(faxService.services.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });

@@ -17,7 +17,7 @@ export interface WhatsAppSpecificContactMessage {
  */
 interface WhatsAppInteractiveNfmReplyMessage {
   /** The interactive message type. */
-  type: string;
+  type: 'nfm_reply';
   /** @see WhatsAppInteractiveNfmReply */
   nfm_reply: WhatsAppInteractiveNfmReply;
 }

@@ -47,15 +47,19 @@ export interface MachineLearningSentimentResult {
   message?: string;
   /** An array of JSON objects made up of sentiment and score pairs, where the score represents the likelihood that the message communicates the corresponding sentiment. */
   results?: SentimentResult[];
-  /** The most probable sentiment of the analyzed text. */
+  /** @see SentimentEnum */
   sentiment?: SentimentEnum;
   /** The likelihood that the assigned sentiment represents the emotional context of the analyzed text. 1 is the maximum value, representing the highest likelihood that the message text matches the sentiment, and 0 is the minimum value, representing the lowest likelihood that the message text matches the sentiment. */
   score?: number;
 }
+
+/**
+ * The most probable sentiment of the analyzed text.
+ */
 export type SentimentEnum = 'positive' | 'negative' | 'neutral';
 
 export interface SentimentResult {
-  /** The most probable sentiment of the analyzed text. */
+  /** @see SentimentEnum */
   sentiment?: SentimentEnum;
   /** The likelihood that the assigned sentiment represents the emotional context of the analyzed text. 1 is the maximum value, representing the highest likelihood that the message text matches the sentiment, and 0 is the minimum value, representing the lowest likelihood that the message text matches the sentiment. */
   score?: number;
@@ -101,7 +105,7 @@ export interface DocumentImageClassification {
 }
 
 /**
- * An object containing a result array that reports the machine learning engine\'s character extraction results.
+ * An object containing a result array that reports the machine learning engine's character extraction results.
  */
 export interface OpticalCharacterRecognition {
   /** The result of the OCR process. */

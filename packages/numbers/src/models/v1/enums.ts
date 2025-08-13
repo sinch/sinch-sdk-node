@@ -16,8 +16,10 @@ export type {
   StatusEnum as NotFoundErrorStatusEnum,
 } from './not-found-error/not-found-error';
 
-export type NumberTypeEnum =  'MOBILE' |'LOCAL' |'TOLL_FREE';
+export type NumberTypeEnum =  'MOBILE' |'LOCAL' |'TOLL_FREE' | string;
 
-export type SearchPatternEnum = 'START' | 'CONTAINS' | 'END';
+export type SearchPatternEnum = 'START' | 'CONTAINS' | 'END' | string;
 
-export type CapabilitiesEnum = 'SMS' | 'VOICE';
+export type CapabilitiesEnum = 'SMS' | 'VOICE' | string;
+
+export type OrderByEnum = 'phoneNumber' | 'displayName' | string;

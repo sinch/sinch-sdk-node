@@ -1,6 +1,6 @@
 import { ReasonEnum, ResultEnum } from '../enums';
 import { VoicePrice } from '../voice-price';
-import { Participant } from '../participant';
+import { Participant } from '../destination';
 
 export interface GetCallInformation {
 
@@ -9,13 +9,13 @@ export interface GetCallInformation {
   /** Contains the callee information. */
   to?: Participant;
   /** Must be `pstn` for PSTN. */
-  domain?: 'pstn';
+  domain?: 'pstn' | string;
   /** The unique identifier of the call. */
   callId?: string;
   /** The duration of the call in seconds. */
   duration?: number;
   /** The status of the call. Either `ONGOING` or `FINAL` */
-  status?: 'ONGOING' | 'FINAL';
+  status?: 'ONGOING' | 'FINAL' | string;
   /** Contains the result of a call. */
   result?: ResultEnum;
   /** Contains the reason why a call ended. */

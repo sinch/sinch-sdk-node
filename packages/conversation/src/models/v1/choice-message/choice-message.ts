@@ -14,4 +14,11 @@ export interface ChoiceMessageItem {
   choices: Choice[];
   /** @see TextMessage */
   text_message?: TextMessageItem;
+  /** Additional properties for the message. */
+  message_properties?: ChoiceMessageItemProperties;
+}
+
+export interface ChoiceMessageItemProperties {
+  /** Optional. Sets the text for the footer of a WhatsApp reply button or URL button message. Ignored for other channels. */
+  whatsapp_footer?: string;
 }

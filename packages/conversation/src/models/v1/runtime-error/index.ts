@@ -1,1 +1,1 @@
-export type { RuntimeError } from './runtime-error';
+export type { RuntimeError, RuntimeErrorContent } from './runtime-error';

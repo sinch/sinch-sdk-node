@@ -1,5 +1,61 @@
 import { Sms, SmsCallbackWebhooks } from '../../../../src';
 
+describe('SMS Webhook Signature Validation', () => {
+
+  // eslint-disable-next-line max-len
+  const SMS_BODY = '{"at":"2025-01-13T09:22:40.914Z","batch_id":"01JHFFHQ0P99JPPNQPJDV7JTBP","client_reference":"a client reference","code":0,"operator_status_at":"2025-01-13T09:22:00Z","recipient":"33662162466","status":"Delivered","type":"recipient_delivery_report_sms"}';
+  const NONCE = '01JHFFHWYY7HSS4FWTMDTQEK8V';
+  const TIMESTAMP = '1736760161';
+  const SECRET = 'SMSWebhooksSecret';
+  const VALID_SIGNATURE = 'ZoHei66PPN/kZjw7hFVfGhJOnml3iGNCMWoyQVcE5o0=';
+
+  let callbackWebhooks: SmsCallbackWebhooks;
+
+  beforeEach(() => {
+    callbackWebhooks = new SmsCallbackWebhooks(SECRET);
+  });
+
+  it('should authorize a valid authorization header', () => {
+    const headers = {
+      'x-sinch-webhook-signature': VALID_SIGNATURE,
+      'x-sinch-webhook-signature-algorithm': 'HmacSHA256',
+      'x-sinch-webhook-signature-nonce': NONCE,
+      'x-sinch-webhook-signature-timestamp': TIMESTAMP,
+    };
+    const validationStatus = callbackWebhooks.validateAuthenticationHeader(
+      headers, SMS_BODY,
+    );
+    expect(validationStatus).toBeTruthy();
+  });
+
+  it('should reject a signature id the secret is not set', () => {
+    callbackWebhooks = new SmsCallbackWebhooks();
+    const headers = {
+      'x-sinch-webhook-signature': VALID_SIGNATURE,
+      'x-sinch-webhook-signature-algorithm': 'HmacSHA256',
+      'x-sinch-webhook-signature-nonce': NONCE,
+      'x-sinch-webhook-signature-timestamp': TIMESTAMP,
+    };
+    const validationStatus = callbackWebhooks.validateAuthenticationHeader(
+      headers, SMS_BODY,
+    );
+    expect(validationStatus).toBeFalsy();
+  });
+
+  it('should reject an invalid authorization header', () => {
+    const headers = {
+      'x-sinch-webhook-signature': 'invalid-signature',
+      'x-sinch-webhook-signature-algorithm': 'HmacSHA256',
+      'x-sinch-webhook-signature-nonce': NONCE,
+      'x-sinch-webhook-signature-timestamp': TIMESTAMP,
+    };
+    const validationStatus = callbackWebhooks.validateAuthenticationHeader(
+      headers, SMS_BODY,
+    );
+    expect(validationStatus).toBeFalsy();
+  });
+});
+
 describe('SMS Callback Webhook', () => {
   let callbackWebhooks: SmsCallbackWebhooks;
 
@@ -10,11 +66,14 @@ describe('SMS Callback Webhook', () => {
     callbackWebhooks = new SmsCallbackWebhooks();
   });
 
-
   it('should not throw an error when parsing the \'mo_text\' event', () => {
     const payload = {
+      id: '01XXXXX21XXXXX119Z8P1XXXXX',
       type:  'mo_text',
+      from: '16051234567',
+      to: '13185551234',
       body: 'This is the SMS body',
+      operator_id: 'operator',
       sent_at: DATE_AS_STRING,
       received_at: DATE_AS_STRING,
     };
@@ -27,15 +86,47 @@ describe('SMS Callback Webhook', () => {
 
   it('should not throw an error when parsing the \'mo_binary\' event', () => {
     const payload = {
+      id: '01XXXXX21XXXXX119Z8P1XXXXX',
       type:  'mo_binary',
+      from: '16051234567',
+      to: '13185551234',
       body: 'VGhpcyBpcyB0aGUgU01TIGJvZHk=',
       udh: '5573657244617461486561646572',
+      operator_id: 'operator',
       sent_at: DATE_AS_STRING,
       received_at: DATE_AS_STRING,
     };
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
     expect(parsedResultFunction).not.toThrow();
     const parsedResult: Sms.MOBinary = parsedResultFunction() as Sms.MOBinary;
+    expect(parsedResult.sent_at).toStrictEqual(DATE_AS_DATE);
+    expect(parsedResult.received_at).toStrictEqual(DATE_AS_DATE);
+  });
+
+  it('should not throw an error when parsing the \'mo_media\' event', () => {
+    const payload = {
+      id: '01XXXXX21XXXXX119Z8P1XXXXX',
+      type:  'mo_media',
+      from: '16051234567',
+      to: '13185551234',
+      body: {
+        subject: 'This is the subject',
+        message: 'This is the message',
+        media: [
+          {
+            url: 'https://some.s3.example.com/inbounds/image.png',
+            code: 1,
+            content_type: 'image/png',
+            status: 'Failed',
+          },
+        ],
+      },
+      sent_at: DATE_AS_STRING,
+      received_at: DATE_AS_STRING,
+    };
+    const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
+    expect(parsedResultFunction).not.toThrow();
+    const parsedResult: Sms.MOText = parsedResultFunction() as Sms.MOText;
     expect(parsedResult.sent_at).toStrictEqual(DATE_AS_DATE);
     expect(parsedResult.received_at).toStrictEqual(DATE_AS_DATE);
   });
@@ -119,7 +210,7 @@ describe('SMS Callback Webhook', () => {
       unknownProperty: 'anyValue',
     };
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
-    expect(parsedResultFunction).toThrow('Unknown SMS event');
+    expect(parsedResultFunction).toThrow('Unknown SMS event: {"unknownProperty":"anyValue"}');
   });
 
   it('should throw an error when parsing a non-existing event type', () => {

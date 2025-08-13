@@ -1,5 +1,6 @@
 import { VerificationCallbackWebhooks } from '../../../../src';
 import { SinchClientParameters } from '@sinch/sdk-client';
+import { VerificationSmsDeliveredEvent } from '../../../../src/models';
 
 describe('Verification Callback Webhook', () => {
   let callbackWebhooks: VerificationCallbackWebhooks;
@@ -68,6 +69,20 @@ describe('Verification Callback Webhook', () => {
       },
       status: 'status',
     };
+    const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
+    expect(parsedResultFunction).not.toThrow();
+  });
+
+  it('should NOT thrown an error when parsing the \'VerificationSmsDeliveredEvent\' event', () => {
+    const payload = {
+      event: 'VerificationSmsDeliveredEvent',
+      id: 'eventId',
+      identity: {
+        type: 'number',
+        endpoint: '+1234567890',
+      },
+      smsResult: 'Failed',
+    } as VerificationSmsDeliveredEvent;
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
     expect(parsedResultFunction).not.toThrow();
   });
