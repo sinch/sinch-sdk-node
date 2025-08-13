@@ -1,3 +1,18 @@
+## Version 1.3.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.3.0`.
+- [Bugfix] By transitivity, upgrading `@sinch/sdk-client` to `1.3.0`, it fixes the issue [#183](https://github.com/sinch/sinch-sdk-node/issues/183)
+- [API breaking change] `faxToEmail` endpoints require a `serviceId` as mandatory path parameter
+- [API breaking change] the `phoneNumbers` property for an `EmailRequest` is not a `string[]` anymore but a `NumberWithPermissions[]`
+- [Feature] Support string input when parsing webhook events
+- [Feature] Support `resolution`, `coverPageId`, `coverPageData` and `pagesSentSuccessfully` in a `Fax` object
+- [Feature] Support `resolution`, `coverPageId` in a `Service` object
+- **Deprecations**
+  - `emails` subdomain is deprecated, use `faxToEmail` instead
+
+## Version 1.2.1
+- [Tech] Update dependency `@sinch/sdk-client` to `1.2.1`
+- [Bugfix] Fix refresh token issue
+
 ## Version 1.2.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.2.0`.
 - [Feature] Support date range filter for listing faxes.
