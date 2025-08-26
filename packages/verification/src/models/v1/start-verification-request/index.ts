@@ -8,7 +8,6 @@ export type {
   StartDataVerification,
   StartSeamlessVerification,
   SmsOptions,
-  CodeType,
   PhoneCallOptions,
   CalloutOptions,
   PhoneCallOptionsSpeech,

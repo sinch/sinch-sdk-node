@@ -1,4 +1,6 @@
 import { Identity } from '../identity';
+import { WithAdditionalProperties } from '@sinch/sdk-client';
+import { CodeType } from '../enums';
 
 export interface StartVerificationWithSms extends StartVerificationBase {
   /** @see SmsOptions */
@@ -43,7 +45,7 @@ export interface StartVerificationBase {
 /**
  * An optional object for SMS Verification, with default values assumed for all contained values if not provided.
  */
-export interface SmsOptions {
+export interface SmsOptions extends WithAdditionalProperties {
   /** The expiration time for a verification process is represented in the format `HH:MM:SS`. */
   expiry?: Date | string;
   /** Accepted values for the type of code to be generated are `Numeric`, `Alpha`, and `Alphanumeric`. Default is `Numeric`. */
@@ -54,14 +56,14 @@ export interface SmsOptions {
   locale?: string;
 }
 
-export type CodeType = 'Numeric' | 'Alpha' | 'Alphanumeric';
-
 /**
- * An optional object for Flash Call Verification, considered only when the verification request originates from your backend (not an SDK client) via an [Application signed request](https://developers.sinch.com/docs/voice/api-reference/authentication/signed-request).
+ * An optional configuration for Flash Call Verification, should be used only when the verification request originates from your backend (not an end user device) and request is signed via an [Application signed request](https://developers.sinch.com/docs/voice/api-reference/authentication/signed-request).
  */
-export interface FlashCallOptions {
-  /** The dial timeout in seconds. */
+export interface FlashCallOptions extends WithAdditionalProperties {
+  /** The amount of time that a phone will ring. */
   dialTimeout?: number;
+  /** The maximum time that a phone call verification will be active and can be completed. If the phone number hasn't been verified successfully during this time, then the verification request will fail. By default, the Sinch dashboard will automatically optimize dial time out during a phone call. */
+  interceptionTimeout?: number;
 }
 
 /** @deprecated Use PhoneCallOptions instead */
@@ -70,7 +72,7 @@ export type CalloutOptions = PhoneCallOptions;
 /**
  * An optional object for Phone Call Verification, with default values assumed for all contained values if not provided.
  */
-export interface PhoneCallOptions {
+export interface PhoneCallOptions extends WithAdditionalProperties {
   /** @see PhoneCallOptionsSpeech */
   speech?: PhoneCallOptionsSpeech;
 }

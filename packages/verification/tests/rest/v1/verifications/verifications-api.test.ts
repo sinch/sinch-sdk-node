@@ -37,6 +37,7 @@ describe('VerificationsApi', () => {
       // Given
       const smsOptions: Verification.SmsOptions = {
         locale: 'sv-SE',
+        hiddenOption: 'hiddenValue',
       };
       const requestData = Verification.startVerificationHelper.buildSmsRequest('+46700000000', undefined, smsOptions);
       const expectedResponse: Verification.StartSmsVerificationResponse = {
@@ -45,6 +46,7 @@ describe('VerificationsApi', () => {
         sms: {
           template: 'Din verifieringskod är {{CODE}}.',
           interceptionTimeout: 298,
+          hiddenOption: 'hiddenValue',
         },
         _links,
       };
@@ -61,7 +63,14 @@ describe('VerificationsApi', () => {
 
     it('should make a POST request to start a verification with a FlashCall', async () => {
       // Given
-      const requestData = Verification.startVerificationHelper.buildFlashCallRequest('+46700000000', undefined, 30);
+      const requestData = Verification.startVerificationHelper.buildFlashCallRequest(
+        '+46700000000',
+        undefined,
+        30,
+        60,
+        {
+          hiddenOption: 'hiddenValue',
+        });
       const expectedResponse: Verification.StartFlashCallVerificationResponse = {
         id: 'some_verification_id',
         method: 'flashcall',
@@ -70,6 +79,7 @@ describe('VerificationsApi', () => {
           interceptionTimeout: 60,
           reportTimeout: 120,
           denyCallAfter: 120,
+          hiddenOption: 'hiddenValue',
         },
         _links,
       };
@@ -86,7 +96,13 @@ describe('VerificationsApi', () => {
 
     it('should make a POST request to start a verification with a PhoneCall', async () => {
       // Given
-      const requestData = Verification.startVerificationHelper.buildPhoneCallRequest('+46700000000');
+      const requestData = Verification.startVerificationHelper.buildPhoneCallRequest(
+        '+46700000000',
+        undefined,
+        'en_US',
+        {
+          hiddenOption: 'hiddenValue',
+        });
       const expectedResponse: Verification.StartPhoneCallVerificationResponse = {
         id: 'some_verification_id',
         method: 'callout',
@@ -107,7 +123,10 @@ describe('VerificationsApi', () => {
       const requestData = Verification.startVerificationHelper.buildPhoneCallRequest(
         '+46700000000',
         undefined,
-        'en-US');
+        'en-US',
+        {
+          hiddenOption: 'hiddenValue',
+        });
       const expectedResult: Verification.StartVerificationWithPhoneCallServerModel = {
         identity: {
           endpoint: '+46700000000',
@@ -117,6 +136,7 @@ describe('VerificationsApi', () => {
           speech: {
             locale: 'en-US',
           },
+          hiddenOption: 'hiddenValue',
         },
       };
       const formattedRequestData = verificationsApi.performStartPhoneCallRequestBodyTransformation(
