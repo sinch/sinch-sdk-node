@@ -4,6 +4,7 @@ import {
   KakaoTalkChatCredentials,
   KakaoTalkCredentials,
   LineCredentials,
+  LineEnterpriseCredentials,
   MMSCredentials,
   // SMSCredentials, // Not supported yet
   StaticBearerCredential,
@@ -11,7 +12,6 @@ import {
   TelegramCredentials,
   WeChatCredentials,
 } from '../mod-credentials';
-import { LineEnterpriseCredentials } from '../mod-credentials/line-enterprise-credentials';
 
 /**
  * Enables access to the underlying messaging channel.
@@ -104,12 +104,14 @@ export interface ChannelCredentialsMessenger extends ConversationChannelCredenti
 export interface ChannelCredentialsMessengerResponse
   extends ChannelCredentialsMessenger, ConversationChannelCredentialResponseBase {}
 
+/** @deprecated */
 export interface ChannelCredentialsViber extends ConversationChannelCredentialRequestBase {
   channel: 'VIBER';
   /** @see StaticTokenCredential */
   static_token: StaticTokenCredential;
 }
 
+/** @deprecated */
 export interface ChannelCredentialsViberResponse
   extends ChannelCredentialsViber, ConversationChannelCredentialResponseBase {}
 
