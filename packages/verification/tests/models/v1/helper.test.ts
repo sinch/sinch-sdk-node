@@ -127,7 +127,7 @@ describe('Verification models helper', () => {
       expect(buildRequest).toEqual(startRequest);
     });
 
-    it('should build a startSeamless request', () => {
+    it('should build a startData request', () => {
       const buildRequest = Verification.startVerificationHelper.buildDataRequest(PHONE_NUMBER);
       const startRequest: Verification.StartDataVerificationRequestData = {
         startDataVerificationRequestBody: identity,
@@ -135,7 +135,7 @@ describe('Verification models helper', () => {
       expect(buildRequest).toEqual(startRequest);
     });
 
-    it('should build a startSeamless request with a reference', () => {
+    it('should build a startData request with a reference', () => {
       const buildRequest = Verification.startVerificationHelper.buildDataRequest(PHONE_NUMBER, REFERENCE);
       const startRequest: Verification.StartDataVerificationRequestData = {
         startDataVerificationRequestBody: identityWithReference,
