@@ -38,8 +38,10 @@ import { getAppIdFromConfig, getPrintFormat, initConversationService, printFullR
     if (response.transcoded_message) {
       console.log(`Transcoded messages:\n`);
       Object.entries(response.transcoded_message).forEach(([channel, transcodedValue]) => {
-        const transcodedMessage = JSON.parse(transcodedValue);
-        console.log(channel + ': ' + JSON.stringify(transcodedMessage.message));
+        if (typeof transcodedValue === 'string') {
+          const transcodedMessage = JSON.parse(transcodedValue);
+          console.log(channel + ': ' + JSON.stringify(transcodedMessage.message));
+        }
       });
     } else {
       console.log('No transcoded messages returned.');

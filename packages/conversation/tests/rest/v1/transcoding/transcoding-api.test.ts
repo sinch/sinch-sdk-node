@@ -34,14 +34,14 @@ describe('TranscodingApi', () => {
           },
           channels: [
             'APPLEBC',
-            'VIBER',
+            'VIBERBM',
           ],
         },
       };
       const expectedResponse: Conversation.TranscodeMessageResponse = {
         transcoded_message: {
           APPLEBC: 'string',
-          VIBER: 'string',
+          VIBERBM: 'string',
         },
       };
 

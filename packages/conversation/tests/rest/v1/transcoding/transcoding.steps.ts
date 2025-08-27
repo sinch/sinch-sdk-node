@@ -41,7 +41,7 @@ When('I send a request to transcode a location message', async () => {
         'RCS',
         'SMS',
         'TELEGRAM',
-        'VIBER',
+        'VIBER', // Kept for backward compatibility
         'WECHAT',
         'WHATSAPP',
       ],

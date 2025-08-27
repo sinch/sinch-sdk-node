@@ -128,12 +128,6 @@ describe('AppApi', () => {
           token: 'telegram_token',
         },
       };
-      const channelCredentialsViber: Conversation.ChannelCredentialsViber = {
-        channel: 'VIBER',
-        static_token: {
-          token: 'viber_token',
-        },
-      };
       const channelCredentialsViberBM: Conversation.ChannelCredentialsViberBM = {
         channel: 'VIBERBM',
         static_bearer: {
@@ -174,7 +168,6 @@ describe('AppApi', () => {
             channelCredentialsSms,
             // channelCredentialsSmsWithAppId,
             channelCredentialsTelegram,
-            channelCredentialsViber,
             channelCredentialsViberBM,
             channelCredentialsWeChat,
             channelCredetialsWhatsApp,
