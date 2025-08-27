@@ -103,6 +103,7 @@ Then('the response contains the details of a verification started with a Flash C
   assert.equal(startFlashCallVerificationResponse.flashCall.interceptionTimeout, 45);
   assert.equal(startFlashCallVerificationResponse.flashCall.reportTimeout, 75);
   assert.equal(startFlashCallVerificationResponse.flashCall.denyCallAfter, 0);
+  assert.equal(startFlashCallVerificationResponse.flashCall.callId, '1ce0ffee-c0de-5eed-d22d-f00dfeed1337');
   assert.ok(startFlashCallVerificationResponse._links);
   const statusLink = startFlashCallVerificationResponse._links[0];
   assert.equal(statusLink.rel, 'status');

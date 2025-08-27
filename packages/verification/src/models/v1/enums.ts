@@ -1,5 +1,8 @@
 export type ActionEnum = 'allow' | 'deny';
 
+/** Selects type of code which will be sent to customer */
+export type CodeType = 'Numeric' | 'Alpha' | 'Alphanumeric' | string;
+
 export type VerificationStatusEnum = 'PENDING'
   | 'SUCCESSFUL'
   | 'FAIL'

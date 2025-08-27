@@ -6,7 +6,7 @@ export interface SmsVerificationReportRequest {
 interface SmsContent {
   /** The code which was received by the user submitting the SMS verification. */
   code: string;
-  /** The sender ID of the SMS. */
+  /** @deprecated The sender ID of the SMS. */
   cli?: string;
 }
 

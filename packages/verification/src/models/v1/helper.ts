@@ -51,12 +51,14 @@ export const startVerificationHelper = {
    * @param {string} phoneNumber - The phone number to which the verification call should be made.
    * @param {string} [reference] - An optional reference identifier used to pass your own reference in the request for tracking purposes.
    * @param {string} [locale] - An optional language-region identifier to use for the verification call.
+   * @param {Record<string, unknown>} [additionalOptions] - An optional object for any additional phone call options.
    * @return {StartPhoneCallVerificationRequestData} The request data object for initiating the phone call verification.
    */
   buildPhoneCallRequest: (
     phoneNumber: string,
     reference?: string,
     locale?: string,
+    additionalOptions?: Record<string, unknown>,
   ): StartPhoneCallVerificationRequestData => {
     return {
       startVerificationWithPhoneCallRequestBody: {
@@ -65,13 +67,14 @@ export const startVerificationHelper = {
           endpoint: phoneNumber,
         },
         reference,
-        ...(locale !== undefined) ? {
+        ...(locale !== undefined || additionalOptions !== undefined ? {
           phoneCallOptions: {
-            speech: {
-              locale,
-            },
+            ...(locale !== undefined ? {
+              speech: { locale },
+            } : {}),
+            ...(additionalOptions ?? {}),
           },
-        } : {},
+        } : {}),
       },
     };
   },
@@ -96,13 +99,13 @@ export const startVerificationHelper = {
           endpoint: phoneNumber,
         },
         reference,
-        ...(locale !== undefined) ? {
+        ...(locale !== undefined ? {
           calloutOptions: {
             speech: {
               locale,
             },
           },
-        } : {},
+        } : {}),
       },
     };
   },
@@ -112,12 +115,17 @@ export const startVerificationHelper = {
    * @param {string} phoneNumber - The phone number to which the flash call verification should be made.
    * @param {string} [reference] - An optional reference identifier used to pass your own reference in the request for tracking purposes.
    * @param {number} [dialTimeout] - An optional timeout value in seconds for how long to wait for the flash call to be answered.
+   * @param {number} [interceptionTimeout] - An optional timeout value in seconds for the maximum time that a phone call verification will be active and can be completed. If the phone number hasn't been verified successfully during this time, then the verification request will fail. By default, the Sinch dashboard will automatically optimize dial time out during a phone call.
+   * @param {Record<string, unknown>} [additionalOptions] - An optional object for any additional flash call options.
    * @return {StartFlashCallVerificationRequestData} The request data object for initiating the flash call verification.
+   * TODO V2: limit the number of parameters by introducing a FlashCallOptions object
    */
   buildFlashCallRequest: (
     phoneNumber: string,
     reference?: string,
     dialTimeout?: number,
+    interceptionTimeout?: number,
+    additionalOptions?: Record<string, unknown>,
   ): StartFlashCallVerificationRequestData => {
     return {
       startVerificationWithFlashCallRequestBody: {
@@ -126,11 +134,13 @@ export const startVerificationHelper = {
           endpoint: phoneNumber,
         },
         reference,
-        ...(dialTimeout !== undefined) ? {
+        ...(dialTimeout !== undefined || interceptionTimeout !== undefined || additionalOptions !== undefined ? {
           flashCallOptions: {
-            dialTimeout,
+            ...(dialTimeout !== undefined ? { dialTimeout } : {}),
+            ...(interceptionTimeout !== undefined ? { interceptionTimeout } : {}),
+            ...(additionalOptions ?? {}),
           },
-        } : {},
+        } : {}),
       },
     };
   },

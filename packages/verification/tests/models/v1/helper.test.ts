@@ -9,6 +9,9 @@ const VERIFICATION_ID = 'a_verification_id';
 const VERIFICATION_CODE = '0000';
 const VERIFICATION_CLI = '+46000000000';
 const CALLOUT_LANGUAGE = 'en';
+const additionalProperties = {
+  hiddenOption: 'hiddenValue' ,
+};
 
 const identity: Verification.StartVerificationBase = {
   identity: {
@@ -32,6 +35,7 @@ const identityWithFlashCall: Verification.StartVerificationWithFlashCall = {
   },
   flashCallOptions: {
     dialTimeout: DIAL_TIMEOUT,
+    ...additionalProperties,
   },
 };
 
@@ -39,12 +43,14 @@ const smsOptions: Verification.SmsOptions = {
   expiry: '15:15:15',
   codeType: 'Numeric',
   template: 'Your verification code is {{CODE}}. Verified by Sinch',
+  ...additionalProperties,
 };
 
-const calloutOptions: Verification.CalloutOptions = {
+const calloutOptions: Verification.PhoneCallOptions = {
   speech: {
     locale: CALLOUT_LANGUAGE,
   },
+  ...additionalProperties,
 };
 
 describe('Verification models helper', () => {
@@ -80,28 +86,40 @@ describe('Verification models helper', () => {
     });
 
     it('should build a startCallout request', () => {
-      const buildRequest = Verification.startVerificationHelper.buildCalloutRequest(PHONE_NUMBER);
-      const startRequest: Verification.StartCalloutVerificationRequestData = {
-        startVerificationWithCalloutRequestBody: identity,
+      const buildRequest = Verification.startVerificationHelper.buildPhoneCallRequest(
+        PHONE_NUMBER, undefined, undefined, additionalProperties);
+      const startRequest: Verification.StartPhoneCallVerificationRequestData = {
+        startVerificationWithPhoneCallRequestBody: {
+          ...identity,
+          phoneCallOptions: {
+            ...additionalProperties,
+          },
+        },
       };
       expect(buildRequest).toEqual(startRequest);
     });
 
     it('should build a startCallout request with a reference', () => {
-      const buildRequest = Verification.startVerificationHelper.buildCalloutRequest(PHONE_NUMBER, REFERENCE);
-      const startRequest: Verification.StartCalloutVerificationRequestData = {
-        startVerificationWithCalloutRequestBody: identityWithReference,
+      const buildRequest = Verification.startVerificationHelper.buildPhoneCallRequest(
+        PHONE_NUMBER, REFERENCE, undefined, additionalProperties);
+      const startRequest: Verification.StartPhoneCallVerificationRequestData = {
+        startVerificationWithPhoneCallRequestBody: {
+          ...identityWithReference,
+          phoneCallOptions: {
+            ...additionalProperties,
+          },
+        },
       };
       expect(buildRequest).toEqual(startRequest);
     });
 
     it('should build a startCallout request with some calloutOptions', () => {
-      const buildRequest = Verification.startVerificationHelper.buildCalloutRequest(
-        PHONE_NUMBER, undefined, CALLOUT_LANGUAGE);
-      const startRequest: Verification.StartCalloutVerificationRequestData = {
-        startVerificationWithCalloutRequestBody: {
+      const buildRequest = Verification.startVerificationHelper.buildPhoneCallRequest(
+        PHONE_NUMBER, undefined, CALLOUT_LANGUAGE, additionalProperties);
+      const startRequest: Verification.StartPhoneCallVerificationRequestData = {
+        startVerificationWithPhoneCallRequestBody: {
           ...identity,
-          calloutOptions: {
+          phoneCallOptions: {
             ...calloutOptions,
           },
         },
@@ -109,41 +127,53 @@ describe('Verification models helper', () => {
       expect(buildRequest).toEqual(startRequest);
     });
 
-    it('should build a startSeamless request', () => {
-      const buildRequest = Verification.startVerificationHelper.buildSeamlessRequest(PHONE_NUMBER);
-      const startRequest: Verification.StartSeamlessVerificationRequestData = {
-        startSeamlessVerificationRequestBody: identity,
+    it('should build a startData request', () => {
+      const buildRequest = Verification.startVerificationHelper.buildDataRequest(PHONE_NUMBER);
+      const startRequest: Verification.StartDataVerificationRequestData = {
+        startDataVerificationRequestBody: identity,
       };
       expect(buildRequest).toEqual(startRequest);
     });
 
-    it('should build a startSeamless request with a reference', () => {
-      const buildRequest = Verification.startVerificationHelper.buildSeamlessRequest(PHONE_NUMBER, REFERENCE);
-      const startRequest: Verification.StartSeamlessVerificationRequestData = {
-        startSeamlessVerificationRequestBody: identityWithReference,
+    it('should build a startData request with a reference', () => {
+      const buildRequest = Verification.startVerificationHelper.buildDataRequest(PHONE_NUMBER, REFERENCE);
+      const startRequest: Verification.StartDataVerificationRequestData = {
+        startDataVerificationRequestBody: identityWithReference,
       };
       expect(buildRequest).toEqual(startRequest);
     });
 
     it('should build a startFlashCall request', () => {
-      const buildRequest = Verification.startVerificationHelper.buildFlashCallRequest(PHONE_NUMBER);
+      const buildRequest = Verification.startVerificationHelper.buildFlashCallRequest(
+        PHONE_NUMBER, undefined, undefined, undefined, additionalProperties);
       const startRequest: Verification.StartFlashCallVerificationRequestData = {
-        startVerificationWithFlashCallRequestBody: identity,
+        startVerificationWithFlashCallRequestBody: {
+          ...identity,
+          flashCallOptions: {
+            ...additionalProperties,
+          },
+        },
       };
       expect(buildRequest).toEqual(startRequest);
     });
 
     it('should build a startFlashCall request with a reference', () => {
-      const buildRequest = Verification.startVerificationHelper.buildFlashCallRequest(PHONE_NUMBER, REFERENCE);
+      const buildRequest = Verification.startVerificationHelper.buildFlashCallRequest(
+        PHONE_NUMBER, REFERENCE, undefined, undefined, additionalProperties);
       const startRequest: Verification.StartFlashCallVerificationRequestData = {
-        startVerificationWithFlashCallRequestBody: identityWithReference,
+        startVerificationWithFlashCallRequestBody: {
+          ...identityWithReference,
+          flashCallOptions: {
+            ...additionalProperties,
+          },
+        },
       };
       expect(buildRequest).toEqual(startRequest);
     });
 
     it('should build a startFlashCall request with a flashCall option', () => {
-      const buildRequest
-        = Verification.startVerificationHelper.buildFlashCallRequest(PHONE_NUMBER, undefined, DIAL_TIMEOUT);
+      const buildRequest= Verification.startVerificationHelper.buildFlashCallRequest(
+        PHONE_NUMBER, undefined, DIAL_TIMEOUT, undefined, additionalProperties);
       const startRequest: Verification.StartFlashCallVerificationRequestData = {
         startVerificationWithFlashCallRequestBody: identityWithFlashCall,
       };
