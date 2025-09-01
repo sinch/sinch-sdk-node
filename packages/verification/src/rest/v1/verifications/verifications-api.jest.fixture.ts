@@ -24,6 +24,11 @@ import {
   ReportPhoneCallVerificationByIdRequestData,
   ReportPhoneCallVerificationByIdentityRequestData,
   PhoneCallVerificationReportResponse,
+  StartWhatsAppVerificationResponse,
+  StartWhatsAppVerificationRequestData,
+  WhatsAppVerificationReportResponse,
+  ReportWhatsAppVerificationByIdRequestData,
+  ReportWhatsAppVerificationByIdentityRequestData,
 } from '../../../models';
 
 export class VerificationsApiFixture implements Partial<Readonly<VerificationsApi>> {
@@ -46,6 +51,12 @@ export class VerificationsApiFixture implements Partial<Readonly<VerificationsAp
   public reportPhoneCallById: jest.Mock<Promise<
     PhoneCallVerificationReportResponse>,
     [ReportPhoneCallVerificationByIdRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function reportWhatsAppById
+   */
+  public reportWhatsAppById: jest.Mock<Promise<
+    WhatsAppVerificationReportResponse>,
+    [ReportWhatsAppVerificationByIdRequestData]> = jest.fn();
   /**
    * Fixture associated to function reportCalloutById
    */
@@ -73,6 +84,13 @@ export class VerificationsApiFixture implements Partial<Readonly<VerificationsAp
     jest.Mock<Promise<
       PhoneCallVerificationReportResponse>,
       [ReportPhoneCallVerificationByIdentityRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function reportWhatsAppByIdentity
+   */
+  public reportWhatsAppByIdentity:
+    jest.Mock<Promise<
+      WhatsAppVerificationReportResponse>,
+      [ReportWhatsAppVerificationByIdentityRequestData]> = jest.fn();
   /**
    * Fixture associated to function reportCalloutByIdentity
    */
@@ -104,6 +122,12 @@ export class VerificationsApiFixture implements Partial<Readonly<VerificationsAp
   public startData: jest.Mock<
     Promise<StartDataVerificationResponse>,
     [StartDataVerificationRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function startWhatsApp
+   */
+  public startWhatsApp: jest.Mock<Promise<
+    StartWhatsAppVerificationResponse>,
+    [StartWhatsAppVerificationRequestData]> = jest.fn();
   /**
    * Fixture associated to function startCallout
    */

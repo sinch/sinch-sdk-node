@@ -49,6 +49,15 @@ export class VerificationEventService {
         }
         res.status(200).json(flashcallRequestEventResponse);
         break;
+      case 'whatsapp':
+        const whatsappRequestEventResponse: Verification.WhatsAppRequestEventResponse = {
+          action: 'allow',
+          whatsapp: {
+            code: '123456'
+          }
+        }
+        res.status(200).json(whatsappRequestEventResponse);
+        break;
       default:
         throw new Error(`Unexpected verification request method: ${event.method}`)
     }

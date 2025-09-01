@@ -7,14 +7,17 @@ import {
   ReportPhoneCallVerificationByIdRequestData,
   ReportSmsVerificationByIdentityRequestData,
   ReportSmsVerificationByIdRequestData,
+  ReportWhatsAppVerificationByIdentityRequestData,
+  ReportWhatsAppVerificationByIdRequestData,
   StartCalloutVerificationRequestData,
   StartDataVerificationRequestData,
   StartFlashCallVerificationRequestData,
   StartPhoneCallVerificationRequestData,
   StartSeamlessVerificationRequestData,
   StartSmsVerificationRequestData,
+  StartWhatsAppVerificationRequestData,
 } from './requests';
-import { SmsOptions } from './start-verification-request';
+import { SmsOptions, WhatsAppOptions } from './start-verification-request';
 
 export const startVerificationHelper = {
   /**
@@ -187,6 +190,34 @@ export const startVerificationHelper = {
       },
     };
   },
+  /**
+   * Builds a request object for starting a WhatsApp verification process.
+   *
+   * @param {string} phoneNumber - The phone number to which the WhatsApp verification should be sent.
+   * @param {string} [reference] - An optional reference identifier used to pass your own reference in the request for tracking purposes.
+   * @param {WhatsAppOptions} [whatsAppOptions] - Optional parameters for configuring the WhatsApp verification request, with default values assumed for all contained values if not provided.
+   * @return {StartWhatsAppVerificationRequestData} The constructed WhatsApp verification request data.
+   */
+  buildWhatsAppRequest: (
+    phoneNumber: string,
+    reference?: string,
+    whatsAppOptions?: WhatsAppOptions,
+  ): StartWhatsAppVerificationRequestData => {
+    return {
+      startVerificationWithWhatsAppRequestBody: {
+        identity: {
+          type: 'number',
+          endpoint: phoneNumber,
+        },
+        reference,
+        ...(whatsAppOptions !== undefined) ? {
+          whatsappOptions: {
+            ...whatsAppOptions,
+          },
+        } : {},
+      },
+    };
+  },
 };
 export const reportVerificationByIdHelper = {
   /**
@@ -273,6 +304,26 @@ export const reportVerificationByIdHelper = {
       },
     };
   },
+  /**
+   * Builds a request object for reporting a WhatsApp verification by its ID.
+   *
+   * @param {string} id - The unique identifier for the WhatsApp verification request.
+   * @param {string} code - The verification code received via WhatsApp.
+   * @return {ReportWhatsAppVerificationByIdRequestData} The request data object used to report the WhatsApp verification.
+   */
+  buildWhatsAppRequest: (
+    id: string,
+    code: string,
+  ): ReportWhatsAppVerificationByIdRequestData => {
+    return {
+      id,
+      reportWhatsAppVerificationByIdRequestBody: {
+        whatsapp: {
+          code,
+        },
+      },
+    };
+  },
 };
 export const reportVerificationByIdentityHelper = {
   /**
@@ -355,6 +406,26 @@ export const reportVerificationByIdentityHelper = {
       reportFlashCallVerificationByIdentityRequestBody: {
         flashCall: {
           cli,
+        },
+      },
+    };
+  },
+  /**
+   * Builds a request object for reporting a WhatsApp verification by the phone number identity.
+   *
+   * @param {string} identity - The phone number for which the verification process has been initiated.
+   * @param {string} code - The verification code received via WhatsApp.
+   * @return {ReportWhatsAppVerificationByIdentityRequestData} The request data object used to report the WhatsApp verification.
+   */
+  buildWhatsAppRequest: (
+    identity: string,
+    code: string,
+  ): ReportWhatsAppVerificationByIdentityRequestData => {
+    return {
+      endpoint: identity,
+      reportWhatsAppVerificationByIdentityRequestBody: {
+        whatsapp: {
+          code,
         },
       },
     };
