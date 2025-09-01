@@ -5,9 +5,9 @@ import { WhatsAppCodeType } from '../enums';
 export interface StartWhatsAppVerificationResponse {
   /** Verification identifier used to query for status. */
   id?: string;
-  /** The value of the method used for the Verification. For SMS Verifications, this will always be `whatsapp`. */
+  /** The value of the method used for the Verification. For WhatsApp Verifications, this will always be `whatsapp`. */
   method?: 'whatsapp';
-  /** The response contains the `template` of the SMS to be expected and intercepted. */
+  /** The response contains the `codeType` property. */
   whatsapp?: WhatsAppContent;
   /** @see LinksObject */
   _links?: LinksObject[];
