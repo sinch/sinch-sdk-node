@@ -53,7 +53,7 @@ export class VerificationEventService {
         const whatsappRequestEventResponse: Verification.WhatsAppRequestEventResponse = {
           action: 'allow',
           whatsapp: {
-            code: '123456'
+            acceptLanguage: ['fr']
           }
         }
         res.status(200).json(whatsappRequestEventResponse);

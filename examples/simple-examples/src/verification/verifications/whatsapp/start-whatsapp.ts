@@ -17,7 +17,7 @@ import {
     verificationIdentity,
     `test-reference-for-whatsapp-verification_${verificationIdentity}`,
     {
-      codeType: 'NUMERIC',
+      codeType: 'Numeric',
     },
   );
 
@@ -28,7 +28,7 @@ import {
 
   if (printFormat === 'pretty') {
     console.log(`Verification ID = ${response.id}`);
-    console.log(`Whatsapp verification specific field: template = ${JSON.stringify(response.whatsapp, null, 2)}`);
+    console.log(`Whatsapp verification specific field: ${JSON.stringify(response.whatsapp, null, 2)}`);
   } else {
     printFullResponse(response);
   }
