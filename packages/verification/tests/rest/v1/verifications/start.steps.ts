@@ -8,6 +8,7 @@ let startSmsVerificationResponse: Verification.StartSmsVerificationResponse;
 let startPhoneCallVerificationResponse: Verification.StartPhoneCallVerificationResponse;
 let startFlashCallVerificationResponse: Verification.StartFlashCallVerificationResponse;
 let startDataVerificationResponseError: RequestFailedError<string>;
+let startWhatsAppVerificationResponse: Verification.StartWhatsAppVerificationResponse;
 
 Given('the Verification service "Start" is available', () => {
   const verificationService = new VerificationService({
@@ -137,4 +138,34 @@ Then('the response contains the error details of a Data verification', () => {
   assert.equal(errorDetails.errorCode, 40300);
   assert.equal(errorDetails.message, 'Seamless verification not available for given destination.');
   assert.equal(errorDetails.reference, 'c01dc0de-c4db-44f1-5ca1-da9159d21c191');
+});
+
+When('I send a request to start a verification with WhatsApp', async () => {
+  startWhatsAppVerificationResponse = await startVerificationApi.startWhatsApp({
+    startVerificationWithWhatsAppRequestBody: {
+      identity: {
+        type: 'number',
+        endpoint: '+33123456789',
+      },
+      whatsappOptions: {
+        codeType: 'Numeric',
+        fooKey: 'foo value',
+      },
+    },
+  });
+});
+
+Then('the response contains the details of a verification started with WhatsApp', () => {
+  assert.equal(startWhatsAppVerificationResponse.id, '1ce0ffee-c0de-5eed-d33d-f00dfeed1337');
+  assert.equal(startWhatsAppVerificationResponse.method, 'whatsapp');
+  assert.ok(startWhatsAppVerificationResponse.whatsapp);
+  assert.ok(startWhatsAppVerificationResponse._links);
+  const statusLink = startWhatsAppVerificationResponse._links[0];
+  assert.equal(statusLink.rel, 'status');
+  assert.equal(statusLink.href, 'http://localhost:3018/verification/v1/verifications/id/1ce0ffee-c0de-5eed-d33d-f00dfeed1337');
+  assert.equal(statusLink.method, 'GET');
+  const reportLink = startWhatsAppVerificationResponse._links[1];
+  assert.equal(reportLink.rel, 'report');
+  assert.equal(reportLink.href, 'http://localhost:3018/verification/v1/verifications/id/1ce0ffee-c0de-5eed-d33d-f00dfeed1337');
+  assert.equal(reportLink.method, 'PUT');
 });
