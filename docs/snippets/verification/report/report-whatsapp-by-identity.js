@@ -10,26 +10,26 @@ async function main() {
   const applicationKey = process.env.SINCH_APPLICATION_API_KEY ?? 'MY_APP_KEY_ID';
   const applicationSecret = process.env.SINCH_APPLICATION_API_SECRET ?? 'MY_APP_KEY_SECRET';
 
-  // The id you received back from the API call when starting the SMS verification.
-  const verificationId = 'VERIFICATION_ID';
-  // The OTP is the code the user received via SMS as part of the verification process.
+  // The phone number being verified via WhatsApp.
+  const phoneNumber = 'PHONE_NUMBER';
+  // The OTP is the code the user received via WhatsApp as part of the verification process.
   const receivedVerificationCode = 'OTP_CODE';
 
   const sinch = new SinchClient({ applicationKey, applicationSecret });
 
   try {
-    const response = await sinch.verification.verifications.reportSmsById({
-      id: verificationId,
-      reportSmsVerificationByIdRequestBody: {
-        sms: {
+    const response = await sinch.verification.verifications.reportWhatsAppByIdentity({
+      endpoint: phoneNumber,
+      reportWhatsAppVerificationByIdentityRequestBody: {
+        whatsapp: {
           code: receivedVerificationCode,
         },
       },
     });
-    console.log('✅ Successfully reported the OTP for the verification process via SMS.');
+    console.log('✅ Successfully reported the OTP for the verification process via WhatsApp.');
     console.log(JSON.stringify(response, null, 2));
   } catch (err) {
-    console.error(`❌ Failed to report the OTP for the verification process via SMS with ID ${verificationId}:`);
+    console.error(`❌  Failed to report the OTP for the verification process via WhatsApp for the phone number ${phoneNumber}:`);
     console.error(err);
   }
 }

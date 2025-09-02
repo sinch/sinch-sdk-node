@@ -13,21 +13,22 @@ async function main() {
   const sinch = new SinchClient({ applicationKey, applicationSecret });
 
   // The phone number you want to verify, in E.164 format (e.g. +46701234567).
+  // Make sure that the phone number is registered on WhatsApp.
   const phoneNumber = 'PHONE_NUMBER';
 
   try {
-    const response = await sinch.verification.verifications.startSms({
-      startVerificationWithSmsRequestBody: {
+    const response = await sinch.verification.verifications.startWhatsApp({
+      startVerificationWithWhatsAppRequestBody: {
         identity: {
           type: 'number',
           endpoint: phoneNumber,
         },
       },
     });
-    console.log('✅ Successfully started the verification process via SMS.');
+    console.log('✅ Successfully started the verification process via WhatsApp.');
     console.log(JSON.stringify(response, null, 2));
   } catch (err) {
-    console.error(`❌ Failed to start a verification process via SMS for the phone number ${phoneNumber}:`);
+    console.error(`❌ Failed to start a verification process via WhatsApp for the phone number ${phoneNumber}:`);
     console.error(err);
   }
 }

@@ -6,17 +6,25 @@ import { SinchClient } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-(async () => {
-  const applicationKey = process.env.SINCH_APPLICATION_API_KEY || 'MY_APP_KEY_ID';
-  const applicationSecret = process.env.SINCH_APPLICATION_API_SECRET || 'MY_APP_KEY_SECRET';
+async function main() {
+  const applicationKey = process.env.SINCH_APPLICATION_API_KEY ?? 'MY_APP_KEY_ID';
+  const applicationSecret = process.env.SINCH_APPLICATION_API_SECRET ?? 'MY_APP_KEY_SECRET';
 
-  const verificationId = 'THE_VERIFICATION_ID';
+  // The id you received back from the API call when starting the verification.
+  const verificationId = 'VERIFICATION_ID';
 
   const sinch = new SinchClient({ applicationKey, applicationSecret });
 
-  const response = await sinch.verification.verificationStatus.getById({
-    id: verificationId,
-  });
+  try {
+    const response = await sinch.verification.verificationStatus.getById({
+      id: verificationId,
+    });
+    console.log('✅ Successfully retrieved Verification.');
+    console.log(JSON.stringify(response, null, 2));
+  } catch (err) {
+    console.error(`❌ Failed to retrieve the Verification with ID ${verificationId}:`);
+    console.error(err);
+  }
+}
 
-  console.log(`Response:\n${JSON.stringify(response, null, 2)}`);
-})();
+main();
