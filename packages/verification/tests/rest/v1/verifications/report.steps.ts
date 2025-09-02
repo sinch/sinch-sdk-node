@@ -6,6 +6,7 @@ let reportVerificationApi: VerificationsApi;
 let reportSmsResponse: Verification.SmsVerificationReportResponse;
 let reportPhoneCallResponse: Verification.PhoneCallVerificationReportResponse;
 let reportFlashCallResponse: Verification.FlashCallVerificationReportResponse;
+let reportWhatsAppResponse: Verification.WhatsAppVerificationReportResponse;
 
 Given('the Verification service "Report" is available', () => {
   const verificationService = new VerificationService({
@@ -124,4 +125,36 @@ Then('the response by {string} contains the details of a failed Flash Call verif
   const expiredReason: Verification.ReasonEnum = 'Expired';
   assert.equal(reportFlashCallResponse.reason, expiredReason);
   assert.equal(reportFlashCallResponse.callComplete, true);
+});
+
+// eslint-disable-next-line max-len
+When('I send a request to report a WhatsApp verification by {string} with the verification ID {string}', async (_method: string, verificationId: string) => {
+  reportWhatsAppResponse = await reportVerificationApi.reportWhatsAppById({
+    id: verificationId,
+    reportWhatsAppVerificationByIdRequestBody: {
+      whatsapp: {
+        code: '1234',
+      },
+    },
+  });
+});
+
+// eslint-disable-next-line max-len
+When('I send a request to report a WhatsApp verification by {string} with the phone number {string}', async (_method: string, phoneNumber: string) => {
+  reportWhatsAppResponse = await reportVerificationApi.reportWhatsAppByIdentity({
+    endpoint: phoneNumber,
+    reportWhatsAppVerificationByIdentityRequestBody: {
+      whatsapp: {
+        code: '5678',
+      },
+    },
+  });
+});
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('the response by {string} contains the details of a WhatsApp verification report', (_method: string) => {
+  assert.equal(reportWhatsAppResponse.id, '1ce0ffee-c0de-5eed-d33d-f00dfeed1337');
+  assert.equal(reportWhatsAppResponse.method, 'whatsapp');
+  const successfulStatus: Verification.VerificationStatusEnum = 'SUCCESSFUL';
+  assert.equal(reportWhatsAppResponse.status, successfulStatus);
 });

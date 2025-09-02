@@ -3,6 +3,7 @@ import {
   FlashCallVerificationReportRequest,
   PhoneCallVerificationReportRequest,
   SmsVerificationReportRequest,
+  WhatsAppVerificationReportRequest,
 } from '../../verification-report-request';
 import {
   StartDataVerification,
@@ -11,6 +12,7 @@ import {
   StartVerificationWithFlashCall,
   StartVerificationWithPhoneCall,
   StartVerificationWithSms,
+  StartVerificationWithWhatsApp,
 } from '../../start-verification-request';
 
 interface ReportVerificationByIdRequestDataBase {
@@ -39,6 +41,11 @@ export interface ReportCalloutVerificationByIdRequestData extends ReportVerifica
   'reportCalloutVerificationByIdRequestBody': CalloutVerificationReportRequest;
 }
 
+export interface ReportWhatsAppVerificationByIdRequestData extends ReportVerificationByIdRequestDataBase {
+  /** Request body to report a verification started with WhatsApp by its ID */
+  'reportWhatsAppVerificationByIdRequestBody': WhatsAppVerificationReportRequest;
+}
+
 interface ReportVerificationByIdentityRequestDataBase {
   /** For type `number` use a [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537)-compatible phone number. */
   'endpoint': string;
@@ -63,6 +70,11 @@ export interface ReportPhoneCallVerificationByIdentityRequestData extends Report
 export interface ReportCalloutVerificationByIdentityRequestData extends ReportVerificationByIdentityRequestDataBase {
   /** Request body to report a verification started with a callout by its identity */
   'reportCalloutVerificationByIdentityRequestBody': CalloutVerificationReportRequest;
+}
+
+export interface ReportWhatsAppVerificationByIdentityRequestData extends ReportVerificationByIdentityRequestDataBase {
+  /** Request body to report a verification started with WhatsApp by its identity */
+  'reportWhatsAppVerificationByIdentityRequestBody': WhatsAppVerificationReportRequest;
 }
 
 export interface StartSmsVerificationRequestData {
@@ -95,4 +107,9 @@ export interface StartDataVerificationRequestData {
 export interface StartSeamlessVerificationRequestData {
   /** Request body to start a seamless verification */
   'startSeamlessVerificationRequestBody': StartSeamlessVerification;
+}
+
+export interface StartWhatsAppVerificationRequestData {
+  /** Request body to start a verification with whatsapp */
+  'startVerificationWithWhatsAppRequestBody': StartVerificationWithWhatsApp;
 }
