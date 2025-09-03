@@ -1,6 +1,6 @@
 import { Identity } from '../identity';
 import { WithAdditionalProperties } from '@sinch/sdk-client';
-import { CodeType } from '../enums';
+import { CodeType, WhatsAppCodeType } from '../enums';
 
 export interface StartVerificationWithSms extends StartVerificationBase {
   /** @see SmsOptions */
@@ -32,6 +32,11 @@ export interface StartDataVerification extends StartVerificationBase {}
 
 /** @deprecated Use StartDataVerification instead */
 export type StartSeamlessVerification = StartDataVerification;
+
+export interface StartVerificationWithWhatsApp extends StartVerificationBase {
+  /** @see WhatsAppOptions */
+  whatsappOptions?: WhatsAppOptions;
+}
 
 export interface StartVerificationBase {
   /** @see Identity */
@@ -85,4 +90,12 @@ export type CalloutOptionsSpeech = PhoneCallOptionsSpeech;
 export interface PhoneCallOptionsSpeech {
   /** A `language-region` identifier according to [IANA](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry). Only a subset of those identifiers is accepted. */
   locale?: string;
+}
+
+/**
+ * An optional configuration for WhatsApp Verification, should be used only when the verification request originates from your backend (not an end user device) and request is signed via an [Application signed request](https://developers.sinch.com/docs/voice/api-reference/authentication/signed-request).
+ */
+export interface WhatsAppOptions extends WithAdditionalProperties {
+  /** Selects type of code which will be sent to customer */
+  codeType?: WhatsAppCodeType;
 }

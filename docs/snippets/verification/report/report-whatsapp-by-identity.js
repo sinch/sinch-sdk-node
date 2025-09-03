@@ -10,26 +10,26 @@ async function main() {
   const applicationKey = process.env.SINCH_APPLICATION_KEY ?? 'MY_APPLICATION_KEY';
   const applicationSecret = process.env.SINCH_APPLICATION_SECRET ?? 'MY_APPLICATION_SECRET';
 
-  // The phone number being verified via Flash Call.
+  // The phone number being verified via WhatsApp.
   const phoneNumber = 'PHONE_NUMBER';
-  // The calling number is the number shown on the missed call that the user received as part of the Flash Call verification.
-  const callingNumber = 'CALLING_NUMBER';
+  // The OTP is the code the user received via WhatsApp as part of the verification process.
+  const receivedVerificationCode = 'OTP_CODE';
 
   const sinch = new SinchClient({ applicationKey, applicationSecret });
 
   try {
-    const response = await sinch.verification.verifications.reportFlashCallByIdentity({
+    const response = await sinch.verification.verifications.reportWhatsAppByIdentity({
       endpoint: phoneNumber,
-      reportFlashCallVerificationByIdentityRequestBody: {
-        flashCall: {
-          cli: callingNumber,
+      reportWhatsAppVerificationByIdentityRequestBody: {
+        whatsapp: {
+          code: receivedVerificationCode,
         },
       },
     });
-    console.log('✅ Successfully reported the calling number for the verification process via FlashCall.');
+    console.log('✅ Successfully reported the OTP for the verification process via WhatsApp.');
     console.log(JSON.stringify(response, null, 2));
   } catch (err) {
-    console.error(`❌ Failed to report the calling number for the verification process via FlashCall for the phone number ${phoneNumber}:`);
+    console.error(`❌  Failed to report the OTP for the verification process via WhatsApp for the phone number ${phoneNumber}:`);
     console.error(err);
   }
 }

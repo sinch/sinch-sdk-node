@@ -6,19 +6,27 @@ import { SinchClient } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-(async () => {
-  const applicationKey = process.env.SINCH_APPLICATION_API_KEY || 'MY_APP_KEY_ID';
-  const applicationSecret = process.env.SINCH_APPLICATION_API_SECRET || 'MY_APP_KEY_SECRET';
+async function main() {
+  const applicationKey = process.env.SINCH_APPLICATION_KEY ?? 'MY_APPLICATION_KEY';
+  const applicationSecret = process.env.SINCH_APPLICATION_SECRET ?? 'MY_APPLICATION_SECRET';
 
-  const conferenceId = 'AN_EXISTING_CONFERENCE_ID';
-  const callId = 'A_PARTICIPANT_CALL_ID';
+  // The ID of the conference to remove a participant from
+  const conferenceId = 'CONFERENCE_ID';
+  // The Call ID of the participant to remove from the conference
+  const callId = 'PARTICIPANT_CALL_ID';
 
   const sinch = new SinchClient({ applicationKey, applicationSecret });
 
-  await sinch.voice.conferences.kickParticipant({
-    conferenceId,
-    callId,
-  });
+  try {
+    await sinch.voice.conferences.kickParticipant({
+      conferenceId,
+      callId,
+    });
+    console.log(`✅ Successfully kicked participant with Call ID ${callId} from conference with ID ${conferenceId}.`);
+  } catch (err) {
+    console.error(`❌ Failed to kick participant with Call ID ${callId} from conference with ID ${conferenceId}:`);
+    console.error(err);
+  }
+}
 
-  console.log('Done');
-})();
+main();

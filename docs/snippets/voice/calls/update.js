@@ -10,19 +10,29 @@ async function main() {
   const applicationKey = process.env.SINCH_APPLICATION_KEY ?? 'MY_APPLICATION_KEY';
   const applicationSecret = process.env.SINCH_APPLICATION_SECRET ?? 'MY_APPLICATION_SECRET';
 
-  // The reference you defined when starting the verification process.
-  const verificationReference = 'VERIFICATION_REFERENCE';
+  // The ID of the call to update
+  const callId = 'CALL_ID';
 
   const sinch = new SinchClient({ applicationKey, applicationSecret });
 
-  try{
-    const response = await sinch.verification.verificationStatus.getByReference({
-      reference: verificationReference,
+  try {
+    await sinch.voice.calls.update({
+      callId,
+      updateCallRequestBody: {
+        instructions: [
+          {
+            name: 'sendDtmf',
+            value: '1234#',
+          },
+        ],
+        action: {
+          name: 'hangup',
+        },
+      },
     });
-    console.log('✅ Successfully retrieved Verification.');
-    console.log(JSON.stringify(response, null, 2));
+    console.log(`✅ Successfully updated call with ID ${callId}.`);
   } catch (err) {
-    console.error(`❌ Failed to retrieve the Verification with reference ${verificationReference}:`);
+    console.error(`❌ Failed to update call with ID ${callId}:`);
     console.error(err);
   }
 }
