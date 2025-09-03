@@ -7,8 +7,8 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const applicationKey = process.env.SINCH_APPLICATION_API_KEY ?? 'MY_APP_KEY_ID';
-  const applicationSecret = process.env.SINCH_APPLICATION_API_SECRET ?? 'MY_APP_KEY_SECRET';
+  const applicationKey = process.env.SINCH_APPLICATION_KEY ?? 'MY_APPLICATION_KEY';
+  const applicationSecret = process.env.SINCH_APPLICATION_SECRET ?? 'MY_APPLICATION_SECRET';
 
   // The reference you defined when starting the verification process.
   const verificationReference = 'VERIFICATION_REFERENCE';

@@ -7,19 +7,21 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const applicationKey = process.env.SINCH_APPLICATION_API_KEY ?? 'MY_APP_KEY_ID';
-  const applicationSecret = process.env.SINCH_APPLICATION_API_SECRET ?? 'MY_APP_KEY_SECRET';
+  const applicationKey = process.env.SINCH_APPLICATION_KEY ?? 'MY_APPLICATION_KEY';
+  const applicationSecret = process.env.SINCH_APPLICATION_SECRET ?? 'MY_APPLICATION_SECRET';
 
   // The phone number you are verifying, in E.164 format (e.g. +46701234567).
   // This should be the same number you used when starting the verification.
   const phoneNumber = 'PHONE_NUMBER';
+  // Possible values: 'sms', 'flashcall', 'phonecall', 'whatsapp'
+  const verificationMethod = 'sms';
 
   const sinch = new SinchClient({ applicationKey, applicationSecret });
 
   try {
     const response = await sinch.verification.verificationStatus.getByIdentity({
       endpoint: phoneNumber,
-      method: 'sms',
+      method: verificationMethod,
     });
     console.log('✅ Successfully retrieved Verification.');
     console.log(JSON.stringify(response, null, 2));
