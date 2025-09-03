@@ -6,13 +6,26 @@ import { SinchClient } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-(async () => {
-  const applicationKey = process.env.SINCH_APPLICATION_API_KEY || 'MY_APP_KEY_ID';
-  const applicationSecret = process.env.SINCH_APPLICATION_API_SECRET || 'MY_APP_KEY_SECRET';
+async function main() {
+  const applicationKey = process.env.SINCH_APPLICATION_KEY ?? 'MY_APPLICATION_KEY';
+  const applicationSecret = process.env.SINCH_APPLICATION_SECRET ?? 'MY_APPLICATION_SECRET';
 
   const sinch = new SinchClient({ applicationKey, applicationSecret });
 
-  const response = await sinch.voice.applications.listNumbers({});
+  try{
+    const response = await sinch.voice.applications.listNumbers({});
+    if (response.numbers?.length === 0) {
+      console.log('No phone numbers found.');
+      return;
+    }
+    console.log(`✅ Found ${response.numbers?.length} phone numbers.`);
+    response.numbers?.forEach((numberInformation) => {
+      console.log(numberInformation);
+    });
+  } catch (err) {
+    console.error('❌ Failed to list phone numbers and their capabilities:');
+    console.error(err);
+  }
+}
 
-  console.log(`Response:\n${JSON.stringify(response, null, 2)}`);
-})();
+main();

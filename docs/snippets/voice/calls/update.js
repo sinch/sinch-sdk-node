@@ -10,20 +10,19 @@ async function main() {
   const applicationKey = process.env.SINCH_APPLICATION_KEY ?? 'MY_APPLICATION_KEY';
   const applicationSecret = process.env.SINCH_APPLICATION_SECRET ?? 'MY_APPLICATION_SECRET';
 
-  // The Call ID of the call to manage
+  // The ID of the call to update
   const callId = 'CALL_ID';
 
   const sinch = new SinchClient({ applicationKey, applicationSecret });
 
   try {
-    await sinch.voice.calls.manageWithCallLeg({
+    await sinch.voice.calls.update({
       callId,
-      callLeg: 'callee',
-      manageWithCallLegRequestBody: {
+      updateCallRequestBody: {
         instructions: [
           {
-            name: 'say',
-            text: 'Hello, the call is over, hanging up now. Goodbye',
+            name: 'sendDtmf',
+            value: '1234#',
           },
         ],
         action: {
@@ -31,9 +30,9 @@ async function main() {
         },
       },
     });
-    console.log(`✅ Successfully managed call with ID ${callId} using call leg.`);
+    console.log(`✅ Successfully updated call with ID ${callId}.`);
   } catch (err) {
-    console.error(`❌ Failed to manage call with ID ${callId} using call leg:`);
+    console.error(`❌ Failed to update call with ID ${callId}:`);
     console.error(err);
   }
 }
