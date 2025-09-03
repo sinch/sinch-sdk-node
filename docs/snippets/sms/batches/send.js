@@ -12,7 +12,8 @@ async function main() {
   const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
   const smsRegion = process.env.SINCH_SMS_REGION ?? 'MY_SMS_REGION';
 
-  const senderPhoneNumber = process.env.SINCH_PHONE_NUMBER || 'MY_SINCH_PHONE_NUMBER';
+  // The sender phone number (Sinch virtual number, alphanumeric sender ID, or short code)
+  const senderNumber = 'SENDER_NUMBER';
   // The recipient phone number, in E.164 format (e.g., +46701234567)
   const recipientPhoneNumber = 'RECIPIENT_PHONE_NUMBER';
   // The body of the SMS message
@@ -23,7 +24,7 @@ async function main() {
   try {
     const response = await sinch.sms.batches.send({
       sendSMSRequestBody: {
-        from: senderPhoneNumber,
+        from: senderNumber,
         to: [recipientPhoneNumber],
         body,
       },
