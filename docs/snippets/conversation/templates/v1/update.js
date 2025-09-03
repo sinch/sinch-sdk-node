@@ -6,36 +6,44 @@ import { SinchClient } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-(async () => {
-  const projectId = process.env.SINCH_PROJECT_ID || 'MY_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID || 'MY_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET || 'MY_KEY_SECRET';
-  const conversationRegion = process.env.SINCH_CONVERSATION_REGION || 'MY_CONVERSATION_REGION';
+async function main() {
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
+  const conversationRegion = process.env.SINCH_CONVERSATION_REGION ?? 'MY_CONVERSATION_REGION';
 
-  const templateId = 'A_TEMPLATE_ID_TO_UPDATE';
+  // The ID of the Template to update
+  const templateId = 'TEMPLATE_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret, conversationRegion });
 
-  const response = await sinch.conversation.templatesV1.update({
-    template_id: templateId,
-    updateTemplateRequestBody: {
-      description: 'Updated description from Templates V1 API',
-      default_translation: 'en-US',
-      translations: [
-        {
-          language_code: 'en-US',
-          version: '2',
-          variables: [
-            {
-              key: 'name',
-              preview_value: 'Professor Jones',
-            },
-          ],
-          content: '{"text_message":{"text":"Hello ${name}. Text message template created with V1 API"}}',
-        },
-      ],
-    },
-  });
+  try {
+    const response = await sinch.conversation.templatesV1.update({
+      template_id: templateId,
+      updateTemplateRequestBody: {
+        description: 'Updated description from Templates V1 API',
+        default_translation: 'en-US',
+        translations: [
+          {
+            language_code: 'en-US',
+            version: '2',
+            variables: [
+              {
+                key: 'name',
+                preview_value: 'Professor Jones',
+              },
+            ],
+            content: '{"text_message":{"text":"Hello ${name}. Text message template created with V1 API"}}',
+          },
+        ],
+      },
+    });
+    console.log('✅ Successfully updated the Template.');
+    console.log(JSON.stringify(response, null, 2));
+  } catch (err) {
+    console.error(`❌ Failed to update the Template with ID ${templateId}:`);
+    console.error(err);
+  }
+}
 
-  console.log(`Response:\n${JSON.stringify(response, null, 2)}`);
-})();
+main();
