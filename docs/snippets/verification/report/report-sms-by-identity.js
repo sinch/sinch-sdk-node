@@ -6,23 +6,32 @@ import { SinchClient } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-(async () => {
-  const applicationKey = process.env.SINCH_APPLICATION_API_KEY || 'MY_APP_KEY_ID';
-  const applicationSecret = process.env.SINCH_APPLICATION_API_SECRET || 'MY_APP_KEY_SECRET';
+async function main() {
+  const applicationKey = process.env.SINCH_APPLICATION_KEY ?? 'MY_APPLICATION_KEY';
+  const applicationSecret = process.env.SINCH_APPLICATION_SECRET ?? 'MY_APPLICATION_SECRET';
 
-  const phoneNumber = 'THE_PHONE_NUMBER_BEING_VERIFIED';
-  const receivedVerificationCode = 'THE_RECEIVED_VERIFICATION_CODE';
+  // The phone number being verified via SMS.
+  const phoneNumber = 'PHONE_NUMBER';
+  // The OTP is the code the user received via SMS as part of the verification process.
+  const receivedVerificationCode = 'OTP_CODE';
 
   const sinch = new SinchClient({ applicationKey, applicationSecret });
 
-  const response = await sinch.verification.verifications.reportSmsByIdentity({
-    endpoint: phoneNumber,
-    reportSmsVerificationByIdentityRequestBody: {
-      sms: {
-        code: receivedVerificationCode,
+  try {
+    const response = await sinch.verification.verifications.reportSmsByIdentity({
+      endpoint: phoneNumber,
+      reportSmsVerificationByIdentityRequestBody: {
+        sms: {
+          code: receivedVerificationCode,
+        },
       },
-    },
-  });
+    });
+    console.log('✅ Successfully reported the OTP for the verification process via SMS.');
+    console.log(JSON.stringify(response, null, 2));
+  } catch (err) {
+    console.error(`❌  Failed to report the OTP for the verification process via SMS for the phone number ${phoneNumber}:`);
+    console.error(err);
+  }
+}
 
-  console.log(`Response:\n${JSON.stringify(response, null, 2)}`);
-})();
+main();
