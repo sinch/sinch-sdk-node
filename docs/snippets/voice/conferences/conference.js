@@ -6,29 +6,40 @@ import { SinchClient } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-(async () => {
-  const applicationKey = process.env.SINCH_APPLICATION_API_KEY || 'MY_APP_KEY_ID';
-  const applicationSecret = process.env.SINCH_APPLICATION_API_SECRET || 'MY_APP_KEY_SECRET';
+async function main() {
+  const applicationKey = process.env.SINCH_APPLICATION_KEY ?? 'MY_APPLICATION_KEY';
+  const applicationSecret = process.env.SINCH_APPLICATION_SECRET ?? 'MY_APPLICATION_SECRET';
 
+  // The phone number to be used as the caller ID (CLI) for the outbound call
   const sinchPhoneNumber = process.env.SINCH_PHONE_NUMBER || 'MY_SINCH_PHONE_NUMBER';
-  const conferenceId = 'AN_EXISTING_OR_TO_BE_CREATED_CONFERENCE_ID';
-  const phoneNumberToBeCalled = 'PHONE_NUMBER_TO_BE_CALLED';
+  // An existing or to be created conference ID
+  const conferenceId = 'CONFERENCE_ID';
+  // The phone number to be called and added to the conference, in E.164 format (e.g., +12025550123)
+  const recipientPhoneNumber = 'RECIPIENT_PHONE_NUMBER';
 
   const sinch = new SinchClient({ applicationKey, applicationSecret });
 
-  const response = await sinch.voice.callouts.conference({
-    conferenceCalloutRequestBody: {
-      method: 'conferenceCallout',
-      conferenceCallout: {
-        conferenceId,
-        cli: sinchPhoneNumber,
-        destination: {
-          type: 'number',
-          endpoint: phoneNumberToBeCalled,
+  try {
+    const response = await sinch.voice.callouts.conference({
+      conferenceCalloutRequestBody: {
+        method: 'conferenceCallout',
+        conferenceCallout: {
+          conferenceId,
+          cli: sinchPhoneNumber,
+          destination: {
+            type: 'number',
+            endpoint: recipientPhoneNumber,
+          },
         },
       },
-    },
-  });
+    });
+    console.log(`✅ Successfully initiated conference call to ${recipientPhoneNumber}:`);
+    console.log(JSON.stringify(response, null, 2));
+  } catch (err) {
+    console.error(`❌ Failed to initiate conference call to ${recipientPhoneNumber}:`);
+    console.error(err);
+  }
+}
 
-  console.log(`Response:\n${JSON.stringify(response, null, 2)}`);
-})();
+
+main();
