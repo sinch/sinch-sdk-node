@@ -20,6 +20,15 @@
     "numbers:rent-any": "node numbers/available-numbers/rent-any.js",
     "numbers:regions:list": "node numbers/available-regions/list.js",
     "numbers:callback-config:get": "node numbers/callback-configuration/get.js",
-    "numbers:callback-config:update": "node numbers/callback-configuration/update.js"
+    "numbers:callback-config:update": "node numbers/callback-configuration/update.js",
+    "verification:start:sms": "node verification/start/start-sms.js",
+    "verification:start:flashcall": "node verification/start/start-flashcall.js",
+    "verification:report:sms:by-id": "node verification/report/report-sms-by-id.js",
+    "verification:report:sms:by-identity": "node verification/report/report-sms-by-identity.js",
+    "verification:report:flashcall:by-id": "node verification/report/report-flashcall-by-id.js",
+    "verification:report:flashcall:by-identity": "node verification/report/report-flashcall-by-identity.js",
+    "verification:status:get-by-id": "node verification/status/get-by-id.js",
+    "verification:status:get-by-identity": "node verification/status/get-by-identity.js",
+    "verification:status:getby-reference": "node verification/status/get-by-reference.js"
   }
 }
