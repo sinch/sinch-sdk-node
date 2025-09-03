@@ -7,12 +7,12 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const projectId = process.env.SINCH_PROJECT_ID ?? 'YOUR_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID ?? 'YOUR_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET ?? 'YOUR_KEY_SECRET';
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
-  // Replace with the SIP Trunk ID you want to create the endpoint in
-  const sipTrunkId = 'YOUR_SIP_TRUNK_ID';
+  // The SIP Trunk ID you want to create the endpoint in
+  const sipTrunkId = 'SIP_TRUNK_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
@@ -25,10 +25,10 @@ async function main() {
         priority: 1,
       },
     });
-    console.log('✅ Successfully created SIP endpoint.');
+    console.log('✅ Successfully created the SIP Endpoint.');
     console.log(JSON.stringify(response, null, 2));
   } catch (err) {
-    console.error('❌ Failed to create SIP endpoint:');
+    console.error('❌ Failed to create the SIP Endpoint:');
     console.error(err);
   }
 }

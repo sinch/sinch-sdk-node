@@ -7,20 +7,20 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const projectId = process.env.SINCH_PROJECT_ID ?? 'YOUR_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID ?? 'YOUR_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET ?? 'YOUR_KEY_SECRET';
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
-  // Replace with the SIP Trunk ID you want to delete
-  const sipTrunkId = 'YOUR_SIP_TRUNK_ID';
+  // The SIP Trunk ID you want to delete
+  const sipTrunkId = 'SIP_TRUNK_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
   try{
     await sinch.elasticSipTrunking.sipTrunks.delete({ sipTrunkId });
-    console.log(`✅ Successfully deleted SIP trunk with ID ${sipTrunkId}.`);
+    console.log(`✅ Successfully deleted the SIP Trunk with ID ${sipTrunkId}.`);
   } catch (err) {
-    console.error(`❌ Failed to delete SIP trunk with ID ${sipTrunkId}:`);
+    console.error(`❌ Failed to delete the SIP Trunk with ID ${sipTrunkId}:`);
     console.error(err);
   }
 }

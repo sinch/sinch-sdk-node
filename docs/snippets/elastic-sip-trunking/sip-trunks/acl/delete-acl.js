@@ -7,14 +7,14 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const projectId = process.env.SINCH_PROJECT_ID ?? 'YOUR_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID ?? 'YOUR_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET ?? 'YOUR_KEY_SECRET';
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
-  // Replace with the SIP Trunk ID you want to delete an ACL from
-  const sipTrunkId = 'YOUR_SIP_TRUNK_ID';
-  // Replace with the ACL ID you want to delete from the SIP Trunk
-  const aclId = 'YOUR_ACL_ID';
+  // The SIP Trunk ID you want to delete an ACL from
+  const sipTrunkId = 'SIP_TRUNK_ID';
+  // The ACL ID you want to delete from the SIP Trunk
+  const aclId = 'ACL_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
@@ -23,9 +23,9 @@ async function main() {
       trunkId: sipTrunkId,
       accessControlListId: aclId,
     });
-    console.log(`✅ Successfully deleted ACL ${aclId} from SIP trunk with ID ${sipTrunkId}.`);
+    console.log(`✅ Successfully deleted the ACL ${aclId} from the SIP Trunk with ID ${sipTrunkId}.`);
   } catch (err) {
-    console.error(`❌ Failed to delete ACL ${aclId} from SIP trunk with ID ${sipTrunkId}:`);
+    console.error(`❌ Failed to delete the ACL ${aclId} from the SIP Trunk with ID ${sipTrunkId}:`);
     console.error(err);
   }
 }

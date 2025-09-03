@@ -7,9 +7,9 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const projectId = process.env.SINCH_PROJECT_ID ?? 'YOUR_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID ?? 'YOUR_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET ?? 'YOUR_KEY_SECRET';
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
   // Replace with the country code you want to update permissions for
   const countryCode = 'US';
@@ -23,10 +23,10 @@ async function main() {
         enabled: true,
       },
     });
-    console.log('✅ Successfully updated country permissions.');
+    console.log('✅ Successfully updated the country permissions.');
     console.log(JSON.stringify(response, null, 2));
   } catch (err) {
-    console.error(`❌ Failed to update country permissions for country code ${countryCode}:`);
+    console.error(`❌ Failed to update the country permissions for the country code ${countryCode}:`);
     console.error(err);
   }
 }

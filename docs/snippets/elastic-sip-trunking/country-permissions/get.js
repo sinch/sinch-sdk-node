@@ -7,11 +7,11 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const projectId = process.env.SINCH_PROJECT_ID ?? 'YOUR_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID ?? 'YOUR_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET ?? 'YOUR_KEY_SECRET';
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
-  // Replace with the country code you want to get permissions for
+  // The country code you want to get permissions for
   const countryCode = 'US';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
@@ -20,10 +20,10 @@ async function main() {
     const response = await sinch.elasticSipTrunking.countryPermissions.get({
       isoCode: countryCode,
     });
-    console.log('✅ Successfully retrieved country permissions.');
+    console.log('✅ Successfully retrieved the country permissions.');
     console.log(JSON.stringify(response, null, 2));
   } catch (err) {
-    console.error(`❌ Failed to retrieve country permissions for country code ${countryCode}:`);
+    console.error(`❌ Failed to retrieve the country permissions for country code ${countryCode}:`);
     console.error(err);
   }
 }
