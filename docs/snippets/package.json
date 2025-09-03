@@ -29,6 +29,21 @@
     "verification:report:flashcall:by-identity": "node verification/report/report-flashcall-by-identity.js",
     "verification:status:get-by-id": "node verification/status/get-by-id.js",
     "verification:status:get-by-identity": "node verification/status/get-by-identity.js",
-    "verification:status:getby-reference": "node verification/status/get-by-reference.js"
+    "verification:status:getby-reference": "node verification/status/get-by-reference.js",
+    "voice:callouts:tts": "node voice/callouts/tts.js",
+    "voice:callouts:conference": "node voice/conferences/conference.js",
+    "voice:conference:call": "node voice/conferences/conference.js",
+    "voice:conference:get": "node voice/conferences/get.js",
+    "voice:conference:manage-participant": "node voice/conferences/manage-participant.js",
+    "voice:conference:kick-participant": "node voice/conferences/kick-participant.js",
+    "voice:conference:kick-all": "node voice/conferences/kick-all.js",
+    "voice:calls:get": "node voice/calls/get.js",
+    "voice:calls:manage-with-call-leg": "node voice/calls/manage-with-call-leg.js",
+    "voice:calls:update": "node voice/calls/update.js",
+    "voice:applications:list-numbers": "node voice/applications/list-numbers.js",
+    "voice:applications:assign-numbers": "node voice/applications/assign-numbers.js",
+    "voice:applications:unassign-number": "node voice/applications/unassign-number.js",
+    "voice:applications:get-callback-urls": "node voice/applications/get-callback-urls.js",
+    "voice:applications:update-callback-urls": "node voice/applications/update-callback-urls.js"
   }
 }

@@ -17,7 +17,7 @@ import { Voice } from '@sinch/sdk-core';
   try {
     response = await voiceService.applications.listNumbers(requestData);
   } catch (error) {
-    console.log(`Impossible to get information about your numbers`);
+    console.log('Impossible to get information about your numbers');
     throw error;
   }
 
