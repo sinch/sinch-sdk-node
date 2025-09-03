@@ -26,4 +26,4 @@ export interface VerificationRequestEvent {
 /** @deprecated Use VerificationRequestMethod instead */
 export type MethodEnum = 'sms' | 'flashcall' | 'callout';
 
-export type VerificationRequestMethod = 'sms' | 'flashcall' | 'callout';
+export type VerificationRequestMethod = 'sms' | 'flashcall' | 'callout' | 'whatsapp';

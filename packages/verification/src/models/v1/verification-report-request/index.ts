@@ -4,4 +4,6 @@ export type {
   PhoneCallVerificationReportRequest,
   PhoneCallVerificationReportRequestServerModel,
   CalloutVerificationReportRequest,
+  WhatsAppVerificationReportRequest,
+  WhatsAppContent,
 } from './verification-report-request';

@@ -6,25 +6,34 @@ import { SinchClient } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-(async () => {
-  const projectId = process.env.SINCH_PROJECT_ID || 'MY_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID || 'MY_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET || 'MY_KEY_SECRET';
-  const smsRegion = process.env.SINCH_SMS_REGION || 'MY_SMS_REGION';
+async function main() {
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
+  const smsRegion = process.env.SINCH_SMS_REGION ?? 'MY_SMS_REGION';
 
-  const batchId = 'A_BATCH_ID_TO_REPLACE';
-  const recipientPhoneNumberReplacement = 'A_NEW_RECIPIENT_PHONE_NUMBER';
+  // The ID of the SMS batch to replace
+  const batchId = 'BATCH_ID';
+  // New values to replace in the batch
+  const recipientPhoneNumberReplacement = 'NEW_RECIPIENT_PHONE_NUMBER';
   const bodyReplacement = 'A message body updated';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret, smsRegion });
 
-  const response = await sinch.sms.batches.replace({
-    batch_id: batchId,
-    replaceBatchMessageRequestBody: {
-      to: [recipientPhoneNumberReplacement],
-      body: bodyReplacement,
-    },
-  });
+  try {
+    const response = await sinch.sms.batches.replace({
+      batch_id: batchId,
+      replaceBatchMessageRequestBody: {
+        to: [recipientPhoneNumberReplacement],
+        body: bodyReplacement,
+      },
+    });
+    console.log('✅ Successfully replaced the SMS batch.');
+    console.log(`Response:\n${JSON.stringify(response, null, 2)}`);
+  } catch (err) {
+    console.error(`❌ Failed to replace the SMS batch with ID ${batchId}:`);
+    console.error(err);
+  }
+}
 
-  console.log(`Response:\n${JSON.stringify(response, null, 2)}`);
-})();
+main();

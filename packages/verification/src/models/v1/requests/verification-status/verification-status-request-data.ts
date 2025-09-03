@@ -7,7 +7,7 @@ export interface VerificationStatusByIdentityRequestData {
   'endpoint': string;
   /** The method of the verification. */
   // TODO v2.0 - Remove 'callout' and 'flashCall' options
-  'method': 'sms' | 'callout' | 'phonecall' | 'flashCall' | 'flashcall';
+  'method': 'sms' | 'callout' | 'phonecall' | 'flashCall' | 'flashcall' | 'whatsapp' | string;
 }
 export interface VerificationStatusByReferenceRequestData {
   /** The custom reference of the verification. */

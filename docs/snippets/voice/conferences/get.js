@@ -6,15 +6,23 @@ import { SinchClient } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-(async () => {
-  const applicationKey = process.env.SINCH_APPLICATION_API_KEY || 'MY_APP_KEY_ID';
-  const applicationSecret = process.env.SINCH_APPLICATION_API_SECRET || 'MY_APP_KEY_SECRET';
+async function main() {
+  const applicationKey = process.env.SINCH_APPLICATION_KEY ?? 'MY_APPLICATION_KEY';
+  const applicationSecret = process.env.SINCH_APPLICATION_SECRET ?? 'MY_APPLICATION_SECRET';
 
-  const conferenceId = 'AN_EXISTING_CONFERENCE_ID';
+  // The ID of the conference to retrieve
+  const conferenceId = 'CONFERENCE_ID';
 
   const sinch = new SinchClient({ applicationKey, applicationSecret });
 
-  const response = await sinch.voice.conferences.get({ conferenceId });
+  try {
+    const response = await sinch.voice.conferences.get({ conferenceId });
+    console.log('✅ Successfully retrieved conference information.');
+    console.log(`Response:\n${JSON.stringify(response, null, 2)}`);
+  } catch (err) {
+    console.error(`❌ Failed to retrieve information for conference with ID ${conferenceId}:`);
+    console.error(err);
+  }
+}
 
-  console.log(`Response:\n${JSON.stringify(response, null, 2)}`);
-})();
+main();
