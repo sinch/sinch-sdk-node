@@ -14,12 +14,12 @@ async function main() {
 
   try{
     const response = await sinch.voice.applications.listNumbers({});
-    if (response.numbers?.length === 0) {
+    if (!response.numbers?.length) {
       console.log('No phone numbers found.');
       return;
     }
-    console.log(`✅ Found ${response.numbers?.length} phone numbers.`);
-    response.numbers?.forEach((numberInformation) => {
+    console.log(`✅ Found ${response.numbers.length} phone numbers.`);
+    response.numbers.forEach((numberInformation) => {
       console.log(numberInformation);
     });
   } catch (err) {
