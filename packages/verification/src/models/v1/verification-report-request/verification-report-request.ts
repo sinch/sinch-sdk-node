@@ -43,3 +43,13 @@ interface PhoneCallContent {
 
 /** @deprecated Use PhoneCallContent instead */
 type CalloutContent = PhoneCallContent;
+
+export interface WhatsAppVerificationReportRequest {
+  /** A configuration object containing settings specific to WhatsApp verifications. */
+  whatsapp: WhatsAppContent;
+}
+
+export interface WhatsAppContent {
+  /** The code which was received by the user submitting the WhatsApp verification. */
+  code: string;
+}
