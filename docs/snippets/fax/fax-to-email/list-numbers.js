@@ -7,14 +7,14 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const projectId = process.env.SINCH_PROJECT_ID ?? 'YOUR_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID ?? 'YOUR_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET ?? 'YOUR_KEY_SECRET';
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
-  // Replace with your Fax Service ID you want to list phone numbers associated with an email address for
-  const serviceId = 'YOUR_FAX_SERVICE_ID';
-  // Replace with the email address you want to get numbers for
-  const email ='YOUR_EMAIL_ADDRESS';
+  // The Fax Service ID you want to list phone numbers associated with an email address for
+  const serviceId = 'FAX_SERVICE_ID';
+  // The email address you want to get numbers for
+  const email ='EMAIL_ADDRESS';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
@@ -24,15 +24,15 @@ async function main() {
       email,
     });
     if (response.data.length === 0) {
-      console.log('No phone numbers found.');
+      console.log('No Phone Numbers found.');
       return;
     }
-    console.log(`✅ Found ${response.data.length} phone numbers.`);
+    console.log(`✅ Found ${response.data.length} Phone Numbers.`);
     response.data.forEach((servicePhoneNumber) => {
       console.log(servicePhoneNumber);
     });
   } catch (err) {
-    console.error(`❌ Failed to list the configured numbers associated with the email address ${email} and to the fax service with ID ${serviceId}:`);
+    console.error(`❌ Failed to list the configured Phone Numbers associated with the Email address ${email} and to the Fax Service with ID ${serviceId}:`);
     console.error(err);
   }
 }

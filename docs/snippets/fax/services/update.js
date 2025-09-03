@@ -7,12 +7,12 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const projectId = process.env.SINCH_PROJECT_ID ?? 'YOUR_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID ?? 'YOUR_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET ?? 'YOUR_KEY_SECRET';
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
-  // Replace with your Fax Service ID you want to update
-  const serviceId = 'YOUR_FAX_SERVICE_ID';
+  // The Fax Service ID you want to update
+  const serviceId = 'FAX_SERVICE_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
@@ -20,13 +20,13 @@ async function main() {
     const response = await sinch.fax.services.update({
       serviceId,
       updateServiceRequestBody: {
-        name: 'My updated fax service name',
+        name: 'My updated Fax Service name',
       },
     });
-    console.log('✅ Successfully updated Fax service.');
+    console.log('✅ Successfully updated the Fax Service.');
     console.log(JSON.stringify(response, null, 2));
   } catch (err) {
-    console.error(`❌ Failed to update Fax service with ID ${serviceId}:`);
+    console.error(`❌ Failed to update the Fax Service with ID ${serviceId}:`);
     console.error(err);
   }
 }
