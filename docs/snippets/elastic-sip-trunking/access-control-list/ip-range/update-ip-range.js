@@ -7,14 +7,14 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const projectId = process.env.SINCH_PROJECT_ID ?? 'YOUR_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID ?? 'YOUR_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET ?? 'YOUR_KEY_SECRET';
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
-  // Replace with the ACL ID you want to update ACL from
-  const aclId = 'YOUR_ACL_ID';
-  // Replace with the IP Range ID you want to update
-  const ipRangeId = 'YOUR_IP_RANGE_ID';
+  // The ACL ID you want to update ACL from
+  const aclId = 'ACL_ID';
+  // The IP Range ID you want to update
+  const ipRangeId = 'IP_RANGE_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
@@ -27,10 +27,10 @@ async function main() {
         range: 27,
       },
     });
-    console.log('✅ Successfully updated IP Range.');
+    console.log('✅ Successfully updated the IP Range.');
     console.log(JSON.stringify(response, null, 2));
   } catch (err) {
-    console.error(`❌ Failed to update IP Range ${ipRangeId} in the ACL with ID ${aclId}:`);
+    console.error(`❌ Failed to update the IP Range ${ipRangeId} in the ACL with ID ${aclId}:`);
     console.error(err);
   }
 }

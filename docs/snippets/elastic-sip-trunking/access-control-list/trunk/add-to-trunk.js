@@ -7,12 +7,12 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const projectId = process.env.SINCH_PROJECT_ID ?? 'YOUR_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID ?? 'YOUR_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET ?? 'YOUR_KEY_SECRET';
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
-  // Replace with the SIP Trunk ID you want to add ACLs to
-  const sipTrunkId = 'YOUR_SIP_TRUNK_ID';
+  // The SIP Trunk ID you want to add ACLs to
+  const sipTrunkId = 'SIP_TRUNK_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
@@ -26,10 +26,10 @@ async function main() {
         ],
       },
     });
-    console.log('✅ Successfully added ACLs to SIP trunk.');
+    console.log('✅ Successfully added the ACLs to the SIP Trunk.');
     console.log(JSON.stringify(response, null, 2));
   } catch (err) {
-    console.error(`❌ Failed to add ACLs to SIP trunk with ID ${sipTrunkId}:`);
+    console.error(`❌ Failed to add the ACLs to the SIP Trunk with ID ${sipTrunkId}:`);
     console.error(err);
   }
 }

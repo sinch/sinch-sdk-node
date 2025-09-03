@@ -153,6 +153,7 @@
     "voice:conference:kick-all": "node voice/conferences/kick-all.js",
     "voice:calls:get": "node voice/calls/get.js",
     "voice:calls:manage-with-call-leg": "node voice/calls/manage-with-call-leg.js",
+    "voice:calls:update": "node voice/calls/update.js",
     "voice:applications:list-numbers": "node voice/applications/list-numbers.js",
     "voice:applications:assign-numbers": "node voice/applications/assign-numbers.js",
     "voice:applications:unassign-number": "node voice/applications/unassign-number.js",

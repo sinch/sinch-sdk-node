@@ -7,14 +7,14 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const projectId = process.env.SINCH_PROJECT_ID ?? 'YOUR_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID ?? 'YOUR_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET ?? 'YOUR_KEY_SECRET';
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
-  // Replace with the ACL ID you want to delete the IP Range from
-  const aclId = 'YOUR_ACL_ID';
-  // Replace with the IP Range ID you want to delete from the ACL
-  const ipRangeId = 'YOUR_IP_RANGE_ID';
+  // The ID of the ACL to delete the IP range from
+  const aclId = 'ACL_ID';
+  // The IP Range ID you want to delete from the ACL
+  const ipRangeId = 'IP_RANGE_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
@@ -23,9 +23,9 @@ async function main() {
       accessControlListId: aclId,
       ipRangeId: ipRangeId,
     });
-    console.log(`✅ Successfully deleted IP range ${ipRangeId} from ACL with ID ${aclId}.`);
+    console.log(`✅ Successfully deleted the IP range ${ipRangeId} from the ACL with ID ${aclId}.`);
   } catch (err) {
-    console.error(`❌ Failed to delete IP range ${ipRangeId} from ACL with ID ${aclId}:`);
+    console.error(`❌ Failed to delete the IP range ${ipRangeId} from the ACL with ID ${aclId}:`);
     console.error(err);
   }
 }

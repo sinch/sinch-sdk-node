@@ -23,4 +23,4 @@ export interface VerificationResultEvent {
   custom?: string;
 }
 
-export type VerificationResultMethod = 'sms' | 'flashcall' | 'callout' | 'seamless';
+export type VerificationResultMethod = 'sms' | 'flashcall' | 'callout' | 'seamless' | 'whatsapp';

@@ -14,6 +14,10 @@ export * from './phonecall-verification-status-response';
 export * from './start-flashcall-verification-response';
 export * from './flashcall-verification-report-response';
 export * from './flashcall-verification-status-response';
+// Models associated to WhatsApp verification workflow
+export * from './start-whatsapp-verification-response';
+export * from './whatsapp-verification-report-response';
+export * from './whatsapp-verification-status-response';
 // Models associated to Data verification workflow
 export * from './start-data-verification-response';
 // Wrapper for the various types of Verification Status Response

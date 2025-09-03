@@ -7,24 +7,24 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const projectId = process.env.SINCH_PROJECT_ID ?? 'YOUR_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID ?? 'YOUR_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET ?? 'YOUR_KEY_SECRET';
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
   try {
     const response = await sinch.elasticSipTrunking.countryPermissions.list({});
-    if (response.countryPermissions?.length === 0) {
+    if (!response.countryPermissions?.length) {
       console.log('No country permissions found.');
       return;
     }
-    console.log(`✅ Found ${response.countryPermissions?.length} country permissions.`);
-    response.countryPermissions?.forEach((countryPermission) => {
+    console.log(`✅ Found ${response.countryPermissions.length} country permissions.`);
+    response.countryPermissions.forEach((countryPermission) => {
       console.log(countryPermission);
     });
   } catch (err) {
-    console.error('❌ Failed to list country permissions:');
+    console.error('❌ Failed to list the country permissions:');
     console.error(err);
   }
 }

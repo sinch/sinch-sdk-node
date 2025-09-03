@@ -7,12 +7,12 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const projectId = process.env.SINCH_PROJECT_ID ?? 'YOUR_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID ?? 'YOUR_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET ?? 'YOUR_KEY_SECRET';
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
-  // Replace with the SIP Trunk ID you want to list IP ranges for
-  const aclId = 'YOUR_ACL_ID';
+  // The SIP Trunk ID you want to list IP ranges for
+  const aclId = 'ACL_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
@@ -21,7 +21,7 @@ async function main() {
       accessControlListId: aclId,
     });
     if (response.data.length === 0) {
-      console.log('No IP ranges found for this ACL.');
+      console.log(`No IP ranges found for the ACL with ID ${aclId}.`);
       return;
     }
     console.log(`✅ Found ${response.data.length} IP ranges for ACL with ID ${aclId}.`);
@@ -29,7 +29,7 @@ async function main() {
       console.log(ipRange);
     });
   } catch (err) {
-    console.error(`❌ Failed to list IP ranges for ACL with ID ${aclId}:`);
+    console.error(`❌ Failed to list the IP ranges for the ACL with ID ${aclId}:`);
     console.error(err);
   }
 }

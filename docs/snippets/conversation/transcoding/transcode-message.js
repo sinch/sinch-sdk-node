@@ -6,31 +6,41 @@ import { SinchClient } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-(async () => {
-  const projectId = process.env.SINCH_PROJECT_ID || 'MY_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID || 'MY_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET || 'MY_KEY_SECRET';
-  const conversationRegion = process.env.SINCH_CONVERSATION_REGION || 'MY_CONVERSATION_REGION';
+async function main() {
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
+  const conversationRegion = process.env.SINCH_CONVERSATION_REGION ?? 'MY_CONVERSATION_REGION';
 
-  const appId = 'A_CONVERSATION_APP_ID';
+  // The ID of the conversation application that must contain the target channels for transcoding
+  const appId = 'CONVERSATION_APP_ID';
+  // Add other channels as needed, e.g., 'SMS', 'RCS', 'MESSENGER'.
+  const targetChannels = ['WHATSAPP'];
 
   const sinch = new SinchClient({ projectId, keyId, keySecret, conversationRegion });
 
-  const response = await sinch.conversation.transcoding.transcodeMessage({
-    transcodeMessageRequestBody: {
-      app_id: appId,
-      app_message: {
-        location_message: {
-          title: 'Coordinates title',
-          coordinates: {
-            latitude: 59.3293,
-            longitude: 18.0686,
+  try {
+    const response = await sinch.conversation.transcoding.transcodeMessage({
+      transcodeMessageRequestBody: {
+        app_id: appId,
+        app_message: {
+          location_message: {
+            title: 'Coordinates title',
+            coordinates: {
+              latitude: 59.3360453,
+              longitude: 18.0117363,
+            },
           },
         },
+        channels: targetChannels,
       },
-      channels: ['WHATSAPP'],
-    },
-  });
+    });
+    console.log('✅ Successfully transcoded the message.');
+    console.log(JSON.stringify(response, null, 2));
+  } catch (err) {
+    console.error('❌ Failed to transcode the message:');
+    console.error(err);
+  }
+}
 
-  console.log(`Response:\n${JSON.stringify(response, null, 2)}`);
-})();
+main();

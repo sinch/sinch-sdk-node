@@ -6,19 +6,26 @@ import { SinchClient } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-(async () => {
-  const projectId = process.env.SINCH_PROJECT_ID || 'MY_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID || 'MY_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET || 'MY_KEY_SECRET';
-  const conversationRegion = process.env.SINCH_CONVERSATION_REGION || 'MY_CONVERSATION_REGION';
+async function main() {
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
+  const conversationRegion = process.env.SINCH_CONVERSATION_REGION ?? 'MY_CONVERSATION_REGION';
 
-  const conversationId = 'A_CONVERSATION_ID_TO_DELETE';
+  // The ID of the Conversation to delete
+  const conversationId = 'CONVERSATION_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret, conversationRegion });
 
-  await sinch.conversation.conversation.delete({
-    conversation_id: conversationId,
-  });
+  try {
+    await sinch.conversation.conversation.delete({
+      conversation_id: conversationId,
+    });
+    console.log(`✅ Successfully deleted the Conversation with ID ${conversationId}.`);
+  } catch (err) {
+    console.error(`❌ Failed to delete the Conversation with ID ${conversationId}:`);
+    console.error(err);
+  }
+}
 
-  console.log('done');
-})();
+main();

@@ -9,9 +9,11 @@ import {
   ReportSmsVerificationByIdRequestData,
   ReportFlashCallVerificationByIdRequestData,
   ReportCalloutVerificationByIdRequestData,
+  ReportWhatsAppVerificationByIdRequestData,
   ReportSmsVerificationByIdentityRequestData,
   ReportFlashCallVerificationByIdentityRequestData,
   ReportCalloutVerificationByIdentityRequestData,
+  ReportWhatsAppVerificationByIdentityRequestData,
   StartSmsVerificationRequestData,
   StartFlashCallVerificationRequestData,
   StartCalloutVerificationRequestData,
@@ -28,6 +30,9 @@ import {
   PhoneCallVerificationReportRequestServerModel,
   ReportPhoneCallVerificationByIdentityRequestData,
   PhoneCallVerificationReportResponse,
+  WhatsAppVerificationReportResponse,
+  StartWhatsAppVerificationRequestData,
+  StartWhatsAppVerificationResponse,
 } from '../../../models';
 import {
   RequestBody,
@@ -198,6 +203,40 @@ export class VerificationsApi extends VerificationDomainApi {
   }
 
   /**
+   * Report a WhatsApp verification with ID
+   * Report the received verification code to verify it, using the Verification ID of the Verification request.
+   * @param { ReportWhatsAppVerificationByIdRequestData } data - The data to provide to the API call.
+   */
+  public async reportWhatsAppById(
+    data: ReportWhatsAppVerificationByIdRequestData,
+  ): Promise<WhatsAppVerificationReportResponse> {
+    this.client = this.getSinchClient();
+    (data.reportWhatsAppVerificationByIdRequestBody as any).method = 'whatsapp';
+    const getParams = this.client.extractQueryParams<ReportWhatsAppVerificationByIdRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = data['reportWhatsAppVerificationByIdRequestBody']
+      ? JSON.stringify(data['reportWhatsAppVerificationByIdRequestBody'])
+      : '{}';
+    const path = `/verification/v1/verifications/id/${data['id']}`;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<WhatsAppVerificationReportResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'ReportWhatsAppVerificationById',
+    });
+  }
+
+  /**
    * Report an SMS verification using Identity
    * Report the received verification code (OTP) to verify it, using the identity of the user (in most cases, the phone number).
    * @param { ReportSmsVerificationByIdentityRequestData } data - The data to provide to the API call.
@@ -347,6 +386,41 @@ export class VerificationsApi extends VerificationDomainApi {
       requestOptions,
       apiName: this.apiName,
       operationId: 'ReportCalloutVerificationByIdentity',
+    });
+  }
+
+  /**
+   * Report a WhatsApp verification using Identity
+   * Report the received verification code (OTP) to verify it, using the identity of the user (in most cases, the phone number).
+   * @param { ReportWhatsAppVerificationByIdentityRequestData } data - The data to provide to the API call.
+   */
+  public async reportWhatsAppByIdentity(
+    data: ReportWhatsAppVerificationByIdentityRequestData,
+  ): Promise<WhatsAppVerificationReportResponse> {
+    this.client = this.getSinchClient();
+    (data.reportWhatsAppVerificationByIdentityRequestBody as any).method = 'whatsapp';
+    const getParams
+      = this.client.extractQueryParams<ReportWhatsAppVerificationByIdentityRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = data['reportWhatsAppVerificationByIdentityRequestBody']
+      ? JSON.stringify(data['reportWhatsAppVerificationByIdentityRequestBody'])
+      : '{}';
+    const path = `/verification/v1/verifications/number/${data['endpoint']}`;
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined, path);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<WhatsAppVerificationReportResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'ReportWhatsAppVerificationByIdentity',
     });
   }
 
@@ -526,6 +600,40 @@ export class VerificationsApi extends VerificationDomainApi {
       requestOptions,
       apiName: this.apiName,
       operationId: 'StartDataVerification',
+    });
+  }
+
+  /**
+   * Start verification with WhatsApp
+   * This method is used by the mobile and web Verification SDKs to start a verification. It can also be used to request a verification from your backend, by making a request.
+   * @param { StartWhatsAppVerificationRequestData } data - The data to provide to the API call.
+   */
+  public async startWhatsApp(
+    data: StartWhatsAppVerificationRequestData,
+  ): Promise<StartWhatsAppVerificationResponse> {
+    this.client = this.getSinchClient();
+    (data.startVerificationWithWhatsAppRequestBody as any).method = 'whatsapp';
+    const getParams = this.client.extractQueryParams<StartWhatsAppVerificationRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = data['startVerificationWithWhatsAppRequestBody']
+      ? JSON.stringify(data['startVerificationWithWhatsAppRequestBody'])
+      : '{}';
+    const path = '/verification/v1/verifications';
+    const basePathUrl = this.client.apiClientOptions.hostname + path;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined, path);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<StartWhatsAppVerificationResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'StartVerificationWithWhatsApp',
     });
   }
 

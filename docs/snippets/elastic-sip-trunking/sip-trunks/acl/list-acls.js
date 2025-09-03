@@ -7,12 +7,12 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const projectId = process.env.SINCH_PROJECT_ID ?? 'YOUR_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID ?? 'YOUR_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET ?? 'YOUR_KEY_SECRET';
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
-  // Replace with the SIP Trunk ID you want to list ACLs for
-  const sipTrunkId = 'YOUR_SIP_TRUNK_ID';
+  // The SIP Trunk ID you want to list ACLs for
+  const sipTrunkId = 'SIP_TRUNK_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
@@ -21,15 +21,15 @@ async function main() {
       trunkId: sipTrunkId,
     });
     if (response.data.length === 0) {
-      console.log('No ACLs found for this SIP trunk.');
+      console.log(`No ACLs found for the SIP Trunk with ID ${sipTrunkId}.`);
       return;
     }
-    console.log(`✅ Found ${response.data.length} ACLs for SIP trunk with ID ${sipTrunkId}.`);
+    console.log(`✅ Found ${response.data.length} ACLs for the SIP Trunk with ID ${sipTrunkId}.`);
     response.data.forEach((acl) => {
       console.log(acl);
     });
   } catch (err) {
-    console.error(`❌ Failed to list ACLs for SIP trunk with ID ${sipTrunkId}:`);
+    console.error(`❌ Failed to list the ACLs for the SIP Trunk with ID ${sipTrunkId}:`);
     console.error(err);
   }
 }
