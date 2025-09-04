@@ -25,7 +25,7 @@ interface ConversationMessageBase {
   metadata?: string;
   /** Output only. Flag for whether this message was injected. */
   injected?: boolean;
-  /** For Contact Messages the sender ID is the contact sent the message to. For App Messages the sender that was used to send the message, if applicable. */
+  /** For Contact Messages (MO messages), the sender ID represents the recipient to which the message was sent. This may be a phone number (in the case of SMS and MMS) or a unique ID (in the case of WhatsApp). This is field is not supported on all channels, nor is it supported for MT messages. */
   sender_id?: string;
   /** Output only. The processing mode. */
   processing_mode?: ProcessingMode;
