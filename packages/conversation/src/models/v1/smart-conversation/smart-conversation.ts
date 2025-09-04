@@ -1,5 +1,5 @@
 /**
- * This object is required for apps that subscribe to Smart Conversations features. Note that this functionality is available for open beta testing.
+ * This object is required for apps that subscribe to Smart Conversations features.
  */
 export interface SmartConversation {
 

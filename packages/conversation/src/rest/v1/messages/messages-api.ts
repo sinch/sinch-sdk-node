@@ -42,7 +42,7 @@ export class MessagesApi extends ConversationDomainApi {
 
   /**
    * Delete a message
-   * Delete a specific message by its ID.  Note: Removing all messages of a conversation will not automatically delete the conversation.
+   * Delete a specific message by its ID. Note that this operation deletes the message from Conversation API storage; this operation does not affect messages already delivered to recipients\&#39; handsets. Also note that removing all messages of a conversation will not automatically delete the conversation.
    * @param { DeleteMessageRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteMessageRequestData): Promise<any> {
