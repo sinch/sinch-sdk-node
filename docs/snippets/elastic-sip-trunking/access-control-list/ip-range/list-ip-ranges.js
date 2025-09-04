@@ -11,7 +11,7 @@ async function main() {
   const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
   const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
-  // The SIP Trunk ID you want to list IP ranges for
+  // The ID of the ACL to list the IP ranges from
   const aclId = 'ACL_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
