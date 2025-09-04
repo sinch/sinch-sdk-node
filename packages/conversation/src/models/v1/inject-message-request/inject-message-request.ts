@@ -19,7 +19,7 @@ interface InjectMessageRequestBase {
   direction: ConversationDirection;
   /** The ID of the conversation. */
   conversation_id?: string;
-  /** For Contact Messages the sender ID is the contact sent the message to. For App Messages the sender that was used to send the message, if applicable. */
+  /** For Contact Messages (MO messages), the sender ID represents the recipient to which the message was sent. This may be a phone number (in the case of SMS and MMS) or a unique ID (in the case of WhatsApp). This is field is not supported on all channels, nor is it supported for MT messages. */
   sender_id?: string;
   /** Whether or not Conversation API should store contacts and conversations for the app. For more information, see [Processing Modes](../../../../../conversation/processing-modes/). */
   processing_mode?: ProcessingMode;

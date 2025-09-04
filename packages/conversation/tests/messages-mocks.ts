@@ -27,6 +27,9 @@ export const cardMessageItem: Conversation.CardMessageItem = {
       },
     },
   ],
+  message_properties: {
+    whatsapp_header: 'Order now!',
+  },
 };
 
 export const cardMessage: Conversation.CardMessage = {
