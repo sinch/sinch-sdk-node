@@ -1,1 +1,1 @@
-export type { CardMessage, CardMessageItem } from './card-message';
+export type { CardMessage, CardMessageItem, CardMessageItemProperties } from './card-message';
