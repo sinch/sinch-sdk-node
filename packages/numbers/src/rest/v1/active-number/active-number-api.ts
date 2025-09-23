@@ -1,9 +1,15 @@
 import {
   ActiveNumber,
+  DeprovisionEmergencyAddressRequestData,
+  EmergencyAddress,
   GetActiveNumberRequestData,
+  GetEmergencyAddressRequestData,
   ListActiveNumbersRequestData,
+  ProvisionEmergencyAddressRequestData,
   ReleaseNumberRequestData,
   UpdateActiveNumberRequestData,
+  ValidateEmergencyAddressResponse,
+  ValidateEmergencyAddressRequestData,
 } from '../../../models';
 import {
   ApiListPromise,
@@ -191,6 +197,118 @@ export class ActiveNumberApi extends NumbersDomainApi {
       requestOptions,
       apiName: this.apiName,
       operationId: 'UpdateActiveNumber',
+    });
+  }
+
+  /**
+   * Remove the emergency address for a number.
+   * With this endpoint, you can deprovision the emergency address associated with this number.
+   * @param {DeprovisionEmergencyAddressRequestData} data - The data to provide to the API call.
+   */
+  public async deprovisionEmergencyAddress(data: DeprovisionEmergencyAddressRequestData): Promise<void> {
+    this.client = this.getSinchClient();
+    const getParams = this.client.extractQueryParams<DeprovisionEmergencyAddressRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = '';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}/emergencyAddress:deprovision`;
+
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<void>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'DeprovisionEmergencyAddress',
+    });
+  }
+
+  /**
+   * Get the emergency address for a number
+   * With this endpoint, you can retrieve the emergency address associated with this number.
+   * @param {GetEmergencyAddressRequestData} data - The data to provide to the API call.
+   */
+  public async getEmergencyAddress(data: GetEmergencyAddressRequestData): Promise<EmergencyAddress> {
+    this.client = this.getSinchClient();
+    const getParams = this.client.extractQueryParams<GetEmergencyAddressRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = '';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}/emergencyAddress`;
+
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<EmergencyAddress>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'GetEmergencyAddress',
+    });
+  }
+
+  /**
+   * Add a emergency address for a number
+   * With this endpoint, you can provision an emergency address associated with this number.
+   * @param {ProvisionEmergencyAddressRequestData} data - The data to provide to the API call.
+   */
+  public async provisionEmergencyAddress(data: ProvisionEmergencyAddressRequestData): Promise<EmergencyAddress> {
+    this.client = this.getSinchClient();
+    const getParams = this.client.extractQueryParams<ProvisionEmergencyAddressRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = data['emergencyAddressRequestBody']
+      ? JSON.stringify(data['emergencyAddressRequestBody']) : '{}';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}/emergencyAddress:provision`;
+
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<EmergencyAddress>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'ProvisionEmergencyAddress',
+    });
+  }
+
+  /**
+   * Validate the emergency address for a number.
+   * With this endpoint, you can validate the emergency address associated with this number.
+   * @param {ValidateEmergencyAddressRequestData} data - The data to provide to the API call.
+   */
+  public async validateEmergencyAddress(
+    data: ValidateEmergencyAddressRequestData,
+  ): Promise<ValidateEmergencyAddressResponse> {
+    this.client = this.getSinchClient();
+    const getParams = this.client.extractQueryParams<ValidateEmergencyAddressRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = data['emergencyAddressRequestBody']
+      ? JSON.stringify(data['emergencyAddressRequestBody']) : '{}';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}/emergencyAddress:validate`;
+
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<ValidateEmergencyAddressResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'ValidateEmergencyAddress',
     });
   }
 }

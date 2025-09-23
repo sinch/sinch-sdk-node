@@ -23,3 +23,12 @@ export type SearchPatternEnum = 'START' | 'CONTAINS' | 'END' | string;
 export type CapabilitiesEnum = 'SMS' | 'VOICE' | string;
 
 export type OrderByEnum = 'phoneNumber' | 'displayName' | string;
+
+/**
+ * Enum representing the result of address validation.
+ */
+export type EmergencyAddressValidationResultCode =
+  'ADDRESS_VALIDATION_RESULT_CODE_UNSPECIFIED'
+  | 'EXACT_MATCH'
+  | 'NEAR_MATCH'
+  | 'NO_MATCH';
