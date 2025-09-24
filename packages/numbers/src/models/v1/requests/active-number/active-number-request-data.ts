@@ -1,8 +1,9 @@
 import { CapabilitiesEnum, NumberTypeEnum, OrderByEnum, SearchPatternEnum } from '../../enums';
 import { ActiveNumberRequest } from '../../active-number-request';
+import { EmergencyAddressRequest } from '../../emergency-address-request';
 
 export interface GetActiveNumberRequestData {
-  /** Output only. The phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format with leading `+`. */
+  /** The phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format with leading `+`. */
   phoneNumber: string;
 }
 
@@ -26,13 +27,37 @@ export interface ListActiveNumbersRequestData {
 }
 
 export interface ReleaseNumberRequestData {
-  /** Output only. The phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format with leading `+`. */
+  /** The phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format with leading `+`. */
   phoneNumber: string;
 }
 
 export interface UpdateActiveNumberRequestData {
-  /** Output only. The phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format with leading `+`. */
+  /** The phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format with leading `+`. */
   phoneNumber: string;
   /** The number body to be updated. */
   updateActiveNumberRequestBody?: ActiveNumberRequest;
+}
+
+export interface DeprovisionEmergencyAddressRequestData {
+  /** The phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format with leading `+`. */
+  phoneNumber: string;
+}
+
+export interface GetEmergencyAddressRequestData {
+  /** The phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format with leading `+`. */
+  phoneNumber: string;
+}
+
+export interface ProvisionEmergencyAddressRequestData {
+  /** The phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format with leading `+`. */
+  phoneNumber: string;
+  /** Request to provision an emergency address for a number. */
+  emergencyAddressRequestBody?: EmergencyAddressRequest;
+}
+
+export interface ValidateEmergencyAddressRequestData {
+  /** The phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format with leading `+`. */
+  phoneNumber?: string;
+  /** Request to validate an emergency address for a number. */
+  emergencyAddressRequestBody?: EmergencyAddressRequest;
 }
