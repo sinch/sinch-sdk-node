@@ -7,14 +7,20 @@ import {
   ActiveNumber,
   AvailableNumber,
   AvailableNumbersResponse,
+  DeprovisionEmergencyAddressRequestData,
+  EmergencyAddress,
   GetActiveNumberRequestData,
   GetAvailableNumberRequestData,
+  GetEmergencyAddressRequestData,
   ListActiveNumbersRequestData,
   ListAvailableNumbersRequestData,
+  ProvisionEmergencyAddressRequestData,
   ReleaseNumberRequestData,
   RentAnyNumberRequestData,
   RentNumberRequestData,
   UpdateActiveNumberRequestData,
+  ValidateEmergencyAddressResponse,
+  ValidateEmergencyAddressRequestData,
 } from '../../models';
 
 /**
@@ -128,5 +134,43 @@ export class NumbersService {
    */
   public async update(data: UpdateActiveNumberRequestData): Promise<ActiveNumber> {
     return this.activeNumber.update(data);
+  }
+
+  /**
+   * Remove the emergency address for a number.
+   * With this endpoint, you can deprovision the emergency address associated with this number.
+   * @param {DeprovisionEmergencyAddressRequestData} data - The data to provide to the API call.
+   */
+  public async deprovisionEmergencyAddress(data: DeprovisionEmergencyAddressRequestData): Promise<void> {
+    return this.activeNumber.deprovisionEmergencyAddress(data);
+  }
+
+  /**
+   * Get the emergency address for a number
+   * With this endpoint, you can retrieve the emergency address associated with this number.
+   * @param {GetEmergencyAddressRequestData} data - The data to provide to the API call.
+   */
+  public async getEmergencyAddress(data: GetEmergencyAddressRequestData): Promise<EmergencyAddress> {
+    return this.activeNumber.getEmergencyAddress(data);
+  }
+
+  /**
+   * Add a emergency address for a number
+   * With this endpoint, you can provision an emergency address associated with this number.
+   * @param {ProvisionEmergencyAddressRequestData} data - The data to provide to the API call.
+   */
+  public async provisionEmergencyAddress(data: ProvisionEmergencyAddressRequestData): Promise<EmergencyAddress> {
+    return this.activeNumber.provisionEmergencyAddress(data);
+  }
+
+  /**
+   * Validate the emergency address for a number.
+   * With this endpoint, you can validate the emergency address associated with this number.
+   * @param {ValidateEmergencyAddressRequestData} data - The data to provide to the API call.
+   */
+  public async validateEmergencyAddress(
+    data: ValidateEmergencyAddressRequestData,
+  ): Promise<ValidateEmergencyAddressResponse> {
+    return this.activeNumber.validateEmergencyAddress(data);
   }
 }
