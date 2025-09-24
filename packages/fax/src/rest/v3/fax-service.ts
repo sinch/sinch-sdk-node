@@ -2,6 +2,7 @@ import { FaxRegion, SinchClientParameters } from '@sinch/sdk-client';
 import { FaxToEmailApi } from './fax-to-email';
 import { FaxesApi } from './faxes';
 import { ServicesApi } from './services';
+import { CoverPagesApi } from './cover-pages';
 
 /**
  * The Fax Service exposes the following APIs:
@@ -15,6 +16,8 @@ export class FaxService {
   public readonly faxToEmail: FaxToEmailApi;
   public readonly faxes: FaxesApi;
   public readonly services: ServicesApi;
+  public readonly coverPages: CoverPagesApi;
+
 
   /**
    * Create a new FaxService instance with its configuration. It needs the following parameters for authentication:
@@ -32,6 +35,7 @@ export class FaxService {
     this.faxToEmail = new FaxToEmailApi(params);
     this.faxes = new FaxesApi(params);
     this.services = new ServicesApi(params);
+    this.coverPages = new CoverPagesApi(params);
   }
 
   /**
@@ -43,6 +47,7 @@ export class FaxService {
     this.faxToEmail.setHostname(hostname);
     this.faxes.setHostname(hostname);
     this.services.setHostname(hostname);
+    this.coverPages.setHostname(hostname);
   }
 
   /**
@@ -54,5 +59,6 @@ export class FaxService {
     this.faxToEmail.setRegion(region);
     this.faxes.setRegion(region);
     this.services.setRegion(region);
+    this.coverPages.setRegion(region);
   }
 }
