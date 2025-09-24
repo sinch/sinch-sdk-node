@@ -16,7 +16,7 @@ async function main() {
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
-  try{
+  try {
     const response = await sinch.fax.faxToEmail.list({ serviceId });
     if (response.data.length === 0) {
       console.log('No Emails found.');
