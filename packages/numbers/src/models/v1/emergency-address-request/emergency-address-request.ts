@@ -1,4 +1,4 @@
-import { EmergencyAddress } from '../emergency-address';
+import { EmergencyAddressCreation } from '../emergency-address';
 
 /**
  * Request for emergency address.
@@ -6,6 +6,6 @@ import { EmergencyAddress } from '../emergency-address';
 export interface EmergencyAddressRequest {
   /** Name for emergency address. */
   displayName: string;
-  /** @see EmergencyAddress */
-  address: EmergencyAddress;
+  /** @see EmergencyAddressCreation */
+  address: EmergencyAddressCreation;
 }

@@ -1,1 +1,1 @@
-export type { EmergencyAddress } from './emergency-address';
+export type { EmergencyAddress, EmergencyAddressCreation } from './emergency-address';

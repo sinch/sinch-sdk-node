@@ -31,4 +31,5 @@ export type EmergencyAddressValidationResultCode =
   'ADDRESS_VALIDATION_RESULT_CODE_UNSPECIFIED'
   | 'EXACT_MATCH'
   | 'NEAR_MATCH'
-  | 'NO_MATCH';
+  | 'NO_MATCH'
+  | string;
