@@ -18,7 +18,7 @@ async function main() {
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
-  try{
+  try {
     await sinch.fax.faxToEmail.delete({
       serviceId,
       email,

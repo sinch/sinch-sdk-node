@@ -9,6 +9,7 @@ import { ConversationApi } from './conversation';
 import { WebhooksApi } from './webhooks';
 import { TemplatesV1Api } from './templates-v1';
 import { TemplatesV2Api } from './templates-v2';
+import { ConsentsApi } from './consents';
 
 /**
  * The Conversation Service exposes the following APIs:
@@ -34,6 +35,7 @@ export class ConversationService {
   public readonly webhooks: WebhooksApi;
   public readonly templatesV1: TemplatesV1Api;
   public readonly templatesV2: TemplatesV2Api;
+  public readonly consents: ConsentsApi;
 
   /**
    * Create a new ConversationService instance with its configuration. It needs the following parameters for authentication:
@@ -58,6 +60,7 @@ export class ConversationService {
     this.webhooks = new WebhooksApi(params);
     this.templatesV1 = new TemplatesV1Api(params);
     this.templatesV2 = new TemplatesV2Api(params);
+    this.consents = new ConsentsApi(params);
   }
 
   /**
@@ -73,6 +76,7 @@ export class ConversationService {
     this.capability.setHostname(hostname);
     this.conversation.setHostname(hostname);
     this.webhooks.setHostname(hostname);
+    this.consents.setHostname(hostname);
   }
 
   /**
@@ -99,5 +103,6 @@ export class ConversationService {
     this.webhooks.setRegion(region);
     this.templatesV1.setRegion(region);
     this.templatesV2.setRegion(region);
+    this.consents.setRegion(region);
   }
 }

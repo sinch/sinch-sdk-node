@@ -1,6 +1,7 @@
 export * from './app';
 export * from './callbacks';
 export * from './capability';
+export * from './consents';
 export * from './contact';
 export * from './conversation';
 export * from './events';

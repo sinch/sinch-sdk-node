@@ -1,4 +1,6 @@
 export * from './bar-code';
+export * from './cover-page';
+export * from './cover-page-file';
 export * from './date-range-filter';
 export * from './email';
 export * from './errors';
