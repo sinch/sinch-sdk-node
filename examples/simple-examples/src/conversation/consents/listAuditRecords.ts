@@ -12,6 +12,7 @@ import {
   console.log('************************************');
 
   const appId = getAppIdFromConfig();
+  // Careful, this API expects the phone number without the `+`
   const identity = getRecipientPhoneNumberFromConfig().substring(1);
 
   const requestData: Conversation.ListAuditRecordsRequestData = {
