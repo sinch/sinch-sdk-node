@@ -11,17 +11,26 @@ async function main() {
   const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
   const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
-  // The Fax ID you want to retrieve
-  const faxId = 'FAX_ID';
-
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
+  // The Fax Service ID you want to add the Cover Page to
+  const serviceId = 'FAX_SERVICE_ID';
+
   try {
-    const response = await sinch.fax.faxes.get({ id: faxId });
-    console.log('✅ Successfully retrieved the Fax.');
+    const response = await sinch.fax.coverPages.add({
+      serviceId,
+      addCoverPageRequestBody: {
+        name: 'New cover page created with the Node.js SDK',
+        file: {
+          fileContent: 'V2VsY29tZSB0byBTaW5jaCE=',
+          fileType: 'PDF',
+        },
+      },
+    });
+    console.log('✅ Successfully added a cover page to the Fax Service.');
     console.log(JSON.stringify(response, null, 2));
   } catch (err) {
-    console.error(`❌ Failed to retrieve the Fax with ID: ${faxId}:`);
+    console.error('❌ Failed to add a cover page to the Fax Service:');
     console.error(err);
   }
 }

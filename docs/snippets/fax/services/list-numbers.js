@@ -16,7 +16,7 @@ async function main() {
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
-  try{
+  try {
     const response = await sinch.fax.services.listNumbers({ serviceId });
     if (response.data.length === 0) {
       console.log('No Phone Numbers found.');
