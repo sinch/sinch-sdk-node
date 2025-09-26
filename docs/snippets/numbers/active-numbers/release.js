@@ -6,16 +6,24 @@ import { SinchClient } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-(async () => {
-  const projectId = process.env.SINCH_PROJECT_ID || 'MY_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID || 'MY_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET || 'MY_KEY_SECRET';
+async function main() {
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
-  const phoneNumber = process.env.SINCH_PHONE_NUMBER || 'MY_SINCH_PHONE_NUMBER';
+  // The phone number to release
+  const phoneNumber = process.env.SINCH_PHONE_NUMBER ?? 'MY_SINCH_PHONE_NUMBER';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
-  const releasedNumber = await sinch.numbers.release({ phoneNumber });
+  try {
+    const response = await sinch.numbers.release({ phoneNumber });
+    console.log('✅ Successfully released the phone number.');
+    console.log(JSON.stringify(response, null, 2));
+  } catch (err) {
+    console.error(`❌ Failed to release the phone number ${phoneNumber}:`);
+    console.error(err);
+  }
+}
 
-  console.log(`Released number:\n${JSON.stringify(releasedNumber, null, 2)}`);
-})();
+main();

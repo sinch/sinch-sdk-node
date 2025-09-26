@@ -6,14 +6,21 @@ import { SinchClient } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-(async () => {
-  const projectId = process.env.SINCH_PROJECT_ID || 'MY_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID || 'MY_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET || 'MY_KEY_SECRET';
+async function main() {
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
-  const response = await sinch.numbers.callbacks.get({});
+  try{
+    const response = await sinch.numbers.callbacks.get({});
+    console.log('✅ Successfully retrieved the callback configuration.');
+    console.log(JSON.stringify(response, null, 2));
+  } catch (err) {
+    console.error('❌ Failed to retrieve the callback configuration:');
+    console.error(err);
+  }
+}
 
-  console.log(`Callback configuration:\n${JSON.stringify(response, null, 2)}`);
-})();
+main();
