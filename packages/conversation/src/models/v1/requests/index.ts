@@ -1,5 +1,6 @@
 export * from './app/app-request-data';
 export * from './capability/capability-request-data';
+export * from './consents/consents-request-data';
 export * from './contact/contact-request-data';
 export * from './conversation/conversation-request-data';
 export * from './events/events-request-data';

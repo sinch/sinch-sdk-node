@@ -16,6 +16,8 @@
     "conversation:app:update": "node conversation/application/update.js",
     "conversation:app:delete": "node conversation/application/delete.js",
     "conversation:capability:lookup": "node conversation/capability/lookup.js",
+    "conversation:consents:listIdentities": "node conversation/consents/list-identities.js",
+    "conversation:consents:listAuditRecords": "node conversation/consents/list-audit-records.js",
     "conversation:contact:create": "node conversation/contact/create.js",
     "conversation:contact:get": "node conversation/contact/get.js",
     "conversation:contact:get-channel-profile": "node conversation/contact/get-channel-profile.js",
