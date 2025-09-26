@@ -6,18 +6,24 @@ import { SinchClient } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-(async () => {
-  const projectId = process.env.SINCH_PROJECT_ID || 'MY_PROJECT_ID';
-  const keyId = process.env.SINCH_KEY_ID || 'MY_KEY_ID';
-  const keySecret = process.env.SINCH_KEY_SECRET || 'MY_KEY_SECRET';
+async function main() {
+  const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
+  const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
+  const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
-  const phoneNumberToCheck = 'A_PHONE_NUMBER_TO_CHECK';
+  // The phone number to check for rental availability
+  const phoneNumber = 'PHONE_NUMBER';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
-  const response = await sinch.numbers.checkAvailability({
-    phoneNumber: phoneNumberToCheck,
-  });
+  try{
+    const response = await sinch.numbers.checkAvailability({ phoneNumber });
+    console.log('✅ Phone number is available to rent.');
+    console.log(JSON.stringify(response, null, 2));
+  } catch (err) {
+    console.error(`❌ Failed to get a successful status for the phone number's availability (${phoneNumber}):`);
+    console.error(err);
+  }
+}
 
-  console.log(`Response:\n${JSON.stringify(response, null, 2)}`);
-})();
+main();
