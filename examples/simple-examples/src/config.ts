@@ -203,6 +203,10 @@ export const getFaxEmailFromConfig = () => {
   return readVariable('FAX_EMAIL');
 };
 
+export const getFaxCoverPageIdFromConfig = () => {
+  return readVariable('FAX_COVER_PAGE_ID');
+};
+
 export const getSipTrunkIdFromConfig = () => {
   return readVariable('SIP_TRUNK_ID');
 };

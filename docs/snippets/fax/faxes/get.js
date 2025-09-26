@@ -16,7 +16,7 @@ async function main() {
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
-  try{
+  try {
     const response = await sinch.fax.faxes.get({ id: faxId });
     console.log('✅ Successfully retrieved the Fax.');
     console.log(JSON.stringify(response, null, 2));

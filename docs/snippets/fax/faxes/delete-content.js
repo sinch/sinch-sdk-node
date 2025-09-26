@@ -16,7 +16,7 @@ async function main() {
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
-  try{
+  try {
     await sinch.fax.faxes.deleteContent({ id: faxId });
     console.log(`✅ Successfully deleted content from the Fax with ID ${faxId}.`);
   } catch (err) {

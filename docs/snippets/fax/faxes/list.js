@@ -13,7 +13,7 @@ async function main() {
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
-  try{
+  try {
     const response = await sinch.fax.faxes.list({});
     if (response.data.length === 0) {
       console.log('No Faxes found.');

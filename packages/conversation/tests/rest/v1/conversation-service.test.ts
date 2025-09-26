@@ -2,6 +2,7 @@ import { ConversationRegion, SinchClientParameters } from '@sinch/sdk-client';
 import {
   AppApi,
   CapabilityApi,
+  ConsentsApi,
   ContactApi,
   ConversationApi,
   ConversationService,
@@ -53,6 +54,7 @@ describe('Conversation Service', () => {
     expect(conversationService.webhooks).toBeInstanceOf(WebhooksApi);
     expect(conversationService.templatesV1).toBeInstanceOf(TemplatesV1Api);
     expect(conversationService.templatesV2).toBeInstanceOf(TemplatesV2Api);
+    expect(conversationService.consents).toBeInstanceOf(ConsentsApi);
   });
 
   it('should set a custom hostname for all APIs but templates', () => {
@@ -83,6 +85,8 @@ describe('Conversation Service', () => {
     expect(conversationService.conversation.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
     expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(conversationService.webhooks.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
+    expect(conversationService.consents.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
     expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(conversationService.templatesV1.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME_TEMPLATES);
     expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
@@ -128,6 +132,9 @@ describe('Conversation Service', () => {
     expect(conversationService.webhooks.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
     warnSpy.mockClear();
+    expect(conversationService.consents.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    warnSpy.mockClear();
     expect(conversationService.templatesV1.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
     expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(conversationService.templatesV2.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
@@ -162,6 +169,8 @@ describe('Conversation Service', () => {
     expect(conversationService.conversation.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
     expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(conversationService.webhooks.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(0);
+    expect(conversationService.consents.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
     expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(conversationService.templatesV1.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME_TEMPLATES);
     expect(warnSpy).toHaveBeenCalledTimes(0);
