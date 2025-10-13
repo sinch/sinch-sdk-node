@@ -1,4 +1,12 @@
-import { ApiListPromise, SinchClientParameters } from '@sinch/sdk-client';
+import {
+  ApiClient,
+  ApiFetchClient,
+  ApiListPromise,
+  buildOAuth2ApiClientOptions,
+  NUMBERS_HOSTNAME,
+  SinchClientParameters,
+  UnifiedCredentials,
+} from '@sinch/sdk-client';
 import { AvailableRegionsApi } from './available-regions';
 import { CallbacksApi } from './callbacks';
 import { AvailableNumberApi } from './available-number';
@@ -23,6 +31,24 @@ import {
   ValidateEmergencyAddressRequestData,
 } from '../../models';
 
+export class LazyNumbersApiClient {
+  private client?: ApiClient;
+  constructor(public sharedConfig: SinchClientParameters) {}
+
+  public getClient(): ApiClient {
+    if (!this.client) {
+      const apiClientOptions = buildOAuth2ApiClientOptions(this.sharedConfig, 'Numbers');
+      this.client = new ApiFetchClient(apiClientOptions);
+      this.client.apiClientOptions.hostname = this.sharedConfig.numbersHostname ?? NUMBERS_HOSTNAME;
+    }
+    return this.client;
+  }
+
+  public resetClient() {
+    this.client = undefined;
+  }
+}
+
 /**
  * The Numbers Service exposes the following APIs:
  *  - availableRegions
@@ -38,6 +64,8 @@ export class NumbersService {
   /** @deprecated Use the methods exposed at the Numbers Service level instead */
   public readonly activeNumber: ActiveNumberApi;
 
+  private readonly lazyClient: LazyNumbersApiClient;
+
   /**
    * Create a new NumbersService instance with its configuration. It needs the following parameters for authentication:
    *  - `projectId`
@@ -49,10 +77,12 @@ export class NumbersService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
-    this.availableRegions = new AvailableRegionsApi(params);
-    this.callbacks = new CallbacksApi(params);
-    this.availableNumber = new AvailableNumberApi(params);
-    this.activeNumber = new ActiveNumberApi(params);
+    this.lazyClient = new LazyNumbersApiClient(params);
+
+    this.availableRegions = new AvailableRegionsApi(this.lazyClient);
+    this.callbacks = new CallbacksApi(this.lazyClient);
+    this.availableNumber = new AvailableNumberApi(this.lazyClient);
+    this.activeNumber = new ActiveNumberApi(this.lazyClient);
   }
 
   /**
@@ -60,12 +90,29 @@ export class NumbersService {
    *
    * @param {string} hostname - The new hostname to use for all the APIs.
    */
-  public setHostname(hostname: string) {
-    this.activeNumber.setHostname(hostname);
-    this.availableNumber.setHostname(hostname);
-    this.availableRegions.setHostname(hostname);
-    this.callbacks.setHostname(hostname);
+  public setHostname(hostname: string): void {
+    this.lazyClient.sharedConfig.numbersHostname = hostname;
+    if (this.lazyClient.getClient()) {
+      this.lazyClient.getClient().apiClientOptions.hostname = hostname;
+    }
   }
+
+  public setCredentials(credentials: Partial<UnifiedCredentials>): void {
+    const parametersBackup = { ...this.lazyClient.sharedConfig };
+    this.lazyClient.sharedConfig = {
+      ...parametersBackup,
+      ...credentials,
+    };
+    this.lazyClient.resetClient();
+    try {
+      this.lazyClient.getClient();
+    } catch (error) {
+      console.error('Impossible to assign the new credentials to the Numbers API');
+      this.lazyClient.sharedConfig = parametersBackup;
+      throw error;
+    }
+  }
+
 
   /**
    * This endpoint allows you to enter a specific phone number to check if it's available for use.

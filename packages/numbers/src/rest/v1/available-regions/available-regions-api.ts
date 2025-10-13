@@ -1,19 +1,12 @@
 import { ListAvailableRegionsRequestData, ListAvailableRegionsResponse } from '../../../models';
-import {
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
+import { RequestBody } from '@sinch/sdk-client';
 import { NumbersDomainApi } from '../numbers-domain-api';
+import { LazyNumbersApiClient } from '../numbers-service';
 
 export class AvailableRegionsApi extends NumbersDomainApi {
 
-  /**
-   * Initialize your interface with the provided API client.
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'AvailableRegionsApi');
+  constructor(lazyClient: LazyNumbersApiClient) {
+    super(lazyClient, 'AvailableRegionsApi');
   }
 
   /**
@@ -22,9 +15,9 @@ export class AvailableRegionsApi extends NumbersDomainApi {
    * @param {ListAvailableRegionsRequestData} data - The data to provide to the API call.
    */
   public async list(data: ListAvailableRegionsRequestData): Promise<ListAvailableRegionsResponse> {
-    this.client = this.getSinchClient();
+    const client = this.client;
     const getParams
-      = this.client.extractQueryParams<ListAvailableRegionsRequestData>(data, [
+      = client.extractQueryParams<ListAvailableRegionsRequestData>(data, [
         'types',
       ]);
     const headers: { [key: string]: string | undefined } = {
@@ -33,18 +26,18 @@ export class AvailableRegionsApi extends NumbersDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/availableRegions`;
+    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/availableRegions`;
 
-    const requestOptions = await this.client.prepareOptions(
+    const requestOptions = await client.prepareOptions(
       basePathUrl,
       'GET',
       getParams,
       headers,
       body || undefined,
     );
-    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams, true);
+    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams, true);
 
-    return this.client.processCall<ListAvailableRegionsResponse>({
+    return client.processCall<ListAvailableRegionsResponse>({
       url,
       requestOptions,
       apiName: this.apiName,

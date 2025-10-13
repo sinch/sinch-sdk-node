@@ -9,19 +9,14 @@ import {
 } from '../../../models';
 import {
   RequestBody,
-  SinchClientParameters,
 } from '@sinch/sdk-client';
 import { NumbersDomainApi } from '../numbers-domain-api';
+import { LazyNumbersApiClient } from '../numbers-service';
 
 export class AvailableNumberApi extends NumbersDomainApi {
 
-  /**
-   * Initialize your interface with the provided API client.
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'AvailableRegionsApi');
+  constructor(lazyClient: LazyNumbersApiClient) {
+    super(lazyClient, 'AvailableNumbersApi');
   }
 
   /**
@@ -30,9 +25,9 @@ export class AvailableNumberApi extends NumbersDomainApi {
    * @param {GetAvailableNumberRequestData} data - The data to provide to the API call.
    */
   public async checkAvailability(data: GetAvailableNumberRequestData): Promise<AvailableNumber> {
-    this.client = this.getSinchClient();
+    const client = this.client;
     const getParams
-      = this.client.extractQueryParams<GetAvailableNumberRequestData>(
+      = client.extractQueryParams<GetAvailableNumberRequestData>(
         data,
         [] as never[],
       );
@@ -42,18 +37,18 @@ export class AvailableNumberApi extends NumbersDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers/${data['phoneNumber']}`;
+    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/availableNumbers/${data['phoneNumber']}`;
 
-    const requestOptions = await this.client.prepareOptions(
+    const requestOptions = await client.prepareOptions(
       basePathUrl,
       'GET',
       getParams,
       headers,
       body || undefined,
     );
-    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return this.client.processCall<AvailableNumber>({
+    return client.processCall<AvailableNumber>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -67,9 +62,9 @@ export class AvailableNumberApi extends NumbersDomainApi {
    * @param {ListAvailableNumbersRequestData} data - The data to provide to the API call.
    */
   public async list(data: ListAvailableNumbersRequestData): Promise<AvailableNumbersResponse> {
-    this.client = this.getSinchClient();
+    const client = this.client;
     const getParams
-      = this.client.extractQueryParams<ListAvailableNumbersRequestData>(data, [
+      = client.extractQueryParams<ListAvailableNumbersRequestData>(data, [
         'numberPattern.pattern',
         'numberPattern.searchPattern',
         'regionCode',
@@ -83,18 +78,18 @@ export class AvailableNumberApi extends NumbersDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers`;
+    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/availableNumbers`;
 
-    const requestOptions = await this.client.prepareOptions(
+    const requestOptions = await client.prepareOptions(
       basePathUrl,
       'GET',
       getParams,
       headers,
       body || undefined,
     );
-    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams, true);
+    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams, true);
 
-    return this.client.processCall<AvailableNumbersResponse>({
+    return client.processCall<AvailableNumbersResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -108,8 +103,8 @@ export class AvailableNumberApi extends NumbersDomainApi {
    * @param {RentAnyNumberRequestData} data - The data to provide to the API call.
    */
   public async rentAny(data: RentAnyNumberRequestData): Promise<ActiveNumber> {
-    this.client = this.getSinchClient();
-    const getParams = this.client.extractQueryParams<RentAnyNumberRequestData>(
+    const client = this.client;
+    const getParams = client.extractQueryParams<RentAnyNumberRequestData>(
       data,
       [] as never[],
     );
@@ -121,18 +116,18 @@ export class AvailableNumberApi extends NumbersDomainApi {
     const body: RequestBody = data['rentAnyNumberRequestBody']
       ? JSON.stringify(data['rentAnyNumberRequestBody'])
       : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers:rentAny`;
+    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/availableNumbers:rentAny`;
 
-    const requestOptions = await this.client.prepareOptions(
+    const requestOptions = await client.prepareOptions(
       basePathUrl,
       'POST',
       getParams,
       headers,
       body || undefined,
     );
-    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return this.client.processCall<ActiveNumber>({
+    return client.processCall<ActiveNumber>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -146,8 +141,8 @@ export class AvailableNumberApi extends NumbersDomainApi {
    * @param {RentNumberRequestData} data - The data to provide to the API call.
    */
   public async rent(data: RentNumberRequestData): Promise<ActiveNumber> {
-    this.client = this.getSinchClient();
-    const getParams = this.client.extractQueryParams<RentNumberRequestData>(
+    const client = this.client;
+    const getParams = client.extractQueryParams<RentNumberRequestData>(
       data,
       [] as never[],
     );
@@ -159,18 +154,18 @@ export class AvailableNumberApi extends NumbersDomainApi {
     const body: RequestBody = data['rentNumberRequestBody']
       ? JSON.stringify(data['rentNumberRequestBody'])
       : '{}';
-    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers/${data['phoneNumber']}:rent`;
+    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/availableNumbers/${data['phoneNumber']}:rent`;
 
-    const requestOptions = await this.client.prepareOptions(
+    const requestOptions = await client.prepareOptions(
       basePathUrl,
       'POST',
       getParams,
       headers,
       body || undefined,
     );
-    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return this.client.processCall<ActiveNumber>({
+    return client.processCall<ActiveNumber>({
       url,
       requestOptions,
       apiName: this.apiName,
