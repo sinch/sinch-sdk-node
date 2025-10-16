@@ -31,6 +31,14 @@ describe('WebhooksApi', () => {
           triggers: [
             'MESSAGE_DELIVERY',
           ],
+          client_credentials: {
+            client_id: 'client_id',
+            client_secret: 'client_secret',
+            endpoint: 'endpoint',
+            token_request_type: 'BASIC',
+            scope: 'scope',
+            response_type: 'response_type',
+          },
         },
       };
       const expectedResponse: Conversation.Webhook = {
@@ -39,6 +47,9 @@ describe('WebhooksApi', () => {
           client_id: 'client_id',
           client_secret: 'client_secret',
           endpoint: 'endpoint',
+          token_request_type: 'BASIC',
+          scope: 'scope',
+          response_type: 'response_type',
         },
         id: 'id',
         secret: 'secret',
