@@ -24,6 +24,16 @@ Given('the SMS service "Batches" is available', () => {
   batchesApi = smsService.batches;
 });
 
+Given('the SMS service "Batches" is available and is configured for servicePlanId authentication', () => {
+  const smsService = new SmsService({
+    servicePlanId: 'CappyPremiumPlan',
+    apiToken: 'HappyCappyToken',
+    authHostname: 'http://localhost:3011',
+    smsHostname: 'http://localhost:3017',
+  });
+  batchesApi = smsService.batches;
+});
+
 When('I send a request to send a text message', async () => {
   const sendSmsRequest: Sms.SendTextSMSRequestData = {
     sendSMSRequestBody: {
