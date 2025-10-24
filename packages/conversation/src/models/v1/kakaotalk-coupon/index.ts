@@ -1,6 +1,5 @@
 export type {
   KakaoTalkCoupon,
-  KakaoTalkCouponBase,
   KakaoTalkFixedDiscountCoupon,
   KakaoTalkDiscountRateCoupon,
   KakaoTalkShippingDiscountCoupon,
