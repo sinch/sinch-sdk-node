@@ -6,6 +6,7 @@ import { MessagesApi } from './messages';
 import { TranscodingApi } from './transcoding';
 import { CapabilityApi } from './capability';
 import { ConversationApi } from './conversation';
+import { ProjectSettingsApi } from './project-settings';
 import { WebhooksApi } from './webhooks';
 import { TemplatesV1Api } from './templates-v1';
 import { TemplatesV2Api } from './templates-v2';
@@ -32,6 +33,7 @@ export class ConversationService {
   public readonly transcoding: TranscodingApi;
   public readonly capability: CapabilityApi;
   public readonly conversation: ConversationApi;
+  public readonly projectSettings: ProjectSettingsApi;
   public readonly webhooks: WebhooksApi;
   public readonly templatesV1: TemplatesV1Api;
   public readonly templatesV2: TemplatesV2Api;
@@ -57,6 +59,7 @@ export class ConversationService {
     this.transcoding = new TranscodingApi(params);
     this.capability = new CapabilityApi(params);
     this.conversation = new ConversationApi(params);
+    this.projectSettings = new ProjectSettingsApi(params);
     this.webhooks = new WebhooksApi(params);
     this.templatesV1 = new TemplatesV1Api(params);
     this.templatesV2 = new TemplatesV2Api(params);
@@ -75,6 +78,7 @@ export class ConversationService {
     this.transcoding.setHostname(hostname);
     this.capability.setHostname(hostname);
     this.conversation.setHostname(hostname);
+    this.projectSettings.setHostname(hostname);
     this.webhooks.setHostname(hostname);
     this.consents.setHostname(hostname);
   }
@@ -100,6 +104,7 @@ export class ConversationService {
     this.transcoding.setRegion(region);
     this.capability.setRegion(region);
     this.conversation.setRegion(region);
+    this.projectSettings.setRegion(region);
     this.webhooks.setRegion(region);
     this.templatesV1.setRegion(region);
     this.templatesV2.setRegion(region);

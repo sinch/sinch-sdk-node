@@ -20,7 +20,7 @@ export interface CardMessageItem {
   description?: string;
   /** @see CardHeight */
   height?: CardHeight;
-  /** @see MediaProperties */
+  /** A message containing a media component. */
   media_message?: MediaProperties;
   /** The title of the card message. */
   title?: string;
