@@ -12,7 +12,7 @@ export interface ChoiceItem {
   title: string;
   /** Optional parameter. The description (or subtitle) of this choice item. */
   description?: string;
-  /** @see MediaProperties */
+  /** Optional parameter. The media of this choice item. */
   media?: MediaProperties;
   /** Optional parameter. Postback data that will be returned in the MO if the user selects this option. */
   postback_data?: string;

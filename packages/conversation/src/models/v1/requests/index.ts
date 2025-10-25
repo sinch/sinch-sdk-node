@@ -5,6 +5,7 @@ export * from './contact/contact-request-data';
 export * from './conversation/conversation-request-data';
 export * from './events/events-request-data';
 export * from './messages/messages-request-data';
+export * from './project-settings/project-settings-request-data';
 export * from './templates-v1/templates-v1-request-data';
 export * from './templates-v2/templates-v2-request-data';
 export * from './transcoding/transcoding-request-data';

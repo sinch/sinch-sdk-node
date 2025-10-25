@@ -11,4 +11,9 @@ export type {
   PaymentOrderDetailsChannelSpecificMessagePaymentOrderItems,
   PaymentOrderDetailsChannelSpecificMessagePaymentPaymentSettings,
   PaymentOrderDetailsChannelSpecificMessagePaymentPaymentSettingsDynamicPix,
+  DynamicPix,
+  PaymentLink,
+  OrderDetailsPaymentSettingsPaymentLink,
+  Boleto,
+  OrderDetailsPaymentSettingsBoleto,
 } from './whatsapp-payment-order-details';

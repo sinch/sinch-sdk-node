@@ -20,6 +20,16 @@ Given('the SMS service "Inbounds" is available', () => {
   inboundsApi = smsService.inbounds;
 });
 
+Given('the SMS service "Inbounds" is available and is configured for servicePlanId authentication', () => {
+  const smsService = new SmsService({
+    servicePlanId: 'CappyPremiumPlan',
+    apiToken: 'HappyCappyToken',
+    authHostname: 'http://localhost:3011',
+    smsHostname: 'http://localhost:3017',
+  });
+  inboundsApi = smsService.inbounds;
+});
+
 When('I send a request to retrieve an inbound message', async () => {
   inboundMessage = await inboundsApi.get({
     inbound_id: '01W4FFL35P4NC4K35INBOUND01',
