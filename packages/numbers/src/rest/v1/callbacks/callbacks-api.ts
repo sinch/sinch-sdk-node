@@ -19,9 +19,8 @@ export class CallbacksApi extends NumbersDomainApi {
    * @param {GetCallbackConfigurationRequestData} data - The data to provide to the API call.
    */
   public async get(data: GetCallbackConfigurationRequestData): Promise<CallbackConfiguration> {
-    const client = this.client;
     const getParams
-      = client.extractQueryParams<GetCallbackConfigurationRequestData>(
+      = this.client.extractQueryParams<GetCallbackConfigurationRequestData>(
         data,
         [] as never[],
       );
@@ -31,18 +30,18 @@ export class CallbacksApi extends NumbersDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/callbackConfiguration`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/callbackConfiguration`;
 
-    const requestOptions = await client.prepareOptions(
+    const requestOptions = await this.client.prepareOptions(
       basePathUrl,
       'GET',
       getParams,
       headers,
       body || undefined,
     );
-    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return client.processCall<CallbackConfiguration>({
+    return this.client.processCall<CallbackConfiguration>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -56,9 +55,8 @@ export class CallbacksApi extends NumbersDomainApi {
    * @param {UpdateCallbackConfigurationRequestData} data - The data to provide to the API call.
    */
   public async update(data: UpdateCallbackConfigurationRequestData): Promise<CallbackConfiguration> {
-    const client = this.client;
     const getParams
-      = client.extractQueryParams<UpdateCallbackConfigurationRequestData>(
+      = this.client.extractQueryParams<UpdateCallbackConfigurationRequestData>(
         data,
         [] as never[],
       );
@@ -70,18 +68,18 @@ export class CallbacksApi extends NumbersDomainApi {
     const body: RequestBody = data['updateCallbackConfigurationRequestBody']
       ? JSON.stringify(data['updateCallbackConfigurationRequestBody'])
       : '{}';
-    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/callbackConfiguration`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/callbackConfiguration`;
 
-    const requestOptions = await client.prepareOptions(
+    const requestOptions = await this.client.prepareOptions(
       basePathUrl,
       'PATCH',
       getParams,
       headers,
       body || undefined,
     );
-    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return client.processCall<CallbackConfiguration>({
+    return this.client.processCall<CallbackConfiguration>({
       url,
       requestOptions,
       apiName: this.apiName,

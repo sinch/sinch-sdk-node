@@ -34,9 +34,8 @@ export class ActiveNumberApi extends NumbersDomainApi {
   * @param {GetActiveNumberRequestData} data - The data to provide to the API call.
    */
   public async get(data: GetActiveNumberRequestData): Promise<ActiveNumber> {
-    const client = this.client;
     const getParams
-      = client.extractQueryParams<GetActiveNumberRequestData>(
+      = this.client.extractQueryParams<GetActiveNumberRequestData>(
         data,
         [] as never[],
       );
@@ -46,18 +45,18 @@ export class ActiveNumberApi extends NumbersDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}`;
 
-    const requestOptions = await client.prepareOptions(
+    const requestOptions = await this.client.prepareOptions(
       basePathUrl,
       'GET',
       getParams,
       headers,
       body || undefined,
     );
-    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return client.processCall<ActiveNumber>({
+    return this.client.processCall<ActiveNumber>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -72,29 +71,27 @@ export class ActiveNumberApi extends NumbersDomainApi {
    * @return {ApiListPromise<ActiveNumber>}
    */
   public list(data: ListActiveNumbersRequestData): ApiListPromise<ActiveNumber> {
-    const clientPromise = this.client;
-    const requestOptionsPromise = Promise.resolve(clientPromise).then(async (client) => {
-      const getParams = client.extractQueryParams<ListActiveNumbersRequestData>(data, [
-        'regionCode',
-        'numberPattern.pattern',
-        'numberPattern.searchPattern',
-        'type',
-        'capability',
-        'pageSize',
-        'pageToken',
-        'orderBy',
-      ]);
+    const getParams = this.client.extractQueryParams<ListActiveNumbersRequestData>(data, [
+      'regionCode',
+      'numberPattern.pattern',
+      'numberPattern.searchPattern',
+      'type',
+      'capability',
+      'pageSize',
+      'pageToken',
+      'orderBy',
+    ]);
 
-      const headers: { [key: string]: string | undefined } = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      };
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
 
-      const body: RequestBody = '';
-      const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/activeNumbers`;
+    const body: RequestBody = '';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/activeNumbers`;
 
-      return client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
-    });
+    const requestOptionsPromise
+      = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
 
     const operationProperties: PaginatedApiProperties = {
       pagination: PaginationEnum.TOKEN,
@@ -105,7 +102,7 @@ export class ActiveNumberApi extends NumbersDomainApi {
 
     // Create the promise containing the response wrapped as a PageResult
     const listPromise = buildPageResultPromise<ActiveNumber>(
-      clientPromise,
+      this.client,
       requestOptionsPromise,
       operationProperties,
     );
@@ -114,7 +111,7 @@ export class ActiveNumberApi extends NumbersDomainApi {
     Object.assign(
       listPromise,
       createIteratorMethodsForPagination<ActiveNumber>(
-        clientPromise, requestOptionsPromise, listPromise, operationProperties),
+        this.client, requestOptionsPromise, listPromise, operationProperties),
     );
 
     return listPromise as ApiListPromise<ActiveNumber>;
@@ -126,8 +123,7 @@ export class ActiveNumberApi extends NumbersDomainApi {
    * @param {ReleaseNumberRequestData} data - The data to provide to the API call.
    */
   public async release(data: ReleaseNumberRequestData): Promise<ActiveNumber> {
-    const client = this.client;
-    const getParams = client.extractQueryParams<ReleaseNumberRequestData>(
+    const getParams = this.client.extractQueryParams<ReleaseNumberRequestData>(
       data,
       [] as never[],
     );
@@ -137,18 +133,18 @@ export class ActiveNumberApi extends NumbersDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}:release`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}:release`;
 
-    const requestOptions = await client.prepareOptions(
+    const requestOptions = await this.client.prepareOptions(
       basePathUrl,
       'POST',
       getParams,
       headers,
       body || undefined,
     );
-    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return client.processCall<ActiveNumber>({
+    return this.client.processCall<ActiveNumber>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -163,12 +159,10 @@ export class ActiveNumberApi extends NumbersDomainApi {
    * @param {UpdateActiveNumberRequestData} data - The data to provide to the API call.
    */
   public async update(data: UpdateActiveNumberRequestData): Promise<ActiveNumber> {
-    const client = this.client;
-    const getParams
-      = client.extractQueryParams<UpdateActiveNumberRequestData>(
-        data,
-        [] as never[],
-      );
+    const getParams = this.client.extractQueryParams<UpdateActiveNumberRequestData>(
+      data,
+      [] as never[],
+    );
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -177,18 +171,18 @@ export class ActiveNumberApi extends NumbersDomainApi {
     const body: RequestBody = data['updateActiveNumberRequestBody']
       ? JSON.stringify(data['updateActiveNumberRequestBody'])
       : '{}';
-    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}`;
 
-    const requestOptions = await client.prepareOptions(
+    const requestOptions = await this.client.prepareOptions(
       basePathUrl,
       'PATCH',
       getParams,
       headers,
       body || undefined,
     );
-    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return client.processCall<ActiveNumber>({
+    return this.client.processCall<ActiveNumber>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -202,20 +196,20 @@ export class ActiveNumberApi extends NumbersDomainApi {
    * @param {DeprovisionEmergencyAddressRequestData} data - The data to provide to the API call.
    */
   public async deprovisionEmergencyAddress(data: DeprovisionEmergencyAddressRequestData): Promise<void> {
-    const client = this.client;
-    const getParams = client.extractQueryParams<DeprovisionEmergencyAddressRequestData>(data, [] as never[]);
+    const getParams = this.client.extractQueryParams<DeprovisionEmergencyAddressRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}/emergencyAddress:deprovision`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}/emergencyAddress:deprovision`;
 
-    const requestOptions = await client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
-    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return client.processCall<void>({
+    return this.client.processCall<void>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -229,20 +223,20 @@ export class ActiveNumberApi extends NumbersDomainApi {
    * @param {GetEmergencyAddressRequestData} data - The data to provide to the API call.
    */
   public async getEmergencyAddress(data: GetEmergencyAddressRequestData): Promise<EmergencyAddress> {
-    const client = this.client;
-    const getParams = client.extractQueryParams<GetEmergencyAddressRequestData>(data, [] as never[]);
+    const getParams = this.client.extractQueryParams<GetEmergencyAddressRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}/emergencyAddress`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}/emergencyAddress`;
 
-    const requestOptions = await client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
-    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return client.processCall<EmergencyAddress>({
+    return this.client.processCall<EmergencyAddress>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -256,8 +250,7 @@ export class ActiveNumberApi extends NumbersDomainApi {
    * @param {ProvisionEmergencyAddressRequestData} data - The data to provide to the API call.
    */
   public async provisionEmergencyAddress(data: ProvisionEmergencyAddressRequestData): Promise<EmergencyAddress> {
-    const client = this.client;
-    const getParams = client.extractQueryParams<ProvisionEmergencyAddressRequestData>(data, [] as never[]);
+    const getParams = this.client.extractQueryParams<ProvisionEmergencyAddressRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -265,12 +258,13 @@ export class ActiveNumberApi extends NumbersDomainApi {
 
     const body: RequestBody = data['emergencyAddressRequestBody']
       ? JSON.stringify(data['emergencyAddressRequestBody']) : '{}';
-    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}/emergencyAddress:provision`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}/emergencyAddress:provision`;
 
-    const requestOptions = await client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
-    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return client.processCall<EmergencyAddress>({
+    return this.client.processCall<EmergencyAddress>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -286,8 +280,7 @@ export class ActiveNumberApi extends NumbersDomainApi {
   public async validateEmergencyAddress(
     data: ValidateEmergencyAddressRequestData,
   ): Promise<ValidateEmergencyAddressResponse> {
-    const client = this.client;
-    const getParams = client.extractQueryParams<ValidateEmergencyAddressRequestData>(data, [] as never[]);
+    const getParams = this.client.extractQueryParams<ValidateEmergencyAddressRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -295,12 +288,13 @@ export class ActiveNumberApi extends NumbersDomainApi {
 
     const body: RequestBody = data['emergencyAddressRequestBody']
       ? JSON.stringify(data['emergencyAddressRequestBody']) : '{}';
-    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}/emergencyAddress:validate`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/activeNumbers/${data['phoneNumber']}/emergencyAddress:validate`;
 
-    const requestOptions = await client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
-    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return client.processCall<ValidateEmergencyAddressResponse>({
+    return this.client.processCall<ValidateEmergencyAddressResponse>({
       url,
       requestOptions,
       apiName: this.apiName,

@@ -25,9 +25,8 @@ export class AvailableNumberApi extends NumbersDomainApi {
    * @param {GetAvailableNumberRequestData} data - The data to provide to the API call.
    */
   public async checkAvailability(data: GetAvailableNumberRequestData): Promise<AvailableNumber> {
-    const client = this.client;
     const getParams
-      = client.extractQueryParams<GetAvailableNumberRequestData>(
+      = this.client.extractQueryParams<GetAvailableNumberRequestData>(
         data,
         [] as never[],
       );
@@ -37,18 +36,18 @@ export class AvailableNumberApi extends NumbersDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/availableNumbers/${data['phoneNumber']}`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers/${data['phoneNumber']}`;
 
-    const requestOptions = await client.prepareOptions(
+    const requestOptions = await this.client.prepareOptions(
       basePathUrl,
       'GET',
       getParams,
       headers,
       body || undefined,
     );
-    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return client.processCall<AvailableNumber>({
+    return this.client.processCall<AvailableNumber>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -62,9 +61,8 @@ export class AvailableNumberApi extends NumbersDomainApi {
    * @param {ListAvailableNumbersRequestData} data - The data to provide to the API call.
    */
   public async list(data: ListAvailableNumbersRequestData): Promise<AvailableNumbersResponse> {
-    const client = this.client;
     const getParams
-      = client.extractQueryParams<ListAvailableNumbersRequestData>(data, [
+      = this.client.extractQueryParams<ListAvailableNumbersRequestData>(data, [
         'numberPattern.pattern',
         'numberPattern.searchPattern',
         'regionCode',
@@ -78,18 +76,18 @@ export class AvailableNumberApi extends NumbersDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/availableNumbers`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers`;
 
-    const requestOptions = await client.prepareOptions(
+    const requestOptions = await this.client.prepareOptions(
       basePathUrl,
       'GET',
       getParams,
       headers,
       body || undefined,
     );
-    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams, true);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams, true);
 
-    return client.processCall<AvailableNumbersResponse>({
+    return this.client.processCall<AvailableNumbersResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -103,8 +101,7 @@ export class AvailableNumberApi extends NumbersDomainApi {
    * @param {RentAnyNumberRequestData} data - The data to provide to the API call.
    */
   public async rentAny(data: RentAnyNumberRequestData): Promise<ActiveNumber> {
-    const client = this.client;
-    const getParams = client.extractQueryParams<RentAnyNumberRequestData>(
+    const getParams = this.client.extractQueryParams<RentAnyNumberRequestData>(
       data,
       [] as never[],
     );
@@ -116,18 +113,18 @@ export class AvailableNumberApi extends NumbersDomainApi {
     const body: RequestBody = data['rentAnyNumberRequestBody']
       ? JSON.stringify(data['rentAnyNumberRequestBody'])
       : '{}';
-    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/availableNumbers:rentAny`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers:rentAny`;
 
-    const requestOptions = await client.prepareOptions(
+    const requestOptions = await this.client.prepareOptions(
       basePathUrl,
       'POST',
       getParams,
       headers,
       body || undefined,
     );
-    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return client.processCall<ActiveNumber>({
+    return this.client.processCall<ActiveNumber>({
       url,
       requestOptions,
       apiName: this.apiName,
@@ -141,8 +138,7 @@ export class AvailableNumberApi extends NumbersDomainApi {
    * @param {RentNumberRequestData} data - The data to provide to the API call.
    */
   public async rent(data: RentNumberRequestData): Promise<ActiveNumber> {
-    const client = this.client;
-    const getParams = client.extractQueryParams<RentNumberRequestData>(
+    const getParams = this.client.extractQueryParams<RentNumberRequestData>(
       data,
       [] as never[],
     );
@@ -154,18 +150,18 @@ export class AvailableNumberApi extends NumbersDomainApi {
     const body: RequestBody = data['rentNumberRequestBody']
       ? JSON.stringify(data['rentNumberRequestBody'])
       : '{}';
-    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/availableNumbers/${data['phoneNumber']}:rent`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/availableNumbers/${data['phoneNumber']}:rent`;
 
-    const requestOptions = await client.prepareOptions(
+    const requestOptions = await this.client.prepareOptions(
       basePathUrl,
       'POST',
       getParams,
       headers,
       body || undefined,
     );
-    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return client.processCall<ActiveNumber>({
+    return this.client.processCall<ActiveNumber>({
       url,
       requestOptions,
       apiName: this.apiName,

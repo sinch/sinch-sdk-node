@@ -13,7 +13,7 @@ export class NumbersDomainApi implements Api {
   ) {}
 
   public get client(): ApiClient {
-    return this.lazyClient.getClient();
+    return this.lazyClient.getApiClient();
   }
 
   /**
@@ -22,7 +22,7 @@ export class NumbersDomainApi implements Api {
    * @deprecated
    */
   public getSinchClient(): ApiClient {
-    return this.lazyClient.getClient();
+    return this.lazyClient.getApiClient();
   }
 
   /**
@@ -31,8 +31,8 @@ export class NumbersDomainApi implements Api {
    */
   public setHostname(hostname: string) {
     this.lazyClient.sharedConfig.numbersHostname = hostname;
-    if (this.lazyClient.getClient()) {
-      this.lazyClient.getClient().apiClientOptions.hostname = hostname;
+    if (this.lazyClient.getApiClient()) {
+      this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
     }
   }
 
@@ -48,7 +48,7 @@ export class NumbersDomainApi implements Api {
     };
     this.lazyClient.resetClient();
     try {
-      this.lazyClient.getClient();
+      this.lazyClient.getApiClient();
     } catch (error) {
       console.error('Impossible to assign the new credentials to the Numbers API');
       this.lazyClient.sharedConfig = parametersBackup;

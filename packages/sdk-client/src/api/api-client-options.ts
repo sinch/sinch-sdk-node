@@ -4,7 +4,7 @@ import { ResponsePlugin } from '../plugins/core/response-plugin';
 interface BaseApiClientOptions {
   /**
    * ID of the umbrella project containing the access keys
-   * Found on your <a href=\"https://dashboard.sinch.com/settings/project-management\" target=\"_blank\">Sinch Customer Dashboard</a>.
+   * Found on your [Sinch Customer Dashboard](https://dashboard.sinch.com/settings/project-management).
    */
   projectId: string;
 

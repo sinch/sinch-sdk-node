@@ -16,7 +16,7 @@ describe('Numbers API', () => {
     lazyClient = new LazyNumbersApiClient(params);
   });
 
-  it('should initialize the client', () => {
+  it('should initialize the API client', () => {
     numbersApi = new NumbersDomainApi(lazyClient, 'dummy');
     expect(numbersApi.client).toBeDefined();
     expect(numbersApi.client?.apiClientOptions.projectId).toBe('PROJECT_ID');

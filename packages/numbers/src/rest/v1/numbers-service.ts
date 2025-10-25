@@ -1,5 +1,4 @@
 import {
-  ApiClient,
   ApiFetchClient,
   ApiListPromise,
   buildOAuth2ApiClientOptions,
@@ -32,20 +31,20 @@ import {
 } from '../../models';
 
 export class LazyNumbersApiClient {
-  private client?: ApiClient;
+  private apiFetchClient?: ApiFetchClient;
   constructor(public sharedConfig: SinchClientParameters) {}
 
-  public getClient(): ApiClient {
-    if (!this.client) {
+  public getApiClient(): ApiFetchClient {
+    if (!this.apiFetchClient) {
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sharedConfig, 'Numbers');
-      this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.hostname = this.sharedConfig.numbersHostname ?? NUMBERS_HOSTNAME;
+      this.apiFetchClient = new ApiFetchClient(apiClientOptions);
+      this.apiFetchClient.apiClientOptions.hostname = this.sharedConfig.numbersHostname ?? NUMBERS_HOSTNAME;
     }
-    return this.client;
+    return this.apiFetchClient;
   }
 
   public resetClient() {
-    this.client = undefined;
+    this.apiFetchClient = undefined;
   }
 }
 
@@ -77,12 +76,18 @@ export class NumbersService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
-    this.lazyClient = new LazyNumbersApiClient(params);
+    const sharedClient = new LazyNumbersApiClient(params);
+    this.lazyClient = sharedClient;
 
-    this.availableRegions = new AvailableRegionsApi(this.lazyClient);
-    this.callbacks = new CallbacksApi(this.lazyClient);
-    this.availableNumber = new AvailableNumberApi(this.lazyClient);
-    this.activeNumber = new ActiveNumberApi(this.lazyClient);
+    this.availableRegions = new AvailableRegionsApi(sharedClient);
+    this.callbacks = new CallbacksApi(sharedClient);
+    this.availableNumber = new AvailableNumberApi(sharedClient);
+    this.activeNumber = new ActiveNumberApi(sharedClient);
+  }
+
+  public setApiClientConfig(newParams: SinchClientParameters) {
+    this.lazyClient.sharedConfig = newParams;
+    this.lazyClient.resetClient();
   }
 
   /**
@@ -92,8 +97,8 @@ export class NumbersService {
    */
   public setHostname(hostname: string): void {
     this.lazyClient.sharedConfig.numbersHostname = hostname;
-    if (this.lazyClient.getClient()) {
-      this.lazyClient.getClient().apiClientOptions.hostname = hostname;
+    if (this.lazyClient.getApiClient()) {
+      this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
     }
   }
 
@@ -105,7 +110,7 @@ export class NumbersService {
     };
     this.lazyClient.resetClient();
     try {
-      this.lazyClient.getClient();
+      this.lazyClient.getApiClient();
     } catch (error) {
       console.error('Impossible to assign the new credentials to the Numbers API');
       this.lazyClient.sharedConfig = parametersBackup;

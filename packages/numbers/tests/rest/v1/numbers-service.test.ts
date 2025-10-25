@@ -1,5 +1,12 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
-import { ActiveNumberApi, AvailableNumberApi, AvailableRegionsApi, CallbacksApi, NumbersService } from '../../../src';
+import { ApiTokenRequest, SinchClientParameters } from '@sinch/sdk-client';
+import {
+  ActiveNumberApi,
+  AvailableNumberApi,
+  AvailableRegionsApi,
+  CallbacksApi,
+  NumbersService,
+} from '../../../src';
+import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
 
 describe('Numbers Service', () => {
   const DEFAULT_HOSTNAME = 'https://numbers.api.sinch.com';
@@ -25,6 +32,60 @@ describe('Numbers Service', () => {
     expect(numbersService.availableNumber.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(numbersService.activeNumber.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(numbersService.callbacks.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+  });
+
+  it('should update the API client for all the subdomains', () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+    };
+    const numbersService = new NumbersService(params);
+    const newApiClientConfig = {
+      projectId: 'NEW_PROJECT_ID',
+      keyId: 'NEW_KEY_ID',
+      keySecret: 'NEW_KEY_SECRET',
+    };
+
+    // When
+    numbersService.setApiClientConfig(newApiClientConfig);
+
+    // Then
+    expect(numbersService.availableRegions.lazyClient.sharedConfig.projectId).toBe('NEW_PROJECT_ID');
+    expect(numbersService.callbacks.lazyClient.sharedConfig.projectId).toBe('NEW_PROJECT_ID');
+    expect(numbersService.availableNumber.lazyClient.sharedConfig.projectId).toBe('NEW_PROJECT_ID');
+    expect(numbersService.activeNumber.lazyClient.sharedConfig.projectId).toBe('NEW_PROJECT_ID');
+  });
+
+  it('should override the plugins list for all the subdomains', () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+    };
+    const numbersService = new NumbersService(params);
+    const newRequestPlugin = new ApiTokenRequest('test-token');
+
+    // When
+    const apiFetchClient = (numbersService as any).lazyClient.getApiClient();
+    apiFetchClient.apiClientOptions.requestPlugins = [newRequestPlugin];
+
+    // Then
+    const assertPluginOverrideIsCorrect = (plugins: RequestPlugin[] | undefined ) => {
+      expect(plugins).toBeDefined();
+      expect(plugins?.length).toBe(1);
+      expect(plugins?.[0]).toBeInstanceOf(ApiTokenRequest);
+    };
+    assertPluginOverrideIsCorrect(
+      numbersService.availableRegions.lazyClient.getApiClient().apiClientOptions.requestPlugins);
+    assertPluginOverrideIsCorrect(
+      numbersService.callbacks.lazyClient.getApiClient().apiClientOptions.requestPlugins);
+    assertPluginOverrideIsCorrect(
+      numbersService.availableNumber.lazyClient.getApiClient().apiClientOptions.requestPlugins);
+    assertPluginOverrideIsCorrect(
+      numbersService.activeNumber.lazyClient.getApiClient().apiClientOptions.requestPlugins);
   });
 
   it('should set a custom hostname for all APIs', () => {

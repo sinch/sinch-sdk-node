@@ -5,8 +5,8 @@ import { LazyNumbersApiClient } from '../numbers-service';
 
 export class AvailableRegionsApi extends NumbersDomainApi {
 
-  constructor(lazyClient: LazyNumbersApiClient) {
-    super(lazyClient, 'AvailableRegionsApi');
+  constructor(lazyApiClient: LazyNumbersApiClient) {
+    super(lazyApiClient, 'AvailableRegionsApi');
   }
 
   /**
@@ -15,9 +15,8 @@ export class AvailableRegionsApi extends NumbersDomainApi {
    * @param {ListAvailableRegionsRequestData} data - The data to provide to the API call.
    */
   public async list(data: ListAvailableRegionsRequestData): Promise<ListAvailableRegionsResponse> {
-    const client = this.client;
     const getParams
-      = client.extractQueryParams<ListAvailableRegionsRequestData>(data, [
+      = this.client.extractQueryParams<ListAvailableRegionsRequestData>(data, [
         'types',
       ]);
     const headers: { [key: string]: string | undefined } = {
@@ -26,18 +25,18 @@ export class AvailableRegionsApi extends NumbersDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${client.apiClientOptions.hostname}/v1/projects/${client.apiClientOptions.projectId}/availableRegions`;
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/availableRegions`;
 
-    const requestOptions = await client.prepareOptions(
+    const requestOptions = await this.client.prepareOptions(
       basePathUrl,
       'GET',
       getParams,
       headers,
       body || undefined,
     );
-    const url = client.prepareUrl(requestOptions.hostname, requestOptions.queryParams, true);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams, true);
 
-    return client.processCall<ListAvailableRegionsResponse>({
+    return this.client.processCall<ListAvailableRegionsResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
