@@ -9,6 +9,8 @@ export interface SvamlActionConnectStream {
   name: 'connectStream';
   /** Specifies where to route the Stream call. */
   destination: DestinationStream;
+  /** @see StreamingOptions */
+  streamingOptions?: StreamingOptions;
   /** The max duration of the call in seconds (max 14400 seconds). If the call is still connected at that time, it will be automatically disconnected. */
   maxDuration?: number;
   /** "These custom parameters (headers/messages) are sent to your WebSocket server in the initial message when the ConnectStream is established." */
@@ -16,3 +18,13 @@ export interface SvamlActionConnectStream {
 }
 
 export type ConnectStreamProps = Omit<SvamlActionConnectStream, 'name'>;
+
+/**
+ * Optional parameters for the WebSocket stream.
+ */
+export interface StreamingOptions {
+  /** The version of the streaming feature. */
+  version?: number;
+  /** The sample rate for the audio stream in Hz. */
+  sampleRate?: number;
+}

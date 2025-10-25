@@ -13,7 +13,6 @@ export type ConversationChannel =
   | 'KAKAOTALK'
   | 'KAKAOTALKCHAT'
   | 'LINE'
-  | 'SINCH_CHAT'
   | 'WECHAT'
   | 'APPLEBC'
   | 'CHANNEL_UNSPECIFIED'

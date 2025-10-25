@@ -33,6 +33,12 @@ export interface ListContactsRequestData {
   /** Optional. If set, the `channel` parameter must be set and `external_id` can't be used. Used in conjunction with `channel` to uniquely identify the specified channel identity. This will differ from channel to channel. For example, a phone number for SMS, WhatsApp, and Viber Business. */
   'identity'?: string;
 }
+export interface ListIdentityConflictsRequestData {
+  /** Maximum number of conflicts to return (max 20). */
+  'page_size'?: number;
+  /** Pagination token for retrieving next page. */
+  'page_token'?: string;
+}
 export interface MergeContactRequestData {
   /** The unique ID of the contact that should be kept when merging two contacts. */
   'destination_id': string;

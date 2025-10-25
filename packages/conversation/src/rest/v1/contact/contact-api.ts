@@ -14,7 +14,9 @@ import {
   GetChannelProfileRequestData,
   GetChannelProfileResponse,
   GetContactRequestData,
+  IdentityConflict,
   ListContactsRequestData,
+  ListIdentityConflictsRequestData,
   MergeContactRequestData,
   Recipient,
   UpdateContactRequestData,
@@ -188,6 +190,50 @@ export class ContactApi extends ConversationDomainApi {
     );
 
     return listPromise as ApiListPromise<Contact>;
+  }
+
+  /**
+   * Lists Contact Identity Conflicts
+   * Lists contact identity conflicts across supported SIM-based channels (SMS, MMS, RCS). Use this to identify contact records sharing the same identity (e.g., phone number), which must be resolved before enabling the Unified Contact ID feature.
+   * @param { ListIdentityConflictsRequestData } data - The data to provide to the API call.
+   * @return {ApiListPromise<IdentityConflict>}
+   */
+  public listIdentityConflicts(data: ListIdentityConflictsRequestData): ApiListPromise<IdentityConflict> {
+    this.client = this.getSinchClient();
+    const getParams = this.client.extractQueryParams<ListIdentityConflictsRequestData>(
+      data,
+      ['page_size', 'page_token']);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = '';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/contacts:identityConflicts`;
+
+    const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
+
+    const operationProperties: PaginatedApiProperties = {
+      pagination: PaginationEnum.TOKEN2,
+      apiName: this.apiName,
+      operationId: 'ListIdentityConflicts',
+      dataKey: 'conflicts',
+    };
+
+    // Create the promise containing the response wrapped as a PageResult
+    const listPromise = buildPageResultPromise<IdentityConflict>(
+      this.client,
+      requestOptionsPromise,
+      operationProperties);
+
+    // Add properties to the Promise to offer the possibility to use it as an iterator
+    Object.assign(
+      listPromise,
+      createIteratorMethodsForPagination<IdentityConflict>(
+        this.client, requestOptionsPromise, listPromise, operationProperties),
+    );
+
+    return listPromise as ApiListPromise<IdentityConflict>;
   }
 
   /**

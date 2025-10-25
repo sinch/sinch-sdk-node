@@ -85,12 +85,17 @@ export interface OrderDetailsPaymentOrderItems {
 /** @deprecated */
 export type PaymentOrderDetailsChannelSpecificMessagePaymentPaymentSettings = OrderDetailsPaymentSettings;
 
+export type OrderDetailsPaymentSettings =
+  DynamicPix
+  | PaymentLink
+  | Boleto;
+
 /**
  * The payment settings.
  */
-export interface OrderDetailsPaymentSettings {
+export interface DynamicPix {
   /** @see OrderDetailsPaymentSettingsDynamicPix */
-  dynamic_pix: OrderDetailsPaymentSettingsDynamicPix;
+  dynamic_pix?: OrderDetailsPaymentSettingsDynamicPix;
 }
 
 /** @deprecated */
@@ -109,4 +114,22 @@ export interface OrderDetailsPaymentSettingsDynamicPix {
   key: string;
   /** Pix key type. */
   key_type: 'CPF' | 'CNPJ' | 'EMAIL' | 'PHONE' | 'EVP' | string;
+}
+
+export interface PaymentLink {
+  payment_link?: OrderDetailsPaymentSettingsPaymentLink;
+}
+
+export interface OrderDetailsPaymentSettingsPaymentLink {
+  /** The payment link to be used by the buyer to pay. */
+  uri: string;
+}
+
+export interface Boleto {
+  boleto?: OrderDetailsPaymentSettingsBoleto;
+}
+
+export interface OrderDetailsPaymentSettingsBoleto {
+  /** The Boleto digitable line which will be copied to the clipboard when the user taps the Boleto button. */
+  digitable_line: string;
 }

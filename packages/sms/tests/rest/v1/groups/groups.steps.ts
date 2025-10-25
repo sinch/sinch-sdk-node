@@ -22,6 +22,16 @@ Given('the SMS service "Groups" is available', () => {
   groupsApi = smsService.groups;
 });
 
+Given('the SMS service "Groups" is available and is configured for servicePlanId authentication', () => {
+  const smsService = new SmsService({
+    servicePlanId: 'CappyPremiumPlan',
+    apiToken: 'HappyCappyToken',
+    authHostname: 'http://localhost:3011',
+    smsHostname: 'http://localhost:3017',
+  });
+  groupsApi = smsService.groups;
+});
+
 When('I send a request to create an SMS group', async () => {
   group = await groupsApi.create({
     createGroupRequestBody: {

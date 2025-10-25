@@ -2,10 +2,10 @@ import { TextMessageItem } from '../text-message';
 import { Choice } from '../choice';
 
 /**
- * Message containing choices/actions.
+ * A message containing choices.
  */
 export interface ChoiceMessage {
-  /** Message containing choices/actions. */
+  /** A message containing choices. */
   choice_message: ChoiceMessageItem;
 }
 
