@@ -5,7 +5,6 @@ import {
   PaginatedApiProperties,
   PaginationEnum,
   RequestBody,
-  SinchClientParameters,
 } from '@sinch/sdk-client';
 import {
   Contact,
@@ -22,15 +21,11 @@ import {
   UpdateContactRequestData,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
+import { LazyConversationApiClient } from '../conversation-service';
 export class ContactApi extends ConversationDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'ContactApi');
+  constructor(lazyApiClient: LazyConversationApiClient) {
+    super(lazyApiClient, 'ContactApi');
   }
 
   /**
@@ -39,7 +34,6 @@ export class ContactApi extends ConversationDomainApi {
    * @param { CreateContactRequestData } data - The data to provide to the API call.
    */
   public async create(data: CreateContactRequestData): Promise<Contact> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<CreateContactRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -67,7 +61,6 @@ export class ContactApi extends ConversationDomainApi {
    * @param { DeleteContactRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteContactRequestData): Promise<any> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteContactRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -96,7 +89,6 @@ export class ContactApi extends ConversationDomainApi {
    * @param { GetChannelProfileRequestData<Recipient> } data - The data to provide to the API call.
    */
   public async getChannelProfile(data: GetChannelProfileRequestData<Recipient>): Promise<GetChannelProfileResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetChannelProfileRequestData<Recipient>>(
       data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -127,7 +119,6 @@ export class ContactApi extends ConversationDomainApi {
    * @param { GetContactRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetContactRequestData): Promise<Contact> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetContactRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -155,7 +146,6 @@ export class ContactApi extends ConversationDomainApi {
    * @return {ApiListPromise<Contact>}
    */
   public list(data: ListContactsRequestData): ApiListPromise<Contact> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListContactsRequestData>(
       data,
       ['page_size', 'page_token', 'external_id', 'channel', 'identity']);
@@ -199,7 +189,6 @@ export class ContactApi extends ConversationDomainApi {
    * @return {ApiListPromise<IdentityConflict>}
    */
   public listIdentityConflicts(data: ListIdentityConflictsRequestData): ApiListPromise<IdentityConflict> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListIdentityConflictsRequestData>(
       data,
       ['page_size', 'page_token']);
@@ -242,7 +231,6 @@ export class ContactApi extends ConversationDomainApi {
    * @param { MergeContactRequestData } data - The data to provide to the API call.
    */
   public async mergeContact(data: MergeContactRequestData): Promise<Contact> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<MergeContactRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -269,7 +257,6 @@ export class ContactApi extends ConversationDomainApi {
    * @param { UpdateContactRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateContactRequestData): Promise<Contact> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateContactRequestData>(data, ['update_mask']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

@@ -5,7 +5,6 @@ import {
   PaginatedApiProperties,
   PaginationEnum,
   RequestBody,
-  SinchClientParameters,
 } from '@sinch/sdk-client';
 import {
   ConversationMessage,
@@ -28,16 +27,12 @@ import {
   UpdateMessageRequestData,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
+import { LazyConversationApiClient } from '../conversation-service';
 
 export class MessagesApi extends ConversationDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'MessagesApi');
+  constructor(lazyApiClient: LazyConversationApiClient) {
+    super(lazyApiClient, 'MessagesApi');
   }
 
   /**
@@ -46,7 +41,6 @@ export class MessagesApi extends ConversationDomainApi {
    * @param { DeleteMessageRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteMessageRequestData): Promise<any> {
-    this.client = this.getSinchClient();
     data['messages_source'] = data['messages_source'] !== undefined ? data['messages_source'] : 'CONVERSATION_SOURCE';
     const getParams = this.client.extractQueryParams<DeleteMessageRequestData>(data, ['messages_source']);
     const headers: { [key: string]: string | undefined } = {
@@ -75,7 +69,6 @@ export class MessagesApi extends ConversationDomainApi {
    * @param { GetMessageRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetMessageRequestData): Promise<ConversationMessage> {
-    this.client = this.getSinchClient();
     data['messages_source'] = data['messages_source'] !== undefined ? data['messages_source'] : 'CONVERSATION_SOURCE';
     const getParams = this.client.extractQueryParams<GetMessageRequestData>(data, ['messages_source']);
     const headers: { [key: string]: string | undefined } = {
@@ -104,7 +97,6 @@ export class MessagesApi extends ConversationDomainApi {
    * @return {ApiListPromise<ConversationMessage>}
    */
   public list(data: ListMessagesRequestData): ApiListPromise<ConversationMessage> {
-    this.client = this.getSinchClient();
     data['messages_source'] = data['messages_source'] !== undefined ? data['messages_source'] : 'CONVERSATION_SOURCE';
     const getParams = this.client.extractQueryParams<ListMessagesRequestData>(data, [
       'conversation_id',
@@ -267,7 +259,6 @@ export class MessagesApi extends ConversationDomainApi {
     data: SendMessageRequestData<Recipient>,
     operationId: string,
   ): Promise<SendMessageResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<SendMessageRequestData<Recipient>>(
       data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -314,7 +305,6 @@ export class MessagesApi extends ConversationDomainApi {
    * @param { UpdateMessageRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateMessageRequestData): Promise<ConversationMessage> {
-    this.client = this.getSinchClient();
     data['messages_source'] = data['messages_source'] !== undefined ? data['messages_source'] : 'CONVERSATION_SOURCE';
     const getParams = this.client.extractQueryParams<UpdateMessageRequestData>(data, ['messages_source']);
     const headers: { [key: string]: string | undefined } = {

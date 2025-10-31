@@ -72,6 +72,7 @@
               "ignorePattern": "^import.+|test"
           }
       ],
-      "new-cap": "off"
+      "new-cap": "off",
+      "valid-jsdoc": "off"
   }
 }

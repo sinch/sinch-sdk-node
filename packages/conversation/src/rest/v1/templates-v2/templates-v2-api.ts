@@ -1,4 +1,7 @@
 import {
+  RequestBody,
+} from '@sinch/sdk-client';
+import {
   V2CreateTemplateRequestData,
   V2DeleteTemplateRequestData,
   V2GetTemplateRequestData,
@@ -9,21 +12,13 @@ import {
   V2TemplateResponse,
   V2UpdateTemplateRequestData,
 } from '../../../models';
-import {
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
 import { ConversationDomainApi } from '../conversation-domain-api';
+import { LazyConversationTemplateApiClient } from '../conversation-service';
 
 export class TemplatesV2Api extends ConversationDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'TemplatesV2Api');
+  constructor(lazyApiClient: LazyConversationTemplateApiClient) {
+    super(lazyApiClient, 'TemplatesV2Api');
   }
 
   /**
@@ -32,7 +27,6 @@ export class TemplatesV2Api extends ConversationDomainApi {
    * @param { V2CreateTemplateRequestData } data - The data to provide to the API call.
    */
   public async create(data: V2CreateTemplateRequestData): Promise<V2TemplateResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<V2CreateTemplateRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -60,7 +54,6 @@ export class TemplatesV2Api extends ConversationDomainApi {
    * @param { V2DeleteTemplateRequestData } data - The data to provide to the API call.
    */
   public async delete(data: V2DeleteTemplateRequestData): Promise<any> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<V2DeleteTemplateRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -88,7 +81,6 @@ export class TemplatesV2Api extends ConversationDomainApi {
    * @param { V2GetTemplateRequestData } data - The data to provide to the API call.
    */
   public async get(data: V2GetTemplateRequestData): Promise<V2TemplateResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<V2GetTemplateRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -115,7 +107,6 @@ export class TemplatesV2Api extends ConversationDomainApi {
    * @param { V2ListTemplatesRequestData } data - The data to provide to the API call.
    */
   public async list(data: V2ListTemplatesRequestData): Promise<V2ListTemplatesResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<V2ListTemplatesRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -142,7 +133,6 @@ export class TemplatesV2Api extends ConversationDomainApi {
    * @param { V2ListTranslationsRequestData } data - The data to provide to the API call.
    */
   public async listTranslations(data: V2ListTranslationsRequestData): Promise<V2ListTranslationsResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<V2ListTranslationsRequestData>(
       data,
       ['language_code', 'translation_version']);
@@ -171,7 +161,6 @@ export class TemplatesV2Api extends ConversationDomainApi {
    * @param { V2UpdateTemplateRequestData } data - The data to provide to the API call.
    */
   public async update(data: V2UpdateTemplateRequestData): Promise<V2TemplateResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<V2UpdateTemplateRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
