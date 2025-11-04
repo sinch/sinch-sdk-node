@@ -3,6 +3,7 @@ import {
   ServicesApi,
   ServicesApiFixture,
   Fax,
+  LazyFaxApiClient,
 } from '../../../../src';
 
 describe('ServicesApi', () => {
@@ -17,7 +18,8 @@ describe('ServicesApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    servicesApi = new ServicesApi(credentials);
+    const lazyClient = new LazyFaxApiClient(credentials);
+    servicesApi = new ServicesApi(lazyClient);
   });
 
 

@@ -1,9 +1,10 @@
-import { FaxDomainApi } from '../../../src/rest/v3/fax-domain-api';
+import { FaxDomainApi, LazyFaxApiClient } from '../../../src';
 import { ApiHostname, FaxRegion, UnifiedCredentials } from '@sinch/sdk-client';
 
 describe('Fax API', () => {
   let faxApi: FaxDomainApi;
   let params: UnifiedCredentials & Pick<ApiHostname, 'faxHostname'>;
+  let lazyClient: LazyFaxApiClient;
   const CUSTOM_HOSTNAME = 'https://new.host.name';
 
   beforeEach(() => {
@@ -12,27 +13,26 @@ describe('Fax API', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
+    lazyClient = new LazyFaxApiClient(params);
   });
 
   it('should initialize the client with the default hostname', () => {
-    faxApi = new FaxDomainApi(params, 'dummy');
-    faxApi.getSinchClient();
+    faxApi = new FaxDomainApi(lazyClient, 'dummy');
     expect(faxApi.client).toBeDefined();
     expect(faxApi.client?.apiClientOptions.hostname).toBe('https://fax.api.sinch.com');
   });
 
   it('should change the URL when specifying a different region', () => {
     params.faxRegion = FaxRegion.SOUTHEAST_ASIA_1;
-    faxApi = new FaxDomainApi(params, 'dummy');
-    faxApi.getSinchClient();
+    faxApi = new FaxDomainApi(lazyClient, 'dummy');
     expect(faxApi.client?.apiClientOptions.hostname).toBe('https://apse1.fax.api.sinch.com');
   });
 
   it('should log a warning when using an unsupported region', async () => {
     params.faxRegion = 'bzh';
-    faxApi = new FaxDomainApi(params, 'dummy');
+    faxApi = new FaxDomainApi(lazyClient, 'dummy');
     console.warn = jest.fn();
-    faxApi.getSinchClient();
+    expect(faxApi.client).toBeDefined();
     expect(console.warn).toHaveBeenCalledWith(
       'The region "bzh" is not known as a supported region for the Fax API');
     expect(faxApi.client?.apiClientOptions.hostname).toBe('https://bzh.fax.api.sinch.com');
@@ -40,21 +40,19 @@ describe('Fax API', () => {
 
   it('should use the hostname parameter', () => {
     params.faxHostname = CUSTOM_HOSTNAME;
-    faxApi = new FaxDomainApi(params, 'dummy');
-    faxApi.getSinchClient();
+    faxApi = new FaxDomainApi(lazyClient, 'dummy');
     expect(faxApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
 
   it('should set a custom URL', () => {
-    faxApi = new FaxDomainApi(params, 'dummy');
+    faxApi = new FaxDomainApi(lazyClient, 'dummy');
     faxApi.setHostname(CUSTOM_HOSTNAME);
     expect(faxApi.client).toBeDefined();
     expect(faxApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
 
   it ('should update the region', () => {
-    faxApi = new FaxDomainApi(params, 'dummy');
-    faxApi.getSinchClient();
+    faxApi = new FaxDomainApi(lazyClient, 'dummy');
     expect(faxApi.client).toBeDefined();
     expect(faxApi.client?.apiClientOptions.hostname).toBe('https://fax.api.sinch.com');
     faxApi.setRegion(FaxRegion.DEFAULT);

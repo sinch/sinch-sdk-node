@@ -1,26 +1,25 @@
 import {
+  ApiListPromise,
+  buildPageResultPromise,
+  createIteratorMethodsForPagination,
+  PaginatedApiProperties,
+  PaginationEnum,
+  RequestBody,
+} from '@sinch/sdk-client';
+import {
   CoverPage,
   AddCoverPageRequestData,
   DeleteCoverPageRequestData,
   GetCoverPageRequestData,
   ListCoverPagesRequestData,
 } from '../../../models';
-import {
-  ApiListPromise, buildPageResultPromise, createIteratorMethodsForPagination, PaginatedApiProperties, PaginationEnum,
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
 import { FaxDomainApi } from '../fax-domain-api';
+import { LazyFaxApiClient } from '../fax-service';
 
 export class CoverPagesApi extends FaxDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'CoverPagesApi');
+  constructor(lazyClient: LazyFaxApiClient) {
+    super(lazyClient, 'CoverPagesApi');
   }
 
   /**
@@ -29,7 +28,6 @@ export class CoverPagesApi extends FaxDomainApi {
    * @param { AddCoverPageRequestData } data - The data to provide to the API call.
    */
   public async add(data: AddCoverPageRequestData): Promise<CoverPage> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<AddCoverPageRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -56,7 +54,6 @@ export class CoverPagesApi extends FaxDomainApi {
    * @param { DeleteCoverPageRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteCoverPageRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteCoverPageRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -84,7 +81,6 @@ export class CoverPagesApi extends FaxDomainApi {
    * @param { GetCoverPageRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetCoverPageRequestData): Promise<CoverPage> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetCoverPageRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -112,7 +108,6 @@ export class CoverPagesApi extends FaxDomainApi {
    * @return {ApiListPromise<CoverPage>}
    */
   public list(data: ListCoverPagesRequestData): ApiListPromise<CoverPage> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListCoverPagesRequestData>(data, ['pageSize', 'page']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
