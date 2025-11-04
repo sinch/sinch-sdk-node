@@ -1,10 +1,7 @@
 import {
   Api,
   ApiClient,
-  CONVERSATION_HOSTNAME,
-  CONVERSATION_TEMPLATES_HOSTNAME,
   ConversationRegion,
-  formatRegionalizedHostname,
   UnifiedCredentials,
 } from '@sinch/sdk-client';
 import { LazyConversationApiClient, LazyConversationTemplateApiClient } from './conversation-service';
@@ -44,16 +41,14 @@ export class ConversationDomainApi implements Api {
    */
   public setRegion(region: ConversationRegion) {
     this.lazyClient.sharedConfig.conversationRegion = region;
-    if (this.client) {
-      this.client.apiClientOptions.hostname = this.buildHostname(region);
-    }
+    this.lazyClient.resetClient();
   }
 
   /**
    * Updates the credentials used to authenticate API requests
    * @param {UnifiedCredentials} credentials
    */
-  public setCredentials(credentials: UnifiedCredentials) {
+  public setCredentials(credentials: Partial<UnifiedCredentials>) {
     const parametersBackup = { ...this.lazyClient.sharedConfig };
     this.lazyClient.sharedConfig = {
       ...parametersBackup,
@@ -66,19 +61,6 @@ export class ConversationDomainApi implements Api {
       console.error('Impossible to assign the new credentials to the Conversation API');
       this.lazyClient.sharedConfig = parametersBackup;
       throw error;
-    }
-  }
-
-  private buildHostname(region: ConversationRegion) {
-    const formattedRegion = region !== '' ? `${region}.` : '';
-    switch (this.apiName) {
-    case 'TemplatesV1Api':
-    case 'TemplatesV2Api':
-      return this.lazyClient.sharedConfig.conversationTemplatesHostname
-        ?? formatRegionalizedHostname(CONVERSATION_TEMPLATES_HOSTNAME, formattedRegion);
-    default:
-      return this.lazyClient.sharedConfig.conversationHostname
-        ?? formatRegionalizedHostname(CONVERSATION_HOSTNAME, formattedRegion);
     }
   }
 

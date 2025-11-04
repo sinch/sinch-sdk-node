@@ -24,9 +24,11 @@ describe('Conversation Service', () => {
   const EUROPE_HOSTNAME_TEMPLATES = 'https://eu.template.api.sinch.com';
   const CUSTOM_HOSTNAME_TEMPLATES = 'https://templates.new.host.name';
   let warnSpy: jest.SpyInstance<void, [message?: any, ...optionalParams: any[]]>;
+  let errorSpy: jest.SpyInstance<void, [message?: any, ...optionalParams: any[]]>;
 
   beforeEach(() => {
     warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -194,6 +196,65 @@ describe('Conversation Service', () => {
     expect(conversationService.templatesV1.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
     expect(conversationService.templatesV2.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
     expect(warnSpy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should set new credentials for all APIs', () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+    };
+
+    // When
+    const conversationService = new ConversationService(params);
+    conversationService.setCredentials({
+      projectId: 'NEW_PROJECT_ID',
+    });
+
+    // Then
+    expect(conversationService.contact.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.app.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.events.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.messages.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.transcoding.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.capability.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.conversation.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.webhooks.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.consents.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.projectSettings.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.templatesV1.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.templatesV2.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+  });
+
+  it('should raise an exception if the credentials are invalid', () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+    };
+
+    // When
+    const conversationService = new ConversationService(params);
+    expect(() => conversationService.setCredentials({ projectId: '' }))
+      .toThrow('Invalid configuration for the Conversation API: "projectId", "keyId" and "keySecret"'
+        + ' values must be provided');
+    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Conversation API');
+
+    // Then
+    expect(conversationService.app.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.capability.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.consents.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.contact.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.conversation.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.events.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.messages.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.projectSettings.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.transcoding.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.webhooks.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.templatesV1.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.templatesV2.client.apiClientOptions.projectId).toBe('PROJECT_ID');
   });
 
   it('should update the default region for all APIs', () => {

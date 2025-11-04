@@ -214,17 +214,9 @@ export class ConversationService {
    * @param {ConversationRegion} region - The new region to use in the production URL
    */
   public setRegion(region: ConversationRegion) {
-    this.contact.setRegion(region);
-    this.app.setRegion(region);
-    this.events.setRegion(region);
-    this.messages.setRegion(region);
-    this.transcoding.setRegion(region);
-    this.capability.setRegion(region);
-    this.conversation.setRegion(region);
-    this.projectSettings.setRegion(region);
-    this.webhooks.setRegion(region);
-    this.consents.setRegion(region);
-    this.templatesV1.setRegion(region);
-    this.templatesV2.setRegion(region);
+    this.lazyConversationClient.sharedConfig.conversationRegion = region;
+    this.lazyConversationClient.resetClient();
+    this.lazyConversationTemplateClient.sharedConfig.conversationRegion = region;
+    this.lazyConversationTemplateClient.resetClient();
   }
 }
