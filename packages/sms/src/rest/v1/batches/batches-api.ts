@@ -1,4 +1,12 @@
 import {
+  RequestBody,
+  ApiListPromise,
+  PaginatedApiProperties,
+  PaginationEnum,
+  buildPageResultPromise,
+  createIteratorMethodsForPagination,
+} from '@sinch/sdk-client';
+import {
   CancelBatchMessageResponse,
   DryRunResponse,
   ReplaceBatchMessageResponse,
@@ -13,28 +21,18 @@ import {
   ListBatchesRequestData,
   ReplaceBatchMessageRequestData,
   SendSMSRequestData,
-  SendTextSMSRequestData, SendBinarySMSRequestData, SendMediaSMSRequestData, UpdateBatchMessageRequestData,
+  SendTextSMSRequestData,
+  SendBinarySMSRequestData,
+  SendMediaSMSRequestData,
+  UpdateBatchMessageRequestData,
 } from '../../../models';
-import {
-  RequestBody,
-  ApiListPromise,
-  PaginatedApiProperties,
-  PaginationEnum,
-  SinchClientParameters,
-  buildPageResultPromise,
-  createIteratorMethodsForPagination,
-} from '@sinch/sdk-client';
 import { SmsDomainApi } from '../sms-domain-api';
+import { LazySmsApiClient } from '../sms-service';
 
 export class BatchesApi extends SmsDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'BatchesApi');
+  constructor(lazyClient: LazySmsApiClient) {
+    super(lazyClient, 'BatchesApi');
   }
 
   /**
@@ -43,7 +41,6 @@ export class BatchesApi extends SmsDomainApi {
    * @param { CancelBatchMessageRequestData } data - The data to provide to the API call.
    */
   public async cancel(data: CancelBatchMessageRequestData): Promise<CancelBatchMessageResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<CancelBatchMessageRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -74,7 +71,6 @@ export class BatchesApi extends SmsDomainApi {
    * @param { DeliveryFeedbackRequestData } data - The data to provide to the API call.
    */
   public async sendDeliveryFeedback(data: DeliveryFeedbackRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeliveryFeedbackRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -103,7 +99,6 @@ export class BatchesApi extends SmsDomainApi {
    * @param { DryRunRequestData } data - The data to provide to the API call.
    */
   public async dryRun(data: DryRunRequestData): Promise<DryRunResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DryRunRequestData>(data, [
       'per_recipient',
       'number_of_recipients']);
@@ -133,7 +128,6 @@ export class BatchesApi extends SmsDomainApi {
    * @param { GetBatchMessageRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetBatchMessageRequestData): Promise<SendSMSResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetBatchMessageRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -162,7 +156,6 @@ export class BatchesApi extends SmsDomainApi {
    * @return {ApiListPromise<SendSMSResponse>}
   */
   public list(data: ListBatchesRequestData): ApiListPromise<SendSMSResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListBatchesRequestData>(
       data,
       ['page', 'page_size', 'from', 'start_date', 'end_date', 'client_reference'],
@@ -207,7 +200,6 @@ export class BatchesApi extends SmsDomainApi {
    * @param { ReplaceBatchMessageRequestData } data - The data to provide to the API call.
    */
   public async replace(data: ReplaceBatchMessageRequestData): Promise<ReplaceBatchMessageResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ReplaceBatchMessageRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -240,7 +232,6 @@ export class BatchesApi extends SmsDomainApi {
    * @param { SendSMSRequestData } data - The data to provide to the API call.
    */
   public async send(data: SendSMSRequestData): Promise<SendSMSResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<SendSMSRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -310,7 +301,6 @@ export class BatchesApi extends SmsDomainApi {
    * @param { UpdateBatchMessageRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateBatchMessageRequestData): Promise<SendSMSResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateBatchMessageRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
