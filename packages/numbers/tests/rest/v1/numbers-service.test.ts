@@ -11,6 +11,15 @@ import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin
 describe('Numbers Service', () => {
   const DEFAULT_HOSTNAME = 'https://numbers.api.sinch.com';
   const CUSTOM_HOSTNAME = 'https://new.host.name';
+  let errorSpy: jest.SpyInstance<void, [message?: any, ...optionalParams: any[]]>;
+
+  beforeEach(() => {
+    errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('should initialize all the APIs', () => {
     // Given
@@ -28,10 +37,10 @@ describe('Numbers Service', () => {
     expect(numbersService.availableNumber).toBeInstanceOf(AvailableNumberApi);
     expect(numbersService.activeNumber).toBeInstanceOf(ActiveNumberApi);
     expect(numbersService.callbacks).toBeInstanceOf(CallbacksApi);
-    expect(numbersService.availableRegions.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
-    expect(numbersService.availableNumber.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
-    expect(numbersService.activeNumber.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
-    expect(numbersService.callbacks.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(numbersService.availableRegions.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(numbersService.availableNumber.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(numbersService.activeNumber.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(numbersService.callbacks.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
   });
 
   it('should update the API client for all the subdomains', () => {
@@ -101,10 +110,6 @@ describe('Numbers Service', () => {
     numbersService.setHostname(CUSTOM_HOSTNAME);
 
     // Then
-    expect(numbersService.availableRegions.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
-    expect(numbersService.availableNumber.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
-    expect(numbersService.activeNumber.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
-    expect(numbersService.callbacks.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
     expect(numbersService.availableRegions.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
     expect(numbersService.availableNumber.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
     expect(numbersService.activeNumber.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
@@ -126,10 +131,6 @@ describe('Numbers Service', () => {
     });
 
     // Then
-    expect(numbersService.availableRegions.getSinchClient().apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
-    expect(numbersService.availableNumber.getSinchClient().apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
-    expect(numbersService.activeNumber.getSinchClient().apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
-    expect(numbersService.callbacks.getSinchClient().apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
     expect(numbersService.availableRegions.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
     expect(numbersService.availableNumber.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
     expect(numbersService.activeNumber.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
@@ -149,12 +150,9 @@ describe('Numbers Service', () => {
     expect(() => numbersService.setCredentials({ projectId: '' }))
       .toThrow('Invalid configuration for the Numbers API: "projectId", "keyId" and "keySecret"'
         + ' values must be provided');
+    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Numbers API');
 
     // Then
-    expect(numbersService.availableRegions.getSinchClient().apiClientOptions.projectId).toBe('PROJECT_ID');
-    expect(numbersService.availableNumber.getSinchClient().apiClientOptions.projectId).toBe('PROJECT_ID');
-    expect(numbersService.activeNumber.getSinchClient().apiClientOptions.projectId).toBe('PROJECT_ID');
-    expect(numbersService.callbacks.getSinchClient().apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(numbersService.availableRegions.client.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(numbersService.availableNumber.client.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(numbersService.activeNumber.client.apiClientOptions.projectId).toBe('PROJECT_ID');

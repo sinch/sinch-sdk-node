@@ -118,7 +118,6 @@ export class NumbersService {
     }
   }
 
-
   /**
    * This endpoint allows you to enter a specific phone number to check if it's available for use.
    * A 200 response will return the number's capability, setup costs, monthly costs and if supporting documentation is required.

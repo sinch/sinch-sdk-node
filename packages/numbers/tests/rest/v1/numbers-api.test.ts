@@ -6,6 +6,7 @@ describe('Numbers API', () => {
   let params: UnifiedCredentials & Pick<ApiHostname, 'numbersHostname'>;
   let lazyClient: LazyNumbersApiClient;
   const CUSTOM_HOSTNAME = 'https://new.host.name';
+  let errorSpy: jest.SpyInstance<void, [message?: any, ...optionalParams: any[]]>;
 
   beforeEach(() => {
     params = {
@@ -14,6 +15,11 @@ describe('Numbers API', () => {
       keySecret: 'KEY_SECRET',
     };
     lazyClient = new LazyNumbersApiClient(params);
+    errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should initialize the API client', () => {
@@ -39,9 +45,15 @@ describe('Numbers API', () => {
     numbersApi = new NumbersDomainApi(lazyClient, 'dummy');
     numbersApi.setCredentials({
       projectId: 'NEW_PROJECT_ID',
-      keyId: 'NEW_KEY_ID',
-      keySecret: 'NEW_KEY_SECRET',
     });
     expect(numbersApi.client?.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+  });
+
+  it('should raise an exception if the credentials are invalid', () => {
+    numbersApi = new NumbersDomainApi(lazyClient, 'dummy');
+    expect(() => numbersApi.setCredentials({ projectId: '' }))
+      .toThrow('Invalid configuration for the Numbers API: "projectId", "keyId" and "keySecret"'
+        + ' values must be provided');
+    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Numbers API');
   });
 });
