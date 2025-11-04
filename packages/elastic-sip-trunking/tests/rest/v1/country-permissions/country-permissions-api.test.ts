@@ -1,5 +1,10 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
-import { CountryPermissionsApi, CountryPermissionsApiFixture, ElasticSipTrunking } from '../../../../src';
+import {
+  CountryPermissionsApi,
+  CountryPermissionsApiFixture,
+  ElasticSipTrunking,
+  LazyElasticSipTrunkingApiClient,
+} from '../../../../src';
 
 describe('CountryPermissionsApi', () => {
   let countryPermissionsApi: CountryPermissionsApi;
@@ -13,7 +18,8 @@ describe('CountryPermissionsApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    countryPermissionsApi = new CountryPermissionsApi(credentials);
+    const lazyClient = new LazyElasticSipTrunkingApiClient(credentials);
+    countryPermissionsApi = new CountryPermissionsApi(lazyClient);
   });
 
 
