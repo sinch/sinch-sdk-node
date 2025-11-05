@@ -1,21 +1,28 @@
 import {
   Api,
   ApiClient,
-  ApiFetchClient,
-  buildApplicationSignedApiClientOptions,
-  SinchClientParameters,
   ApplicationCredentials,
-  VERIFICATION_HOSTNAME,
 } from '@sinch/sdk-client';
+import { LazyVerificationApiClient } from './verification-service';
 
 export class VerificationDomainApi implements Api {
-  public readonly apiName: string;
-  public client?: ApiClient;
-  private sinchClientParameters: SinchClientParameters;
 
-  constructor(sinchClientParameters: SinchClientParameters, apiName: string) {
-    this.sinchClientParameters = sinchClientParameters;
-    this.apiName = apiName;
+  constructor(
+    public readonly lazyClient: LazyVerificationApiClient,
+    public readonly apiName: string,
+  ) {}
+
+  public get client(): ApiClient {
+    return this.lazyClient.getApiClient();
+  }
+
+  /**
+   * Kept for backward compatibility - TODO: remove in future major release
+   * @return {ApiClient}
+   * @deprecated
+   */
+  public getSinchClient(): ApiClient {
+    return this.lazyClient.getApiClient();
   }
 
   /**
@@ -23,12 +30,9 @@ export class VerificationDomainApi implements Api {
    * @param {string} hostname - The new hostname to use for the APIs.
    */
   public setHostname(hostname: string) {
-    try {
-      this.client = this.getSinchClient();
-      this.client.apiClientOptions.hostname = hostname;
-    } catch (error) {
-      console.error('Impossible to set a new hostname, the Application credentials need to be provided first.');
-      throw error;
+    this.lazyClient.sharedConfig.verificationHostname = hostname;
+    if (this.lazyClient.getApiClient()) {
+      this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
     }
   }
 
@@ -36,38 +40,27 @@ export class VerificationDomainApi implements Api {
    * Updates the application credentials used to authenticate API requests
    * @param {ApplicationCredentials} credentials
    */
-  public setApplication(credentials: ApplicationCredentials) {
-    const parametersBackup = { ...this.sinchClientParameters };
-    this.sinchClientParameters = {
+  public setCredentials(credentials: Partial<ApplicationCredentials>) {
+    const parametersBackup = { ...this.lazyClient.sharedConfig };
+    this.lazyClient.sharedConfig = {
       ...parametersBackup,
       ...credentials,
     };
-    this.resetApiClient();
+    this.lazyClient.resetApiClient();
     try {
-      this.getSinchClient();
+      this.lazyClient.getApiClient();
     } catch (error) {
-      console.error('Impossible to assign the new application to the Verification API');
-      this.sinchClientParameters = parametersBackup;
+      console.error('Impossible to assign the new credentials to the Verification API');
+      this.lazyClient.sharedConfig = parametersBackup;
       throw error;
     }
   }
 
-  private resetApiClient() {
-    this.client = undefined;
+  /**
+   * @deprecated Use setCredentials instead
+   */
+  public setApplication(credentials: ApplicationCredentials) {
+    this.setCredentials(credentials);
   }
 
-  /**
-   * Checks the configuration parameters are ok and initialize the API client. Once initialized, the same instance will
-   * be returned for the subsequent API calls (singleton pattern)
-   * @return {ApiClient} the API Client or throws an error in case the configuration parameters are not ok
-   * @private
-   */
-  public getSinchClient(): ApiClient {
-    if (!this.client) {
-      const apiClientOptions = buildApplicationSignedApiClientOptions(this.sinchClientParameters, 'Verification');
-      this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.hostname = this.sinchClientParameters.verificationHostname ?? VERIFICATION_HOSTNAME;
-    }
-    return this.client;
-  }
 }
