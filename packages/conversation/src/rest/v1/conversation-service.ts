@@ -44,7 +44,7 @@ export class LazyConversationApiClient {
     return this.apiFetchClient;
   }
 
-  public resetClient() {
+  public resetApiClient() {
     this.apiFetchClient = undefined;
   }
 
@@ -77,7 +77,7 @@ export class LazyConversationTemplateApiClient {
     return this.apiFetchClient;
   }
 
-  public resetClient() {
+  public resetApiClient() {
     this.apiFetchClient = undefined;
   }
 
@@ -154,9 +154,9 @@ export class ConversationService {
 
   public setApiClientConfig(newParams: SinchClientParameters) {
     this.lazyConversationClient.sharedConfig = newParams;
-    this.lazyConversationClient.resetClient();
+    this.lazyConversationClient.resetApiClient();
     this.lazyConversationTemplateClient.sharedConfig = newParams;
-    this.lazyConversationTemplateClient.resetClient();
+    this.lazyConversationTemplateClient.resetApiClient();
   }
 
   /**
@@ -196,8 +196,8 @@ export class ConversationService {
       ...parametersTemplatesBackup,
       ...credentials,
     };
-    this.lazyConversationClient.resetClient();
-    this.lazyConversationTemplateClient.resetClient();
+    this.lazyConversationClient.resetApiClient();
+    this.lazyConversationTemplateClient.resetApiClient();
     try {
       this.lazyConversationClient.getApiClient();
       this.lazyConversationTemplateClient.getApiClient();
@@ -215,8 +215,8 @@ export class ConversationService {
    */
   public setRegion(region: ConversationRegion) {
     this.lazyConversationClient.sharedConfig.conversationRegion = region;
-    this.lazyConversationClient.resetClient();
+    this.lazyConversationClient.resetApiClient();
     this.lazyConversationTemplateClient.sharedConfig.conversationRegion = region;
-    this.lazyConversationTemplateClient.resetClient();
+    this.lazyConversationTemplateClient.resetApiClient();
   }
 }

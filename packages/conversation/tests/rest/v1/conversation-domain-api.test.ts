@@ -31,8 +31,8 @@ describe('Conversation API', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
-    lazyClient.resetClient();
-    lazyTemplateClient.resetClient();
+    lazyClient.resetApiClient();
+    lazyTemplateClient.resetApiClient();
   });
 
   it('should initialize the client with the default "us" region and log a warning', () => {
