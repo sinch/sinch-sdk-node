@@ -41,7 +41,7 @@ export class ConversationDomainApi implements Api {
    */
   public setRegion(region: ConversationRegion) {
     this.lazyClient.sharedConfig.conversationRegion = region;
-    this.lazyClient.resetClient();
+    this.lazyClient.resetApiClient();
   }
 
   /**
@@ -54,7 +54,7 @@ export class ConversationDomainApi implements Api {
       ...parametersBackup,
       ...credentials,
     };
-    this.lazyClient.resetClient();
+    this.lazyClient.resetApiClient();
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
