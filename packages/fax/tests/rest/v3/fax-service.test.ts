@@ -6,6 +6,15 @@ describe('Fax Service', () => {
   const DEFAULT_HOSTNAME = 'https://fax.api.sinch.com';
   const CUSTOM_HOSTNAME = 'https://new.host.name';
   const EUROPE_HOSTNAME = 'https://eu.fax.api.sinch.com';
+  let errorSpy: jest.SpyInstance<void, [message?: any, ...optionalParams: any[]]>;
+
+  beforeEach(() => {
+    errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('should initialize all the APIs', () => {
     // Given
@@ -163,6 +172,7 @@ describe('Fax Service', () => {
     expect(() => faxService.setCredentials({ projectId: '' }))
       .toThrow('Invalid configuration for the Fax API: "projectId", "keyId" and "keySecret"'
         + ' values must be provided');
+    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Fax API');
 
     // Then
     expect(faxService.faxes.client.apiClientOptions.projectId).toBe('PROJECT_ID');

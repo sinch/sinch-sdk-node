@@ -49,7 +49,7 @@ export class FaxDomainApi implements Api {
    * Updates the credentials used to authenticate API requests
    * @param {UnifiedCredentials} credentials
    */
-  public setCredentials(credentials: UnifiedCredentials) {
+  public setCredentials(credentials: Partial<UnifiedCredentials>) {
     const parametersBackup = { ...this.lazyClient.sharedConfig };
     this.lazyClient.sharedConfig = {
       ...parametersBackup,
