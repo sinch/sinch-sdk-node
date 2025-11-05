@@ -43,7 +43,7 @@ export class LazyNumbersApiClient {
     return this.apiFetchClient;
   }
 
-  public resetClient() {
+  public resetApiClient() {
     this.apiFetchClient = undefined;
   }
 }
@@ -87,7 +87,7 @@ export class NumbersService {
 
   public setApiClientConfig(newParams: SinchClientParameters) {
     this.lazyClient.sharedConfig = newParams;
-    this.lazyClient.resetClient();
+    this.lazyClient.resetApiClient();
   }
 
   /**
@@ -108,7 +108,7 @@ export class NumbersService {
       ...parametersBackup,
       ...credentials,
     };
-    this.lazyClient.resetClient();
+    this.lazyClient.resetApiClient();
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
