@@ -204,7 +204,7 @@ export class ConversationService {
     } catch (error) {
       console.error('Impossible to assign the new credentials to the Conversation API');
       this.lazyConversationClient.sharedConfig = parametersBackup;
-      this.lazyConversationTemplateClient.sharedConfig = parametersBackup;
+      this.lazyConversationTemplateClient.sharedConfig = parametersTemplatesBackup;
       throw error;
     }
   }
