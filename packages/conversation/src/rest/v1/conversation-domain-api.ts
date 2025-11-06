@@ -21,6 +21,15 @@ export class ConversationDomainApi implements Api {
   }
 
   /**
+   * Kept for backward compatibility - TODO: remove in future major release
+   * @return {ApiClient}
+   * @deprecated
+   */
+  public getSinchClient(): ApiClient {
+    return this.lazyClient.getApiClient();
+  }
+
+  /**
    * Update the default hostname for the API
    * @param {string} hostname - The new hostname to use for the APIs.
    */
