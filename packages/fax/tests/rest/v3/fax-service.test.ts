@@ -1,11 +1,11 @@
-import { ApiTokenRequest, ConversationRegion, SinchClientParameters } from '@sinch/sdk-client';
+import { ApiTokenRequest, FaxRegion, SinchClientParameters } from '@sinch/sdk-client';
 import { FaxToEmailApi, FaxesApi, FaxService, ServicesApi, CoverPagesApi } from '../../../src';
 import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
 
 describe('Fax Service', () => {
   const DEFAULT_HOSTNAME = 'https://fax.api.sinch.com';
   const CUSTOM_HOSTNAME = 'https://new.host.name';
-  const EUROPE_HOSTNAME = 'https://eu.fax.api.sinch.com';
+  const EUROPE_HOSTNAME = 'https://eu1.fax.api.sinch.com';
   let errorSpy: jest.SpyInstance<void, [message?: any, ...optionalParams: any[]]>;
 
   beforeEach(() => {
@@ -127,7 +127,7 @@ describe('Fax Service', () => {
     const faxService = new FaxService(params);
 
     // When
-    faxService.setRegion(ConversationRegion.EUROPE);
+    faxService.setRegion(FaxRegion.EUROPE);
 
     // Then
     expect(faxService.faxes.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
