@@ -108,7 +108,6 @@ describe('Verification Service', () => {
 
     // Then
     expect((verificationService as any).lazyClient.sharedConfig.applicationKey).toBe('NEW_APPLICATION_KEY');
-    expect((verificationService as any).lazyClient.sharedConfig.applicationKey).toBe('NEW_APPLICATION_KEY');
   });
 
   it('should raise an exception if the credentials are invalid', () => {
@@ -126,7 +125,6 @@ describe('Verification Service', () => {
     expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Verification API');
 
     // Then
-    expect((verificationService as any).lazyClient.sharedConfig.applicationKey).toBe('APPLICATION_KEY');
     expect((verificationService as any).lazyClient.sharedConfig.applicationKey).toBe('APPLICATION_KEY');
   });
 });
