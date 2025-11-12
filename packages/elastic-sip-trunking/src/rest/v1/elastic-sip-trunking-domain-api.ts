@@ -31,9 +31,7 @@ export class ElasticSipTrunkingDomainApi implements Api {
    */
   public setHostname(hostname: string) {
     this.lazyClient.sharedConfig.elasticSipTrunkingHostname = hostname;
-    if (this.lazyClient.getApiClient()) {
-      this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
-    }
+    this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
   }
 
   /**

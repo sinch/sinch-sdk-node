@@ -58,9 +58,7 @@ export class ElasticSipTrunkingService {
    */
   public setHostname(hostname: string): void {
     this.lazyClient.sharedConfig.elasticSipTrunkingHostname = hostname;
-    if (this.lazyClient.getApiClient()) {
-      this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
-    }
+    this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
   }
 
   public setCredentials(credentials: Partial<UnifiedCredentials>): void {
