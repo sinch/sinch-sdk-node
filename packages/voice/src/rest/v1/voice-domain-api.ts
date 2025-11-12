@@ -36,9 +36,7 @@ export class VoiceDomainApi implements Api {
     } else {
       this.lazyClient.sharedConfig.voiceHostname = hostname;
     }
-    if (this.lazyClient.getApiClient()) {
-      this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
-    }
+    this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
   }
 
   /**
