@@ -2,6 +2,7 @@ import { SinchClientParameters, textToHex } from '@sinch/sdk-client';
 import {
   BatchesApi,
   BatchesApiFixture,
+  LazySmsApiClient,
   Sms,
 } from '../../../../src';
 
@@ -16,7 +17,8 @@ describe('BatchesApi', () => {
       servicePlanId: 'SERVICE_PLAN_ID',
       apiToken: 'API_TOKEN',
     };
-    batchesApi = new BatchesApi(paramsWithServicePlanId);
+    const lazyClient = new LazySmsApiClient(paramsWithServicePlanId);
+    batchesApi = new BatchesApi(lazyClient);
   });
 
   describe ('cancelBatchMessage', () => {

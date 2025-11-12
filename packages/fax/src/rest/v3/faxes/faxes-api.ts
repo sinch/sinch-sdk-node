@@ -8,7 +8,6 @@ import {
   PaginatedApiProperties,
   PaginationEnum,
   RequestBody,
-  SinchClientParameters,
 } from '@sinch/sdk-client';
 import { FaxDomainApi } from '../fax-domain-api';
 import {
@@ -27,16 +26,12 @@ import {
 } from '../../../models';
 import FormData = require('form-data');
 import * as fs from 'fs';
+import { LazyFaxApiClient } from '../fax-service';
 
 export class FaxesApi extends FaxDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'FaxesApi');
+  constructor(lazyClient: LazyFaxApiClient) {
+    super(lazyClient, 'FaxesApi');
   }
 
   /**
@@ -45,7 +40,6 @@ export class FaxesApi extends FaxDomainApi {
    * @param { DeleteFaxContentRequestData } data - The data to provide to the API call.
    */
   public async deleteContent(data: DeleteFaxContentRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteFaxContentRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -73,7 +67,6 @@ export class FaxesApi extends FaxDomainApi {
    * @param { DownloadFaxContentRequestData } data - The data to provide to the API call.
    */
   public async downloadContent(data: DownloadFaxContentRequestData): Promise<FileBuffer> {
-    this.client = this.getSinchClient();
     data['fileFormat'] = data['fileFormat'] !== undefined ? data['fileFormat'] : 'pdf';
     const getParams = this.client.extractQueryParams<DownloadFaxContentRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -101,7 +94,6 @@ export class FaxesApi extends FaxDomainApi {
    * @param { GetFaxRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetFaxRequestData): Promise<Fax> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetFaxRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -129,7 +121,6 @@ export class FaxesApi extends FaxDomainApi {
    * @return {ApiListPromise<Fax>}
    */
   public list(data: ListFaxesRequestData): ApiListPromise<Fax> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListFaxesRequestData>(data, [
       'serviceId',
       'direction',
@@ -191,7 +182,6 @@ export class FaxesApi extends FaxDomainApi {
    * @param { SendFaxRequestData } data - The data to provide to the API call.
    */
   public async send(data: SendFaxRequestData): Promise<Fax[]> {
-    this.client = this.getSinchClient();
     const requestBody = data.sendFaxRequestBody;
     requestBody['headerText'] = requestBody['headerText'] !== undefined
       ? requestBody['headerText'] : '';

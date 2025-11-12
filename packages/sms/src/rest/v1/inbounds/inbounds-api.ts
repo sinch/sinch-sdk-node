@@ -1,28 +1,23 @@
 import {
-  GetInboundMessageRequestData,
-  InboundMessageResponse,
-  ListInboundMessagesRequestData,
-} from '../../../models';
-import {
   RequestBody,
   ApiListPromise,
   PaginatedApiProperties,
   PaginationEnum,
-  SinchClientParameters,
   buildPageResultPromise,
   createIteratorMethodsForPagination,
 } from '@sinch/sdk-client';
+import {
+  GetInboundMessageRequestData,
+  InboundMessageResponse,
+  ListInboundMessagesRequestData,
+} from '../../../models';
 import { SmsDomainApi } from '../sms-domain-api';
+import { LazySmsApiClient } from '../sms-service';
 
 export class InboundsApi extends SmsDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'InboundsApi');
+  constructor(lazyClient: LazySmsApiClient) {
+    super(lazyClient, 'InboundsApi');
   }
 
   /**
@@ -32,7 +27,6 @@ export class InboundsApi extends SmsDomainApi {
    * @return {ApiListPromise<InboundMessageResponse>}
    */
   public list(data: ListInboundMessagesRequestData): ApiListPromise<InboundMessageResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListInboundMessagesRequestData>(
       data,
       ['page', 'page_size', 'to', 'start_date', 'end_date', 'client_reference'],
@@ -77,7 +71,6 @@ export class InboundsApi extends SmsDomainApi {
    * @param { GetInboundMessageRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetInboundMessageRequestData): Promise<InboundMessageResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetInboundMessageRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
