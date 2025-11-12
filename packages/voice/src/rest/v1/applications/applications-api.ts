@@ -1,3 +1,4 @@
+import { RequestBody } from '@sinch/sdk-client';
 import {
   AssignNumbersRequestData,
   GetCallbacks,
@@ -9,21 +10,13 @@ import {
   UnassignNumberRequestData,
   UpdateCallbackURLsRequestData,
 } from '../../../models';
-import {
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
 import { VoiceDomainApi } from '../voice-domain-api';
+import { LazyVoiceApplicationManagementApiClient } from '../voice-service';
 
 export class ApplicationsApi extends VoiceDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'ApplicationsApi');
+  constructor(lazyClient: LazyVoiceApplicationManagementApiClient) {
+    super(lazyClient, 'ApplicationsApi');
   }
 
   /**
@@ -32,7 +25,6 @@ export class ApplicationsApi extends VoiceDomainApi {
    * @param { QueryNumberRequestData } data - The data to provide to the API call.
    */
   public async queryNumber(data: QueryNumberRequestData): Promise<QueryNumberResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<QueryNumberRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -62,7 +54,6 @@ export class ApplicationsApi extends VoiceDomainApi {
    * @param { GetCallbackURLsRequestData } data - The data to provide to the API call.
    */
   public async getCallbackURLs(data: GetCallbackURLsRequestData): Promise<GetCallbacks> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetCallbackURLsRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -91,7 +82,6 @@ export class ApplicationsApi extends VoiceDomainApi {
    * @param { GetNumbersRequestData } data - The data to provide to the API call.
    */
   public async listNumbers(data: GetNumbersRequestData): Promise<ListNumbersResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetNumbersRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -120,7 +110,6 @@ export class ApplicationsApi extends VoiceDomainApi {
    * @param { UnassignNumberRequestData } data - The data to provide to the API call.
    */
   public async unassignNumber(data: UnassignNumberRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UnassignNumberRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -150,7 +139,6 @@ export class ApplicationsApi extends VoiceDomainApi {
    * @param { UpdateCallbackURLsRequestData } data - The data to provide to the API call.
    */
   public async updateCallbackURLs(data: UpdateCallbackURLsRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateCallbackURLsRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -180,7 +168,6 @@ export class ApplicationsApi extends VoiceDomainApi {
    * @param { AssignNumbersRequestData } data - The data to provide to the API call.
    */
   public async assignNumbers(data: AssignNumbersRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<AssignNumbersRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

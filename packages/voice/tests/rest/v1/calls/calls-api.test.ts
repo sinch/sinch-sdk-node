@@ -2,6 +2,7 @@ import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
 import {
   CallsApi,
   CallsApiFixture,
+  LazyVoiceApiClient,
   Voice,
 } from '../../../../src';
 
@@ -15,7 +16,8 @@ describe('CallsApi', () => {
     apiClientOptions = {
       requestPlugins: [new SigningRequest('keyId', 'keySecret')],
     };
-    callsApi = new CallsApi(apiClientOptions);
+    const lazyClient = new LazyVoiceApiClient(apiClientOptions);
+    callsApi = new CallsApi(lazyClient);
   });
 
   describe ('getCallResult', () => {
