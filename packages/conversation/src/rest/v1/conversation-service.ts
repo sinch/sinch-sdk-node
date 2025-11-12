@@ -165,9 +165,7 @@ export class ConversationService {
    */
   public setHostname(hostname: string): void {
     this.lazyConversationClient.sharedConfig.conversationHostname = hostname;
-    if (this.lazyConversationClient.getApiClient()) {
-      this.lazyConversationClient.getApiClient().apiClientOptions.hostname = hostname;
-    }
+    this.lazyConversationClient.getApiClient().apiClientOptions.hostname = hostname;
   }
 
   /**
@@ -176,9 +174,7 @@ export class ConversationService {
    */
   public setTemplatesHostname(hostname: string): void {
     this.lazyConversationTemplateClient.sharedConfig.conversationTemplatesHostname = hostname;
-    if (this.lazyConversationTemplateClient.getApiClient()) {
-      this.lazyConversationTemplateClient.getApiClient().apiClientOptions.hostname = hostname;
-    }
+    this.lazyConversationTemplateClient.getApiClient().apiClientOptions.hostname = hostname;
   }
 
   /**

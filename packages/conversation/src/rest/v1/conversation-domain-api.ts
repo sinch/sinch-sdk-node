@@ -39,9 +39,7 @@ export class ConversationDomainApi implements Api {
     } else {
       this.lazyClient.sharedConfig.conversationHostname = hostname;
     }
-    if (this.lazyClient.getApiClient()) {
-      this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
-    }
+    this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
   }
 
   /**
