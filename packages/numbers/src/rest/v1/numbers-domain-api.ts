@@ -31,9 +31,7 @@ export class NumbersDomainApi implements Api {
    */
   public setHostname(hostname: string) {
     this.lazyClient.sharedConfig.numbersHostname = hostname;
-    if (this.lazyClient.getApiClient()) {
-      this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
-    }
+    this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
   }
 
   /**
