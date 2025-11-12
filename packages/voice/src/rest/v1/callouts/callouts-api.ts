@@ -1,24 +1,17 @@
+import { RequestBody } from '@sinch/sdk-client';
 import {
   CalloutResponse,
   ConferenceCalloutRequestData,
   CustomCalloutRequestData,
   TtsCalloutRequestData,
 } from '../../../models';
-import {
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
 import { VoiceDomainApi } from '../voice-domain-api';
+import { LazyVoiceApiClient } from '../voice-service';
 
 export class CalloutsApi extends VoiceDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'CalloutsApi');
+  constructor(lazyClient: LazyVoiceApiClient) {
+    super(lazyClient, 'CalloutsApi');
   }
 
   /**
@@ -27,7 +20,6 @@ export class CalloutsApi extends VoiceDomainApi {
    * @param { TtsCalloutRequestData } data - The data to provide to the API call.
    */
   public async tts(data: TtsCalloutRequestData): Promise<CalloutResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<TtsCalloutRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -55,7 +47,6 @@ export class CalloutsApi extends VoiceDomainApi {
    * @param { ConferenceCalloutRequestData } data - The data to provide to the API call.
    */
   public async conference(data: ConferenceCalloutRequestData): Promise<CalloutResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ConferenceCalloutRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -84,7 +75,6 @@ export class CalloutsApi extends VoiceDomainApi {
    * @param { CustomCalloutRequestData } data - The data to provide to the API call.
    */
   public async custom(data: CustomCalloutRequestData): Promise<CalloutResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<CustomCalloutRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
