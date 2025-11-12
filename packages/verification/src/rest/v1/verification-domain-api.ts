@@ -31,9 +31,7 @@ export class VerificationDomainApi implements Api {
    */
   public setHostname(hostname: string) {
     this.lazyClient.sharedConfig.verificationHostname = hostname;
-    if (this.lazyClient.getApiClient()) {
-      this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
-    }
+    this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
   }
 
   /**

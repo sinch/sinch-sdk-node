@@ -63,8 +63,8 @@ export class VerificationService {
    * @param {string} hostname - The new hostname to use for all the APIs.
    */
   public setHostname(hostname: string) {
-    this.verificationStatus.setHostname(hostname);
-    this.verifications.setHostname(hostname);
+    this.lazyClient.sharedConfig.verificationHostname = hostname;
+    this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
   }
 
   public setCredentials(credentials: Partial<ApplicationCredentials>): void {
