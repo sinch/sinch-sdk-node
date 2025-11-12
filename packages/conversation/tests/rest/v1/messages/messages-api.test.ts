@@ -3,6 +3,7 @@ import {
   MessagesApi,
   MessagesApiFixture,
   Conversation,
+  LazyConversationApiClient,
 } from '../../../../src';
 import { recipientChannelIdentities, recipientContactId } from '../mocks';
 import {
@@ -29,7 +30,8 @@ describe('MessagesApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    messagesApi = new MessagesApi(credentials);
+    const lazyClient = new LazyConversationApiClient(credentials);
+    messagesApi = new MessagesApi(lazyClient);
   });
 
 

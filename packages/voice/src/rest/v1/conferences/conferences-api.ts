@@ -1,3 +1,4 @@
+import { RequestBody } from '@sinch/sdk-client';
 import {
   CalloutResponse,
   ConferenceCalloutRequestData,
@@ -7,25 +8,17 @@ import {
   KickParticipantRequestData,
   ManageParticipantRequestData,
 } from '../../../models/';
-import {
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
 import { VoiceDomainApi } from '../voice-domain-api';
 import { CalloutsApi } from '../callouts';
+import { LazyVoiceApiClient } from '../voice-service';
 
 export class ConferencesApi extends VoiceDomainApi {
 
   private calloutApi: CalloutsApi;
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'ConferencesApi');
-    this.calloutApi = new CalloutsApi(sinchClientParameters);
+  constructor(lazyClient: LazyVoiceApiClient) {
+    super(lazyClient, 'ConferencesApi');
+    this.calloutApi = new CalloutsApi(lazyClient);
   }
 
   /**
@@ -43,7 +36,6 @@ export class ConferencesApi extends VoiceDomainApi {
    * @param { GetConferenceInfoRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetConferenceInfoRequestData): Promise<GetConferenceInfoResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetConferenceInfoRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -72,7 +64,6 @@ export class ConferencesApi extends VoiceDomainApi {
    * @param { KickAllRequestData } data - The data to provide to the API call.
    */
   public async kickAll(data: KickAllRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<KickAllRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -100,7 +91,6 @@ export class ConferencesApi extends VoiceDomainApi {
    * @param { KickParticipantRequestData } data - The data to provide to the API call.
    */
   public async kickParticipant(data: KickParticipantRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<KickParticipantRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -128,7 +118,6 @@ export class ConferencesApi extends VoiceDomainApi {
    * @param { ManageParticipantRequestData } data - The data to provide to the API call.
    */
   public async manageParticipant(data: ManageParticipantRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ManageParticipantRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

@@ -1,4 +1,13 @@
-import { ConversationRegion, SinchClientParameters } from '@sinch/sdk-client';
+import {
+  ApiFetchClient,
+  buildOAuth2ApiClientOptions,
+  CONVERSATION_HOSTNAME,
+  CONVERSATION_TEMPLATES_HOSTNAME,
+  ConversationRegion,
+  formatRegionalizedHostname,
+  SinchClientParameters,
+  SupportedConversationRegion, UnifiedCredentials,
+} from '@sinch/sdk-client';
 import { ContactApi } from './contact';
 import { AppApi } from './app';
 import { EventsApi } from './events';
@@ -11,6 +20,73 @@ import { WebhooksApi } from './webhooks';
 import { TemplatesV1Api } from './templates-v1';
 import { TemplatesV2Api } from './templates-v2';
 import { ConsentsApi } from './consents';
+import { DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING } from './conversation-domain-api';
+
+export class LazyConversationApiClient {
+  private apiFetchClient?: ApiFetchClient;
+  constructor(public sharedConfig: SinchClientParameters) {}
+
+  public getApiClient(): ApiFetchClient {
+    if (!this.apiFetchClient) {
+      const region = this.sharedConfig.conversationRegion ?? ConversationRegion.UNITED_STATES;
+      // Deprecation Notice - to remove in 2.0
+      const isConversationHostnameOverridden = !!this.sharedConfig.conversationHostname;
+      if (!this.sharedConfig.conversationRegion && !isConversationHostnameOverridden) {
+        console.warn(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+      }
+      if(!Object.values(SupportedConversationRegion).includes(region as SupportedConversationRegion)) {
+        console.warn(`The region "${region}" is not known as a supported region for the Conversation API`);
+      }
+      const apiClientOptions = buildOAuth2ApiClientOptions(this.sharedConfig, 'Conversation');
+      this.apiFetchClient = new ApiFetchClient(apiClientOptions);
+      this.apiFetchClient.apiClientOptions.hostname = this.buildHostname(region);
+    }
+    return this.apiFetchClient;
+  }
+
+  public resetApiClient() {
+    this.apiFetchClient = undefined;
+  }
+
+  private buildHostname(region: ConversationRegion) {
+    const formattedRegion = region !== '' ? `${region}.` : '';
+    return this.sharedConfig.conversationHostname
+        ?? formatRegionalizedHostname(CONVERSATION_HOSTNAME, formattedRegion);
+  }
+}
+
+export class LazyConversationTemplateApiClient {
+  private apiFetchClient?: ApiFetchClient;
+  constructor(public sharedConfig: SinchClientParameters) {}
+
+  public getApiClient(): ApiFetchClient {
+    if (!this.apiFetchClient) {
+      const region = this.sharedConfig.conversationRegion ?? ConversationRegion.UNITED_STATES;
+      // Deprecation Notice - to remove in 2.0
+      const isConversationTemplatesHostnameOverridden = !!this.sharedConfig.conversationTemplatesHostname;
+      if (!this.sharedConfig.conversationRegion && !isConversationTemplatesHostnameOverridden) {
+        console.warn(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+      }
+      if(!Object.values(SupportedConversationRegion).includes(region as SupportedConversationRegion)) {
+        console.warn(`The region "${region}" is not known as a supported region for the Conversation API`);
+      }
+      const apiClientOptions = buildOAuth2ApiClientOptions(this.sharedConfig, 'Conversation');
+      this.apiFetchClient = new ApiFetchClient(apiClientOptions);
+      this.apiFetchClient.apiClientOptions.hostname = this.buildHostname(region);
+    }
+    return this.apiFetchClient;
+  }
+
+  public resetApiClient() {
+    this.apiFetchClient = undefined;
+  }
+
+  private buildHostname(region: ConversationRegion) {
+    const formattedRegion = region !== '' ? `${region}.` : '';
+    return this.sharedConfig.conversationTemplatesHostname
+      ?? formatRegionalizedHostname(CONVERSATION_TEMPLATES_HOSTNAME, formattedRegion);
+  }
+}
 
 /**
  * The Conversation Service exposes the following APIs:
@@ -39,6 +115,9 @@ export class ConversationService {
   public readonly templatesV2: TemplatesV2Api;
   public readonly consents: ConsentsApi;
 
+  private readonly lazyConversationClient: LazyConversationApiClient;
+  private readonly lazyConversationTemplateClient: LazyConversationTemplateApiClient;
+
   /**
    * Create a new ConversationService instance with its configuration. It needs the following parameters for authentication:
    *  - `projectId`
@@ -52,44 +131,78 @@ export class ConversationService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
-    this.contact = new ContactApi(params);
-    this.app = new AppApi(params);
-    this.events = new EventsApi(params);
-    this.messages = new MessagesApi(params);
-    this.transcoding = new TranscodingApi(params);
-    this.capability = new CapabilityApi(params);
-    this.conversation = new ConversationApi(params);
-    this.projectSettings = new ProjectSettingsApi(params);
-    this.webhooks = new WebhooksApi(params);
-    this.templatesV1 = new TemplatesV1Api(params);
-    this.templatesV2 = new TemplatesV2Api(params);
-    this.consents = new ConsentsApi(params);
+    const sharedConversationClient = new LazyConversationApiClient(params);
+    this.lazyConversationClient = sharedConversationClient;
+
+    const sharedConversationTemplateClient = new LazyConversationTemplateApiClient(params);
+    this.lazyConversationTemplateClient = sharedConversationTemplateClient;
+
+
+    this.contact = new ContactApi(sharedConversationClient);
+    this.app = new AppApi(sharedConversationClient);
+    this.events = new EventsApi(sharedConversationClient);
+    this.messages = new MessagesApi(sharedConversationClient);
+    this.transcoding = new TranscodingApi(sharedConversationClient);
+    this.capability = new CapabilityApi(sharedConversationClient);
+    this.conversation = new ConversationApi(sharedConversationClient);
+    this.projectSettings = new ProjectSettingsApi(sharedConversationClient);
+    this.webhooks = new WebhooksApi(sharedConversationClient);
+    this.consents = new ConsentsApi(sharedConversationClient);
+    this.templatesV1 = new TemplatesV1Api(sharedConversationTemplateClient);
+    this.templatesV2 = new TemplatesV2Api(sharedConversationTemplateClient);
+  }
+
+  public setApiClientConfig(newParams: SinchClientParameters) {
+    this.lazyConversationClient.sharedConfig = newParams;
+    this.lazyConversationClient.resetApiClient();
+    this.lazyConversationTemplateClient.sharedConfig = newParams;
+    this.lazyConversationTemplateClient.resetApiClient();
   }
 
   /**
    * Update the default hostname for each API (except Templates)
-   * @param {string} hostname - The new hostname to use for all the APIs.
+   * @param {string} hostname - The new hostname to use for the APIs.
    */
-  public setHostname(hostname: string) {
-    this.contact.setHostname(hostname);
-    this.app.setHostname(hostname);
-    this.events.setHostname(hostname);
-    this.messages.setHostname(hostname);
-    this.transcoding.setHostname(hostname);
-    this.capability.setHostname(hostname);
-    this.conversation.setHostname(hostname);
-    this.projectSettings.setHostname(hostname);
-    this.webhooks.setHostname(hostname);
-    this.consents.setHostname(hostname);
+  public setHostname(hostname: string): void {
+    this.lazyConversationClient.sharedConfig.conversationHostname = hostname;
+    this.lazyConversationClient.getApiClient().apiClientOptions.hostname = hostname;
   }
 
   /**
    * Update the default hostname for the Templates APIs
    * @param {string} hostname - The new hostname to use for the Templates APIs.
    */
-  public setTemplatesHostname(hostname: string) {
-    this.templatesV1.setHostname(hostname);
-    this.templatesV2.setHostname(hostname);
+  public setTemplatesHostname(hostname: string): void {
+    this.lazyConversationTemplateClient.sharedConfig.conversationTemplatesHostname = hostname;
+    this.lazyConversationTemplateClient.getApiClient().apiClientOptions.hostname = hostname;
+  }
+
+  /**
+   * Updates the credentials used to authenticate API requests.
+   * @param credentials - The new credentials to use for the APIs.
+   */
+  public setCredentials(credentials: Partial<UnifiedCredentials>): void {
+    const parametersBackup = { ...this.lazyConversationClient.sharedConfig };
+    const parametersTemplatesBackup = { ...this.lazyConversationTemplateClient.sharedConfig };
+    this.lazyConversationClient.sharedConfig = {
+      ...parametersBackup,
+      ...credentials,
+    };
+    this.lazyConversationTemplateClient.sharedConfig = {
+      ...parametersTemplatesBackup,
+      ...credentials,
+    };
+    this.lazyConversationClient.resetApiClient();
+    this.lazyConversationTemplateClient.resetApiClient();
+    try {
+      this.lazyConversationClient.getApiClient();
+      this.lazyConversationTemplateClient.getApiClient();
+    } catch (error) {
+      console.error('Impossible to assign the new credentials to the Conversation API');
+      this.lazyConversationClient.sharedConfig = parametersBackup;
+      this.lazyConversationTemplateClient.sharedConfig = parametersTemplatesBackup;
+      throw error;
+    }
   }
 
   /**
@@ -97,17 +210,9 @@ export class ConversationService {
    * @param {ConversationRegion} region - The new region to use in the production URL
    */
   public setRegion(region: ConversationRegion) {
-    this.contact.setRegion(region);
-    this.app.setRegion(region);
-    this.events.setRegion(region);
-    this.messages.setRegion(region);
-    this.transcoding.setRegion(region);
-    this.capability.setRegion(region);
-    this.conversation.setRegion(region);
-    this.projectSettings.setRegion(region);
-    this.webhooks.setRegion(region);
-    this.templatesV1.setRegion(region);
-    this.templatesV2.setRegion(region);
-    this.consents.setRegion(region);
+    this.lazyConversationClient.sharedConfig.conversationRegion = region;
+    this.lazyConversationClient.resetApiClient();
+    this.lazyConversationTemplateClient.sharedConfig.conversationRegion = region;
+    this.lazyConversationTemplateClient.resetApiClient();
   }
 }

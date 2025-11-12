@@ -1,6 +1,5 @@
 import {
   RequestBody,
-  SinchClientParameters,
 } from '@sinch/sdk-client';
 import {
   CreateWebhookRequestData,
@@ -12,16 +11,12 @@ import {
   Webhook,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
+import { LazyConversationApiClient } from '../conversation-service';
 
 export class WebhooksApi extends ConversationDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'WebhooksApi');
+  constructor(lazyApiClient: LazyConversationApiClient) {
+    super(lazyApiClient, 'WebhooksApi');
   }
 
   /**
@@ -30,7 +25,6 @@ export class WebhooksApi extends ConversationDomainApi {
    * @param { CreateWebhookRequestData } data - The data to provide to the API call.
    */
   public async create(data: CreateWebhookRequestData): Promise<Webhook> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<CreateWebhookRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -59,7 +53,6 @@ export class WebhooksApi extends ConversationDomainApi {
    * @param { DeleteWebhookRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteWebhookRequestData): Promise<any> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteWebhookRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -87,7 +80,6 @@ export class WebhooksApi extends ConversationDomainApi {
    * @param { GetWebhookRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetWebhookRequestData): Promise<Webhook> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetWebhookRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -114,7 +106,6 @@ export class WebhooksApi extends ConversationDomainApi {
    * @param { ListWebhooksRequestData } data - The data to provide to the API call.
    */
   public async list(data: ListWebhooksRequestData): Promise<ListWebhooksResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListWebhooksRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -141,7 +132,6 @@ export class WebhooksApi extends ConversationDomainApi {
    * @param { UpdateWebhookRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateWebhookRequestData): Promise<Webhook> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateWebhookRequestData>(data, ['update_mask']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

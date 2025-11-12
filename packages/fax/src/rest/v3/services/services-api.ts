@@ -1,4 +1,12 @@
 import {
+  ApiListPromise,
+  buildPageResultPromise,
+  createIteratorMethodsForPagination,
+  PaginatedApiProperties,
+  PaginationEnum,
+  RequestBody,
+} from '@sinch/sdk-client';
+import {
   CreateServiceRequestData,
   DeleteServiceRequestData,
   GetServiceRequestData,
@@ -9,26 +17,13 @@ import {
   ServiceResponse,
   UpdateServiceRequestData,
 } from '../../../models';
-import {
-  ApiListPromise,
-  buildPageResultPromise,
-  createIteratorMethodsForPagination,
-  PaginatedApiProperties,
-  PaginationEnum,
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
 import { FaxDomainApi } from '../fax-domain-api';
+import { LazyFaxApiClient } from '../fax-service';
 
 export class ServicesApi extends FaxDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'ServicesApi');
+  constructor(lazyClient: LazyFaxApiClient) {
+    super(lazyClient, 'ServicesApi');
   }
 
   /**
@@ -37,7 +32,6 @@ export class ServicesApi extends FaxDomainApi {
    * @param { CreateServiceRequestData } data - The data to provide to the API call.
    */
   public async create(data: CreateServiceRequestData): Promise<ServiceResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<CreateServiceRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -66,7 +60,6 @@ export class ServicesApi extends FaxDomainApi {
    * @param { GetServiceRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetServiceRequestData): Promise<ServiceResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetServiceRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -94,7 +87,6 @@ export class ServicesApi extends FaxDomainApi {
    * @return {ApiListPromise<string>} - The list of emails for a given number
    */
   public listEmailsForNumber(data: ListEmailsForNumberRequestData): ApiListPromise<string> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListEmailsForNumberRequestData>(data, ['pageSize', 'page']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -136,7 +128,6 @@ export class ServicesApi extends FaxDomainApi {
    * @return {ApiListPromise<ServicePhoneNumber>}
    */
   public listNumbers(data: ListNumbersForServiceRequestData): ApiListPromise<ServicePhoneNumber> {
-    this.client = this.getSinchClient();
     data['pageSize'] = data['pageSize'] !== undefined ? data['pageSize'] : 20;
     const getParams = this.client.extractQueryParams<ListNumbersForServiceRequestData>(data, ['pageSize', 'page']);
     const headers: { [key: string]: string | undefined } = {
@@ -179,7 +170,6 @@ export class ServicesApi extends FaxDomainApi {
    * @return {ApiListPromise<ServiceResponse>}
    */
   public list(data: ListServicesRequestData): ApiListPromise<ServiceResponse> {
-    this.client = this.getSinchClient();
     data['pageSize'] = data['pageSize'] !== undefined ? data['pageSize'] : 20;
     const getParams = this.client.extractQueryParams<ListServicesRequestData>(data, ['pageSize', 'page']);
     const headers: { [key: string]: string | undefined } = {
@@ -221,7 +211,6 @@ export class ServicesApi extends FaxDomainApi {
    * @param { DeleteServiceRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteServiceRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteServiceRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -249,7 +238,6 @@ export class ServicesApi extends FaxDomainApi {
    * @param { UpdateServiceRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateServiceRequestData): Promise<ServiceResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateServiceRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

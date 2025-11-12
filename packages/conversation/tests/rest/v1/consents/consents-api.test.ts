@@ -1,5 +1,5 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
-import { ConsentsApi, ConsentsApiFixture, Conversation } from '../../../../src';
+import { ConsentsApi, ConsentsApiFixture, Conversation, LazyConversationApiClient } from '../../../../src';
 
 describe('ConsentsApi', () => {
   let consentsApi: ConsentsApi;
@@ -13,7 +13,8 @@ describe('ConsentsApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    consentsApi = new ConsentsApi(credentials);
+    const lazyClient = new LazyConversationApiClient(credentials);
+    consentsApi = new ConsentsApi(lazyClient);
   });
 
 

@@ -1,4 +1,4 @@
-import { ConversationRegion, SinchClientParameters } from '@sinch/sdk-client';
+import { ApiTokenRequest, ConversationRegion, SinchClientParameters } from '@sinch/sdk-client';
 import {
   AppApi,
   CapabilityApi,
@@ -12,8 +12,9 @@ import {
   TemplatesV2Api,
   TranscodingApi,
   WebhooksApi,
+  DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING,
 } from '../../../src';
-import { DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING } from '../../../src/rest/v1/conversation-domain-api';
+import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
 
 describe('Conversation Service', () => {
   const DEFAULT_HOSTNAME = 'https://us.conversation.api.sinch.com';
@@ -23,9 +24,11 @@ describe('Conversation Service', () => {
   const EUROPE_HOSTNAME_TEMPLATES = 'https://eu.template.api.sinch.com';
   const CUSTOM_HOSTNAME_TEMPLATES = 'https://templates.new.host.name';
   let warnSpy: jest.SpyInstance<void, [message?: any, ...optionalParams: any[]]>;
+  let errorSpy: jest.SpyInstance<void, [message?: any, ...optionalParams: any[]]>;
 
   beforeEach(() => {
     warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -57,6 +60,85 @@ describe('Conversation Service', () => {
     expect(conversationService.consents).toBeInstanceOf(ConsentsApi);
   });
 
+  it('should update the API client for all the subdomains', () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+    };
+    const conversationService = new ConversationService(params);
+    const newApiClientConfig = {
+      projectId: 'NEW_PROJECT_ID',
+      keyId: 'NEW_KEY_ID',
+      keySecret: 'NEW_KEY_SECRET',
+    };
+
+    // When
+    conversationService.setApiClientConfig(newApiClientConfig);
+
+    // Then
+    expect(conversationService.app.lazyClient.sharedConfig.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.capability.lazyClient.sharedConfig.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.consents.lazyClient.sharedConfig.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.conversation.lazyClient.sharedConfig.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.events.lazyClient.sharedConfig.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.messages.lazyClient.sharedConfig.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.projectSettings.lazyClient.sharedConfig.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.templatesV1.lazyClient.sharedConfig.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.templatesV2.lazyClient.sharedConfig.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.transcoding.lazyClient.sharedConfig.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.webhooks.lazyClient.sharedConfig.projectId).toBe('NEW_PROJECT_ID');
+  });
+
+  it('should override the plugins list for all the subdomains', () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+    };
+    const conversationService = new ConversationService(params);
+    const newRequestPlugin = new ApiTokenRequest('test-token');
+
+    // When
+    const apiFetchClientConversation = (conversationService as any).lazyConversationClient.getApiClient();
+    apiFetchClientConversation.apiClientOptions.requestPlugins = [newRequestPlugin];
+    const apiFetchClientTemplates = (conversationService as any).lazyConversationTemplateClient.getApiClient();
+    apiFetchClientTemplates.apiClientOptions.requestPlugins = [newRequestPlugin];
+
+    // Then
+    const assertPluginOverrideIsCorrect = (plugins: RequestPlugin[] | undefined ) => {
+      expect(plugins).toBeDefined();
+      expect(plugins?.length).toBe(1);
+      expect(plugins?.[0]).toBeInstanceOf(ApiTokenRequest);
+    };
+    assertPluginOverrideIsCorrect(
+      conversationService.app.lazyClient.getApiClient().apiClientOptions.requestPlugins);
+    assertPluginOverrideIsCorrect(
+      conversationService.capability.lazyClient.getApiClient().apiClientOptions.requestPlugins);
+    assertPluginOverrideIsCorrect(
+      conversationService.consents.lazyClient.getApiClient().apiClientOptions.requestPlugins);
+    assertPluginOverrideIsCorrect(
+      conversationService.contact.lazyClient.getApiClient().apiClientOptions.requestPlugins);
+    assertPluginOverrideIsCorrect(
+      conversationService.conversation.lazyClient.getApiClient().apiClientOptions.requestPlugins);
+    assertPluginOverrideIsCorrect(
+      conversationService.events.lazyClient.getApiClient().apiClientOptions.requestPlugins);
+    assertPluginOverrideIsCorrect(
+      conversationService.messages.lazyClient.getApiClient().apiClientOptions.requestPlugins);
+    assertPluginOverrideIsCorrect(
+      conversationService.projectSettings.lazyClient.getApiClient().apiClientOptions.requestPlugins);
+    assertPluginOverrideIsCorrect(
+      conversationService.templatesV1.lazyClient.getApiClient().apiClientOptions.requestPlugins);
+    assertPluginOverrideIsCorrect(
+      conversationService.templatesV2.lazyClient.getApiClient().apiClientOptions.requestPlugins);
+    assertPluginOverrideIsCorrect(
+      conversationService.transcoding.lazyClient.getApiClient().apiClientOptions.requestPlugins);
+    assertPluginOverrideIsCorrect(
+      conversationService.webhooks.lazyClient.getApiClient().apiClientOptions.requestPlugins);
+  });
+
   it('should set a custom hostname for all APIs but templates', () => {
     // Given
     const params: SinchClientParameters = {
@@ -70,28 +152,19 @@ describe('Conversation Service', () => {
     conversationService.setHostname(CUSTOM_HOSTNAME);
 
     // Then
-    expect(conversationService.contact.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(conversationService.contact.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(conversationService.app.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(conversationService.events.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(conversationService.messages.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(conversationService.transcoding.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(conversationService.capability.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(conversationService.conversation.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(conversationService.webhooks.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(conversationService.consents.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
     expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.app.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.events.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.messages.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.transcoding.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.capability.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.conversation.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.webhooks.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.consents.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.templatesV1.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME_TEMPLATES);
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
-    warnSpy.mockClear();
-    expect(conversationService.templatesV2.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME_TEMPLATES);
+    expect(conversationService.templatesV1.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME_TEMPLATES);
+    expect(conversationService.templatesV2.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME_TEMPLATES);
+    expect(warnSpy).toHaveBeenCalledTimes(1);
     expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
   });
 
@@ -108,37 +181,80 @@ describe('Conversation Service', () => {
     conversationService.setTemplatesHostname(CUSTOM_HOSTNAME_TEMPLATES);
 
     // Then
-    expect(conversationService.contact.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(conversationService.contact.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(conversationService.app.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(conversationService.events.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(conversationService.messages.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(conversationService.transcoding.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(conversationService.capability.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(conversationService.conversation.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(conversationService.webhooks.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(conversationService.consents.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(warnSpy).toHaveBeenCalledTimes(1);
     expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
     warnSpy.mockClear();
-    expect(conversationService.app.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
-    warnSpy.mockClear();
-    expect(conversationService.events.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
-    warnSpy.mockClear();
-    expect(conversationService.messages.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
-    warnSpy.mockClear();
-    expect(conversationService.transcoding.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
-    warnSpy.mockClear();
-    expect(conversationService.capability.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
-    warnSpy.mockClear();
-    expect(conversationService.conversation.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
-    warnSpy.mockClear();
-    expect(conversationService.webhooks.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
-    warnSpy.mockClear();
-    expect(conversationService.consents.getSinchClient().apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
-    warnSpy.mockClear();
-    expect(conversationService.templatesV1.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
+    expect(conversationService.templatesV1.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
+    expect(conversationService.templatesV2.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
     expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.templatesV2.getSinchClient().apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should set new credentials for all APIs', () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+    };
+
+    // When
+    const conversationService = new ConversationService(params);
+    conversationService.setCredentials({
+      projectId: 'NEW_PROJECT_ID',
+    });
+
+    // Then
+    expect(conversationService.contact.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.app.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.events.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.messages.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.transcoding.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.capability.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.conversation.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.webhooks.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.consents.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.projectSettings.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.templatesV1.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(conversationService.templatesV2.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+  });
+
+  it('should raise an exception if the credentials are invalid', () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+    };
+
+    // When
+    const conversationService = new ConversationService(params);
+    expect(() => conversationService.setCredentials({ projectId: '' }))
+      .toThrow('Invalid configuration for the Conversation API: "projectId", "keyId" and "keySecret"'
+        + ' values must be provided');
+    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Conversation API');
+
+    // Then
+    expect(conversationService.app.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.capability.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.consents.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.contact.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.conversation.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.events.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.messages.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.projectSettings.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.transcoding.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.webhooks.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.templatesV1.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(conversationService.templatesV2.client.apiClientOptions.projectId).toBe('PROJECT_ID');
   });
 
   it('should update the default region for all APIs', () => {
@@ -154,27 +270,17 @@ describe('Conversation Service', () => {
     conversationService.setRegion(ConversationRegion.EUROPE);
 
     // Then
-    expect(conversationService.contact.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.app.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.events.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.messages.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.transcoding.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.capability.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.conversation.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.webhooks.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.consents.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.templatesV1.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME_TEMPLATES);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-    expect(conversationService.templatesV2.getSinchClient().apiClientOptions.hostname).toBe(EUROPE_HOSTNAME_TEMPLATES);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
+    expect(conversationService.contact.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(conversationService.app.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(conversationService.events.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(conversationService.messages.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(conversationService.transcoding.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(conversationService.capability.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(conversationService.conversation.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(conversationService.webhooks.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(conversationService.consents.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(conversationService.projectSettings.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    expect(conversationService.templatesV1.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME_TEMPLATES);
+    expect(conversationService.templatesV2.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME_TEMPLATES);
   });
 });

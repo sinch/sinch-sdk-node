@@ -1,24 +1,19 @@
 import {
+  RequestBody,
+} from '@sinch/sdk-client';
+import {
   CreateProjectSettingsRequestData,
   DeleteProjectSettingsRequestData,
   GetProjectSettingsRequestData,
   ProjectSettings, UpdateProjectSettingsRequestData,
 } from '../../../models';
-import {
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
 import { ConversationDomainApi } from '../conversation-domain-api';
+import { LazyConversationApiClient } from '../conversation-service';
 
 export class ProjectSettingsApi extends ConversationDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'ProjectSettingsApi');
+  constructor(lazyApiClient: LazyConversationApiClient) {
+    super(lazyApiClient, 'ProjectSettingsApi');
   }
 
   /**
@@ -27,7 +22,6 @@ export class ProjectSettingsApi extends ConversationDomainApi {
    * @param { CreateProjectSettingsRequestData } data - The data to provide to the API call.
    */
   public async create(data: CreateProjectSettingsRequestData): Promise<ProjectSettings> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<CreateProjectSettingsRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -56,7 +50,6 @@ export class ProjectSettingsApi extends ConversationDomainApi {
    * @param { DeleteProjectSettingsRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteProjectSettingsRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteProjectSettingsRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -85,7 +78,6 @@ export class ProjectSettingsApi extends ConversationDomainApi {
    * @param { GetProjectSettingsRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetProjectSettingsRequestData): Promise<ProjectSettings> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetProjectSettingsRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -113,7 +105,6 @@ export class ProjectSettingsApi extends ConversationDomainApi {
    * @param { UpdateProjectSettingsRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateProjectSettingsRequestData): Promise<ProjectSettings> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateProjectSettingsRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
