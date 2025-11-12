@@ -1,5 +1,10 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
-import { CallsHistoryApi, CallsHistoryApiFixture, ElasticSipTrunking } from '../../../../src';
+import {
+  CallsHistoryApi,
+  CallsHistoryApiFixture,
+  ElasticSipTrunking,
+  LazyElasticSipTrunkingApiClient,
+} from '../../../../src';
 
 describe('CallsApi', () => {
   let callsApi: CallsHistoryApi;
@@ -13,7 +18,8 @@ describe('CallsApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    callsApi = new CallsHistoryApi(credentials);
+    const lazyClient = new LazyElasticSipTrunkingApiClient(credentials);
+    callsApi = new CallsHistoryApi(lazyClient);
   });
 
 

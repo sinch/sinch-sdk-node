@@ -1,24 +1,17 @@
+import { RequestBody } from '@sinch/sdk-client';
 import {
   GetCallInformation,
   GetCallResultRequestData,
   ManageWithCallLegRequestData,
   UpdateCallRequestData,
 } from '../../../models';
-import {
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
 import { VoiceDomainApi } from '../voice-domain-api';
+import { LazyVoiceApiClient } from '../voice-service';
 
 export class CallsApi extends VoiceDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'CallsApi');
+  constructor(lazyClient: LazyVoiceApiClient) {
+    super(lazyClient, 'CallsApi');
   }
 
   /**
@@ -27,7 +20,6 @@ export class CallsApi extends VoiceDomainApi {
    * @param { GetCallResultRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetCallResultRequestData): Promise<GetCallInformation> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetCallResultRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -56,7 +48,6 @@ export class CallsApi extends VoiceDomainApi {
    * @param { ManageWithCallLegRequestData } data - The data to provide to the API call.
    */
   public async manageWithCallLeg(data: ManageWithCallLegRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ManageWithCallLegRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -86,7 +77,6 @@ export class CallsApi extends VoiceDomainApi {
    * @param { UpdateCallRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateCallRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateCallRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

@@ -1,5 +1,5 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
-import { Fax } from '../../../../src';
+import { Fax, LazyFaxApiClient } from '../../../../src';
 import { FaxToEmailApi, FaxToEmailApiFixture } from '../../../../src';
 
 describe('EmailsApi', () => {
@@ -14,7 +14,8 @@ describe('EmailsApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    faxToEmailApi = new FaxToEmailApi(credentials);
+    const lazyClient = new LazyFaxApiClient(credentials);
+    faxToEmailApi = new FaxToEmailApi(lazyClient);
   });
 
 

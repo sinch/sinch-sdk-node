@@ -3,6 +3,7 @@ import {
   SipTrunksApi,
   SipTrunksApiFixture,
   ElasticSipTrunking,
+  LazyElasticSipTrunkingApiClient,
 } from '../../../../src';
 
 describe('SIPTrunksApi', () => {
@@ -17,7 +18,8 @@ describe('SIPTrunksApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    sipTrunksApi = new SipTrunksApi(credentials);
+    const lazyClient = new LazyElasticSipTrunkingApiClient(credentials);
+    sipTrunksApi = new SipTrunksApi(lazyClient);
   });
 
 

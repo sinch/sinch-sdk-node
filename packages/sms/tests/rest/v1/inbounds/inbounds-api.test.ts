@@ -2,6 +2,7 @@ import { SinchClientParameters } from '@sinch/sdk-client';
 import {
   InboundsApi,
   InboundsApiFixture,
+  LazySmsApiClient,
   Sms,
 } from '../../../../src';
 
@@ -16,7 +17,8 @@ describe('InboundsApi', () => {
       servicePlanId: 'SERVICE_PLAN_ID',
       apiToken: 'API_TOKEN',
     };
-    inboundsApi = new InboundsApi(paramsWithServicePlanId);
+    const lazyClient = new LazySmsApiClient(paramsWithServicePlanId);
+    inboundsApi = new InboundsApi(lazyClient);
   });
 
   describe ('listInboundMessages', () => {
