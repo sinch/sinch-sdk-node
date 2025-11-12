@@ -77,9 +77,7 @@ export class FaxService {
    */
   public setHostname(hostname: string) {
     this.lazyClient.sharedConfig.faxHostname = hostname;
-    if (this.lazyClient.getApiClient()) {
-      this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
-    }
+    this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
   }
 
   /**
