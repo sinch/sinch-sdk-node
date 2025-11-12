@@ -1,7 +1,4 @@
-import {
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
+import { RequestBody } from '@sinch/sdk-client';
 import {
   VerificationStatusResponse,
   VerificationStatusByIdentityRequestData,
@@ -9,16 +6,12 @@ import {
   VerificationStatusByReferenceRequestData,
 } from '../../../models';
 import { VerificationDomainApi } from '../verification-domain-api';
+import { LazyVerificationApiClient } from '../verification-service';
 
 export class VerificationStatusApi extends VerificationDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'VerificationStatusApi');
+  constructor(lazyClient: LazyVerificationApiClient) {
+    super(lazyClient,  'VerificationStatusApi');
   }
 
   /**
@@ -27,7 +20,6 @@ export class VerificationStatusApi extends VerificationDomainApi {
    * @param { VerificationStatusByIdRequestData } data - The data to provide to the API call.
    */
   public async getById(data: VerificationStatusByIdRequestData): Promise<VerificationStatusResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<VerificationStatusByIdRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -56,7 +48,6 @@ export class VerificationStatusApi extends VerificationDomainApi {
    * @param { VerificationStatusByIdentityRequestData } data - The data to provide to the API call.
    */
   public async getByIdentity(data: VerificationStatusByIdentityRequestData): Promise<VerificationStatusResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<VerificationStatusByIdentityRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -90,7 +81,6 @@ export class VerificationStatusApi extends VerificationDomainApi {
    * @param { VerificationStatusByReferenceRequestData } data - The data to provide to the API call.
    */
   public async getByReference(data: VerificationStatusByReferenceRequestData): Promise<VerificationStatusResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<VerificationStatusByReferenceRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

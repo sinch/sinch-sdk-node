@@ -1,4 +1,12 @@
 import {
+  RequestBody,
+  ApiListPromise,
+  PaginatedApiProperties,
+  PaginationEnum,
+  buildPageResultPromise,
+  createIteratorMethodsForPagination,
+} from '@sinch/sdk-client';
+import {
   CreateGroupRequestData,
   DeleteGroupRequestData,
   GetGroupRequestData,
@@ -8,26 +16,13 @@ import {
   UpdateGroupRequestData,
   Group,
 } from '../../../models';
-import {
-  RequestBody,
-  ApiListPromise,
-  PaginatedApiProperties,
-  PaginationEnum,
-  SinchClientParameters,
-  buildPageResultPromise,
-  createIteratorMethodsForPagination,
-} from '@sinch/sdk-client';
 import { SmsDomainApi } from '../sms-domain-api';
+import { LazySmsApiClient } from '../sms-service';
 
 export class GroupsApi extends SmsDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'GroupsApi');
+  constructor(lazyClient: LazySmsApiClient) {
+    super(lazyClient, 'GroupsApi');
   }
 
   /**
@@ -36,7 +31,6 @@ export class GroupsApi extends SmsDomainApi {
    * @param { CreateGroupRequestData } data - The data to provide to the API call.
    */
   public async create(data: CreateGroupRequestData): Promise<Group> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<CreateGroupRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -64,7 +58,6 @@ export class GroupsApi extends SmsDomainApi {
    * @param { DeleteGroupRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteGroupRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteGroupRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -92,7 +85,6 @@ export class GroupsApi extends SmsDomainApi {
    * @param { ListMembersRequestData } data - The data to provide to the API call.
    */
   public async listMembers(data: ListMembersRequestData): Promise<string[]> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListMembersRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -121,7 +113,6 @@ export class GroupsApi extends SmsDomainApi {
    * @return {ApiListPromise<Group>}
    */
   public list(data: ListGroupsRequestData): ApiListPromise<Group> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListGroupsRequestData>(data, ['page', 'page_size']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -163,7 +154,6 @@ export class GroupsApi extends SmsDomainApi {
    * @param { ReplaceGroupRequestData } data - The data to provide to the API call.
    */
   public async replace(data: ReplaceGroupRequestData): Promise<Group> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ReplaceGroupRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -191,7 +181,6 @@ export class GroupsApi extends SmsDomainApi {
    * @param { GetGroupRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetGroupRequestData): Promise<Group> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetGroupRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -219,7 +208,6 @@ export class GroupsApi extends SmsDomainApi {
    * @param { UpdateGroupRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateGroupRequestData): Promise<Group> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateGroupRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

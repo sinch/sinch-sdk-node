@@ -2,6 +2,7 @@ import { SinchClientParameters } from '@sinch/sdk-client';
 import {
   GroupsApi,
   GroupsApiFixture,
+  LazySmsApiClient,
   Sms,
 } from '../../../../src';
 
@@ -16,7 +17,8 @@ describe('GroupsApi', () => {
       servicePlanId: 'SERVICE_PLAN_ID',
       apiToken: 'API_TOKEN',
     };
-    groupsApi = new GroupsApi(paramsWithServicePlanId);
+    const lazyClient = new LazySmsApiClient(paramsWithServicePlanId);
+    groupsApi = new GroupsApi(lazyClient);
   });
 
   describe ('createGroup', () => {
