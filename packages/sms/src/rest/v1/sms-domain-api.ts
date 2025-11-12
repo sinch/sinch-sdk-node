@@ -33,9 +33,7 @@ export class SmsDomainApi implements Api {
    */
   public setHostname(hostname: string) {
     this.lazyClient.sharedConfig.smsHostname = hostname;
-    if (this.lazyClient.getApiClient()) {
-      this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
-    }
+    this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
   }
 
   /**

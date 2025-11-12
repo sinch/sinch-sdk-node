@@ -263,6 +263,9 @@ export class BatchesApi extends SmsDomainApi {
    * @param { SendTextSMSRequestData } data - The data to provide to the API call.
    */
   public async sendTextMessage(data: SendTextSMSRequestData): Promise<TextResponse> {
+    if (data.sendSMSRequestBody) {
+      data.sendSMSRequestBody.type = 'mt_text';
+    }
     const response = await this.send(data);
     return response as TextResponse;
   }
@@ -277,6 +280,9 @@ export class BatchesApi extends SmsDomainApi {
    * @param { SendBinarySMSRequestData } data - The data to provide to the API call.
    */
   public async sendBinaryMessage(data: SendBinarySMSRequestData): Promise<BinaryResponse> {
+    if (data.sendSMSRequestBody) {
+      data.sendSMSRequestBody.type = 'mt_binary';
+    }
     const response = await this.send(data);
     return response as BinaryResponse;
   }
@@ -291,6 +297,9 @@ export class BatchesApi extends SmsDomainApi {
    * @param { SendMediaSMSRequestData } data - The data to provide to the API call.
    */
   public async sendMediaMessage(data: SendMediaSMSRequestData): Promise<MediaResponse> {
+    if (data.sendSMSRequestBody) {
+      data.sendSMSRequestBody.type = 'mt_media';
+    }
     const response = await this.send(data);
     return response as MediaResponse;
   }
