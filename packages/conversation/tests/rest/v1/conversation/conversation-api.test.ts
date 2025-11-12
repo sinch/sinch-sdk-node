@@ -3,6 +3,7 @@ import {
   Conversation,
   ConversationApi,
   ConversationApiFixture,
+  LazyConversationApiClient,
 } from '../../../../src';
 
 describe('ConversationApi', () => {
@@ -17,7 +18,8 @@ describe('ConversationApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    conversationApi = new ConversationApi(credentials);
+    const lazyClient = new LazyConversationApiClient(credentials);
+    conversationApi = new ConversationApi(lazyClient);
   });
 
 

@@ -67,12 +67,8 @@ export interface FileBuffer {
  * API Client used to call the server
  */
 export class ApiClient {
-  /** Options for the API */
-  public apiClientOptions: ApiClientOptions;
 
-  constructor(options: ApiClientOptions) {
-    this.apiClientOptions = options;
-  }
+  constructor(public apiClientOptions: ApiClientOptions) {}
 
   /**
    * Returns a map containing the query parameters based on the provided data and names.

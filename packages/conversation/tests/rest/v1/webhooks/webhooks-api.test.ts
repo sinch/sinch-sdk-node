@@ -3,6 +3,7 @@ import {
   WebhooksApi,
   WebhooksApiFixture,
   Conversation,
+  LazyConversationApiClient,
 } from '../../../../src';
 
 describe('WebhooksApi', () => {
@@ -17,7 +18,8 @@ describe('WebhooksApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    webhooksApi = new WebhooksApi(credentials);
+    const lazyClient = new LazyConversationApiClient(credentials);
+    webhooksApi = new WebhooksApi(lazyClient);
   });
 
 

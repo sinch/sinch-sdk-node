@@ -1,29 +1,24 @@
 import {
-  ListAuditRecordsRequestData,
-  ListIdentitiesRequestData,
-  AuditRecordsList,
-  ConsentIdentity,
-} from '../../../models';
-import {
   ApiListPromise,
   buildPageResultPromise,
   createIteratorMethodsForPagination,
   PaginatedApiProperties,
   PaginationEnum,
   RequestBody,
-  SinchClientParameters,
 } from '@sinch/sdk-client';
+import {
+  ListAuditRecordsRequestData,
+  ListIdentitiesRequestData,
+  AuditRecordsList,
+  ConsentIdentity,
+} from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
+import { LazyConversationApiClient } from '../conversation-service';
 
 export class ConsentsApi extends ConversationDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'ConsentsApi');
+  constructor(lazyApiClient: LazyConversationApiClient) {
+    super(lazyApiClient, 'ConsentsApi');
   }
 
   /**
@@ -33,7 +28,6 @@ export class ConsentsApi extends ConversationDomainApi {
    * @return {ApiListPromise<ConsentIdentity>}
    */
   public listIdentities(data: ListIdentitiesRequestData): ApiListPromise<ConsentIdentity> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListIdentitiesRequestData>(data, ['page_size', 'page_token']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -75,7 +69,6 @@ export class ConsentsApi extends ConversationDomainApi {
    * @param { ListAuditRecordsRequestData } data - The data to provide to the API call.
    */
   public async listAuditRecords(data: ListAuditRecordsRequestData): Promise<AuditRecordsList> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListAuditRecordsRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

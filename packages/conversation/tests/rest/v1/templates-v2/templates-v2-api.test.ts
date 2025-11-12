@@ -2,7 +2,7 @@ import { SinchClientParameters } from '@sinch/sdk-client';
 import {
   TemplatesV2Api,
   TemplatesV2ApiFixture,
-  Conversation,
+  Conversation, LazyConversationTemplateApiClient,
 } from '../../../../src';
 
 describe('TemplatesV2Api', () => {
@@ -17,7 +17,8 @@ describe('TemplatesV2Api', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    templatesV2Api = new TemplatesV2Api(credentials);
+    const lazyClient = new LazyConversationTemplateApiClient(credentials);
+    templatesV2Api = new TemplatesV2Api(lazyClient);
   });
 
 

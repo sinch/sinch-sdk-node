@@ -2,6 +2,7 @@ import { SinchClientParameters } from '@sinch/sdk-client';
 import {
   AvailableNumberApi,
   AvailableNumberApiFixture,
+  LazyNumbersApiClient,
   Numbers,
 } from '../../../../src';
 
@@ -17,7 +18,8 @@ describe('AvailableNumberApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    availableNumberApi = new AvailableNumberApi(credentials);
+    const lazyClient = new LazyNumbersApiClient(credentials);
+    availableNumberApi = new AvailableNumberApi(lazyClient);
   });
 
   describe ('getAvailableNumber', () => {

@@ -1,3 +1,4 @@
+import { RequestBody } from '@sinch/sdk-client';
 import {
   StartCalloutVerificationResponse,
   CalloutVerificationReportResponse,
@@ -34,21 +35,13 @@ import {
   StartWhatsAppVerificationRequestData,
   StartWhatsAppVerificationResponse,
 } from '../../../models';
-import {
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
 import { VerificationDomainApi } from '../verification-domain-api';
+import { LazyVerificationApiClient } from '../verification-service';
 
 export class VerificationsApi extends VerificationDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'VerificationsApi');
+  constructor(lazyClient: LazyVerificationApiClient) {
+    super(lazyClient, 'VerificationsApi');
   }
 
   /**
@@ -57,7 +50,6 @@ export class VerificationsApi extends VerificationDomainApi {
    * @param { ReportSmsVerificationByIdRequestData } data - The data to provide to the API call.
    */
   public async reportSmsById(data: ReportSmsVerificationByIdRequestData): Promise<SmsVerificationReportResponse> {
-    this.client = this.getSinchClient();
     (data.reportSmsVerificationByIdRequestBody as any).method = 'sms';
     const getParams = this.client.extractQueryParams<ReportSmsVerificationByIdRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -91,7 +83,6 @@ export class VerificationsApi extends VerificationDomainApi {
   public async reportFlashCallById(
     data: ReportFlashCallVerificationByIdRequestData,
   ): Promise<FlashCallVerificationReportResponse> {
-    this.client = this.getSinchClient();
     (data.reportFlashCallVerificationByIdRequestBody as any).method = 'flashcall';
     const getParams = this.client.extractQueryParams<ReportFlashCallVerificationByIdRequestData>(
       data,
@@ -127,7 +118,6 @@ export class VerificationsApi extends VerificationDomainApi {
   public async reportPhoneCallById(
     data: ReportPhoneCallVerificationByIdRequestData,
   ): Promise<PhoneCallVerificationReportResponse> {
-    this.client = this.getSinchClient();
     (data.reportPhoneCallVerificationByIdRequestBody as any).method = 'callout';
     const getParams = this.client.extractQueryParams<ReportPhoneCallVerificationByIdRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -176,7 +166,6 @@ export class VerificationsApi extends VerificationDomainApi {
   public async reportCalloutById(
     data: ReportCalloutVerificationByIdRequestData,
   ): Promise<CalloutVerificationReportResponse> {
-    this.client = this.getSinchClient();
     (data.reportCalloutVerificationByIdRequestBody as any).method = 'callout';
     const getParams = this.client.extractQueryParams<ReportCalloutVerificationByIdRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -210,7 +199,6 @@ export class VerificationsApi extends VerificationDomainApi {
   public async reportWhatsAppById(
     data: ReportWhatsAppVerificationByIdRequestData,
   ): Promise<WhatsAppVerificationReportResponse> {
-    this.client = this.getSinchClient();
     (data.reportWhatsAppVerificationByIdRequestBody as any).method = 'whatsapp';
     const getParams = this.client.extractQueryParams<ReportWhatsAppVerificationByIdRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -244,7 +232,6 @@ export class VerificationsApi extends VerificationDomainApi {
   public async reportSmsByIdentity(
     data: ReportSmsVerificationByIdentityRequestData,
   ): Promise<SmsVerificationReportResponse> {
-    this.client = this.getSinchClient();
     (data.reportSmsVerificationByIdentityRequestBody as any).method = 'sms';
     const getParams = this.client.extractQueryParams<ReportSmsVerificationByIdentityRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -278,7 +265,6 @@ export class VerificationsApi extends VerificationDomainApi {
   public async reportFlashCallByIdentity(
     data: ReportFlashCallVerificationByIdentityRequestData,
   ): Promise<FlashCallVerificationReportResponse> {
-    this.client = this.getSinchClient();
     (data.reportFlashCallVerificationByIdentityRequestBody as any).method = 'flashcall';
     const getParams = this.client.extractQueryParams<ReportFlashCallVerificationByIdentityRequestData>(
       data, [] as never[]);
@@ -313,7 +299,6 @@ export class VerificationsApi extends VerificationDomainApi {
   public async reportPhoneCallByIdentity(
     data: ReportPhoneCallVerificationByIdentityRequestData,
   ): Promise<PhoneCallVerificationReportResponse> {
-    this.client = this.getSinchClient();
     (data.reportPhoneCallVerificationByIdentityRequestBody as any).method = 'callout';
     const getParams = this.client.extractQueryParams<ReportPhoneCallVerificationByIdentityRequestData>(
       data, [] as never[]);
@@ -362,7 +347,6 @@ export class VerificationsApi extends VerificationDomainApi {
   public async reportCalloutByIdentity(
     data: ReportCalloutVerificationByIdentityRequestData,
   ): Promise<CalloutVerificationReportResponse> {
-    this.client = this.getSinchClient();
     (data.reportCalloutVerificationByIdentityRequestBody as any).method = 'callout';
     const getParams = this.client.extractQueryParams<ReportCalloutVerificationByIdentityRequestData>(
       data, [] as never[]);
@@ -397,7 +381,6 @@ export class VerificationsApi extends VerificationDomainApi {
   public async reportWhatsAppByIdentity(
     data: ReportWhatsAppVerificationByIdentityRequestData,
   ): Promise<WhatsAppVerificationReportResponse> {
-    this.client = this.getSinchClient();
     (data.reportWhatsAppVerificationByIdentityRequestBody as any).method = 'whatsapp';
     const getParams
       = this.client.extractQueryParams<ReportWhatsAppVerificationByIdentityRequestData>(data, [] as never[]);
@@ -430,7 +413,6 @@ export class VerificationsApi extends VerificationDomainApi {
    * @param { StartSmsVerificationRequestData } data - The data to provide to the API call.
    */
   public async startSms(data: StartSmsVerificationRequestData): Promise<StartSmsVerificationResponse> {
-    this.client = this.getSinchClient();
     (data.startVerificationWithSmsRequestBody as any).method = 'sms';
     const getParams = this.client.extractQueryParams<StartSmsVerificationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -495,7 +477,6 @@ export class VerificationsApi extends VerificationDomainApi {
   public async startFlashCall(
     data: StartFlashCallVerificationRequestData,
   ): Promise<StartFlashCallVerificationResponse> {
-    this.client = this.getSinchClient();
     (data.startVerificationWithFlashCallRequestBody as any).method = 'flashcall';
     const getParams = this.client.extractQueryParams<StartFlashCallVerificationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -529,7 +510,6 @@ export class VerificationsApi extends VerificationDomainApi {
   public async startPhoneCall(
     data: StartPhoneCallVerificationRequestData,
   ): Promise<StartPhoneCallVerificationResponse> {
-    this.client = this.getSinchClient();
     (data.startVerificationWithPhoneCallRequestBody as any).method = 'callout';
     const getParams = this.client.extractQueryParams<StartPhoneCallVerificationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -577,7 +557,6 @@ export class VerificationsApi extends VerificationDomainApi {
    * @param { StartDataVerificationRequestData } data - The data to provide to the API call.
    */
   public async startData(data: StartDataVerificationRequestData): Promise<StartDataVerificationResponse> {
-    this.client = this.getSinchClient();
     (data.startDataVerificationRequestBody as any).method = 'seamless';
     const getParams = this.client.extractQueryParams<StartDataVerificationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -611,7 +590,6 @@ export class VerificationsApi extends VerificationDomainApi {
   public async startWhatsApp(
     data: StartWhatsAppVerificationRequestData,
   ): Promise<StartWhatsAppVerificationResponse> {
-    this.client = this.getSinchClient();
     (data.startVerificationWithWhatsAppRequestBody as any).method = 'whatsapp';
     const getParams = this.client.extractQueryParams<StartWhatsAppVerificationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -644,7 +622,6 @@ export class VerificationsApi extends VerificationDomainApi {
    * @deprecated Use the method startPhoneCall() instead
    */
   public async startCallout(data: StartCalloutVerificationRequestData): Promise<StartCalloutVerificationResponse> {
-    this.client = this.getSinchClient();
     (data.startVerificationWithCalloutRequestBody as any).method = 'callout';
     const getParams = this.client.extractQueryParams<StartCalloutVerificationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -677,7 +654,6 @@ export class VerificationsApi extends VerificationDomainApi {
    * @deprecated Use the method startData() instead
    */
   public async startSeamless(data: StartSeamlessVerificationRequestData): Promise<StartSeamlessVerificationResponse> {
-    this.client = this.getSinchClient();
     (data.startSeamlessVerificationRequestBody as any).method = 'seamless';
     const getParams = this.client.extractQueryParams<StartSeamlessVerificationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {

@@ -2,6 +2,7 @@ import { SinchClientParameters } from '@sinch/sdk-client';
 import {
   DeliveryReportsApi,
   DeliveryReportsApiFixture,
+  LazySmsApiClient,
   Sms,
 } from '../../../../src';
 
@@ -16,7 +17,8 @@ describe('DeliveryReportsApi', () => {
       servicePlanId: 'SERVICE_PLAN_ID',
       apiToken: 'API_TOKEN',
     };
-    deliveryReportsApi = new DeliveryReportsApi(paramsWithServicePlanId);
+    const lazyClient = new LazySmsApiClient(paramsWithServicePlanId);
+    deliveryReportsApi = new DeliveryReportsApi(lazyClient);
   });
 
   describe ('getDeliveryReportByBatchId', () => {

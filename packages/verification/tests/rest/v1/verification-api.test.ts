@@ -1,9 +1,12 @@
-import { VerificationDomainApi } from '../../../src/rest/v1/verification-domain-api';
 import { ApiHostname, ApplicationCredentials, SigningRequest } from '@sinch/sdk-client';
+import { LazyVerificationApiClient, VerificationDomainApi } from '../../../src';
 
 describe('Verification API', () => {
   let verificationApi: VerificationDomainApi;
   let params: ApplicationCredentials & Pick<ApiHostname, 'verificationHostname'>;
+  let lazyClient: LazyVerificationApiClient;
+  let errorSpy: jest.SpyInstance<void, [message?: any, ...optionalParams: any[]]>;
+
   const CUSTOM_HOSTNAME = 'https://new.host.name';
 
   beforeEach(() => {
@@ -11,11 +14,12 @@ describe('Verification API', () => {
       applicationKey: 'APPLICATION_KEY',
       applicationSecret: 'APPLICATION_SECRET',
     };
+    lazyClient = new LazyVerificationApiClient(params);
+    errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   it('should initialize the client', () => {
-    verificationApi = new VerificationDomainApi(params, 'dummy');
-    verificationApi.getSinchClient();
+    verificationApi = new VerificationDomainApi(lazyClient, 'dummy');
     expect(verificationApi.client).toBeDefined();
     expect(verificationApi.client?.apiClientOptions.projectId).toBeUndefined();
     expect(verificationApi.client?.apiClientOptions.hostname).toBe('https://verification.api.sinch.com');
@@ -24,28 +28,33 @@ describe('Verification API', () => {
 
   it('should use the hostname parameter', () => {
     params.verificationHostname = CUSTOM_HOSTNAME;
-    verificationApi = new VerificationDomainApi(params, 'dummy');
-    verificationApi.getSinchClient();
+    verificationApi = new VerificationDomainApi(lazyClient, 'dummy');
     expect(verificationApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
 
   it('should update the hostname', () => {
-    verificationApi = new VerificationDomainApi(params, 'dummy');
+    verificationApi = new VerificationDomainApi(lazyClient, 'dummy');
     verificationApi.setHostname(CUSTOM_HOSTNAME);
     expect(verificationApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
 
   it('should update the credentials', () => {
-    verificationApi = new VerificationDomainApi(params, 'dummy');
-    verificationApi.setApplication({
+    verificationApi = new VerificationDomainApi(lazyClient, 'dummy');
+    verificationApi.setCredentials({
       applicationKey: 'NEW_APPLICATION_KEY',
-      applicationSecret: 'NEW_APPLICATION_SECRET',
     });
     const signingPlugin = verificationApi.client?.apiClientOptions.requestPlugins?.find(
       (plugin) => plugin instanceof SigningRequest,
     );
     expect(signingPlugin).toBeDefined();
     expect((signingPlugin as any).applicationId).toBe('NEW_APPLICATION_KEY');
-    expect((signingPlugin as any).applicationSecret).toBe('NEW_APPLICATION_SECRET');
+  });
+
+  it('should raise an exception if the credentials are invalid', () => {
+    verificationApi = new VerificationDomainApi(lazyClient, 'dummy');
+    expect(() => verificationApi.setCredentials({ applicationKey: '' }))
+      .toThrow('Invalid configuration for the Verification API: "applicationKey" and "applicationSecret"'
+        + ' values must be provided');
+    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Verification API');
   });
 });

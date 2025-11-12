@@ -5,7 +5,6 @@ import {
   PaginatedApiProperties,
   PaginationEnum,
   RequestBody,
-  SinchClientParameters,
 } from '@sinch/sdk-client';
 import {
   Conversation,
@@ -24,16 +23,12 @@ import {
   SendGenericEventRequestData,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
+import { LazyConversationApiClient } from '../conversation-service';
 
 export class EventsApi extends ConversationDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'EventsApi');
+  constructor(lazyApiClient: LazyConversationApiClient) {
+    super(lazyApiClient, 'EventsApi');
   }
 
   /**
@@ -42,7 +37,6 @@ export class EventsApi extends ConversationDomainApi {
    * @param { DeleteEventRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteEventRequestData): Promise<any> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteEventRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -70,7 +64,6 @@ export class EventsApi extends ConversationDomainApi {
    * @param { GetEventRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetEventRequestData): Promise<ConversationEvent> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetEventRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -98,7 +91,6 @@ export class EventsApi extends ConversationDomainApi {
    * @return {ApiListPromise<ConversationEvent>}
    */
   public list(data: ListEventsRequestData): ApiListPromise<ConversationEvent> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListEventsRequestData>(data, [
       'conversation_id',
       'contact_id',
@@ -205,7 +197,6 @@ export class EventsApi extends ConversationDomainApi {
     data: SendEventRequestData<Recipient>,
     operationId: string,
   ): Promise<SendEventResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<SendEventRequestData<Recipient>>(
       data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
