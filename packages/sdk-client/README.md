@@ -72,7 +72,7 @@ export class LazyDomainApiClient {
     if (!this.apiFetchClient) {
       // Create the ApiFetchClient only when it's needed
     }
-    return this.apiFetchClient
+    return this.apiFetchClient;
   }
 }
 
