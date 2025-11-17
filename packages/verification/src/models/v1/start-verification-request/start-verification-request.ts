@@ -55,8 +55,6 @@ export interface SmsOptions extends WithAdditionalProperties {
   expiry?: Date | string;
   /** Accepted values for the type of code to be generated are `Numeric`, `Alpha`, and `Alphanumeric`. Default is `Numeric`. */
   codeType?: CodeType;
-  /** The SMS template must include a placeholder `{{CODE}}` where the verification code will be inserted, and it can otherwise be customized as desired. */
-  template?: string;
   /** A `language-region` identifier according to [IANA](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry). Only a subset of those identifiers is accepted. */
   locale?: string;
 }
