@@ -1,14 +1,50 @@
-import { FaxRegion, SinchClientParameters } from '@sinch/sdk-client';
+import {
+  ApiFetchClient,
+  buildOAuth2ApiClientOptions,
+  FAX_HOSTNAME,
+  FaxRegion,
+  formatRegionalizedHostname,
+  SinchClientParameters,
+  SupportedFaxRegion, UnifiedCredentials,
+} from '@sinch/sdk-client';
 import { FaxToEmailApi } from './fax-to-email';
 import { FaxesApi } from './faxes';
 import { ServicesApi } from './services';
 import { CoverPagesApi } from './cover-pages';
 
+export class LazyFaxApiClient {
+  private apiFetchClient?: ApiFetchClient;
+  constructor(public sharedConfig: SinchClientParameters) {}
+
+  public getApiClient(): ApiFetchClient {
+    if (!this.apiFetchClient) {
+      const apiClientOptions = buildOAuth2ApiClientOptions(this.sharedConfig, 'Fax');
+      this.apiFetchClient = new ApiFetchClient(apiClientOptions);
+      const region = this.sharedConfig.faxRegion ?? FaxRegion.DEFAULT;
+      if(!Object.values(SupportedFaxRegion).includes(region as SupportedFaxRegion)) {
+        console.warn(`The region "${region}" is not known as a supported region for the Fax API`);
+      }
+      this.apiFetchClient.apiClientOptions.hostname = this.sharedConfig.faxHostname ?? this.buildHostname(region);
+    }
+    return this.apiFetchClient;
+  }
+
+  private buildHostname(region: FaxRegion) {
+    const formattedRegion = region !== '' ? `${region}.` : '';
+    return formatRegionalizedHostname(FAX_HOSTNAME, formattedRegion);
+  }
+
+  public resetApiClient() {
+    this.apiFetchClient = undefined;
+  }
+}
+
 /**
  * The Fax Service exposes the following APIs:
  *  - services
  *  - faxes
- *  - emails
+ *  - faxToEmail
+ *  - coverPages
  */
 export class FaxService {
   /** @deprecated Use faxToEmail instead */
@@ -18,24 +54,21 @@ export class FaxService {
   public readonly services: ServicesApi;
   public readonly coverPages: CoverPagesApi;
 
+  private readonly lazyClient: LazyFaxApiClient;
 
-  /**
-   * Create a new FaxService instance with its configuration. It needs the following parameters for authentication:
-   *  - `projectId`
-   *  - `keyId`
-   *  - `keySecret`
-   *
-   * Other supported properties:
-   *  - `faxRegion`
-   *  - `faxHostname`
-   * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
-   */
   constructor(params: SinchClientParameters) {
-    this.emails = new FaxToEmailApi(params);
-    this.faxToEmail = new FaxToEmailApi(params);
-    this.faxes = new FaxesApi(params);
-    this.services = new ServicesApi(params);
-    this.coverPages = new CoverPagesApi(params);
+    this.lazyClient = new LazyFaxApiClient(params);
+
+    this.emails = new FaxToEmailApi(this.lazyClient);
+    this.faxToEmail = new FaxToEmailApi(this.lazyClient);
+    this.faxes = new FaxesApi(this.lazyClient);
+    this.services = new ServicesApi(this.lazyClient);
+    this.coverPages = new CoverPagesApi(this.lazyClient);
+  }
+
+  public setApiClientConfig(newParams: SinchClientParameters) {
+    this.lazyClient.sharedConfig = newParams;
+    this.lazyClient.resetApiClient();
   }
 
   /**
@@ -43,11 +76,8 @@ export class FaxService {
    * @param {string} hostname - The new hostname to use for all the APIs.
    */
   public setHostname(hostname: string) {
-    this.emails.setHostname(hostname);
-    this.faxToEmail.setHostname(hostname);
-    this.faxes.setHostname(hostname);
-    this.services.setHostname(hostname);
-    this.coverPages.setHostname(hostname);
+    this.lazyClient.sharedConfig.faxHostname = hostname;
+    this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
   }
 
   /**
@@ -55,10 +85,23 @@ export class FaxService {
    * @param {FaxRegion} region - The new region to use in the production URL
    */
   public setRegion(region: FaxRegion) {
-    this.emails.setRegion(region);
-    this.faxToEmail.setRegion(region);
-    this.faxes.setRegion(region);
-    this.services.setRegion(region);
-    this.coverPages.setRegion(region);
+    this.lazyClient.sharedConfig.faxRegion = region;
+    this.lazyClient.resetApiClient();
+  }
+
+  public setCredentials(credentials: Partial<UnifiedCredentials>): void {
+    const parametersBackup = { ...this.lazyClient.sharedConfig };
+    this.lazyClient.sharedConfig = {
+      ...parametersBackup,
+      ...credentials,
+    };
+    this.lazyClient.resetApiClient();
+    try {
+      this.lazyClient.getApiClient();
+    } catch (error) {
+      console.error('Impossible to assign the new credentials to the Fax API');
+      this.lazyClient.sharedConfig = parametersBackup;
+      throw error;
+    }
   }
 }

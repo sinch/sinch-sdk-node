@@ -3,6 +3,7 @@ import {
   CoverPagesApi,
   CoverPagesApiFixture,
   Fax,
+  LazyFaxApiClient,
 } from '../../../../src';
 
 describe('CoverPagesApi', () => {
@@ -17,7 +18,8 @@ describe('CoverPagesApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    coverPagesApi = new CoverPagesApi(credentials);
+    const lazyClient = new LazyFaxApiClient(credentials);
+    coverPagesApi = new CoverPagesApi(lazyClient);
   });
 
 

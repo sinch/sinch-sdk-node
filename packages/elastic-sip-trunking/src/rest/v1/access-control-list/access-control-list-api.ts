@@ -1,4 +1,12 @@
 import {
+  RequestBody,
+  ApiListPromise,
+  PaginatedApiProperties,
+  PaginationEnum,
+  buildPageResultPromise,
+  createIteratorMethodsForPagination,
+} from '@sinch/sdk-client';
+import {
   AccessControlList,
   AddAccessControlListToTrunkRequestData,
   AddIpRangeToAccessControlListRequestData,
@@ -15,30 +23,17 @@ import {
   IpRange,
   GetAccessControlListRequestData,
 } from '../../../models';
-import {
-  RequestBody,
-  SinchClientParameters,
-  ApiListPromise,
-  PaginatedApiProperties,
-  PaginationEnum,
-  buildPageResultPromise,
-  createIteratorMethodsForPagination,
-} from '@sinch/sdk-client';
 import { ElasticSipTrunkingDomainApi } from '../elastic-sip-trunking-domain-api';
+import { LazyElasticSipTrunkingApiClient } from '../elastic-sip-trunking-service';
 import { SipTrunksApi } from '../sip-trunks';
 
 export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
 
   private sipTrunksApi: SipTrunksApi;
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'AccessControlListApi');
-    this.sipTrunksApi = new SipTrunksApi(sinchClientParameters);
+  constructor(lazyClient: LazyElasticSipTrunkingApiClient) {
+    super(lazyClient, 'AccessControlListApi');
+    this.sipTrunksApi = new SipTrunksApi(lazyClient);
   }
 
   /**
@@ -75,7 +70,6 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
    * @param { AddIpRangeToAccessControlListRequestData } data - The data to provide to the API call.
    */
   public async addIpRange(data: AddIpRangeToAccessControlListRequestData): Promise<IpRange> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<AddIpRangeToAccessControlListRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -102,7 +96,6 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
    * @param { CreateAccessControlListRequestData } data - The data to provide to the API call.
    */
   public async create(data: CreateAccessControlListRequestData): Promise<AccessControlList> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<CreateAccessControlListRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -131,7 +124,6 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
    * @param { DeleteAccessControlListRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteAccessControlListRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteAccessControlListRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -159,7 +151,6 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
    * @param { DeleteIpRangeFromAccessControlListRequestData } data - The data to provide to the API call.
    */
   public async deleteIpRange(data: DeleteIpRangeFromAccessControlListRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteIpRangeFromAccessControlListRequestData>(
       data,
       [] as never[],
@@ -190,7 +181,6 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
    * @param { GetAccessControlListRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetAccessControlListRequestData): Promise<AccessControlList> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetAccessControlListRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -218,7 +208,6 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
    * @return { ApiListPromise<AccessControlList> }
    */
   public list(data: ListAccessControlListRequestData): ApiListPromise<AccessControlList> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListAccessControlListRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -261,7 +250,6 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
    * @return { ApiListPromise<IpRange> }
    */
   public listIpRanges(data: ListIpRangesForAccessControlListRequestData): ApiListPromise<IpRange> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListIpRangesForAccessControlListRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -303,7 +291,6 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
    * @param { UpdateAccessControlListRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateAccessControlListRequestData): Promise<AccessControlList> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateAccessControlListRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -334,7 +321,6 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
   public async updateIpRange(
     data: UpdateIpRangeFromAccessControlListRequestData,
   ): Promise<IpRange> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateIpRangeFromAccessControlListRequestData>(
       data,
       [] as never[],

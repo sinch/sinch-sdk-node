@@ -2,6 +2,7 @@ import { SinchClientParameters } from '@sinch/sdk-client';
 import {
   ActiveNumberApi,
   ActiveNumberApiFixture,
+  LazyNumbersApiClient,
   Numbers,
 } from '../../../../src';
 import {
@@ -25,7 +26,8 @@ describe('ActiveNumberApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    activeNumberApi = new ActiveNumberApi(credentials);
+    const lazyClient = new LazyNumbersApiClient(credentials);
+    activeNumberApi = new ActiveNumberApi(lazyClient);
   });
 
   describe ('getActiveNumber', () => {

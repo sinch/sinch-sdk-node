@@ -3,6 +3,7 @@ import {
   AccessControlListApi,
   AccessControlListApiFixture,
   ElasticSipTrunking,
+  LazyElasticSipTrunkingApiClient,
 } from '../../../../src';
 
 describe('AccessControlListApi', () => {
@@ -17,7 +18,8 @@ describe('AccessControlListApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    accessControlListApi = new AccessControlListApi(credentials);
+    const lazyClient = new LazyElasticSipTrunkingApiClient(credentials);
+    accessControlListApi = new AccessControlListApi(lazyClient);
   });
 
   describe ('addAccessControlListToTrunk', () => {

@@ -1,7 +1,5 @@
-import { Call, FindCallsRequestData } from '../../../models';
 import {
   RequestBody,
-  SinchClientParameters,
   ApiListPromise,
   PaginatedApiProperties,
   PaginationEnum,
@@ -10,17 +8,14 @@ import {
   formatCreateTimeFilter,
   formatCreateTimeRangeFilter,
 } from '@sinch/sdk-client';
+import { Call, FindCallsRequestData } from '../../../models';
 import { ElasticSipTrunkingDomainApi } from '../elastic-sip-trunking-domain-api';
+import { LazyElasticSipTrunkingApiClient } from '../elastic-sip-trunking-service';
 
 export class CallsHistoryApi extends ElasticSipTrunkingDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'CallsHistoryApi');
+  constructor(lazyClient: LazyElasticSipTrunkingApiClient) {
+    super(lazyClient, 'CallsHistoryApi');
   }
 
   /**
@@ -29,7 +24,6 @@ export class CallsHistoryApi extends ElasticSipTrunkingDomainApi {
    * @return { ApiListPromise<Call> }
    */
   public find(data: FindCallsRequestData): ApiListPromise<Call> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<FindCallsRequestData>(data, [
       'from', 'to', 'trunkId', 'createTime', 'callResult', 'direction', 'page', 'pageSize']);
     (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data.createTime));

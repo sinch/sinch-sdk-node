@@ -3,6 +3,7 @@ import {
   CapabilityApi,
   CapabilityApiFixture,
   Conversation,
+  LazyConversationApiClient,
 } from '../../../../src';
 import { recipientChannelIdentities, recipientContactId } from '../mocks';
 
@@ -18,7 +19,8 @@ describe('CapabilityApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    capabilityApi = new CapabilityApi(credentials);
+    const lazyClient = new LazyConversationApiClient(credentials);
+    capabilityApi = new CapabilityApi(lazyClient);
   });
 
 

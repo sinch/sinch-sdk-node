@@ -1,23 +1,18 @@
 import {
   RequestBody,
-  SinchClientParameters,
 } from '@sinch/sdk-client';
 import {
   TranscodeMessageRequestData,
   TranscodeMessageResponse,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
+import { LazyConversationApiClient } from '../conversation-service';
 
 
 export class TranscodingApi extends ConversationDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'TranscodingApi');
+  constructor(lazyApiClient: LazyConversationApiClient) {
+    super(lazyApiClient, 'TranscodingApi');
   }
 
   /**
@@ -26,7 +21,6 @@ export class TranscodingApi extends ConversationDomainApi {
    * @param { TranscodeMessageRequestData } data - The data to provide to the API call.
    */
   public async transcodeMessage(data: TranscodeMessageRequestData): Promise<TranscodeMessageResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<TranscodeMessageRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

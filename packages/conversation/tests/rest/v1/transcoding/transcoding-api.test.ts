@@ -3,6 +3,7 @@ import {
   TranscodingApi,
   TranscodingApiFixture,
   Conversation,
+  LazyConversationApiClient,
 } from '../../../../src';
 
 describe('TranscodingApi', () => {
@@ -17,7 +18,8 @@ describe('TranscodingApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    transcodingApi = new TranscodingApi(credentials);
+    const lazyClient = new LazyConversationApiClient(credentials);
+    transcodingApi = new TranscodingApi(lazyClient);
   });
 
 

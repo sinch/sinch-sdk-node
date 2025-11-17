@@ -1,3 +1,4 @@
+import { RequestBody } from '@sinch/sdk-client';
 import {
   CountryPermission,
   ListCountryPermissionsResponse,
@@ -5,21 +6,13 @@ import {
   ListCountryPermissionsRequestData,
   UpdateCountryPermissionRequestData,
 } from '../../../models';
-import {
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
 import { ElasticSipTrunkingDomainApi } from '../elastic-sip-trunking-domain-api';
+import { LazyElasticSipTrunkingApiClient } from '../elastic-sip-trunking-service';
 
 export class CountryPermissionsApi extends ElasticSipTrunkingDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'CountryPermissionsApi');
+  constructor(lazyClient: LazyElasticSipTrunkingApiClient) {
+    super(lazyClient, 'CountryPermissionsApi');
   }
 
   /**
@@ -28,7 +21,6 @@ export class CountryPermissionsApi extends ElasticSipTrunkingDomainApi {
    * @param { GetCountryPermissionRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetCountryPermissionRequestData): Promise<CountryPermission> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetCountryPermissionRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -55,7 +47,6 @@ export class CountryPermissionsApi extends ElasticSipTrunkingDomainApi {
    * @param { ListCountryPermissionsRequestData } data - The data to provide to the API call.
    */
   public async list(data: ListCountryPermissionsRequestData): Promise<ListCountryPermissionsResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListCountryPermissionsRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -82,7 +73,6 @@ export class CountryPermissionsApi extends ElasticSipTrunkingDomainApi {
    * @param { UpdateCountryPermissionRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateCountryPermissionRequestData): Promise<CountryPermission> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateCountryPermissionRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

@@ -2,6 +2,7 @@ import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
 import {
   CalloutsApi,
   CalloutsApiFixture,
+  LazyVoiceApiClient,
   Voice,
 } from '../../../../src';
 
@@ -15,7 +16,8 @@ describe('CalloutsApi', () => {
     apiClientOptions = {
       requestPlugins: [new SigningRequest('keyId', 'keySecret')],
     };
-    calloutsApi = new CalloutsApi(apiClientOptions);
+    const lazyClient = new LazyVoiceApiClient(apiClientOptions);
+    calloutsApi = new CalloutsApi(lazyClient);
   });
 
   describe ('TTS callouts', () => {

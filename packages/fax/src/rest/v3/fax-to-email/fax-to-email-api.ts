@@ -1,4 +1,12 @@
 import {
+  ApiListPromise,
+  buildPageResultPromise,
+  createIteratorMethodsForPagination,
+  PaginatedApiProperties,
+  PaginationEnum,
+  RequestBody,
+} from '@sinch/sdk-client';
+import {
   AddEmailToNumbersRequestData,
   DeleteEmailRequestData,
   Email,
@@ -8,30 +16,17 @@ import {
   ServicePhoneNumber,
   UpdateEmailRequestData,
 } from '../../../models';
-import {
-  ApiListPromise,
-  buildPageResultPromise,
-  createIteratorMethodsForPagination,
-  PaginatedApiProperties,
-  PaginationEnum,
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
 import { FaxDomainApi } from '../fax-domain-api';
 import { ServicesApi } from '../services';
+import { LazyFaxApiClient } from '../fax-service';
 
 export class FaxToEmailApi extends FaxDomainApi {
 
   private servicesApi: ServicesApi;
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'FaxToEmailApi');
-    this.servicesApi = new ServicesApi(sinchClientParameters);
+  constructor(lazyClient: LazyFaxApiClient) {
+    super(lazyClient, 'FaxToEmailApi');
+    this.servicesApi = new ServicesApi(lazyClient);
   }
 
   /**
@@ -40,7 +35,6 @@ export class FaxToEmailApi extends FaxDomainApi {
    * @param { AddEmailToNumbersRequestData } data - The data to provide to the API call.
    */
   public async addToNumbers(data: AddEmailToNumbersRequestData): Promise<Email> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<AddEmailToNumbersRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -67,7 +61,6 @@ export class FaxToEmailApi extends FaxDomainApi {
    * @param { DeleteEmailRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteEmailRequestData): Promise<void> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteEmailRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -96,7 +89,6 @@ export class FaxToEmailApi extends FaxDomainApi {
    * @return {ApiListPromise<Email>} - The list of emails for the project
    */
   public list(data: ListEmailsForProjectRequestData): ApiListPromise<Email> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListEmailsForProjectRequestData>(data, ['pageSize', 'page']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -148,7 +140,6 @@ export class FaxToEmailApi extends FaxDomainApi {
    * @return {ApiListPromise<ServicePhoneNumber>}
    */
   public listNumbers(data: ListNumbersByEmailRequestData): ApiListPromise<ServicePhoneNumber> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListNumbersByEmailRequestData>(data, [
       'pageSize',
       'page']);
@@ -191,7 +182,6 @@ export class FaxToEmailApi extends FaxDomainApi {
    * @param { UpdateEmailRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateEmailRequestData): Promise<Email> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateEmailRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

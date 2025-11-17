@@ -1,5 +1,6 @@
 import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
 import {
+  LazyVerificationApiClient,
   Verification,
   VerificationStatusApi,
   VerificationStatusApiFixture,
@@ -16,7 +17,8 @@ describe('VerificationStatusApi', () => {
       projectId: 'Test_ProjectId',
       requestPlugins: [new SigningRequest('keyId', 'keySecret')],
     };
-    verificationStatusApi = new VerificationStatusApi(apiClientOptions);
+    const lazyClient = new LazyVerificationApiClient(apiClientOptions);
+    verificationStatusApi = new VerificationStatusApi(lazyClient);
   });
 
   describe ('verificationStatusById', () => {
