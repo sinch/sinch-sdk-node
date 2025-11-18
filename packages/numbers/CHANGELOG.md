@@ -1,3 +1,8 @@
+## Version 1.4.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.4.0`.
+- [Tech] Lazy load a single `ApiFetchClient` instance in the `NumbersService`.
+- [Feature] Support "Emergency Address" for SIP numbers
+
 ## Version 1.3.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.3.0`.
 - [Feature] Support string input when parsing webhook events

@@ -1,3 +1,13 @@
+## Version 1.4.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.4.0`.
+- [Tech] Lazy load a single `ApiFetchClient` instance in the `ConversationService`.
+- [Feature] Support WhatsApp Card message properties
+- [Feature] Support "Consents" (List identities and List audit records from content lists)
+- [Feature] Support "Project Settings" and identity conflicts listing
+- [Feature] Support KakaoTalk commerce and carousel commerce messages in the channel-specific messages
+- **Deprecation**
+  - Deprecate Viber channel support 
+
 ## Version 1.3.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.3.0`.
 - [Feature] Fix `MediaProperties` model and support media property
