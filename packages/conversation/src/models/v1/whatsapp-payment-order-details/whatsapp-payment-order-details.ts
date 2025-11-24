@@ -95,7 +95,7 @@ export type OrderDetailsPaymentSettings =
  */
 export interface DynamicPix {
   /** @see OrderDetailsPaymentSettingsDynamicPix */
-  dynamic_pix?: OrderDetailsPaymentSettingsDynamicPix;
+  dynamic_pix: OrderDetailsPaymentSettingsDynamicPix;
 }
 
 /** @deprecated */
@@ -117,7 +117,7 @@ export interface OrderDetailsPaymentSettingsDynamicPix {
 }
 
 export interface PaymentLink {
-  payment_link?: OrderDetailsPaymentSettingsPaymentLink;
+  payment_link: OrderDetailsPaymentSettingsPaymentLink;
 }
 
 export interface OrderDetailsPaymentSettingsPaymentLink {
@@ -126,7 +126,7 @@ export interface OrderDetailsPaymentSettingsPaymentLink {
 }
 
 export interface Boleto {
-  boleto?: OrderDetailsPaymentSettingsBoleto;
+  boleto: OrderDetailsPaymentSettingsBoleto;
 }
 
 export interface OrderDetailsPaymentSettingsBoleto {
