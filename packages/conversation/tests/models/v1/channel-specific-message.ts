@@ -34,7 +34,11 @@ export const whatsAppPaymentOrderDetailsMessage = {
       type: 'br',
       reference_id: 'order_ref_123',
       type_of_goods: 'physical-goods',
-      payment_settings: {},
+      payment_settings: {
+        payment_link: {
+          uri: 'https://example.com/payment/link',
+        },
+      },
       total_amount_value: 15000,
       order: {
         catalog_id: 'catalog_123',
