@@ -143,6 +143,22 @@ const response_1: Sms.SendSMSResponse = await smsServiceWithProjectId.batches.se
 const response_2: Sms.SendSMSResponse = await smsServiceWithServicePlanId.batches.send(requestData);
 ```
 
+## Other parameters
+
+`smsHostname`: You can override the default hostname used to send requests to the SMS API by providing the `smsHostname` parameter in the `SinchClientParameters` object. By default, the hostname is built based on the selected region and authentication method.
+ - For OAuth2 authentication, the default hostname is `zt.{region}.sms.api.sinch.com`
+ - For API Token authentication, the default hostname is `{region}.sms.api.sinch.com`
+
+```typescript
+const credentials: UnifiedCredentials = {
+  projectId: 'PROJECT_ID',
+  keyId: 'KEY_ID',
+  keySecret: 'KEY_SECRET',
+  smsHostname: 'my.custom.domain.com',
+};
+const smsService = new SmsService(credentials);
+```
+
 ## Promises
 
 All the methods that interact with the Sinch APIs use Promises. You can use `await` in an `async` method to wait for the response, or you can resolve them yourself with `then()` / `catch()`.
