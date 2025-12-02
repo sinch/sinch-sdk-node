@@ -21,6 +21,7 @@ export class ExceptionResponse<
   ): PluginRunner<V | Record<string, unknown>, V> {
     return {
       transform: (res: V) => {
+        this.debug(context);
         if (context.exception) {
           return res;
         }
@@ -71,5 +72,14 @@ export class ExceptionResponse<
         return res;
       },
     };
+  }
+
+  private debug(context: ResponsePluginContext) {
+    if (context.requestOptions.logHeadersOnError && !context.response?.ok) {
+      console.debug(
+        `[Sinch SDK][Debug][${context.apiName}][${context.operationId}][${context.response?.status}]\nHTTP method: ${context.requestOptions.method}\nURL: ${context.url}\nResponse Headers: `,
+        context.response?.headers,
+      );
+    }
   }
 }

@@ -14,8 +14,11 @@ export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiNa
   }
   const apiClientOptions: ApiClientOptions = {
     projectId: params.projectId,
-    requestPlugins: [new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname)],
+    requestPlugins: [
+      new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, params.logHeadersOnError),
+    ],
     useServicePlanId: false,
+    logHeadersOnError: params.logHeadersOnError,
   };
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
@@ -45,6 +48,7 @@ export const buildApplicationSignedApiClientOptions = (
       new XTimestampRequest(),
       new SigningRequest(params.applicationKey, params.applicationSecret),
     ],
+    logHeadersOnError: params.logHeadersOnError,
   };
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
@@ -58,6 +62,7 @@ export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClien
       projectId: params.servicePlanId,
       requestPlugins: [new ApiTokenRequest(params.apiToken)],
       useServicePlanId: true,
+      logHeadersOnError: params.logHeadersOnError,
     };
     if (params.projectId || params.keyId || params.keySecret) {
       console.warn('As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
@@ -65,8 +70,11 @@ export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClien
   } else if (params.projectId && params.keyId && params.keySecret) {
     apiClientOptions = {
       projectId: params.projectId,
-      requestPlugins: [new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname)],
+      requestPlugins: [
+        new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, params.logHeadersOnError),
+      ],
       useServicePlanId: false,
+      logHeadersOnError: params.logHeadersOnError,
     };
   }
   if (!apiClientOptions) {

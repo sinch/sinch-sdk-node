@@ -14,7 +14,8 @@ export type SinchClientParameters = Partial<
   & ServicePlanIdCredentials
   & ApplicationCredentials
   & ApiHostname
-  & ApiPlugins>;
+  & ApiPlugins
+  & DebugParameters>;
 
 export interface UnifiedCredentials {
   /** The project ID associated with the API Client. You can find this on your [Dashboard](https://dashboard.sinch.com/account/access-keys). */
@@ -186,3 +187,7 @@ export type MailgunRegion = SupportedMailgunRegion | string;
 export const MailgunRegion = {
   ...SupportedMailgunRegion,
 };
+
+export interface DebugParameters {
+  logHeadersOnError?: boolean;
+}

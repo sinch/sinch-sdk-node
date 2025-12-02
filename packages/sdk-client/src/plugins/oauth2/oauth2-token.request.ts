@@ -41,6 +41,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
     clientId: string,
     clientSecret: string,
     authenticationUrl?: string,
+    logHeadersOnError?: boolean,
   ) {
     const basicAuthenticationPlugin = new BasicAuthenticationRequest(
       clientId,
@@ -52,6 +53,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
     this.apiClient = new ApiFetchClient({
       hostname: authenticationUrl,
       requestPlugins: [basicAuthenticationPlugin],
+      logHeadersOnError: logHeadersOnError,
     });
   }
 
