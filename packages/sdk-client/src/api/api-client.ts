@@ -133,6 +133,7 @@ export class ApiClient {
         opts = await plugin.load().transform(opts);
       }
     }
+    opts.logHeadersOnError = this.apiClientOptions.logHeadersOnError;
 
     return opts;
   };

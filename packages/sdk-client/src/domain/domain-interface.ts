@@ -13,7 +13,8 @@ export interface SinchClientParameters extends
   Partial<ServicePlanIdCredentials>,
   Partial<ApplicationCredentials>,
   ApiHostname,
-  ApiPlugins {}
+  ApiPlugins,
+  DebugParameters {}
 
 export interface UnifiedCredentials {
   /** The project ID associated with the API Client. You can find this on your [Dashboard](https://dashboard.sinch.com/account/access-keys). */
@@ -158,3 +159,7 @@ export type ConversationRegion = SupportedConversationRegion | string;
 export const ConversationRegion = {
   ...SupportedConversationRegion,
 };
+
+export interface DebugParameters {
+  logHeadersOnError?: boolean;
+}
