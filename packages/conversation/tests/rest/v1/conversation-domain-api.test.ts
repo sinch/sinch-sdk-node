@@ -53,8 +53,8 @@ describe('Conversation API', () => {
     params.conversationRegion = 'bzh';
     conversationApi = new ConversationDomainApi(lazyClient, 'dummy');
     expect(conversationApi.client).toBeDefined();
-    expect(warnSpy).toHaveBeenCalledWith(
-      'The region "bzh" is not known as a supported region for the Conversation API');
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] '
+      + 'The region "bzh" is not known as a supported region for the Conversation API');
     expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://bzh.conversation.api.sinch.com');
   });
 
@@ -138,7 +138,8 @@ describe('Conversation API', () => {
     expect(() => conversationApi.setCredentials({ projectId: '' }))
       .toThrow('Invalid configuration for the Conversation API: "projectId", "keyId" and "keySecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Conversation API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Conversation API');
   });
 
 });

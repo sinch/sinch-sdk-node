@@ -117,7 +117,8 @@ describe('Elastic SIP Trunking Service', () => {
     expect(() => elasticSipTrunkingService.setCredentials({ projectId: '' }))
       .toThrow('Invalid configuration for the Elastic SIP Trunking API: "projectId", "keyId" and "keySecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Elastic SIP Trunking API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Elastic SIP Trunking API');
 
     // Then
     expect(elasticSipTrunkingService.sipTrunks.client.apiClientOptions.projectId).toBe('PROJECT_ID');

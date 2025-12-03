@@ -11,6 +11,7 @@ import {
 } from '../../src';
 import { RequestOptions, RequestPlugin } from '../../src/plugins/core/request-plugin';
 import { ResponsePlugin, ResponsePluginContext } from '../../src/plugins/core/response-plugin';
+import * as console from 'node:console';
 
 const dummyRequestPlugin: RequestPlugin = {
   getName(): string {
@@ -189,14 +190,15 @@ describe('API Client Options helper', () => {
     // eslint-disable-next-line max-len
     it('should build some ApiClientOptions to perform API token authentication when both set of credentials are provided', () => {
       // Given
+      jest.spyOn(console, 'warn').mockImplementation(() => {});
       const params: SinchClientParameters = {
         projectId: 'PROJECT_ID',
         keyId: 'KEY_ID',
         keySecret: 'KEY_SECRET',
         servicePlanId: 'SERVICE_PLAN_ID',
         apiToken: 'API_TOKEN',
+        logger: console,
       };
-      console.warn = jest.fn();
 
       // When
       const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params);
@@ -207,8 +209,8 @@ describe('API Client Options helper', () => {
       expect(apiClientOptions.requestPlugins?.length).toBe(1);
       expect(apiClientOptions.requestPlugins?.[0]).toBeInstanceOf(ApiTokenRequest);
       expect(apiClientOptions.responsePlugins).toBeUndefined();
-      expect(console.warn).toHaveBeenCalledWith(
-        'As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
+      expect(console.warn).toHaveBeenCalledWith('[Sinch SDK][Warn] '
+        + 'As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
     });
 
     it('should build some ApiClientOptions with additional plugins', () => {

@@ -72,7 +72,8 @@ describe('Fax API', () => {
     expect(() => faxApi.setCredentials({ projectId: '' }))
       .toThrow('Invalid configuration for the Fax API: "projectId", "keyId" and "keySecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Fax API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Fax API');
   });
 
 });

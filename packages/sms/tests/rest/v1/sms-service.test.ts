@@ -189,7 +189,8 @@ describe('SMS Service', () => {
     const smsService = new SmsService(params);
     expect(() => smsService.setCredentials({ projectId: '' }))
       .toThrow('Invalid parameters for the SMS API: check your configuration');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the SMS API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the SMS API');
 
     // Then
     expect(smsService.batches.client.apiClientOptions.projectId).toBe('PROJECT_ID');

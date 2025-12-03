@@ -58,8 +58,8 @@ describe('SMS API', () => {
     paramsWithProjectId.smsRegion = 'bzh';
     smsApi = new SmsDomainApi(lazyClientWithProjectId, 'dummy');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.bzh.sms.api.sinch.com');
-    expect(warnSpy).toHaveBeenCalledWith(
-      'The region "bzh" is not known as a supported region for the SMS API');
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] '
+      + 'The region "bzh" is not known as a supported region for the SMS API');
   });
 
   it('should use the hostname parameter when using projectId credentials', () => {
@@ -174,8 +174,8 @@ describe('SMS API', () => {
       ...paramsWithProjectId,
       smsRegion: SmsRegion.BRAZIL,
     });
-    expect(warnSpy).toHaveBeenCalledWith(
-      'As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] '
+      + 'As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
     expect(smsApi.client?.apiClientOptions.projectId).toBe('SERVICE_PLAN_ID');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://br.sms.api.sinch.com');
   });
@@ -184,6 +184,7 @@ describe('SMS API', () => {
     smsApi = new SmsDomainApi(lazyClientWithProjectId, 'dummy');
     expect(() => smsApi.setCredentials({ projectId: '' }))
       .toThrow('Invalid parameters for the SMS API: check your configuration');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the SMS API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the SMS API');
   });
 });

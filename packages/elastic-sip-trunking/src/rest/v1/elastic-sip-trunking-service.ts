@@ -3,6 +3,7 @@ import {
   buildOAuth2ApiClientOptions,
   ELASTIC_SIP_TRUNKING_HOSTNAME,
   SinchClientParameters,
+  SinchLogger,
   UnifiedCredentials,
 } from '@sinch/sdk-client';
 import { SipTrunksApi } from './sip-trunks';
@@ -82,7 +83,9 @@ export class ElasticSipTrunkingService {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the Elastic SIP Trunking API');
+      new SinchLogger(this.lazyClient.sharedConfig.logger ?? console).error(
+        'Impossible to assign the new credentials to the Elastic SIP Trunking API',
+      );
       this.lazyClient.sharedConfig = parametersBackup;
       throw error;
     }

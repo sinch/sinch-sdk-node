@@ -6,6 +6,7 @@ import {
   ConversationRegion,
   formatRegionalizedHostname,
   SinchClientParameters,
+  SinchLogger,
   SupportedConversationRegion, UnifiedCredentials,
 } from '@sinch/sdk-client';
 import { ContactApi } from './contact';
@@ -35,7 +36,9 @@ export class LazyConversationApiClient {
         console.warn(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
       }
       if(!Object.values(SupportedConversationRegion).includes(region as SupportedConversationRegion)) {
-        console.warn(`The region "${region}" is not known as a supported region for the Conversation API`);
+        new SinchLogger(this.sharedConfig.logger ?? console).warn(
+          `The region "${region}" is not known as a supported region for the Conversation API`,
+        );
       }
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sharedConfig, 'Conversation');
       this.apiFetchClient = new ApiFetchClient(apiClientOptions);
@@ -68,7 +71,9 @@ export class LazyConversationTemplateApiClient {
         console.warn(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
       }
       if(!Object.values(SupportedConversationRegion).includes(region as SupportedConversationRegion)) {
-        console.warn(`The region "${region}" is not known as a supported region for the Conversation API`);
+        new SinchLogger(this.sharedConfig.logger ?? console).warn(
+          `The region "${region}" is not known as a supported region for the Conversation API`,
+        );
       }
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sharedConfig, 'Conversation');
       this.apiFetchClient = new ApiFetchClient(apiClientOptions);
@@ -198,7 +203,9 @@ export class ConversationService {
       this.lazyConversationClient.getApiClient();
       this.lazyConversationTemplateClient.getApiClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the Conversation API');
+      new SinchLogger(this.lazyConversationClient.sharedConfig.logger ?? console).error(
+        'Impossible to assign the new credentials to the Conversation API',
+      );
       this.lazyConversationClient.sharedConfig = parametersBackup;
       this.lazyConversationTemplateClient.sharedConfig = parametersTemplatesBackup;
       throw error;

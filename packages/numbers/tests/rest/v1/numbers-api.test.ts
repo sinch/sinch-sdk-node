@@ -54,6 +54,7 @@ describe('Numbers API', () => {
     expect(() => numbersApi.setCredentials({ projectId: '' }))
       .toThrow('Invalid configuration for the Numbers API: "projectId", "keyId" and "keySecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Numbers API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Numbers API');
   });
 });

@@ -7,7 +7,7 @@ import { BasicAuthenticationRequest } from '../basicAuthentication';
 import { ApiFetchClient } from '../../client/api-fetch-client';
 import { AUTH_HOSTNAME } from '../../domain';
 import { RequestFailedError } from '../../api/api-errors';
-import { Logger } from '../../logger';
+import { Logger, SinchLogger } from '../../logger';
 
 const EXPIRY_SAFETY_MARGIN_SEC = 60;
 
@@ -30,6 +30,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
   private readonly apiClient: ApiClient;
 
   private token: AccessToken | undefined;
+  private logger: Logger;
 
   /** Shared promise for concurrent token refresh */
   private pendingTokenRefresh: Promise<{ [key: string]: string }> | null = null;
@@ -51,6 +52,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
     if (!authenticationUrl) {
       authenticationUrl = AUTH_HOSTNAME;
     }
+    this.logger = new SinchLogger(logger ?? console);
     this.apiClient = new ApiFetchClient({
       hostname: authenticationUrl,
       requestPlugins: [basicAuthenticationPlugin],

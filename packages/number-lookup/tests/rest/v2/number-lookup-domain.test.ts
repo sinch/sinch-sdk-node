@@ -54,6 +54,7 @@ describe('Number Lookup API', () => {
     expect(() => numberLookupApi.setCredentials({ projectId: '' }))
       .toThrow('Invalid configuration for the Number Lookup API: "projectId", "keyId" and "keySecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Number Lookup API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Number Lookup API');
   });
 });

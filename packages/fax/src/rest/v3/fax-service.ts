@@ -4,6 +4,7 @@ import {
   FAX_HOSTNAME,
   FaxRegion,
   SinchClientParameters,
+  SinchLogger,
   UnifiedCredentials,
 } from '@sinch/sdk-client';
 import { FaxToEmailApi } from './fax-to-email';
@@ -94,7 +95,9 @@ export class FaxService {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the Fax API');
+      new SinchLogger(this.lazyClient.sharedConfig.logger ?? console).error(
+        'Impossible to assign the new credentials to the Fax API',
+      );
       this.lazyClient.sharedConfig = parametersBackup;
       throw error;
     }

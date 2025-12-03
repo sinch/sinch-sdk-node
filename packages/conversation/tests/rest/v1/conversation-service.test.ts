@@ -253,7 +253,8 @@ describe('Conversation Service', () => {
     expect(() => conversationService.setCredentials({ projectId: '' }))
       .toThrow('Invalid configuration for the Conversation API: "projectId", "keyId" and "keySecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Conversation API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Conversation API');
 
     // Then
     expect(conversationService.app.client.apiClientOptions.projectId).toBe('PROJECT_ID');

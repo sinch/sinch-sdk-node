@@ -2,6 +2,7 @@ import {
   Api,
   ApiClient,
   ApplicationCredentials,
+  SinchLogger,
 } from '@sinch/sdk-client';
 import { LazyVerificationApiClient } from './verification-service';
 
@@ -48,7 +49,9 @@ export class VerificationDomainApi implements Api {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the Verification API');
+      new SinchLogger(this.lazyClient.sharedConfig.logger ?? console).error(
+        'Impossible to assign the new credentials to the Verification API',
+      );
       this.lazyClient.sharedConfig = parametersBackup;
       throw error;
     }

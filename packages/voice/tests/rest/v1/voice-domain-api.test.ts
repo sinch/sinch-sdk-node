@@ -46,8 +46,8 @@ describe('Voice API', () => {
     params.voiceRegion = 'bzh';
     voiceApi = new VoiceDomainApi(lazyVoiceClient, 'dummy');
     expect(voiceApi.client?.apiClientOptions.hostname).toBe('https://calling-bzh.api.sinch.com');
-    expect(warnSpy).toHaveBeenCalledWith(
-      'The region "bzh" is not known as a supported region for the Voice API');
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] '
+      + 'The region "bzh" is not known as a supported region for the Voice API');
   });
 
   it('should use the hostname parameter but not for voice application management', () => {
@@ -100,7 +100,8 @@ describe('Voice API', () => {
     expect(() => voiceApi.setCredentials({ applicationKey: '' }))
       .toThrow('Invalid configuration for the Voice API: "applicationKey" and "applicationSecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Voice API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Voice API');
   });
 
   it('should update the region', () => {
