@@ -1,6 +1,6 @@
 import { RequestPlugin } from '../plugins/core/request-plugin';
 import { ResponsePlugin } from '../plugins/core/response-plugin';
-import { DebugParameters } from '../domain';
+import { LoggerParameters } from '../domain';
 
 interface BaseApiClientOptions {
   /**
@@ -31,4 +31,4 @@ interface BaseApiClientOptions {
   useServicePlanId?: boolean;
 }
 
-export interface ApiClientOptions extends Partial<BaseApiClientOptions>, DebugParameters {}
+export interface ApiClientOptions extends Partial<BaseApiClientOptions>, LoggerParameters {}
