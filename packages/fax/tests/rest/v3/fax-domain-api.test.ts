@@ -33,8 +33,8 @@ describe('Fax API', () => {
     faxApi = new FaxDomainApi(params, 'dummy');
     console.warn = jest.fn();
     faxApi.getSinchClient();
-    expect(console.warn).toHaveBeenCalledWith(
-      'The region "bzh" is not known as a supported region for the Fax API');
+    expect(console.warn).toHaveBeenCalledWith('[Sinch SDK][Warn] '
+      + 'The region "bzh" is not known as a supported region for the Fax API');
     expect(faxApi.client?.apiClientOptions.hostname).toBe('https://bzh.fax.api.sinch.com');
   });
 

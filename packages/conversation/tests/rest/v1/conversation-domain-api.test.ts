@@ -36,8 +36,8 @@ describe('Conversation API', () => {
     conversationApi = new ConversationDomainApi(params, 'dummy');
     console.warn = jest.fn();
     conversationApi.getSinchClient();
-    expect(console.warn).toHaveBeenCalledWith(
-      'The region "bzh" is not known as a supported region for the Conversation API');
+    expect(console.warn).toHaveBeenCalledWith('[Sinch SDK][Warn] '
+      + 'The region "bzh" is not known as a supported region for the Conversation API');
     expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://bzh.conversation.api.sinch.com');
   });
 

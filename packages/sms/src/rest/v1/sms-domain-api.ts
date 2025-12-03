@@ -10,16 +10,19 @@ import {
   UnifiedCredentials,
   ServicePlanIdCredentials,
   SupportedSmsRegion,
+  SinchLogger,
 } from '@sinch/sdk-client';
 
 export class SmsDomainApi implements Api {
   public readonly apiName: string;
   public client?: ApiClient;
   private sinchClientParameters: SinchClientParameters;
+  private logger: SinchLogger;
 
   constructor(sinchClientParameters: SinchClientParameters, apiName: string) {
     this.sinchClientParameters = sinchClientParameters;
     this.apiName = apiName;
+    this.logger = new SinchLogger(sinchClientParameters.logger ?? console);
   }
 
   /**
@@ -31,7 +34,7 @@ export class SmsDomainApi implements Api {
       this.client = this.getSinchClient();
       this.client.apiClientOptions.hostname = hostname;
     } catch (error) {
-      console.error('Impossible to set a new hostname, the Application credentials need to be provided first.');
+      this.logger.error('Impossible to set a new hostname, the Application credentials need to be provided first.');
       throw error;
     }
   }
@@ -62,7 +65,7 @@ export class SmsDomainApi implements Api {
     try {
       this.getSinchClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the SMS API');
+      this.logger.error('Impossible to assign the new credentials to the SMS API');
       this.sinchClientParameters = parametersBackup;
       throw error;
     }
@@ -82,7 +85,7 @@ export class SmsDomainApi implements Api {
     if (!this.client) {
       const region = this.sinchClientParameters.smsRegion ?? SmsRegion.UNITED_STATES;
       if(!Object.values(SupportedSmsRegion).includes(region as SupportedSmsRegion)) {
-        console.warn(`The region "${region}" is not known as a supported region for the SMS API`);
+        this.logger.warn(`The region "${region}" is not known as a supported region for the SMS API`);
       }
       const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(this.sinchClientParameters);
       this.client = new ApiFetchClient(apiClientOptions);

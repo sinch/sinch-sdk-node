@@ -6,6 +6,7 @@ import {
   buildApplicationSignedApiClientOptions,
   formatRegionalizedHostname,
   SinchClientParameters,
+  SinchLogger,
   SupportedVoiceRegion,
   VOICE_APPLICATION_MANAGEMENT_HOSTNAME,
   VOICE_HOSTNAME,
@@ -16,10 +17,12 @@ export class VoiceDomainApi implements Api {
   public readonly apiName: string;
   public client?: ApiClient;
   private sinchClientParameters: SinchClientParameters;
+  private logger: SinchLogger;
 
   constructor(sinchClientParameters: SinchClientParameters, apiName: string) {
     this.sinchClientParameters = sinchClientParameters;
     this.apiName = apiName;
+    this.logger = new SinchLogger(sinchClientParameters.logger ?? console);
   }
 
   /**
@@ -31,7 +34,7 @@ export class VoiceDomainApi implements Api {
       this.client = this.getSinchClient();
       this.client.apiClientOptions.hostname = hostname;
     } catch (error) {
-      console.error('Impossible to set a new hostname, the Application credentials need to be provided first.');
+      this.logger.error('Impossible to set a new hostname, the Application credentials need to be provided first.');
       throw error;
     }
   }
@@ -61,7 +64,7 @@ export class VoiceDomainApi implements Api {
     try {
       this.getSinchClient();
     } catch (error) {
-      console.error('Impossible to assign the new application to the Voice API');
+      this.logger.error('Impossible to assign the new application to the Voice API');
       this.sinchClientParameters = parametersBackup;
       throw error;
     }
@@ -83,7 +86,7 @@ export class VoiceDomainApi implements Api {
       this.client = new ApiFetchClient(apiClientOptions);
       const region = this.sinchClientParameters.voiceRegion ?? VoiceRegion.DEFAULT;
       if(!Object.values(SupportedVoiceRegion).includes(region as SupportedVoiceRegion)) {
-        console.warn(`The region "${region}" is not known as a supported region for the Voice API`);
+        this.logger.warn(`The region "${region}" is not known as a supported region for the Voice API`);
       }
       this.client.apiClientOptions.hostname = this.buildHostname(region);
     }

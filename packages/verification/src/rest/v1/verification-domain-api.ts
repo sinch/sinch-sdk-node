@@ -6,16 +6,19 @@ import {
   SinchClientParameters,
   ApplicationCredentials,
   VERIFICATION_HOSTNAME,
+  SinchLogger,
 } from '@sinch/sdk-client';
 
 export class VerificationDomainApi implements Api {
   public readonly apiName: string;
   public client?: ApiClient;
   private sinchClientParameters: SinchClientParameters;
+  private logger: SinchLogger;
 
   constructor(sinchClientParameters: SinchClientParameters, apiName: string) {
     this.sinchClientParameters = sinchClientParameters;
     this.apiName = apiName;
+    this.logger = new SinchLogger(sinchClientParameters.logger ?? console);
   }
 
   /**
@@ -27,7 +30,7 @@ export class VerificationDomainApi implements Api {
       this.client = this.getSinchClient();
       this.client.apiClientOptions.hostname = hostname;
     } catch (error) {
-      console.error('Impossible to set a new hostname, the Application credentials need to be provided first.');
+      this.logger.error('Impossible to set a new hostname, the Application credentials need to be provided first.');
       throw error;
     }
   }
@@ -46,7 +49,7 @@ export class VerificationDomainApi implements Api {
     try {
       this.getSinchClient();
     } catch (error) {
-      console.error('Impossible to assign the new application to the Verification API');
+      this.logger.error('Impossible to assign the new application to the Verification API');
       this.sinchClientParameters = parametersBackup;
       throw error;
     }

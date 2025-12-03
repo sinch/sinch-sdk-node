@@ -6,6 +6,8 @@ import {
   SigningRequest,
   XTimestampRequest,
 } from '../plugins';
+import { SinchLogger } from '../logger';
+import * as console from 'node:console';
 
 export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiName: string): ApiClientOptions => {
   if (!params.projectId || !params.keyId || !params.keySecret) {
@@ -51,7 +53,8 @@ export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClien
       logger: params.logger,
     };
     if (params.projectId || params.keyId || params.keySecret) {
-      console.warn('As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
+      new SinchLogger(params.logger ?? console).warn(
+        'As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
     }
   } else if (params.projectId && params.keyId && params.keySecret) {
     apiClientOptions = {

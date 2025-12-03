@@ -6,12 +6,13 @@ import { OAuth2Api } from './oauth2-api';
 import { BasicAuthenticationRequest } from '../basicAuthentication';
 import { ApiFetchClient } from '../../client/api-fetch-client';
 import { AUTH_HOSTNAME } from '../../domain';
-import { Logger } from '../../logger';
+import { Logger, SinchLogger } from '../../logger';
 
 export class Oauth2TokenRequest implements RequestPlugin {
   private readonly apiClient: ApiClient;
 
   private token: AccessToken | undefined;
+  private logger: Logger;
 
   getName(): string {
     return RequestPluginEnum.OAUTH2_TOKEN_REQUEST;
@@ -30,6 +31,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
     if (!authenticationUrl) {
       authenticationUrl = AUTH_HOSTNAME;
     }
+    this.logger = new SinchLogger(logger ?? console);
     this.apiClient = new ApiFetchClient({
       hostname: authenticationUrl,
       requestPlugins: [basicAuthenticationPlugin],
@@ -55,7 +57,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
           value: '',
           status: TokenStatus.INVALID,
         };
-        console.error('No access_token has been returned. Response = ' + JSON.stringify(response));
+        this.logger.error('No access_token has been returned. Response = ' + JSON.stringify(response));
         return {};
       }
     } catch (e) {
@@ -63,7 +65,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
         value: '',
         status: TokenStatus.INVALID,
       };
-      console.error('An error occurred when trying to get the authentication token - ' + e);
+      this.logger.error('An error occurred when trying to get the authentication token - ' + e);
       return {};
     }
   }

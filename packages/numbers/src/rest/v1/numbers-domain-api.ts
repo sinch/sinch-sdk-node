@@ -5,6 +5,7 @@ import {
   buildOAuth2ApiClientOptions,
   NUMBERS_HOSTNAME,
   SinchClientParameters,
+  SinchLogger,
   UnifiedCredentials,
 } from '@sinch/sdk-client';
 
@@ -12,10 +13,12 @@ export class NumbersDomainApi implements Api {
   public readonly apiName: string;
   public client?: ApiClient;
   private sinchClientParameters: SinchClientParameters;
+  private logger: SinchLogger;
 
   constructor(sinchClientParameters: SinchClientParameters, apiName: string) {
     this.sinchClientParameters = sinchClientParameters;
     this.apiName = apiName;
+    this.logger = new SinchLogger(sinchClientParameters.logger ?? console);
   }
 
   /**
@@ -41,7 +44,7 @@ export class NumbersDomainApi implements Api {
     try {
       this.getSinchClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the Numbers API');
+      this.logger.error('Impossible to assign the new credentials to the Numbers API');
       this.sinchClientParameters = parametersBackup;
       throw error;
     }

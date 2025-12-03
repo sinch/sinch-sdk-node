@@ -5,6 +5,7 @@ import {
   buildOAuth2ApiClientOptions,
   ELASTIC_SIP_TRUNKING_HOSTNAME,
   SinchClientParameters,
+  SinchLogger,
   UnifiedCredentials,
 } from '@sinch/sdk-client';
 
@@ -12,10 +13,12 @@ export class ElasticSipTrunkingDomainApi implements Api {
   public readonly apiName: string;
   public client?: ApiClient;
   private sinchClientParameters: SinchClientParameters;
+  private logger: SinchLogger;
 
   constructor(sinchClientParameters: SinchClientParameters, apiName: string) {
     this.sinchClientParameters = sinchClientParameters;
     this.apiName = apiName;
+    this.logger = new SinchLogger(sinchClientParameters.logger ?? console);
   }
 
   /**
@@ -41,7 +44,7 @@ export class ElasticSipTrunkingDomainApi implements Api {
     try {
       this.getSinchClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the Elastic SIP Trunking API');
+      this.logger.error('Impossible to assign the new credentials to the Elastic SIP Trunking API');
       this.sinchClientParameters = parametersBackup;
       throw error;
     }

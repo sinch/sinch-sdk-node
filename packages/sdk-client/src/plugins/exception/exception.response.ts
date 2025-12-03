@@ -1,7 +1,7 @@
 import { EmptyResponseError, RequestFailedError } from '../../api/api-errors';
 import { PluginRunner } from '../core';
 import { ResponsePlugin, ResponsePluginContext } from '../core/response-plugin';
-import { Logger } from '../../logger';
+import { Logger, SinchLogger } from '../../logger';
 
 /**
  * Plugin to fire an exception on wrong response / data
@@ -10,7 +10,9 @@ export class ExceptionResponse<
   V extends Record<string, any> | undefined = Record<string, any>,
 > implements ResponsePlugin<V | Record<string, unknown>, V>
 {
-/**
+  private logger: SinchLogger;
+
+  /**
  * Initialize an instance of the class, with an optional callback function for exception handling.
  *
  * @param {Function} [callback] - A function called in case of an exception. If provided, this function is responsible for throwing the exception or not.
@@ -18,8 +20,10 @@ export class ExceptionResponse<
  */
   constructor(
     private callback?: (res: V, error: Error | undefined) => V,
-    private logger: Logger = console,
-  ) {}
+    logger: Logger = console,
+  ) {
+    this.logger = new SinchLogger(logger);
+  }
 
   public load(
     context: ResponsePluginContext,
@@ -82,7 +86,7 @@ export class ExceptionResponse<
   private debug(context: ResponsePluginContext) {
     if (!context.response?.ok) {
       this.logger.debug(
-        `[Sinch SDK][Debug][${context.apiName}][${context.operationId}][${context.response?.status}]\nHTTP method: ${context.requestOptions.method}\nURL: ${context.url}\nResponse Headers: ${this.formatHeaders(context.response?.headers)}`,
+        `[${context.apiName}][${context.operationId}][${context.response?.status}]\nHTTP method: ${context.requestOptions.method}\nURL: ${context.url}\nResponse Headers: ${this.formatHeaders(context.response?.headers)}`,
       );
     }
   }
