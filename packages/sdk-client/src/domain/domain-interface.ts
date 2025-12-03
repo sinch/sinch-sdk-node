@@ -1,5 +1,6 @@
 import { RequestPlugin } from '../plugins/core/request-plugin';
 import { ResponsePlugin } from '../plugins/core/response-plugin';
+import { Logger } from '../logger';
 
 /**
  * Global object that holds the API configuration.
@@ -14,7 +15,7 @@ export interface SinchClientParameters extends
   Partial<ApplicationCredentials>,
   ApiHostname,
   ApiPlugins,
-  DebugParameters {}
+  LoggerParameters {}
 
 export interface UnifiedCredentials {
   /** The project ID associated with the API Client. You can find this on your [Dashboard](https://dashboard.sinch.com/account/access-keys). */
@@ -160,6 +161,7 @@ export const ConversationRegion = {
   ...SupportedConversationRegion,
 };
 
-export interface DebugParameters {
-  logHeadersOnError?: boolean;
+export interface LoggerParameters {
+  /** Logger instance to be used by the SDK */
+  logger?: Logger;
 }

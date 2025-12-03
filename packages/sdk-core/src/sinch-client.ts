@@ -24,6 +24,9 @@ export class SinchClient {
    * @param {SinchClientParameters} params - The object containing the Sinch credentials.
    */
   constructor(params: SinchClientParameters) {
+    if (!params.logger) {
+      params.logger = console;
+    }
     this.conversation = new ConversationService(params);
     this.elasticSipTrunking = new ElasticSipTrunkingService(params);
     this.fax = new FaxService(params);

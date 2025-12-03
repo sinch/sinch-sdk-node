@@ -41,7 +41,7 @@ export class ApiFetchClient extends ApiClient {
       ...options,
       requestPlugins: [new VersionRequest(), ...(options.requestPlugins || [])],
       responsePlugins: [
-        new ExceptionResponse(),
+        new ExceptionResponse(undefined, options.logger),
         ...(options.responsePlugins || []),
       ],
     });
