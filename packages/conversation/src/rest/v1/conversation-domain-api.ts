@@ -8,6 +8,7 @@ import {
   ConversationRegion,
   formatRegionalizedHostname,
   SinchClientParameters,
+  SinchLogger,
   SupportedConversationRegion,
   UnifiedCredentials,
 } from '@sinch/sdk-client';
@@ -16,10 +17,12 @@ export class ConversationDomainApi implements Api {
   public readonly apiName: string;
   public client?: ApiClient;
   private sinchClientParameters: SinchClientParameters;
+  private logger: SinchLogger;
 
   constructor(sinchClientParameters: SinchClientParameters, apiName: string) {
     this.sinchClientParameters = sinchClientParameters;
     this.apiName = apiName;
+    this.logger = new SinchLogger(sinchClientParameters.logger ?? console);
   }
 
   /**
@@ -31,7 +34,7 @@ export class ConversationDomainApi implements Api {
       this.client = this.getSinchClient();
       this.client.apiClientOptions.hostname = hostname;
     } catch (error) {
-      console.error('Impossible to set a new hostname, the credentials need to be provided first.');
+      this.logger.error('Impossible to set a new hostname, the credentials need to be provided first.');
       throw error;
     }
   }
@@ -61,7 +64,7 @@ export class ConversationDomainApi implements Api {
     try {
       this.getSinchClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the Conversation API');
+      this.logger.error('Impossible to assign the new credentials to the Conversation API');
       this.sinchClientParameters = parametersBackup;
       throw error;
     }
@@ -81,7 +84,7 @@ export class ConversationDomainApi implements Api {
     if (!this.client) {
       const region = this.sinchClientParameters.conversationRegion ?? ConversationRegion.UNITED_STATES;
       if(!Object.values(SupportedConversationRegion).includes(region as SupportedConversationRegion)) {
-        console.warn(`The region "${region}" is not known as a supported region for the Conversation API`);
+        this.logger.warn(`The region "${region}" is not known as a supported region for the Conversation API`);
       }
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sinchClientParameters, 'Conversation');
       this.client = new ApiFetchClient(apiClientOptions);

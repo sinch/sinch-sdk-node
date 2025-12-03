@@ -33,7 +33,7 @@ export class VerificationCallbackWebhooks implements CallbackProcessor<Verificat
     return validateAuthenticationHeader(
       this.sinchClientParameters.applicationKey,
       this.sinchClientParameters.applicationSecret,
-      headers, body, path, method);
+      headers, body, path, method, this.sinchClientParameters.logger);
   }
 
   /**
@@ -53,8 +53,7 @@ export class VerificationCallbackWebhooks implements CallbackProcessor<Verificat
         throw new Error(`Unknown Verification event type: ${eventBody.event}`);
       }
     }
-    console.log(`Unknown Verification event structure:\n${JSON.stringify(eventBody)}`);
-    throw new Error('Unknown Verification event');
+    throw new Error(`Unknown Verification event: ${JSON.stringify(eventBody)}`);
   }
 
 }

@@ -61,8 +61,7 @@ export class SmsCallbackWebhooks implements CallbackProcessor<SmsCallback>{
         throw new Error(`Unknown SMS event type: ${eventBody.type}`);
       }
     }
-    console.log(eventBody);
-    throw new Error('Unknown SMS event');
+    throw new Error(`Unknown SMS event: ${JSON.stringify(eventBody)}`);
   };
 
 }

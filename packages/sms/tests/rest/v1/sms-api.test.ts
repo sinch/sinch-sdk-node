@@ -47,8 +47,8 @@ describe('SMS API', () => {
     smsApi = new SmsDomainApi(paramsWithProjectId, 'dummy');
     console.warn = jest.fn();
     smsApi.getSinchClient();
-    expect(console.warn).toHaveBeenCalledWith(
-      'The region "bzh" is not known as a supported region for the SMS API');
+    expect(console.warn).toHaveBeenCalledWith('[Sinch SDK][Warn] '
+      + 'The region "bzh" is not known as a supported region for the SMS API');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.bzh.sms.api.sinch.com');
   });
 
@@ -149,7 +149,7 @@ describe('SMS API', () => {
 
   // eslint-disable-next-line max-len
   it('should update the region in the URL when adding unified credentials and region to the SMS credentials', () => {
-    smsApi = new SmsDomainApi(paramsWithServicePlanId, 'dummy');
+    smsApi = new SmsDomainApi({ ...paramsWithServicePlanId, logger: console }, 'dummy');
     smsApi.getSinchClient();
     expect(smsApi.client?.apiClientOptions.projectId).toBe('SERVICE_PLAN_ID');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://us.sms.api.sinch.com');
@@ -158,8 +158,8 @@ describe('SMS API', () => {
       ...paramsWithProjectId,
       smsRegion: SmsRegion.BRAZIL,
     });
-    expect(console.warn).toHaveBeenCalledWith(
-      'As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
+    expect(console.warn).toHaveBeenCalledWith('[Sinch SDK][Warn] '
+      + 'As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
     expect(smsApi.client?.apiClientOptions.projectId).toBe('SERVICE_PLAN_ID');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://br.sms.api.sinch.com');
   });

@@ -133,6 +133,7 @@ export class ApiClient {
         opts = await plugin.load().transform(opts);
       }
     }
+    opts.logger = this.apiClientOptions.logger;
 
     return opts;
   };

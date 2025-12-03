@@ -157,10 +157,6 @@ export const svamlInstructionHelper = {
     };
   },
   buildSendDtmf: (dtmfValue: string): SvamlInstructionSendDtmf => {
-    const dtmfRegex = /^[0-9#w]+$/;
-    if(!dtmfRegex.test(dtmfValue)) {
-      console.error(`The DTMF value '${dtmfValue}' is incorrect. Valid characters are: 0-9, #, and w.`);
-    }
     return {
       name: 'sendDtmf',
       value: dtmfValue,

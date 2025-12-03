@@ -1,6 +1,7 @@
 import { Plugin, PluginRunner } from './plugin';
 import { Headers, RequestInit } from 'node-fetch';
 import FormData = require('form-data');
+import { LoggerParameters } from '../../domain';
 
 export type RequestBody = string | FormData;
 
@@ -14,7 +15,7 @@ export enum RequestPluginEnum {
   X_TIMESTAMP_REQUEST = 'XTimestampRequest'
 }
 
-export interface RequestOptions extends RequestInit {
+export interface RequestOptions extends RequestInit, LoggerParameters {
   /** Query Parameters */
   queryParams?: { [key: string]: string };
   /** Force body to string */

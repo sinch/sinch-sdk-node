@@ -37,8 +37,8 @@ describe('Voice API', () => {
     voiceApi = new VoiceDomainApi(params, 'dummy');
     console.warn = jest.fn();
     voiceApi.getSinchClient();
-    expect(console.warn).toHaveBeenCalledWith(
-      'The region "bzh" is not known as a supported region for the Voice API');
+    expect(console.warn).toHaveBeenCalledWith('[Sinch SDK][Warn] '
+      + 'The region "bzh" is not known as a supported region for the Voice API');
     expect(voiceApi.client?.apiClientOptions.hostname).toBe('https://calling-bzh.api.sinch.com');
   });
 

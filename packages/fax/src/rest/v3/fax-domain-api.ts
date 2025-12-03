@@ -7,6 +7,7 @@ import {
   FaxRegion,
   formatRegionalizedHostname,
   SinchClientParameters,
+  SinchLogger,
   SupportedFaxRegion,
   UnifiedCredentials,
 } from '@sinch/sdk-client';
@@ -15,10 +16,12 @@ export class FaxDomainApi implements Api {
   public readonly apiName: string;
   public client?: ApiClient;
   private sinchClientParameters: SinchClientParameters;
+  private logger: SinchLogger;
 
   constructor(sinchClientParameters: SinchClientParameters, apiName: string) {
     this.sinchClientParameters = sinchClientParameters;
     this.apiName = apiName;
+    this.logger = new SinchLogger(sinchClientParameters.logger ?? console);
   }
 
   /**
@@ -55,7 +58,7 @@ export class FaxDomainApi implements Api {
     try {
       this.getSinchClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the Fax API');
+      this.logger.error('Impossible to assign the new credentials to the Fax API');
       this.sinchClientParameters = parametersBackup;
       throw error;
     }
@@ -77,7 +80,7 @@ export class FaxDomainApi implements Api {
       this.client = new ApiFetchClient(apiClientOptions);
       const region = this.sinchClientParameters.faxRegion ?? FaxRegion.DEFAULT;
       if(!Object.values(SupportedFaxRegion).includes(region as SupportedFaxRegion)) {
-        console.warn(`The region "${region}" is not known as a supported region for the Fax API`);
+        this.logger.warn(`The region "${region}" is not known as a supported region for the Fax API`);
       }
       this.client.apiClientOptions.hostname = this.sinchClientParameters.faxHostname ?? this.buildHostname(region);
     }
