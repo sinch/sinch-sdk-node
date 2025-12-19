@@ -1,6 +1,7 @@
 import { KakaoTalkCommerce } from '../kakaotalk-commerce';
 import { KakaoTalkButton } from '../kakaotalk-button';
 import { KakaoTalkCoupon } from '../kakaotalk-coupon';
+import { KakaoTalkImage } from '../kakaotalk-image';
 
 /**
  * Carousel content
@@ -45,10 +46,8 @@ export interface KakaoTalkCarouselTail {
 export interface KakaoTalkCarouselList {
   /** Additional information */
   additional_content?: string;
-  /** URL to the product image */
-  image_url: string;
-  /** URL opened when a user clicks on the image */
-  image_link?: string;
+  /** @see KakaoTalkCommerceImage */
+  image: KakaoTalkImage;
   /** Product information */
   commerce?: KakaoTalkCommerce;
   /** Buttons list */

@@ -27,8 +27,10 @@ export const kakaotalkCarouselTail = {
 
 export const kakaotalkCarouselListItem1 = {
   additional_content: 'additional content',
-  image_url: 'https://example.com/image.png',
-  image_link: 'https://example.com',
+  image: {
+    image_url: 'https://example.com/image.png',
+    image_link: 'https://example.com',
+  },
   commerce: kakaoTalkRegularPriceCommerce,
   buttons: [
     kakaotalkWebLinkButton,

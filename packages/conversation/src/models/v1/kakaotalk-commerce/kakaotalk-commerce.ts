@@ -4,6 +4,8 @@ export type KakaoTalkCommerce
   | KakaoTalkDiscountRateCommerce;
 
 export interface KakaoTalkRegularPriceCommerce {
+  /** Commerce with regular price */
+  type: 'REGULAR_PRICE_COMMERCE';
   /** Product title */
   title: string;
   /** Regular price of the product */
@@ -11,6 +13,8 @@ export interface KakaoTalkRegularPriceCommerce {
 }
 
 export interface KakaoTalkDiscountFixedCommerce {
+  /** Commerce with fixed discount */
+  type: 'FIXED_DISCOUNT_COMMERCE';
   /** Product title */
   title: string;
   /** Regular price of the product */
@@ -22,6 +26,8 @@ export interface KakaoTalkDiscountFixedCommerce {
 }
 
 export interface KakaoTalkDiscountRateCommerce {
+  /** Commerce with percentage discount */
+  type: 'PERCENTAGE_DISCOUNT_COMMERCE';
   /** Product title */
   title: string;
   /** Regular price of the product */
