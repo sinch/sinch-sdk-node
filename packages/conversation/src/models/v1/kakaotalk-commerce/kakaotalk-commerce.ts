@@ -1,33 +1,8 @@
-export type KakaoTalkCommerce
-  = KakaoTalkRegularPriceCommerce
-  | KakaoTalkDiscountFixedCommerce
-  | KakaoTalkDiscountRateCommerce;
+import { KakaoTalkMessage } from '../kakaotalk-message';
 
-export interface KakaoTalkRegularPriceCommerce {
-  /** Product title */
-  title: string;
-  /** Regular price of the product */
-  regular_price: number;
-}
-
-export interface KakaoTalkDiscountFixedCommerce {
-  /** Product title */
-  title: string;
-  /** Regular price of the product */
-  regular_price: number;
-  /** Discounted price of the product */
-  discount_price: number;
-  /** Fixed discount */
-  discount_fixed: number;
-}
-
-export interface KakaoTalkDiscountRateCommerce {
-  /** Product title */
-  title: string;
-  /** Regular price of the product */
-  regular_price: number;
-  /** Discounted price of the product */
-  discount_price: number;
-  /** Discount rate (%) */
-  discount_rate: number;
+export interface KakaoTalkCommerce extends KakaoTalkMessage{
+  /** Set to `true` if a push alarm should be sent to a device. */
+  push_alarm?: boolean;
+  /** Set to `true` if a message contains adult content. Set to `false` by default. */
+  adult?: boolean;
 }

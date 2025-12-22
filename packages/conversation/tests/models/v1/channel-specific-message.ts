@@ -94,11 +94,9 @@ export const kakaoTalkCommerceMessage = {
       image_link: 'https://example.com',
     },
     commerce: {
+      type: 'REGULAR_PRICE_COMMERCE',
       title: 'Product 1',
       regular_price: 10000,
-      discount_price: 5000,
-      discount_fixed: 1000,
-      discount_rate: 10,
     },
     buttons: [
       {
@@ -126,7 +124,9 @@ export const kakaoTalkCarouselCommerceMessage = {
     carousel: {
       list: [
         {
-          image_url: 'https://example.com/image.jpg',
+          image: {
+            image_url: 'https://example.com/image.jpg',
+          },
           buttons: [
             {
               type: 'WL',
