@@ -1,27 +1,18 @@
-import {
-  KakaoTalkRegularPriceCommerce,
-  KakaoTalkDiscountFixedCommerce,
-  KakaoTalkDiscountRateCommerce,
-} from '../../../src/models';
+import { KakaoTalkCommerce } from '../../../src/models';
+import { kakaotalkAppLinkButton, kakaotalkWebLinkButton } from './kakaotalk-button';
+import { kakaoTalkDiscountFixedCommerce } from './kakaotalk-pricing';
+import { kakaoTalkDiscountRateCoupon } from './kakaotalk-coupon';
+import { kakaoTalkImage } from './kakaotalk-image';
 
-export const kakaoTalkRegularPriceCommerce = {
-  type: 'REGULAR_PRICE_COMMERCE',
-  title: 'title',
-  regular_price: 1000,
-} satisfies KakaoTalkRegularPriceCommerce;
-
-export const kakaoTalkDiscountFixedCommerce = {
-  type: 'FIXED_DISCOUNT_COMMERCE',
-  title: 'title',
-  regular_price: 1000,
-  discount_price: 500,
-  discount_fixed: 500,
-} satisfies KakaoTalkDiscountFixedCommerce;
-
-export const kakaoTalkDiscountRateCommerce = {
-  type: 'PERCENTAGE_DISCOUNT_COMMERCE',
-  title: 'title',
-  regular_price: 1000,
-  discount_price: 500,
-  discount_rate: 50,
-} satisfies KakaoTalkDiscountRateCommerce;
+export const kakaotalkCommerceMessageContent = {
+  push_alarm: false,
+  adult: false,
+  buttons: [
+    kakaotalkWebLinkButton,
+    kakaotalkAppLinkButton,
+  ],
+  additional_content: 'additional content',
+  image: kakaoTalkImage,
+  commerce: kakaoTalkDiscountFixedCommerce,
+  coupon: kakaoTalkDiscountRateCoupon,
+} satisfies KakaoTalkCommerce;

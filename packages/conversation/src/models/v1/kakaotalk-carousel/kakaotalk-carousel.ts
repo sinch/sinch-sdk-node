@@ -1,7 +1,4 @@
-import { KakaoTalkCommerce } from '../kakaotalk-commerce';
-import { KakaoTalkButton } from '../kakaotalk-button';
-import { KakaoTalkCoupon } from '../kakaotalk-coupon';
-import { KakaoTalkImage } from '../kakaotalk-image';
+import { KakaoTalkMessage } from '../kakaotalk-message';
 
 /**
  * Carousel content
@@ -10,7 +7,7 @@ export interface KakaoTalkCarousel {
   /** Carousel introduction */
   head?: KakaoTalkCarouselHead;
   /** List of carousel cards */
-  list: KakaoTalkCarouselList[];
+  list: KakaoTalkMessage[];
   /** "More" button */
   tail?: KakaoTalkCarouselTail;
 }
@@ -41,17 +38,4 @@ export interface KakaoTalkCarouselTail {
   scheme_ios?: string;
   /** App link opened on an Android device (e.g. `tel://PHONE_NUMBER`) */
   scheme_android?: string;
-}
-
-export interface KakaoTalkCarouselList {
-  /** Additional information */
-  additional_content?: string;
-  /** @see KakaoTalkCommerceImage */
-  image: KakaoTalkImage;
-  /** Product information */
-  commerce?: KakaoTalkCommerce;
-  /** Buttons list */
-  buttons: KakaoTalkButton[];
-  /** Discount coupon */
-  coupon?: KakaoTalkCoupon;
 }

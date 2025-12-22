@@ -1,11 +1,11 @@
 import {
   KakaoTalkCarousel,
   KakaoTalkCarouselHead,
-  KakaoTalkCarouselList,
   KakaoTalkCarouselTail,
+  KakaoTalkMessage,
 } from '../../../src/models';
 import { kakaotalkAppLinkButton, kakaotalkWebLinkButton } from './kakaotalk-button';
-import { kakaoTalkRegularPriceCommerce } from './kakaotalk-commerce';
+import { kakaoTalkRegularPriceCommerce } from './kakaotalk-pricing';
 import { kakaoTalkFixedDiscountCoupon } from './kakaotalk-coupon';
 
 export const kakaoTalkCarouselHead = {
@@ -37,7 +37,7 @@ export const kakaotalkCarouselListItem1 = {
     kakaotalkAppLinkButton,
   ],
   coupon: kakaoTalkFixedDiscountCoupon,
-} satisfies KakaoTalkCarouselList;
+} satisfies KakaoTalkMessage;
 
 export const kakaotalkCarousel = {
   head: kakaoTalkCarouselHead,
