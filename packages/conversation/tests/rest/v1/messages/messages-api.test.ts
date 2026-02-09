@@ -189,14 +189,19 @@ describe('MessagesApi', () => {
                     discount_description: 'discount_description',
                     discount_program_name: 'discount_program_name',
                   },
-                  payment_settings: {
-                    dynamic_pix: {
+                  payment_buttons: [
+                    {
+                      type: 'pix_dynamic_code',
                       code: 'code',
                       merchant_name: 'merchant_name',
                       key: 'key',
                       key_type: 'CPF',
                     },
-                  },
+                    {
+                      type: 'payment_link',
+                      uri: 'https://example.com/payment/link',
+                    },
+                  ],
                 },
               },
             },
