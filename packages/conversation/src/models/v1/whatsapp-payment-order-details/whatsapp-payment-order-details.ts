@@ -24,8 +24,11 @@ export interface OrderDetailsPayment {
   reference_id: string;
   /** The type of good associated with this order. */
   type_of_goods: 'digital-goods' | 'physical-goods' | string;
-  /** @see OrderDetailsPaymentSettings */
+  /** @deprecated Use `payment_buttons` instead
+   * @see OrderDetailsPaymentSettings */
   payment_settings?: OrderDetailsPaymentSettings;
+  /** Array of payment buttons (1 to 2 items). */
+  payment_buttons?: OrderDetailsPaymentButton[];
   /** Integer representing the total amount of the transaction. */
   total_amount_value: number;
   /** @see OrderDetailsPaymentOrder */
@@ -83,29 +86,32 @@ export interface OrderDetailsPaymentOrderItems {
 }
 
 /** @deprecated */
-export type PaymentOrderDetailsChannelSpecificMessagePaymentPaymentSettings = OrderDetailsPaymentSettings;
+export type PaymentOrderDetailsChannelSpecificMessagePaymentPaymentSettings = OrderDetailsPaymentButton;
 
-export type OrderDetailsPaymentSettings =
+/**
+ * The payment settings.
+ * @deprecated
+ */
+export interface OrderDetailsPaymentSettings {
+  /** @see DynamicPix */
+  dynamic_pix: DynamicPix;
+}
+
+export type OrderDetailsPaymentButton =
   DynamicPix
   | PaymentLink
   | Boleto;
 
-/**
- * The payment settings.
- */
-export interface DynamicPix {
-  /** @see OrderDetailsPaymentSettingsDynamicPix */
-  dynamic_pix: OrderDetailsPaymentSettingsDynamicPix;
-}
-
 /** @deprecated */
 export type PaymentOrderDetailsChannelSpecificMessagePaymentPaymentSettingsDynamicPix
-  = OrderDetailsPaymentSettingsDynamicPix;
+  = DynamicPix;
 
 /**
  * The dynamic Pix payment settings.
  */
-export interface OrderDetailsPaymentSettingsDynamicPix {
+export interface DynamicPix {
+  /** The dynamic Pix code button identifier */
+  type: 'pix_dynamic_code';
   /** The dynamic Pix code to be used by the buyer to pay. */
   code: string;
   /** Account holder name. */
@@ -117,19 +123,15 @@ export interface OrderDetailsPaymentSettingsDynamicPix {
 }
 
 export interface PaymentLink {
-  payment_link: OrderDetailsPaymentSettingsPaymentLink;
-}
-
-export interface OrderDetailsPaymentSettingsPaymentLink {
+  /** The payment link button identifier */
+  type: 'payment_link';
   /** The payment link to be used by the buyer to pay. */
   uri: string;
 }
 
 export interface Boleto {
-  boleto: OrderDetailsPaymentSettingsBoleto;
-}
-
-export interface OrderDetailsPaymentSettingsBoleto {
+  /** The Boleto button identifier */
+  type: 'boleto';
   /** The Boleto digitable line which will be copied to the clipboard when the user taps the Boleto button. */
   digitable_line: string;
 }
