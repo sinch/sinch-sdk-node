@@ -128,7 +128,6 @@ export class ServicesApi extends FaxDomainApi {
    * @return {ApiListPromise<ServicePhoneNumber>}
    */
   public listNumbers(data: ListNumbersForServiceRequestData): ApiListPromise<ServicePhoneNumber> {
-    data['pageSize'] = data['pageSize'] !== undefined ? data['pageSize'] : 20;
     const getParams = this.client.extractQueryParams<ListNumbersForServiceRequestData>(data, ['pageSize', 'page']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -170,7 +169,6 @@ export class ServicesApi extends FaxDomainApi {
    * @return {ApiListPromise<ServiceResponse>}
    */
   public list(data: ListServicesRequestData): ApiListPromise<ServiceResponse> {
-    data['pageSize'] = data['pageSize'] !== undefined ? data['pageSize'] : 20;
     const getParams = this.client.extractQueryParams<ListServicesRequestData>(data, ['pageSize', 'page']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
