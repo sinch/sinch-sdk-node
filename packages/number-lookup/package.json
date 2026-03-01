@@ -1,7 +1,7 @@
 {
-  "name": "@sinch/sdk-core",
-  "version": "1.3.0",
-  "description": "Node.js client for the Sinch API platform",
+  "name": "@sinch/number-lookup",
+  "version": "1.4.0",
+  "description": "Sinch Number Lookup SDK for Node.js",
   "homepage": "",
   "repository": {
     "type": "git",
@@ -15,8 +15,7 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.js"
-    },
-    "./package.json": "./package.json"
+    }
   },
   "directories": {
     "src": "dist",
@@ -26,17 +25,11 @@
   "scripts": {
     "build": "yarn run clean && yarn run compile",
     "clean": "rimraf dist tsconfig.tsbuildinfo",
-    "compile": "tsc --build --verbose"
+    "compile": "tsc -p tsconfig.build.json && tsc -p tsconfig.tests.json && rimraf dist/tests && rimraf tsconfig.build.tsbuildinfo",
+    "test:e2e": "cucumber-js"
   },
   "dependencies": {
-    "@sinch/conversation": "^1.3.0",
-    "@sinch/elastic-sip-trunking": "^1.3.0",
-    "@sinch/fax": "^1.3.0",
-    "@sinch/numbers": "^1.3.0",
-    "@sinch/sms": "^1.3.0",
-    "@sinch/verification": "^1.3.0",
-    "@sinch/voice": "^1.3.0",
-    "@sinch/number-lookup": "^1.4.0"
+    "@sinch/sdk-client": "^1.3.0"
   },
   "devDependencies": {},
   "publishConfig": {

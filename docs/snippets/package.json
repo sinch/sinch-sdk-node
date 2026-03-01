@@ -115,6 +115,7 @@
     "fax:cover-pages:get": "node fax/cover-pages/get.js",
     "fax:cover-pages:list": "node fax/cover-pages/list.js",
     "fax:cover-pages:delete": "node fax/cover-pages/delete.js",
+    "number-lookup:lookup": "node number-lookup/lookup.js",
     "numbers:get": "node numbers/active-numbers/get.js",
     "numbers:list": "node numbers/active-numbers/list.js",
     "numbers:release": "node numbers/active-numbers/release.js",

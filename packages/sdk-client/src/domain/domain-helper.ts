@@ -11,6 +11,7 @@ export const SMS_HOSTNAME = `https://${REGION_PATTERN}sms.api.sinch.com`;
 export const VERIFICATION_HOSTNAME = 'https://verification.api.sinch.com';
 export const VOICE_HOSTNAME = `https://calling${REGION_PATTERN}.api.sinch.com`;
 export const VOICE_APPLICATION_MANAGEMENT_HOSTNAME = 'https://callingapi.sinch.com';
+export const NUMBER_LOOKUP_HOSTNAME = 'https://lookup.api.sinch.com';
 
 export const formatRegionalizedHostname = (hostnamePattern: string, region: string) => {
   return hostnamePattern.replace(REGION_PATTERN, region);
