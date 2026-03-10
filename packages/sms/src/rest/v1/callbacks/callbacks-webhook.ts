@@ -91,6 +91,17 @@ export class SmsCallbackWebhooks implements CallbackProcessor<SmsCallback>{
     throw new Error(`Unknown SMS event: ${JSON.stringify(eventBody)}`);
   };
 
+  /**
+   * Static reviver for an SMS Event.
+   * This method ensures the object can be treated as an SMS Event.
+   * @param {any} eventBody - The event body containing the SMS event notification.
+   * @return {SmsCallback} - The parsed SMS event object
+   */
+  public static parseEvent(eventBody: any): SmsCallback {
+    const instance = new SmsCallbackWebhooks();
+    return instance.parseEvent(eventBody);
+  }
+
 }
 
 
