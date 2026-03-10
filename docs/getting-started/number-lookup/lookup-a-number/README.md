@@ -1,4 +1,4 @@
-# Sinch Getting started: Lookup a number
+# Sinch Getting started: Lookup a number (Node.js)
 
 This code is related to [Look up a number with the Node.js SDK](https://developers.sinch.com/docs/number-lookup-api-v2/getting-started/node/lookup-number#create-your-file).
 
