@@ -1,0 +1,14 @@
+{
+  "name": "@sinch/getting-started-voice_make-a-call",
+  "version": "0.0.0",
+  "author": "Sinch",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "dependencies": {
+    "@sinch/sdk-core": "^1.3.0",
+    "dotenv": "^16.4.5"
+  }
+}

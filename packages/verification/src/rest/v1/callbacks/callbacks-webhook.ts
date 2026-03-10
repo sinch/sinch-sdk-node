@@ -67,4 +67,15 @@ export class VerificationCallbackWebhooks implements CallbackProcessor<Verificat
     throw new Error('Unknown Verification event');
   }
 
+  /**
+   * Static reviver for a Verification Event.
+   * This method ensures the object can be treated as a Verification Event.
+   * @param {any} eventBody - The event body containing the Verification event notification.
+   * @return {VerificationCallbackEvent} - The parsed Verification event object
+   */
+  public static parseEvent(eventBody:any): VerificationCallbackEvent {
+    const instance = new VerificationCallbackWebhooks({});
+    return instance.parseEvent(eventBody);
+  }
+
 }

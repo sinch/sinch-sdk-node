@@ -68,5 +68,16 @@ export class VoiceCallbackWebhooks implements CallbackProcessor<VoiceCallbackEve
     throw new Error('Unknown Voice event');
   }
 
+  /**
+   * Static reviver for a Voice Event.
+   * This method ensures the object can be treated as a Voice Event.
+   * @param {any} eventBody - The event body containing the Voice event notification.
+   * @return {VoiceCallbackEvent} - The parsed Voice event object
+   */
+  public static parseEvent(eventBody: any): VoiceCallbackEvent {
+    const webhooks = new VoiceCallbackWebhooks({});
+    return webhooks.parseEvent(eventBody);
+  }
+
 }
 
