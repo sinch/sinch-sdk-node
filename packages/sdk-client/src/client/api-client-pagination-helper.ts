@@ -196,7 +196,7 @@ export function hasMore(
     return checkIfThereAreMorePages(response, pageSize, PaginationEnum.PAGE2);
   }
   if (context.pagination === PaginationEnum.PAGE3) {
-    return response.pageNumber < response.totalPages;
+    return response.page < response.totalPages;
   }
   throw new Error(`The operation ${context.operationId} is not meant to be paginated.`);
 }
