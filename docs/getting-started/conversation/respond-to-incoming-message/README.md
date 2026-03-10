@@ -8,7 +8,7 @@ Rename the [.env.example](.env.example) file into `.env` and edit it to set the 
 
 ### Server port
 
-- `port`: the port to be used to listen to incoming requests. Default is `3001` if not set.
+- `PORT`: the port to be used to listen to incoming requests. Default is `3001` if not set.
 
 ### API credentials to send a message using the Conversation API
 - You need to fill the following variables with the values from your Sinch account:

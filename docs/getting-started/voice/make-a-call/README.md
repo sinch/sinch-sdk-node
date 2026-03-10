@@ -1,6 +1,6 @@
-# Sinch Getting started
+# Sinch Getting started: Make a Call (Node.js)
 
-This code is related to [Send an SMS Message with Node.js SDK](https://developers.sinch.com/docs/sms/getting-started/node-sdk/send-message).
+This code is related to [Make a call with the Node.js SDK](https://developers.sinch.com/docs/voice/getting-started/node-sdk/make-call).
 
 ## Configuration
 

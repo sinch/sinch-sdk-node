@@ -10,13 +10,6 @@ Rename the [.env.example](.env.example) file into `.env` and edit it to set the 
 
 - `PORT`: the port to be used to listen to incoming requests. Default is `3001` if not set.
 
-### API credentials to place a voice call
-- You need to fill the following variables with the values from your [Sinch account](https://dashboard.sinch.com/voice/apps):
-    - `SINCH_APPLICATION_KEY`= Your Sinch Voice Application Key
-    - `SINCH_APPLICATION_SECRET`= Your Sinch Application Secret
-
-## Usage
-
 ## Usage — Starting the server
 
 1. Install the dependencies by running the command `npm install`.

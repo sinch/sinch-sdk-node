@@ -10,11 +10,8 @@ Rename the [.env.example](.env.example) file into `.env` and edit it to set the 
 
 - `PORT`: the port to be used to listen to incoming requests. Default is `3001` if not set.
 
-### Controller Configuration
-- The webhook event sent by Sinch may contain a signature in the header to verify the authenticity of the request.
-    - `WEBHOOKS_SECRET`= The secret value to validate the header signature.
+### API credentials to send an SMS
 
-### API credentials to send a SMS
 - You need to fill the following variables with the values from your Sinch account:
     - `SINCH_PROJECT_ID`= Your Sinch Project ID
     - `SINCH_KEY_ID`= Your Sinch Access Key ID

@@ -17,7 +17,7 @@ export const voiceController = (app) => {
           response = handleDisconnectedCallEvent(event);
           break;
         default:
-          res.status(200).json({ message: `Unexpected event type for this tutorial: ${event.trigger}` });
+          res.status(200).json({ message: `Unexpected event type for this tutorial: ${event.event}` });
       }
     } catch (error) {
       console.error('Error parsing event:', error);

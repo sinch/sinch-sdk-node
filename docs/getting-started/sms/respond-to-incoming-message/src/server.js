@@ -16,11 +16,9 @@ const sinchClientParameters = {
   smsRegion: process.env.SINCH_SMS_REGION,
 };
 
-const smsWebhookSecret = process.env.SINCH_SMS_WEBHOOK_SECRET;
-
 app.use(express.json());
 
-smsController(app, sinchClientParameters, smsWebhookSecret);
+smsController(app, sinchClientParameters);
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
