@@ -95,6 +95,7 @@
     "elastic-sip-trunking:country-permissions:list": "node elastic-sip-trunking/country-permissions/list.js",
     "elastic-sip-trunking:country-permissions:update": "node elastic-sip-trunking/country-permissions/update.js",
     "elastic-sip-trunking:call-history:find": "node elastic-sip-trunking/calls-history/find.js",
+    "elastic-sip-trunking:projects:add": "node elastic-sip-trunking/projects/add.js",
     "fax:faxes:send": "node fax/faxes/send.js",
     "fax:faxes:get": "node fax/faxes/get.js",
     "fax:faxes:list": "node fax/faxes/list.js",

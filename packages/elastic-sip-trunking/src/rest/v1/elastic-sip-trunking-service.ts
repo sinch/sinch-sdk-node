@@ -11,6 +11,7 @@ import { AccessControlListApi } from './access-control-list';
 import { SipEndpointsApi } from './sip-endpoints';
 import { CountryPermissionsApi } from './country-permissions';
 import { CallsHistoryApi } from './calls-history';
+import { ProjectsApi } from './projects';
 
 export class LazyElasticSipTrunkingApiClient {
   private client?: ApiClient;
@@ -38,6 +39,7 @@ export class ElasticSipTrunkingService {
   public readonly accessControlList: AccessControlListApi;
   public readonly countryPermissions: CountryPermissionsApi;
   public readonly calls: CallsHistoryApi;
+  public readonly projects: ProjectsApi;
 
   private readonly lazyClient: LazyElasticSipTrunkingApiClient;
 
@@ -49,6 +51,7 @@ export class ElasticSipTrunkingService {
     this.accessControlList = new AccessControlListApi(this.lazyClient);
     this.countryPermissions = new CountryPermissionsApi(this.lazyClient);
     this.calls = new CallsHistoryApi(this.lazyClient);
+    this.projects = new ProjectsApi(this.lazyClient);
   }
 
   /**
