@@ -14,7 +14,10 @@ export type ConversationMetadataUpdateStrategy = 'REPLACE' | 'MERGE_PATCH' | str
  */
 export type CardHeight = 'UNSPECIFIED_HEIGHT' | 'SHORT' | 'MEDIUM' | 'TALL' | string;
 
-export type ConversationDirection = 'UNDEFINED_DIRECTION' | 'TO_APP' | 'TO_CONTACT' | string;
+/**
+ * The direction of the message flow, indicating whether the message was sent to or from the Conversation API app.
+ */
+export type ConversationDirection = 'TO_APP' | 'TO_CONTACT' | string;
 
 export type ConversationMergeStrategy = 'MERGE' | string;
 

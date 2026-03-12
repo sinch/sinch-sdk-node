@@ -10,6 +10,7 @@ import {
   ConversationMessage,
   DeleteMessageRequestData,
   GetMessageRequestData,
+  ListLastMessagesByChannelIdentityRequestData,
   ListMessagesRequestData,
   Recipient,
   SendCardMessageRequestData,
@@ -97,7 +98,6 @@ export class MessagesApi extends ConversationDomainApi {
    * @return {ApiListPromise<ConversationMessage>}
    */
   public list(data: ListMessagesRequestData): ApiListPromise<ConversationMessage> {
-    data['messages_source'] = data['messages_source'] !== undefined ? data['messages_source'] : 'CONVERSATION_SOURCE';
     const getParams = this.client.extractQueryParams<ListMessagesRequestData>(data, [
       'conversation_id',
       'contact_id',
@@ -111,6 +111,7 @@ export class MessagesApi extends ConversationDomainApi {
       'messages_source',
       'only_recipient_originated',
       'channel',
+      'direction',
     ]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -126,6 +127,50 @@ export class MessagesApi extends ConversationDomainApi {
       pagination: PaginationEnum.TOKEN2,
       apiName: this.apiName,
       operationId: 'ListMessages',
+      dataKey: 'messages',
+    };
+
+    // Create the promise containing the response wrapped as a PageResult
+    const listPromise = buildPageResultPromise<ConversationMessage>(
+      this.client,
+      requestOptionsPromise,
+      operationProperties);
+
+    // Add properties to the Promise to offer the possibility to use it as an iterator
+    Object.assign(
+      listPromise,
+      createIteratorMethodsForPagination<ConversationMessage>(
+        this.client, requestOptionsPromise, listPromise, operationProperties),
+    );
+
+    return listPromise as ApiListPromise<ConversationMessage>;
+  }
+
+  /**
+   * List messages by channel identity
+   * Retrieves the last message sent to specified channel identities. In CONVERSATION_SOURCE mode, you can query either by channel_identities or by contact_ids. Note: Use either contact_ids OR channel_identities per request, not both. DISPATCH_SOURCE mode does not support contact_ids.
+   * @param { ListLastMessagesByChannelIdentityRequestData } data - The data to provide to the API call.
+   */
+  public listLastMessagesByChannelIdentity(
+    data: ListLastMessagesByChannelIdentityRequestData,
+  ): ApiListPromise<ConversationMessage> {
+    const getParams = this.client.extractQueryParams<ListLastMessagesByChannelIdentityRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = data['listLastMessagesByChannelIdentityRequestBody']
+      ? JSON.stringify(data['listLastMessagesByChannelIdentityRequestBody']) : '{}';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/messages:fetch-last-message`;
+
+    const requestOptionsPromise
+      = this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
+
+    const operationProperties: PaginatedApiProperties = {
+      pagination: PaginationEnum.TOKEN2,
+      apiName: this.apiName,
+      operationId: 'ListMessagesByChannelIdentity',
       dataKey: 'messages',
     };
 
