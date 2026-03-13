@@ -216,8 +216,13 @@ export function calculateNextPage(
     const nextPage = currentPage + 1;
     return nextPage.toString();
   }
-  if (context.pagination === PaginationEnum.PAGE2 || context.pagination === PaginationEnum.PAGE3) {
+  if (context.pagination === PaginationEnum.PAGE2) {
     const currentPage: number = response.pageNumber || 1;
+    const nextPage = currentPage + 1;
+    return nextPage.toString();
+  }
+  if (context.pagination === PaginationEnum.PAGE3) {
+    const currentPage: number = response.page || 1;
     const nextPage = currentPage + 1;
     return nextPage.toString();
   }
