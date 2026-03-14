@@ -63,6 +63,13 @@ export interface FileBuffer {
   buffer: Buffer;
 }
 
+export interface CSVFile {
+  /** Name of the file extracted from the 'content-disposition' header */
+  fileName: string;
+  /** File content as string */
+  data: string;
+}
+
 /**
  * API Client used to call the server
  */
@@ -205,14 +212,24 @@ export class ApiClient {
   }
 
   /**
-   * Process HTTP call to download a PDF file
+   * Process HTTP call to download a PDF file as file buffer
    * @abstract
-   * @template T
    * @param {ApiCallParameters} _httpCallParameters - Parameters for the HTTP call.
-   * @return {Promise<T>} A promise that resolves to the result of the HTTP call.
+   * @return {Promise<FileBuffer>} A promise that resolves to the result of the HTTP call.
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   processFileCall(_httpCallParameters: ApiCallParameters): Promise<FileBuffer> {
+    throw new Error('Abstract method must be implemented');
+  }
+
+  /**
+   * Process HTTP call to download a CSV file as plain text
+   * @abstract
+   * @param {ApiCallParameters} _httpCallParameters - Parameters for the HTTP call.
+   * @return {Promise<CSVFile>} A promise that resolves to the result of the HTTP call.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  processCsvCall(_httpCallParameters: ApiCallParameters): Promise<CSVFile> {
     throw new Error('Abstract method must be implemented');
   }
 

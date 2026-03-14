@@ -1,8 +1,9 @@
 import { ElasticSipTrunking, ElasticSipTrunkingService, CallsHistoryApi } from '../../../../src';
 import { Given, Then, When } from '@cucumber/cucumber';
 import assert from 'assert';
-import { PageResult } from '@sinch/sdk-client';
+import { CSVFile, PageResult } from '@sinch/sdk-client';
 
+let csvResponse: CSVFile;
 let callsHistoryApi: CallsHistoryApi;
 let listResponse: PageResult<ElasticSipTrunking.Call>;
 let callsHistoryList: ElasticSipTrunking.Call[];
@@ -17,6 +18,19 @@ Given('the Elastic SIP Trunking service "Calls History" is available', function 
     elasticSipTrunkingHostname: 'http://localhost:3016',
   });
   callsHistoryApi = elasticSipTrunkingService.calls;
+});
+
+When('I send a request to export the call records', async () => {
+  csvResponse = await callsHistoryApi.export({
+    createTimeRange: {
+      from: '2024-06-06T16:00:00',
+    },
+  });
+});
+
+Then('the response contains the CSV file with the call records', () => {
+  assert.equal(csvResponse.fileName, 'EST_call_records.csv');
+  assert.equal(csvResponse.data.split(/\r?\n/).length, 4);
 });
 
 When('I send a request to find the a page from the Calls History with no filtering parameters', async () => {

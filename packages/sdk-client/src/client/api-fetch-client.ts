@@ -7,6 +7,7 @@ import {
   ApiCallParametersWithPagination,
   PageResult,
   FileBuffer,
+  CSVFile,
 } from '../api/api-client';
 import {
   ApiClientOptions,
@@ -87,6 +88,12 @@ export class ApiFetchClient extends ApiClient {
     return this.processFileResponse(responseContext);
   }
 
+  /** @inheritdoc */
+  public async processCsvCall(apiCallParameters: ApiCallParameters): Promise<CSVFile> {
+    const responseContext = await this.executeRequest(apiCallParameters, true);
+    return this.processCSVResponse(responseContext);
+  }
+
   private async executeRequest(
     apiCallParameters: ApiCallParameters,
     isFileDownload = false,
@@ -157,6 +164,24 @@ export class ApiFetchClient extends ApiClient {
     }
 
     return { fileName, buffer };
+  }
+
+  private async processCSVResponse(context: ResponseContext): Promise<CSVFile> {
+    if (!context.response || !context.response.ok) {
+      throw this.buildFetchError(
+        new Error('No response received'),
+        context.errorContext,
+      );
+    }
+
+    const responseText = await context.response.text();
+    const fileName = this.extractFileName(context.response.headers);
+
+    if (!responseText || !fileName) {
+      throw new Error('An error occurred while downloading the file');
+    }
+
+    return { fileName, data: responseText };
   }
 
   /**
@@ -250,7 +275,8 @@ export class ApiFetchClient extends ApiClient {
     const contentDisposition = headers.get('content-disposition');
     let fileName = 'default-name.pdf';
     if (contentDisposition) {
-      const match = contentDisposition.match(/filename="([^"]+)"/);
+      // Support both quoted and unquoted filenames
+      const match = contentDisposition.match(/filename[*]?=['"]?([^'";\r\n]+)['"]?/i);
       if (match && match[1]) {
         fileName = match[1];
       }
