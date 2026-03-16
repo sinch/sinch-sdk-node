@@ -157,7 +157,7 @@ export class ApiFetchClient extends ApiClient {
     }
 
     const buffer = await context.response.buffer();
-    const fileName = this.extractFileName(context.response.headers);
+    const fileName = this.extractFileName(context.response.headers, 'pdf');
 
     if (!buffer || !fileName) {
       throw new Error('An error occurred while downloading the file');
@@ -175,7 +175,7 @@ export class ApiFetchClient extends ApiClient {
     }
 
     const responseText = await context.response.text();
-    const fileName = this.extractFileName(context.response.headers);
+    const fileName = this.extractFileName(context.response.headers, 'csv');
 
     if (!responseText || !fileName) {
       throw new Error('An error occurred while downloading the file');
@@ -271,9 +271,9 @@ export class ApiFetchClient extends ApiClient {
     }
   }
 
-  private extractFileName(headers: Headers) {
+  private extractFileName(headers: Headers, extension: string) {
     const contentDisposition = headers.get('content-disposition');
-    let fileName = 'default-name.pdf';
+    let fileName = 'default-name.' + extension;
     if (contentDisposition) {
       // Support both quoted and unquoted filenames
       const match = contentDisposition.match(/filename[*]?=['"]?([^'";\r\n]+)['"]?/i);
