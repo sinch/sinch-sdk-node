@@ -63,7 +63,7 @@ describe('SIPEndpointsApi', () => {
         sipTrunkId: 'sipTrunkId',
         createSipEndpointRequestBody: {
           name: 'Acme Endpoint',
-          credentialUserName: 'username',
+          credentialUsername: 'username',
           isRegistered: true,
           priority: 1,
           transport: 'TLS',
@@ -72,7 +72,7 @@ describe('SIPEndpointsApi', () => {
       const expectedResponse: SipEndpoint = {
         id: 'sipEndpointId',
         name: 'Acme Endpoint',
-        credentialUserName: 'username',
+        credentialUsername: 'username',
         isRegistered: true,
         priority: 1,
         port: 5060,

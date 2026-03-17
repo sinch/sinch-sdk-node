@@ -27,10 +27,18 @@ export interface GetAccessControlListRequestData {
     'id': string;
 }
 export interface ListAccessControlListRequestData {
+    /** The page you want to fetch, can set to 1 for first page, or omitted for first page */
+    'page'?: number;
+    /** The size of each page to fetch */
+    'size'?: number;
 }
 export interface ListIpRangesForAccessControlListRequestData {
     /** The ID of the access control list entry. that you want to work with */
     'accessControlListId': string;
+    /** The page you want to fetch, can set to 1 for first page, or omitted for first page */
+    'page'?: number;
+    /** The size of each page to fetch */
+    'size'?: number;
 }
 export interface UpdateAccessControlListRequestData {
     /** The ID of the access control list entry. */

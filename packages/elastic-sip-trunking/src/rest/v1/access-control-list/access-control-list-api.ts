@@ -208,7 +208,7 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
    * @return { ApiListPromise<AccessControlList> }
    */
   public list(data: ListAccessControlListRequestData): ApiListPromise<AccessControlList> {
-    const getParams = this.client.extractQueryParams<ListAccessControlListRequestData>(data, [] as never[]);
+    const getParams = this.client.extractQueryParams<ListAccessControlListRequestData>(data, ['page', 'size']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -250,7 +250,8 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
    * @return { ApiListPromise<IpRange> }
    */
   public listIpRanges(data: ListIpRangesForAccessControlListRequestData): ApiListPromise<IpRange> {
-    const getParams = this.client.extractQueryParams<ListIpRangesForAccessControlListRequestData>(data, [] as never[]);
+    const getParams = this.client.extractQueryParams<ListIpRangesForAccessControlListRequestData>(data,
+      ['page', 'size']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

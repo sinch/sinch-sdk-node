@@ -146,7 +146,7 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
    * @return { ApiListPromise<string> }
    */
   public listAccessControlLists(data: ListAccessControlListsForTrunkRequestData): ApiListPromise<string> {
-    const getParams = this.client.extractQueryParams<ListAccessControlListsForTrunkRequestData>(data, [] as never[]);
+    const getParams = this.client.extractQueryParams<ListAccessControlListsForTrunkRequestData>(data, ['page', 'size']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -214,7 +214,7 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
    * @return { ApiListPromise<SipTrunk> }
    */
   public list(data: ListSipTrunksRequestData): ApiListPromise<SipTrunk> {
-    const getParams = this.client.extractQueryParams<ListSipTrunksRequestData>(data, ['page', 'pageSize', 'domain']);
+    const getParams = this.client.extractQueryParams<ListSipTrunksRequestData>(data, ['page', 'size', 'domain']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

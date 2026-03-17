@@ -24,6 +24,10 @@ export interface DeleteSipTrunkRequestData {
 export interface ListAccessControlListsForTrunkRequestData {
     /** The ID of the trunk that you want to work with */
     'trunkId': string;
+    /** The page you want to fetch, can set to 1 for first page, or omitted for first page */
+    'page'?: number;
+    /** The size of each page to fetch */
+    'size'?: number;
 }
 export interface GetSipTrunkRequestData {
     /** The ID of the SIP trunk. */
@@ -33,7 +37,7 @@ export interface ListSipTrunksRequestData {
     /** The page you want to fetch, can set to 1 for first page, or omitted for first page */
     'page'?: number;
     /** The size of each page to fetch */
-    'pageSize'?: number;
+    'size'?: number;
     /** Filter by domain */
     'domain'?: string;
 }

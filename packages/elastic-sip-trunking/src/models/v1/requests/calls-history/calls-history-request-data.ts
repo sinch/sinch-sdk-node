@@ -60,7 +60,7 @@ export interface FindCallsRequestData {
   /** The page you want to fetch */
   'page'?: string;
   /** The maximum number of items to return per request. The default is 100 and the maximum is 1000. If you need to export larger amounts and pagination is not suitable for you can use the Export function in the dashboard. */
-  'pageSize'?: number;
+  'size'?: number;
 }
 
 /**

@@ -87,7 +87,7 @@ export class SipEndpointsApi extends ElasticSipTrunkingDomainApi {
    * @return { ApiListPromise<SipEndpoint> }
    */
   public list(data: ListSipEndpointsRequestData): ApiListPromise<SipEndpoint> {
-    const getParams = this.client.extractQueryParams<ListSipEndpointsRequestData>(data, ['page', 'pageSize']);
+    const getParams = this.client.extractQueryParams<ListSipEndpointsRequestData>(data, ['page', 'size']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
