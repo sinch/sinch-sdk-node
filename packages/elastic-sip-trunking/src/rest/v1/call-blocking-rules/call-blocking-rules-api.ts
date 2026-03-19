@@ -1,4 +1,4 @@
-import { CallBlockingRule, CreateBlockingRuleRequestData, DeleteBlockingRuleRequestData, ListBlockingRulesRequestData, UpdateBlockingRuleRequestData } from '../../../models/v1/';
+import { CallBlockingRule, CreateBlockingRuleRequestData, DeleteBlockingRuleRequestData, ListBlockingRulesRequestData, UpdateBlockingRuleRequestData } from '../../../models';
 import {
   ApiListPromise,
   buildPageResultPromise,

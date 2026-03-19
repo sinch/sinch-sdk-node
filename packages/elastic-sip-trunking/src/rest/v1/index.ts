@@ -2,6 +2,8 @@ export * from './access-control-list';
 export * from './call-blocking-rules';
 export * from './calls-history';
 export * from './country-permissions';
+export * from './credential-lists';
+export * from './projects';
 export * from './sip-endpoints';
 export * from './sip-trunks';
 export * from './elastic-sip-trunking-domain-api';

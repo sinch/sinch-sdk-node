@@ -36,6 +36,9 @@ describe('CallBlockingRulesApi', () => {
         name: 'Block inbound calls',
         callerCountry: 'US',
         callerMatch: '123',
+        projectId: '1bf62742-7b84-4666-9cbe-8e5734fd57d0',
+        createTime: new Date('2022-01-01T00:00:00Z'),
+        updateTime: null,
       };
 
       // When
@@ -73,7 +76,7 @@ describe('CallBlockingRulesApi', () => {
       const requestData: ElasticSipTrunking.ListBlockingRulesRequestData = {
         page: 1,
         size: 20,
-        sort: ['property,(ascending)'],
+        sort: ['calleeCountry,(ascending)'],
       };
       const mockData:  ElasticSipTrunking.CallBlockingRule[] = [
         {
