@@ -31,7 +31,7 @@ const populateContactsList = (
   const contactList: Conversation.Contact[] = [];
   const contactDetailsList: string[] = [];
 
-  // Loop on all the pages to get all the active numbers
+  // Loop on all the pages to get all the contacts
   let reachedEndOfPages = false;
   while (!reachedEndOfPages) {
     populateContactsList(response, contactList, contactDetailsList);

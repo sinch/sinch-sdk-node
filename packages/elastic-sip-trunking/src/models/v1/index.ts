@@ -9,6 +9,7 @@ export * from './create-access-control-list-request';
 export * from './create-credential-list-request';
 export * from './credential';
 export * from './credential-list';
+export * from './credential-list-ids';
 export * from './credential-password';
 export * from './ip-range';
 export * from './list-country-permissions-response';

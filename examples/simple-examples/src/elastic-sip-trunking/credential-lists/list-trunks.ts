@@ -38,7 +38,7 @@ const populateSipTrunksList = (
   const sipTrunksList: ElasticSipTrunking.SipTrunk[] = [];
   const sipTrunksDetailsList: string[] = [];
 
-  // Loop on all the pages to get all the active numbers
+  // Loop on all the pages to get all the SPI trunk using the specified credential list
   let reachedEndOfPages = false;
   while (!reachedEndOfPages) {
     populateSipTrunksList(response, sipTrunksList, sipTrunksDetailsList);

@@ -29,7 +29,7 @@ const populateSipTrunksList = (
   const sipTrunksList: ElasticSipTrunking.SipTrunk[] = [];
   const sipTrunksDetailsList: string[] = [];
 
-  // Loop on all the pages to get all the active numbers
+  // Loop on all the pages to get all the SIP trunks
   let reachedEndOfPages = false;
   while (!reachedEndOfPages) {
     populateSipTrunksList(response, sipTrunksList, sipTrunksDetailsList);

@@ -17,6 +17,12 @@ import {
   ListSipTrunksRequestData,
   UpdateSipTrunkRequestData,
   SipTrunk,
+  AddCredentialListIdsToTrunkRequestData,
+  CredentialList,
+  CredentialListIds,
+  UpdateCredentialListIdsForTrunkRequestData,
+  ListCredentialListsForTrunkRequestData,
+  DeleteCredentialListFromTrunkRequestData,
 } from '../../../models';
 import { ElasticSipTrunkingDomainApi } from '../elastic-sip-trunking-domain-api';
 import { LazyElasticSipTrunkingApiClient } from '../elastic-sip-trunking-service';
@@ -54,6 +60,33 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
       requestOptions,
       apiName: this.apiName,
       operationId: 'AddAccessControlListToTrunk',
+    });
+  }
+
+  /**
+   * Add credential lists to SIP trunk
+   * Add credential lists to a specified SIP trunk.
+   * @param { AddCredentialListIdsToTrunkRequestData } data - The data to provide to the API call.
+   */
+  public async addCredentialLists(data: AddCredentialListIdsToTrunkRequestData): Promise<CredentialListIds> {
+    const getParams = this.client.extractQueryParams<AddCredentialListIdsToTrunkRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = data['addCredentialListIdsToTrunkRequestBody']
+      ? JSON.stringify(data['addCredentialListIdsToTrunkRequestBody']) : '{}';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/trunks/${data['trunkId']}/credentialLists`;
+
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<CredentialListIds>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'AddCredentialListToTrunk',
     });
   }
 
@@ -136,6 +169,33 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
       requestOptions,
       apiName: this.apiName,
       operationId: 'DeleteSipTrunk',
+    });
+  }
+
+  /**
+   * Remove credential list from sip trunk
+   *
+   * @param { DeleteCredentialListFromTrunkRequestData } data - The data to provide to the API call.
+   */
+  public async deleteCredentialList(data: DeleteCredentialListFromTrunkRequestData): Promise<void> {
+    const getParams = this.client.extractQueryParams<DeleteCredentialListFromTrunkRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = '';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/trunks/${data['trunkId']}/credentialLists/${data['credentialListId']}`;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<void>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'RemoveCredentialListFromTrunk',
     });
   }
 
@@ -250,6 +310,48 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
   }
 
   /**
+   * Get credential lists for SIP trunk
+   * Return all the credential lists for a specified SIP trunk.
+   * @param { ListCredentialListsForTrunkRequestData } data - The data to provide to the API call.
+   */
+  public listCredentialLists(data: ListCredentialListsForTrunkRequestData): ApiListPromise<CredentialList> {
+    const getParams = this.client.extractQueryParams<ListCredentialListsForTrunkRequestData>(data,
+      ['page', 'size', 'sort']);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = '';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/trunks/${data['trunkId']}/credentialLists`;
+
+    const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
+
+    const operationProperties: PaginatedApiProperties = {
+      pagination: PaginationEnum.PAGE2,
+      apiName: this.apiName,
+      operationId: 'GetCredentialListsForTrunk',
+      dataKey: 'credentialLists',
+    };
+
+    // Create the promise containing the response wrapped as a PageResult
+    const listPromise = buildPageResultPromise<CredentialList>(
+      this.client,
+      requestOptionsPromise,
+      operationProperties,
+    );
+
+    // Add properties to the Promise to offer the possibility to use it as an iterator
+    Object.assign(
+      listPromise,
+      createIteratorMethodsForPagination<CredentialList>(
+        this.client, requestOptionsPromise, listPromise, operationProperties),
+    );
+
+    return listPromise as ApiListPromise<CredentialList>;
+  }
+
+  /**
    * Update SIP trunk
    * Update an existing SIP Trunk by ID. The whole object must be sent. Any missing fields will be set to null.
    * @param { UpdateSipTrunkRequestData } data - The data to provide to the API call.
@@ -274,6 +376,35 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
       requestOptions,
       apiName: this.apiName,
       operationId: 'UpdateSipTrunk',
+    });
+  }
+
+  /**
+   * Bulk update credential lists for a trunk
+   * Update the list of credential list entries for a trunk.
+   * @param { UpdateCredentialListIdsForTrunkRequestData } data - The data to provide to the API call.
+   */
+  public async updateCredentialLists(
+    data: UpdateCredentialListIdsForTrunkRequestData,
+  ): Promise<CredentialListIds> {
+    const getParams = this.client.extractQueryParams<UpdateCredentialListIdsForTrunkRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = data['updateCredentialListIdsForTrunkRequestBody']
+      ? JSON.stringify(data['updateCredentialListIdsForTrunkRequestBody']) : '[]';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/trunks/${data['trunkId']}/credentialLists`;
+
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'PUT', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<CredentialListIds>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'BulkUpdateCredentialListsForTrunk',
     });
   }
 

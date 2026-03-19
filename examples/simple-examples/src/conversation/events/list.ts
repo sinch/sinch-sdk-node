@@ -41,7 +41,7 @@ const populateEventsList = (
   const eventsList: Conversation.ConversationEvent[] = [];
   const eventsDetailsList: string[] = [];
 
-  // Loop on all the pages to get all the active numbers
+  // Loop on all the pages to get all the events
   let reachedEndOfPages = false;
   while (!reachedEndOfPages) {
     populateEventsList(response, eventsList, eventsDetailsList);

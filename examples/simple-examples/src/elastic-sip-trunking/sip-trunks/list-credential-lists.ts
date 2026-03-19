@@ -1,6 +1,7 @@
 import { ElasticSipTrunking, PageResult } from '@sinch/sdk-core';
 import {
   getPrintFormat,
+  getSipTrunkIdFromConfig,
   initElasticSipTrunkingService,
   printFullResponse,
 } from '../../config';
@@ -17,18 +18,22 @@ const populateCredentialListsList = (
 };
 
 (async () => {
-  console.log('**********************');
-  console.log('* GetCredentialLists *');
-  console.log('**********************');
+  console.log('******************************');
+  console.log('* getCredentialListsForTrunk *');
+  console.log('******************************');
 
-  const requestData: ElasticSipTrunking.ListCredentialListsRequestData = {};
+  const sipTrunkId = getSipTrunkIdFromConfig();
+
+  const requestData: ElasticSipTrunking.ListCredentialListsForTrunkRequestData = {
+    trunkId: sipTrunkId,
+  };
 
   const elasticSipTrunkingService = initElasticSipTrunkingService();
 
   // ----------------------------------------------
   // Method 1: Fetch the data page by page manually
   // ----------------------------------------------
-  let response = await elasticSipTrunkingService.credentialLists.list(requestData);
+  let response = await elasticSipTrunkingService.sipTrunks.listCredentialLists(requestData);
 
   const credentialListsList: ElasticSipTrunking.CredentialList[] = [];
   const credentialListsDetailsList: string[] = [];
@@ -57,7 +62,7 @@ const populateCredentialListsList = (
   // ---------------------------------------------------------------------
   // Method 2: Use the iterator and fetch data on more pages automatically
   // ---------------------------------------------------------------------
-  for await (const credentialList of elasticSipTrunkingService.credentialLists.list(requestData)) {
+  for await (const credentialList of elasticSipTrunkingService.sipTrunks.listCredentialLists(requestData)) {
     if (printFormat === 'pretty') {
       console.log(`${credentialList.id} - ${credentialList.name}`);
     } else {

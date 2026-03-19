@@ -29,7 +29,7 @@ const populateCallBlockingRulesList = (
   const callBlockingRulesList: ElasticSipTrunking.CallBlockingRule[] = [];
   const callBlockingRulesDetailsList: string[] = [];
 
-  // Loop on all the pages to get all the active numbers
+  // Loop on all the pages to get all the call blocking rules
   let reachedEndOfPages = false;
   while (!reachedEndOfPages) {
     populateCallBlockingRulesList(response, callBlockingRulesList, callBlockingRulesDetailsList);

@@ -21,7 +21,7 @@ import { getSipTrunkIdFromConfig, initElasticSipTrunkingService, printFullRespon
 
   const aclList: string[] = [];
 
-  // Loop on all the pages to get all the active numbers
+  // Loop on all the pages to get all the ACLs for the specified trunk
   let reachedEndOfPages = false;
   while (!reachedEndOfPages) {
     aclList.push(...response.data);
