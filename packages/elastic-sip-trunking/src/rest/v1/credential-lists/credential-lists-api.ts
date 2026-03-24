@@ -114,8 +114,8 @@ export class CredentialListsApi extends ElasticSipTrunkingDomainApi {
    * Return all the credential lists for the specified project.
    * @param { ListCredentialListsRequestData } data - The data to provide to the API call.
    */
-  public list(data: ListCredentialListsRequestData): ApiListPromise<CredentialList> {
-    const getParams = this.client.extractQueryParams<ListCredentialListsRequestData>(data, ['page', 'size']);
+  public list(data?: ListCredentialListsRequestData): ApiListPromise<CredentialList> {
+    const getParams = this.client.extractQueryParams<ListCredentialListsRequestData>(data ?? {}, ['page', 'size']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

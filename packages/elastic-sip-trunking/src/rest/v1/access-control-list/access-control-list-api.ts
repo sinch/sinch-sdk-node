@@ -207,8 +207,8 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
    * @param { ListAccessControlListRequestData } data - The data to provide to the API call.
    * @return { ApiListPromise<AccessControlList> }
    */
-  public list(data: ListAccessControlListRequestData): ApiListPromise<AccessControlList> {
-    const getParams = this.client.extractQueryParams<ListAccessControlListRequestData>(data, ['page', 'size']);
+  public list(data?: ListAccessControlListRequestData): ApiListPromise<AccessControlList> {
+    const getParams = this.client.extractQueryParams<ListAccessControlListRequestData>(data ?? {}, ['page', 'size']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

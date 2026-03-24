@@ -75,8 +75,9 @@ export class CallBlockingRulesApi extends ElasticSipTrunkingDomainApi {
    * Return all the call blocking rules for the specified project.
    * @param { ListBlockingRulesRequestData } data - The data to provide to the API call.
    */
-  public list(data: ListBlockingRulesRequestData): ApiListPromise<CallBlockingRule> {
-    const getParams = this.client.extractQueryParams<ListBlockingRulesRequestData>(data, ['page', 'size', 'sort']);
+  public list(data?: ListBlockingRulesRequestData): ApiListPromise<CallBlockingRule> {
+    const getParams = this.client.extractQueryParams<ListBlockingRulesRequestData>(data ?? {},
+      ['page', 'size', 'sort']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

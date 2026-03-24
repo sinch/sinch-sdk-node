@@ -273,8 +273,8 @@ export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
    * @param { ListSipTrunksRequestData } data - The data to provide to the API call.
    * @return { ApiListPromise<SipTrunk> }
    */
-  public list(data: ListSipTrunksRequestData): ApiListPromise<SipTrunk> {
-    const getParams = this.client.extractQueryParams<ListSipTrunksRequestData>(data, ['page', 'size', 'domain']);
+  public list(data?: ListSipTrunksRequestData): ApiListPromise<SipTrunk> {
+    const getParams = this.client.extractQueryParams<ListSipTrunksRequestData>(data ?? {}, ['page', 'size', 'domain']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
