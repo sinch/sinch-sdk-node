@@ -1,6 +1,5 @@
-import { LazyNumberLookupApiClient } from '../../../src';
+import { NumberLookupDomainApi, LazyNumberLookupApiClient } from '../../../src';
 import { ApiHostname, UnifiedCredentials } from '@sinch/sdk-client';
-import { NumberLookupDomainApi } from '../../../src/rest/v1/number-lookup-domain-api';
 
 describe('Number Lookup API', () => {
   let numberLookupApi: NumberLookupDomainApi;

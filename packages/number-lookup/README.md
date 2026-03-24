@@ -54,7 +54,7 @@ const numberLookupService: NumberLookupService = sinch.numberLookup;
 // Build the request data
 const requestData: NumberLookup.NumberLookupRequestData = {
   numberLookupRequestBody: {
-    number: +17813334444,
+    number: '+17813334444',
   },
 };
 
@@ -88,7 +88,7 @@ const numberLookupService  = new NumberLookupService(credentials);
 // Build the request data
 const requestData: NumberLookup.NumberLookupRequestData = {
   numberLookupRequestBody: {
-    number: +17813334444,
+    number: '+17813334444',
   },
 };
 
@@ -113,7 +113,7 @@ try {
 
 // Method 2: Resolve the promise
 numberLookupService.lookup(requestData)
-  .then(response => console.log(`Phone number: ${response.phoneNumber} - Type: ${response.type}`))
+  .then(response => console.log(`Phone number: ${response.number} - Type: ${response.line?.type}`))
   .catch(error => console.error(`ERROR ${error.statusCode} when performing a lookup for the phone number "${requestData.numberLookupRequestBody.number}"`));
 ```
 
