@@ -3,4 +3,7 @@ export type {
   WhatsAppFlowMessage,
   WhatsAppPaymentOrderDetailsMessage,
   WhatsAppPaymentOrderStatusMessage,
+  KakaoTalkCommerceMessage,
+  KakaoTalkCarouselCommerceMessage,
+  LineNotificationTemplateMessage,
 } from './channel-specific-message';

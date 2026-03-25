@@ -3,6 +3,7 @@ import { WhatsAppPaymentOrderDetails } from '../whatsapp-payment-order-details';
 import { WhatsAppPaymentOrderStatus } from '../whatsapp-payment-order-status';
 import { KakaoTalkCommerce } from '../kakaotalk-commerce';
 import { KakaoTalkCarouselCommerce } from '../kakaotalk-carousel-commerce';
+import { LineNotificationTemplate } from '../line-notification-template';
 
 /**
  * A message containing a channel specific message (not supported by OMNI types).
@@ -11,7 +12,8 @@ export type ChannelSpecificMessage = WhatsAppFlowMessage
   | WhatsAppPaymentOrderDetailsMessage
   | WhatsAppPaymentOrderStatusMessage
   | KakaoTalkCommerceMessage
-  | KakaoTalkCarouselCommerceMessage;
+  | KakaoTalkCarouselCommerceMessage
+  | LineNotificationTemplateMessage;
 
 export interface WhatsAppFlowMessage {
   /** The type of the channel specific message. */
@@ -46,4 +48,11 @@ export interface KakaoTalkCarouselCommerceMessage {
   message_type: 'CAROUSEL_COMMERCE';
   /** @see KakaoTalkCarouselCommerce */
   message: KakaoTalkCarouselCommerce;
+}
+
+export interface LineNotificationTemplateMessage {
+  /** The type of the channel specific message. */
+  message_type: 'NOTIFICATION_MESSAGE_TEMPLATE';
+  /** @see LineNotificationTemplate */
+  message: LineNotificationTemplate;
 }
