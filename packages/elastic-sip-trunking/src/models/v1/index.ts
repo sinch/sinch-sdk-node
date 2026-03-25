@@ -1,5 +1,7 @@
 export * from './access-control-list';
 export * from './add-access-control-list-to-trunk';
+export * from './add-projects-request';
+export * from './add-projects-response';
 export * from './call';
 export * from './country-permission';
 export * from './create-access-control-list-request';
