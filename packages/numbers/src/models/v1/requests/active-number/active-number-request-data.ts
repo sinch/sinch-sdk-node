@@ -9,9 +9,9 @@ export interface GetActiveNumberRequestData {
 
 export interface ListActiveNumbersRequestData {
   /** Region code to filter by. ISO 3166-1 alpha-2 country code of the phone number. Example: `US`, `GB` or `SE`. */
-  regionCode: string;
+  regionCode?: string;
   /** Number type to filter by. Options include, `MOBILE`, `LOCAL` or `TOLL_FREE`. */
-  type: NumberTypeEnum;
+  type?: NumberTypeEnum;
   /** Sequence of digits to search for. If you prefer or need certain digits in sequential order, you can enter the sequence of numbers here. For example, `2020`. */
   'numberPattern.pattern'?: string;
   /** Search pattern to apply. The options are, `START`, `CONTAIN`, and `END`. */
