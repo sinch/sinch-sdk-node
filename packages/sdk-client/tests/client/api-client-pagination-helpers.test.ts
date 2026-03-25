@@ -283,7 +283,7 @@ describe('API Client Pagination Helper', () => {
       // Given
       const response = {
         elements: ['H', 'He'],
-        pageNumber: 1,
+        page: 1,
         pageSize: 2,
         totalItems: 2,
         totalPages: 1,
