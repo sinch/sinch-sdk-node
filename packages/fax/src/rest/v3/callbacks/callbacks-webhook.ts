@@ -64,4 +64,15 @@ export class FaxCallbackWebhooks implements CallbackProcessor<FaxWebhookEventPar
     return true;
   }
 
+  /**
+   * Static reviver for a Fax Event.
+   * This method ensures the object can be treated as a Fax Event.
+   * @param {any} eventBody - The event body containing the Fax event notification.
+   * @return {FaxWebhookEventParsed} - The parsed Fax event object
+   */
+  public static parseEvent(eventBody:any): FaxWebhookEventParsed {
+    const instance = new FaxCallbackWebhooks();
+    return instance.parseEvent(eventBody);
+  }
+
 }

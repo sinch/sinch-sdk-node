@@ -136,3 +136,32 @@ When('I send a request to delete a message', async () => {
 Then('the delete message response contains no data', () => {
   assert.deepEqual(deleteMessageResponse, {} );
 });
+
+When('I send a request to list the last messages sent to specified channel identities', async () => {
+  // TODO
+});
+
+Then('the response contains {string} last messages sent to specified channel identities', (expectedAnswer: string) => {
+  // TODO
+  assert.equal(expectedAnswer, expectedAnswer);
+});
+
+When('I send a request to list all the last messages sent to specified channel identities', async () => {
+  // TODO
+});
+
+When('I iterate manually over the last messages sent to specified channel identities pages', async () => {
+  // TODO
+});
+
+// eslint-disable-next-line max-len
+Then('the response list contains {string} last messages sent to specified channel identities',  (expectedAnswer: string) => {
+  // TODO
+  assert.equal(expectedAnswer, expectedAnswer);
+});
+
+// eslint-disable-next-line max-len
+Then('the result contains the data from {string} pages of last messages sent to specified channel identities',  (expectedAnswer: string) => {
+  // TODO
+  assert.equal(expectedAnswer, expectedAnswer);
+});
