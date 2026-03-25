@@ -3,9 +3,8 @@ import {
   buildOAuth2ApiClientOptions,
   FAX_HOSTNAME,
   FaxRegion,
-  formatRegionalizedHostname,
   SinchClientParameters,
-  SupportedFaxRegion, UnifiedCredentials,
+  UnifiedCredentials,
 } from '@sinch/sdk-client';
 import { FaxToEmailApi } from './fax-to-email';
 import { FaxesApi } from './faxes';
@@ -20,18 +19,10 @@ export class LazyFaxApiClient {
     if (!this.apiFetchClient) {
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sharedConfig, 'Fax');
       this.apiFetchClient = new ApiFetchClient(apiClientOptions);
-      const region = this.sharedConfig.faxRegion ?? FaxRegion.DEFAULT;
-      if(!Object.values(SupportedFaxRegion).includes(region as SupportedFaxRegion)) {
-        console.warn(`The region "${region}" is not known as a supported region for the Fax API`);
-      }
-      this.apiFetchClient.apiClientOptions.hostname = this.sharedConfig.faxHostname ?? this.buildHostname(region);
+      // Note: Fax API is global; do not rely on faxRegion. Keep hostname resolution only.
+      this.apiFetchClient.apiClientOptions.hostname = this.sharedConfig.faxHostname ?? FAX_HOSTNAME;
     }
     return this.apiFetchClient;
-  }
-
-  private buildHostname(region: FaxRegion) {
-    const formattedRegion = region !== '' ? `${region}.` : '';
-    return formatRegionalizedHostname(FAX_HOSTNAME, formattedRegion);
   }
 
   public resetApiClient() {
@@ -81,12 +72,16 @@ export class FaxService {
   }
 
   /**
+   * @deprecated
    * Update the current region for each API
-   * @param {FaxRegion} region - The new region to use in the production URL
+   * @param {FaxRegion} _region - The new region to use in the production URL
    */
-  public setRegion(region: FaxRegion) {
-    this.lazyClient.sharedConfig.faxRegion = region;
-    this.lazyClient.resetApiClient();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public setRegion(_region: FaxRegion) {
+    // Deprecated: regions are ignored by the Fax API which uses a single global endpoint.
+    // Keep this method for backward compatibility but avoid mutating shared state or
+    // resetting the client to prevent unexpected side effects.
+    console.info(`Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint ${FAX_HOSTNAME}`);
   }
 
   public setCredentials(credentials: Partial<UnifiedCredentials>): void {
