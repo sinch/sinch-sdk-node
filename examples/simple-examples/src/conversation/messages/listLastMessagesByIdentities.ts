@@ -23,6 +23,7 @@ const populateMessagesList = (
   console.log('* Messages_ListMessagesByChannelIdentity *');
   console.log('******************************************');
 
+  // The API expects the phone number in E.164 format without the "+" sign
   const phoneNumber = getPhoneNumberFromConfig().substring(1);
 
   const requestData: Conversation.ListLastMessagesByChannelIdentityRequestData = {

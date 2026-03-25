@@ -11,7 +11,7 @@ export class NumberLookupSample {
 
   async start() {
     // The phone number to lookup in E.164 format
-    const phoneNumber = 'a_phone_number';
+    const phoneNumber = 'PHONE_NUMBER_TO_LOOKUP';
 
     const response = await this.numberLookupService.lookup({
       numberLookupRequestBody: {
