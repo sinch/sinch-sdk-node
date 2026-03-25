@@ -68,6 +68,7 @@ export * from './kakaotalk-image';
 export * from './kakaotalk-message';
 export * from './kakaotalk-pricing';
 export * from './list-apps-response';
+export * from './list-last-messages-by-channel-identity-request';
 export * from './list-message';
 export * from './list-section';
 export * from './list-webhooks-response';

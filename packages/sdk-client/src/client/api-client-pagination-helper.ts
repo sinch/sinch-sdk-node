@@ -64,6 +64,10 @@ class SinchIterator<T> implements AsyncIterator<T> {
       const newParams = {
         page_token: pageResult.nextPageValue,
       };
+      if (requestOptions.method === 'POST') {
+        return updateBodyParamsAndSendRequest(
+          this.apiClient, newParams, requestOptions, this.paginatedOperationProperties);
+      }
       return updateQueryParamsAndSendRequest(
         this.apiClient, newParams, requestOptions, this.paginatedOperationProperties);
     }
@@ -110,6 +114,34 @@ const updateQueryParamsAndSendRequest = <T>(
     requestOptions: newRequestOptions,
     ...paginatedApiProperties,
   });
+};
+
+const updateBodyParamsAndSendRequest = <T>(
+  apiClient: ApiClient,
+  newParams: { [key: string]: string },
+  requestOptions: RequestOptions,
+  paginatedApiProperties: PaginatedApiProperties,
+): Promise<PageResult<T>> => {
+  requestOptions.body = JSON.stringify({
+    ...JSON.parse(requestOptions.body as string),
+    ...sanitizeNewParams(newParams),
+  });
+  return apiClient.processCallWithPagination<T>({
+    url: requestOptions.hostname,
+    requestOptions,
+    ...paginatedApiProperties,
+  });
+};
+
+const sanitizeNewParams = (newParams: { [key: string]: string }): { [key: string]: string } => {
+  const sanitizedParams: { [key: string]: string } = {};
+  for (const key in newParams) {
+    if (newParams[key]) {
+      // Remove the quotes added by JSON.stringify to the value of the new params to avoid having pageToken: ""abc"" instead of pageToken: "abc" in the request body
+      sanitizedParams[key] = JSON.parse(newParams[key]);
+    }
+  }
+  return sanitizedParams;
 };
 
 export const createIteratorMethodsForPagination = <T>(
@@ -160,7 +192,9 @@ export const createNextPageMethod = <T>(
     throw new Error(`Error: the pagination method (${context.pagination}) is not supported`);
   }
 
-  const pageResultPromise = updateQueryParamsAndSendRequest<T>(apiClient, newParams, requestOptions, context);
+  const pageResultPromise = requestOptions.method === 'POST'
+    ? updateBodyParamsAndSendRequest<T>(apiClient, newParams, requestOptions, context)
+    : updateQueryParamsAndSendRequest<T>(apiClient, newParams, requestOptions, context);
 
   const requestOptionsPromise = new Promise<RequestOptions>((resolve) => {
     resolve(requestOptions);

@@ -407,6 +407,65 @@ describe('MessagesApi', () => {
     });
   });
 
+  describe ('listLastMessagesByChannelIdentity', () => {
+    it('should make a POST request to list the last messages related to the channel identities', async () => {
+      // Given
+      const requestData: Conversation.ListLastMessagesByChannelIdentityRequestData = {
+        listLastMessagesByChannelIdentityRequestBody: {
+          channel_identities: [
+            '4712345678',
+          ],
+          messages_source: 'DISPATCH_SOURCE',
+          direction: 'TO_CONTACT',
+        },
+      };
+      const mockData: Conversation.ConversationMessage[] = [
+        {
+          id: 'id',
+          direction: 'TO_CONTACT',
+          app_message: {
+            explicit_channel_message: {},
+            text_message: {
+              text: 'Hello from Sinch - RCS',
+            },
+            agent: null,
+            explicit_channel_omni_message: {},
+            channel_specific_message: {},
+          },
+          channel_identity: {
+            channel: 'RCS',
+            identity: '4712345678',
+            app_id: '',
+          },
+          conversation_id: '',
+          contact_id: '',
+          metadata: '',
+          accept_time: new Date('2019-08-24T14:15:22Z'),
+          sender_id: '',
+          processing_mode: 'DISPATCH',
+          injected: false,
+          message_status: null,
+        },
+      ];
+      const expectedResponse = {
+        data: mockData,
+        hasNextPage: false,
+        nextPageValue: '',
+        nextPage: jest.fn(),
+      };
+
+      // When
+      fixture.listLastMessagesByChannelIdentity.mockResolvedValue(expectedResponse);
+      messagesApi.listLastMessagesByChannelIdentity = fixture.listLastMessagesByChannelIdentity;
+      const response = await messagesApi.listLastMessagesByChannelIdentity(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(response.data).toBeDefined();
+      expect(fixture.listLastMessagesByChannelIdentity).toHaveBeenCalledWith(requestData);
+    });
+  });
+
   describe ('sendMessage', () => {
     // Given
     const sendMessageRequest: Omit<Conversation.SendMessageRequest<Conversation.Recipient>, 'recipient'> = {

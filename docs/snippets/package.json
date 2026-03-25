@@ -42,6 +42,7 @@
     "conversation:messages:send": "node conversation/messages/send.js",
     "conversation:messages:get": "node conversation/messages/get.js",
     "conversation:messages:list": "node conversation/messages/list.js",
+    "conversation:messages:listLastMessagesByChannelIdentity": "node conversation/messages/listLastMessagesByChannelIdentity.js",
     "conversation:messages:update": "node conversation/messages/update.js",
     "conversation:messages:delete": "node conversation/messages/delete.js",
     "conversation:templates:v1:create": "node conversation/templates/v1/create.js",

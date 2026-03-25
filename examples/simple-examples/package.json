@@ -33,6 +33,7 @@
     "conversation:messages:sendTextMessage": "ts-node src/conversation/messages/sendTextMessage.ts",
     "conversation:messages:get": "ts-node src/conversation/messages/get.ts",
     "conversation:messages:list": "ts-node src/conversation/messages/list.ts",
+    "conversation:messages:listLastMessagesByIdentities": "ts-node src/conversation/messages/listLastMessagesByIdentities.ts",
     "conversation:messages:update": "ts-node src/conversation/messages/update.ts",
     "conversation:messages:delete": "ts-node src/conversation/messages/delete.ts",
     "conversation:conversation:create": "ts-node src/conversation/conversation/create.ts",
