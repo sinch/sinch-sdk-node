@@ -8,10 +8,12 @@ import {
   VerificationService,
   VoiceService,
   ElasticSipTrunkingService,
+  NumberLookupService,
 } from '@sinch/sdk-core';
 require('dotenv').config();
 
-const initClient = (): Pick<SinchClient, 'conversation' | 'elasticSipTrunking' | 'fax' | 'numbers' | 'sms'> => {
+// eslint-disable-next-line max-len
+const initClient = (): Pick<SinchClient, 'conversation' | 'elasticSipTrunking' | 'fax' | 'numbers' | 'sms' | 'numberLookup'> => {
   const keyId = process.env.SINCH_KEY_ID || '';
   const keySecret = process.env.SINCH_KEY_SECRET || '';
   const projectId = process.env.SINCH_PROJECT_ID || '';
@@ -61,6 +63,10 @@ export const initVerificationService = (): VerificationService => {
 
 export const initVoiceService = (): VoiceService => {
   return initApplicationClient().voice;
+};
+
+export const initNumberLookupService = (): NumberLookupService => {
+  return initClient().numberLookup;
 };
 
 export const getPrintFormat = (args: string[]): 'pretty' | 'full' => {

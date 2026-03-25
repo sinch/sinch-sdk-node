@@ -6,3 +6,4 @@ export * from '@sinch/numbers';
 export * from '@sinch/sms';
 export * from '@sinch/verification';
 export * from '@sinch/voice';
+export * from '@sinch/number-lookup';
