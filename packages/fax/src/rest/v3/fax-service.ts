@@ -72,9 +72,9 @@ export class FaxService {
   }
 
   /**
-   * @deprecated
    * Update the current region for each API
    * @param {FaxRegion} _region - The new region to use in the production URL
+   * @deprecated
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public setRegion(_region: FaxRegion) {
