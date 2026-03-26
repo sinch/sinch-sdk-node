@@ -132,7 +132,7 @@ describe('Fax Service', () => {
     // Then
     // Fax API is global: setRegion is deprecated and should not change the hostname.
     expect(infoSpy).toHaveBeenCalledWith(
-      `Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint ${DEFAULT_HOSTNAME}`
+      `Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint ${DEFAULT_HOSTNAME}`,
     );
     expect(faxService.faxes.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(faxService.faxToEmail.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
