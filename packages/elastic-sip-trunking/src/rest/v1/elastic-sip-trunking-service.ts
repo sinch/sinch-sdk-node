@@ -12,6 +12,8 @@ import { SipEndpointsApi } from './sip-endpoints';
 import { CountryPermissionsApi } from './country-permissions';
 import { CallsHistoryApi } from './calls-history';
 import { ProjectsApi } from './projects';
+import { CallBlockingRulesApi } from './call-blocking-rules';
+import { CredentialListsApi } from './credential-lists';
 
 export class LazyElasticSipTrunkingApiClient {
   private client?: ApiClient;
@@ -40,6 +42,8 @@ export class ElasticSipTrunkingService {
   public readonly countryPermissions: CountryPermissionsApi;
   public readonly calls: CallsHistoryApi;
   public readonly projects: ProjectsApi;
+  public readonly callBlockingRules: CallBlockingRulesApi;
+  public readonly credentialLists: CredentialListsApi;
 
   private readonly lazyClient: LazyElasticSipTrunkingApiClient;
 
@@ -52,6 +56,8 @@ export class ElasticSipTrunkingService {
     this.countryPermissions = new CountryPermissionsApi(this.lazyClient);
     this.calls = new CallsHistoryApi(this.lazyClient);
     this.projects = new ProjectsApi(this.lazyClient);
+    this.callBlockingRules = new CallBlockingRulesApi(this.lazyClient);
+    this.credentialLists = new CredentialListsApi(this.lazyClient);
   }
 
   /**

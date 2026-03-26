@@ -229,6 +229,18 @@ export const getIpRangeIdFromConfig = () => {
   return readVariable('IP_RANGE_ID');
 };
 
+export const getCallBlockingRuleIdFromConfig = () => {
+  return readVariable('CALL_BLOCKING_RULE_ID');
+};
+
+export const getCredentialListIdFromConfig = () => {
+  return readVariable('CREDENTIAL_LIST_ID');
+};
+
+export const getESTCredentialUsernameFromConfig = () => {
+  return readVariable('EST_CREDENTIAL_USERNAME');
+};
+
 const readVariable = ( name: string): string => {
   const value = process.env[name];
   if (!value) {

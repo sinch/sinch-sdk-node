@@ -13,6 +13,10 @@ let aclIdsList: ElasticSipTrunking.AddAccessControlListToTrunk;
 let listAclsResponse: PageResult<string>;
 let aclsList: string[];
 let deleteAclFromTrunkResponse: void;
+let credentialListsResponse: PageResult<ElasticSipTrunking.CredentialList>;
+let credentialListsList: ElasticSipTrunking.CredentialList[];
+let credentialListIdsResult: ElasticSipTrunking.CredentialListIds;
+let deleteCredentialListResponse: void;
 
 Given('the Elastic SIP Trunking service "SIP Trunks" is available', function () {
   const elasticSipTrunkingService = new ElasticSipTrunkingService({
@@ -216,3 +220,89 @@ When('I send a request to delete an ACL from a SIP trunk', async () => {
 Then('the delete ACL from a SIP trunk response contains no data', () => {
   assert.deepEqual(deleteAclFromTrunkResponse, {} );
 });
+
+When('I send a request to add Credential Lists to a SIP trunk', async () => {
+  credentialListIdsResult = await sipTrunkApi.addCredentialLists({
+    trunkId: '01W4FFL35P4NC4K35SIPTRUNK1',
+    addCredentialListIdsToTrunkRequestBody: {
+      credentialListIds: ['01W4FFL35P4NC4K35CREDLIST01'],
+    },
+  });
+});
+
+Then('the response contains the list of Credential Lists objects added to the trunk', () => {
+  assert.ok(credentialListIdsResult.credentialListIds);
+  assert.equal(credentialListIdsResult.credentialListIds.length, 1);
+});
+
+When('I send a request to update Credential Lists to a SIP trunk', async () => {
+  credentialListIdsResult = await sipTrunkApi.updateCredentialLists({
+    trunkId: '01W4FFL35P4NC4K35SIPTRUNK1',
+    updateCredentialListIdsForTrunkRequestBody: {
+      credentialListIds: ['01W4FFL35P4NC4K35CREDLIST02', '01W4FFL35P4NC4K35CREDLIST03'],
+    },
+  });
+});
+
+Then('the response contains the list of Credential Lists objects updated to the trunk', () => {
+  assert.ok(credentialListIdsResult.credentialListIds);
+  assert.equal(credentialListIdsResult.credentialListIds.length, 2);
+});
+
+When('I send a request to list the existing Credential Lists for a SIP Trunk', async () => {
+  credentialListsResponse = await sipTrunkApi.listCredentialLists({
+    trunkId: '01W4FFL35P4NC4K35SIPTRUNK1',
+  });
+});
+
+Then('the response contains {string} Credential Lists for a SIP Trunk', (expectedAnswer: string) => {
+  const expectedCount = parseInt(expectedAnswer, 10);
+  assert.equal(credentialListsResponse.data.length, expectedCount);
+});
+
+When('I send a request to list all the Credential Lists for a SIP Trunk', async () => {
+  credentialListsList = [];
+  for await (const cl of sipTrunkApi.listCredentialLists({ trunkId: '01W4FFL35P4NC4K35SIPTRUNK1' })) {
+    credentialListsList.push(cl);
+  }
+});
+
+When('I iterate manually over the Credential Lists for a SIP Trunk pages', async () => {
+  credentialListsList = [];
+  credentialListsResponse = await sipTrunkApi.listCredentialLists({ trunkId: '01W4FFL35P4NC4K35SIPTRUNK1' });
+  credentialListsList.push(...credentialListsResponse.data);
+  pagesIteration = 1;
+  let reachedEndOfPages = false;
+  while (!reachedEndOfPages) {
+    if (credentialListsResponse.hasNextPage) {
+      credentialListsResponse = await credentialListsResponse.nextPage();
+      credentialListsList.push(...credentialListsResponse.data);
+      pagesIteration++;
+    } else {
+      reachedEndOfPages = true;
+    }
+  }
+});
+
+Then('the Credential Lists list contains {string} Credential Lists for a SIP Trunk',  (expectedAnswer: string) => {
+  const expectedServices = parseInt(expectedAnswer, 10);
+  assert.equal(sipTrunksList.length, expectedServices);
+});
+
+// eslint-disable-next-line max-len
+Then('the Credential Lists for a SIP Trunk iteration result contains the data from {string} pages', (expectedAnswer: string) => {
+  const expectedPagesCount = parseInt(expectedAnswer, 10);
+  assert.equal(pagesIteration, expectedPagesCount);
+});
+
+When('I send a request to delete a Credential List from a SIP trunk', async () => {
+  deleteCredentialListResponse = await sipTrunkApi.deleteCredentialList({
+    trunkId: '01W4FFL35P4NC4K35SIPTRUNK1',
+    credentialListId: '01W4FFL35P4NC4K35CREDLIST001',
+  });
+});
+
+Then('the delete Credential List from a SIP trunk response contains no data', () => {
+  assert.deepEqual(deleteCredentialListResponse, {});
+});
+

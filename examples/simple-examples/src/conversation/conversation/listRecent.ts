@@ -35,7 +35,7 @@ const populateConversationsList = (
   const conversationList: Conversation.ConversationRecentMessage[] = [];
   const conversationDetailsList: string[] = [];
 
-  // Loop on all the pages to get all the active numbers
+  // Loop on all the pages to get all the recent conversations
   let reachedEndOfPages = false;
   while (!reachedEndOfPages) {
     populateConversationsList(response, conversationList, conversationDetailsList);

@@ -38,7 +38,7 @@ const populateIpRangesList = (
   const ipRangesList: ElasticSipTrunking.IpRange[] = [];
   const ipRangeDetailsList: string[] = [];
 
-  // Loop on all the pages to get all the active numbers
+  // Loop on all the pages to get all the IP ranges for the specified ACL
   let reachedEndOfPages = false;
   while (!reachedEndOfPages) {
     populateIpRangesList(response, ipRangesList, ipRangeDetailsList);

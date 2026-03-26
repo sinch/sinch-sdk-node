@@ -38,7 +38,7 @@ const populateSipEndpointsList = (
   const sipEndpointsList: ElasticSipTrunking.SipEndpoint[] = [];
   const sipEndpointsDetailsList: string[] = [];
 
-  // Loop on all the pages to get all the active numbers
+  // Loop on all the pages to get all the SIP endpoints
   let reachedEndOfPages = false;
   while (!reachedEndOfPages) {
     populateSipEndpointsList(response, sipEndpointsList, sipEndpointsDetailsList);

@@ -31,7 +31,7 @@ const populateIdentityConflictsList = (
   const identityConflictsList: Conversation.IdentityConflict[] = [];
   const identityConflictDetailsList: string[] = [];
 
-  // Loop on all the pages to get all the active numbers
+  // Loop on all the pages to get all the identity conflicts
   let reachedEndOfPages = false;
   while (!reachedEndOfPages) {
     populateIdentityConflictsList(response, identityConflictsList, identityConflictDetailsList);

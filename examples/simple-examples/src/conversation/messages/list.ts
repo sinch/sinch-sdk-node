@@ -44,7 +44,7 @@ const populateMessagesList = (
   const messageList: Conversation.ConversationMessage[] = [];
   const messagesDetailsList: string[] = [];
 
-  // Loop on all the pages to get all the active numbers
+  // Loop on all the pages to get all the messages
   let reachedEndOfPages = false;
   while (!reachedEndOfPages) {
     populateMessagesList(response, messageList, messagesDetailsList);

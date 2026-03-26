@@ -40,7 +40,7 @@ const populateCallsList = (
   const callsList: ElasticSipTrunking.Call[] = [];
   const callsDetailsList: string[] = [];
 
-  // Loop on all the pages to get all the active numbers
+  // Loop on all the pages to get all the calls
   let reachedEndOfPages = false;
   while (!reachedEndOfPages) {
     populateCallsList(response, callsList, callsDetailsList);

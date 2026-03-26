@@ -20,6 +20,8 @@ export interface SipEndpointBase {
   createTime?: Date;
   /** The date and time that the SIP endpoint was last modified. */
   updateTime?: Date | null;
+  /** The ID of the project. */
+  projectId?: string;
 }
 
 export interface StaticEndpoint extends SipEndpointBase {
@@ -32,6 +34,8 @@ export interface StaticEndpoint extends SipEndpointBase {
 export interface RegisteredEndpoint extends SipEndpointBase {
   /** This property determines whether the endpoint is static or registered. If registered, this must be set to `true`. */
   isRegistered: boolean;
-  /** The username for the credential list you want to use to register the endpoint. */
-  credentialUserName: string;
+  /** @deprecated The username for the credential list you want to use to register the endpoint. */
+  credentialUserName?: string;
+  /** @deprecated The username for the credential list you want to use to register the endpoint. */
+  credentialUsername: string;
 }
