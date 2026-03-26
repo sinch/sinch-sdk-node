@@ -36,11 +36,15 @@ export class FaxDomainApi implements Api {
 
   /**
    * Update the region in the basePath
-   * @param {FaxRegion} region - The new region to send the requests to
+   * @param {FaxRegion} _region - The new region to send the requests to
+   * @deprecated
    */
-  public setRegion(region: FaxRegion) {
-    this.lazyClient.sharedConfig.faxRegion = region;
-    this.lazyClient.resetApiClient();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public setRegion(_region: FaxRegion) {
+    // Deprecated: regions are ignored by the Fax API which uses a single global endpoint.
+    // Keep this method for backward compatibility but avoid mutating shared state or
+    // resetting the client to prevent unexpected side effects.
+    console.info(`Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint ${this.lazyClient.sharedConfig.faxHostname ?? 'https://fax.api.sinch.com'}`);
   }
 
   /**
