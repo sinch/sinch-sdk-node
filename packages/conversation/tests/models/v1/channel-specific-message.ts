@@ -2,11 +2,10 @@ import {
   WhatsAppFlowMessage,
   WhatsAppPaymentOrderDetailsMessage,
   WhatsAppPaymentOrderStatusMessage,
-} from '../../../src/models';
-import {
   KakaoTalkCarouselCommerceMessage,
   KakaoTalkCommerceMessage,
-} from '../../../src/models/v1/channel-specific-message/channel-specific-message';
+  LineNotificationTemplateMessage,
+} from '../../../src/models';
 
 export const whatsAppFlowMessage = {
   message_type: 'FLOWS',
@@ -143,3 +142,40 @@ export const kakaoTalkCarouselCommerceMessage = {
     push_alarm: false,
   },
 } satisfies KakaoTalkCarouselCommerceMessage;
+
+export const lineNotificationTemplateMessage = {
+  message_type: 'NOTIFICATION_MESSAGE_TEMPLATE',
+  message: {
+    template_key: 'shipment_completed_ja',
+    body: {
+      emphasized_item: {
+        item_key: 'date_002_ja',
+        content: '2024年8月10日(土)',
+      },
+      items: [
+        {
+          item_key: 'time_range_001_ja',
+          content: '午前中',
+        },
+        {
+          item_key: 'price_001_ja',
+          content: '12,000円',
+        },
+        {
+          item_key: 'name_010_ja',
+          content: 'スープセット（冷凍）',
+        },
+      ],
+      buttons: [
+        {
+          button_key: 'check_delivery_status_ja',
+          url: 'https://example.com/CheckDeliveryStatus/',
+        },
+        {
+          button_key: 'contact_ja',
+          url: 'https://example.com/ContactUs/',
+        },
+      ],
+    },
+  },
+} satisfies LineNotificationTemplateMessage;
