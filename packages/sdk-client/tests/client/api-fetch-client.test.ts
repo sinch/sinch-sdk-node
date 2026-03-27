@@ -9,7 +9,7 @@ jest.mock('node-fetch', () => {
 });
 
 import { RequestPluginEnum } from '../../src/plugins/core/request-plugin';
-import { ApiFetchClient, PaginationEnum } from '../../src';
+import { ApiFetchClient, PaginationEnum, Oauth2TokenRequest } from '../../src';
 import fetch, { Headers, Response } from 'node-fetch';
 
 const mockedFetch = fetch as unknown as jest.Mock;
@@ -178,6 +178,94 @@ describe('manageExpiredToken', () => {
     expect(mockedFetch.mock.calls[1][1].headers.get('Authorization')).toBe('Bearer new-token');
   });
 
+});
+
+describe('concurrent token refresh', () => {
+
+  const CONCURRENT_REQUESTS = 5;
+  const AUTH_URL = 'https://auth.test.sinch.com';
+  const API_URL = 'https://api.test.sinch.com/sms/v1/batches';
+
+  it('all concurrent requests should succeed when the token is expired', async () => {
+    jest.clearAllMocks();
+
+    let authCallCount = 0;       // tracks how many token requests hit the auth server
+    const issuedTokens: string[] = []; // every token the auth server handed out
+    let apiCallSequence = 0;
+
+    mockedFetch.mockImplementation(async (url: string) => {
+
+      if (url === `${AUTH_URL}/oauth2/token`) {
+        authCallCount++;
+        // Small delay so that all concurrent callers have time to reach this point
+        await new Promise(resolve => setTimeout(resolve, 50));
+        const newToken = `valid-jwt-${authCallCount}`;
+        issuedTokens.push(newToken);
+        return new Response(JSON.stringify({
+          access_token: newToken,
+          expires_in: 3600,
+          scope: '',
+          token_type: 'bearer',
+        }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      apiCallSequence++;
+
+      // First N calls: the token is expired on the server → 401
+      if (apiCallSequence <= CONCURRENT_REQUESTS) {
+        return new Response(JSON.stringify({ error: 'token expired' }), {
+          status: 401,
+          headers: {
+            'www-authenticate':
+              'Bearer realm="sinch", error="invalid_token", error_description="expired"',
+          },
+        });
+      }
+
+      // Retries: succeed (the auth server never fails, so every retry carries a valid token)
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    });
+
+    const oauth2Plugin = new Oauth2TokenRequest('my-key-id', 'my-key-secret', AUTH_URL);
+
+    const apiClient = new ApiFetchClient({
+      requestPlugins: [oauth2Plugin],
+    });
+
+    const makeRequest = (id: number) => apiClient.processCall<any>({
+      url: API_URL,
+      requestOptions: {
+        method: 'POST',
+        headers: new Headers({ 'Content-Type': 'application/json' }),
+        hostname: 'https://api.test.sinch.com',
+        body: JSON.stringify({ to: ['+1234567890'], body: `Message ${id}` }),
+      },
+      apiName: 'SmsApi',
+      operationId: 'SendBatch',
+    });
+
+    const results = await Promise.allSettled(
+      Array.from({ length: CONCURRENT_REQUESTS }, (_, i) => makeRequest(i + 1)),
+    );
+
+    const fulfilled = results.filter(r => r.status === 'fulfilled');
+    const rejected = results.filter(r => r.status === 'rejected');
+
+    expect(rejected).toEqual([]);
+    expect(fulfilled.length).toBe(CONCURRENT_REQUESTS);
+
+    // The token refresh must be deduplicated: exactly 1 call to the auth server, not N.
+    expect(authCallCount).toBe(1);
+
+    // All retries must carry the exact same token (the one from the single auth call)
+    expect(issuedTokens).toEqual(['valid-jwt-1']);
+  });
 });
 
 describe('processFileResponse', () => {
