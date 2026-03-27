@@ -44,48 +44,48 @@ export class SmsCallbackWebhooks implements CallbackProcessor<SmsCallback>{
       let moBinary: MOBinary | null = null;
       let moMedia: MOMedia | null = null;
       switch (eventBody.type) {
-      case 'delivery_report_sms':
-      case 'delivery_report_mms':
-        return eventBody as DeliveryReport;
-      case 'recipient_delivery_report_sms':
-      case 'recipient_delivery_report_mms':
-        recipientDeliveryReport = eventBody as RecipientDeliveryReport;
-        if (recipientDeliveryReport.at) {
-          recipientDeliveryReport.at = new Date(recipientDeliveryReport.at);
-        }
-        if (recipientDeliveryReport.operator_status_at) {
-          recipientDeliveryReport.operator_status_at = new Date(recipientDeliveryReport.operator_status_at);
-        }
-        return recipientDeliveryReport;
-      case 'mo_text':
-        moText = eventBody as MOText;
-        if (moText.received_at) {
-          moText.received_at = new Date(moText.received_at);
-        }
-        if (moText.sent_at) {
-          moText.sent_at = new Date(moText.sent_at);
-        }
-        return moText;
-      case 'mo_binary':
-        moBinary = eventBody as MOBinary;
-        if (moBinary.received_at) {
-          moBinary.received_at = new Date(moBinary.received_at);
-        }
-        if (moBinary.sent_at) {
-          moBinary.sent_at = new Date(moBinary.sent_at);
-        }
-        return moBinary;
-      case 'mo_media':
-        moMedia = eventBody as MOMedia;
-        if (moMedia.received_at) {
-          moMedia.received_at = new Date(moMedia.received_at);
-        }
-        if (moMedia.sent_at) {
-          moMedia.sent_at = new Date(moMedia.sent_at);
-        }
-        return moMedia;
-      default:
-        throw new Error(`Unknown SMS event type: ${eventBody.type}`);
+        case 'delivery_report_sms':
+        case 'delivery_report_mms':
+          return eventBody as DeliveryReport;
+        case 'recipient_delivery_report_sms':
+        case 'recipient_delivery_report_mms':
+          recipientDeliveryReport = eventBody as RecipientDeliveryReport;
+          if (recipientDeliveryReport.at) {
+            recipientDeliveryReport.at = new Date(recipientDeliveryReport.at);
+          }
+          if (recipientDeliveryReport.operator_status_at) {
+            recipientDeliveryReport.operator_status_at = new Date(recipientDeliveryReport.operator_status_at);
+          }
+          return recipientDeliveryReport;
+        case 'mo_text':
+          moText = eventBody as MOText;
+          if (moText.received_at) {
+            moText.received_at = new Date(moText.received_at);
+          }
+          if (moText.sent_at) {
+            moText.sent_at = new Date(moText.sent_at);
+          }
+          return moText;
+        case 'mo_binary':
+          moBinary = eventBody as MOBinary;
+          if (moBinary.received_at) {
+            moBinary.received_at = new Date(moBinary.received_at);
+          }
+          if (moBinary.sent_at) {
+            moBinary.sent_at = new Date(moBinary.sent_at);
+          }
+          return moBinary;
+        case 'mo_media':
+          moMedia = eventBody as MOMedia;
+          if (moMedia.received_at) {
+            moMedia.received_at = new Date(moMedia.received_at);
+          }
+          if (moMedia.sent_at) {
+            moMedia.sent_at = new Date(moMedia.sent_at);
+          }
+          return moMedia;
+        default:
+          throw new Error(`Unknown SMS event type: ${eventBody.type}`);
       }
     }
     throw new Error(`Unknown SMS event: ${JSON.stringify(eventBody)}`);

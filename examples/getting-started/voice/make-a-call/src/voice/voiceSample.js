@@ -3,7 +3,7 @@
  */
 export class VoiceSample {
   /**
-   * @param { VoiceService } voiceService - the VoiceService instance from the Sinch SDK containing the API methods.
+   * @param { import('@sinch/sdk-core').VoiceService } voiceService - the VoiceService instance from the Sinch SDK containing the API methods.
    */
   constructor(voiceService) {
     this.voiceService = voiceService;

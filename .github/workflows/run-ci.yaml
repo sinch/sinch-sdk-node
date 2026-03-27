@@ -19,7 +19,7 @@ jobs:
         run: yarn install
 
       - name: Run ESLint
-        run: npx eslint "packages/**/{src,tests}/**/*.ts"
+        run: npx eslint "packages/**/{src,tests}/**/*.ts" "examples/**/{src,}/**/*.{js,ts}" --ignore-pattern "**/node_modules/**" --ignore-pattern "**/dist/**"
 
       - name: Build project
         run: yarn run build

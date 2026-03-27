@@ -3,7 +3,7 @@
  */
 export class ConversationSample {
   /**
-   * @param { ConversationService } conversationService - the ConversationService instance from the Sinch SDK containing the API methods.
+   * @param { import('@sinch/sdk-core').ConversationService } conversationService - the ConversationService instance from the Sinch SDK containing the API methods.
    */
   constructor(conversationService) {
     this.conversationService = conversationService;

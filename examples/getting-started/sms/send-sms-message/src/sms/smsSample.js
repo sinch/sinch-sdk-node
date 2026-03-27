@@ -3,7 +3,7 @@
  */
 export class SmsSample {
   /**
-   * @param { SmsService } smsService - the SmsService instance from the Sinch SDK containing the API methods.
+   * @param { import('@sinch/sdk-core').SmsService } smsService - the SmsService instance from the Sinch SDK containing the API methods.
    */
   constructor(smsService) {
     this.smsService = smsService;

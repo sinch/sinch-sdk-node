@@ -171,25 +171,25 @@ export const createNextPageMethod = <T>(
 ): ApiListPromise<T> => {
   let newParams;
   switch (context.pagination) {
-  case PaginationEnum.TOKEN:
-    newParams = {
-      pageToken: nextPageValue,
-    };
-    break;
-  case PaginationEnum.TOKEN2:
-    newParams = {
-      page_token: nextPageValue,
-    };
-    break;
-  case PaginationEnum.PAGE:
-  case PaginationEnum.PAGE2:
-  case PaginationEnum.PAGE3:
-    newParams = {
-      page: nextPageValue,
-    };
-    break;
-  default:
-    throw new Error(`Error: the pagination method (${context.pagination}) is not supported`);
+    case PaginationEnum.TOKEN:
+      newParams = {
+        pageToken: nextPageValue,
+      };
+      break;
+    case PaginationEnum.TOKEN2:
+      newParams = {
+        page_token: nextPageValue,
+      };
+      break;
+    case PaginationEnum.PAGE:
+    case PaginationEnum.PAGE2:
+    case PaginationEnum.PAGE3:
+      newParams = {
+        page: nextPageValue,
+      };
+      break;
+    default:
+      throw new Error(`Error: the pagination method (${context.pagination}) is not supported`);
   }
 
   const pageResultPromise = requestOptions.method === 'POST'
@@ -326,10 +326,10 @@ const checkIfThereAreMorePages = (
 ): boolean => {
   const lastPageNumber = calculateLastPageValue(response, requestedPageSize, paginationType);
   switch (paginationType) {
-  case PaginationEnum.PAGE:
-    return response.page! < lastPageNumber;
-  case PaginationEnum.PAGE2:
-    return response.pageNumber! < lastPageNumber;
+    case PaginationEnum.PAGE:
+      return response.page! < lastPageNumber;
+    case PaginationEnum.PAGE2:
+      return response.pageNumber! < lastPageNumber;
   }
 };
 
@@ -347,10 +347,10 @@ const calculateLastPageValue = (
   }
   // The elements in the response are not enough to determine if the current page is the last one
   switch (paginationType) {
-  case PaginationEnum.PAGE:
-    return Math.ceil(response.count! / pageSize) - 1;
-  case PaginationEnum.PAGE2:
-    return Math.ceil(response.totalItems! / pageSize);
+    case PaginationEnum.PAGE:
+      return Math.ceil(response.count! / pageSize) - 1;
+    case PaginationEnum.PAGE2:
+      return Math.ceil(response.totalItems! / pageSize);
   }
 };
 
@@ -369,10 +369,10 @@ const getCurrentPage = (
   paginationType: PaginationEnum.PAGE | PaginationEnum.PAGE2,
 ): number | undefined => {
   switch (paginationType) {
-  case PaginationEnum.PAGE:
-    return response.page;
-  case PaginationEnum.PAGE2:
-    return response.pageNumber;
+    case PaginationEnum.PAGE:
+      return response.page;
+    case PaginationEnum.PAGE2:
+      return response.pageNumber;
   }
 };
 
@@ -381,10 +381,10 @@ const getPageSize = (
   paginationType: PaginationEnum.PAGE | PaginationEnum.PAGE2,
 ): number | undefined => {
   switch (paginationType) {
-  case PaginationEnum.PAGE:
-    return response.page_size;
-  case PaginationEnum.PAGE2:
-    return response.pageSize;
+    case PaginationEnum.PAGE:
+      return response.page_size;
+    case PaginationEnum.PAGE2:
+      return response.pageSize;
   }
 };
 
@@ -393,10 +393,10 @@ const getItemCount = (
   paginationType: PaginationEnum.PAGE | PaginationEnum.PAGE2,
 ): number | undefined => {
   switch (paginationType) {
-  case PaginationEnum.PAGE:
-    return response.count;
-  case PaginationEnum.PAGE2:
-    return response.totalItems;
+    case PaginationEnum.PAGE:
+      return response.count;
+    case PaginationEnum.PAGE2:
+      return response.totalItems;
   }
 };
 

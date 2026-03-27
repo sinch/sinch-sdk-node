@@ -3,6 +3,10 @@ import { handleConversationEvent } from './serverBusinessLogic.js';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
+/**
+ * @param { import('express').Express } app
+ * @param { import('@sinch/sdk-core').SinchClientParameters } sinchClientParameters
+ */
 export const conversationController = (app, sinchClientParameters) => {
 
   app.post('/ConversationEvent', async (req, res) => {

@@ -2,13 +2,13 @@ import { SinchClient } from '@sinch/sdk-core';
 
 /**
  * Handles the incoming Conversation event by echoing what has been received to the sender.
- * @param { MessageInboundEvent } messageInboundEvent - The incoming Conversation message event object
- * @param sinchClientParameters - the Conversation service instance from the Sinch SDK containing the API methods
+ * @param { import('@sinch/sdk-core').Conversation.MessageInboundEvent } messageInboundEvent - The incoming Conversation message event object
+ * @param { import('@sinch/sdk-core').SinchClientParameters } sinchClientParameters - the Sinch client parameters
  */
 export const handleConversationEvent = async (messageInboundEvent, sinchClientParameters) => {
   console.log(`Handling event: ${JSON.stringify(messageInboundEvent, null, 2)}`);
 
-  /** @type {Conversation.SendTextMessageRequestData} */
+  /** @type {import('@sinch/sdk-core').Conversation.SendTextMessageRequestData<import('@sinch/sdk-core').Conversation.Recipient>} */
   const sendMessageRequest = {
     sendMessageRequestBody: {
       app_id: messageInboundEvent.app_id,
@@ -27,7 +27,7 @@ export const handleConversationEvent = async (messageInboundEvent, sinchClientPa
           ],
         },
       },
-    }
+    },
   };
 
   console.log(`Replying with: ${JSON.stringify(sendMessageRequest, null, 2)}`);

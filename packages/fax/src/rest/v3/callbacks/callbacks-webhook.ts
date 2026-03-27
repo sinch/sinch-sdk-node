@@ -18,28 +18,28 @@ export class FaxCallbackWebhooks implements CallbackProcessor<FaxWebhookEventPar
     let faxCompletedEvent: FaxCompletedEvent | null = null;
     if (eventBody.event) {
       switch (eventBody.event) {
-      case 'INCOMING_FAX':
-        incomingFaxEvent = eventBody as IncomingFaxEvent;
-        if (eventBody.eventTime) {
-          incomingFaxEvent.eventTime = new Date(eventBody.eventTime);
-        }
-        // In case of multipart/form-data, the server may not have parsed the 'fax' property as a JSON object, so we do it here
-        if (typeof eventBody.fax === 'string') {
-          incomingFaxEvent.fax = this.reviveFax(eventBody.fax);
-        }
-        return incomingFaxEvent;
-      case 'FAX_COMPLETED':
-        faxCompletedEvent = eventBody as FaxCompletedEvent;
-        if (faxCompletedEvent.eventTime) {
-          faxCompletedEvent.eventTime = new Date(faxCompletedEvent.eventTime);
-        }
-        // In case of multipart/form-data, the server may not have parsed the 'fax' property as a JSON object, so we do it here
-        if (typeof eventBody.fax === 'string') {
-          faxCompletedEvent.fax = this.reviveFax(eventBody.fax);
-        }
-        return faxCompletedEvent;
-      default:
-        throw new Error(`Unknown Fax event: ${eventBody.event}`);
+        case 'INCOMING_FAX':
+          incomingFaxEvent = eventBody as IncomingFaxEvent;
+          if (eventBody.eventTime) {
+            incomingFaxEvent.eventTime = new Date(eventBody.eventTime);
+          }
+          // In case of multipart/form-data, the server may not have parsed the 'fax' property as a JSON object, so we do it here
+          if (typeof eventBody.fax === 'string') {
+            incomingFaxEvent.fax = this.reviveFax(eventBody.fax);
+          }
+          return incomingFaxEvent;
+        case 'FAX_COMPLETED':
+          faxCompletedEvent = eventBody as FaxCompletedEvent;
+          if (faxCompletedEvent.eventTime) {
+            faxCompletedEvent.eventTime = new Date(faxCompletedEvent.eventTime);
+          }
+          // In case of multipart/form-data, the server may not have parsed the 'fax' property as a JSON object, so we do it here
+          if (typeof eventBody.fax === 'string') {
+            faxCompletedEvent.fax = this.reviveFax(eventBody.fax);
+          }
+          return faxCompletedEvent;
+        default:
+          throw new Error(`Unknown Fax event: ${eventBody.event}`);
       }
     }
     console.log(eventBody);

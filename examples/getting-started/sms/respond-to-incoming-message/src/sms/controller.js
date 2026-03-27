@@ -3,6 +3,10 @@ import { handleSmsEvent } from './serverBusinessLogic.js';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
+/**
+ * @param { import('express').Express } app
+ * @param { import('@sinch/sdk-core').SinchClientParameters } sinchClientParameters
+ */
 export const smsController = (app, sinchClientParameters) => {
 
   app.post('/SmsEvent', async (req, res) => {

@@ -3,7 +3,7 @@
  */
 export class NumberLookupSample {
   /**
-   * @param { NumberLookupService } numberLookupService - the NumberLookupService instance from the Sinch SDK containing the API methods.
+   * @param { import('@sinch/sdk-core').NumberLookupService } numberLookupService - the NumberLookupService instance from the Sinch SDK containing the API methods.
    */
   constructor(numberLookupService) {
     this.numberLookupService = numberLookupService;

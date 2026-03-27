@@ -1,15 +1,15 @@
 // eslint-disable-next-line no-unused-vars
-import { SinchClient, Sms } from '@sinch/sdk-core';
+import { SinchClient } from '@sinch/sdk-core';
 
 /**
  * Handles the incoming SMS event by echoing what has been received to the sender.
- * @param { Sms.MOText } incomingTextMessage - The incoming SMS message event object
- * @param { SinchClientParameters } sinchClientParameters - the SMS service instance from the Sinch SDK containing the API methods
+ * @param { import('@sinch/sdk-core').Sms.MOText } incomingTextMessage - The incoming SMS message event object
+ * @param { import('@sinch/sdk-core').SinchClientParameters } sinchClientParameters - the Sinch client parameters
  */
 export const handleSmsEvent = async (incomingTextMessage, sinchClientParameters) => {
   console.log(`Handling event: ${JSON.stringify(incomingTextMessage, null, 2)}`);
 
-  /** @type {Sms.SendSMSRequestData} */
+  /** @type {import('@sinch/sdk-core').Sms.SendSMSRequestData} */
   const smsRequest = {
     sendSMSRequestBody: {
       to: [incomingTextMessage.from],

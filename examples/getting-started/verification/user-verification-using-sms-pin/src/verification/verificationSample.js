@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import { Verification, VerificationService, VerificationsApi } from '@sinch/sdk-core';
+import { Verification } from '@sinch/sdk-core';
 import inquirer from 'inquirer';
 
 /**
@@ -7,7 +6,7 @@ import inquirer from 'inquirer';
  */
 export class VerificationSample {
   /**
-   * @param { VerificationService } verificationService - the VerificationService instance from the Sinch SDK containing the API methods.
+   * @param { import('@sinch/sdk-core').VerificationService } verificationService - the VerificationService instance from the Sinch SDK containing the API methods.
    */
   constructor(verificationService) {
     this.verificationService = verificationService;
@@ -57,7 +56,7 @@ export class VerificationSample {
 
   /**
    * Sends a request to start SMS verification for a phone number.
-   * @param {VerificationsApi} verificationStarter - The VerificationsApi instance.
+   * @param {import('@sinch/sdk-core').VerificationsApi} verificationStarter - The VerificationsApi instance.
    * @param {string} phoneNumber - The phone number to verify.
    * @return {Promise<string>} The verification ID if the request is successful.
    */
@@ -99,7 +98,7 @@ export class VerificationSample {
 
   /**
    * Sends a request to report the verification code for a specific verification ID.
-   * @param { VerificationsApi } verificationReporter - The VerificationsApi instance.
+   * @param { import('@sinch/sdk-core').VerificationsApi } verificationReporter - The VerificationsApi instance.
    * @param {string} code - The verification code to report.
    * @param {string} id - The verification ID corresponding to the process.
    * @return {Promise<void>}

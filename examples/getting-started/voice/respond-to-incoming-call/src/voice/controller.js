@@ -1,6 +1,9 @@
 import { VoiceCallbackWebhooks } from '@sinch/sdk-core';
 import { handleDisconnectedCallEvent, handleIncomingCallEvent } from './serverBusinessLogic.js';
 
+/**
+ * @param { import('express').Express } app
+ */
 export const voiceController = (app) => {
 
   app.post('/VoiceEvent', async (req, res) => {

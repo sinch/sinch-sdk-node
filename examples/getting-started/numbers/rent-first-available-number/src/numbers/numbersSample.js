@@ -3,7 +3,7 @@
  */
 export class NumbersSample {
   /**
-   * @param { NumbersService } numbersService - the NumbersService instance from the Sinch SDK containing the API methods.
+   * @param { import('@sinch/sdk-core').NumbersService } numbersService - the NumbersService instance from the Sinch SDK containing the API methods.
    */
   constructor(numbersService) {
     this.numbersService = numbersService;
