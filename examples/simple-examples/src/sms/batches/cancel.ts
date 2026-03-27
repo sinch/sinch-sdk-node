@@ -22,7 +22,7 @@ import { Sms } from '@sinch/sdk-core';
   try {
     response = await smsService.batches.cancel(requestData);
   } catch (error) {
-    console.error(`ERROR: The batch could not be canceled`);
+    console.error('ERROR: The batch could not be canceled');
     throw error;
   }
 

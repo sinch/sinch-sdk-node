@@ -1,7 +1,6 @@
 import { Conversation, PageResult } from '@sinch/sdk-core';
 import {
-  getAppIdFromConfig,
-  getContactIdFromConfig, getConversationIdFromConfig, getPhoneNumberFromConfig,
+  getPhoneNumberFromConfig,
   getPrintFormat,
   initConversationService,
   printFullResponse,

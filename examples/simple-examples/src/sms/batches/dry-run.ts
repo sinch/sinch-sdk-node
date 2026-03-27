@@ -38,7 +38,7 @@ import { Sms } from '@sinch/sdk-core';
   try {
     response = await smsService.batches.dryRun(requestData);
   } catch (error) {
-    console.error(`ERROR: The dry run couldn't be performed`);
+    console.error('ERROR: The dry run couldn\'t be performed');
     throw error;
   }
 

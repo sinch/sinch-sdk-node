@@ -37,7 +37,7 @@ import { Sms } from '@sinch/sdk-core';
   try {
     response = await smsService.batches.update(requestData);
   } catch (error) {
-    console.error(`ERROR: The batch could not be updated`);
+    console.error('ERROR: The batch could not be updated');
     throw error;
   }
 

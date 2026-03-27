@@ -14,19 +14,19 @@ export const formatDate = (date: Date, unit?: ChronoUnit): string => {
   const seconds = String(date.getUTCSeconds()).padStart(2, '0');
 
   switch (unit) {
-  case 'year':
-    return `${year}`;
-  case 'month':
-    return `${year}-${month}`;
-  case 'day':
-    return `${year}-${month}-${day}`;
-  case 'hour':
-    return `${year}-${month}-${day}T${hours}:00:00Z`;
-  case 'minute':
-    return `${year}-${month}-${day}T${hours}:${minutes}:00Z`;
-  case 'second':
-  default:
-    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
+    case 'year':
+      return `${year}`;
+    case 'month':
+      return `${year}-${month}`;
+    case 'day':
+      return `${year}-${month}-${day}`;
+    case 'hour':
+      return `${year}-${month}-${day}T${hours}:00:00Z`;
+    case 'minute':
+      return `${year}-${month}-${day}T${hours}:${minutes}:00Z`;
+    case 'second':
+    default:
+      return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
   }
 };
 
