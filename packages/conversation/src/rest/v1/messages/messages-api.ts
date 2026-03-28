@@ -97,8 +97,8 @@ export class MessagesApi extends ConversationDomainApi {
    * @param { ListMessagesRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<ConversationMessage>}
    */
-  public list(data: ListMessagesRequestData): ApiListPromise<ConversationMessage> {
-    const getParams = this.client.extractQueryParams<ListMessagesRequestData>(data, [
+  public list(data?: ListMessagesRequestData): ApiListPromise<ConversationMessage> {
+    const getParams = this.client.extractQueryParams<ListMessagesRequestData>(data ?? {}, [
       'conversation_id',
       'contact_id',
       'app_id',

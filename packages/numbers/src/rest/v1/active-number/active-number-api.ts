@@ -70,8 +70,8 @@ export class ActiveNumberApi extends NumbersDomainApi {
    * @param {ListActiveNumbersRequestData} data - The data to provide to the API call.
    * @return {ApiListPromise<ActiveNumber>}
    */
-  public list(data: ListActiveNumbersRequestData): ApiListPromise<ActiveNumber> {
-    const getParams = this.client.extractQueryParams<ListActiveNumbersRequestData>(data, [
+  public list(data?: ListActiveNumbersRequestData): ApiListPromise<ActiveNumber> {
+    const getParams = this.client.extractQueryParams<ListActiveNumbersRequestData>(data ?? {}, [
       'regionCode',
       'numberPattern.pattern',
       'numberPattern.searchPattern',

@@ -106,8 +106,8 @@ export class TemplatesV2Api extends ConversationDomainApi {
    *
    * @param { V2ListTemplatesRequestData } data - The data to provide to the API call.
    */
-  public async list(data: V2ListTemplatesRequestData): Promise<V2ListTemplatesResponse> {
-    const getParams = this.client.extractQueryParams<V2ListTemplatesRequestData>(data, [] as never[]);
+  public async list(data?: V2ListTemplatesRequestData): Promise<V2ListTemplatesResponse> {
+    const getParams = this.client.extractQueryParams<V2ListTemplatesRequestData>(data ?? {}, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

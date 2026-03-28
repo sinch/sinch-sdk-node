@@ -81,8 +81,8 @@ export class ApplicationsApi extends VoiceDomainApi {
    * Get information about your numbers. It returns a list of numbers that you own, as well as their capability (voice or SMS). For the ones that are assigned to an app, it returns the application key of the app.
    * @param { GetNumbersRequestData } data - The data to provide to the API call.
    */
-  public async listNumbers(data: GetNumbersRequestData): Promise<ListNumbersResponse> {
-    const getParams = this.client.extractQueryParams<GetNumbersRequestData>(data, [] as never[]);
+  public async listNumbers(data?: GetNumbersRequestData): Promise<ListNumbersResponse> {
+    const getParams = this.client.extractQueryParams<GetNumbersRequestData>(data ?? {}, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

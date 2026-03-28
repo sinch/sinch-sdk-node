@@ -90,8 +90,8 @@ export class EventsApi extends ConversationDomainApi {
    * @param { ListEventsRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<ConversationEvent>}
    */
-  public list(data: ListEventsRequestData): ApiListPromise<ConversationEvent> {
-    const getParams = this.client.extractQueryParams<ListEventsRequestData>(data, [
+  public list(data?: ListEventsRequestData): ApiListPromise<ConversationEvent> {
+    const getParams = this.client.extractQueryParams<ListEventsRequestData>(data ?? {}, [
       'conversation_id',
       'contact_id',
       'page_size',

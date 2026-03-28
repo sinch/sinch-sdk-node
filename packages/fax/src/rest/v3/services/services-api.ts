@@ -168,8 +168,8 @@ export class ServicesApi extends FaxDomainApi {
    * @param { ListServicesRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<ServiceResponse>}
    */
-  public list(data: ListServicesRequestData): ApiListPromise<ServiceResponse> {
-    const getParams = this.client.extractQueryParams<ListServicesRequestData>(data, ['pageSize', 'page']);
+  public list(data?: ListServicesRequestData): ApiListPromise<ServiceResponse> {
+    const getParams = this.client.extractQueryParams<ListServicesRequestData>(data ?? {}, ['pageSize', 'page']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
