@@ -1,6 +1,7 @@
 ## Version 1.4.0
  - [Tech] Remove `client` attribute from the `Api` interface
  - [Feature] Add `WithAdditionalProperties` interface to support additional properties in API models
+ - [Bugfix] Fix token refresh concurrency issue
 
 ## Version 1.3.0
 - [Feature] Prepare mailgun support by adding mailgun authentication method

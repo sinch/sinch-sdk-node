@@ -1,6 +1,10 @@
 ## Version 1.4.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.4.0`.
 - [Tech] Lazy load a single `ApiFetchClient` instance in the `ElasticSipTrunkingService`.
+- [Feature] Support Call Blocking Rules
+- [Feature] Support Credential Lists
+- [Feature] Support Export Call history: `elasticSipTrunking.calls.export()`
+- [Feature] Support Add projects operation: `elasticSipTrunking.projects.add()`
 
 ## Version 1.3.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.3.0`.

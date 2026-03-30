@@ -1,6 +1,7 @@
 ## Version 1.4.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.4.0`.
 - [Tech] Lazy load a single `ApiFetchClient` instance in the `FaxService`.
+- [Bugfix] Fix pagination parameters
 - [Feature] Support "Cover Pages"
 
 ## Version 1.3.0
