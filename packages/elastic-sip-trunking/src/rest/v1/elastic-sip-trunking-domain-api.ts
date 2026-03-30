@@ -44,7 +44,7 @@ export class ElasticSipTrunkingDomainApi implements Api {
       ...parametersBackup,
       ...credentials,
     };
-    this.lazyClient.resetClient();
+    this.lazyClient.resetApiClient();
     try {
       this.lazyClient.getApiClient();
     } catch (error) {

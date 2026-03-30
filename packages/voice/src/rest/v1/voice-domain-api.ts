@@ -45,7 +45,7 @@ export class VoiceDomainApi implements Api {
    */
   public setRegion(region: VoiceRegion) {
     this.lazyClient.sharedConfig.voiceRegion = region;
-    this.lazyClient.resetClient();
+    this.lazyClient.resetApiClient();
   }
 
   /**
@@ -58,7 +58,7 @@ export class VoiceDomainApi implements Api {
       ...parametersBackup,
       ...credentials,
     };
-    this.lazyClient.resetClient();
+    this.lazyClient.resetApiClient();
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
