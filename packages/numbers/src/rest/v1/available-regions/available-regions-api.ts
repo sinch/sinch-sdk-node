@@ -14,9 +14,9 @@ export class AvailableRegionsApi extends NumbersDomainApi {
    * Lists all regions for numbers provided for the project ID.
    * @param {ListAvailableRegionsRequestData} data - The data to provide to the API call.
    */
-  public async list(data: ListAvailableRegionsRequestData): Promise<ListAvailableRegionsResponse> {
+  public async list(data?: ListAvailableRegionsRequestData): Promise<ListAvailableRegionsResponse> {
     const getParams
-      = this.client.extractQueryParams<ListAvailableRegionsRequestData>(data, [
+      = this.client.extractQueryParams<ListAvailableRegionsRequestData>(data ?? {}, [
         'types',
       ]);
     const headers: { [key: string]: string | undefined } = {

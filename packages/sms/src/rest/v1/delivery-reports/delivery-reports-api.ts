@@ -94,9 +94,9 @@ export class DeliveryReportsApi extends SmsDomainApi {
    * @param { ListDeliveryReportsRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<RecipientDeliveryReport>}
    */
-  public list(data: ListDeliveryReportsRequestData): ApiListPromise<RecipientDeliveryReport> {
+  public list(data?: ListDeliveryReportsRequestData): ApiListPromise<RecipientDeliveryReport> {
     const getParams = this.client.extractQueryParams<ListDeliveryReportsRequestData>(
-      data,
+      data ?? {},
       ['page', 'page_size', 'start_date', 'end_date', 'status', 'code', 'client_reference'],
     );
     const headers: { [key: string]: string | undefined } = {

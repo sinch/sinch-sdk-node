@@ -71,12 +71,12 @@ export class CallsHistoryApi extends ElasticSipTrunkingDomainApi {
    * @param { FindCallsRequestData } data - The data to provide to the API call.
    * @return { ApiListPromise<Call> }
    */
-  public find(data: FindCallsRequestData): ApiListPromise<Call> {
-    const getParams = this.client.extractQueryParams<FindCallsRequestData>(data, [
+  public find(data?: FindCallsRequestData): ApiListPromise<Call> {
+    const getParams = this.client.extractQueryParams<FindCallsRequestData>(data ?? {}, [
       'from', 'to', 'trunkId', 'createTime', 'callResult', 'direction', 'page', 'size']);
-    (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data.createTime));
-    (getParams as any)['createTime>'] = JSON.stringify(formatCreateTimeRangeFilter(data.createTimeRange?.from));
-    (getParams as any)['createTime<'] = JSON.stringify(formatCreateTimeRangeFilter(data.createTimeRange?.to));
+    (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data?.createTime));
+    (getParams as any)['createTime>'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.from));
+    (getParams as any)['createTime<'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.to));
 
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

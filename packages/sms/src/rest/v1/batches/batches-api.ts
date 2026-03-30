@@ -155,9 +155,9 @@ export class BatchesApi extends SmsDomainApi {
    * @param { ListBatchesRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<SendSMSResponse>}
   */
-  public list(data: ListBatchesRequestData): ApiListPromise<SendSMSResponse> {
+  public list(data?: ListBatchesRequestData): ApiListPromise<SendSMSResponse> {
     const getParams = this.client.extractQueryParams<ListBatchesRequestData>(
-      data,
+      data ?? {},
       ['page', 'page_size', 'from', 'start_date', 'end_date', 'client_reference'],
     );
     const headers: { [key: string]: string | undefined } = {

@@ -112,8 +112,8 @@ export class GroupsApi extends SmsDomainApi {
    * @param { ListGroupsRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<Group>}
    */
-  public list(data: ListGroupsRequestData): ApiListPromise<Group> {
-    const getParams = this.client.extractQueryParams<ListGroupsRequestData>(data, ['page', 'page_size']);
+  public list(data?: ListGroupsRequestData): ApiListPromise<Group> {
+    const getParams = this.client.extractQueryParams<ListGroupsRequestData>(data ?? {}, ['page', 'page_size']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

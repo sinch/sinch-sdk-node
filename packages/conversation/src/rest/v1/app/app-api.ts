@@ -103,8 +103,8 @@ export class AppApi extends ConversationDomainApi {
    * Get a list of all apps in the specified project.
    * @param { ListAppsRequestData } data - The data to provide to the API call.
    */
-  public async list(data: ListAppsRequestData): Promise<ListAppsResponse> {
-    const getParams = this.client.extractQueryParams<ListAppsRequestData>(data, [] as never[]);
+  public async list(data?: ListAppsRequestData): Promise<ListAppsResponse> {
+    const getParams = this.client.extractQueryParams<ListAppsRequestData>(data ?? {}, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

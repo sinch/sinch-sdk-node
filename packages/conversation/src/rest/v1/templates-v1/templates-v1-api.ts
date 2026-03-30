@@ -108,8 +108,8 @@ export class TemplatesV1Api extends ConversationDomainApi {
    * @deprecated
    * @param { ListTemplatesRequestData } data - The data to provide to the API call.
    */
-  public async list(data: ListTemplatesRequestData): Promise<V1ListTemplatesResponse> {
-    const getParams = this.client.extractQueryParams<ListTemplatesRequestData>(data, [] as never[]);
+  public async list(data?: ListTemplatesRequestData): Promise<V1ListTemplatesResponse> {
+    const getParams = this.client.extractQueryParams<ListTemplatesRequestData>(data ?? {}, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
