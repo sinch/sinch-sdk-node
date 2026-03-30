@@ -29,7 +29,7 @@
     "test:e2e": "cucumber-js"
   },
   "dependencies": {
-    "@sinch/sdk-client": "^1.3.0"
+    "@sinch/sdk-client": "^1.4.0"
   },
   "devDependencies": {},
   "publishConfig": {
