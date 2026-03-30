@@ -2,11 +2,10 @@ import {
   WhatsAppFlowMessage,
   WhatsAppPaymentOrderDetailsMessage,
   WhatsAppPaymentOrderStatusMessage,
-} from '../../../src/models';
-import {
   KakaoTalkCarouselCommerceMessage,
   KakaoTalkCommerceMessage,
-} from '../../../src/models/v1/channel-specific-message/channel-specific-message';
+  LineNotificationTemplateMessage,
+} from '../../../src/models';
 
 export const whatsAppFlowMessage = {
   message_type: 'FLOWS',
@@ -34,7 +33,12 @@ export const whatsAppPaymentOrderDetailsMessage = {
       type: 'br',
       reference_id: 'order_ref_123',
       type_of_goods: 'physical-goods',
-      payment_settings: {},
+      payment_buttons: [
+        {
+          type: 'payment_link',
+          uri: 'https://example.com/payment/link',
+        },
+      ],
       total_amount_value: 15000,
       order: {
         catalog_id: 'catalog_123',
@@ -90,11 +94,9 @@ export const kakaoTalkCommerceMessage = {
       image_link: 'https://example.com',
     },
     commerce: {
+      type: 'REGULAR_PRICE_COMMERCE',
       title: 'Product 1',
       regular_price: 10000,
-      discount_price: 5000,
-      discount_fixed: 1000,
-      discount_rate: 10,
     },
     buttons: [
       {
@@ -122,7 +124,9 @@ export const kakaoTalkCarouselCommerceMessage = {
     carousel: {
       list: [
         {
-          image_url: 'https://example.com/image.jpg',
+          image: {
+            image_url: 'https://example.com/image.jpg',
+          },
           buttons: [
             {
               type: 'WL',
@@ -138,3 +142,40 @@ export const kakaoTalkCarouselCommerceMessage = {
     push_alarm: false,
   },
 } satisfies KakaoTalkCarouselCommerceMessage;
+
+export const lineNotificationTemplateMessage = {
+  message_type: 'NOTIFICATION_MESSAGE_TEMPLATE',
+  message: {
+    template_key: 'shipment_completed_ja',
+    body: {
+      emphasized_item: {
+        item_key: 'date_002_ja',
+        content: '2024年8月10日(土)',
+      },
+      items: [
+        {
+          item_key: 'time_range_001_ja',
+          content: '午前中',
+        },
+        {
+          item_key: 'price_001_ja',
+          content: '12,000円',
+        },
+        {
+          item_key: 'name_010_ja',
+          content: 'スープセット（冷凍）',
+        },
+      ],
+      buttons: [
+        {
+          button_key: 'check_delivery_status_ja',
+          url: 'https://example.com/CheckDeliveryStatus/',
+        },
+        {
+          button_key: 'contact_ja',
+          url: 'https://example.com/ContactUs/',
+        },
+      ],
+    },
+  },
+} satisfies LineNotificationTemplateMessage;

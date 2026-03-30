@@ -6,6 +6,7 @@ import { VerificationService } from '@sinch/verification';
 import { VoiceService } from '@sinch/voice';
 import { SinchClientParameters } from '@sinch/sdk-client';
 import { ElasticSipTrunkingService } from '@sinch/elastic-sip-trunking';
+import { NumberLookupService } from '@sinch/number-lookup';
 
 /** Sinch Client to declare and initialize the supported APIs */
 export class SinchClient {
@@ -17,6 +18,7 @@ export class SinchClient {
   public readonly sms: SmsService;
   public readonly verification: VerificationService;
   public readonly voice: VoiceService;
+  public readonly numberLookup: NumberLookupService;
 
   /**
    * Initialize your API Client instance with the provided credentials.
@@ -31,5 +33,6 @@ export class SinchClient {
     this.sms = new SmsService(params);
     this.verification = new VerificationService(params);
     this.voice = new VoiceService(params);
+    this.numberLookup = new NumberLookupService(params);
   }
 }

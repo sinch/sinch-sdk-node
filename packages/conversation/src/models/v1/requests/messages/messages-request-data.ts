@@ -1,4 +1,4 @@
-import { ConversationMessagesView, MessageSource } from '../../enums';
+import { ConversationDirection, ConversationMessagesView, MessageSource } from '../../enums';
 import { ConversationChannel } from '../../conversation-channel';
 import { Recipient } from '../../recipient';
 import {
@@ -9,9 +9,12 @@ import {
   SendListMessageRequest,
   SendLocationMessageRequest,
   SendMediaMessageRequest,
-  SendMessageRequest, SendTemplateMessageRequest, SendTextMessageRequest,
+  SendMessageRequest,
+  SendTemplateMessageRequest,
+  SendTextMessageRequest,
 } from '../../send-message-request';
 import { UpdateMessageRequest } from '../../update-message-request';
+import { ListLastMessagesByChannelIdentityRequest } from '../../list-last-messages-by-channel-identity-request';
 
 export interface DeleteMessageRequestData {
   /** The unique ID of the message. */
@@ -50,6 +53,12 @@ export interface ListMessagesRequestData {
   'only_recipient_originated'?: boolean;
   /** Only fetch messages from the `channel`. */
   'channel'?: ConversationChannel;
+  /** Optional. Only fetch messages with the specified `direction`. If direction is not specified, it will list both TO_APP and TO_CONTACT messages. */
+  'direction'?: ConversationDirection;
+}
+export interface ListLastMessagesByChannelIdentityRequestData {
+  /** Request body for listing messages by channel identity. NOTE: You can use either contact_ids OR channel_identities, but not both in the same request. */
+  'listLastMessagesByChannelIdentityRequestBody': ListLastMessagesByChannelIdentityRequest;
 }
 export interface SendMessageRequestData<T extends Recipient> {
   /** This is the request body for sending a message. `app_id`, `recipient`, and `message` are all required fields. */

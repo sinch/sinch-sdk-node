@@ -36,7 +36,7 @@ import { getAppIdFromConfig, getPrintFormat, initConversationService, printFullR
 
   if (printFormat === 'pretty') {
     if (response.transcoded_message) {
-      console.log(`Transcoded messages:\n`);
+      console.log('Transcoded messages:\n');
       Object.entries(response.transcoded_message).forEach(([channel, transcodedValue]) => {
         if (typeof transcodedValue === 'string') {
           const transcodedMessage = JSON.parse(transcodedValue);

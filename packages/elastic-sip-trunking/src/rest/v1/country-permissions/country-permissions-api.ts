@@ -46,8 +46,8 @@ export class CountryPermissionsApi extends ElasticSipTrunkingDomainApi {
    * Fetches the list of country permissions.
    * @param { ListCountryPermissionsRequestData } data - The data to provide to the API call.
    */
-  public async list(data: ListCountryPermissionsRequestData): Promise<ListCountryPermissionsResponse> {
-    const getParams = this.client.extractQueryParams<ListCountryPermissionsRequestData>(data, [] as never[]);
+  public async list(data?: ListCountryPermissionsRequestData): Promise<ListCountryPermissionsResponse> {
+    const getParams = this.client.extractQueryParams<ListCountryPermissionsRequestData>(data ?? {}, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

@@ -35,7 +35,7 @@ const populateIdentitiesList = (
   const identitiesList: Conversation.ConsentIdentity[] = [];
   const identitiesDetailsList: string[] = [];
 
-  // Loop on all the pages to get all the active numbers
+  // Loop on all the pages to get all the consent identities
   let reachedEndOfPages = false;
   while (!reachedEndOfPages) {
     populateIdentitiesList(response, identitiesList, identitiesDetailsList);

@@ -53,18 +53,29 @@ export class VerificationCallbackWebhooks implements CallbackProcessor<Verificat
     }
     if (eventBody.event) {
       switch (eventBody.event) {
-      case 'VerificationRequestEvent':
-        return eventBody as VerificationRequestEvent;
-      case 'VerificationResultEvent':
-        return eventBody as VerificationResultEvent;
-      case 'VerificationSmsDeliveredEvent':
-        return eventBody as VerificationSmsDeliveredEvent;
-      default:
-        throw new Error(`Unknown Verification event type: ${eventBody.event}`);
+        case 'VerificationRequestEvent':
+          return eventBody as VerificationRequestEvent;
+        case 'VerificationResultEvent':
+          return eventBody as VerificationResultEvent;
+        case 'VerificationSmsDeliveredEvent':
+          return eventBody as VerificationSmsDeliveredEvent;
+        default:
+          throw new Error(`Unknown Verification event type: ${eventBody.event}`);
       }
     }
     console.log(`Unknown Verification event structure:\n${JSON.stringify(eventBody)}`);
     throw new Error('Unknown Verification event');
+  }
+
+  /**
+   * Static reviver for a Verification Event.
+   * This method ensures the object can be treated as a Verification Event.
+   * @param {any} eventBody - The event body containing the Verification event notification.
+   * @return {VerificationCallbackEvent} - The parsed Verification event object
+   */
+  public static parseEvent(eventBody:any): VerificationCallbackEvent {
+    const instance = new VerificationCallbackWebhooks({});
+    return instance.parseEvent(eventBody);
   }
 
 }

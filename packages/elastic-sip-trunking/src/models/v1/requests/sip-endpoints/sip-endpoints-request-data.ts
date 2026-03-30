@@ -21,7 +21,7 @@ export interface ListSipEndpointsRequestData {
     /** The page you want to fetch, can set to 1 for first page, or omitted for first page */
     'page'?: number;
     /** The size of each page to fetch */
-    'pageSize'?: number;
+    'size'?: number;
 }
 export interface GetSipEndpointByIdRequestData {
     /** The ID of the SIP trunk. */

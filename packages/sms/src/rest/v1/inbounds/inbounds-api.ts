@@ -26,9 +26,9 @@ export class InboundsApi extends SmsDomainApi {
    * @param { ListInboundMessagesRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<InboundMessageResponse>}
    */
-  public list(data: ListInboundMessagesRequestData): ApiListPromise<InboundMessageResponse> {
+  public list(data?: ListInboundMessagesRequestData): ApiListPromise<InboundMessageResponse> {
     const getParams = this.client.extractQueryParams<ListInboundMessagesRequestData>(
-      data,
+      data ?? {},
       ['page', 'page_size', 'to', 'start_date', 'end_date', 'client_reference'],
     );
     const headers: { [key: string]: string | undefined } = {

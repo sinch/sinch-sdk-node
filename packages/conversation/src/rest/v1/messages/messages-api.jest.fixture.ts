@@ -6,6 +6,7 @@ import {
   SendMessageResponse,
   DeleteMessageRequestData,
   GetMessageRequestData,
+  ListLastMessagesByChannelIdentityRequestData,
   ListMessagesRequestData,
   UpdateMessageRequestData,
   SendCardMessageRequestData,
@@ -34,6 +35,13 @@ export class MessagesApiFixture implements Partial<Readonly<MessagesApi>> {
    * Fixture associated to function list
    */
   public list: jest.Mock<ApiListPromise<ConversationMessage>, [ListMessagesRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function listLastMessagesByChannelIdentity
+   */
+  public listLastMessagesByChannelIdentity: jest.Mock<
+    ApiListPromise<ConversationMessage>,
+    [ListLastMessagesByChannelIdentityRequestData]
+  > = jest.fn();
   /**
    * Fixture associated to function sendCardMessage
    */

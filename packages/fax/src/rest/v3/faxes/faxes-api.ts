@@ -120,8 +120,8 @@ export class FaxesApi extends FaxDomainApi {
    * @param { ListFaxesRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<Fax>}
    */
-  public list(data: ListFaxesRequestData): ApiListPromise<Fax> {
-    const getParams = this.client.extractQueryParams<ListFaxesRequestData>(data, [
+  public list(data?: ListFaxesRequestData): ApiListPromise<Fax> {
+    const getParams = this.client.extractQueryParams<ListFaxesRequestData>(data ?? {}, [
       'serviceId',
       'direction',
       'status',
@@ -129,9 +129,9 @@ export class FaxesApi extends FaxDomainApi {
       'from',
       'pageSize',
       'page']);
-    (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data.createTime));
-    (getParams as any)['createTime>'] = JSON.stringify(formatCreateTimeRangeFilter(data.createTimeRange?.from));
-    (getParams as any)['createTime<'] = JSON.stringify(formatCreateTimeRangeFilter(data.createTimeRange?.to));
+    (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data?.createTime));
+    (getParams as any)['createTime>'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.from));
+    (getParams as any)['createTime<'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.to));
 
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

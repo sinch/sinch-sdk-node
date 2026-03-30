@@ -22,6 +22,7 @@ export class TemplatesV1Api extends ConversationDomainApi {
   /**
    * Creates a template
    *
+   * @deprecated
    * @param { CreateTemplateRequestData } data - The data to provide to the API call.
    */
   public async create(data: CreateTemplateRequestData): Promise<V1Template> {
@@ -49,6 +50,7 @@ export class TemplatesV1Api extends ConversationDomainApi {
   /**
    * Delete a template.
    *
+   * @deprecated
    * @param { DeleteTemplateRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteTemplateRequestData): Promise<any> {
@@ -76,6 +78,7 @@ export class TemplatesV1Api extends ConversationDomainApi {
   /**
    * Get a template
    *
+   * @deprecated
    * @param { GetTemplateRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetTemplateRequestData): Promise<V1Template> {
@@ -102,10 +105,11 @@ export class TemplatesV1Api extends ConversationDomainApi {
   /**
    * List all templates belonging to a project ID.
    *
+   * @deprecated
    * @param { ListTemplatesRequestData } data - The data to provide to the API call.
    */
-  public async list(data: ListTemplatesRequestData): Promise<V1ListTemplatesResponse> {
-    const getParams = this.client.extractQueryParams<ListTemplatesRequestData>(data, [] as never[]);
+  public async list(data?: ListTemplatesRequestData): Promise<V1ListTemplatesResponse> {
+    const getParams = this.client.extractQueryParams<ListTemplatesRequestData>(data ?? {}, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -128,6 +132,7 @@ export class TemplatesV1Api extends ConversationDomainApi {
   /**
    * Updates a template.
    *
+   * @deprecated
    * @param { UpdateTemplateRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateTemplateRequestData): Promise<V1Template> {

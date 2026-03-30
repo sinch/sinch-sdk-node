@@ -111,6 +111,7 @@ export class ConversationService {
   public readonly conversation: ConversationApi;
   public readonly projectSettings: ProjectSettingsApi;
   public readonly webhooks: WebhooksApi;
+  /** @deprecated Use {@link templatesV2} instead */
   public readonly templatesV1: TemplatesV1Api;
   public readonly templatesV2: TemplatesV2Api;
   public readonly consents: ConsentsApi;

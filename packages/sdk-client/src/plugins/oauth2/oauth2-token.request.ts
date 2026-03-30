@@ -12,6 +12,9 @@ export class Oauth2TokenRequest implements RequestPlugin {
 
   private token: AccessToken | undefined;
 
+  /** Shared promise for concurrent token refresh */
+  private pendingTokenRefresh: Promise<{ [key: string]: string }> | null = null;
+
   getName(): string {
     return RequestPluginEnum.OAUTH2_TOKEN_REQUEST;
   }
@@ -38,6 +41,23 @@ export class Oauth2TokenRequest implements RequestPlugin {
     if (this.isTokenValid()) {
       return this.buildAuthorizationHeader();
     }
+
+    // If a token refresh is already happening, share the same promise.
+    // This prevents N concurrent requests from making N auth server calls,
+    // which can cause 401 errors to surface to the SDK user.
+    if (this.pendingTokenRefresh) {
+      return this.pendingTokenRefresh;
+    }
+
+    this.pendingTokenRefresh = this.fetchNewToken();
+    try {
+      return await this.pendingTokenRefresh;
+    } finally {
+      this.pendingTokenRefresh = null;
+    }
+  }
+
+  private async fetchNewToken(): Promise<{ [key: string]: string }> {
     const oauth2Api = new OAuth2Api(this.apiClient);
     try {
       const response = await oauth2Api.postAccessToken();

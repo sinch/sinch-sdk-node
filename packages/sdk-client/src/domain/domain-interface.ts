@@ -27,7 +27,7 @@ export interface UnifiedCredentials {
   smsRegion?: SmsRegion;
   /** @deprecated boolean to force the usage of the OAuth2 authentication for the SMS API - to be used when a region other of US and EU supports OAuth2 but the SDK doesn't by default */
   forceOAuth2ForSmsApi?: boolean;
-  /** The region for the Fax API. Default is auto-routing */
+  /** @deprecated - not in use anymore. */
   faxRegion?: FaxRegion;
   /** The region for the Conversation API. Default region is US */
   conversationRegion?: ConversationRegion;
@@ -69,7 +69,7 @@ export interface ApiHostname {
   conversationTemplatesHostname?: string;
   /** Override the hostname for the Elastic SIP Trunking API */
   elasticSipTrunkingHostname?: string;
-  /** Override the hostname for the Fax API - Note the regions become ineffective */
+  /** Override the hostname for the Fax API */
   faxHostname?: string;
   /** Override the hostname for the Mailgun API - Note the regions become ineffective */
   mailgunHostname?: string;
@@ -83,6 +83,8 @@ export interface ApiHostname {
   voiceHostname?: string;
   /** Override the hostname for the Voice Application Management API */
   voiceApplicationManagementHostname?: string;
+  /** Override the hostname for the Number Lookup API */
+  numberLookupHostname?: string;
 }
 
 export interface ApiPlugins {
@@ -140,6 +142,7 @@ export const VoiceRegion = {
 
 // ///////////
 // Fax regions
+/** @deprecated */
 export enum SupportedFaxRegion {
   DEFAULT = '',
   UNITED_STATES = 'use1',
@@ -149,8 +152,10 @@ export enum SupportedFaxRegion {
   SOUTHEAST_ASIA_2 = 'apse2'
 }
 
+/** @deprecated */
 export type FaxRegion = SupportedFaxRegion | string;
 
+/** @deprecated */
 export const FaxRegion = {
   ...SupportedFaxRegion,
 };

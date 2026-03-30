@@ -64,6 +64,10 @@ class SinchIterator<T> implements AsyncIterator<T> {
       const newParams = {
         page_token: pageResult.nextPageValue,
       };
+      if (requestOptions.method === 'POST') {
+        return updateBodyParamsAndSendRequest(
+          this.apiClient, newParams, requestOptions, this.paginatedOperationProperties);
+      }
       return updateQueryParamsAndSendRequest(
         this.apiClient, newParams, requestOptions, this.paginatedOperationProperties);
     }
@@ -112,6 +116,34 @@ const updateQueryParamsAndSendRequest = <T>(
   });
 };
 
+const updateBodyParamsAndSendRequest = <T>(
+  apiClient: ApiClient,
+  newParams: { [key: string]: string },
+  requestOptions: RequestOptions,
+  paginatedApiProperties: PaginatedApiProperties,
+): Promise<PageResult<T>> => {
+  requestOptions.body = JSON.stringify({
+    ...JSON.parse(requestOptions.body as string),
+    ...sanitizeNewParams(newParams),
+  });
+  return apiClient.processCallWithPagination<T>({
+    url: requestOptions.hostname,
+    requestOptions,
+    ...paginatedApiProperties,
+  });
+};
+
+const sanitizeNewParams = (newParams: { [key: string]: string }): { [key: string]: string } => {
+  const sanitizedParams: { [key: string]: string } = {};
+  for (const key in newParams) {
+    if (newParams[key]) {
+      // Remove the quotes added by JSON.stringify to the value of the new params to avoid having pageToken: ""abc"" instead of pageToken: "abc" in the request body
+      sanitizedParams[key] = JSON.parse(newParams[key]);
+    }
+  }
+  return sanitizedParams;
+};
+
 export const createIteratorMethodsForPagination = <T>(
   apiClient: ApiClient,
   requestOptionsPromise: Promise<RequestOptions>,
@@ -139,28 +171,30 @@ export const createNextPageMethod = <T>(
 ): ApiListPromise<T> => {
   let newParams;
   switch (context.pagination) {
-  case PaginationEnum.TOKEN:
-    newParams = {
-      pageToken: nextPageValue,
-    };
-    break;
-  case PaginationEnum.TOKEN2:
-    newParams = {
-      page_token: nextPageValue,
-    };
-    break;
-  case PaginationEnum.PAGE:
-  case PaginationEnum.PAGE2:
-  case PaginationEnum.PAGE3:
-    newParams = {
-      page: nextPageValue,
-    };
-    break;
-  default:
-    throw new Error(`Error: the pagination method (${context.pagination}) is not supported`);
+    case PaginationEnum.TOKEN:
+      newParams = {
+        pageToken: nextPageValue,
+      };
+      break;
+    case PaginationEnum.TOKEN2:
+      newParams = {
+        page_token: nextPageValue,
+      };
+      break;
+    case PaginationEnum.PAGE:
+    case PaginationEnum.PAGE2:
+    case PaginationEnum.PAGE3:
+      newParams = {
+        page: nextPageValue,
+      };
+      break;
+    default:
+      throw new Error(`Error: the pagination method (${context.pagination}) is not supported`);
   }
 
-  const pageResultPromise = updateQueryParamsAndSendRequest<T>(apiClient, newParams, requestOptions, context);
+  const pageResultPromise = requestOptions.method === 'POST'
+    ? updateBodyParamsAndSendRequest<T>(apiClient, newParams, requestOptions, context)
+    : updateQueryParamsAndSendRequest<T>(apiClient, newParams, requestOptions, context);
 
   const requestOptionsPromise = new Promise<RequestOptions>((resolve) => {
     resolve(requestOptions);
@@ -196,7 +230,7 @@ export function hasMore(
     return checkIfThereAreMorePages(response, pageSize, PaginationEnum.PAGE2);
   }
   if (context.pagination === PaginationEnum.PAGE3) {
-    return response.pageNumber < response.totalPages;
+    return response.page < response.totalPages;
   }
   throw new Error(`The operation ${context.operationId} is not meant to be paginated.`);
 }
@@ -216,8 +250,13 @@ export function calculateNextPage(
     const nextPage = currentPage + 1;
     return nextPage.toString();
   }
-  if (context.pagination === PaginationEnum.PAGE2 || context.pagination === PaginationEnum.PAGE3) {
+  if (context.pagination === PaginationEnum.PAGE2) {
     const currentPage: number = response.pageNumber || 1;
+    const nextPage = currentPage + 1;
+    return nextPage.toString();
+  }
+  if (context.pagination === PaginationEnum.PAGE3) {
+    const currentPage: number = response.page || 1;
     const nextPage = currentPage + 1;
     return nextPage.toString();
   }
@@ -287,10 +326,10 @@ const checkIfThereAreMorePages = (
 ): boolean => {
   const lastPageNumber = calculateLastPageValue(response, requestedPageSize, paginationType);
   switch (paginationType) {
-  case PaginationEnum.PAGE:
-    return response.page! < lastPageNumber;
-  case PaginationEnum.PAGE2:
-    return response.pageNumber! < lastPageNumber;
+    case PaginationEnum.PAGE:
+      return response.page! < lastPageNumber;
+    case PaginationEnum.PAGE2:
+      return response.pageNumber! < lastPageNumber;
   }
 };
 
@@ -308,10 +347,10 @@ const calculateLastPageValue = (
   }
   // The elements in the response are not enough to determine if the current page is the last one
   switch (paginationType) {
-  case PaginationEnum.PAGE:
-    return Math.ceil(response.count! / pageSize) - 1;
-  case PaginationEnum.PAGE2:
-    return Math.ceil(response.totalItems! / pageSize);
+    case PaginationEnum.PAGE:
+      return Math.ceil(response.count! / pageSize) - 1;
+    case PaginationEnum.PAGE2:
+      return Math.ceil(response.totalItems! / pageSize);
   }
 };
 
@@ -330,10 +369,10 @@ const getCurrentPage = (
   paginationType: PaginationEnum.PAGE | PaginationEnum.PAGE2,
 ): number | undefined => {
   switch (paginationType) {
-  case PaginationEnum.PAGE:
-    return response.page;
-  case PaginationEnum.PAGE2:
-    return response.pageNumber;
+    case PaginationEnum.PAGE:
+      return response.page;
+    case PaginationEnum.PAGE2:
+      return response.pageNumber;
   }
 };
 
@@ -342,10 +381,10 @@ const getPageSize = (
   paginationType: PaginationEnum.PAGE | PaginationEnum.PAGE2,
 ): number | undefined => {
   switch (paginationType) {
-  case PaginationEnum.PAGE:
-    return response.page_size;
-  case PaginationEnum.PAGE2:
-    return response.pageSize;
+    case PaginationEnum.PAGE:
+      return response.page_size;
+    case PaginationEnum.PAGE2:
+      return response.pageSize;
   }
 };
 
@@ -354,10 +393,10 @@ const getItemCount = (
   paginationType: PaginationEnum.PAGE | PaginationEnum.PAGE2,
 ): number | undefined => {
   switch (paginationType) {
-  case PaginationEnum.PAGE:
-    return response.count;
-  case PaginationEnum.PAGE2:
-    return response.totalItems;
+    case PaginationEnum.PAGE:
+      return response.count;
+    case PaginationEnum.PAGE2:
+      return response.totalItems;
   }
 };
 

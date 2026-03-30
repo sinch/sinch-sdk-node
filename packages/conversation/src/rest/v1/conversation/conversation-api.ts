@@ -26,7 +26,7 @@ import { LazyConversationApiClient } from '../conversation-service';
 export class ConversationApi extends ConversationDomainApi {
 
   constructor(lazyApiClient: LazyConversationApiClient) {
-    super(lazyApiClient, 'AppApi');
+    super(lazyApiClient, 'ConversationApi');
   }
 
   /**
@@ -170,8 +170,8 @@ export class ConversationApi extends ConversationDomainApi {
    * @param { ListConversationsRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<Conversation>}
    */
-  public list(data: ListConversationsRequestData): ApiListPromise<Conversation> {
-    const getParams = this.client.extractQueryParams<ListConversationsRequestData>(data, [
+  public list(data?: ListConversationsRequestData): ApiListPromise<Conversation> {
+    const getParams = this.client.extractQueryParams<ListConversationsRequestData>(data ?? {}, [
       'app_id',
       'contact_id',
       'only_active',

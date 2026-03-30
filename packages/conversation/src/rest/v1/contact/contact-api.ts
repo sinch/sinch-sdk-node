@@ -145,9 +145,9 @@ export class ContactApi extends ConversationDomainApi {
    * @param { ListContactsRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<Contact>}
    */
-  public list(data: ListContactsRequestData): ApiListPromise<Contact> {
+  public list(data?: ListContactsRequestData): ApiListPromise<Contact> {
     const getParams = this.client.extractQueryParams<ListContactsRequestData>(
-      data,
+      data ?? {},
       ['page_size', 'page_token', 'external_id', 'channel', 'identity']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

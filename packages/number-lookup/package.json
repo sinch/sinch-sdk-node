@@ -1,0 +1,39 @@
+{
+  "name": "@sinch/number-lookup",
+  "version": "1.4.0",
+  "description": "Sinch Number Lookup SDK for Node.js",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "Apache-2.0",
+  "author": "Sinch",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "directories": {
+    "src": "dist",
+    "test": "tests"
+  },
+  "files": ["/dist"],
+  "scripts": {
+    "build": "yarn run clean && yarn run compile",
+    "clean": "rimraf dist tsconfig.tsbuildinfo",
+    "compile": "tsc -p tsconfig.build.json && tsc -p tsconfig.tests.json && rimraf dist/tests && rimraf tsconfig.build.tsbuildinfo",
+    "test:e2e": "cucumber-js"
+  },
+  "dependencies": {
+    "@sinch/sdk-client": "^1.3.0"
+  },
+  "devDependencies": {},
+  "publishConfig": {
+    "directory": "dist",
+    "access": "public"
+  }
+}

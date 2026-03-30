@@ -38,18 +38,18 @@ dotenv.config();
   ])
     .then((answers: any) => {
       switch (answers.method) {
-      case VerificationMethods.SMS:
-        startSmsVerificationFlow(answers.phoneNumber);
-        break;
-      case VerificationMethods.PHONE_CALL:
-        startPhoneCallVerificationFlow(answers.phoneNumber);
-        break;
-      case VerificationMethods.FLASH_CALL:
-        startFlashCallVerificationFlow(answers.phoneNumber);
-        break;
-      case VerificationMethods.DATA:
-        startSeamlessVerificationFlow(answers.phoneNumber);
-        break;
+        case VerificationMethods.SMS:
+          startSmsVerificationFlow(answers.phoneNumber);
+          break;
+        case VerificationMethods.PHONE_CALL:
+          startPhoneCallVerificationFlow(answers.phoneNumber);
+          break;
+        case VerificationMethods.FLASH_CALL:
+          startFlashCallVerificationFlow(answers.phoneNumber);
+          break;
+        case VerificationMethods.DATA:
+          startSeamlessVerificationFlow(answers.phoneNumber);
+          break;
       }
     });
 

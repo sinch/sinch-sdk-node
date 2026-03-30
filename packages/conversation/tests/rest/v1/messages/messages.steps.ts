@@ -81,8 +81,8 @@ When('I iterate manually over the messages pages', async () => {
 });
 
 Then('the messages list contains {string} messages',  (expectedAnswer: string) => {
-  const expectedServices = parseInt(expectedAnswer, 10);
-  assert.equal(messagesList.length, expectedServices);
+  const expectedMessagesCount = parseInt(expectedAnswer, 10);
+  assert.equal(messagesList.length, expectedMessagesCount);
 });
 
 Then('the result contains the data from {string} pages',  (expectedAnswer: string) => {
@@ -135,4 +135,67 @@ When('I send a request to delete a message', async () => {
 
 Then('the delete message response contains no data', () => {
   assert.deepEqual(deleteMessageResponse, {} );
+});
+
+When('I send a request to list the last messages sent to specified channel identities', async () => {
+  listResponse = await messagesApi.listLastMessagesByChannelIdentity({
+    listLastMessagesByChannelIdentityRequestBody: {
+      channel_identities: ['12015555555', '12017777777', '7504610123456789'],
+      messages_source: 'CONVERSATION_SOURCE',
+      page_size: 2,
+    },
+  });
+});
+
+Then('the response contains {string} last messages sent to specified channel identities', (expectedAnswer: string) => {
+  const expectedMessagesCount = parseInt(expectedAnswer, 10);
+  assert.equal(listResponse.data.length, expectedMessagesCount);
+});
+
+When('I send a request to list all the last messages sent to specified channel identities', async () => {
+  messagesList = [];
+  for await (const message of messagesApi.listLastMessagesByChannelIdentity({
+    listLastMessagesByChannelIdentityRequestBody: {
+      channel_identities: ['12015555555', '12017777777', '7504610123456789'],
+      messages_source: 'CONVERSATION_SOURCE',
+      page_size: 2,
+    },
+  })) {
+    messagesList.push(message);
+  }
+});
+
+When('I iterate manually over the last messages sent to specified channel identities pages', async () => {
+  messagesList = [];
+  listResponse = await messagesApi.listLastMessagesByChannelIdentity({
+    listLastMessagesByChannelIdentityRequestBody: {
+      channel_identities: ['12015555555', '12017777777', '7504610123456789'],
+      messages_source: 'CONVERSATION_SOURCE',
+      page_size: 2,
+    },
+  });
+  messagesList.push(...listResponse.data);
+  pagesIteration = 1;
+  let reachedEndOfPages = false;
+  while (!reachedEndOfPages) {
+    if (listResponse.hasNextPage) {
+      listResponse = await listResponse.nextPage();
+      messagesList.push(...listResponse.data);
+      pagesIteration++;
+    } else {
+      reachedEndOfPages = true;
+    }
+  }
+});
+
+// eslint-disable-next-line max-len
+Then('the response list contains {string} last messages sent to specified channel identities',  (expectedAnswer: string) => {
+  const expectedMessagesCount = parseInt(expectedAnswer, 10);
+  assert.equal(messagesList.length, expectedMessagesCount);
+});
+
+// eslint-disable-next-line max-len
+Then('the result contains the data from {string} pages of last messages sent to specified channel identities',  (expectedAnswer: string) => {
+  const expectedPagesCount = parseInt(expectedAnswer, 10);
+  assert.equal(pagesIteration, expectedPagesCount);
 });

@@ -5,7 +5,6 @@ import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin
 describe('Fax Service', () => {
   const DEFAULT_HOSTNAME = 'https://fax.api.sinch.com';
   const CUSTOM_HOSTNAME = 'https://new.host.name';
-  const EUROPE_HOSTNAME = 'https://eu1.fax.api.sinch.com';
   let errorSpy: jest.SpyInstance<void, [message?: any, ...optionalParams: any[]]>;
 
   beforeEach(() => {
@@ -125,16 +124,22 @@ describe('Fax Service', () => {
       keySecret: 'KEY_SECRET',
     };
     const faxService = new FaxService(params);
+    const infoSpy = jest.spyOn(console, 'info').mockImplementation(() => {});
 
     // When
     faxService.setRegion(FaxRegion.EUROPE);
 
     // Then
-    expect(faxService.faxes.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
-    expect(faxService.faxToEmail.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
-    expect(faxService.emails.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
-    expect(faxService.services.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
-    expect(faxService.coverPages.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
+    // Fax API is global: setRegion is deprecated and should not change the hostname.
+    expect(infoSpy).toHaveBeenCalledWith(
+      `Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint ${DEFAULT_HOSTNAME}`,
+    );
+    expect(faxService.faxes.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(faxService.faxToEmail.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(faxService.emails.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(faxService.services.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(faxService.coverPages.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    infoSpy.mockRestore();
   });
 
   it('should set new credentials for all APIs', () => {
