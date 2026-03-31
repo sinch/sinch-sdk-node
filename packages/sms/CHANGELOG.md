@@ -1,3 +1,8 @@
+## Version 1.4.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.4.0`.
+- [Tech] Lazy load a single `ApiFetchClient` instance in the `SmsService`.
+- [Tech] Implement E2E tests with `servicePlanId` authentication
+
 ## Version 1.3.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.3.0`.
 - [Feature] Fix groups models. Request bodies become mandatory.

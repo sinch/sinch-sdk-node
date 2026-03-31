@@ -1,3 +1,8 @@
+## Version 1.4.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.4.0`.
+- [Tech] Lazy load a single `ApiFetchClient` instance in the `VoiceService`.
+- [Feature] Support `streamingOptions` in the `connectStream` SVAML action
+
 ## Version 1.3.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.3.0`.
 - [Feature] Add enum values for properties previsously defined as `string`
