@@ -12,9 +12,9 @@
     "start:prod": "node dist/main"
   },
   "dependencies": {
-    "@nestjs/common": "^11.1.17",
-    "@nestjs/core": "^11.1.17",
-    "@nestjs/platform-express": "^11.1.17",
+    "@nestjs/common": "^10.4.22",
+    "@nestjs/core": "^10.4.22",
+    "@nestjs/platform-express": "^10.4.22",
     "@sinch/sdk-core": "^1.4.0",
     "dotenv": "^17.2.3",
     "raw-body": "^2.5.2",
