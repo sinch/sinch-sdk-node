@@ -72,7 +72,8 @@ export class Oauth2TokenRequest implements RequestPlugin {
           value: '',
           status: TokenStatus.INVALID,
         };
-        console.error('No access_token has been returned. Response = ' + JSON.stringify(response));
+        console.error('The authentication server did not return an access_token.'
+          + ' Response keys: [' + Object.keys(response).join(', ') + ']');
         return {};
       }
     } catch (e) {

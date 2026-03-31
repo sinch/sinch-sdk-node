@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 import { IncomingHttpHeaders } from 'http';
 import { RequestBody } from '../plugins/core/request-plugin';
-import * as console from 'console';
 
 /**
  * Generate authorization header for application-signed requests (Verification and Voice)
