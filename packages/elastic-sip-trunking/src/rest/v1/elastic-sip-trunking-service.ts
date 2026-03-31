@@ -29,7 +29,7 @@ export class LazyElasticSipTrunkingApiClient {
     return this.client;
   }
 
-  public resetClient() {
+  public resetApiClient() {
     this.client = undefined;
   }
 }
@@ -76,7 +76,7 @@ export class ElasticSipTrunkingService {
       ...parametersBackup,
       ...credentials,
     };
-    this.lazyClient.resetClient();
+    this.lazyClient.resetApiClient();
     try {
       this.lazyClient.getApiClient();
     } catch (error) {

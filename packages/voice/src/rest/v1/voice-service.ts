@@ -32,7 +32,7 @@ export class LazyVoiceApiClient {
     return this.apiFetchClient;
   }
 
-  public resetClient() {
+  public resetApiClient() {
     this.apiFetchClient = undefined;
   }
 
@@ -57,7 +57,7 @@ export class LazyVoiceApplicationManagementApiClient {
     return this.apiFetchClient;
   }
 
-  public resetClient() {
+  public resetApiClient() {
     this.apiFetchClient = undefined;
   }
 }
@@ -104,9 +104,9 @@ export class VoiceService {
 
   public setApiClientConfig(newParams: SinchClientParameters) {
     this.lazyVoiceClient.sharedConfig = newParams;
-    this.lazyVoiceClient.resetClient();
+    this.lazyVoiceClient.resetApiClient();
     this.lazyVoiceAppMgmtClient.sharedConfig = newParams;
-    this.lazyVoiceAppMgmtClient.resetClient();
+    this.lazyVoiceAppMgmtClient.resetApiClient();
   }
 
   /**
@@ -133,7 +133,7 @@ export class VoiceService {
    */
   public setRegion(region: VoiceRegion) {
     this.lazyVoiceClient.sharedConfig.voiceRegion = region;
-    this.lazyVoiceClient.resetClient();
+    this.lazyVoiceClient.resetApiClient();
   }
 
   /**
@@ -151,8 +151,8 @@ export class VoiceService {
       ...parametersAppMgmtBackup,
       ...credentials,
     };
-    this.lazyVoiceClient.resetClient();
-    this.lazyVoiceAppMgmtClient.resetClient();
+    this.lazyVoiceClient.resetApiClient();
+    this.lazyVoiceAppMgmtClient.resetApiClient();
     try {
       this.lazyVoiceClient.getApiClient();
       this.lazyVoiceAppMgmtClient.getApiClient();
