@@ -3,6 +3,7 @@
 - [Tech] Lazy load a single `ApiFetchClient` instance in the `FaxService`.
 - [Bugfix] Fix pagination parameters
 - [Feature] Support "Cover Pages"
+- [Feature] Update models properties according the latest API changes
 
 ## Version 1.3.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.3.0`.
