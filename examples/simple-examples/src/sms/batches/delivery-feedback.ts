@@ -27,7 +27,7 @@ import { Sms } from '@sinch/sdk-core';
   try {
     await smsService.batches.sendDeliveryFeedback(requestData);
   } catch (error) {
-    console.error(`ERROR: The delivery feedback could not be sent.`);
+    console.error('ERROR: The delivery feedback could not be sent.');
     throw error;
   }
 

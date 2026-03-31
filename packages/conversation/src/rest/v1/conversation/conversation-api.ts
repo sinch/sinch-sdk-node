@@ -5,7 +5,6 @@ import {
   PaginatedApiProperties,
   PaginationEnum,
   RequestBody,
-  SinchClientParameters,
 } from '@sinch/sdk-client';
 import {
   Conversation,
@@ -22,16 +21,12 @@ import {
   UpdateConversationRequestData,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
+import { LazyConversationApiClient } from '../conversation-service';
 
 export class ConversationApi extends ConversationDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'ConversationApi');
+  constructor(lazyApiClient: LazyConversationApiClient) {
+    super(lazyApiClient, 'ConversationApi');
   }
 
   /**
@@ -40,7 +35,6 @@ export class ConversationApi extends ConversationDomainApi {
    * @param { CreateConversationRequestData } data - The data to provide to the API call.
    */
   public async create(data: CreateConversationRequestData): Promise<Conversation> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<CreateConversationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -68,7 +62,6 @@ export class ConversationApi extends ConversationDomainApi {
    * @param { DeleteConversationRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteConversationRequestData): Promise<any> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteConversationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -96,7 +89,6 @@ export class ConversationApi extends ConversationDomainApi {
    * @param { GetConversationRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetConversationRequestData): Promise<Conversation> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetConversationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -123,7 +115,6 @@ export class ConversationApi extends ConversationDomainApi {
    * @param { InjectEventRequestData } data - The data to provide to the API call.
    */
   public async injectEvent(data: InjectEventRequestData): Promise<InjectEventResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<InjectEventRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -152,7 +143,6 @@ export class ConversationApi extends ConversationDomainApi {
    * @param { InjectMessageRequestData } data - The data to provide to the API call.
    */
   public async injectMessage(data: InjectMessageRequestData): Promise<any> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<InjectMessageRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -180,9 +170,8 @@ export class ConversationApi extends ConversationDomainApi {
    * @param { ListConversationsRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<Conversation>}
    */
-  public list(data: ListConversationsRequestData): ApiListPromise<Conversation> {
-    this.client = this.getSinchClient();
-    const getParams = this.client.extractQueryParams<ListConversationsRequestData>(data, [
+  public list(data?: ListConversationsRequestData): ApiListPromise<Conversation> {
+    const getParams = this.client.extractQueryParams<ListConversationsRequestData>(data ?? {}, [
       'app_id',
       'contact_id',
       'only_active',
@@ -230,7 +219,6 @@ export class ConversationApi extends ConversationDomainApi {
    * @return {ApiListPromise<ConversationRecentMessage>}
    */
   public listRecent(data: ListRecentConversationsRequestData): ApiListPromise<ConversationRecentMessage> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<ListRecentConversationsRequestData>(data, [
       'app_id',
       'only_active',
@@ -279,7 +267,6 @@ export class ConversationApi extends ConversationDomainApi {
    * @param { StopActiveConversationRequestData } data - The data to provide to the API call.
    */
   public async stopActive(data: StopActiveConversationRequestData): Promise<any> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<StopActiveConversationRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -306,7 +293,6 @@ export class ConversationApi extends ConversationDomainApi {
    * @param { UpdateConversationRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateConversationRequestData): Promise<Conversation> {
-    this.client = this.getSinchClient();
     data['metadata_update_strategy'] = data['metadata_update_strategy'] !== undefined
       ? data['metadata_update_strategy']
       : 'REPLACE';

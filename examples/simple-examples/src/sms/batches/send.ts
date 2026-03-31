@@ -42,7 +42,7 @@ import { Sms } from '@sinch/sdk-core';
   try {
     response = await smsService.batches.send(requestData);
   } catch (error) {
-    console.error(`ERROR: The SMS could not be sent`);
+    console.error('ERROR: The SMS could not be sent');
     throw error;
   }
 

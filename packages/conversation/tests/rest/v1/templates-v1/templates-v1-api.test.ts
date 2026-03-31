@@ -3,6 +3,7 @@ import {
   TemplatesV1Api,
   TemplatesV1ApiFixture,
   Conversation,
+  LazyConversationTemplateApiClient,
 } from '../../../../src';
 
 describe('TemplatesV1Api', () => {
@@ -17,7 +18,8 @@ describe('TemplatesV1Api', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    templatesV1Api = new TemplatesV1Api(credentials);
+    const lazyClient = new LazyConversationTemplateApiClient(credentials);
+    templatesV1Api = new TemplatesV1Api(lazyClient);
   });
 
 

@@ -3,6 +3,7 @@ import {
   EventsApi,
   EventsApiFixture,
   Conversation,
+  LazyConversationApiClient,
 } from '../../../../src';
 import { recipientChannelIdentities, recipientContactId } from '../mocks';
 import {
@@ -26,7 +27,8 @@ describe('EventsApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    eventsApi = new EventsApi(credentials);
+    const lazyClient = new LazyConversationApiClient(credentials);
+    eventsApi = new EventsApi(lazyClient);
   });
 
   describe ('deleteEvents', () => {

@@ -1,4 +1,7 @@
 import {
+  RequestBody,
+} from '@sinch/sdk-client';
+import {
   V1Template,
   V1ListTemplatesResponse,
   CreateTemplateRequestData,
@@ -7,30 +10,22 @@ import {
   ListTemplatesRequestData,
   UpdateTemplateRequestData,
 } from '../../../models';
-import {
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
 import { ConversationDomainApi } from '../conversation-domain-api';
+import { LazyConversationTemplateApiClient } from '../conversation-service';
 
 export class TemplatesV1Api extends ConversationDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'TemplatesV1Api');
+  constructor(lazyApiClient: LazyConversationTemplateApiClient) {
+    super(lazyApiClient, 'TemplatesV1Api');
   }
 
   /**
    * Creates a template
    *
+   * @deprecated
    * @param { CreateTemplateRequestData } data - The data to provide to the API call.
    */
   public async create(data: CreateTemplateRequestData): Promise<V1Template> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<CreateTemplateRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -55,10 +50,10 @@ export class TemplatesV1Api extends ConversationDomainApi {
   /**
    * Delete a template.
    *
+   * @deprecated
    * @param { DeleteTemplateRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteTemplateRequestData): Promise<any> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteTemplateRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -83,10 +78,10 @@ export class TemplatesV1Api extends ConversationDomainApi {
   /**
    * Get a template
    *
+   * @deprecated
    * @param { GetTemplateRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetTemplateRequestData): Promise<V1Template> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetTemplateRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -110,11 +105,11 @@ export class TemplatesV1Api extends ConversationDomainApi {
   /**
    * List all templates belonging to a project ID.
    *
+   * @deprecated
    * @param { ListTemplatesRequestData } data - The data to provide to the API call.
    */
-  public async list(data: ListTemplatesRequestData): Promise<V1ListTemplatesResponse> {
-    this.client = this.getSinchClient();
-    const getParams = this.client.extractQueryParams<ListTemplatesRequestData>(data, [] as never[]);
+  public async list(data?: ListTemplatesRequestData): Promise<V1ListTemplatesResponse> {
+    const getParams = this.client.extractQueryParams<ListTemplatesRequestData>(data ?? {}, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -137,10 +132,10 @@ export class TemplatesV1Api extends ConversationDomainApi {
   /**
    * Updates a template.
    *
+   * @deprecated
    * @param { UpdateTemplateRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateTemplateRequestData): Promise<V1Template> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateTemplateRequestData>(data, ['update_mask']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

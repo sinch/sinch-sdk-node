@@ -1,7 +1,9 @@
 import { SmsRequestEventResponse } from '../sms-request-event-response';
 import { FlashCallRequestEventResponse } from '../flashcall-request-event-response';
-import { CalloutRequestEventResponse } from '../phonecall-request-event-response';
+import { PhoneCallRequestEventResponse } from '../phonecall-request-event-response';
+import { WhatsAppRequestEventResponse } from '../whatsapp-request-event-response';
 
 export type VerificationRequestEventResponse = SmsRequestEventResponse
   | FlashCallRequestEventResponse
-  | CalloutRequestEventResponse;
+  | PhoneCallRequestEventResponse
+  | WhatsAppRequestEventResponse;

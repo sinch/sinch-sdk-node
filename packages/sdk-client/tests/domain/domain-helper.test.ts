@@ -3,7 +3,6 @@ import {
   CONVERSATION_HOSTNAME,
   CONVERSATION_TEMPLATES_HOSTNAME,
   ELASTIC_SIP_TRUNKING_HOSTNAME,
-  FAX_HOSTNAME,
   NUMBERS_HOSTNAME,
   formatRegionalizedHostname,
   SMS_HOSTNAME,
@@ -21,9 +20,6 @@ describe('Domain Helper', () => {
 
     const formattedConversationTemplatesHostname = formatRegionalizedHostname(CONVERSATION_TEMPLATES_HOSTNAME, 'bzh.');
     expect(formattedConversationTemplatesHostname).toBe('https://bzh.template.api.sinch.com');
-
-    const formattedFaxHostname = formatRegionalizedHostname(FAX_HOSTNAME, 'bzh.');
-    expect(formattedFaxHostname).toBe('https://bzh.fax.api.sinch.com');
 
     const formattedSmsHostname = formatRegionalizedHostname(SMS_HOSTNAME, 'bzh.');
     expect(formattedSmsHostname).toBe('https://bzh.sms.api.sinch.com');

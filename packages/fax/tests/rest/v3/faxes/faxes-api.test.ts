@@ -3,6 +3,7 @@ import {
   Fax,
   FaxesApi,
   FaxesApiFixture,
+  LazyFaxApiClient,
 } from '../../../../src';
 
 describe('FaxesApi', () => {
@@ -17,7 +18,8 @@ describe('FaxesApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    faxesApi = new FaxesApi(credentials);
+    const lazyClient = new LazyFaxApiClient(credentials);
+    faxesApi = new FaxesApi(lazyClient);
   });
 
 
@@ -71,18 +73,28 @@ describe('FaxesApi', () => {
       const expectedResponse: Fax.Fax = {
         id: 'fax_id',
         direction: 'OUTBOUND',
+        from:'+12015555554',
         to: '+12015555555',
-        status: 'FAILURE',
+        numberOfPages: 1,
+        status: 'COMPLETED',
         headerTimeZone: 'America/New_York',
         retryDelaySeconds: 60,
+        resolution: 'FINE',
+        callbackUrl: 'https://yourserver/incomingFax',
         callbackUrlContentType: 'multipart/form-data',
         errorType: 'LINE_ERROR',
         errorCode: 89,
         errorMessage: 'The call dropped prematurely',
         projectId: 'projectId',
         serviceId: 'serviceId',
+        price: {
+          currencyCode: 'USD',
+          amount: '0.210',
+        },
         maxRetries: 3,
-        createTime: new Date('2024-02-27T12:28:09.000Z'),
+        createTime: new Date('2024-02-27T12:28:09Z'),
+        completedTime: new Date('2024-02-27T12:28:09Z'),
+        headerText: '',
         pagesSentSuccessfully: 1,
         headerPageNumbers: true,
         retryCount: 3,

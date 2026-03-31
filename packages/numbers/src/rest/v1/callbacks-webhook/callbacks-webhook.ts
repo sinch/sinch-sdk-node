@@ -56,4 +56,15 @@ export class NumbersCallbackWebhooks implements CallbackProcessor<CallbackPayloa
     }
     return eventBody as CallbackPayload;
   };
+
+  /**
+   * Static reviver for a Numbers Event.
+   * This method ensures the object can be treated as a Numbers Event.
+   * @param {any} eventBody - The event body containing the Numbers event notification.
+   * @return {NumbersCallback} - The parsed Numbers event object
+   */
+  public static parseEvent(eventBody:any): NumbersCallback {
+    const instance = new NumbersCallbackWebhooks('');
+    return instance.parseEvent(eventBody);
+  }
 }

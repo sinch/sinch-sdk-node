@@ -1,4 +1,6 @@
 import { LinksObject } from '../links-object';
+import { WithAdditionalProperties } from '@sinch/sdk-client';
+import { CodeType } from '../enums';
 
 export interface StartSmsVerificationResponse {
 
@@ -12,10 +14,12 @@ export interface StartSmsVerificationResponse {
   _links?: LinksObject[];
 }
 
-interface SmsContent {
+interface SmsContent extends WithAdditionalProperties {
 
   /** The expected template for the SMS response. */
   template?: string;
   /** The amount of time in seconds that the client should wait for the SMS. */
   interceptionTimeout?: number;
+  /** Accepted values for the type of code to be generated are `Numeric`, `Alpha`, and `Alphanumeric`. Default is `Numeric`. */
+  codeType?: CodeType;
 }

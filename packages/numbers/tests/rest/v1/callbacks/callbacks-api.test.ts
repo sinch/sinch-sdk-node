@@ -3,6 +3,7 @@ import {
   CallbacksApi,
   CallbackConfigurationApiFixture,
   Numbers,
+  LazyNumbersApiClient,
 } from '../../../../src';
 
 describe('CallbackConfigurationApi', () => {
@@ -17,7 +18,8 @@ describe('CallbackConfigurationApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    callbacksApi = new CallbacksApi(credentials);
+    const lazyClient = new LazyNumbersApiClient(credentials);
+    callbacksApi = new CallbacksApi(lazyClient);
   });
 
   describe ('getCallbackConfiguration', () => {

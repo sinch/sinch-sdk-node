@@ -34,7 +34,7 @@ export const list = async(smsService: SmsService) => {
   try {
     response = await smsService.groups.list(requestData);
   } catch (error) {
-    console.error(`ERROR: Impossible to list the groups associated to your service plan id`);
+    console.error('ERROR: Impossible to list the groups associated to your service plan id');
     throw error;
   }
 

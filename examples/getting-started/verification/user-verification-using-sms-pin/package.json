@@ -1,0 +1,15 @@
+{
+  "name": "@sinch/getting-started_user-verification-using-sms-pin",
+  "version": "0.0.0",
+  "author": "Sinch",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "dependencies": {
+    "@sinch/sdk-core": "^1.4.0",
+    "dotenv": "^16.4.5",
+    "inquirer": "^9.2.14"
+  }
+}

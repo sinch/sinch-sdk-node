@@ -20,8 +20,15 @@ export interface CardMessageItem {
   description?: string;
   /** @see CardHeight */
   height?: CardHeight;
-  /** @see MediaProperties */
+  /** A message containing a media component. */
   media_message?: MediaProperties;
   /** The title of the card message. */
   title?: string;
+  /** Optional additional properties. */
+  message_properties?: CardMessageItemProperties;
+}
+
+export interface CardMessageItemProperties {
+  /** Optional. Sets the header for the footer of a WhatsApp reply button message, if there is no media in the message. Ignored for other channels. Ignored if not transcoded to a native WhatsApp message with reply buttons. */
+  whatsapp_header?: string;
 }

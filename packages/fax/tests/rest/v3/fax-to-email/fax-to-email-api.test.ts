@@ -1,5 +1,5 @@
 import { SinchClientParameters } from '@sinch/sdk-client';
-import { Fax } from '../../../../src';
+import { Fax, LazyFaxApiClient } from '../../../../src';
 import { FaxToEmailApi, FaxToEmailApiFixture } from '../../../../src';
 
 describe('EmailsApi', () => {
@@ -14,7 +14,8 @@ describe('EmailsApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    faxToEmailApi = new FaxToEmailApi(credentials);
+    const lazyClient = new LazyFaxApiClient(credentials);
+    faxToEmailApi = new FaxToEmailApi(lazyClient);
   });
 
 
@@ -85,13 +86,15 @@ describe('EmailsApi', () => {
       const mockData: Fax.Email[] = [
         {
           email: 'user@domain.com',
+          projectId: 'projectId',
+          createdAt: new Date('2024-01-01T00:00:00Z'),
+          updatedAt: new Date('2024-01-02T00:00:00Z'),
           phoneNumbers: [
             {
               number: '+14155552222',
               permissions: 'both',
             },
           ],
-          projectId: 'projectId',
         },
       ];
       const expectedResponse = {
@@ -154,6 +157,7 @@ describe('EmailsApi', () => {
           phoneNumber: '+14155552222',
           serviceId: 'serviceId',
           projectId: 'projectId',
+          permissions: 'send',
         },
       ];
       const expectedResponse = {

@@ -8,8 +8,7 @@
   "license": "Apache 2.0",
   "workspaces": [
     "packages/*",
-    "examples/*",
-    "docs/*"
+    "examples/*"
   ],
   "scripts": {
     "lerna": "lerna",

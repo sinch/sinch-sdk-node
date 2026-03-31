@@ -6,7 +6,6 @@ export type ConversationChannel =
   | 'RCS'
   | 'SMS'
   | 'MESSENGER'
-  | 'VIBER'
   | 'VIBERBM'
   | 'MMS'
   | 'INSTAGRAM'
@@ -16,7 +15,8 @@ export type ConversationChannel =
   | 'LINE'
   | 'WECHAT'
   | 'APPLEBC'
-  | 'CHANNEL_UNSPECIFIED';
+  | 'CHANNEL_UNSPECIFIED'
+  | string;
 
 export type TemplateChannel =
   'UNSPECIFIED'
@@ -25,5 +25,9 @@ export type TemplateChannel =
   | 'WHATSAPP'
   | 'RCS'
   | 'SMS'
-  | 'VIBER'
-  | 'VIBERBM';
+  | 'VIBERBM'
+  | 'TELEGRAM'
+  | 'INSTAGRAM'
+  | 'KAKAOTALK'
+  | 'APPLEBC'
+  | string;

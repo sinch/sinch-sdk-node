@@ -44,7 +44,10 @@
       ],
       "indent": [
           "error",
-          2
+          2,
+          {
+              "SwitchCase": 1
+          }
       ],
       "object-curly-spacing": [
           "error",
@@ -72,6 +75,7 @@
               "ignorePattern": "^import.+|test"
           }
       ],
-      "new-cap": "off"
+      "new-cap": "off",
+      "valid-jsdoc": "off"
   }
 }

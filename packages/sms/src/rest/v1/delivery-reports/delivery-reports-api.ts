@@ -1,30 +1,25 @@
 import {
+  RequestBody,
+  ApiListPromise,
+  PaginatedApiProperties,
+  PaginationEnum,
+  buildPageResultPromise,
+  createIteratorMethodsForPagination,
+} from '@sinch/sdk-client';
+import {
   DeliveryReport,
   GetDeliveryReportByBatchIdRequestData,
   GetDeliveryReportByPhoneNumberRequestData,
   ListDeliveryReportsRequestData,
   RecipientDeliveryReport,
 } from '../../../models';
-import {
-  RequestBody,
-  ApiListPromise,
-  PaginatedApiProperties,
-  PaginationEnum,
-  SinchClientParameters,
-  buildPageResultPromise,
-  createIteratorMethodsForPagination,
-} from '@sinch/sdk-client';
 import { SmsDomainApi } from '../sms-domain-api';
+import { LazySmsApiClient } from '../sms-service';
 
 export class DeliveryReportsApi extends SmsDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'DeliveryReportsApi');
+  constructor(lazyClient: LazySmsApiClient) {
+    super(lazyClient, 'DeliveryReportsApi');
   }
 
   /**
@@ -33,7 +28,6 @@ export class DeliveryReportsApi extends SmsDomainApi {
    * @param { GetDeliveryReportByBatchIdRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetDeliveryReportByBatchIdRequestData): Promise<DeliveryReport> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetDeliveryReportByBatchIdRequestData>(
       data,
       ['type', 'status', 'code'],
@@ -64,7 +58,6 @@ export class DeliveryReportsApi extends SmsDomainApi {
    * @param { GetDeliveryReportByPhoneNumberRequestData } data - The data to provide to the API call.
    */
   public async getForNumber(data: GetDeliveryReportByPhoneNumberRequestData): Promise<RecipientDeliveryReport> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetDeliveryReportByPhoneNumberRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -101,10 +94,9 @@ export class DeliveryReportsApi extends SmsDomainApi {
    * @param { ListDeliveryReportsRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<RecipientDeliveryReport>}
    */
-  public list(data: ListDeliveryReportsRequestData): ApiListPromise<RecipientDeliveryReport> {
-    this.client = this.getSinchClient();
+  public list(data?: ListDeliveryReportsRequestData): ApiListPromise<RecipientDeliveryReport> {
     const getParams = this.client.extractQueryParams<ListDeliveryReportsRequestData>(
-      data,
+      data ?? {},
       ['page', 'page_size', 'start_date', 'end_date', 'status', 'code', 'client_reference'],
     );
     const headers: { [key: string]: string | undefined } = {

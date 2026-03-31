@@ -1,25 +1,29 @@
 import {
   Api,
   ApiClient,
-  ApiFetchClient,
   ApplicationCredentials,
-  buildApplicationSignedApiClientOptions,
-  formatRegionalizedHostname,
-  SinchClientParameters,
-  SupportedVoiceRegion,
-  VOICE_APPLICATION_MANAGEMENT_HOSTNAME,
-  VOICE_HOSTNAME,
   VoiceRegion,
 } from '@sinch/sdk-client';
+import { LazyVoiceApiClient, LazyVoiceApplicationManagementApiClient } from './voice-service';
 
 export class VoiceDomainApi implements Api {
-  public readonly apiName: string;
-  public client?: ApiClient;
-  private sinchClientParameters: SinchClientParameters;
 
-  constructor(sinchClientParameters: SinchClientParameters, apiName: string) {
-    this.sinchClientParameters = sinchClientParameters;
-    this.apiName = apiName;
+  constructor(
+    public readonly lazyClient: LazyVoiceApiClient | LazyVoiceApplicationManagementApiClient,
+    public readonly apiName: string,
+  ) {}
+
+  public get client(): ApiClient {
+    return this.lazyClient.getApiClient();
+  }
+
+  /**
+   * Kept for backward compatibility - TODO: remove in future major release
+   * @return {ApiClient}
+   * @deprecated
+   */
+  public getSinchClient(): ApiClient {
+    return this.lazyClient.getApiClient();
   }
 
   /**
@@ -27,13 +31,12 @@ export class VoiceDomainApi implements Api {
    * @param {string} hostname - The new hostname to use for the APIs.
    */
   public setHostname(hostname: string) {
-    try {
-      this.client = this.getSinchClient();
-      this.client.apiClientOptions.hostname = hostname;
-    } catch (error) {
-      console.error('Impossible to set a new hostname, the Application credentials need to be provided first.');
-      throw error;
+    if (this.apiName === 'ApplicationsApi') {
+      this.lazyClient.sharedConfig.voiceApplicationManagementHostname = hostname;
+    } else {
+      this.lazyClient.sharedConfig.voiceHostname = hostname;
     }
+    this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
   }
 
   /**
@@ -41,64 +44,35 @@ export class VoiceDomainApi implements Api {
    * @param {VoiceRegion} region - The new region to send the requests to
    */
   public setRegion(region: VoiceRegion) {
-    this.sinchClientParameters.voiceRegion = region;
-    if (this.client) {
-      this.client.apiClientOptions.hostname = this.buildHostname(region);
-    }
+    this.lazyClient.sharedConfig.voiceRegion = region;
+    this.lazyClient.resetApiClient();
   }
 
   /**
    * Updates the application credentials used to authenticate API requests
    * @param {ApplicationCredentials} credentials
    */
-  public setApplication(credentials: ApplicationCredentials) {
-    const parametersBackup = { ...this.sinchClientParameters };
-    this.sinchClientParameters = {
+  public setCredentials(credentials: Partial<ApplicationCredentials>) {
+    const parametersBackup = { ...this.lazyClient.sharedConfig };
+    this.lazyClient.sharedConfig = {
       ...parametersBackup,
       ...credentials,
     };
-    this.resetApiClient();
+    this.lazyClient.resetApiClient();
     try {
-      this.getSinchClient();
+      this.lazyClient.getApiClient();
     } catch (error) {
-      console.error('Impossible to assign the new application to the Voice API');
-      this.sinchClientParameters = parametersBackup;
+      console.error('Impossible to assign the new credentials to the Voice API');
+      this.lazyClient.sharedConfig = parametersBackup;
       throw error;
     }
   }
 
-  private resetApiClient() {
-    this.client = undefined;
-  }
-
   /**
-   * Checks the configuration parameters are ok and initialize the API client. Once initialized, the same instance will
-   * be returned for the subsequent API calls (singleton pattern)
-   * @return {ApiClient} the API Client or throws an error in case the configuration parameters are not ok
-   * @private
+   * @deprecated Use setCredentials instead
    */
-  public getSinchClient(): ApiClient {
-    if (!this.client) {
-      const apiClientOptions = buildApplicationSignedApiClientOptions(this.sinchClientParameters, 'Voice');
-      this.client = new ApiFetchClient(apiClientOptions);
-      const region = this.sinchClientParameters.voiceRegion ?? VoiceRegion.DEFAULT;
-      if(!Object.values(SupportedVoiceRegion).includes(region as SupportedVoiceRegion)) {
-        console.warn(`The region "${region}" is not known as a supported region for the Voice API`);
-      }
-      this.client.apiClientOptions.hostname = this.buildHostname(region);
-    }
-    return this.client;
-  }
-
-  private buildHostname(region: VoiceRegion) {
-    switch (this.apiName) {
-    case 'ApplicationsApi':
-      return this.sinchClientParameters.voiceApplicationManagementHostname ?? VOICE_APPLICATION_MANAGEMENT_HOSTNAME;
-    default: {
-      const formattedRegion = region === VoiceRegion.DEFAULT ? region : `-${region}`;
-      return this.sinchClientParameters.voiceHostname ?? formatRegionalizedHostname(VOICE_HOSTNAME, formattedRegion);
-    }
-    }
+  public setApplication(credentials: ApplicationCredentials) {
+    this.setCredentials(credentials);
   }
 
 }

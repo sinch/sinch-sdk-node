@@ -7,11 +7,12 @@ export type {
   StartVerificationWithCallout,
   StartDataVerification,
   StartSeamlessVerification,
+  StartVerificationWithWhatsApp,
   SmsOptions,
-  CodeType,
   PhoneCallOptions,
   CalloutOptions,
   PhoneCallOptionsSpeech,
   CalloutOptionsSpeech,
   FlashCallOptions,
+  WhatsAppOptions,
 } from './start-verification-request';

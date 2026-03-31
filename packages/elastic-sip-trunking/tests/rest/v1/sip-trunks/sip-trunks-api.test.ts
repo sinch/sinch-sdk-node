@@ -3,6 +3,7 @@ import {
   SipTrunksApi,
   SipTrunksApiFixture,
   ElasticSipTrunking,
+  LazyElasticSipTrunkingApiClient,
 } from '../../../../src';
 
 describe('SIPTrunksApi', () => {
@@ -17,7 +18,8 @@ describe('SIPTrunksApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    sipTrunksApi = new SipTrunksApi(credentials);
+    const lazyClient = new LazyElasticSipTrunkingApiClient(credentials);
+    sipTrunksApi = new SipTrunksApi(lazyClient);
   });
 
 
@@ -48,6 +50,36 @@ describe('SIPTrunksApi', () => {
       // Then
       expect(response).toEqual(expectedResponse);
       expect(fixture.addAccessControlList).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('addCredentialListToTrunk', () => {
+    it('should make a POST request to add credential lists to a specified SIP trunk', async () => {
+      // Given
+      const requestData: ElasticSipTrunking.AddCredentialListIdsToTrunkRequestData = {
+        trunkId: 'trunkId',
+        addCredentialListIdsToTrunkRequestBody: {
+          credentialListIds: [
+            '01H8Y95DBJT31F104PWFVV9H8B',
+            '01HA2E80QCBX185VVP21PJG9CT',
+          ],
+        },
+      };
+      const expectedResponse: ElasticSipTrunking.CredentialListIds = {
+        credentialListIds: [
+          '01H8Y95DBJT31F104PWFVV9H8B',
+          '01HA2E80QCBX185VVP21PJG9CT',
+        ],
+      };
+
+      // When
+      fixture.addCredentialLists.mockResolvedValue(expectedResponse);
+      sipTrunksApi.addCredentialLists = fixture.addCredentialLists;
+      const response = await sipTrunksApi.addCredentialLists(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.addCredentialLists).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -121,6 +153,25 @@ describe('SIPTrunksApi', () => {
     });
   });
 
+  describe ('removeCredentialListFromTrunk', () => {
+    it('should make a DELETE request to remove a credential list from a SIP trunk', async () => {
+      // Given
+      const requestData: ElasticSipTrunking.DeleteCredentialListFromTrunkRequestData = {
+        trunkId: 'trunkId',
+        credentialListId: '01H8Y95DBJT31F104PWFVV9H8B',
+      };
+
+      // When
+      fixture.deleteCredentialList.mockResolvedValue();
+      sipTrunksApi.deleteCredentialList = fixture.deleteCredentialList;
+      const response = await sipTrunksApi.deleteCredentialList(requestData);
+
+      // Then
+      expect(response).toBeUndefined();
+      expect(fixture.deleteCredentialList).toHaveBeenCalledWith(requestData);
+    });
+  });
+
   describe ('listAccessControlLists', () => {
     it('should make a GET request to list all access control list entries for a trunk', async () => {
       // Given
@@ -145,6 +196,45 @@ describe('SIPTrunksApi', () => {
       // Then
       expect(response).toEqual(expectedResponse);
       expect(fixture.listAccessControlLists).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('getCredentialListsForTrunk', () => {
+    it('should make a GET request to list all the credential lists for a specified SIP trunk', async () => {
+      // Given
+      const requestData: ElasticSipTrunking.ListCredentialListsForTrunkRequestData = {
+        trunkId: 'trunkId',
+      };
+      const mockData: ElasticSipTrunking.CredentialList[] = [
+        {
+          name: 'My Credential List',
+          projectId: '1bf62742-7b84-4666-9cbe-8e5734fd57d0',
+          id: '01H8Y95DBJT31F104PWFVV9H8B',
+          createTime: new Date('2022-01-01T00:00:00Z'),
+          updateTime: null,
+          credentials: [
+            {
+              id: '01KKYCEYH8MRJWC4AYVHBQ79J9',
+              username: 'my-username',
+            },
+          ],
+        },
+      ];
+      const expectedResponse = {
+        data: mockData,
+        hasNextPage: false,
+        nextPageValue: '',
+        nextPage: jest.fn(),
+      };
+
+      // When
+      fixture.listCredentialLists.mockResolvedValue(expectedResponse);
+      sipTrunksApi.listCredentialLists = fixture.listCredentialLists;
+      const response = await sipTrunksApi.listCredentialLists(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.listCredentialLists).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -247,6 +337,36 @@ describe('SIPTrunksApi', () => {
       // Then
       expect(response).toEqual(expectedResponse);
       expect(fixture.update).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('bulkUpdateCredentialListsForTrunk', () => {
+    it('should make a PUT request to update the list of credential list entries for a trunk', async () => {
+      // Given
+      const requestData: ElasticSipTrunking.UpdateCredentialListIdsForTrunkRequestData = {
+        trunkId: 'trunkId',
+        updateCredentialListIdsForTrunkRequestBody: {
+          credentialListIds: [
+            '01H8Y95DBJT31F104PWFVV9H8B',
+            '01HA2E80QCBX185VVP21PJG9CT',
+          ],
+        },
+      };
+      const expectedResponse: ElasticSipTrunking.CredentialListIds = {
+        credentialListIds: [
+          '01H8Y95DBJT31F104PWFVV9H8B',
+          '01HA2E80QCBX185VVP21PJG9CT',
+        ],
+      };
+
+      // When
+      fixture.updateCredentialLists.mockResolvedValue(expectedResponse);
+      sipTrunksApi.updateCredentialLists = fixture.updateCredentialLists;
+      const response = await sipTrunksApi.updateCredentialLists(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.updateCredentialLists).toHaveBeenCalledWith(requestData);
     });
   });
 });

@@ -198,4 +198,15 @@ export class ConversationCallbackWebhooks implements CallbackProcessor<Conversat
       throw new Error('Unknown Conversation event to parse');
     }
   };
+
+  /**
+   * Static reviver for a Conversation Event.
+   * This method ensures the object can be treated as a Conversation Event.
+   * @param {any} eventBody - The event body containing the Conversation event notification.
+   * @return {ConversationWebhookEventParsed} - The parsed Conversation event object
+   */
+  public static parseEvent(eventBody:any): ConversationWebhookEventParsed {
+    const instance = new ConversationCallbackWebhooks('');
+    return instance.parseEvent(eventBody);
+  }
 }

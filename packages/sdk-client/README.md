@@ -32,32 +32,82 @@ yarn add @sinch/sdk-client
 
 ## Usage
 
+### Lazy Initialization and Dependency Injection of ApiFetchClient
+Starting from version 1.4.0, the SDK supports lazy initialization and dependency injection of the ApiFetchClient in service classes.
+
+How it works:
+- Lazy Initialization:
+  The ApiFetchClient is not created until the first API call is made. This reduces startup overhead and only initializes what is needed.
+- Dependency Injection:
+  The service class (e.g., NumbersService) is responsible for creating and configuring the ApiFetchClient. This client is then injected into the API classes as needed, centralizing configuration and enabling advanced scenarios like custom plugins or test mocks.
+
+Example:
+```typescript
+const numbersService = new NumbersService({
+  projectId: 'YOUR_PROJECT_ID',
+  keyId: 'YOUR_KEY_ID',
+  keySecret: 'YOUR_KEY_SECRET',
+});
+
+// No need to instantiate ApiFetchClient manually
+
+// The client is created and injected automatically on the first API call
+const numbers = await numbersService.list({});
+
+// You can update configuration before the first call
+numbersService.setHostname('https://custom.api.sinch.com');
+numbersService.setCredentials({ projectId: 'NEW_PROJECT_ID' });
+```
+
 In this section, we'll see how to implement the `Api` interface and how to use the `ApiFetchClient` to call the API endpoint.
 
 ### Api interface
 
 ```typescript
-export class MyExampleApi implements Api {
-    public readonly apiName = 'MyExampleApi';
-    public readonly client: ApiClient;
+export class LazyDomainApiClient {
+  private apiFetchClient?: ApiFetchClient;
+  constructor(public sharedConfig: SinchClientParameters) {}
 
-    constructor(apiClient: ApiClient) {
-        this.client = apiClient;
+  public getApiClient(): ApiFetchClient {
+    if (!this.apiFetchClient) {
+      // Create the ApiFetchClient only when it's needed
     }
+    return this.apiFetchClient;
+  }
+}
 
-    public async myApiOperation(): Promise<Response> {
-        // Define the API endpoint
-        const url = `${this.client.apiClientOptions.basePath}/myDomain`;
-        // Build the request options: you can use the method 'prepareOptions' from the apiClient 
-        // that will apply the request plugins onto the default built options
-        const requestOptions: RequestOptions = await this.client.prepareOptions(...);
-        // Send the request and apply the response plugins
-        return this.client.processCall<Response>({
-            url,
-            requestOptions,
-            apiName: this.apiName,
-        });
-    }
+export class ExampleDomainApi implements Api {
+  constructor(
+    public readonly lazyClient: LazyDomainApiClient,
+    public readonly apiName: string,
+  ) {}
+
+  public get client(): ApiClient {
+    return this.lazyClient.getApiClient();
+  }
+}
+
+
+export class MyExampleApi extends ExampleDomainApi {
+  
+  constructor(lazyApiClient: LazyDomainApiClient) {
+    super(lazyApiClient, 'MyExampleApi');
+  }
+
+  public async myApiOperation(): Promise<Response> {
+    // Define the API endpoint
+    const url = `${this.client.apiClientOptions.hostname}/myDomain`;
+    // Build the request options: you can use the method 'prepareOptions' from the apiClient 
+    // that will apply the request plugins onto the default built options
+    const requestOptions: RequestOptions = await this.client.prepareOptions(...);
+    // Send the request and apply the response plugins
+    return this.client.processCall<Response>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'myApiOperation',
+    });
+  }
 }
 ```
 
@@ -81,12 +131,11 @@ const apiClient = new ApiFetchClient(apiClientOptions);
 
 ```typescript
 // Once the API Client is intantiated, it can be given as a parameter to your API
-const myApi = new MyExampleApi(apiClient);
+const myApi = new MyExampleApi(lazyApiClient);
 
 // The API operations can now be invoked
 const myResponse = await myApi.myApiOperation();
 ```
-
 
 ## Plugins
 

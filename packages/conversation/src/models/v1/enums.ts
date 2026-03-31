@@ -14,7 +14,10 @@ export type ConversationMetadataUpdateStrategy = 'REPLACE' | 'MERGE_PATCH' | str
  */
 export type CardHeight = 'UNSPECIFIED_HEIGHT' | 'SHORT' | 'MEDIUM' | 'TALL' | string;
 
-export type ConversationDirection = 'UNDEFINED_DIRECTION' | 'TO_APP' | 'TO_CONTACT' | string;
+/**
+ * The direction of the message flow, indicating whether the message was sent to or from the Conversation API app.
+ */
+export type ConversationDirection = 'TO_APP' | 'TO_CONTACT' | string;
 
 export type ConversationMergeStrategy = 'MERGE' | string;
 
@@ -53,3 +56,9 @@ export type ProcessingStrategy = 'DEFAULT' | 'DISPATCH_ONLY' | string;
 export type WebhookTargetType = 'DISMISS' | 'HTTP' | string;
 
 export type MessageSource = 'CONVERSATION_SOURCE' | 'DISPATCH_SOURCE' | string;
+
+export type ConsentsListType = 'OPT_OUT_ALL' | 'OPT_OUT_MARKETING' | 'OPT_OUT_NOTIFICATION' | string;
+
+export type ConsentOrigin = 'ORIGIN_API' | 'ORIGIN_MO' | string;
+
+export type ConsentOperation = 'OPERATION_INSERT' | 'OPERATION_UPDATE' | 'OPERATION_DELETE' | string;

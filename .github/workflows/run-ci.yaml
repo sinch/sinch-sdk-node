@@ -19,7 +19,7 @@ jobs:
         run: yarn install
 
       - name: Run ESLint
-        run: npx eslint "packages/**/{src,tests}/**/*.ts"
+        run: npx eslint "packages/**/{src,tests}/**/*.ts" "examples/**/{src,}/**/*.{js,ts}" --ignore-pattern "**/node_modules/**" --ignore-pattern "**/dist/**"
 
       - name: Build project
         run: yarn run build
@@ -54,6 +54,7 @@ jobs:
           mkdir -p ./packages/sms/tests/e2e/features
           mkdir -p ./packages/verification/tests/e2e/features
           mkdir -p ./packages/voice/tests/e2e/features
+          mkdir -p ./packages/number-lookup/tests/e2e/features
 
       - name: Copy feature files
         run: |
@@ -64,6 +65,7 @@ jobs:
           cp sinch-sdk-mockserver/features/sms/*.feature ./packages/sms/tests/e2e/features/
           cp sinch-sdk-mockserver/features/verification/*.feature ./packages/verification/tests/e2e/features/
           cp sinch-sdk-mockserver/features/voice/*.feature ./packages/voice/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/number-lookup/*.feature ./packages/number-lookup/tests/e2e/features/
 
       - name: Run e2e tests
         run: yarn run e2e

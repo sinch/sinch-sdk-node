@@ -9,19 +9,14 @@ import {
 } from '../../../models';
 import {
   RequestBody,
-  SinchClientParameters,
 } from '@sinch/sdk-client';
 import { NumbersDomainApi } from '../numbers-domain-api';
+import { LazyNumbersApiClient } from '../numbers-service';
 
 export class AvailableNumberApi extends NumbersDomainApi {
 
-  /**
-   * Initialize your interface with the provided API client.
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'AvailableRegionsApi');
+  constructor(lazyClient: LazyNumbersApiClient) {
+    super(lazyClient, 'AvailableNumbersApi');
   }
 
   /**
@@ -30,7 +25,6 @@ export class AvailableNumberApi extends NumbersDomainApi {
    * @param {GetAvailableNumberRequestData} data - The data to provide to the API call.
    */
   public async checkAvailability(data: GetAvailableNumberRequestData): Promise<AvailableNumber> {
-    this.client = this.getSinchClient();
     const getParams
       = this.client.extractQueryParams<GetAvailableNumberRequestData>(
         data,
@@ -67,7 +61,6 @@ export class AvailableNumberApi extends NumbersDomainApi {
    * @param {ListAvailableNumbersRequestData} data - The data to provide to the API call.
    */
   public async list(data: ListAvailableNumbersRequestData): Promise<AvailableNumbersResponse> {
-    this.client = this.getSinchClient();
     const getParams
       = this.client.extractQueryParams<ListAvailableNumbersRequestData>(data, [
         'numberPattern.pattern',
@@ -108,7 +101,6 @@ export class AvailableNumberApi extends NumbersDomainApi {
    * @param {RentAnyNumberRequestData} data - The data to provide to the API call.
    */
   public async rentAny(data: RentAnyNumberRequestData): Promise<ActiveNumber> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<RentAnyNumberRequestData>(
       data,
       [] as never[],
@@ -146,7 +138,6 @@ export class AvailableNumberApi extends NumbersDomainApi {
    * @param {RentNumberRequestData} data - The data to provide to the API call.
    */
   public async rent(data: RentNumberRequestData): Promise<ActiveNumber> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<RentNumberRequestData>(
       data,
       [] as never[],

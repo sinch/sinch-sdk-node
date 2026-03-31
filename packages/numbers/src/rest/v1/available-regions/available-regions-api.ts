@@ -1,19 +1,12 @@
 import { ListAvailableRegionsRequestData, ListAvailableRegionsResponse } from '../../../models';
-import {
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
+import { RequestBody } from '@sinch/sdk-client';
 import { NumbersDomainApi } from '../numbers-domain-api';
+import { LazyNumbersApiClient } from '../numbers-service';
 
 export class AvailableRegionsApi extends NumbersDomainApi {
 
-  /**
-   * Initialize your interface with the provided API client.
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'AvailableRegionsApi');
+  constructor(lazyApiClient: LazyNumbersApiClient) {
+    super(lazyApiClient, 'AvailableRegionsApi');
   }
 
   /**
@@ -21,10 +14,9 @@ export class AvailableRegionsApi extends NumbersDomainApi {
    * Lists all regions for numbers provided for the project ID.
    * @param {ListAvailableRegionsRequestData} data - The data to provide to the API call.
    */
-  public async list(data: ListAvailableRegionsRequestData): Promise<ListAvailableRegionsResponse> {
-    this.client = this.getSinchClient();
+  public async list(data?: ListAvailableRegionsRequestData): Promise<ListAvailableRegionsResponse> {
     const getParams
-      = this.client.extractQueryParams<ListAvailableRegionsRequestData>(data, [
+      = this.client.extractQueryParams<ListAvailableRegionsRequestData>(data ?? {}, [
         'types',
       ]);
     const headers: { [key: string]: string | undefined } = {

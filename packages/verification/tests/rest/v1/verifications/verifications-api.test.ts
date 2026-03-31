@@ -1,5 +1,6 @@
 import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
 import {
+  LazyVerificationApiClient,
   Verification,
   VerificationsApi,
   VerificationsApiFixture,
@@ -29,7 +30,8 @@ describe('VerificationsApi', () => {
       projectId: 'Test_ProjectId',
       requestPlugins: [new SigningRequest('keyId', 'keySecret')],
     };
-    verificationsApi = new VerificationsApi(apiClientOptions);
+    const lazyClient = new LazyVerificationApiClient(apiClientOptions);
+    verificationsApi = new VerificationsApi(lazyClient);
   });
 
   describe ('startVerification', () => {
@@ -37,6 +39,7 @@ describe('VerificationsApi', () => {
       // Given
       const smsOptions: Verification.SmsOptions = {
         locale: 'sv-SE',
+        hiddenOption: 'hiddenValue',
       };
       const requestData = Verification.startVerificationHelper.buildSmsRequest('+46700000000', undefined, smsOptions);
       const expectedResponse: Verification.StartSmsVerificationResponse = {
@@ -45,6 +48,7 @@ describe('VerificationsApi', () => {
         sms: {
           template: 'Din verifieringskod är {{CODE}}.',
           interceptionTimeout: 298,
+          hiddenOption: 'hiddenValue',
         },
         _links,
       };
@@ -61,7 +65,14 @@ describe('VerificationsApi', () => {
 
     it('should make a POST request to start a verification with a FlashCall', async () => {
       // Given
-      const requestData = Verification.startVerificationHelper.buildFlashCallRequest('+46700000000', undefined, 30);
+      const requestData = Verification.startVerificationHelper.buildFlashCallRequest(
+        '+46700000000',
+        undefined,
+        30,
+        60,
+        {
+          hiddenOption: 'hiddenValue',
+        });
       const expectedResponse: Verification.StartFlashCallVerificationResponse = {
         id: 'some_verification_id',
         method: 'flashcall',
@@ -70,6 +81,7 @@ describe('VerificationsApi', () => {
           interceptionTimeout: 60,
           reportTimeout: 120,
           denyCallAfter: 120,
+          hiddenOption: 'hiddenValue',
         },
         _links,
       };
@@ -86,7 +98,13 @@ describe('VerificationsApi', () => {
 
     it('should make a POST request to start a verification with a PhoneCall', async () => {
       // Given
-      const requestData = Verification.startVerificationHelper.buildPhoneCallRequest('+46700000000');
+      const requestData = Verification.startVerificationHelper.buildPhoneCallRequest(
+        '+46700000000',
+        undefined,
+        'en_US',
+        {
+          hiddenOption: 'hiddenValue',
+        });
       const expectedResponse: Verification.StartPhoneCallVerificationResponse = {
         id: 'some_verification_id',
         method: 'callout',
@@ -107,7 +125,10 @@ describe('VerificationsApi', () => {
       const requestData = Verification.startVerificationHelper.buildPhoneCallRequest(
         '+46700000000',
         undefined,
-        'en-US');
+        'en-US',
+        {
+          hiddenOption: 'hiddenValue',
+        });
       const expectedResult: Verification.StartVerificationWithPhoneCallServerModel = {
         identity: {
           endpoint: '+46700000000',
@@ -117,6 +138,7 @@ describe('VerificationsApi', () => {
           speech: {
             locale: 'en-US',
           },
+          hiddenOption: 'hiddenValue',
         },
       };
       const formattedRequestData = verificationsApi.performStartPhoneCallRequestBodyTransformation(
@@ -185,6 +207,33 @@ describe('VerificationsApi', () => {
       expect(fixture.startSeamless).toHaveBeenCalledWith(requestData);
     });
 
+    it('should make a POST request to start a verification with WhatsApp', async () => {
+      // Given
+      const whatsAppOptions: Verification.WhatsAppOptions = {
+        codeType: 'Numeric',
+        hiddenOption: 'hiddenValue',
+      };
+      const requestData = Verification.startVerificationHelper.buildWhatsAppRequest(
+        '+46700000000', undefined, whatsAppOptions);
+      const expectedResponse: Verification.StartWhatsAppVerificationResponse = {
+        id: 'some_verification_id',
+        method: 'whatsapp',
+        whatsapp: {
+          codeType: 'Numeric',
+          hiddenOption: 'hiddenValue',
+        },
+        _links,
+      };
+
+      // When
+      fixture.startWhatsApp.mockResolvedValue(expectedResponse);
+      verificationsApi.startWhatsApp = fixture.startWhatsApp;
+      const response = await verificationsApi.startWhatsApp(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.startWhatsApp).toHaveBeenCalledWith(requestData);
+    });
   });
 
   describe ('reportVerificationById', () => {
@@ -291,6 +340,28 @@ describe('VerificationsApi', () => {
       // Then
       expect(response).toEqual(expectedResponse);
       expect(fixture.reportCalloutById).toHaveBeenCalledWith(requestData);
+    });
+
+    it('should make a PUT request to report the verification code (OTP) received by WhatsApp to verify it,'
+      + 'using the verification ID of the verification request', async () => {
+      // Given
+      const requestData = Verification.reportVerificationByIdHelper.buildWhatsAppRequest(
+        'some_verification_id',
+        '0000');
+      const expectedResponse: Verification.WhatsAppVerificationReportResponse = {
+        id: 'some_verification_id',
+        method: 'whatsapp',
+        status: 'SUCCESSFUL',
+      };
+
+      // When
+      fixture.reportWhatsAppById.mockResolvedValue(expectedResponse);
+      verificationsApi.reportWhatsAppById = fixture.reportWhatsAppById;
+      const response = await verificationsApi.reportWhatsAppById(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.reportWhatsAppById).toHaveBeenCalledWith(requestData);
     });
   });
 
@@ -404,6 +475,29 @@ describe('VerificationsApi', () => {
       // Then
       expect(response).toEqual(expectedResponse);
       expect(fixture.reportCalloutByIdentity).toHaveBeenCalledWith(requestData);
+    });
+
+    it('should make a PUT request to report the verification code (OTP) received by WhatsApp to verify it,'
+      + 'using the identity of the user', async () => {
+      // Given
+      const requestData = Verification.reportVerificationByIdentityHelper.buildWhatsAppRequest(
+        '+33444555666',
+        '0000');
+      const expectedResponse: Verification.WhatsAppVerificationReportResponse = {
+        id: '018beea3-a942-0094-4a3a-d6b2f2c65057',
+        method: 'whatsapp',
+        status: 'FAIL',
+        reason: 'Fraud',
+      };
+
+      // When
+      fixture.reportWhatsAppByIdentity.mockResolvedValue(expectedResponse);
+      verificationsApi.reportWhatsAppByIdentity = fixture.reportWhatsAppByIdentity;
+      const response = await verificationsApi.reportWhatsAppByIdentity(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.reportWhatsAppByIdentity).toHaveBeenCalledWith(requestData);
     });
   });
 

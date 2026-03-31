@@ -53,7 +53,7 @@ export class ConversationEventService {
         console.log(`A new message has been received on the channel '${channelIdentityTo.channel}' (identity: ${channelIdentityTo.identity}) from the contact ID '${message.contact_id}':\n${JSON.stringify(contactMessage, null, 2)}`);
         const requestData: Conversation.SendMessageRequestData<Conversation.ContactId> = {
           sendMessageRequestBody: {
-            app_id: event.app_id!,
+            app_id: event.app_id,
             recipient: {
               contact_id: message.contact_id!,
             },

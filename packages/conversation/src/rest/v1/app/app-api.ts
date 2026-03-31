@@ -1,6 +1,5 @@
 import {
   RequestBody,
-  SinchClientParameters,
 } from '@sinch/sdk-client';
 import {
   AppResponse,
@@ -12,16 +11,12 @@ import {
   UpdateAppRequestData,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
+import { LazyConversationApiClient } from '../conversation-service';
 
 export class AppApi extends ConversationDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'AppApi');
+  constructor(lazyApiClient: LazyConversationApiClient) {
+    super(lazyApiClient, 'AppApi');
   }
 
   /**
@@ -30,7 +25,6 @@ export class AppApi extends ConversationDomainApi {
    * @param { CreateAppRequestData } data - The data to provide to the API call.
    */
   public async create(data: CreateAppRequestData): Promise<AppResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<CreateAppRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -57,7 +51,6 @@ export class AppApi extends ConversationDomainApi {
    * @param { DeleteAppRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteAppRequestData): Promise<any> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteAppRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -85,7 +78,6 @@ export class AppApi extends ConversationDomainApi {
    * @param { GetAppRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetAppRequestData): Promise<AppResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetAppRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -111,9 +103,8 @@ export class AppApi extends ConversationDomainApi {
    * Get a list of all apps in the specified project.
    * @param { ListAppsRequestData } data - The data to provide to the API call.
    */
-  public async list(data: ListAppsRequestData): Promise<ListAppsResponse> {
-    this.client = this.getSinchClient();
-    const getParams = this.client.extractQueryParams<ListAppsRequestData>(data, [] as never[]);
+  public async list(data?: ListAppsRequestData): Promise<ListAppsResponse> {
+    const getParams = this.client.extractQueryParams<ListAppsRequestData>(data ?? {}, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -139,7 +130,6 @@ export class AppApi extends ConversationDomainApi {
    * @param { UpdateAppRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateAppRequestData): Promise<AppResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateAppRequestData>(data, ['update_mask']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

@@ -3,21 +3,14 @@ import {
   GetCallbackConfigurationRequestData,
   UpdateCallbackConfigurationRequestData,
 } from '../../../models';
-import {
-  RequestBody,
-  SinchClientParameters,
-} from '@sinch/sdk-client';
+import { RequestBody } from '@sinch/sdk-client';
 import { NumbersDomainApi } from '../numbers-domain-api';
+import { LazyNumbersApiClient } from '../numbers-service';
 
 export class CallbacksApi extends NumbersDomainApi {
 
-  /**
-   * Initialize your interface with the provided API client.
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'CallbacksApi');
+  constructor(lazyClient: LazyNumbersApiClient) {
+    super(lazyClient, 'CallbacksApi');
   }
 
   /**
@@ -26,7 +19,6 @@ export class CallbacksApi extends NumbersDomainApi {
    * @param {GetCallbackConfigurationRequestData} data - The data to provide to the API call.
    */
   public async get(data: GetCallbackConfigurationRequestData): Promise<CallbackConfiguration> {
-    this.client = this.getSinchClient();
     const getParams
       = this.client.extractQueryParams<GetCallbackConfigurationRequestData>(
         data,
@@ -63,7 +55,6 @@ export class CallbacksApi extends NumbersDomainApi {
    * @param {UpdateCallbackConfigurationRequestData} data - The data to provide to the API call.
    */
   public async update(data: UpdateCallbackConfigurationRequestData): Promise<CallbackConfiguration> {
-    this.client = this.getSinchClient();
     const getParams
       = this.client.extractQueryParams<UpdateCallbackConfigurationRequestData>(
         data,

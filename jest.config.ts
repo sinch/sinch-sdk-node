@@ -44,6 +44,11 @@ const config: Config.InitialOptions = {
       testMatch: ['<rootDir>/packages/voice/tests/**/*.test.ts'],
       coveragePathIgnorePatterns: ['node_modules', 'tests'],
     },
+    {
+      displayName: 'NumberLookup',
+      testMatch: ['<rootDir>/packages/number-lookup/tests/**/*.test.ts'],
+      coveragePathIgnorePatterns: ['node_modules', 'tests'],
+    },
   ],
   moduleNameMapper: {
     '@sinch/(.+)': '<rootDir>/packages/$1/src',

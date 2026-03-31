@@ -10,6 +10,8 @@ let contactsList: Conversation.Contact[];
 let pagesIteration: number;
 let deleteContactResponse: void;
 let channelProfile: Conversation.GetChannelProfileResponse;
+let listIdentityConflictsResponse: PageResult<Conversation.IdentityConflict>;
+let identityConflictsList: Conversation.IdentityConflict[];
 
 Given('the Conversation service "Contacts" is available', function () {
   const conversationService = new ConversationService({
@@ -177,4 +179,51 @@ When('I send a request to get the channel profile of a contact ID', async () => 
 
 Then('the response contains the profile of the contact on the requested channel', () => {
   assert.equal(channelProfile.profile_name, 'Marty McFly FB' );
+});
+
+When('I send a request to list the existing identity conflicts', async () => {
+  listIdentityConflictsResponse = await contactsApi.listIdentityConflicts({
+    page_size: 2,
+  });
+});
+
+Then('the response contains {string} identity conflicts', (expectedAnswer: string) => {
+  const expectedIdentityConflictsCount = parseInt(expectedAnswer, 10);
+  assert.equal(listIdentityConflictsResponse.data.length, expectedIdentityConflictsCount);
+});
+
+When('I send a request to list all the identity conflicts', async () => {
+  identityConflictsList = [];
+  for await (const identityConflict of contactsApi.listIdentityConflicts({ page_size: 2 })) {
+    identityConflictsList.push(identityConflict);
+  }
+});
+
+When('I iterate manually over the identity conflicts pages', async () => {
+  identityConflictsList = [];
+  listIdentityConflictsResponse = await contactsApi.listIdentityConflicts({
+    page_size: 2,
+  });
+  identityConflictsList.push(...listIdentityConflictsResponse.data);
+  pagesIteration = 1;
+  let reachedEndOfPages = false;
+  while (!reachedEndOfPages) {
+    if (listIdentityConflictsResponse.hasNextPage) {
+      listIdentityConflictsResponse = await listIdentityConflictsResponse.nextPage();
+      identityConflictsList.push(...listIdentityConflictsResponse.data);
+      pagesIteration++;
+    } else {
+      reachedEndOfPages = true;
+    }
+  }
+});
+
+Then('the identity conflicts list contains {string} identity conflicts',  (expectedAnswer: string) => {
+  const expectedServices = parseInt(expectedAnswer, 10);
+  assert.equal(identityConflictsList.length, expectedServices);
+});
+
+Then('the identity conflicts iteration result contains the data from {string} pages',  (expectedAnswer: string) => {
+  const expectedPagesCount = parseInt(expectedAnswer, 10);
+  assert.equal(pagesIteration, expectedPagesCount);
 });

@@ -1,8 +1,7 @@
-import { Call, FindCallsRequestData } from '../../../models';
 import {
   RequestBody,
-  SinchClientParameters,
   ApiListPromise,
+  CSVFile,
   PaginatedApiProperties,
   PaginationEnum,
   buildPageResultPromise,
@@ -10,17 +9,61 @@ import {
   formatCreateTimeFilter,
   formatCreateTimeRangeFilter,
 } from '@sinch/sdk-client';
+import { Call, ExportCallRecordsRequestData, FindCallsRequestData } from '../../../models';
 import { ElasticSipTrunkingDomainApi } from '../elastic-sip-trunking-domain-api';
+import { LazyElasticSipTrunkingApiClient } from '../elastic-sip-trunking-service';
 
 export class CallsHistoryApi extends ElasticSipTrunkingDomainApi {
 
+  constructor(lazyClient: LazyElasticSipTrunkingApiClient) {
+    super(lazyClient, 'CallsHistoryApi');
+  }
+
   /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
+   * Export call records
+   * Export call records for a project. This returns a comma separate value (CSV) response. You can specify which records to export using the query parameters.
+   * @param { ExportCallRecordsRequestData } data - The data to provide to the API call.
    */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'CallsHistoryApi');
+  public async export(data: ExportCallRecordsRequestData): Promise<CSVFile> {
+    const getParams = this.client.extractQueryParams<ExportCallRecordsRequestData>(data,
+      ['from',
+        'to',
+        'trunkId',
+        'createTime',
+        'callResult',
+        'direction',
+        'page',
+        'size',
+        'fromCountryCode',
+        'toCountryCode',
+        'emergencyOnly',
+        'region',
+        'projectIds',
+        'fileName',
+        'groupId',
+        'parentId',
+        'relationshipType',
+        'hasChildren']);
+    (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data.createTime));
+    (getParams as any)['createTime>'] = JSON.stringify(formatCreateTimeRangeFilter(data.createTimeRange?.from));
+    (getParams as any)['createTime<'] = JSON.stringify(formatCreateTimeRangeFilter(data.createTimeRange?.to));
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'text/plain',
+    };
+
+    const body: RequestBody = '';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/calls/export`;
+
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCsvCall({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'ExportCallRecords',
+    });
   }
 
   /**
@@ -28,13 +71,12 @@ export class CallsHistoryApi extends ElasticSipTrunkingDomainApi {
    * @param { FindCallsRequestData } data - The data to provide to the API call.
    * @return { ApiListPromise<Call> }
    */
-  public find(data: FindCallsRequestData): ApiListPromise<Call> {
-    this.client = this.getSinchClient();
-    const getParams = this.client.extractQueryParams<FindCallsRequestData>(data, [
-      'from', 'to', 'trunkId', 'createTime', 'callResult', 'direction', 'page', 'pageSize']);
-    (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data.createTime));
-    (getParams as any)['createTime>'] = JSON.stringify(formatCreateTimeRangeFilter(data.createTimeRange?.from));
-    (getParams as any)['createTime<'] = JSON.stringify(formatCreateTimeRangeFilter(data.createTimeRange?.to));
+  public find(data?: FindCallsRequestData): ApiListPromise<Call> {
+    const getParams = this.client.extractQueryParams<FindCallsRequestData>(data ?? {}, [
+      'from', 'to', 'trunkId', 'createTime', 'callResult', 'direction', 'page', 'size']);
+    (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data?.createTime));
+    (getParams as any)['createTime>'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.from));
+    (getParams as any)['createTime<'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.to));
 
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

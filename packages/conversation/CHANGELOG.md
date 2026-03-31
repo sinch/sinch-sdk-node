@@ -1,3 +1,19 @@
+## Version 1.4.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.4.0`.
+- [Tech] Lazy load a single `ApiFetchClient` instance in the `ConversationService`.
+- [Feature] Support Calendar Message and Share Location Message types
+- [Feature] Support WhatsApp Card message properties
+- [Feature] Support "Consents" (List identities and List audit records from content lists)
+- [Feature] Support "Project Settings"
+- [Feature] Support Identity conflicts listing: `conversation.contact.listIdentityConflicts()`
+- [Feature] Support KakaoTalk commerce and carousel commerce messages in the channel-specific messages
+- [Feature] Support Line notification template messages in the channel-specific messages
+- [Feature] Support various payment buttons for WhatsApp: payment link, dynamic pix and boleto
+- [Feature] Support list last messages by channel identity: `conversation.messages.listLastMessagesByChannelIdentity()`
+- **Deprecations**
+  - Deprecate Viber channel support 
+  - Deprecate Templates V1 support as the API is not supported anymore. Only Templates V2 are supported now.
+
 ## Version 1.3.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.3.0`.
 - [Feature] Fix `MediaProperties` model and support media property

@@ -68,7 +68,7 @@ import {
       printFullResponse(response);
     }
   } else {
-    console.log(`An error occurred when creating the contacts`);
+    console.log('An error occurred when creating the contacts');
   }
 
 })();

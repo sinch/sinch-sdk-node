@@ -5,7 +5,6 @@ import {
   PaginatedApiProperties,
   PaginationEnum,
   RequestBody,
-  SinchClientParameters,
 } from '@sinch/sdk-client';
 import {
   Contact,
@@ -14,21 +13,19 @@ import {
   GetChannelProfileRequestData,
   GetChannelProfileResponse,
   GetContactRequestData,
+  IdentityConflict,
   ListContactsRequestData,
+  ListIdentityConflictsRequestData,
   MergeContactRequestData,
   Recipient,
   UpdateContactRequestData,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
+import { LazyConversationApiClient } from '../conversation-service';
 export class ContactApi extends ConversationDomainApi {
 
-  /**
-   * Initialize your interface
-   *
-   * @param {SinchClientParameters} sinchClientParameters - The parameters used to initialize the API Client.
-   */
-  constructor(sinchClientParameters: SinchClientParameters) {
-    super(sinchClientParameters, 'ContactApi');
+  constructor(lazyApiClient: LazyConversationApiClient) {
+    super(lazyApiClient, 'ContactApi');
   }
 
   /**
@@ -37,7 +34,6 @@ export class ContactApi extends ConversationDomainApi {
    * @param { CreateContactRequestData } data - The data to provide to the API call.
    */
   public async create(data: CreateContactRequestData): Promise<Contact> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<CreateContactRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -65,7 +61,6 @@ export class ContactApi extends ConversationDomainApi {
    * @param { DeleteContactRequestData } data - The data to provide to the API call.
    */
   public async delete(data: DeleteContactRequestData): Promise<any> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<DeleteContactRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -94,7 +89,6 @@ export class ContactApi extends ConversationDomainApi {
    * @param { GetChannelProfileRequestData<Recipient> } data - The data to provide to the API call.
    */
   public async getChannelProfile(data: GetChannelProfileRequestData<Recipient>): Promise<GetChannelProfileResponse> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetChannelProfileRequestData<Recipient>>(
       data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -125,7 +119,6 @@ export class ContactApi extends ConversationDomainApi {
    * @param { GetContactRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetContactRequestData): Promise<Contact> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<GetContactRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -152,10 +145,9 @@ export class ContactApi extends ConversationDomainApi {
    * @param { ListContactsRequestData } data - The data to provide to the API call.
    * @return {ApiListPromise<Contact>}
    */
-  public list(data: ListContactsRequestData): ApiListPromise<Contact> {
-    this.client = this.getSinchClient();
+  public list(data?: ListContactsRequestData): ApiListPromise<Contact> {
     const getParams = this.client.extractQueryParams<ListContactsRequestData>(
-      data,
+      data ?? {},
       ['page_size', 'page_token', 'external_id', 'channel', 'identity']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -191,12 +183,54 @@ export class ContactApi extends ConversationDomainApi {
   }
 
   /**
+   * Lists Contact Identity Conflicts
+   * Lists contact identity conflicts across supported SIM-based channels (SMS, MMS, RCS). Use this to identify contact records sharing the same identity (e.g., phone number), which must be resolved before enabling the Unified Contact ID feature.
+   * @param { ListIdentityConflictsRequestData } data - The data to provide to the API call.
+   * @return {ApiListPromise<IdentityConflict>}
+   */
+  public listIdentityConflicts(data: ListIdentityConflictsRequestData): ApiListPromise<IdentityConflict> {
+    const getParams = this.client.extractQueryParams<ListIdentityConflictsRequestData>(
+      data,
+      ['page_size', 'page_token']);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = '';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/contacts:identityConflicts`;
+
+    const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
+
+    const operationProperties: PaginatedApiProperties = {
+      pagination: PaginationEnum.TOKEN2,
+      apiName: this.apiName,
+      operationId: 'ListIdentityConflicts',
+      dataKey: 'conflicts',
+    };
+
+    // Create the promise containing the response wrapped as a PageResult
+    const listPromise = buildPageResultPromise<IdentityConflict>(
+      this.client,
+      requestOptionsPromise,
+      operationProperties);
+
+    // Add properties to the Promise to offer the possibility to use it as an iterator
+    Object.assign(
+      listPromise,
+      createIteratorMethodsForPagination<IdentityConflict>(
+        this.client, requestOptionsPromise, listPromise, operationProperties),
+    );
+
+    return listPromise as ApiListPromise<IdentityConflict>;
+  }
+
+  /**
    * Merge two Contacts
    * The remaining contact will contain all conversations that the removed contact did. If both contacts had conversations within the same App, messages from the removed contact will be merged into corresponding active conversations in the destination contact. Channel identities will be moved from the source contact to the destination contact only for channels that weren\&#39;t present there before. Moved channel identities will be placed at the bottom of the channel priority list. Optional fields from the source contact will be copied only if corresponding fields in the destination contact are empty The contact being removed cannot be referenced after this call.
    * @param { MergeContactRequestData } data - The data to provide to the API call.
    */
   public async mergeContact(data: MergeContactRequestData): Promise<Contact> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<MergeContactRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -223,7 +257,6 @@ export class ContactApi extends ConversationDomainApi {
    * @param { UpdateContactRequestData } data - The data to provide to the API call.
    */
   public async update(data: UpdateContactRequestData): Promise<Contact> {
-    this.client = this.getSinchClient();
     const getParams = this.client.extractQueryParams<UpdateContactRequestData>(data, ['update_mask']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

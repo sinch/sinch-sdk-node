@@ -2,8 +2,17 @@ import { SinchClientParameters } from '@sinch/sdk-client';
 import {
   ActiveNumberApi,
   ActiveNumberApiFixture,
+  LazyNumbersApiClient,
   Numbers,
 } from '../../../../src';
+import {
+  DeprovisionEmergencyAddressRequestData,
+  EmergencyAddress,
+  GetEmergencyAddressRequestData,
+  ProvisionEmergencyAddressRequestData,
+  ValidateEmergencyAddressResponse,
+  ValidateEmergencyAddressRequestData,
+} from '../../../../src/models';
 
 describe('ActiveNumberApi', () => {
   let activeNumberApi: ActiveNumberApi;
@@ -17,7 +26,8 @@ describe('ActiveNumberApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    activeNumberApi = new ActiveNumberApi(credentials);
+    const lazyClient = new LazyNumbersApiClient(credentials);
+    activeNumberApi = new ActiveNumberApi(lazyClient);
   });
 
   describe ('getActiveNumber', () => {
@@ -242,6 +252,138 @@ describe('ActiveNumberApi', () => {
       // Then
       expect(response).toEqual(expectedResponse);
       expect(fixture.update).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('deprovisionEmergencyAddress', () => {
+    it('should make a POST request to deprovision the emergency address associated with a number.', async () => {
+      // Given
+      const requestData: DeprovisionEmergencyAddressRequestData = {
+        phoneNumber: '+17813334444',
+      };
+      const expectedResponse: void = undefined;
+
+      // When
+      fixture.deprovisionEmergencyAddress.mockResolvedValue(expectedResponse);
+      activeNumberApi.deprovisionEmergencyAddress = fixture.deprovisionEmergencyAddress;
+      const response = await activeNumberApi.deprovisionEmergencyAddress(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.deprovisionEmergencyAddress).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('getEmergencyAddress', () => {
+    it('should make a GET request to  retrieve the emergency address associated with a number', async () => {
+      // Given
+      const requestData: GetEmergencyAddressRequestData = {
+        phoneNumber: '+17813334444',
+      };
+      const expectedResponse: EmergencyAddress = {
+        streetNumber: '12345',
+        streetInfo: 'Main St',
+        location: 'Apt 5',
+        city: 'Springfield',
+        state: 'IL',
+        postalCode: '62701',
+        postalCodePlusFour: '1234',
+      };
+
+      // When
+      fixture.getEmergencyAddress.mockResolvedValue(expectedResponse);
+      activeNumberApi.getEmergencyAddress = fixture.getEmergencyAddress;
+      const response = await activeNumberApi.getEmergencyAddress(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.getEmergencyAddress).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('provisionEmergencyAddress', () => {
+    it('should make a POST request to provision an emergency address associated with s number', async () => {
+      // Given
+      const requestData: ProvisionEmergencyAddressRequestData = {
+        phoneNumber: '+17813334444',
+        emergencyAddressRequestBody: {
+          displayName: 'New Emergency Address',
+          address: {
+            streetNumber: '12345',
+            streetInfo: 'Main St',
+            location: 'Apt 5',
+            city: 'Springfield',
+            state: 'IL',
+            postalCode: '62701',
+            postalCodePlusFour: '1234',
+          },
+        },
+      };
+      const expectedResponse: EmergencyAddress = {
+        streetNumber: '12345',
+        streetInfo: 'Main St',
+        location: 'Apt 5',
+        city: 'Springfield',
+        state: 'IL',
+        postalCode: '62701',
+        postalCodePlusFour: '1234',
+      };
+
+      // When
+      fixture.provisionEmergencyAddress.mockResolvedValue(expectedResponse);
+      activeNumberApi.provisionEmergencyAddress = fixture.provisionEmergencyAddress;
+      const response = await activeNumberApi.provisionEmergencyAddress(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.provisionEmergencyAddress).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('validateEmergencyAddress', () => {
+    it('should make a POST request to validate the emergency address associated with a number', async () => {
+      // Given
+      const requestData: ValidateEmergencyAddressRequestData = {
+        phoneNumber: '+17813334444',
+        emergencyAddressRequestBody: {
+          displayName: 'User Name',
+          address: {
+            streetNumber: '12345',
+            streetInfo: 'Main St',
+            location: 'Apt 5',
+            city: 'Springfield',
+            state: 'IL',
+            postalCode: '62701',
+            postalCodePlusFour: '1234',
+          },
+        },
+      };
+      const expectedResponse: ValidateEmergencyAddressResponse = {
+        phoneNumber: '+12025550134',
+        displayName: 'User Name',
+        validatedAddress: {
+          streetNumber: '12345',
+          streetInfo: 'Main St',
+          location: 'Apt 5',
+          city: 'Springfield',
+          state: 'IL',
+          postalCode: '62701',
+          postalCodePlusFour: '1234',
+        },
+        validationResult: 'EXACT_MATCH',
+        validationMessage: 'Address is a perfect match',
+        correctedAddress: { },
+        candidateAddresses: [ ],
+      };
+
+      // When
+      fixture.validateEmergencyAddress.mockResolvedValue(expectedResponse);
+      activeNumberApi.validateEmergencyAddress = fixture.validateEmergencyAddress;
+      const response = await activeNumberApi.validateEmergencyAddress(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.validateEmergencyAddress).toHaveBeenCalledWith(requestData);
     });
   });
 });

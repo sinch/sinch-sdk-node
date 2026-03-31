@@ -3,6 +3,7 @@ import {
   WebhooksApi,
   WebhooksApiFixture,
   Conversation,
+  LazyConversationApiClient,
 } from '../../../../src';
 
 describe('WebhooksApi', () => {
@@ -17,7 +18,8 @@ describe('WebhooksApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    webhooksApi = new WebhooksApi(credentials);
+    const lazyClient = new LazyConversationApiClient(credentials);
+    webhooksApi = new WebhooksApi(lazyClient);
   });
 
 
@@ -31,6 +33,14 @@ describe('WebhooksApi', () => {
           triggers: [
             'MESSAGE_DELIVERY',
           ],
+          client_credentials: {
+            client_id: 'client_id',
+            client_secret: 'client_secret',
+            endpoint: 'endpoint',
+            token_request_type: 'BASIC',
+            scope: 'scope',
+            response_type: 'response_type',
+          },
         },
       };
       const expectedResponse: Conversation.Webhook = {
@@ -39,6 +49,9 @@ describe('WebhooksApi', () => {
           client_id: 'client_id',
           client_secret: 'client_secret',
           endpoint: 'endpoint',
+          token_request_type: 'BASIC',
+          scope: 'scope',
+          response_type: 'response_type',
         },
         id: 'id',
         secret: 'secret',

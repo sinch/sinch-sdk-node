@@ -50,22 +50,33 @@ export class VoiceCallbackWebhooks implements CallbackProcessor<VoiceCallbackEve
     }
     if (eventBody.event) {
       switch (eventBody.event) {
-      case 'ice':
-        return eventBody as IceRequest;
-      case 'ace':
-        return eventBody as AceRequest;
-      case 'dice':
-        return eventBody as DiceRequest;
-      case 'pie':
-        return eventBody as PieRequest;
-      case 'notify':
-        return eventBody as NotifyRequest;
-      default:
-        throw new Error(`Unknown Voice event type: ${eventBody.event}`);
+        case 'ice':
+          return eventBody as IceRequest;
+        case 'ace':
+          return eventBody as AceRequest;
+        case 'dice':
+          return eventBody as DiceRequest;
+        case 'pie':
+          return eventBody as PieRequest;
+        case 'notify':
+          return eventBody as NotifyRequest;
+        default:
+          throw new Error(`Unknown Voice event type: ${eventBody.event}`);
       }
     }
     console.log(eventBody);
     throw new Error('Unknown Voice event');
+  }
+
+  /**
+   * Static reviver for a Voice Event.
+   * This method ensures the object can be treated as a Voice Event.
+   * @param {any} eventBody - The event body containing the Voice event notification.
+   * @return {VoiceCallbackEvent} - The parsed Voice event object
+   */
+  public static parseEvent(eventBody: any): VoiceCallbackEvent {
+    const webhooks = new VoiceCallbackWebhooks({});
+    return webhooks.parseEvent(eventBody);
   }
 
 }

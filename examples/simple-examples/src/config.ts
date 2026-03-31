@@ -8,10 +8,12 @@ import {
   VerificationService,
   VoiceService,
   ElasticSipTrunkingService,
+  NumberLookupService,
 } from '@sinch/sdk-core';
 require('dotenv').config();
 
-const initClient = (): Pick<SinchClient, 'conversation' | 'elasticSipTrunking' | 'fax' | 'numbers' | 'sms'> => {
+// eslint-disable-next-line max-len
+const initClient = (): Pick<SinchClient, 'conversation' | 'elasticSipTrunking' | 'fax' | 'numbers' | 'sms' | 'numberLookup'> => {
   const keyId = process.env.SINCH_KEY_ID || '';
   const keySecret = process.env.SINCH_KEY_SECRET || '';
   const projectId = process.env.SINCH_PROJECT_ID || '';
@@ -61,6 +63,10 @@ export const initVerificationService = (): VerificationService => {
 
 export const initVoiceService = (): VoiceService => {
   return initApplicationClient().voice;
+};
+
+export const initNumberLookupService = (): NumberLookupService => {
+  return initClient().numberLookup;
 };
 
 export const getPrintFormat = (args: string[]): 'pretty' | 'full' => {
@@ -203,6 +209,10 @@ export const getFaxEmailFromConfig = () => {
   return readVariable('FAX_EMAIL');
 };
 
+export const getFaxCoverPageIdFromConfig = () => {
+  return readVariable('FAX_COVER_PAGE_ID');
+};
+
 export const getSipTrunkIdFromConfig = () => {
   return readVariable('SIP_TRUNK_ID');
 };
@@ -217,6 +227,18 @@ export const getAccessControlListIdFromConfig = () => {
 
 export const getIpRangeIdFromConfig = () => {
   return readVariable('IP_RANGE_ID');
+};
+
+export const getCallBlockingRuleIdFromConfig = () => {
+  return readVariable('CALL_BLOCKING_RULE_ID');
+};
+
+export const getCredentialListIdFromConfig = () => {
+  return readVariable('CREDENTIAL_LIST_ID');
+};
+
+export const getESTCredentialUsernameFromConfig = () => {
+  return readVariable('EST_CREDENTIAL_USERNAME');
 };
 
 const readVariable = ( name: string): string => {

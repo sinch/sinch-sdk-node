@@ -1,3 +1,10 @@
+## Version 1.4.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.4.0`.
+- [Tech] Lazy load a single `ApiFetchClient` instance in the `FaxService`.
+- [Bugfix] Fix pagination parameters
+- [Feature] Support "Cover Pages"
+- [Feature] Update models properties according the latest API changes
+
 ## Version 1.3.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.3.0`.
 - [Bugfix] By transitivity, upgrading `@sinch/sdk-client` to `1.3.0`, it fixes the issue [#183](https://github.com/sinch/sinch-sdk-node/issues/183)

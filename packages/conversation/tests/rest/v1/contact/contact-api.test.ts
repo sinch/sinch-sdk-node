@@ -3,6 +3,7 @@ import {
   ContactApi,
   ContactApiFixture,
   Conversation,
+  LazyConversationApiClient,
 } from '../../../../src';
 import { recipientChannelIdentities, recipientContactId } from '../mocks';
 
@@ -18,7 +19,8 @@ describe('ContactApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    contactApi = new ContactApi(credentials);
+    const lazyClient = new LazyConversationApiClient(credentials);
+    contactApi = new ContactApi(lazyClient);
   });
 
 
@@ -160,6 +162,39 @@ describe('ContactApi', () => {
       expect(response).toEqual(expectedResponse);
       expect(response.data).toBeDefined();
       expect(fixture.list).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('listIdentityConflicts', () => {
+    it('should make a GET request to list contact identity conflicts across supported SIM-based channels', async () => {
+      // Given
+      const requestData: Conversation.ListIdentityConflictsRequestData = {};
+      const mockData: Conversation.IdentityConflict[] = [
+        {
+          identity: '33612345678',
+          channels: ['RCS', 'SMS'],
+          contact_ids: [
+            'contact_id_1',
+            'contact_id_2',
+          ],
+        },
+      ];
+      const expectedResponse = {
+        data: mockData,
+        hasNextPage: false,
+        nextPageValue: '',
+        nextPage: jest.fn(),
+      };
+
+      // When
+      fixture.listIdentityConflicts.mockResolvedValue(expectedResponse);
+      contactApi.listIdentityConflicts = fixture.listIdentityConflicts;
+      const response = await contactApi.listIdentityConflicts(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(response.data).toBeDefined();
+      expect(fixture.listIdentityConflicts).toHaveBeenCalledWith(requestData);
     });
   });
 

@@ -111,6 +111,10 @@ describe('Voice models helpers', () => {
           type: 'Websocket',
           endpoint: 'wss://example.com/stream',
         },
+        streamingOptions: {
+          version: 2,
+          sampleRate: 44100,
+        },
         maxDuration: 3000,
         callHeaders: CALL_HEADERS,
       };

@@ -7,14 +7,17 @@ import {
   ReportPhoneCallVerificationByIdRequestData,
   ReportSmsVerificationByIdentityRequestData,
   ReportSmsVerificationByIdRequestData,
+  ReportWhatsAppVerificationByIdentityRequestData,
+  ReportWhatsAppVerificationByIdRequestData,
   StartCalloutVerificationRequestData,
   StartDataVerificationRequestData,
   StartFlashCallVerificationRequestData,
   StartPhoneCallVerificationRequestData,
   StartSeamlessVerificationRequestData,
   StartSmsVerificationRequestData,
+  StartWhatsAppVerificationRequestData,
 } from './requests';
-import { SmsOptions } from './start-verification-request';
+import { SmsOptions, WhatsAppOptions } from './start-verification-request';
 
 export const startVerificationHelper = {
   /**
@@ -51,12 +54,14 @@ export const startVerificationHelper = {
    * @param {string} phoneNumber - The phone number to which the verification call should be made.
    * @param {string} [reference] - An optional reference identifier used to pass your own reference in the request for tracking purposes.
    * @param {string} [locale] - An optional language-region identifier to use for the verification call.
+   * @param {Record<string, unknown>} [additionalOptions] - An optional object for any additional phone call options.
    * @return {StartPhoneCallVerificationRequestData} The request data object for initiating the phone call verification.
    */
   buildPhoneCallRequest: (
     phoneNumber: string,
     reference?: string,
     locale?: string,
+    additionalOptions?: Record<string, unknown>,
   ): StartPhoneCallVerificationRequestData => {
     return {
       startVerificationWithPhoneCallRequestBody: {
@@ -65,13 +70,14 @@ export const startVerificationHelper = {
           endpoint: phoneNumber,
         },
         reference,
-        ...(locale !== undefined) ? {
+        ...(locale !== undefined || additionalOptions !== undefined ? {
           phoneCallOptions: {
-            speech: {
-              locale,
-            },
+            ...(locale !== undefined ? {
+              speech: { locale },
+            } : {}),
+            ...(additionalOptions ?? {}),
           },
-        } : {},
+        } : {}),
       },
     };
   },
@@ -96,13 +102,13 @@ export const startVerificationHelper = {
           endpoint: phoneNumber,
         },
         reference,
-        ...(locale !== undefined) ? {
+        ...(locale !== undefined ? {
           calloutOptions: {
             speech: {
               locale,
             },
           },
-        } : {},
+        } : {}),
       },
     };
   },
@@ -112,12 +118,17 @@ export const startVerificationHelper = {
    * @param {string} phoneNumber - The phone number to which the flash call verification should be made.
    * @param {string} [reference] - An optional reference identifier used to pass your own reference in the request for tracking purposes.
    * @param {number} [dialTimeout] - An optional timeout value in seconds for how long to wait for the flash call to be answered.
+   * @param {number} [interceptionTimeout] - An optional timeout value in seconds for the maximum time that a phone call verification will be active and can be completed. If the phone number hasn't been verified successfully during this time, then the verification request will fail. By default, the Sinch dashboard will automatically optimize dial time out during a phone call.
+   * @param {Record<string, unknown>} [additionalOptions] - An optional object for any additional flash call options.
    * @return {StartFlashCallVerificationRequestData} The request data object for initiating the flash call verification.
+   * TODO V2: limit the number of parameters by introducing a FlashCallOptions object
    */
   buildFlashCallRequest: (
     phoneNumber: string,
     reference?: string,
     dialTimeout?: number,
+    interceptionTimeout?: number,
+    additionalOptions?: Record<string, unknown>,
   ): StartFlashCallVerificationRequestData => {
     return {
       startVerificationWithFlashCallRequestBody: {
@@ -126,11 +137,13 @@ export const startVerificationHelper = {
           endpoint: phoneNumber,
         },
         reference,
-        ...(dialTimeout !== undefined) ? {
+        ...(dialTimeout !== undefined || interceptionTimeout !== undefined || additionalOptions !== undefined ? {
           flashCallOptions: {
-            dialTimeout,
+            ...(dialTimeout !== undefined ? { dialTimeout } : {}),
+            ...(interceptionTimeout !== undefined ? { interceptionTimeout } : {}),
+            ...(additionalOptions ?? {}),
           },
-        } : {},
+        } : {}),
       },
     };
   },
@@ -174,6 +187,34 @@ export const startVerificationHelper = {
           endpoint: phoneNumber,
         },
         reference,
+      },
+    };
+  },
+  /**
+   * Builds a request object for starting a WhatsApp verification process.
+   *
+   * @param {string} phoneNumber - The phone number to which the WhatsApp verification should be sent.
+   * @param {string} [reference] - An optional reference identifier used to pass your own reference in the request for tracking purposes.
+   * @param {WhatsAppOptions} [whatsAppOptions] - Optional parameters for configuring the WhatsApp verification request, with default values assumed for all contained values if not provided.
+   * @return {StartWhatsAppVerificationRequestData} The constructed WhatsApp verification request data.
+   */
+  buildWhatsAppRequest: (
+    phoneNumber: string,
+    reference?: string,
+    whatsAppOptions?: WhatsAppOptions,
+  ): StartWhatsAppVerificationRequestData => {
+    return {
+      startVerificationWithWhatsAppRequestBody: {
+        identity: {
+          type: 'number',
+          endpoint: phoneNumber,
+        },
+        reference,
+        ...(whatsAppOptions !== undefined) ? {
+          whatsappOptions: {
+            ...whatsAppOptions,
+          },
+        } : {},
       },
     };
   },
@@ -263,6 +304,26 @@ export const reportVerificationByIdHelper = {
       },
     };
   },
+  /**
+   * Builds a request object for reporting a WhatsApp verification by its ID.
+   *
+   * @param {string} id - The unique identifier for the WhatsApp verification request.
+   * @param {string} code - The verification code received via WhatsApp.
+   * @return {ReportWhatsAppVerificationByIdRequestData} The request data object used to report the WhatsApp verification.
+   */
+  buildWhatsAppRequest: (
+    id: string,
+    code: string,
+  ): ReportWhatsAppVerificationByIdRequestData => {
+    return {
+      id,
+      reportWhatsAppVerificationByIdRequestBody: {
+        whatsapp: {
+          code,
+        },
+      },
+    };
+  },
 };
 export const reportVerificationByIdentityHelper = {
   /**
@@ -345,6 +406,26 @@ export const reportVerificationByIdentityHelper = {
       reportFlashCallVerificationByIdentityRequestBody: {
         flashCall: {
           cli,
+        },
+      },
+    };
+  },
+  /**
+   * Builds a request object for reporting a WhatsApp verification by the phone number identity.
+   *
+   * @param {string} identity - The phone number for which the verification process has been initiated.
+   * @param {string} code - The verification code received via WhatsApp.
+   * @return {ReportWhatsAppVerificationByIdentityRequestData} The request data object used to report the WhatsApp verification.
+   */
+  buildWhatsAppRequest: (
+    identity: string,
+    code: string,
+  ): ReportWhatsAppVerificationByIdentityRequestData => {
+    return {
+      endpoint: identity,
+      reportWhatsAppVerificationByIdentityRequestBody: {
+        whatsapp: {
+          code,
         },
       },
     };

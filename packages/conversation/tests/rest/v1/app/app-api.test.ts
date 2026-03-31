@@ -3,6 +3,7 @@ import {
   AppApi,
   AppApiFixture,
   Conversation,
+  LazyConversationApiClient,
 } from '../../../../src';
 
 describe('AppApi', () => {
@@ -17,7 +18,9 @@ describe('AppApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    appApi = new AppApi(credentials);
+
+    const lazyClient = new LazyConversationApiClient(credentials);
+    appApi = new AppApi(lazyClient);
   });
 
 
@@ -128,12 +131,6 @@ describe('AppApi', () => {
           token: 'telegram_token',
         },
       };
-      const channelCredentialsViber: Conversation.ChannelCredentialsViber = {
-        channel: 'VIBER',
-        static_token: {
-          token: 'viber_token',
-        },
-      };
       const channelCredentialsViberBM: Conversation.ChannelCredentialsViberBM = {
         channel: 'VIBERBM',
         static_bearer: {
@@ -174,7 +171,6 @@ describe('AppApi', () => {
             channelCredentialsSms,
             // channelCredentialsSmsWithAppId,
             channelCredentialsTelegram,
-            channelCredentialsViber,
             channelCredentialsViberBM,
             channelCredentialsWeChat,
             channelCredetialsWhatsApp,

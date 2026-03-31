@@ -11,6 +11,8 @@ import {
   MergeContactRequestData,
   UpdateContactRequestData,
   GetChannelProfileResponse,
+  IdentityConflict,
+  ListIdentityConflictsRequestData,
 } from '../../../models';
 
 export class ContactApiFixture implements Partial<Readonly<ContactApi>> {
@@ -38,6 +40,11 @@ export class ContactApiFixture implements Partial<Readonly<ContactApi>> {
    * Fixture associated to function list
    */
   public list: jest.Mock<ApiListPromise<Contact>, [ListContactsRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function listIdentityConflicts
+   */
+  public listIdentityConflicts: jest.Mock<
+    ApiListPromise<IdentityConflict>, [ListIdentityConflictsRequestData]> = jest.fn();
   /**
    * Fixture associated to function mergeContact
    */

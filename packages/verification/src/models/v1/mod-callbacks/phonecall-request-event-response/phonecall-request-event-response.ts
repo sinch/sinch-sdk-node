@@ -1,4 +1,5 @@
 import { ActionEnum } from '../../enums';
+import { WithAdditionalProperties } from '@sinch/sdk-client';
 
 /** @deprecated Use PhoneCallRequestEventResponse instead */
 export type CalloutRequestEventResponse = PhoneCallRequestEventResponse;
@@ -13,7 +14,7 @@ export interface PhoneCallRequestEventResponse {
 /** @deprecated Use PhoneCallProperties instead */
 export type CalloutProperties = PhoneCallProperties;
 
-export interface PhoneCallProperties {
+export interface PhoneCallProperties extends WithAdditionalProperties {
   /** The Phone Call PIN that should be entered by the user. Sinch servers automatically generate PIN codes for Phone Call verification. If you want to set your own code, you can specify it in the response to the Verification Request Event. */
   code?: string;
   /** @see SpeechProperties */
