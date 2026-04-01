@@ -21,6 +21,9 @@ jobs:
       - name: Run ESLint
         run: npx eslint "packages/**/{src,tests}/**/*.ts" "examples/**/{src,}/**/*.{js,ts}" --ignore-pattern "**/node_modules/**" --ignore-pattern "**/dist/**"
 
+      - name: Verify snippet npm script paths
+        run: node .github/scripts/verify-snippet-script-paths.mjs
+
       - name: Build project
         run: yarn run build
 
