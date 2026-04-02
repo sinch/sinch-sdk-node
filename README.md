@@ -9,17 +9,17 @@ Here you'll find documentation related to the Sinch Node.js SDK, including how t
 
 To use Sinch services, you'll need a Sinch account and access keys. You can sign up for an account and create access keys at [dashboard.sinch.com](https://dashboard.sinch.com).
 
-Once logged-in you'll find different sets of credentials to access to the various Sinch APIs:
- - On the [Account dashboard](https://dashboard.sinch.com/account/access-keys), you will find your `projectId` and access keys composed of pairs of `keyId` / `keySecret`. Unless mentionned otherwise, these are the credentials you will need to access most of the Sinch APIs
-  - For the **Verification** and **Voice** APIs, you will find pairs of `App key` / `App secret` in the [Verification dashboard](https://dashboard.sinch.com/verification/apps) and the [Voice dashboard](https://dashboard.sinch.com/voice/apps) respectively. Note that the apps are the same, wherever you access them.
-  - For the **SMS** API, the standard credentials (`projectId`, `keyId`, `keySecret`) are available only in the US and EU regions. If your business involves any of the other regions (BR, CA, AU), you will need to use your `servicePlanId` that you can find on the [Service APIs dashboard](https://dashboard.sinch.com/sms/api/services). Note that the `servicePlanId` supports all the regions (US, EU, BR, CA, AU).
-  - The **Conversation** API uses the standard credentials (`projectId`, `keyId`, `keySecret`) and is available on the US, EU and BR regions.
+Once logged in you'll find different sets of credentials to access the various Sinch APIs:
+ - On the [Account dashboard](https://dashboard.sinch.com/account/access-keys), you will find your `projectId` and access keys composed of pairs of `keyId` / `keySecret`. Unless mentioned otherwise, these are the credentials you will need to access most of the Sinch APIs
+  - For the **Verification** and **Voice** APIs, you will find pairs of `App key` / `App secret` in the [Verification dashboard](https://dashboard.sinch.com/verification/apps) and the [Voice dashboard](https://dashboard.sinch.com/voice/apps) respectively. Note that the apps are the same, regardless of where you access them.
+  - For the **SMS** API, the standard credentials (`projectId`, `keyId`, `keySecret`) are available only in the US and EU regions. If your business involves any of the other regions (BR, CA, AU), you will need to use your `servicePlanId`, which you can find on the [Service APIs dashboard](https://dashboard.sinch.com/sms/api/services). Note that the `servicePlanId` supports all regions (US, EU, BR, CA, AU).
+  - The **Conversation** API uses the standard credentials (`projectId`, `keyId`, `keySecret`) and is available in the US, EU and BR regions.
 
 For more information on the Sinch APIs on which this SDK is based, refer to the official [developer documentation portal](developers.sinch.com).
 
 ## Prerequisites
 
-Before being able to execute the commands described below, you will need to install Node.js. We recommend to [install the current or the LTS version](https://nodejs.org/en).
+Before being able to execute the commands described below, you will need to install Node.js. We recommend [installing the current or the LTS version](https://nodejs.org/en).
 
 NPM will come with the Node.js installation. If you want to use `yarn` as a package manager, you'll need to install it separately with the following command:
 ```bash
@@ -27,13 +27,13 @@ npm install --global yarn
 ```
 
 > **Warning**:
-> Do not use this Node.js library in front-end applications (Angular, React, Vue.js, ...). Doing so can expose your Sinch credentials to end-users as part of the HTML/JavaScript files loaded on their browser.
+> Do not use this Node.js library in front-end applications (such as Angular, React, Vue.js, etc.). Doing so can expose your Sinch credentials to end-users as part of the HTML/JavaScript files loaded on their browser.
 
 ### Node.js supported versions
 
 The Sinch Node.js SDK follows the [Node.js release cycle](https://nodejs.org/en/about/previous-releases). 
 
-This means that Node.js version 18 will be supported until May 2025. However, we recommend you to use the current LTS (20.11.0) or the current Node.js version.
+This means that Node.js version 18 will be supported until May 2025. However, we recommend using the active LTS or the current Node.js version.
 
 ## Installation
 
@@ -85,13 +85,13 @@ where `sinchClientParameters` is an object containing the properties required to
    - `servicePlanId`
    - `apiToken`
    - (`region` is optional. Default is `US`).
- - for all the other APIs (including SMS is using the US and EU regions only)
+ - for all the other APIs (including SMS when using the US and EU regions only)
    - `projectId`
    - `keyId`
    - `keySecret`
    - (For the SMS API, `region` is optional. Default is `US`).
 
-From this client, you have access to all the SDK services supporting the Sinch APIs:
+From this client, you have access to all the SDK services that support the Sinch APIs:
 ```typescript
 import {
   SinchClient,
@@ -102,6 +102,7 @@ const conversationService = sinch.conversation;
 const elasticSipTrunkingService = sinch.elasticSipTrunking;
 const faxService = sinch.fax;
 const numbersService = sinch.numbers;
+const numberLookupService = sinch.numberLookup;
 const smsService = sinch.sms;
 const verificationService = sinch.verification;
 const voiceService = sinch.voice;
@@ -112,61 +113,67 @@ const voiceService = sinch.voice;
 All the methods that interact with the Sinch APIs use Promises.
 
 ```typescript
-const response: SendSMSResponse = await smsService.batches.send({
-   sendSMSRequestBody: {
-      to: [
-         '+12223334444',
-         '+12223335555'
-      ],
-      from: '+12228889999',
-      parameters: {
-         name: {
-            '+12223334444': 'John',
-            default: 'there',
-         }
+const response: SendSMSResponse = await conversationService.messages.sendTextMessage({
+   sendMessageRequestBody: {
+      app_id: appId,
+      recipient: {
+         identified_by: {
+            channel_identities: [
+               {
+                  channel: 'RCS',
+                  identity: '+33612345678',
+               },
+            ],
+         },
       },
-      body: 'Hi ${name}',
-      type: 'mt_text',
+      message: {
+         text_message: {
+            text: 'Hi from Sinch SDK!',
+         },
+      },
    },
 });
-console.log(`The SMS has been sent successfully. Here is the batch id: ${response.id}`)
+
+console.log(`The RCS message has been sent successfully. Here is the message id: ${response.message_id}`)
 ```
 
 ## Supported APIs
 
 Here is the list of the Sinch products and their level of support by the Node.js SDK:
 
-| API Category           | API Name                          | Status |
-|------------------------|-----------------------------------|:------:|
-| Messaging              | SMS API                           |   ✅    |
-|                        | Conversation API                  |   ✅    |
-|                        | Fax API `(beta)`                  |   ✅    |
-| Voice and Video        | Voice API                         |   ✅    |
-|                        | Elastic SIP Trunking API `(beta)` |   ✅    |
-| Numbers & Connectivity | Numbers API                       |   ✅    |
-| Verification           | Verification API                  |   ✅    |
-
-> Note: `(beta)` means that the underlying API product is still in beta version and requires specific actions for the end user to be able to use it. Please check on the dashboard or with your account manager.
+| API Category           | API Name                 | Status |
+|------------------------|--------------------------|:------:|
+| Messaging              | SMS API                  |   ✅    |
+|                        | Conversation API         |   ✅    |
+|                        | Fax API                  |   ✅    |
+| Voice and Video        | Voice API                |   ✅    |
+|                        | Elastic SIP Trunking API |   ✅    |
+| Numbers & Connectivity | Numbers API              |   ✅    |
+| Verification           | Verification API         |   ✅    |
+|                        | Number Lookup API        |   ✅    |
 
 ### Packages
 
 The Sinch Node.js SDK is packaged in the following way:
  - [`@sinch/sdk-core`](./packages/sdk-core): package defining the `SinchClient` class and wrapping all the other packages.
- - [`@sinch/sms`](./packages/sms): package that contains SMS services: Batches, Delivery reports, Inbounds, Groups and Webhooks callbacks.
- - [`@sinch/conversation`](./packages/conversation): package that contains Conversation services: App, Capability, Contact, Conversation, Events, Messages, Templates V1 and V2, Transcoding, Webhooks management and Webhooks callbacks.
- - [`@sinch/voice`](./packages/voice): package that contains the Voice services: Callouts, Calls, Conferences, Applications management and Webhooks callbacks.
+ - [`@sinch/conversation`](./packages/conversation): package that contains Conversation services: App, Capability, Consents, Contact, Conversation, Events, Messages, Project Settings, Templates V1 (deprecated) and V2, Transcoding, Webhooks management and Webhooks callbacks.
+ - [`@sinch/elastic-sip-trunking`](./packages/elastic-sip-trunking): package that contains the Elastic SIP Trunking services: SIP Trunks, Access Control List, SIP Endpoints, Credential Lists, Projects, Country Permissions, Call Blocking Rules, and Calls History.
+ - [`@sinch/fax`](./packages/fax): package that contains the Fax services: Services, Faxes, Faxes-on-emails and Cover Pages.
+ - [`@sinch/number-lookup`](./packages/number-lookup): package that contains the Number Lookup service: Lookup a phone number.
  - [`@sinch/numbers`](./packages/numbers): package that contains the Numbers services: Available number, Active number, Available regions, Callbacks management and Webhooks callbacks.
+ - [`@sinch/sms`](./packages/sms): package that contains SMS services: Batches, Delivery reports, Inbounds, Groups and Webhooks callbacks.
  - [`@sinch/verification`](./packages/verification): package that contains the Verification services: Verification start and report, Verification status and Webhooks callbacks.
- - [`@sinch/fax`](./packages/fax): package that contains the Fax services: Services, Faxes and Faxes-on-emails.
- - [`@sinch/elastic-sip-trunking`](./packages/elastic-sip-trunking): package that contains the Elastic SIP Trunking services: SIP Trunks, Access Control List, SIP Endpoints, Country Permissions, Phones Numbers and Calls.
+ - [`@sinch/voice`](./packages/voice): package that contains the Voice services: Callouts, Calls, Conferences, Applications management and Webhooks callbacks.
  - [`@sinch/sdk-client`](./packages/sdk-client): package included by all the other ones that contains the API client classes and helpers.
 
 ## Examples
 
 You can find:
- - an example of each request in the [examples/simple-examples](./examples/simple-examples) folder.
+ - a TS example of each request in the [examples/simple-examples](./examples/simple-examples) folder.
+ - a JS example of each request in the [examples/snippets](./examples/snippets) folder.
+ - getting started guides for specific use cases in the [examples/getting-started](./examples/getting-started) folder.
  - examples of integrated flows in the [examples/integrated-flows-examples](./examples/integrated-flows-examples) folder.
 
 ## Contact
 
-Developer Experience engineering team: [devexp@sinch.com](mailto:devexp@sinch.com)
+Developer Experience engineering team: [team-developer-experience@sinch.com](mailto:team-developer-experience@sinch.com)
