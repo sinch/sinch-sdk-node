@@ -33,7 +33,7 @@ npm install --global yarn
 
 The Sinch Node.js SDK follows the [Node.js release cycle](https://nodejs.org/en/about/previous-releases). 
 
-This means that Node.js version 18 will be supported until May 2025. However, we recommend using the active LTS or the current Node.js version.
+Support removal of EoL versions will happen in SDK major releases.
 
 ## Installation
 
@@ -84,12 +84,13 @@ where `sinchClientParameters` is an object containing the properties required to
  - for **SMS** API when using the AU, BR or CA region (works also for US and EU)
    - `servicePlanId`
    - `apiToken`
-   - (`region` is optional. Default is `US`).
+   - (`smsRegion` is optional. Default is `US` - It will be required in the next major version of the SDK).
  - for all the other APIs (including SMS when using the US and EU regions only)
    - `projectId`
    - `keyId`
    - `keySecret`
-   - (For the SMS API, `region` is optional. Default is `US`).
+   - (For the SMS API, `smsRegion` is optional. Default is `US` - It will be required in the next major version of the SDK).
+   - (For the Conversation API, `conversationRegion` is optional. Default is `US` - It will be required in the next major version of the SDK).
 
 From this client, you have access to all the SDK services that support the Sinch APIs:
 ```typescript
