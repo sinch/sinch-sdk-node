@@ -33,7 +33,7 @@ npm install --global yarn
 
 The Sinch Node.js SDK follows the [Node.js release cycle](https://nodejs.org/en/about/previous-releases). 
 
-This means that Node.js version 18 will be supported until May 2025. However, we recommend you to use the current LTS (20.11.0) or the current Node.js version.
+Support removal of EoL versions will happen in SDK major releases.
 
 ## Installation
 
