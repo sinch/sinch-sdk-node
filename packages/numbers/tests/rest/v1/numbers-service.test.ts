@@ -1,4 +1,5 @@
-import { ApiTokenRequest, SinchClientParameters } from '@sinch/sdk-client';
+import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
+import { ApiFetchClient, ApiTokenRequest, SinchClientParameters } from '@sinch/sdk-client';
 import {
   ActiveNumberApi,
   AvailableNumberApi,
@@ -6,7 +7,19 @@ import {
   CallbacksApi,
   NumbersService,
 } from '../../../src';
-import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
+
+jest.mock('node-fetch', () => {
+  const actual = jest.requireActual('node-fetch');
+  return {
+    __esModule: true,
+    default: jest.fn(),
+    Headers: actual.Headers,
+    Response: actual.Response,
+  };
+});
+import fetch, { Response } from 'node-fetch';
+
+const mockedFetch = fetch as unknown as jest.Mock;
 
 describe('Numbers Service', () => {
   const DEFAULT_HOSTNAME = 'https://numbers.api.sinch.com';
@@ -78,7 +91,7 @@ describe('Numbers Service', () => {
     const newRequestPlugin = new ApiTokenRequest('test-token');
 
     // When
-    const apiFetchClient = (numbersService as any).lazyClient.getApiClient();
+    const apiFetchClient = numbersService.lazyClient.getApiClient();
     apiFetchClient.apiClientOptions.requestPlugins = [newRequestPlugin];
 
     // Then
@@ -157,5 +170,34 @@ describe('Numbers Service', () => {
     expect(numbersService.availableNumber.client.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(numbersService.activeNumber.client.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(numbersService.callbacks.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+  });
+
+  it('should use the injected ApiFetchClient and invoke its custom plugins', async () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+    };
+    const numbersService = new NumbersService(params);
+
+    const transformSpy = jest.fn((options: any) => options);
+    const dummyPlugin = {
+      getName: () => 'DummyPlugin',
+      load: () => ({ transform: transformSpy }),
+    };
+
+    numbersService.lazyClient.apiFetchClient = new ApiFetchClient({
+      projectId: params.projectId,
+      requestPlugins: [dummyPlugin],
+    });
+
+    mockedFetch.mockResolvedValue(
+      new Response(JSON.stringify({ availableRegions: [] }), { status: 200 }),
+    );
+
+    // When
+    await numbersService.availableRegions.list();
+
+    // Then
+    expect(transformSpy).toHaveBeenCalled();
   });
 });
