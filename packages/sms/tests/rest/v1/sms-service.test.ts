@@ -97,7 +97,7 @@ describe('SMS Service', () => {
     const newRequestPlugin = new ApiTokenRequest('test-token');
 
     // When
-    const apiFetchClient = (smsService as any).lazyClient.getApiClient();
+    const apiFetchClient = smsService.lazyClient.getApiClient();
     apiFetchClient.apiClientOptions.requestPlugins = [newRequestPlugin];
 
     // Then

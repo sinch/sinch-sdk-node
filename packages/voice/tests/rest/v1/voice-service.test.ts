@@ -80,9 +80,9 @@ describe('Voice Service', () => {
     const newRequestPlugin = new ApiTokenRequest('test-token');
 
     // When
-    const apiFetchClientVoice = (voiceService as any).lazyVoiceClient.getApiClient();
+    const apiFetchClientVoice = voiceService.lazyVoiceClient.getApiClient();
     apiFetchClientVoice.apiClientOptions.requestPlugins = [newRequestPlugin];
-    const apiFetchClientVoiceAppMgmt = (voiceService as any).lazyVoiceAppMgmtClient.getApiClient();
+    const apiFetchClientVoiceAppMgmt = voiceService.lazyVoiceAppMgmtClient.getApiClient();
     apiFetchClientVoiceAppMgmt.apiClientOptions.requestPlugins = [newRequestPlugin];
 
     // Then
@@ -169,8 +169,8 @@ describe('Voice Service', () => {
     });
 
     // Then
-    expect((voiceService as any).lazyVoiceClient.sharedConfig.applicationKey).toBe('NEW_APPLICATION_KEY');
-    expect((voiceService as any).lazyVoiceAppMgmtClient.sharedConfig.applicationKey).toBe('NEW_APPLICATION_KEY');
+    expect(voiceService.lazyVoiceClient.sharedConfig.applicationKey).toBe('NEW_APPLICATION_KEY');
+    expect(voiceService.lazyVoiceAppMgmtClient.sharedConfig.applicationKey).toBe('NEW_APPLICATION_KEY');
   });
 
   it('should raise an exception if the credentials are invalid', () => {
@@ -188,8 +188,8 @@ describe('Voice Service', () => {
     expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Voice API');
 
     // Then
-    expect((voiceService as any).lazyVoiceClient.sharedConfig.applicationKey).toBe('APPLICATION_KEY');
-    expect((voiceService as any).lazyVoiceAppMgmtClient.sharedConfig.applicationKey).toBe('APPLICATION_KEY');
+    expect(voiceService.lazyVoiceClient.sharedConfig.applicationKey).toBe('APPLICATION_KEY');
+    expect(voiceService.lazyVoiceAppMgmtClient.sharedConfig.applicationKey).toBe('APPLICATION_KEY');
   });
 
   it('should use the injected ApiFetchClient in the lazyVoiceClient and invoke its custom plugins', async () => {

@@ -77,7 +77,7 @@ describe('Number Lookup Service', () => {
     const newRequestPlugin = new ApiTokenRequest('test-token');
 
     // When
-    const apiFetchClient = (numberLookupService as any).lazyClient.getApiClient();
+    const apiFetchClient = numberLookupService.lazyClient.getApiClient();
     apiFetchClient.apiClientOptions.requestPlugins = [newRequestPlugin];
 
     // Then

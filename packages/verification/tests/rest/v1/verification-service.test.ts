@@ -75,7 +75,7 @@ describe('Verification Service', () => {
     const newRequestPlugin = new ApiTokenRequest('test-token');
 
     // When
-    const apiFetchClient = (verificationService as any).lazyClient.getApiClient();
+    const apiFetchClient = verificationService.lazyClient.getApiClient();
     apiFetchClient.apiClientOptions.requestPlugins = [newRequestPlugin];
 
     // Then
@@ -120,7 +120,7 @@ describe('Verification Service', () => {
     });
 
     // Then
-    expect((verificationService as any).lazyClient.sharedConfig.applicationKey).toBe('NEW_APPLICATION_KEY');
+    expect(verificationService.lazyClient.sharedConfig.applicationKey).toBe('NEW_APPLICATION_KEY');
   });
 
   it('should raise an exception if the credentials are invalid', () => {
@@ -138,7 +138,7 @@ describe('Verification Service', () => {
     expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Verification API');
 
     // Then
-    expect((verificationService as any).lazyClient.sharedConfig.applicationKey).toBe('APPLICATION_KEY');
+    expect(verificationService.lazyClient.sharedConfig.applicationKey).toBe('APPLICATION_KEY');
   });
 
   it('should use the injected ApiFetchClient and invoke its custom plugins', async () => {

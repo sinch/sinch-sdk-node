@@ -88,7 +88,7 @@ describe('Fax Service', () => {
     const newRequestPlugin = new ApiTokenRequest('test-token');
 
     // When
-    const apiFetchClient = (faxService as any).lazyClient.getApiClient();
+    const apiFetchClient = faxService.lazyClient.getApiClient();
     apiFetchClient.apiClientOptions.requestPlugins = [newRequestPlugin];
 
     // Then

@@ -115,9 +115,9 @@ describe('Conversation Service', () => {
     const newRequestPlugin = new ApiTokenRequest('test-token');
 
     // When
-    const apiFetchClientConversation = (conversationService as any).lazyConversationClient.getApiClient();
+    const apiFetchClientConversation = conversationService.lazyConversationClient.getApiClient();
     apiFetchClientConversation.apiClientOptions.requestPlugins = [newRequestPlugin];
-    const apiFetchClientTemplates = (conversationService as any).lazyConversationTemplateClient.getApiClient();
+    const apiFetchClientTemplates = conversationService.lazyConversationTemplateClient.getApiClient();
     apiFetchClientTemplates.apiClientOptions.requestPlugins = [newRequestPlugin];
 
     // Then

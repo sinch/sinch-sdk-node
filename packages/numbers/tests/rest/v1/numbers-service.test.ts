@@ -91,7 +91,7 @@ describe('Numbers Service', () => {
     const newRequestPlugin = new ApiTokenRequest('test-token');
 
     // When
-    const apiFetchClient = (numbersService as any).lazyClient.getApiClient();
+    const apiFetchClient = numbersService.lazyClient.getApiClient();
     apiFetchClient.apiClientOptions.requestPlugins = [newRequestPlugin];
 
     // Then
