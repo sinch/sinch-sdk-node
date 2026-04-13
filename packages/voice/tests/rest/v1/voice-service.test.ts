@@ -1,6 +1,19 @@
-import { ApiTokenRequest, SinchClientParameters, VoiceRegion } from '@sinch/sdk-client';
-import { ApplicationsApi, CalloutsApi, CallsApi, ConferencesApi, VoiceService } from '../../../src';
 import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
+import { ApiFetchClient, ApiTokenRequest, SinchClientParameters, VoiceRegion } from '@sinch/sdk-client';
+import { ApplicationsApi, CalloutsApi, CallsApi, ConferencesApi, VoiceService } from '../../../src';
+
+jest.mock('node-fetch', () => {
+  const actual = jest.requireActual('node-fetch');
+  return {
+    __esModule: true,
+    default: jest.fn(),
+    Headers: actual.Headers,
+    Response: actual.Response,
+  };
+});
+import fetch, { Response } from 'node-fetch';
+
+const mockedFetch = fetch as unknown as jest.Mock;
 
 describe('Voice Service', () => {
   const DEFAULT_HOSTNAME = 'https://calling.api.sinch.com';
@@ -177,5 +190,57 @@ describe('Voice Service', () => {
     // Then
     expect((voiceService as any).lazyVoiceClient.sharedConfig.applicationKey).toBe('APPLICATION_KEY');
     expect((voiceService as any).lazyVoiceAppMgmtClient.sharedConfig.applicationKey).toBe('APPLICATION_KEY');
+  });
+
+  it('should use the injected ApiFetchClient in the lazyVoiceClient and invoke its custom plugins', async () => {
+    // Given
+    const voiceService = new VoiceService({});
+
+    const transformSpy = jest.fn((options: any) => options);
+    const dummyPlugin = {
+      getName: () => 'DummyPlugin',
+      load: () => ({ transform: transformSpy }),
+    };
+
+    voiceService.lazyVoiceClient.apiFetchClient = new ApiFetchClient({
+      requestPlugins: [dummyPlugin],
+    });
+
+    mockedFetch.mockResolvedValue(
+      new Response(JSON.stringify({}), { status: 200 }),
+    );
+
+    // When
+    await voiceService.calls.get({
+      callId: 'CALL_ID',
+    });
+
+    // Then
+    expect(transformSpy).toHaveBeenCalled();
+  });
+
+  it('should use the injected ApiFetchClient in the lazyVoiceAppMgmtClient and invoke its custom plugins', async () => {
+    // Given
+    const voiceService = new VoiceService({});
+
+    const transformSpy = jest.fn((options: any) => options);
+    const dummyPlugin = {
+      getName: () => 'DummyPlugin',
+      load: () => ({ transform: transformSpy }),
+    };
+
+    voiceService.lazyVoiceAppMgmtClient.apiFetchClient = new ApiFetchClient({
+      requestPlugins: [dummyPlugin],
+    });
+
+    mockedFetch.mockResolvedValue(
+      new Response(JSON.stringify({}), { status: 200 }),
+    );
+
+    // When
+    await voiceService.applications.listNumbers();
+
+    // Then
+    expect(transformSpy).toHaveBeenCalled();
   });
 });

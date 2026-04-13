@@ -1,5 +1,6 @@
-import { ApiTokenRequest, SinchClientParameters, SmsRegion } from '@sinch/sdk-client';
 import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
+import { ApiFetchClient, ApiTokenRequest, SinchClientParameters, SmsRegion } from '@sinch/sdk-client';
+
 import {
   BatchesApi,
   DEFAULT_SMS_REGION_DEPRECATION_WARNING,
@@ -8,6 +9,19 @@ import {
   InboundsApi,
   SmsService,
 } from '../../../src';
+
+jest.mock('node-fetch', () => {
+  const actual = jest.requireActual('node-fetch');
+  return {
+    __esModule: true,
+    default: jest.fn(),
+    Headers: actual.Headers,
+    Response: actual.Response,
+  };
+});
+import fetch, { Response } from 'node-fetch';
+
+const mockedFetch = fetch as unknown as jest.Mock;
 
 describe('SMS Service', () => {
   const DEFAULT_HOSTNAME = 'https://zt.us.sms.api.sinch.com';
@@ -182,5 +196,39 @@ describe('SMS Service', () => {
     expect(smsService.deliveryReports.client.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(smsService.groups.client.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(smsService.inbounds.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+  });
+
+  it('should use the injected ApiFetchClient and invoke its custom plugins', async () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+    };
+    const smsService = new SmsService(params);
+
+    const transformSpy = jest.fn((options: any) => options);
+    const dummyPlugin = {
+      getName: () => 'DummyPlugin',
+      load: () => ({ transform: transformSpy }),
+    };
+
+    smsService.lazyClient.apiFetchClient = new ApiFetchClient({
+      projectId: params.projectId,
+      requestPlugins: [dummyPlugin],
+    });
+
+    mockedFetch.mockResolvedValue(
+      new Response(JSON.stringify({
+        batches: [],
+        count: 0,
+        page: 0,
+        page_size: 0,
+      }), { status: 200 }),
+    );
+
+    // When
+    await smsService.batches.list();
+
+    // Then
+    expect(transformSpy).toHaveBeenCalled();
   });
 });

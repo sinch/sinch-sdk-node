@@ -16,7 +16,7 @@ import { CallsApi } from './calls';
 import { CalloutsApi } from './callouts';
 
 export class LazyVoiceApiClient {
-  private apiFetchClient?: ApiFetchClient;
+  apiFetchClient?: ApiFetchClient;
   constructor(public sharedConfig: SinchClientParameters) {}
 
   public getApiClient(): ApiFetchClient {
@@ -44,7 +44,7 @@ export class LazyVoiceApiClient {
 }
 
 export class LazyVoiceApplicationManagementApiClient {
-  private apiFetchClient?: ApiFetchClient;
+  apiFetchClient?: ApiFetchClient;
   constructor(public sharedConfig: SinchClientParameters) {}
 
   public getApiClient(): ApiFetchClient {
@@ -75,8 +75,8 @@ export class VoiceService {
   public readonly calls: CallsApi;
   public readonly callouts: CalloutsApi;
 
-  private readonly lazyVoiceClient: LazyVoiceApiClient;
-  private readonly lazyVoiceAppMgmtClient: LazyVoiceApplicationManagementApiClient;
+  public readonly lazyVoiceClient: LazyVoiceApiClient;
+  public readonly lazyVoiceAppMgmtClient: LazyVoiceApplicationManagementApiClient;
 
   /**
    * Create a new VoiceService instance with its configuration. It needs the following parameters for authentication:

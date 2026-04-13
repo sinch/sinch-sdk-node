@@ -1,3 +1,6 @@
+## Version 1.4.1
+- [Bugfix] Make the lazyClient public in the VoiceService to be able to override it with a custom one.
+
 ## Version 1.4.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.4.0`.
 - [Tech] Lazy load a single `ApiFetchClient` instance in the `VoiceService`.

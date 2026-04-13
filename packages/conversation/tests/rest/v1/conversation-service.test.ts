@@ -1,4 +1,5 @@
-import { ApiTokenRequest, ConversationRegion, SinchClientParameters } from '@sinch/sdk-client';
+import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
+import { ApiFetchClient, ApiTokenRequest, ConversationRegion, SinchClientParameters } from '@sinch/sdk-client';
 import {
   AppApi,
   CapabilityApi,
@@ -14,7 +15,19 @@ import {
   WebhooksApi,
   DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING,
 } from '../../../src';
-import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
+
+jest.mock('node-fetch', () => {
+  const actual = jest.requireActual('node-fetch');
+  return {
+    __esModule: true,
+    default: jest.fn(),
+    Headers: actual.Headers,
+    Response: actual.Response,
+  };
+});
+import fetch, { Response } from 'node-fetch';
+
+const mockedFetch = fetch as unknown as jest.Mock;
 
 describe('Conversation Service', () => {
   const DEFAULT_HOSTNAME = 'https://us.conversation.api.sinch.com';
@@ -282,5 +295,64 @@ describe('Conversation Service', () => {
     expect(conversationService.projectSettings.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
     expect(conversationService.templatesV1.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME_TEMPLATES);
     expect(conversationService.templatesV2.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME_TEMPLATES);
+  });
+
+  it('should use the injected ApiFetchClient in the lazyConversationClient and invoke its custom plugins', async () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+    };
+    const conversationService = new ConversationService(params);
+
+    const transformSpy = jest.fn((options: any) => options);
+    const dummyPlugin = {
+      getName: () => 'DummyPlugin',
+      load: () => ({ transform: transformSpy }),
+    };
+
+    conversationService.lazyConversationClient.apiFetchClient = new ApiFetchClient({
+      projectId: params.projectId,
+      requestPlugins: [dummyPlugin],
+    });
+
+    mockedFetch.mockResolvedValue(
+      new Response(JSON.stringify({ apps: [] }), { status: 200 }),
+    );
+
+    // When
+    await conversationService.app.list();
+
+    // Then
+    expect(transformSpy).toHaveBeenCalled();
+  });
+
+  // eslint-disable-next-line max-len
+  it('should use the injected ApiFetchClient in the lazyConversationTemplateClient and invoke its custom plugins', async () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+    };
+    const conversationService = new ConversationService(params);
+
+    const transformSpy = jest.fn((options: any) => options);
+    const dummyPlugin = {
+      getName: () => 'DummyPlugin',
+      load: () => ({ transform: transformSpy }),
+    };
+
+    conversationService.lazyConversationTemplateClient.apiFetchClient = new ApiFetchClient({
+      projectId: params.projectId,
+      requestPlugins: [dummyPlugin],
+    });
+
+    mockedFetch.mockResolvedValue(
+      new Response(JSON.stringify({ templates: [] }), { status: 200 }),
+    );
+
+    // When
+    await conversationService.templatesV2.list();
+
+    // Then
+    expect(transformSpy).toHaveBeenCalled();
   });
 });
