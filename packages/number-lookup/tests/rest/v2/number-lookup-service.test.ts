@@ -1,6 +1,19 @@
-import { ApiTokenRequest, SinchClientParameters } from '@sinch/sdk-client';
-import { NumberLookupApi, NumberLookupService } from '../../../src';
 import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
+import { ApiFetchClient, ApiTokenRequest, SinchClientParameters } from '@sinch/sdk-client';
+import { NumberLookupApi, NumberLookupService } from '../../../src';
+
+jest.mock('node-fetch', () => {
+  const actual = jest.requireActual('node-fetch');
+  return {
+    __esModule: true,
+    default: jest.fn(),
+    Headers: actual.Headers,
+    Response: actual.Response,
+  };
+});
+import fetch, { Response } from 'node-fetch';
+
+const mockedFetch = fetch as unknown as jest.Mock;
 
 describe('Number Lookup Service', () => {
 
@@ -64,7 +77,7 @@ describe('Number Lookup Service', () => {
     const newRequestPlugin = new ApiTokenRequest('test-token');
 
     // When
-    const apiFetchClient = (numberLookupService as any).lazyClient.getApiClient();
+    const apiFetchClient = numberLookupService.lazyClient.getApiClient();
     apiFetchClient.apiClientOptions.requestPlugins = [newRequestPlugin];
 
     // Then
@@ -128,5 +141,38 @@ describe('Number Lookup Service', () => {
 
     // Then
     expect((numberLookupService as any)._numberLookup.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+  });
+
+  it('should use the injected ApiFetchClient and invoke its custom plugins', async () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+    };
+    const numberLookupService = new NumberLookupService(params);
+
+    const transformSpy = jest.fn((options: any) => options);
+    const dummyPlugin = {
+      getName: () => 'DummyPlugin',
+      load: () => ({ transform: transformSpy }),
+    };
+
+    numberLookupService.lazyClient.apiFetchClient = new ApiFetchClient({
+      projectId: params.projectId,
+      requestPlugins: [dummyPlugin],
+    });
+
+    mockedFetch.mockResolvedValue(
+      new Response(JSON.stringify({}), { status: 200 }),
+    );
+
+    // When
+    await numberLookupService.lookup({
+      numberLookupRequestBody: {
+        number: '+4155551212',
+      },
+    });
+
+    // Then
+    expect(transformSpy).toHaveBeenCalled();
   });
 });

@@ -9,7 +9,7 @@ import { VerificationStatusApi } from './verification-status';
 import { VerificationsApi } from './verifications';
 
 export class LazyVerificationApiClient {
-  private apiFetchClient?: ApiFetchClient;
+  apiFetchClient?: ApiFetchClient;
   constructor(public sharedConfig: SinchClientParameters) {}
 
   public getApiClient(): ApiFetchClient {
@@ -35,7 +35,7 @@ export class VerificationService {
   public readonly verificationStatus: VerificationStatusApi;
   public readonly verifications: VerificationsApi;
 
-  private readonly lazyClient: LazyVerificationApiClient;
+  public readonly lazyClient: LazyVerificationApiClient;
 
   /**
    * Create a new VerificationService instance with its configuration. It needs the following parameters for authentication:
