@@ -68,7 +68,7 @@ export class AppController {
     try {
       // There is no request validation for the Fax API, so we can parse it and revive its content directly
       const event = faxCallbackWebhook.parseEvent(request.body);
-      // Once the request has been revived, delegate the event management to the SMS service
+      // Once the request has been revived, delegate the event management to the Fax service
       const contentType = request.headers['content-type'];
       this.faxEventService.handleEvent(event, contentType, file);
       res.status(200).send();
