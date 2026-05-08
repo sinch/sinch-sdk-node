@@ -1,6 +1,19 @@
-import { ApiTokenRequest, FaxRegion, SinchClientParameters } from '@sinch/sdk-client';
-import { FaxToEmailApi, FaxesApi, FaxService, ServicesApi, CoverPagesApi } from '../../../src';
 import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
+import { ApiFetchClient, ApiTokenRequest, FaxRegion, SinchClientParameters } from '@sinch/sdk-client';
+import { FaxToEmailApi, FaxesApi, FaxService, ServicesApi, CoverPagesApi } from '../../../src';
+
+jest.mock('node-fetch', () => {
+  const actual = jest.requireActual('node-fetch');
+  return {
+    __esModule: true,
+    default: jest.fn(),
+    Headers: actual.Headers,
+    Response: actual.Response,
+  };
+});
+import fetch, { Response } from 'node-fetch';
+
+const mockedFetch = fetch as unknown as jest.Mock;
 
 describe('Fax Service', () => {
   const DEFAULT_HOSTNAME = 'https://fax.api.sinch.com';
@@ -75,7 +88,7 @@ describe('Fax Service', () => {
     const newRequestPlugin = new ApiTokenRequest('test-token');
 
     // When
-    const apiFetchClient = (faxService as any).lazyClient.getApiClient();
+    const apiFetchClient = faxService.lazyClient.getApiClient();
     apiFetchClient.apiClientOptions.requestPlugins = [newRequestPlugin];
 
     // Then
@@ -185,5 +198,34 @@ describe('Fax Service', () => {
     expect(faxService.emails.client.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(faxService.services.client.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(faxService.coverPages.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+  });
+
+  it('should use the injected ApiFetchClient and invoke its custom plugins', async () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+    };
+    const faxService = new FaxService(params);
+
+    const transformSpy = jest.fn((options: any) => options);
+    const dummyPlugin = {
+      getName: () => 'DummyPlugin',
+      load: () => ({ transform: transformSpy }),
+    };
+
+    faxService.lazyClient.apiFetchClient = new ApiFetchClient({
+      projectId: params.projectId,
+      requestPlugins: [dummyPlugin],
+    });
+
+    mockedFetch.mockResolvedValue(
+      new Response(JSON.stringify({ faxes: [] }), { status: 200 }),
+    );
+
+    // When
+    await faxService.faxes.list();
+
+    // Then
+    expect(transformSpy).toHaveBeenCalled();
   });
 });

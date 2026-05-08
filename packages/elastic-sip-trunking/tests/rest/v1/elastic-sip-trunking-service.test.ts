@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { ApiFetchClient, SinchClientParameters } from '@sinch/sdk-client';
 import {
   AccessControlListApi, CallsHistoryApi,
   CountryPermissionsApi,
@@ -6,6 +6,19 @@ import {
   SipEndpointsApi,
   SipTrunksApi,
 } from '../../../src';
+
+jest.mock('node-fetch', () => {
+  const actual = jest.requireActual('node-fetch');
+  return {
+    __esModule: true,
+    default: jest.fn(),
+    Headers: actual.Headers,
+    Response: actual.Response,
+  };
+});
+import fetch, { Response } from 'node-fetch';
+
+const mockedFetch = fetch as unknown as jest.Mock;
 
 describe('Elastic SIP Trunking Service', () => {
   const DEFAULT_HOSTNAME = 'https://elastic-trunking.api.sinch.com';
@@ -107,6 +120,40 @@ describe('Elastic SIP Trunking Service', () => {
     expect(elasticSipTrunkingService.accessControlList.client.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(elasticSipTrunkingService.countryPermissions.client.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(elasticSipTrunkingService.calls.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+  });
+
+  it('should use the injected ApiFetchClient and invoke its custom plugins', async () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+    };
+    const elasticSipTrunkingService = new ElasticSipTrunkingService(params);
+
+    const transformSpy = jest.fn((options: any) => options);
+    const dummyPlugin = {
+      getName: () => 'DummyPlugin',
+      load: () => ({ transform: transformSpy }),
+    };
+
+    elasticSipTrunkingService.lazyClient.apiFetchClient = new ApiFetchClient({
+      projectId: params.projectId,
+      requestPlugins: [dummyPlugin],
+    });
+
+    mockedFetch.mockResolvedValue(
+      new Response(JSON.stringify({
+        trunks: [],
+        totalItems: 0,
+        pageNumber: 1,
+        pageSize: 2000,
+      }), { status: 200 }),
+    );
+
+    // When
+    await elasticSipTrunkingService.sipTrunks.list();
+
+    // Then
+    expect(transformSpy).toHaveBeenCalled();
   });
 
 });

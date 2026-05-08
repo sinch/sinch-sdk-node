@@ -1,5 +1,4 @@
 import {
-  ApiClient,
   ApiFetchClient,
   buildOAuth2ApiClientOptions,
   ELASTIC_SIP_TRUNKING_HOSTNAME,
@@ -16,21 +15,21 @@ import { CallBlockingRulesApi } from './call-blocking-rules';
 import { CredentialListsApi } from './credential-lists';
 
 export class LazyElasticSipTrunkingApiClient {
-  private client?: ApiClient;
+  apiFetchClient?: ApiFetchClient;
   constructor(public sharedConfig: SinchClientParameters) {}
 
-  public getApiClient(): ApiClient {
-    if (!this.client) {
+  public getApiClient(): ApiFetchClient {
+    if (!this.apiFetchClient) {
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sharedConfig, 'Elastic SIP Trunking');
-      this.client = new ApiFetchClient(apiClientOptions);
-      this.client.apiClientOptions.hostname = this.sharedConfig.elasticSipTrunkingHostname
+      this.apiFetchClient = new ApiFetchClient(apiClientOptions);
+      this.apiFetchClient.apiClientOptions.hostname = this.sharedConfig.elasticSipTrunkingHostname
         ?? ELASTIC_SIP_TRUNKING_HOSTNAME;
     }
-    return this.client;
+    return this.apiFetchClient;
   }
 
   public resetApiClient() {
-    this.client = undefined;
+    this.apiFetchClient = undefined;
   }
 }
 
@@ -45,7 +44,7 @@ export class ElasticSipTrunkingService {
   public readonly callBlockingRules: CallBlockingRulesApi;
   public readonly credentialLists: CredentialListsApi;
 
-  private readonly lazyClient: LazyElasticSipTrunkingApiClient;
+  public readonly lazyClient: LazyElasticSipTrunkingApiClient;
 
   constructor(params: SinchClientParameters) {
     this.lazyClient = new LazyElasticSipTrunkingApiClient(params);

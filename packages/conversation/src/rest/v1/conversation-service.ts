@@ -23,7 +23,7 @@ import { ConsentsApi } from './consents';
 import { DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING } from './conversation-domain-api';
 
 export class LazyConversationApiClient {
-  private apiFetchClient?: ApiFetchClient;
+  apiFetchClient?: ApiFetchClient;
   constructor(public sharedConfig: SinchClientParameters) {}
 
   public getApiClient(): ApiFetchClient {
@@ -56,7 +56,7 @@ export class LazyConversationApiClient {
 }
 
 export class LazyConversationTemplateApiClient {
-  private apiFetchClient?: ApiFetchClient;
+  apiFetchClient?: ApiFetchClient;
   constructor(public sharedConfig: SinchClientParameters) {}
 
   public getApiClient(): ApiFetchClient {
@@ -116,8 +116,8 @@ export class ConversationService {
   public readonly templatesV2: TemplatesV2Api;
   public readonly consents: ConsentsApi;
 
-  private readonly lazyConversationClient: LazyConversationApiClient;
-  private readonly lazyConversationTemplateClient: LazyConversationTemplateApiClient;
+  public readonly lazyConversationClient: LazyConversationApiClient;
+  public readonly lazyConversationTemplateClient: LazyConversationTemplateApiClient;
 
   /**
    * Create a new ConversationService instance with its configuration. It needs the following parameters for authentication:
@@ -137,7 +137,6 @@ export class ConversationService {
 
     const sharedConversationTemplateClient = new LazyConversationTemplateApiClient(params);
     this.lazyConversationTemplateClient = sharedConversationTemplateClient;
-
 
     this.contact = new ContactApi(sharedConversationClient);
     this.app = new AppApi(sharedConversationClient);
