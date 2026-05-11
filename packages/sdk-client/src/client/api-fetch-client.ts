@@ -193,10 +193,15 @@ export class ApiFetchClient extends ApiClient {
     let response = await fetch(apiCallParameters.url, apiCallParameters.requestOptions);
 
     if (this.isTokenExpired(response)) {
+      // Capture the JWT used by the failing request so the OAuth2 plugin can
+      // refuse to invalidate a token that has since been refreshed by another caller.
+      const failingAuth = apiCallParameters.requestOptions.headers.get('Authorization') || '';
+      const failingJwt = failingAuth.startsWith('Bearer ') ? failingAuth.slice('Bearer '.length) : undefined;
       const requestOptions = await manageExpiredToken(
         apiCallParameters,
         errorContext,
-        this.apiClientOptions.requestPlugins);
+        this.apiClientOptions.requestPlugins,
+        failingJwt);
       response = await fetch(apiCallParameters.url, requestOptions);
     }
 

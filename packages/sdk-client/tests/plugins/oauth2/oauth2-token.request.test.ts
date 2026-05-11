@@ -156,24 +156,17 @@ describe('Oauth2TokenRequest - concurrent token refresh', () => {
 
     const opts = { method: 'GET', headers: new Headers(), hostname: 'https://api.example.com' };
 
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
-    // First attempt: auth server fails → empty headers returned
-    const result1 = await plugin.load().transform({ ...opts, headers: new Headers() });
+    // First attempt: auth server fails → error propagates to caller
+    await expect(
+      plugin.load().transform({ ...opts, headers: new Headers() }),
+    ).rejects.toThrow('Network error');
     expect(authCallCount).toBe(1);
-    // No Authorization header set (failed refresh returns {})
-    expect(result1.headers.has('Authorization')).toBeFalsy();
-    // Ensure the plugin logged the failure and the message contains the underlying error
-    expect(errorSpy).toHaveBeenCalled();
-    expect(errorSpy.mock.calls[0][0]).toContain('Network error');
 
-    // Second attempt: pendingTokenRefresh should be cleared (finally block)
+    // Second attempt: pendingTokenRefresh was cleared in the finally block,
     // so a new refresh attempt is made and succeeds this time
     const result2 = await plugin.load().transform({ ...opts, headers: new Headers() });
     expect(authCallCount).toBe(2);
     expect(result2.headers.get('Authorization')).toBe('Bearer recovered-token');
-
-    errorSpy.mockRestore();
   });
 
   it('should propagate failure to all concurrent callers when auth server fails', async () => {
@@ -189,23 +182,81 @@ describe('Oauth2TokenRequest - concurrent token refresh', () => {
 
     const baseOpts = { method: 'GET', headers: new Headers(), hostname: 'https://api.example.com' };
 
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
-    // Fire 5 concurrent requests
+    // Fire 5 concurrent requests; all should reject with the auth error
     const promises = Array.from({ length: 5 }, () =>
       plugin.load().transform({ ...baseOpts, headers: new Headers() }),
     );
-    const results = await Promise.all(promises);
+    const settled = await Promise.allSettled(promises);
 
     // Only ONE auth call (deduplicated even for failures)
     expect(authCallCount).toBe(1);
-    // Ensure the plugin logged the failure and the message contains the underlying error
-    expect(errorSpy).toHaveBeenCalledTimes(1);
-    expect(errorSpy.mock.calls[0][0]).toContain('Auth server down');
-
-    // All callers get empty headers (error result propagated to all)
-    for (const result of results) {
-      expect(result.headers.has('Authorization')).toBeFalsy();
+    for (const result of settled) {
+      expect(result.status).toBe('rejected');
+      expect((result as PromiseRejectedResult).reason.message).toContain('Auth server down');
     }
+  });
+
+  it('should refresh proactively when the cached JWT is within the safety margin of expiry', async () => {
+    // Build a JWT whose `exp` is 10 seconds from now — well inside the 30s safety margin
+    const buildJwt = (expSecondsFromNow: number) => {
+      const b64url = (s: string) =>
+        Buffer.from(s).toString('base64').replace(/=+$/, '').replace(/\+/g, '-').replace(/\//g, '_');
+      const header = b64url(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+      const payload = b64url(JSON.stringify({ exp: Math.floor(Date.now() / 1000) + expSecondsFromNow }));
+      return `${header}.${payload}.sig`;
+    };
+
+    let issuance = 0;
+    mockedFetch.mockImplementation(async (url: string) => {
+      if (url.includes('/oauth2/token')) {
+        issuance++;
+        authCallCount++;
+        // First token expires in 10s (inside safety margin → next call refreshes)
+        // Second token expires in 3600s
+        const expIn = issuance === 1 ? 10 : 3600;
+        return new Response(JSON.stringify({
+          access_token: buildJwt(expIn),
+          expires_in: expIn,
+          scope: '',
+          token_type: 'bearer',
+        }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+      }
+      return new Response('Not Found', { status: 404 });
+    });
+
+    const opts = { method: 'GET', headers: new Headers(), hostname: 'https://api.example.com' };
+
+    // First call: fetches near-expiry token
+    await plugin.load().transform({ ...opts, headers: new Headers() });
+    expect(authCallCount).toBe(1);
+
+    // Second call: cached JWT is within the safety margin → proactive refresh
+    const result2 = await plugin.load().transform({ ...opts, headers: new Headers() });
+    expect(authCallCount).toBe(2);
+    // Verify the refreshed token is in use
+    expect(result2.headers.get('Authorization')!.startsWith('Bearer ')).toBeTruthy();
+  });
+
+  it('invalidateToken with a stale JWT should not wipe a freshly refreshed token', async () => {
+    const opts = { method: 'GET', headers: new Headers(), hostname: 'https://api.example.com' };
+
+    // Cache JWT_A
+    const r1 = await plugin.load().transform({ ...opts, headers: new Headers() });
+    const tokenA = r1.headers.get('Authorization');
+    expect(tokenA).toBe('Bearer jwt-token-1');
+
+    // Force a refresh by passing the unconditional-invalidate form
+    plugin.invalidateToken();
+    await plugin.load().transform({ ...opts, headers: new Headers() });
+    expect(authCallCount).toBe(2);
+
+    // Now simulate a stale-JWT 401 retry calling invalidateToken with JWT_A.
+    // The cached token is JWT_B: invalidateToken must be a no-op.
+    plugin.invalidateToken('jwt-token-1');
+
+    // Next call should reuse JWT_B (no extra auth fetch)
+    const r2 = await plugin.load().transform({ ...opts, headers: new Headers() });
+    expect(authCallCount).toBe(2);
+    expect(r2.headers.get('Authorization')).toBe('Bearer jwt-token-2');
   });
 });
