@@ -1,3 +1,6 @@
+## Version 1.4.1
+- [Bugfix] Harness OAuth2 token refresh
+
 ## Version 1.4.0
  - [Tech] Remove `client` attribute from the `Api` interface
  - [Feature] Add `WithAdditionalProperties` interface to support additional properties in API models
