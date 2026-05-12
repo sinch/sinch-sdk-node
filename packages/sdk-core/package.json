@@ -29,14 +29,14 @@
     "compile": "tsc --build --verbose"
   },
   "dependencies": {
-    "@sinch/conversation": "1.4.1",
-    "@sinch/elastic-sip-trunking": "1.4.1",
-    "@sinch/fax": "1.4.1",
-    "@sinch/numbers": "1.4.1",
-    "@sinch/sms": "1.4.1",
-    "@sinch/verification": "1.4.1",
-    "@sinch/voice": "1.4.1",
-    "@sinch/number-lookup": "1.4.1"
+    "@sinch/conversation": "1.4.2",
+    "@sinch/elastic-sip-trunking": "1.4.2",
+    "@sinch/fax": "1.4.2",
+    "@sinch/numbers": "1.4.2",
+    "@sinch/sms": "1.4.2",
+    "@sinch/verification": "1.4.2",
+    "@sinch/voice": "1.4.2",
+    "@sinch/number-lookup": "1.4.2"
   },
   "devDependencies": {},
   "publishConfig": {
