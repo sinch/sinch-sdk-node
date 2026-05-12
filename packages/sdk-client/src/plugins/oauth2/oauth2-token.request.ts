@@ -7,6 +7,8 @@ import { BasicAuthenticationRequest } from '../basicAuthentication';
 import { ApiFetchClient } from '../../client/api-fetch-client';
 import { AUTH_HOSTNAME } from '../../domain';
 
+const EXPIRY_SAFETY_MARGIN_SEC = 60;
+
 export class Oauth2TokenRequest implements RequestPlugin {
   private readonly apiClient: ApiClient;
 
@@ -43,8 +45,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
     }
 
     // If a token refresh is already happening, share the same promise.
-    // This prevents N concurrent requests from making N auth server calls,
-    // which can cause 401 errors to surface to the SDK user.
+    // This prevents N concurrent requests from making N auth server calls.
     if (this.pendingTokenRefresh) {
       return this.pendingTokenRefresh;
     }
@@ -59,44 +60,46 @@ export class Oauth2TokenRequest implements RequestPlugin {
 
   private async fetchNewToken(): Promise<{ [key: string]: string }> {
     const oauth2Api = new OAuth2Api(this.apiClient);
+    let response;
     try {
-      const response = await oauth2Api.postAccessToken();
-      if (response.access_token) {
-        this.token = {
-          value: response.access_token,
-          status: TokenStatus.VALID,
-        };
-        return this.buildAuthorizationHeader();
-      } else {
-        this.token = {
-          value: '',
-          status: TokenStatus.INVALID,
-        };
-        console.error('The authentication server did not return an access_token.'
-          + ' Response keys: [' + Object.keys(response).join(', ') + ']');
-        return {};
-      }
+      response = await oauth2Api.postAccessToken();
     } catch (e) {
-      this.token = {
-        value: '',
-        status: TokenStatus.INVALID,
-      };
-      console.error('An error occurred when trying to get the authentication token - ' + e);
-      return {};
+      // Propagate the auth failure to the caller.
+      this.token = undefined;
+      throw e;
     }
+    if (!response.access_token) {
+      this.token = undefined;
+      throw new Error(
+        'The authentication server did not return an access_token. Response keys: ['
+          + Object.keys(response).join(', ') + ']',
+      );
+    }
+    this.token = {
+      value: response.access_token,
+      status: TokenStatus.VALID,
+      exp: decodeJwtExp(response.access_token),
+    };
+    return this.buildAuthorizationHeader();
   }
-
 
   private buildAuthorizationHeader() {
     return { Authorization: `Bearer ${this.token!.value}` };
   }
 
-  private isTokenValid(): boolean | undefined {
-    return (
-      this.token
-      && this.token.status === TokenStatus.VALID
-      && this.token.value.trim().length > 0
-    );
+  private isTokenValid(): boolean {
+    if (!this.token
+      || this.token.status !== TokenStatus.VALID
+      || this.token.value.trim().length === 0) {
+      return false;
+    }
+    // Proactive expiry check: if we could decode the JWT's `exp`, refresh ahead of time.
+    // This avoids the round-trip-and-retry pattern at every expiry boundary
+    if (this.token.exp !== undefined) {
+      const nowSec = Math.floor(Date.now() / 1000);
+      return this.token.exp > nowSec + EXPIRY_SAFETY_MARGIN_SEC; // 60s safety margin
+    }
+    return true;
   }
 
   public load(): PluginRunner<RequestOptions, RequestOptions> {
@@ -107,7 +110,15 @@ export class Oauth2TokenRequest implements RequestPlugin {
     };
   }
 
-  public invalidateToken() {
+  /**
+   * Clear the cached token. If `failingJwt` is supplied, the cache is only
+   * cleared when it still holds that exact JWT. This prevents a stale-JWT 401
+   * retry from wiping a token that another caller already successfully refreshed.
+   */
+  public clearCachedToken(failingJwt?: string) {
+    if (failingJwt !== undefined && this.token && this.token.value !== failingJwt) {
+      return;
+    }
     this.token = undefined;
   }
 }
@@ -115,9 +126,27 @@ export class Oauth2TokenRequest implements RequestPlugin {
 interface AccessToken {
   value: string;
   status: TokenStatus;
+  exp?: number;
 }
 
 enum TokenStatus {
   INVALID,
   VALID,
 }
+
+/**
+ * Decode the `exp` claim from a JWT without verifying the signature.
+ */
+const decodeJwtExp = (jwt: string): number | undefined => {
+  const parts = jwt.split('.');
+  if (parts.length !== 3) {
+    return undefined;
+  }
+  try {
+    const decoded = Buffer.from(parts[1], 'base64url').toString('utf8');
+    const payload = JSON.parse(decoded);
+    return typeof payload.exp === 'number' ? payload.exp : undefined;
+  } catch {
+    return undefined;
+  }
+};
