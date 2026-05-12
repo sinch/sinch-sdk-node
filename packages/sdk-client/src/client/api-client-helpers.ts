@@ -8,7 +8,7 @@ import { ErrorContext, GenericError } from '../api/api-errors';
 import { Oauth2TokenRequest } from '../plugins';
 
 /**
- * Invalidate the cached JWT (race-safely — only if the cache still holds the
+ * Clear the cached JWT (race-safely — only if the cache still holds the
  * failing one) and re-run the OAuth2 plugin to obtain a fresh token, returning
  * updated request options for a single retry.
  */
@@ -23,11 +23,11 @@ export const manageExpiredToken = async (
   );
   if (!oauth2Plugin) {
     throw new GenericError(
-      'Trying to invalidate an expired JWT while the Oauth2Token plugin is not registered to the API client',
+      'Trying to clear an expired JWT from the cache while the Oauth2Token plugin is not registered to the API client',
       errorContext,
     );
   }
-  (oauth2Plugin as Oauth2TokenRequest).invalidateToken(failingJwt);
+  (oauth2Plugin as Oauth2TokenRequest).clearCachedToken(failingJwt);
   return oauth2Plugin.load().transform(apiCallParameters.requestOptions);
 };
 

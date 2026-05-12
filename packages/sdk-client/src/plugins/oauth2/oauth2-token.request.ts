@@ -111,11 +111,11 @@ export class Oauth2TokenRequest implements RequestPlugin {
   }
 
   /**
-   * Invalidate the cached token. If `failingJwt` is supplied, the cache is only
+   * Clear the cached token. If `failingJwt` is supplied, the cache is only
    * cleared when it still holds that exact JWT. This prevents a stale-JWT 401
    * retry from wiping a token that another caller already successfully refreshed.
    */
-  public invalidateToken(failingJwt?: string) {
+  public clearCachedToken(failingJwt?: string) {
     if (failingJwt !== undefined && this.token && this.token.value !== failingJwt) {
       return;
     }

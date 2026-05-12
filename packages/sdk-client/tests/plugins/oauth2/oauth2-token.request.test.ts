@@ -92,8 +92,8 @@ describe('Oauth2TokenRequest - concurrent token refresh', () => {
     await plugin.load().transform(opts1);
     expect(authCallCount).toBe(1);
 
-    // Invalidate the token (simulates expired token detected)
-    plugin.invalidateToken();
+    // Clear the cached token (simulates expired token detected)
+    plugin.clearCachedToken();
 
     // Second call: should fetch a new token
     const opts2 = {
@@ -112,8 +112,8 @@ describe('Oauth2TokenRequest - concurrent token refresh', () => {
     await plugin.load().transform({ ...baseOpts, headers: new Headers() });
     expect(authCallCount).toBe(1);
 
-    // Invalidate the token (simulates expired token detected)
-    plugin.invalidateToken();
+    // Clear the cached token (simulates expired token detected)
+    plugin.clearCachedToken();
 
     // Fire 5 concurrent requests that all need to refresh
     const promises = Array.from({ length: 5 }, () =>
@@ -237,7 +237,7 @@ describe('Oauth2TokenRequest - concurrent token refresh', () => {
     expect(result2.headers.get('Authorization')!.startsWith('Bearer ')).toBeTruthy();
   });
 
-  it('invalidateToken with a stale JWT should not wipe a freshly refreshed token', async () => {
+  it('clearCachedToken with a stale JWT should not wipe a freshly refreshed token', async () => {
     const opts = { method: 'GET', headers: new Headers(), hostname: 'https://api.example.com' };
 
     // Cache JWT_A
@@ -245,14 +245,14 @@ describe('Oauth2TokenRequest - concurrent token refresh', () => {
     const tokenA = r1.headers.get('Authorization');
     expect(tokenA).toBe('Bearer jwt-token-1');
 
-    // Force a refresh by passing the unconditional-invalidate form
-    plugin.invalidateToken();
+    // Force a refresh by passing the unconditional-clearCache form
+    plugin.clearCachedToken();
     await plugin.load().transform({ ...opts, headers: new Headers() });
     expect(authCallCount).toBe(2);
 
-    // Now simulate a stale-JWT 401 retry calling invalidateToken with JWT_A.
-    // The cached token is JWT_B: invalidateToken must be a no-op.
-    plugin.invalidateToken('jwt-token-1');
+    // Now simulate a stale-JWT 401 retry calling clearCachedToken with JWT_A.
+    // The cached token is JWT_B: clearCachedToken must be a no-op.
+    plugin.clearCachedToken('jwt-token-1');
 
     // Next call should reuse JWT_B (no extra auth fetch)
     const r2 = await plugin.load().transform({ ...opts, headers: new Headers() });
