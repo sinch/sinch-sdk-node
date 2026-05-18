@@ -237,6 +237,153 @@ describe('Oauth2TokenRequest - concurrent token refresh', () => {
     expect(result2.headers.get('Authorization')!.startsWith('Bearer ')).toBeTruthy();
   });
 
+  describe('429 rate-limit retry', () => {
+    let randomSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      // Force the full-jitter exponential backoff to pick 0ms so tests don't sleep.
+      randomSpy = jest.spyOn(Math, 'random').mockReturnValue(0);
+    });
+
+    afterEach(() => {
+      randomSpy.mockRestore();
+    });
+
+    const make429 = () =>
+      new Response('', {
+        status: 429,
+        statusText: 'Too Many Requests',
+        headers: { 'x-envoy-ratelimited': 'true' },
+      });
+
+    const makeSuccess = (token: string) =>
+      new Response(JSON.stringify({
+        access_token: token,
+        expires_in: 3600,
+        scope: '',
+        token_type: 'bearer',
+      }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+
+    it('retries on 429 and succeeds when the bucket refills', async () => {
+      let calls = 0;
+      mockedFetch.mockImplementation(async (url: string) => {
+        if (!url.includes('/oauth2/token')) {
+          return new Response('Not Found', { status: 404 });
+        }
+        calls++;
+        // 429 on the first call, success on the second
+        return calls === 1 ? make429() : makeSuccess('recovered-after-429');
+      });
+
+      const opts = { method: 'GET', headers: new Headers(), hostname: 'https://api.example.com' };
+      const result = await plugin.load().transform({ ...opts, headers: new Headers() });
+
+      expect(calls).toBe(2);
+      expect(result.headers.get('Authorization')).toBe('Bearer recovered-after-429');
+    });
+
+    it('propagates the 429 once the retry budget is exhausted', async () => {
+      let calls = 0;
+      mockedFetch.mockImplementation(async (url: string) => {
+        if (!url.includes('/oauth2/token')) {
+          return new Response('Not Found', { status: 404 });
+        }
+        calls++;
+        return make429();
+      });
+
+      const opts = { method: 'GET', headers: new Headers(), hostname: 'https://api.example.com' };
+      await expect(
+        plugin.load().transform({ ...opts, headers: new Headers() }),
+      ).rejects.toThrow(/429/);
+
+      // initial attempt + 3 retries = 4 fetch calls
+      expect(calls).toBe(4);
+    });
+
+    it('does not retry non-429 auth errors (e.g. 500)', async () => {
+      let calls = 0;
+      mockedFetch.mockImplementation(async (url: string) => {
+        if (!url.includes('/oauth2/token')) {
+          return new Response('Not Found', { status: 404 });
+        }
+        calls++;
+        return new Response('', { status: 500, statusText: 'Internal Server Error' });
+      });
+
+      const opts = { method: 'GET', headers: new Headers(), hostname: 'https://api.example.com' };
+      await expect(
+        plugin.load().transform({ ...opts, headers: new Headers() }),
+      ).rejects.toThrow(/500/);
+
+      // No retry on 5xx — single attempt only
+      expect(calls).toBe(1);
+    });
+
+    it('honors Retry-After: 0 from the auth server', async () => {
+      // Force Math.random() to 0.5 so the two branches produce 
+      // distinguishable delays we can assert on:
+      //   Retry-After path : 0    + floor(0.5 × 250)  = 125ms
+      //   Exponential path : floor(0.5 × 1000)        = 500ms
+      randomSpy.mockReturnValue(0.5);
+      const setTimeoutSpy = jest.spyOn(global, 'setTimeout');
+
+      let calls = 0;
+      mockedFetch.mockImplementation(async (url: string) => {
+        if (!url.includes('/oauth2/token')) {
+          return new Response('Not Found', { status: 404 });
+        }
+        calls++;
+        if (calls === 1) {
+          return new Response('', {
+            status: 429,
+            statusText: 'Too Many Requests',
+            headers: { 'retry-after': '0' },
+          });
+        }
+        return makeSuccess('after-retry-after');
+      });
+
+      const opts = { method: 'GET', headers: new Headers(), hostname: 'https://api.example.com' };
+      const result = await plugin.load().transform({ ...opts, headers: new Headers() });
+
+      expect(calls).toBe(2);
+      expect(result.headers.get('Authorization')).toBe('Bearer after-retry-after');
+
+      // Prove the Retry-After branch scheduled the wait, and that it ran exactly once.
+      const backoffDelays = setTimeoutSpy.mock.calls
+        .map((args) => args[1])
+        .filter((d) => d === 125 || d === 500);
+      expect(backoffDelays).toEqual([125]);
+
+      setTimeoutSpy.mockRestore();
+    });
+
+    it('dedups the retry across concurrent callers', async () => {
+      let calls = 0;
+      mockedFetch.mockImplementation(async (url: string) => {
+        if (!url.includes('/oauth2/token')) {
+          return new Response('Not Found', { status: 404 });
+        }
+        calls++;
+        return calls === 1 ? make429() : makeSuccess('shared-retry');
+      });
+
+      const baseOpts = { method: 'GET', headers: new Headers(), hostname: 'https://api.example.com' };
+      const results = await Promise.all(
+        Array.from({ length: 10 }, () =>
+          plugin.load().transform({ ...baseOpts, headers: new Headers() }),
+        ),
+      );
+
+      // 10 concurrent callers, 1 shared retry sequence → exactly 2 auth calls (429 then 200)
+      expect(calls).toBe(2);
+      for (const r of results) {
+        expect(r.headers.get('Authorization')).toBe('Bearer shared-retry');
+      }
+    });
+  });
+
   it('clearCachedToken with a stale JWT should not wipe a freshly refreshed token', async () => {
     const opts = { method: 'GET', headers: new Headers(), hostname: 'https://api.example.com' };
 
