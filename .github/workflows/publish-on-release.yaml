@@ -1,0 +1,70 @@
+name: Publish on release
+
+# Fires automatically when a GitHub Release is published from the UI.
+# Workflow:
+#   1. Author "Prepare release X.Y.Z" PR
+#   2. Merge that PR into the target branch (e.g. v1.4).
+#   3. Create a release on github.com: tag = "vX.Y.Z", target = the same branch,
+#      write release notes, click "Publish release".
+#   4. This workflow takes over from here: checks out the tag, installs, builds,
+#      runs unit tests, then publishes every workspace package to npmjs.com in
+#      the right dependency order.
+#
+# Requires the repository secret `NPM_TOKEN` (an npm "Automation" or
+# "Granular Access" token with publish rights on the @sinch scope).
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+# If two releases are published back-to-back, serialize them. Canceling an
+# in-flight publish midway would leave the dep graph half-shipped, so we wait.
+concurrency:
+  group: publish-on-release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout release tag
+        uses: actions/checkout@v4
+        with:
+          # The release event sets github.ref to refs/tags/<tag>; checking out
+          # the tag name keeps the working tree at exactly what was released,
+          # not a moving branch head.
+          ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          # `registry-url` writes an `.npmrc` that references `NODE_AUTH_TOKEN`,
+          # which is what `npm publish` reads further down.
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build all packages
+        run: yarn run build
+
+      - name: Run unit tests
+        # Safety net before pushing to npm. npm publishes are immutable —
+        # un-publish is only allowed within 72h, and even then it leaves a
+        # tombstone. Better to catch a regression here than ship it.
+        run: yarn run test
+
+      - name: Publish packages to npm
+        run: |
+          set -euo pipefail
+          for pkg in sdk-client conversation elastic-sip-trunking fax number-lookup \
+                     numbers sms verification voice sdk-core; do
+            (cd "packages/$pkg" && npm publish --access public)
+          done
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

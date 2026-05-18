@@ -1,3 +1,6 @@
+## Version 1.4.2
+- [Bugfix] OAuth2 429 backoff with full-jitter retry
+
 ## Version 1.4.1
 - [Bugfix] Harness OAuth2 token refresh
 
