@@ -44,15 +44,22 @@ export class RequestFailedError<T> extends GenericError {
    */
   public data?: string;
 
+  /**
+   * Response headers (lower-cased keys), captured at the moment of failure.
+   */
+  public responseHeaders?: { [key: string]: string };
+
   constructor(
     message: string,
     statusCode: number,
     errorContext: ErrorContext,
     data?: T,
+    responseHeaders?: { [key: string]: string },
   ) {
     super(`[status: ${statusCode}] ${message}`, errorContext);
     this.statusCode = statusCode;
     this.data = JSON.stringify(data, null, 2);
+    this.responseHeaders = responseHeaders;
   }
 }
 
