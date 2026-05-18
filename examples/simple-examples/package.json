@@ -221,7 +221,7 @@
     "voice:conferences:kickAll": "ts-node src/voice/conferences/kickAll.ts"
   },
   "dependencies": {
-    "@sinch/sdk-core": "^1.4.2",
+    "@sinch/sdk-core": "^1.4.3",
     "dotenv": "^17.2.3"
   },
   "devDependencies": {
