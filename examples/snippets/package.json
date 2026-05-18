@@ -6,7 +6,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@sinch/sdk-core": "^1.4.2"
+    "@sinch/sdk-core": "^1.4.3"
   },
   "scripts": {
     "build": "tsc --noEmit",
