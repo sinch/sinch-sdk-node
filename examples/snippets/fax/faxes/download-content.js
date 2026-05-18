@@ -20,7 +20,6 @@ async function main() {
   try {
     const response = await sinch.fax.faxes.downloadContent({
       id: faxId,
-      fileFormat: 'pdf',
     });
     console.log('✅ Successfully downloaded the Fax content.');
     writeFileSync(`fax_${faxId}.pdf`, response.buffer);
