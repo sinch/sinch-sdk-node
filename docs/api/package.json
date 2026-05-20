@@ -1,0 +1,17 @@
+{
+  "name": "@sinch/sdk-api-docs",
+  "private": true,
+  "description": "TypeDoc API reference for @sinch/sdk-core",
+  "scripts": {
+    "build": "npm install && node prepare-readme.mjs && typedoc",
+    "zip:docs": "test -f docs/index.html || (echo 'Run npm run build first' && exit 1); rm -f api-docs.zip && (cd docs && zip -qr ../api-docs.zip .)",
+    "start": "npx --yes serve docs -l 8080"
+  },
+  "devDependencies": {
+    "typedoc": "^0.28",
+    "typescript": "~5.8"
+  },
+  "dependencies": {
+    "@sinch/sdk-core": "1.4.3"
+  }
+}

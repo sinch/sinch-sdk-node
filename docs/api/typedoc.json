@@ -1,0 +1,12 @@
+{
+  "entryPoints": ["./node_modules/@sinch/sdk-core/dist/index.d.ts"],
+  "tsconfig": "./tsconfig.json",
+  "out": "./docs",
+  "readme": "./readme.md",
+  "excludeExternals": false,
+  "excludePrivate": true,
+  "visibilityFilters": {
+    "external": true
+  },
+  "plugin": ["./typedoc-plugin.mjs"]
+}
