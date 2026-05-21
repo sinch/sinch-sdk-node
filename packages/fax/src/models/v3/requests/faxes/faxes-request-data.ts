@@ -9,7 +9,10 @@ export interface DeleteFaxContentRequestData {
 export interface DownloadFaxContentRequestData {
   /** The ID of the fax. */
   'id': string;
-  /** The file format to download. Currently only PDF is supported. */
+  /**
+   * The file format to download. Currently only PDF is supported.
+   * @deprecated Use `downloadContent` without `fileFormat`. The path parameter is deprecated in the Fax API; see https://developers.sinch.com/docs/fax/api-reference/fax/faxes/getfaxfilebyid
+   */
   'fileFormat'?: 'pdf';
 }
 export interface GetFaxRequestData {

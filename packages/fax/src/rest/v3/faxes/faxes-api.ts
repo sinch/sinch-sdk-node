@@ -67,7 +67,6 @@ export class FaxesApi extends FaxDomainApi {
    * @param { DownloadFaxContentRequestData } data - The data to provide to the API call.
    */
   public async downloadContent(data: DownloadFaxContentRequestData): Promise<FileBuffer> {
-    data['fileFormat'] = data['fileFormat'] !== undefined ? data['fileFormat'] : 'pdf';
     const getParams = this.client.extractQueryParams<DownloadFaxContentRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -75,7 +74,17 @@ export class FaxesApi extends FaxDomainApi {
     };
 
     const body: RequestBody = '';
-    const basePathUrl = `${this.client.apiClientOptions.hostname}/v3/projects/${this.client.apiClientOptions.projectId}/faxes/${data['id']}/file.${data['fileFormat']}`;
+    const filePath = `${this.client.apiClientOptions.hostname}/v3/projects/${this.client.apiClientOptions.projectId}/faxes/${data['id']}/file`;
+    let basePathUrl: string;
+    let operationId: string;
+    if (data['fileFormat'] !== undefined) {
+      console.info('Deprecated: The fileFormat path parameter is deprecated. Use downloadContent without fileFormat. See https://developers.sinch.com/docs/fax/api-reference/fax/faxes/getfaxfilebyid');
+      basePathUrl = `${filePath}.${data['fileFormat']}`;
+      operationId = 'GetFaxFileByIdDeprecated';
+    } else {
+      basePathUrl = filePath;
+      operationId = 'GetFaxFileById';
+    }
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
     const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
@@ -84,7 +93,7 @@ export class FaxesApi extends FaxDomainApi {
       url,
       requestOptions,
       apiName: this.apiName,
-      operationId: 'GetFaxFileById',
+      operationId,
     });
   }
 
