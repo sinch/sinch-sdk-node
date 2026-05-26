@@ -319,6 +319,44 @@ describe('AccessControlListApi', () => {
     });
   });
 
+  describe ('trunksByAcl', () => {
+    it('should make a GET request to list all trunks that use the specified access control list', async () => {
+      // Given
+      const requestData: ElasticSipTrunking.ListTrunksForAccessControlListRequestData = {
+        id: '01HA2E80QCBX185VVP21PJG9CT',
+      };
+      const mockData: ElasticSipTrunking.SipTrunk[] = [
+        {
+          id: 'trunkId',
+          hostName: 'acme-domain-1',
+          topLevelDomain: '.elastic-sip.sinch.com',
+          domain: 'acme-domain-1.elastic-sip.sinch.com',
+          name: 'Acme Trunk',
+          callsPerSecond: 100,
+          enableCallerName: true,
+          createTime: new Date('2022-01-01T00:00:00Z'),
+          updateTime: new Date('2022-01-01T00:00:00Z'),
+          projectId: '1bf62742-7b84-4666-9cbe-8e5734fd57d0',
+        },
+      ];
+      const expectedResponse = {
+        data: mockData,
+        hasNextPage: false,
+        nextPageValue: '',
+        nextPage: jest.fn(),
+      };
+
+      // When
+      fixture.listTrunks.mockResolvedValue(expectedResponse);
+      accessControlListApi.listTrunks = fixture.listTrunks;
+      const response = await accessControlListApi.listTrunks(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.listTrunks).toHaveBeenCalledWith(requestData);
+    });
+  });
+
   describe ('getAccessControlListsForTrunk', () => {
     it('should make a GET request to fetch all access control list entries for a trunk', async () => {
       // Given
