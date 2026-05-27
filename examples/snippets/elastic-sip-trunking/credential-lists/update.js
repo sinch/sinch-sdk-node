@@ -23,7 +23,7 @@ async function main() {
         name: 'Updated credential list name',
       },
     });
-    console.log('✅ Successfully updated the credential list.');
+    console.log(`✅ Successfully updated the credential list with ID ${credentialListId}.`);
     console.log(JSON.stringify(response, null, 2));
   } catch (err) {
     console.error(`❌ Failed to update the credential list with ID ${credentialListId}:`);

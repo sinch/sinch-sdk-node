@@ -26,10 +26,10 @@ async function main() {
         password: 'newSecurePassword123[]',
       },
     });
-    console.log('✅ Successfully updated the credential password.');
+    console.log(`✅ Successfully updated the credential password for the username ${credentialUsername} in credential list ${credentialListId}.`);
     console.log(JSON.stringify(response, null, 2));
   } catch (err) {
-    console.error(`❌ Failed to update the credential with username ${credentialUsername} in credential list ${credentialListId}:`);
+    console.error(`❌ Failed to update the credential password for the username ${credentialUsername} in credential list ${credentialListId}:`);
     console.error(err);
   }
 }
