@@ -17,6 +17,8 @@ let addedAclsList: ElasticSipTrunking.AddAccessControlListToTrunk;
 let listAclIdsResponse: PageResult<string>;
 let aclIdsList: string[];
 let deleteAclFromTrunkResponse: void;
+let sipTrunksByAclResponse: PageResult<ElasticSipTrunking.SipTrunk>;
+let sipTrunksByAclList: ElasticSipTrunking.SipTrunk[];
 
 Given('the Elastic SIP Trunking service "Access Control Lists" is available', function () {
   const elasticSipTrunkingService = new ElasticSipTrunkingService({
@@ -312,6 +314,51 @@ Then('the ACLs list [from the ACL service] contains {string} ACLs for a SIP Trun
 Then('the ACLs for a SIP Trunk iteration result [using the ACL service] contains the data from {string} pages',  (expectedAnswer: string) => {
   const expectedPagesCount = parseInt(expectedAnswer, 10);
   assert.equal(pagesIteration, expectedPagesCount);
+});
+
+When('I send a request to list the existing SIP Trunks using an Access Control List', async () => {
+  sipTrunksByAclResponse = await accessControlListsApi.listTrunks({ id: '01W4FFL35P4NC4K35SIPACL001' });
+});
+
+Then('the response contains {string} SIP Trunks using an Access Control List', (expected: string) => {
+  assert.equal(sipTrunksByAclResponse.data.length, parseInt(expected, 10));
+});
+
+When('I send a request to list all the SIP Trunks using an Access Control List', async () => {
+  sipTrunksByAclList = [];
+  for await (const trunk of accessControlListsApi.listTrunks({ id: '01W4FFL35P4NC4K35SIPACL001' })) {
+    sipTrunksByAclList.push(trunk);
+  }
+});
+
+Then('the SIP Trunks list contains {string} SIP Trunks using an Access Control List', (expected: string) => {
+  assert.equal(sipTrunksByAclList.length, parseInt(expected, 10));
+});
+
+When('I iterate manually over the SIP Trunks using an Access Control List pages', async () => {
+  sipTrunksByAclList = [];
+  sipTrunksByAclResponse = await accessControlListsApi.listTrunks({ id: '01W4FFL35P4NC4K35SIPACL001' });
+  sipTrunksByAclList.push(...sipTrunksByAclResponse.data);
+  pagesIteration = 1;
+  let reachedEndOfPages = false;
+  while (!reachedEndOfPages) {
+    if (sipTrunksByAclResponse.hasNextPage) {
+      sipTrunksByAclResponse = await sipTrunksByAclResponse.nextPage();
+      sipTrunksByAclList.push(...sipTrunksByAclResponse.data);
+      pagesIteration++;
+    } else {
+      reachedEndOfPages = true;
+    }
+  }
+});
+
+Then('the SIP Trunks using an Access Control List list contains {string} SIP Trunks', (expected: string) => {
+  assert.equal(sipTrunksByAclList.length, parseInt(expected, 10));
+});
+
+// eslint-disable-next-line max-len
+Then('the SIP Trunks using an Access Control List iteration result contains the data from {string} pages', (expected: string) => {
+  assert.equal(pagesIteration, parseInt(expected, 10));
 });
 
 When('I send a request to delete an ACL from a SIP trunk [using the ACL service]', async () => {
