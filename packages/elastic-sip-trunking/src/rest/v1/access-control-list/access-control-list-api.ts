@@ -19,9 +19,11 @@ import {
   UpdateAccessControlListRequestData,
   UpdateIpRangeFromAccessControlListRequestData,
   ListAccessControlListsForTrunkRequestData,
+  ListTrunksForAccessControlListRequestData,
   AddAccessControlListToTrunk,
   IpRange,
   GetAccessControlListRequestData,
+  SipTrunk,
 } from '../../../models';
 import { ElasticSipTrunkingDomainApi } from '../elastic-sip-trunking-domain-api';
 import { LazyElasticSipTrunkingApiClient } from '../elastic-sip-trunking-service';
@@ -62,6 +64,45 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
    */
   public async deleteFromTrunk(data: DeleteAccessControlListFromTrunkRequestData): Promise<void> {
     return this.sipTrunksApi.deleteAccessControlList(data);
+  }
+
+  /**
+   * Get trunks for ACL
+   * Returns a list of all trunks which use the specified access control list.
+   * @param { ListTrunksForAccessControlListRequestData } data - The data to provide to the API call.
+   */
+  public listTrunks(data: ListTrunksForAccessControlListRequestData): ApiListPromise<SipTrunk> {
+    const getParams = this.client.extractQueryParams<ListTrunksForAccessControlListRequestData>(data, ['page', 'size']);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = '';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/accessControlLists/${data['id']}/trunks`;
+
+    const requestOptionsPromise = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
+
+    const operationProperties: PaginatedApiProperties = {
+      pagination: PaginationEnum.PAGE2,
+      apiName: this.apiName,
+      operationId: 'TrunksByAcl',
+      dataKey: 'trunks',
+    };
+
+    const listPromise = buildPageResultPromise<SipTrunk>(
+      this.client,
+      requestOptionsPromise,
+      operationProperties,
+    );
+
+    Object.assign(
+      listPromise,
+      createIteratorMethodsForPagination<SipTrunk>(
+        this.client, requestOptionsPromise, listPromise, operationProperties),
+    );
+
+    return listPromise as ApiListPromise<SipTrunk>;
   }
 
   /**

@@ -40,6 +40,14 @@ export interface ListIpRangesForAccessControlListRequestData {
     /** The size of each page to fetch */
     'size'?: number;
 }
+export interface ListTrunksForAccessControlListRequestData {
+    /** The ID of the access control list entry. */
+    'id': string;
+    /** The page you want to fetch, can set to 1 for first page, or omitted for first page */
+    'page'?: number;
+    /** The size of each page to fetch */
+    'size'?: number;
+}
 export interface UpdateAccessControlListRequestData {
     /** The ID of the access control list entry. */
     'id': string;

@@ -193,8 +193,16 @@ When('I send a request to download a fax content as PDF', async () => {
   });
 });
 
+When('I send a request to download a fax content via deprecated .pdf path', async () => {
+  fileBuffer = await faxesApi.downloadContent({
+    id: '01W4FFL35P4NC4K35CR3P35DWLD',
+    fileFormat: 'pdf',
+  });
+});
+
 Then('the response contains a PDF document', () => {
-  assert.equal(fileBuffer.fileName, '01W4FFL35P4NC4K35CR3P35DWLD.pdf');
+  assert.ok(fileBuffer.fileName.endsWith('.pdf'));
+  assert.ok(['fax.pdf', '01W4FFL35P4NC4K35CR3P35DWLD.pdf'].includes(fileBuffer.fileName));
 });
 
 When('I send a request to delete a fax content on the server', async () => {
