@@ -320,7 +320,15 @@ When('I send a request to list the existing SIP Trunks using an Access Control L
   sipTrunksByAclResponse = await accessControlListsApi.listTrunks({ id: '01W4FFL35P4NC4K35SIPACL001' });
 });
 
+When('I send a request to list the existing SIP Trunks using an ACL', async () => {
+  sipTrunksByAclResponse = await accessControlListsApi.listTrunks({ id: '01W4FFL35P4NC4K35SIPACL001' });
+});
+
 Then('the response contains {string} SIP Trunks using an Access Control List', (expected: string) => {
+  assert.equal(sipTrunksByAclResponse.data.length, parseInt(expected, 10));
+});
+
+Then('the response contains {string} SIP Trunks using the ACL', (expected: string) => {
   assert.equal(sipTrunksByAclResponse.data.length, parseInt(expected, 10));
 });
 
@@ -331,7 +339,18 @@ When('I send a request to list all the SIP Trunks using an Access Control List',
   }
 });
 
+When('I send a request to list all the SIP Trunks using an ACL', async () => {
+  sipTrunksByAclList = [];
+  for await (const trunk of accessControlListsApi.listTrunks({ id: '01W4FFL35P4NC4K35SIPACL001' })) {
+    sipTrunksByAclList.push(trunk);
+  }
+});
+
 Then('the SIP Trunks list contains {string} SIP Trunks using an Access Control List', (expected: string) => {
+  assert.equal(sipTrunksByAclList.length, parseInt(expected, 10));
+});
+
+Then('the list of SIP Trunks using the ACL contains {string} SIP Trunks', (expected: string) => {
   assert.equal(sipTrunksByAclList.length, parseInt(expected, 10));
 });
 
@@ -352,12 +371,37 @@ When('I iterate manually over the SIP Trunks using an Access Control List pages'
   }
 });
 
+When('I iterate manually over the pages of SIP Trunks using an Access Control List', async () => {
+  sipTrunksByAclList = [];
+  sipTrunksByAclResponse = await accessControlListsApi.listTrunks({ id: '01W4FFL35P4NC4K35SIPACL001' });
+  sipTrunksByAclList.push(...sipTrunksByAclResponse.data);
+  pagesIteration = 1;
+  let reachedEndOfPages = false;
+  while (!reachedEndOfPages) {
+    if (sipTrunksByAclResponse.hasNextPage) {
+      sipTrunksByAclResponse = await sipTrunksByAclResponse.nextPage();
+      sipTrunksByAclList.push(...sipTrunksByAclResponse.data);
+      pagesIteration++;
+    } else {
+      reachedEndOfPages = true;
+    }
+  }
+});
+
 Then('the SIP Trunks using an Access Control List list contains {string} SIP Trunks', (expected: string) => {
+  assert.equal(sipTrunksByAclList.length, parseInt(expected, 10));
+});
+
+Then('the list of SIP Trunks using the ACL contains {string} SIP Trunks', (expected: string) => {
   assert.equal(sipTrunksByAclList.length, parseInt(expected, 10));
 });
 
 // eslint-disable-next-line max-len
 Then('the SIP Trunks using an Access Control List iteration result contains the data from {string} pages', (expected: string) => {
+  assert.equal(pagesIteration, parseInt(expected, 10));
+});
+
+Then('the result of the iteration on the SIP Trunks using an ACL contains the data from {string} pages', (expected: string) => {
   assert.equal(pagesIteration, parseInt(expected, 10));
 });
 
