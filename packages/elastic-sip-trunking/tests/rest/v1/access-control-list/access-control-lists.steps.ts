@@ -401,9 +401,13 @@ Then('the SIP Trunks using an Access Control List iteration result contains the 
   assert.equal(pagesIteration, parseInt(expected, 10));
 });
 
-Then('the result of the iteration on the SIP Trunks using an ACL contains the data from {string} pages', (expected: string) => {
-  assert.equal(pagesIteration, parseInt(expected, 10));
-});
+Then(
+  'the result of the iteration on the SIP Trunks using an ACL contains the data from {string} pages',
+  (expected: string) => {
+    assert.equal(pagesIteration, parseInt(expected, 10));
+  },
+);
+
 
 When('I send a request to delete an ACL from a SIP trunk [using the ACL service]', async () => {
   deleteAclFromTrunkResponse = await accessControlListsApi.deleteFromTrunk({
