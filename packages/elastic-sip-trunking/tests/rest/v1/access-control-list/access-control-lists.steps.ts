@@ -392,10 +392,6 @@ Then('the SIP Trunks using an Access Control List list contains {string} SIP Tru
   assert.equal(sipTrunksByAclList.length, parseInt(expected, 10));
 });
 
-Then('the list of SIP Trunks using the ACL contains {string} SIP Trunks', (expected: string) => {
-  assert.equal(sipTrunksByAclList.length, parseInt(expected, 10));
-});
-
 // eslint-disable-next-line max-len
 Then('the SIP Trunks using an Access Control List iteration result contains the data from {string} pages', (expected: string) => {
   assert.equal(pagesIteration, parseInt(expected, 10));
