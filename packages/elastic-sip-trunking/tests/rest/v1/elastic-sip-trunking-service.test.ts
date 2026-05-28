@@ -3,6 +3,7 @@ import {
   AccessControlListApi, CallsHistoryApi,
   CountryPermissionsApi,
   ElasticSipTrunkingService,
+  PhoneNumbersApi,
   SipEndpointsApi,
   SipTrunksApi,
 } from '../../../src';
@@ -50,11 +51,13 @@ describe('Elastic SIP Trunking Service', () => {
     expect(elasticSipTrunkingService.accessControlList).toBeInstanceOf(AccessControlListApi);
     expect(elasticSipTrunkingService.countryPermissions).toBeInstanceOf(CountryPermissionsApi);
     expect(elasticSipTrunkingService.calls).toBeInstanceOf(CallsHistoryApi);
+    expect(elasticSipTrunkingService.phoneNumbers).toBeInstanceOf(PhoneNumbersApi);
     expect(elasticSipTrunkingService.sipTrunks.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(elasticSipTrunkingService.sipEndpoints.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(elasticSipTrunkingService.accessControlList.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(elasticSipTrunkingService.countryPermissions.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(elasticSipTrunkingService.calls.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(elasticSipTrunkingService.phoneNumbers.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
   });
 
   it('should set a custom hostname for all APIs', () => {
@@ -75,6 +78,7 @@ describe('Elastic SIP Trunking Service', () => {
     expect(elasticSipTrunkingService.accessControlList.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
     expect(elasticSipTrunkingService.countryPermissions.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
     expect(elasticSipTrunkingService.calls.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(elasticSipTrunkingService.phoneNumbers.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
 
   it('should set new credentials for all APIs', () => {
@@ -97,6 +101,7 @@ describe('Elastic SIP Trunking Service', () => {
     expect(elasticSipTrunkingService.accessControlList.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
     expect(elasticSipTrunkingService.countryPermissions.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
     expect(elasticSipTrunkingService.calls.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
+    expect(elasticSipTrunkingService.phoneNumbers.client.apiClientOptions.projectId).toBe('NEW_PROJECT_ID');
   });
 
   it('should raise an exception if the credentials are invalid', () => {
@@ -120,6 +125,7 @@ describe('Elastic SIP Trunking Service', () => {
     expect(elasticSipTrunkingService.accessControlList.client.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(elasticSipTrunkingService.countryPermissions.client.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(elasticSipTrunkingService.calls.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(elasticSipTrunkingService.phoneNumbers.client.apiClientOptions.projectId).toBe('PROJECT_ID');
   });
 
   it('should use the injected ApiFetchClient and invoke its custom plugins', async () => {
