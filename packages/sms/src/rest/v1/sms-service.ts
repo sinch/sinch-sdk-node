@@ -17,7 +17,7 @@ export const DEFAULT_SMS_REGION_DEPRECATION_WARNING = '** DEPRECATION NOTICE ** 
   + 'to "us" anymore. Please set it to a valid region.';
 
 export class LazySmsApiClient {
-  private apiFetchClient?: ApiFetchClient;
+  apiFetchClient?: ApiFetchClient;
   constructor(public sharedConfig: SinchClientParameters) {}
 
   public getApiClient(): ApiFetchClient {
@@ -62,7 +62,7 @@ export class SmsService {
   public readonly batches: BatchesApi;
   public readonly inbounds: InboundsApi;
 
-  private readonly lazyClient: LazySmsApiClient;
+  public readonly lazyClient: LazySmsApiClient;
 
   /**
    * Create a new SmsService instance with its configuration. This service can be instantiated with 2 different authentication mechanisms:

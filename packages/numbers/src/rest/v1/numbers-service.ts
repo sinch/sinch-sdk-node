@@ -31,7 +31,7 @@ import {
 } from '../../models';
 
 export class LazyNumbersApiClient {
-  private apiFetchClient?: ApiFetchClient;
+  apiFetchClient?: ApiFetchClient;
   constructor(public sharedConfig: SinchClientParameters) {}
 
   public getApiClient(): ApiFetchClient {
@@ -63,7 +63,7 @@ export class NumbersService {
   /** @deprecated Use the methods exposed at the Numbers Service level instead */
   public readonly activeNumber: ActiveNumberApi;
 
-  private readonly lazyClient: LazyNumbersApiClient;
+  public readonly lazyClient: LazyNumbersApiClient;
 
   /**
    * Create a new NumbersService instance with its configuration. It needs the following parameters for authentication:

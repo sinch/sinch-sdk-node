@@ -12,7 +12,6 @@ import * as path from 'path';
 
   const requestData: Fax.DownloadFaxContentRequestData = {
     id: faxId,
-    fileFormat: 'pdf',
   };
 
   const faxService = initFaxService();

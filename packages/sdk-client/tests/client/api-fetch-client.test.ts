@@ -25,7 +25,7 @@ describe('manageExpiredToken', () => {
 
     oauth2Plugin = {
       getName: () => RequestPluginEnum.OAUTH2_TOKEN_REQUEST,
-      invalidateToken: jest.fn(() => {
+      clearCachedToken: jest.fn(() => {
         token = undefined;
       }),
       load: () => ({
@@ -80,7 +80,7 @@ describe('manageExpiredToken', () => {
     });
 
     expect(result).toEqual({ data: 'success' });
-    expect(oauth2Plugin.invalidateToken).toHaveBeenCalledTimes(1);
+    expect(oauth2Plugin.clearCachedToken).toHaveBeenCalledTimes(1);
     expect(mockedFetch).toHaveBeenCalledTimes(2);
     expect(mockedFetch.mock.calls[0][1].headers.get('Authorization')).toBe('Bearer expired-token');
     expect(mockedFetch.mock.calls[1][1].headers.get('Authorization')).toBe('Bearer new-token');
@@ -128,7 +128,7 @@ describe('manageExpiredToken', () => {
 
     expect(result).toMatchObject(expectedResponse);
     expect(typeof result.nextPage).toBe('function');
-    expect(oauth2Plugin.invalidateToken).toHaveBeenCalledTimes(1);
+    expect(oauth2Plugin.clearCachedToken).toHaveBeenCalledTimes(1);
     expect(mockedFetch).toHaveBeenCalledTimes(2);
     expect(mockedFetch.mock.calls[0][1].headers.get('Authorization')).toBe('Bearer expired-token');
     expect(mockedFetch.mock.calls[1][1].headers.get('Authorization')).toBe('Bearer new-token');
@@ -172,7 +172,7 @@ describe('manageExpiredToken', () => {
     };
 
     expect(result).toMatchObject(expectedResponse);
-    expect(oauth2Plugin.invalidateToken).toHaveBeenCalledTimes(1);
+    expect(oauth2Plugin.clearCachedToken).toHaveBeenCalledTimes(1);
     expect(mockedFetch).toHaveBeenCalledTimes(2);
     expect(mockedFetch.mock.calls[0][1].headers.get('Authorization')).toBe('Bearer expired-token');
     expect(mockedFetch.mock.calls[1][1].headers.get('Authorization')).toBe('Bearer new-token');

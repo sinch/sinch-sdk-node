@@ -9,7 +9,7 @@ import { NumberLookupApi } from './number-lookup';
 import { NumberLookupRequestData, NumberLookupResponse } from '../../models';
 
 export class LazyNumberLookupApiClient {
-  private apiFetchClient?: ApiFetchClient;
+  apiFetchClient?: ApiFetchClient;
   constructor(public sharedConfig: SinchClientParameters) {}
 
   public getApiClient(): ApiFetchClient {
@@ -29,7 +29,7 @@ export class LazyNumberLookupApiClient {
 export class NumberLookupService {
   private readonly _numberLookup: NumberLookupApi;
 
-  private readonly lazyClient: LazyNumberLookupApiClient;
+  public readonly lazyClient: LazyNumberLookupApiClient;
 
   constructor(params: SinchClientParameters) {
     const sharedClient = new LazyNumberLookupApiClient(params);

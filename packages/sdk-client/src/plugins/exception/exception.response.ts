@@ -38,11 +38,16 @@ export class ExceptionResponse<
             errorContext,
           );
         } else if (!context.response.ok) {
+          const headers: { [key: string]: string } = {};
+          context.response.headers.forEach((value, key) => {
+            headers[key.toLowerCase()] = value;
+          });
           error = new RequestFailedError<V>(
             context.response.statusText,
             context.response.status,
             errorContext,
             res,
+            headers,
           );
         } else if (!res) {
           if (context.response.status !== 204
