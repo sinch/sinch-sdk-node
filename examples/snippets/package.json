@@ -91,7 +91,7 @@
     "elastic-sip-trunking:access-control-list:trunk:add": "node elastic-sip-trunking/access-control-list/trunk/add-to-trunk.js",
     "elastic-sip-trunking:access-control-list:trunk:list": "node elastic-sip-trunking/access-control-list/trunk/list-for-trunk.js",
     "elastic-sip-trunking:access-control-list:trunk:delete": "node elastic-sip-trunking/access-control-list/trunk/delete-from-trunk.js",
-    "elastic-sip-trunking:access-control-list:trunks:list": "node elastic-sip-trunking/access-control-list/trunks/list-trunks.js",
+    "elastic-sip-trunking:access-control-list:list-trunks": "node elastic-sip-trunking/access-control-list/list-trunks.js",
     "elastic-sip-trunking:credential-lists:list": "node elastic-sip-trunking/credential-lists/list.js",
     "elastic-sip-trunking:credential-lists:create": "node elastic-sip-trunking/credential-lists/create.js",
     "elastic-sip-trunking:credential-lists:get": "node elastic-sip-trunking/credential-lists/get.js",
