@@ -11,6 +11,7 @@ async function main() {
   const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
   const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
+  // The phone number you want to search for.
   const phoneNumber = process.env.PHONE_NUMBER ?? '+15552229999';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });

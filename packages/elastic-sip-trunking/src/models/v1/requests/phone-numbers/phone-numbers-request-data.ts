@@ -10,6 +10,6 @@ export interface ListPhoneNumbersRequestData {
 }
 
 export interface GetPhoneNumberRequestData {
-    /** The phone number in E.164 format with leading `+`. */
+    /** The phone number you want to search for. Must be in E.164 format. */
     'phoneNumber': string;
 }
