@@ -15,7 +15,8 @@
     "bootstrap": "npx lerna bootstrap",
     "build": "lerna run build",
     "test": "jest",
-    "e2e": "lerna run test:e2e"
+    "e2e": "lerna run test:e2e",
+    "docs:api": "yarn build && cd docs/api && npm run build"
   },
   "keywords": [],
   "devDependencies": {

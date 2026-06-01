@@ -3,10 +3,26 @@
   "tsconfig": "./tsconfig.json",
   "out": "./docs",
   "readme": "./readme.md",
+  "name": "Sinch Node.js SDK",
+  "includeVersion": true,
+  "cleanOutputDir": true,
   "excludeExternals": false,
   "excludePrivate": true,
   "visibilityFilters": {
     "external": true
   },
+  "navigation": {
+    "excludeReferences": true
+  },
+  "navigationLinks": {
+    "GitHub": "https://github.com/sinch/sinch-sdk-node",
+    "npm": "https://www.npmjs.com/package/@sinch/sdk-core",
+    "Developers": "https://developers.sinch.com/docs/"
+  },
+  "validation": {
+    "notDocumented": true,
+    "invalidLink": true
+  },
+  "treatValidationWarningsAsErrors": true,
   "plugin": ["./typedoc-plugin.mjs"]
 }
