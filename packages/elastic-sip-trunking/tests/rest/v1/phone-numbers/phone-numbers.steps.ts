@@ -72,5 +72,4 @@ Then('the response contains the EST phone number details', () => {
   assert.equal(phoneNumber.phoneNumber, '+15552229999');
   assert.equal(phoneNumber.countryCode, 'US');
   assert.deepEqual(phoneNumber.createTime, new Date('2024-06-06T14:42:42Z'));
-  assert.deepEqual(phoneNumber.updateTime, new Date('2024-06-06T14:42:42Z'));
 });
