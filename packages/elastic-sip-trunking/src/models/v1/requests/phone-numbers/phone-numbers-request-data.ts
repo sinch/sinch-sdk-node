@@ -5,8 +5,6 @@ export interface ListPhoneNumbersRequestData {
     'page'?: number;
     /** The size of each page to fetch */
     'size'?: number;
-    /** An array setting the sorting criteria in the format of `property,(ascending/descending)` */
-    'sort'?: Array<string>;
 }
 
 export interface GetPhoneNumberRequestData {

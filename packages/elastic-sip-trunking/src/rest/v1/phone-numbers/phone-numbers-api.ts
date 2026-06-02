@@ -48,13 +48,13 @@ export class PhoneNumbersApi extends ElasticSipTrunkingDomainApi {
 
   /**
    * Get all phone numbers
-   * Get all phone numbers. You can filter and sort the phone numbers returned with paging.
+   * Get all phone numbers. You can filter the phone numbers returned with paging.
    * @param { ListPhoneNumbersRequestData } data - The data to provide to the API call.
    * @return { ApiListPromise<PhoneNumber> }
    */
   public list(data?: ListPhoneNumbersRequestData): ApiListPromise<PhoneNumber> {
     const getParams = this.client.extractQueryParams<ListPhoneNumbersRequestData>(data ?? {},
-      ['sipTrunkId', 'page', 'size', 'sort']);
+      ['sipTrunkId', 'page', 'size']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

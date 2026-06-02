@@ -55,7 +55,6 @@ describe('PhoneNumbersApi', () => {
         sipTrunkId: '5RTRZ3NDEKTSV4RRFFQ69G5EWS',
         page: 1,
         size: 20,
-        sort: ['phoneNumber,(ascending)'],
       };
       const mockData: ElasticSipTrunking.PhoneNumber[] = [
         {
