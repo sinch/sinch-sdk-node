@@ -48,7 +48,6 @@ export class FaxCallbackWebhooks implements CallbackProcessor<FaxWebhookEventPar
           throw new Error(`Unknown Fax event: ${eventBody.event}`);
       }
     }
-    console.log(eventBody);
     throw new Error('Unknown Fax event');
   }
 
