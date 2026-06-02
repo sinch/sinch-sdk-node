@@ -21,6 +21,8 @@ export class FaxEventService {
       console.log(`** multipart/form-data\n${event.event}: ${event.fax!.id} - ${event.eventTime}`);
       console.log('Saving file...');
       const filePath = path.join('./fax-upload', file!.originalname);
+      const dir = path.dirname(filePath);
+      fs.mkdirSync(dir, { recursive: true });
       fs.writeFileSync(filePath, file!.buffer);
       console.log('File saved! ' + filePath);
     }
@@ -29,6 +31,8 @@ export class FaxEventService {
   private saveBase64File(event: Fax.IncomingFaxEventJson | Fax.FaxCompletedEventJson, faxId: string) {
     console.log('Saving file...');
     const filePath = path.join('./fax-upload', event.event + '-' + faxId + '.' + event.fileType!.toLowerCase());
+    const dir = path.dirname(filePath);
+    fs.mkdirSync(dir, { recursive: true });
     const buffer = Buffer.from(event.file!, 'base64');
     fs.writeFileSync(filePath, buffer);
     console.log('File saved! ' + filePath);

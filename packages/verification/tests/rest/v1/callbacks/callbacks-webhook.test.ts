@@ -92,7 +92,7 @@ describe('Verification Callback Webhook', () => {
       unknownProperty: 'anyValue',
     };
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
-    expect(parsedResultFunction).toThrow('Unknown Verification event');
+    expect(parsedResultFunction).toThrow(`Unknown Verification event: ${JSON.stringify(payload)}`);
   });
 
   it('should throw an error when parsing a non-existing event type', () => {

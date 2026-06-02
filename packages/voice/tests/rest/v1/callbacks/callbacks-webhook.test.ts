@@ -150,7 +150,7 @@ describe('Voice Callback Webhook', () => {
       unknownProperty: 'anyValue',
     };
     const parsedResultFunction = () => callbackWebhooks.parseEvent(payload);
-    expect(parsedResultFunction).toThrow('Unknown Voice event');
+    expect(parsedResultFunction).toThrow(`Unknown Voice event: ${JSON.stringify(payload)}`);
   });
 
   it('should throw an error when parsing a non-existing event type', () => {

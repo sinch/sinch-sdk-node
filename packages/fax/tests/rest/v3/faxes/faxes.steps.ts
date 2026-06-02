@@ -190,6 +190,7 @@ Then('the faxes list contains {string} faxes', (expectedAnswer: string) => {
 When('I send a request to download a fax content as PDF', async () => {
   fileBuffer = await faxesApi.downloadContent({
     id: '01W4FFL35P4NC4K35CR3P35DWLD',
+    fileFormat: 'pdf',
   });
 });
 
