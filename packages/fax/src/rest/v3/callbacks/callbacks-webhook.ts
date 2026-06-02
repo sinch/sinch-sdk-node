@@ -17,7 +17,7 @@ export class FaxCallbackWebhooks implements CallbackProcessor<FaxWebhookEventPar
   public parseEvent(eventBody: any): FaxWebhookEventParsed {
     if (typeof eventBody === 'string') {
       if (eventBody.trimStart().startsWith('--')) {
-        eventBody = this.parseMultipartFormData(eventBody);
+        eventBody = this.parseMultipartFormData(eventBody.trimStart());
       } else {
         eventBody = JSON.parse(eventBody);
       }
