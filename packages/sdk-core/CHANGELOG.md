@@ -1,3 +1,23 @@
+## Version 1.4.3
+- Update dependency `@sinch/conversation` to version `1.4.3`
+- Update dependency `@sinch/elastic-sip-trunking` to version `1.4.3`
+- Update dependency `@sinch/fax` to version `1.4.3`
+- Update dependency `@sinch/numbers` to version `1.4.3`
+- Update dependency `@sinch/sms` to version `1.4.3`
+- Update dependency `@sinch/verification` to version `1.4.3`
+- Update dependency `@sinch/voice` to version `1.4.3`
+- Update dependency `@sinch/number-lookup` to version `1.4.3`
+
+## Version 1.4.2
+- Update dependency `@sinch/numbers` to version `1.4.2`
+- Update dependency `@sinch/sms` to version `1.4.2`
+- Update dependency `@sinch/verification` to version `1.4.2`
+- Update dependency `@sinch/voice` to version `1.4.2`
+- Update dependency `@sinch/conversation` to version `1.4.2`
+- Update dependency `@sinch/fax` to version `1.4.2`
+- Update dependency `@sinch/elastic-sip-trunking` to version `1.4.2`
+- Update dependency `@sinch/number-lookup` to version `1.4.2`
+
 ## Version 1.4.1
 - Update dependency `@sinch/numbers` to version `1.4.1`
 - Update dependency `@sinch/sms` to version `1.4.1`

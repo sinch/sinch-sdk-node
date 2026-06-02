@@ -7,25 +7,28 @@ import { ApiCallParameters, ApiCallParametersWithPagination } from '../api/api-c
 import { ErrorContext, GenericError } from '../api/api-errors';
 import { Oauth2TokenRequest } from '../plugins';
 
+/**
+ * Clear the cached JWT (race-safely — only if the cache still holds the
+ * failing one) and re-run the OAuth2 plugin to obtain a fresh token, returning
+ * updated request options for a single retry.
+ */
 export const manageExpiredToken = async (
   apiCallParameters: ApiCallParameters | ApiCallParametersWithPagination,
   errorContext: ErrorContext,
   requestPlugins: RequestPlugin[] | undefined,
+  failingJwt?: string,
 ): Promise<RequestOptions> => {
-  // Use the circuitBreaker variable to try to regenerate a valid JWT only 3 times
-  if (!apiCallParameters.circuitBreaker) {
-    apiCallParameters.circuitBreaker = 1;
-  } else {
-    apiCallParameters.circuitBreaker++;
-    // Check the circuitBreaker value: if greater than 3, then we stop and throw
-    if (apiCallParameters.circuitBreaker >= 3) {
-      throw new GenericError(
-        'Tried to generate a new JWT with no success',
-        errorContext,
-      );
-    }
+  const oauth2Plugin = requestPlugins?.find(
+    (plugin) => plugin.getName() === RequestPluginEnum.OAUTH2_TOKEN_REQUEST,
+  );
+  if (!oauth2Plugin) {
+    throw new GenericError(
+      'Trying to clear an expired JWT from the cache while the Oauth2Token plugin is not registered to the API client',
+      errorContext,
+    );
   }
-  return await invalidateAndRegenerateJwt(requestPlugins, apiCallParameters.requestOptions, errorContext);
+  (oauth2Plugin as Oauth2TokenRequest).clearCachedToken(failingJwt);
+  return oauth2Plugin.load().transform(apiCallParameters.requestOptions);
 };
 
 export function buildErrorContext(
@@ -36,24 +39,6 @@ export function buildErrorContext(
     operationId: apiCallParameters.operationId,
     url: apiCallParameters.url,
   };
-}
-
-export async function invalidateAndRegenerateJwt(
-  requestPlugins: RequestPlugin[] | undefined,
-  options: RequestOptions,
-  errorContext: ErrorContext,
-): Promise<RequestOptions> {
-  const oauth2Plugin = requestPlugins?.find(
-    (plugin) => plugin.getName() === RequestPluginEnum.OAUTH2_TOKEN_REQUEST,
-  );
-  if (oauth2Plugin) {
-    (oauth2Plugin as Oauth2TokenRequest).invalidateToken();
-    return oauth2Plugin.load().transform(options);
-  } else {
-    const errorMessage
-      = 'Trying to invalidate an expired JWT while the Oauth2Token plugin is not registered to the API client';
-    throw new GenericError(errorMessage, errorContext);
-  }
 }
 
 /**
