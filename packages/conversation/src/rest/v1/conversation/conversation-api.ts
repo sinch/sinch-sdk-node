@@ -263,7 +263,7 @@ export class ConversationApi extends ConversationDomainApi {
 
   /**
    * Stop conversation
-   * This operation stops the referenced conversation, if the conversation is still active. A new conversation will be created if a new message is exchanged between the app or contact that was part of the stopped conversation.
+   * This operation stops the referenced conversation, if the conversation is still active. In Conversation mode, a new conversation will be created if a new message is exchanged between the app or contact that was part of the stopped conversation.
    * @param { StopActiveConversationRequestData } data - The data to provide to the API call.
    */
   public async stopActive(data: StopActiveConversationRequestData): Promise<any> {
