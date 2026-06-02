@@ -81,14 +81,14 @@ describe('Fax Callback Webhook', () => {
     expect(result.fax!.createTime).toStrictEqual(CREATE_TIME_AS_DATE);
   });
 
-  it('should parse an INCOMING_FAX event from a multipart/form-data body with CRLF', () => {
+  const buildMultipartBody = (event: string, eol: string) => {
     const boundary = '----Boundary123';
     const faxJson = JSON.stringify(FAX_OBJECT);
-    const multipartBody = [
+    return [
       `--${boundary}`,
       'Content-Disposition: form-data; name="event"',
       '',
-      'INCOMING_FAX',
+      event,
       `--${boundary}`,
       'Content-Disposition: form-data; name="eventTime"',
       '',
@@ -99,39 +99,17 @@ describe('Fax Callback Webhook', () => {
       '',
       faxJson,
       `--${boundary}--`,
-    ].join('\r\n');
+    ].join(eol);
+  };
 
-    const result = callbackWebhooks.parseEvent(multipartBody) as Fax.IncomingFaxEvent;
-    expect(result.event).toBe('INCOMING_FAX');
-    expect(result.eventTime).toStrictEqual(EVENT_TIME_AS_DATE);
-    expect(result.fax).toBeDefined();
-    expect(result.fax!.id).toBe('01KNPQW6SGZKAZEX8ZX7MCN559');
-    expect(result.fax!.createTime).toStrictEqual(CREATE_TIME_AS_DATE);
-    expect(result.fax!.completedTime).toStrictEqual(COMPLETED_TIME_AS_DATE);
-  });
-
-  it('should parse a FAX_COMPLETED event from a multipart/form-data body with CRLF', () => {
-    const boundary = '----Boundary123';
-    const faxJson = JSON.stringify(FAX_OBJECT);
-    const multipartBody = [
-      `--${boundary}`,
-      'Content-Disposition: form-data; name="event"',
-      '',
-      'FAX_COMPLETED',
-      `--${boundary}`,
-      'Content-Disposition: form-data; name="eventTime"',
-      '',
-      EVENT_TIME_AS_STRING,
-      `--${boundary}`,
-      'Content-Disposition: form-data; name="fax"',
-      'Content-Type: application/json',
-      '',
-      faxJson,
-      `--${boundary}--`,
-    ].join('\r\n');
-
-    const result = callbackWebhooks.parseEvent(multipartBody) as Fax.FaxCompletedEvent;
-    expect(result.event).toBe('FAX_COMPLETED');
+  it.each([
+    ['INCOMING_FAX', 'CRLF', '\r\n'],
+    ['INCOMING_FAX', 'LF', '\n'],
+    ['FAX_COMPLETED', 'CRLF', '\r\n'],
+    ['FAX_COMPLETED', 'LF', '\n'],
+  ])('should parse %s from multipart/form-data with %s line endings', (event, _eolLabel, eol) => {
+    const result = callbackWebhooks.parseEvent(buildMultipartBody(event, eol));
+    expect(result.event).toBe(event);
     expect(result.eventTime).toStrictEqual(EVENT_TIME_AS_DATE);
     expect(result.fax).toBeDefined();
     expect(result.fax!.id).toBe('01KNPQW6SGZKAZEX8ZX7MCN559');
