@@ -6,17 +6,12 @@ import {
   SvamlInstruction,
 } from '../mod-svaml';
 
-/**
- * SVAML actions allowed when managing an ongoing call via
- * Connect and runMenu actions are not supported on these endpoints.
- */
 export type ManagedCallSvamlAction = SvamlActionHangup
   | SvamlActionContinue
   | SvamlActionPark;
 
 /**
- * SVAML request body for managing ongoing, connected calls.
- * Only hangup, continue, and park actions are valid on these endpoints.
+ * SVAML is a call control markup language. When a server receives a callback event from the Sinch platform, it can respond with a SVAML object to control the voice call. The following is an example of a SVAML object type and its contents.
  */
 export interface ManagedCallSvamlRequestBody {
 
