@@ -157,7 +157,9 @@ describe('Fax Callback Webhook', () => {
     const payload = {
       eventTime: EVENT_TIME_AS_STRING,
     };
-    expect(() => callbackWebhooks.parseEvent(payload)).toThrow('Unknown Fax event');
+    expect(() => callbackWebhooks.parseEvent(payload)).toThrow(
+      `Unknown Fax event: ${JSON.stringify(payload)}`,
+    );
   });
 
   it('should throw an error when parsing an invalid JSON string', () => {

@@ -64,7 +64,7 @@ export class VoiceCallbackWebhooks implements CallbackProcessor<VoiceCallbackEve
           throw new Error(`Unknown Voice event type: ${eventBody.event}`);
       }
     }
-    throw new Error('Unknown Voice event');
+    throw new Error(`Unknown Voice event: ${JSON.stringify(eventBody)}`);
   }
 
   /**

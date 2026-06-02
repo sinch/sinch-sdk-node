@@ -63,7 +63,7 @@ export class VerificationCallbackWebhooks implements CallbackProcessor<Verificat
           throw new Error(`Unknown Verification event type: ${eventBody.event}`);
       }
     }
-    throw new Error('Unknown Verification event');
+    throw new Error(`Unknown Verification event: ${JSON.stringify(eventBody)}`);
   }
 
   /**
