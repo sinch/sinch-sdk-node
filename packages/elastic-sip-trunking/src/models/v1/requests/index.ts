@@ -6,3 +6,4 @@ export * from './credential-lists/credential-lists-request-data';
 export * from './projects/projects-request-data';
 export * from './sip-endpoints/sip-endpoints-request-data';
 export * from './sip-trunks/sip-trunks-request-data';
+export * from './phone-numbers/phone-numbers-request-data';

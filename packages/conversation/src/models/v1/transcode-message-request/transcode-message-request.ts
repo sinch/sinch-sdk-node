@@ -7,7 +7,7 @@ export interface TranscodeMessageRequest {
   app_id: string;
   /** @see AppMessage */
   app_message: AppMessage;
-  /** The list of channels for which the message shall be transcoded to. */
+  /** The list of channels for which the message shall be transcoded. */
   channels: ConversationChannel[];
   /** Optional. */
   from?: string;
