@@ -14,7 +14,7 @@
     "lerna": "lerna",
     "bootstrap": "npx lerna bootstrap",
     "build": "lerna run build",
-    "lint": "eslint \"packages/**/{src,tests}/**/*.ts\" \"examples/**/{src,}/**/*.{js,ts}\" --ignore-pattern \"examples/webhooks/**\"",
+    "lint": "eslint \"packages/**/{src,tests}/**/*.ts\" \"examples/**/{src,}/**/*.{js,ts}\"",
     "test": "jest",
     "e2e": "lerna run test:e2e"
   },
