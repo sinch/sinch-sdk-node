@@ -1,104 +1,73 @@
 # Sinch Node.js SDK
 
+
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/sinch/sinch-sdk-node/run-ci.yaml?branch=main)
 [![Node.js LTS](https://img.shields.io/badge/Node.js-LTS%20supported-brightgreen)](https://nodejs.org/en/download/)
 [![Latest Release](https://img.shields.io/npm/v/@sinch/sdk-core?label=%40sinch%2Fsdk-core&labelColor=FFC658)](https://www.npmjs.com/package/@sinch/sdk-core)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/sinch/sinch-sdk-node/blob/main/LICENSE)
 
-Here you'll find documentation related to the Sinch Node.js SDK, including how to install it, initialize it, and start developing Node.js code using Sinch services.
+
+Here you'll find documentation related to the Sinch Node SDK, including how to install it, initialize it, and start developing Node code using Sinch services.
 
 To use Sinch services, you'll need a Sinch account and access keys. You can sign up for an account and create access keys at [dashboard.sinch.com](https://dashboard.sinch.com).
 
-Once logged in you'll find different sets of credentials to access the various Sinch APIs:
- - On the [Account dashboard](https://dashboard.sinch.com/account/access-keys), you will find your `projectId` and access keys composed of pairs of `keyId` / `keySecret`. Unless mentioned otherwise, these are the credentials you will need to access most of the Sinch APIs
-  - For the **Verification** and **Voice** APIs, you will find pairs of `App key` / `App secret` in the [Verification dashboard](https://dashboard.sinch.com/verification/apps) and the [Voice dashboard](https://dashboard.sinch.com/voice/apps) respectively. Note that the apps are the same, regardless of where you access them.
-  - For the **SMS** API, the standard credentials (`projectId`, `keyId`, `keySecret`) are available only in the US and EU regions. If your business involves any of the other regions (BR, CA, AU), you will need to use your `servicePlanId`, which you can find on the [Service APIs dashboard](https://dashboard.sinch.com/sms/api/services). Note that the `servicePlanId` supports all regions (US, EU, BR, CA, AU).
-  - The **Conversation** API uses the standard credentials (`projectId`, `keyId`, `keySecret`) and is available in the US, EU and BR regions.
+For more information on the SDK, refer to the dedicated [Node SDK documentation section](https://developers.sinch.com/docs/sdks/node) and for the Sinch APIs on which this SDK is based, refer to the official [developer documentation portal](https://developers.sinch.com).
 
-For more information on the Sinch APIs on which this SDK is based, refer to the official [developer documentation portal](developers.sinch.com).
+## Table of contents:
+
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Getting started](#getting-started)
+- [Supported APIs](#supported-apis)
+- [Packages](#packages)
+- [Handling exceptions](#handling-exceptions)
+- [Third-party dependencies](#third-party-dependencies)
+- [Examples](#examples)
+- [Changelog](#changelog)
+- [License](#license)
+- [Contact](#contact)
 
 ## Prerequisites
 
-Before being able to execute the commands described below, you will need to install Node.js. We recommend [installing the current or the LTS version](https://nodejs.org/en).
-
-NPM will come with the Node.js installation. If you want to use `yarn` as a package manager, you'll need to install it separately with the following command:
-```bash
-npm install --global yarn
-```
+- [Node.js](https://nodejs.org/en)
+- NPM or yarn (recommended)
+- [Sinch Account](https://dashboard.sinch.com/)
 
 > **Warning**:
 > Do not use this Node.js library in front-end applications (such as Angular, React, Vue.js, etc.). Doing so can expose your Sinch credentials to end-users as part of the HTML/JavaScript files loaded on their browser.
 
-### Node.js supported versions
-
-The Sinch Node.js SDK follows the [Node.js release cycle](https://nodejs.org/en/about/previous-releases). 
-
-Support removal of EoL versions will happen in SDK major releases.
-
 ## Installation
 
-### With NPM
-
+Run the following command to install the SDK:
 ```bash
-# Create a new folder (For Windows Command Prompt or PowerShell users, replace 'mkdir' by 'md')
-mkdir my-sinch-app
-# Move to the new folder
-cd my-sinch-app
-# Init the project (provide information about your project, such as package name, version, description, ...)
 npm init
-# Install the Sinch Node.js SDK dependency
 npm install @sinch/sdk-core
 ```
 
-### With Yarn
-
+If you want to use yarn as a package manager, run:
 ```bash
-# Create a new folder (For Windows Command Prompt or PowerShell users, replace 'mkdir' by 'md')
-mkdir my-sinch-app
-# Move to the new folder
-cd my-sinch-app
-# Init the project (provide information about your project, such as package name, version, description, ...)
+npm install --global yarn
 yarn init
-# Install the Sinch Node.js SDK dependency
 yarn add @sinch/sdk-core
 ```
 
-## SDK usage
+## Getting started
 
-### Constructor
+### Client initialization
+To start using the SDK, you need to initialize the main client class with your credentials from your Sinch dashboard.
+It's highly recommended to not hardcode these credentials and to load them from environment variables instead.
 
-To initialize communication with the Sinch servers, credentials obtained from the Sinch dashboard must be provided to the main client class of this SDK. It's highly recommended to not hardcode these credentials and to load them from environment variables instead.
-
+From this client, you have access to all the SDK services:
 ```typescript
 import {
   SinchClient,
 } from '@sinch/sdk-core';
 
-const sinchClient = new SinchClient(sinchClientParameters);
-```
-where `sinchClientParameters` is an object containing the properties required to access the API you want to use:
- - for **Verification** and **Voice** APIs:
-   - `applicationKey`
-   - `applicationSecret`
-   - (For the Voice API, `voiceRegion` is optional. Default is empty).
- - for **SMS** API when using the AU, BR or CA region (works also for US and EU)
-   - `servicePlanId`
-   - `apiToken`
-   - (`smsRegion` is optional. Default is `US` - It will be required in the next major version of the SDK).
- - for all the other APIs (including SMS when using the US and EU regions only)
-   - `projectId`
-   - `keyId`
-   - `keySecret`
-   - (For the SMS API, `smsRegion` is optional. Default is `US` - It will be required in the next major version of the SDK).
-   - (For the Conversation API, `conversationRegion` is optional. Default is `US` - It will be required in the next major version of the SDK).
-
-From this client, you have access to all the SDK services that support the Sinch APIs:
-```typescript
-import {
-  SinchClient,
-} from '@sinch/sdk-core';
-
-const sinch = new SinchClient(sinchClientParameters);
+const sinchClient = new SinchClient({
+    projectId: "YOUR_project_id",
+    keyId: "YOUR_access_key",
+    keySecret: "YOUR_access_secret"
+});
 const conversationService = sinch.conversation;
 const elasticSipTrunkingService = sinch.elasticSipTrunking;
 const faxService = sinch.fax;
@@ -109,51 +78,120 @@ const verificationService = sinch.verification;
 const voiceService = sinch.voice;
 ```
 
-### Promises
+### Authentication
 
-All the methods that interact with the Sinch APIs use Promises.
+#### Project-level authentication
+
+This is the recommended, default method and the one most Sinch APIs rely on. It uses your project-level [access key](https://dashboard.sinch.com/settings/access-keys). The SDK exchanges them for a short-lived OAuth2 access token and refreshes it automatically.
+```typescript
+const {SinchClient} = require('@sinch/sdk-core');
+
+const sinchClient = new SinchClient({
+    projectId: "YOUR_project_id",
+    keyId: "YOUR_access_key",
+    keySecret: "YOUR_access_secret"
+});
+```
+
+#### Voice and Verification authentication 
+
+Voice and Verification APIs don't use project-level credentials. They authenticate with an application key and application secret, which you create per application in the [Voice dashboard](https://dashboard.sinch.com/voice/apps) or [Verification dashboard](https://dashboard.sinch.com/verification/apps). The SDK uses this pair to sign each request.
+
+For the Voice API, `voiceRegion` is optional and selects the regional endpoint. Verification does not use a region parameter.
 
 ```typescript
-const response: SendSMSResponse = await conversationService.messages.sendTextMessage({
-   sendMessageRequestBody: {
-      app_id: appId,
-      recipient: {
-         identified_by: {
-            channel_identities: [
-               {
-                  channel: 'RCS',
-                  identity: '+33612345678',
-               },
-            ],
-         },
-      },
-      message: {
-         text_message: {
-            text: 'Hi from Sinch SDK!',
-         },
-      },
-   },
-});
+const {SinchClient} = require('@sinch/sdk-core');
 
-console.log(`The RCS message has been sent successfully. Here is the message id: ${response.message_id}`)
+const sinchClient = new SinchClient({
+    applicationKey: "YOUR_application_key",
+    applicationSecret: "YOUR_application_secret",
+    voiceRegion: "euc1", // Optional. Voice API only. Defaults to "".
+});
+```
+
+#### SMS authentication
+
+The SMS API supports two authentication schemes depending on your region:
+
+- **OAuth2 (US and EU)** — Uses the same project-level [access keys](https://dashboard.sinch.com/settings/access-keys) as above (`projectId`, `keyId`, `keySecret`).
+```typescript
+const {SinchClient} = require('@sinch/sdk-core');
+
+const sinchClient = new SinchClient({
+    projectId: "YOUR_project_id",
+    keyId: "YOUR_access_key",
+    keySecret: "YOUR_access_secret",
+    smsRegion: "us" // Optional. Use "us" or "eu". Defaults to "us".
+});
+```
+
+- **Service plan (AU, BR, CA, US and EU)** — Uses a `servicePlanId` and `apiToken` from the [Service APIs dashboard](https://dashboard.sinch.com/sms/api/services).
+```typescript
+const {SinchClient} = require('@sinch/sdk-core');
+
+const sinchClient = new SinchClient({
+    servicePlanId: "YOUR_service_plan_id",
+    apiToken: "YOUR_api_token",
+    smsRegion: "au" // Optional. Use "us", "eu", "br", "au", or "ca". Defaults to "us".
+});
+```
+
+
+> **SMS authentication for new accounts**
+>
+> Accounts created after the SMS API end-of-sale (`15/04/26`) cannot use
+> project auth (OAuth2) for the SMS API requests return `401 Unauthorized`.
+>
+> If you hit this error, you have three options:
+>
+> 1. Use service-plan auth (`servicePlanId` + `apiToken`)
+> 2. Use the Conversation API, which supports OAuth2.
+> 3. Contact your account manager
+
+
+### Your first request
+
+Once your client is configured, you can send your first message. The example below uses the Conversation API to send a simple text message over RCS. Replace CONVERSATION_APP_ID with your app ID and RECIPIENT_PHONE_NUMBER with the recipient's phone number:
+
+```typescript
+  const response = await sinch.conversation.messages.send({
+      sendMessageRequestBody :{
+        app_id: CONVERSATION_APP_ID,
+        message: {
+          text_message: {
+            text: '[Node.js SDK: Conversation Message] Sample text message',
+          },
+        },
+        recipient: {
+          identified_by: {
+            channel_identities: [
+              {
+                channel: 'RCS',
+                identity: 'RECIPIENT_PHONE_NUMBER',
+              },
+            ],
+          },
+        },
+      },
+    });
+  console.log('✅ Successfully sent Message.');
+  console.log(JSON.stringify(response, null, 2));
 ```
 
 ## Supported APIs
 
-Here is the list of the Sinch products and their level of support by the Node.js SDK:
+| API Category      | API Name               | Authentication |
+|-------------------|------------------------|----------------|
+| Messaging         | Conversation API       | OAuth2         |
+| Messaging         | SMS                    | OAuth2, APP    |
+| Voice and Video   | Voice API              | APP            |
+| Voice and Video   | Elastic SIP Trunking   | OAuth2         |
+| Numbers           | Numbers API            | OAuth2         |
+| Verification      | Verification API       | APP            |
+| Verification      | Number Lookup API      | OAuth2         |
+| Fax               | Fax API                | OAuth2         |
 
-| API Category           | API Name                 | Status |
-|------------------------|--------------------------|:------:|
-| Messaging              | SMS API                  |   ✅    |
-|                        | Conversation API         |   ✅    |
-|                        | Fax API                  |   ✅    |
-| Voice and Video        | Voice API                |   ✅    |
-|                        | Elastic SIP Trunking API |   ✅    |
-| Numbers & Connectivity | Numbers API              |   ✅    |
-| Verification           | Verification API         |   ✅    |
-|                        | Number Lookup API        |   ✅    |
-
-### Packages
+## Packages
 
 The Sinch Node.js SDK is packaged in the following way:
  - [`@sinch/sdk-core`](./packages/sdk-core): package defining the `SinchClient` class and wrapping all the other packages.
@@ -167,6 +205,41 @@ The Sinch Node.js SDK is packaged in the following way:
  - [`@sinch/voice`](./packages/voice): package that contains the Voice services: Callouts, Calls, Conferences, Applications management and Webhooks callbacks.
  - [`@sinch/sdk-client`](./packages/sdk-client): package included by all the other ones that contains the API client classes and helpers.
 
+## Handling exceptions
+
+Failed API calls throw typed errors from `@sinch/sdk-core`. The SDK validates every response automatically and raises an exception when the HTTP status is not successful or when the response body is empty or invalid.
+
+| Error class | When it is thrown |
+|-------------|-------------------|
+| `RequestFailedError` | The API returned a non-success HTTP status (`statusCode` and `data` are available on the error) |
+| `EmptyResponseError` | The response is missing or empty |
+| `ResponseJSONParseError` | The response body could not be parsed as JSON |
+| `GenericError` | Other SDK-level errors |
+
+```typescript
+try {
+  await sinchClient.sms.batches.send({
+  sendSMSRequestBody: {
+    body: 'Hello from the Sinch Node.js SDK!',
+    to: ['+12065550100'],
+    from: 'YOUR_sender_number',
+  },
+});
+} catch (error) {
+  if (error instanceof RequestFailedError) {
+    console.error(`Request failed (${error.statusCode}):`, error.data);
+  } else {
+    console.error(error);
+  }
+}
+```
+
+## Third-party dependencies
+
+The SDK relies on the following third-party dependencies:
+- [node-fetch](https://www.npmjs.com/package/node-fetch): HTTP client used to send API requests.
+- [form-data](https://www.npmjs.com/package/form-data): Multipart form-data support for file uploads.
+
 ## Examples
 
 You can find:
@@ -174,6 +247,15 @@ You can find:
  - a JS example of each request in the [examples/snippets](./examples/snippets) folder.
  - getting started guides for specific use cases in the [examples/getting-started](./examples/getting-started) folder.
  - examples of integrated flows in the [examples/integrated-flows-examples](./examples/integrated-flows-examples) folder.
+ - a Nest.js application for handling Sinch webhook callbacks in the [examples/webhooks](./examples/webhooks) folder.
+
+## Changelog
+
+For information about the latest changes in the SDK, please refer to the [CHANGELOG](./packages/sdk-core/CHANGELOG.md) file.
+
+## License
+
+This project is licensed under the Apache License. See the [LICENSE](LICENSE) file for the license text.
 
 ## Contact
 
