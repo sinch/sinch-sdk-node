@@ -100,7 +100,7 @@ describe('ContactApi', () => {
       ['contact ID', requestDataWithContactId, expectedResponse],
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
     ])('should make a POST request to get a user profile from a specific channel for a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.getChannelProfile.mockResolvedValue(expectedResponse);
