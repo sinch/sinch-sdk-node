@@ -140,12 +140,12 @@ const sinchClient = new SinchClient({
 > **SMS authentication for new accounts**
 >
 > Accounts created after the SMS API end-of-sale (`15/04/26`) cannot use
-> project auth (OAuth2) for the SMS API requests return `401 Unauthorized`.
+> project-level authentication the SMS API requests return `401 Unauthorized`.
 >
-> If you hit this error, you have three options:
+> If you encounter this issue, consider the following options:
 >
-> 1. Use service-plan auth (`servicePlanId` + `apiToken`)
-> 2. Use the Conversation API, which supports OAuth2.
+> 1. Use service-plan authentication (`servicePlanId` + `apiToken`)
+> 2. Use the Conversation API, which supports project-level authentication.
 > 3. Contact your account manager
 
 
