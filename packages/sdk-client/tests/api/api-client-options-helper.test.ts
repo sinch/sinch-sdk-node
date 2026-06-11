@@ -11,7 +11,6 @@ import {
 } from '../../src';
 import { RequestOptions, RequestPlugin } from '../../src/plugins/core/request-plugin';
 import { ResponsePlugin, ResponsePluginContext } from '../../src/plugins/core/response-plugin';
-import * as console from 'node:console';
 
 const dummyRequestPlugin: RequestPlugin = {
   getName(): string {

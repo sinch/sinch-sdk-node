@@ -8,7 +8,6 @@ import {
   XTimestampRequest,
 } from '../plugins';
 import { SinchLogger } from '../logger';
-import * as console from 'node:console';
 
 export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiName: string): ApiClientOptions => {
   if (!params.projectId || !params.keyId || !params.keySecret) {
