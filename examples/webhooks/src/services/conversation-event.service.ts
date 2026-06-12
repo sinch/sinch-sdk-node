@@ -33,7 +33,11 @@ export class ConversationEventService {
         url: contactMessage.media_message.url,
       });
     }
-    if ('fallback_message' in contactMessage && contactMessage.fallback_message && contactMessage.fallback_message.reason) {
+    if (
+      'fallback_message' in contactMessage
+      && contactMessage.fallback_message
+      && contactMessage.fallback_message.reason
+    ) {
       return Conversation.messageBuilder.text({
         text: `Error: ${contactMessage.fallback_message.reason.code} (${contactMessage.fallback_message.reason.sub_code})\n${contactMessage.fallback_message.reason.description}`
       });

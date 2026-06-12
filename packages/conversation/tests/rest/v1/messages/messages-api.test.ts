@@ -497,7 +497,7 @@ describe('MessagesApi', () => {
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
       // eslint-disable-next-line max-len
     ])('should make a POST request to send any message request from a conversation app to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.send.mockResolvedValue(expectedResponse);
@@ -556,7 +556,7 @@ describe('MessagesApi', () => {
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
       // eslint-disable-next-line max-len
     ])('should make a POST request to send a card message request from a conversation app to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.sendCardMessage.mockResolvedValue(expectedResponse);
@@ -599,7 +599,7 @@ describe('MessagesApi', () => {
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
       // eslint-disable-next-line max-len
     ])('should make a POST request to send a carousel message request from a conversation app to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.sendCarouselMessage.mockResolvedValue(expectedResponse);
@@ -641,7 +641,7 @@ describe('MessagesApi', () => {
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
       // eslint-disable-next-line max-len
     ])('should make a POST request to send a choice message request from a conversation app to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.sendChoiceMessage.mockResolvedValue(expectedResponse);
@@ -684,7 +684,7 @@ describe('MessagesApi', () => {
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
       // eslint-disable-next-line max-len
     ])('should make a POST request to send a contact info message request from a conversation app to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.sendContactInfoMessage.mockResolvedValue(expectedResponse);
@@ -726,7 +726,7 @@ describe('MessagesApi', () => {
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
       // eslint-disable-next-line max-len
     ])('should make a POST request to send a list message request from a conversation app to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.sendListMessage.mockResolvedValue(expectedResponse);
@@ -769,7 +769,7 @@ describe('MessagesApi', () => {
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
       // eslint-disable-next-line max-len
     ])('should make a POST request to send a location message request from a conversation app to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.sendLocationMessage.mockResolvedValue(expectedResponse);
@@ -811,7 +811,7 @@ describe('MessagesApi', () => {
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
       // eslint-disable-next-line max-len
     ])('should make a POST request to send a media message request from a conversation app to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.sendMediaMessage.mockResolvedValue(expectedResponse);
@@ -854,7 +854,7 @@ describe('MessagesApi', () => {
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
       // eslint-disable-next-line max-len
     ])('should make a POST request to send a template message request from a conversation app to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.sendTemplateMessage.mockResolvedValue(expectedResponse);
@@ -896,7 +896,7 @@ describe('MessagesApi', () => {
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
       // eslint-disable-next-line max-len
     ])('should make a POST request to send a text message request from a conversation app to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
       // When
         fixture.sendTextMessage.mockResolvedValue(expectedResponse);

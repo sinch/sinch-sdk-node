@@ -22,7 +22,7 @@ import { Numbers } from '@sinch/sdk-core';
   let response;
   try {
     response = await numbersService.checkAvailability(requestData);
-  } catch (error) {
+  } catch {
     console.error(`ERROR: the phone number ${requestData.phoneNumber} is not available`);
   }
 
