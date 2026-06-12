@@ -1,0 +1,97 @@
+name: Generate and upload documentation
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to use for the documentation package in semver format (e.g. 1.2.3)'
+        required: true
+
+jobs:
+  upload-documentation:
+    runs-on: ubuntu-latest
+    env:
+      SDK_NAME: sinch-sdk-node
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'release' && github.event.release.tag_name || github.ref }}
+          fetch-depth: 0
+
+      - name: Resolve Version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            VERSION="${{ github.event.release.tag_name }}"
+          else
+            VERSION="${{ inputs.version }}"
+          fi
+          # Strip leading 'v' if present (e.g. v1.2.3 → 1.2.3)
+          VERSION="${VERSION#v}"
+          echo "value=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Validate Version Format
+        run: |
+          VERSION="${{ steps.version.outputs.value }}"
+          SEMVER_REGEX='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-((alpha|beta|preview)(\.[0-9]+)?))?$'
+          if [[ ! "$VERSION" =~ $SEMVER_REGEX ]]; then
+            echo "::error::Invalid version format: '$VERSION'. Expected semver (e.g. 1.2.3, 1.2.3-alpha, 1.2.3-beta.1, 1.2.3-preview)"
+            exit 1
+          fi
+          echo "Version '$VERSION' is valid"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build packages
+        run: yarn run build
+
+      - name: Generate Documentation
+        run: |
+          cd docs/api
+          npm run build
+          npm run zip:docs
+
+      - name: Package Documentation
+        run: |
+          VERSION="${{ steps.version.outputs.value }}"
+          cp "docs/api/api-docs.zip" "./${{ env.SDK_NAME }}-${VERSION}.zip"
+
+      - name: Upload to GitLab Registry
+        run: |
+          echo "Uploading documentation package to GitLab Registry..."
+          VERSION="${{ steps.version.outputs.value }}"
+          curl --fail --show-error --location --header "PRIVATE-TOKEN: ${{ secrets.GITLAB_REGISTRY_UPLOAD_DOC_TOKEN }}" \
+            --upload-file "./${{ env.SDK_NAME }}-${VERSION}.zip" \
+            "https://gitlab.com/api/v4/projects/63164411/packages/generic/${{ env.SDK_NAME }}/${VERSION}/${{ env.SDK_NAME }}-${VERSION}.zip"
+          echo "Documentation package for version ${VERSION} uploaded to GitLab Registry"
+
+      - name: Trigger Downstream GitLab Pipeline
+        run: |
+          echo "Triggering downstream GitLab pipeline to notify about new documentation package version..."
+          VERSION="${{ steps.version.outputs.value }}"
+          curl --fail --show-error --location --request POST \
+            --form "token=${{ secrets.GITLAB_NOTIFY_REGISTRY_UPLOADED_DOC_TOKEN }}" \
+            --form "ref=main" \
+            --form "variables[UPSTREAM_PACKAGE_NAME]=${{ env.SDK_NAME }}" \
+            --form "variables[UPSTREAM_PACKAGE_VERSION]=${VERSION}" \
+            "https://gitlab.com/api/v4/projects/63164411/trigger/pipeline"
+          echo "Documentation repo notified about new package version ${VERSION}"
+
+      - name: Upload API docs to release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ env.SDK_NAME }}-${{ steps.version.outputs.value }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
