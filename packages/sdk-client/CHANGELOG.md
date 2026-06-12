@@ -1,3 +1,6 @@
+## Version 1.5.0
+- [Feature] entry for provisioning hostname
+
 ## Version 1.4.2
 - [Bugfix] OAuth2 429 backoff with full-jitter retry
 
