@@ -87,11 +87,3 @@ jobs:
             --form "variables[UPSTREAM_PACKAGE_VERSION]=${VERSION}" \
             "https://gitlab.com/api/v4/projects/63164411/trigger/pipeline"
           echo "Documentation repo notified about new package version ${VERSION}"
-
-      - name: Upload API docs to release
-        if: github.event_name == 'release'
-        uses: softprops/action-gh-release@v2
-        with:
-          files: ${{ env.SDK_NAME }}-${{ steps.version.outputs.value }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

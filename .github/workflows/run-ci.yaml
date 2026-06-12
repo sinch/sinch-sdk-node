@@ -30,6 +30,9 @@ jobs:
       - name: Run unit tests
         run: yarn run test
 
+      - name: Build API docs
+        run: cd docs/api && npm run build
+
       - name: Checkout sinch-sdk-mockserver repository
         uses: actions/checkout@v3
         with:
@@ -72,21 +75,6 @@ jobs:
 
       - name: Run e2e tests
         run: yarn run e2e
-
-  api-docs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-      - name: Install dependencies
-        run: yarn install
-      - name: Build packages
-        run: yarn run build
-      - name: Build API docs
-        run: cd docs/api && npm run build
 
   sonarcloud:
     runs-on: ubuntu-latest
