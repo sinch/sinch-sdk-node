@@ -10,7 +10,7 @@
     "build": "npm ci && npm run sync-version && npm ci && node use-local-packages.mjs && npm run doc && npm run verify",
     "build:npm": "npm ci && npm run sync-version && npm ci && npm run doc && npm run verify",
     "zip:docs": "test -f docs/index.html || (echo 'Run npm run build first' && exit 1); rm -f api-docs.zip && (cd docs && zip -qr ../api-docs.zip .)",
-    "start": "npx --yes serve docs -l 8080"
+    "start": "npx --yes serve -l tcp://localhost:8080 docs"
   },
   "devDependencies": {
     "typedoc": "0.28.19",
