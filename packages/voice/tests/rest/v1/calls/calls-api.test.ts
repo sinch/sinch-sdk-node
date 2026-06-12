@@ -67,7 +67,7 @@ describe('CallsApi', () => {
         text: 'Hello, the call is over, hanging up now. Goodbye',
         locale: 'en-US',
       } as Voice.SvamlInstructionSay;
-      const action: Voice.SvamlAction = {
+      const action: Voice.ManagedCallSvamlAction = {
         name: 'hangup',
       } as Voice.SvamlActionHangup;
       const requestData: Voice.ManageWithCallLegRequestData = {
@@ -99,7 +99,7 @@ describe('CallsApi', () => {
         name: 'sendDtmf',
         value: '1234#',
       } as Voice.SvamlInstructionSendDtmf;
-      const action: Voice.SvamlAction = {
+      const action: Voice.ManagedCallSvamlAction = {
         name: 'hangup',
       } as Voice.SvamlActionHangup;
       const requestData: Voice.UpdateCallRequestData = {

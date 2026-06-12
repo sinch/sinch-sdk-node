@@ -1,7 +1,8 @@
 import { Recipient } from '../recipient';
 
 /**
- * An CapabilityResponse contains the identity of the recipient for which will be perform a capability lookup.
+ * A CapabilityResponse contains the identity of the recipient for which
+ * a capability lookup will be performed.
  */
 export interface LookupCapabilityResponse {
 

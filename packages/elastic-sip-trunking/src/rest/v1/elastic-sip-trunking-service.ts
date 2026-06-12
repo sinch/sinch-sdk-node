@@ -13,6 +13,7 @@ import { CallsHistoryApi } from './calls-history';
 import { ProjectsApi } from './projects';
 import { CallBlockingRulesApi } from './call-blocking-rules';
 import { CredentialListsApi } from './credential-lists';
+import { PhoneNumbersApi } from './phone-numbers';
 
 export class LazyElasticSipTrunkingApiClient {
   apiFetchClient?: ApiFetchClient;
@@ -43,6 +44,7 @@ export class ElasticSipTrunkingService {
   public readonly projects: ProjectsApi;
   public readonly callBlockingRules: CallBlockingRulesApi;
   public readonly credentialLists: CredentialListsApi;
+  public readonly phoneNumbers: PhoneNumbersApi;
 
   public readonly lazyClient: LazyElasticSipTrunkingApiClient;
 
@@ -57,6 +59,7 @@ export class ElasticSipTrunkingService {
     this.projects = new ProjectsApi(this.lazyClient);
     this.callBlockingRules = new CallBlockingRulesApi(this.lazyClient);
     this.credentialLists = new CredentialListsApi(this.lazyClient);
+    this.phoneNumbers = new PhoneNumbersApi(this.lazyClient);
   }
 
   /**
