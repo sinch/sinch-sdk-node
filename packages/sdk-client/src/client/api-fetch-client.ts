@@ -20,6 +20,7 @@ import {
 } from '../api/api-errors';
 import fetch, { Response, Headers } from 'node-fetch';
 import { buildErrorContext, manageExpiredToken, reviveDates } from './api-client-helpers';
+import { SinchLogger, resolveLogger } from '../logger';
 import {
   buildPaginationContext,
   calculateNextPage,
@@ -57,12 +58,16 @@ export class ApiFetchClient extends ApiClient {
    * @param {ApiClientOptions} options - Configuration options for the API Client.
    */
   constructor(options: ApiClientOptions) {
-    super({
+    const resolvedOptions = {
       ...options,
-      requestPlugins: [new VersionRequest(), ...(options.requestPlugins || [])],
+      logger: resolveLogger(options.logger),
+    };
+    super({
+      ...resolvedOptions,
+      requestPlugins: [new VersionRequest(), ...(resolvedOptions.requestPlugins || [])],
       responsePlugins: [
-        new ExceptionResponse(undefined, options.logger),
-        ...(options.responsePlugins || []),
+        new ExceptionResponse(undefined),
+        ...(resolvedOptions.responsePlugins || []),
       ],
     });
   }
@@ -118,6 +123,7 @@ export class ApiFetchClient extends ApiClient {
   private async processResponse<T>(
     context: ResponseContext,
   ): Promise<T> {
+    this.logFailedResponse(context);
     const pluginContext = await this.parseAndValidateResponse(context);
     const transformedResponse = await this.applyResponsePlugins(pluginContext);
 
@@ -263,6 +269,33 @@ export class ApiFetchClient extends ApiClient {
         nextPage,
       ),
     };
+  }
+
+  private logFailedResponse(context: ResponseContext): void {
+    if (!context.response?.ok) {
+      const { apiCallParameters } = context;
+      new SinchLogger(resolveLogger(this.apiClientOptions.logger)).debug(() =>
+        `[${apiCallParameters.apiName}][${apiCallParameters.operationId}][${context.response?.status}]\n`
+        + `HTTP method: ${apiCallParameters.requestOptions.method}\n`
+        + `URL: ${apiCallParameters.url}\n`
+        + `Response Headers: ${this.formatResponseHeaders(context.response?.headers)}`,
+      );
+    }
+  }
+
+  private formatResponseHeaders(headers: Headers | undefined): string {
+    if (!headers || typeof headers !== 'object') {
+      return '';
+    }
+
+    return Object.entries(Object.fromEntries(headers.entries()))
+      .map(([key, value]: [any, any]) => {
+        if (value === undefined) { return `${key}=undefined`; }
+        if (value === null) { return `${key}=null`; }
+        if (typeof value === 'object') { return `${key}=${JSON.stringify(value)}`; }
+        return `${key}=${String(value)}`;
+      })
+      .join(', ');
   }
 
   private buildFetchError(error: any, errorContext: ErrorContext): Error {

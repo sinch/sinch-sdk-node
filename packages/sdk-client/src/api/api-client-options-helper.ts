@@ -7,7 +7,7 @@ import {
   SigningRequest,
   XTimestampRequest,
 } from '../plugins';
-import { SinchLogger } from '../logger';
+import { SinchLogger, resolveLogger } from '../logger';
 
 export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiName: string): ApiClientOptions => {
   if (!params.projectId || !params.keyId || !params.keySecret) {
@@ -16,10 +16,10 @@ export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiNa
   const apiClientOptions: ApiClientOptions = {
     projectId: params.projectId,
     requestPlugins: [
-      new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, params.logger),
+      new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, resolveLogger(params.logger)),
     ],
     useServicePlanId: false,
-    logger: params.logger,
+    logger: resolveLogger(params.logger),
   };
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
@@ -49,7 +49,7 @@ export const buildApplicationSignedApiClientOptions = (
       new XTimestampRequest(),
       new SigningRequest(params.applicationKey, params.applicationSecret),
     ],
-    logger: params.logger,
+    logger: resolveLogger(params.logger),
   };
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
@@ -63,20 +63,20 @@ export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClien
       projectId: params.servicePlanId,
       requestPlugins: [new ApiTokenRequest(params.apiToken)],
       useServicePlanId: true,
-      logger: params.logger,
+      logger: resolveLogger(params.logger),
     };
     if (params.projectId || params.keyId || params.keySecret) {
-      new SinchLogger(params.logger ?? console).warn(
+      new SinchLogger(resolveLogger(params.logger)).warn(
         'As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
     }
   } else if (params.projectId && params.keyId && params.keySecret) {
     apiClientOptions = {
       projectId: params.projectId,
       requestPlugins: [
-        new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, params.logger),
+        new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, resolveLogger(params.logger)),
       ],
       useServicePlanId: false,
-      logger: params.logger,
+      logger: resolveLogger(params.logger),
     };
   }
   if (!apiClientOptions) {
