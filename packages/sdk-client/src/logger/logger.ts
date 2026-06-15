@@ -1,9 +1,38 @@
+export type LogMessage = string | (() => string);
+
 export interface Logger {
-  debug(message: string, ...meta: any[]): void;
-  info(message: string, ...meta: any[]): void;
-  warn(message: string, ...meta: any[]): void;
-  error(message: string, ...meta: any[]): void;
+  debug(message: LogMessage, ...meta: any[]): void;
+  info(message: LogMessage, ...meta: any[]): void;
+  warn(message: LogMessage, ...meta: any[]): void;
+  error(message: LogMessage, ...meta: any[]): void;
 }
+
+const evaluateMessage = (message: LogMessage): string =>
+  typeof message === 'function' ? message() : message;
+
+export const CONSOLE_LOGGER: Logger = {
+  debug: (message, ...meta) => console.debug(evaluateMessage(message), ...meta),
+  info: (message, ...meta) => console.info(evaluateMessage(message), ...meta),
+  warn: (message, ...meta) => console.warn(evaluateMessage(message), ...meta),
+  error: (message, ...meta) => console.error(evaluateMessage(message), ...meta),
+};
+
+export const NOOP_LOGGER: Logger = {
+  debug: () => {},
+  info: () => {},
+  warn: () => {},
+  error: () => {},
+};
+
+export const resolveLogger = (logger?: Logger | null): Logger => {
+  if (logger === null) {
+    return NOOP_LOGGER;
+  }
+  if (logger === undefined) {
+    return CONSOLE_LOGGER;
+  }
+  return logger;
+};
 
 export class SinchLogger implements Logger {
   constructor(private baseLogger: Logger) {}
@@ -12,16 +41,24 @@ export class SinchLogger implements Logger {
     return `[Sinch SDK][${level}] ${message}`;
   }
 
-  debug(message: string, ...meta: any[]): void {
-    this.baseLogger.debug(this.format('Debug', message), ...meta);
+  private log(level: string, method: keyof Logger, message: LogMessage, ...meta: any[]): void {
+    if (typeof message === 'function') {
+      this.baseLogger[method](() => this.format(level, message()), ...meta);
+    } else {
+      this.baseLogger[method](this.format(level, message), ...meta);
+    }
   }
-  info(message: string, ...meta: any[]): void {
-    this.baseLogger.info(this.format('Info', message), ...meta);
+
+  debug(message: LogMessage, ...meta: any[]): void {
+    this.log('Debug', 'debug', message, ...meta);
   }
-  warn(message: string, ...meta: any[]): void {
-    this.baseLogger.warn(this.format('Warn', message), ...meta);
+  info(message: LogMessage, ...meta: any[]): void {
+    this.log('Info', 'info', message, ...meta);
   }
-  error(message: string, ...meta: any[]): void {
-    this.baseLogger.error(this.format('Error', message), ...meta);
+  warn(message: LogMessage, ...meta: any[]): void {
+    this.log('Warn', 'warn', message, ...meta);
+  }
+  error(message: LogMessage, ...meta: any[]): void {
+    this.log('Error', 'error', message, ...meta);
   }
 }

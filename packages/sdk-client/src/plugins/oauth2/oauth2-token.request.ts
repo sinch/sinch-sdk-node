@@ -42,7 +42,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
     clientId: string,
     clientSecret: string,
     authenticationUrl?: string,
-    logger?: Logger,
+    logger?: Logger | null,
   ) {
     const basicAuthenticationPlugin = new BasicAuthenticationRequest(
       clientId,

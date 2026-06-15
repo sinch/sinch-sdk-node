@@ -1,8 +1,7 @@
 import crypto from 'crypto';
 import { IncomingHttpHeaders } from 'http';
 import { RequestBody } from '../plugins/core/request-plugin';
-import * as console from 'console';
-import { Logger, SinchLogger } from '../logger';
+import { Logger, SinchLogger, resolveLogger } from '../logger';
 
 /**
  * Generate authorization header for application-signed requests (Verification and Voice)
@@ -84,9 +83,9 @@ export const validateAuthenticationHeader = (
   body: any,
   path: string,
   method: string,
-  logger? : Logger,
+  logger? : Logger | null,
 ): boolean => {
-  const sinchLogger = new SinchLogger(logger ?? console);
+  const sinchLogger = new SinchLogger(resolveLogger(logger));
   const normalizedHeaders = normalizeHeaders(headers);
 
   const authorization = getHeader(normalizedHeaders.authorization);

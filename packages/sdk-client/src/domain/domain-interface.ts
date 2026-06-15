@@ -16,7 +16,7 @@ export type SinchClientParameters = Partial<
   & ApplicationCredentials
   & ApiHostname
   & ApiPlugins
-  & LoggerParameters>;
+  & WithLogger>;
 
 export interface UnifiedCredentials {
   /** The project ID associated with the API Client. You can find this on your [Dashboard](https://dashboard.sinch.com/account/access-keys). */
@@ -189,7 +189,11 @@ export const MailgunRegion = {
   ...SupportedMailgunRegion,
 };
 
-export interface LoggerParameters {
-  /** Logger instance to be used by the SDK */
-  logger?: Logger;
+export interface WithLogger {
+  /**
+   * Logger instance to be used by the SDK.
+   * - omitted or `undefined`: defaults to `console`
+   * - `null`: silent (no SDK output)
+   */
+  logger?: Logger | null;
 }
