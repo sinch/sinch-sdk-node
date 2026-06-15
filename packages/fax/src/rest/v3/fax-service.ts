@@ -6,6 +6,7 @@ import {
   SinchClientParameters,
   SinchLogger,
   UnifiedCredentials,
+  resolveLogger,
 } from '@sinch/sdk-client';
 import { FaxToEmailApi } from './fax-to-email';
 import { FaxesApi } from './faxes';
@@ -49,6 +50,7 @@ export class FaxService {
   public readonly lazyClient: LazyFaxApiClient;
 
   constructor(params: SinchClientParameters) {
+    params.logger = resolveLogger(params.logger);
     this.lazyClient = new LazyFaxApiClient(params);
 
     this.emails = new FaxToEmailApi(this.lazyClient);
@@ -82,7 +84,7 @@ export class FaxService {
     // Deprecated: regions are ignored by the Fax API which uses a single global endpoint.
     // Keep this method for backward compatibility but avoid mutating shared state or
     // resetting the client to prevent unexpected side effects.
-    console.info(`Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint ${FAX_HOSTNAME}`);
+    new SinchLogger(resolveLogger(this.lazyClient.sharedConfig.logger)).info(`Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint ${FAX_HOSTNAME}`);
   }
 
   public setCredentials(credentials: Partial<UnifiedCredentials>): void {
@@ -95,7 +97,7 @@ export class FaxService {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      new SinchLogger(this.lazyClient.sharedConfig.logger ?? console).error(
+      new SinchLogger(resolveLogger(this.lazyClient.sharedConfig.logger)).error(
         'Impossible to assign the new credentials to the Fax API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

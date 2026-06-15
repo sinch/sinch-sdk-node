@@ -6,6 +6,7 @@ import {
   SinchClientParameters,
   SinchLogger,
   UnifiedCredentials,
+  resolveLogger,
 } from '@sinch/sdk-client';
 import { AvailableRegionsApi } from './available-regions';
 import { CallbacksApi } from './callbacks';
@@ -77,6 +78,7 @@ export class NumbersService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
+    params.logger = resolveLogger(params.logger);
     const sharedClient = new LazyNumbersApiClient(params);
     this.lazyClient = sharedClient;
 
@@ -111,7 +113,7 @@ export class NumbersService {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      new SinchLogger(this.lazyClient.sharedConfig.logger ?? console).error(
+      new SinchLogger(resolveLogger(this.lazyClient.sharedConfig.logger)).error(
         'Impossible to assign the new credentials to the Numbers API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

@@ -3,6 +3,7 @@ import {
   ApiClient,
   SinchLogger,
   UnifiedCredentials,
+  resolveLogger,
 } from '@sinch/sdk-client';
 import { LazyNumbersApiClient } from './numbers-service';
 
@@ -49,7 +50,7 @@ export class NumbersDomainApi implements Api {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      new SinchLogger(this.lazyClient.sharedConfig.logger ?? console).error(
+      new SinchLogger(resolveLogger(this.lazyClient.sharedConfig.logger)).error(
         'Impossible to assign the new credentials to the Numbers API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

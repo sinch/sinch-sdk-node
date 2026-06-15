@@ -7,6 +7,7 @@ import {
   SmsRegion,
   SinchLogger,
   SupportedSmsRegion, UnifiedCredentials,
+  resolveLogger,
 } from '@sinch/sdk-client';
 import { GroupsApi } from './groups';
 import { DeliveryReportsApi } from './delivery-reports';
@@ -26,10 +27,10 @@ export class LazySmsApiClient {
       const region = this.sharedConfig.smsRegion ?? SmsRegion.UNITED_STATES;
       // Deprecation Notice - to remove in 2.0
       if (!this.sharedConfig.smsRegion && !this.sharedConfig.smsHostname) {
-        console.warn(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+        new SinchLogger(resolveLogger(this.sharedConfig.logger)).warn(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
       }
       if(!Object.values(SupportedSmsRegion).includes(region as SupportedSmsRegion)) {
-        new SinchLogger(this.sharedConfig.logger ?? console).warn(
+        new SinchLogger(resolveLogger(this.sharedConfig.logger)).warn(
           `The region "${region}" is not known as a supported region for the SMS API`,
         );
       }
@@ -80,6 +81,7 @@ export class SmsService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
+    params.logger = resolveLogger(params.logger);
     this.lazyClient = new LazySmsApiClient(params);
 
     this.groups = new GroupsApi(this.lazyClient);
@@ -121,7 +123,7 @@ export class SmsService {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      new SinchLogger(this.lazyClient.sharedConfig.logger ?? console).error(
+      new SinchLogger(resolveLogger(this.lazyClient.sharedConfig.logger)).error(
         'Impossible to assign the new credentials to the SMS API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

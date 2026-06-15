@@ -7,6 +7,7 @@ import {
   SinchClientParameters,
   SinchLogger,
   SupportedVoiceRegion,
+  resolveLogger,
   VOICE_APPLICATION_MANAGEMENT_HOSTNAME,
   VOICE_HOSTNAME,
   VoiceRegion,
@@ -24,7 +25,7 @@ export class LazyVoiceApiClient {
     if (!this.apiFetchClient) {
       const region = this.sharedConfig.voiceRegion ?? VoiceRegion.DEFAULT;
       if(!Object.values(SupportedVoiceRegion).includes(region as SupportedVoiceRegion)) {
-        new SinchLogger(this.sharedConfig.logger ?? console).warn(
+        new SinchLogger(resolveLogger(this.sharedConfig.logger)).warn(
           `The region "${region}" is not known as a supported region for the Voice API`,
         );
       }
@@ -93,6 +94,7 @@ export class VoiceService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
+    params.logger = resolveLogger(params.logger);
     const sharedVoiceClient = new LazyVoiceApiClient(params);
     this.lazyVoiceClient = sharedVoiceClient;
 
@@ -160,7 +162,7 @@ export class VoiceService {
       this.lazyVoiceClient.getApiClient();
       this.lazyVoiceAppMgmtClient.getApiClient();
     } catch (error) {
-      new SinchLogger(this.lazyVoiceClient.sharedConfig.logger ?? console).error(
+      new SinchLogger(resolveLogger(this.lazyVoiceClient.sharedConfig.logger)).error(
         'Impossible to assign the new credentials to the Voice API',
       );
       this.lazyVoiceClient.sharedConfig = parametersBackup;

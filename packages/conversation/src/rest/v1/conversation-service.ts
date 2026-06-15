@@ -8,6 +8,7 @@ import {
   SinchClientParameters,
   SinchLogger,
   SupportedConversationRegion, UnifiedCredentials,
+  resolveLogger,
 } from '@sinch/sdk-client';
 import { ContactApi } from './contact';
 import { AppApi } from './app';
@@ -33,10 +34,10 @@ export class LazyConversationApiClient {
       // Deprecation Notice - to remove in 2.0
       const isConversationHostnameOverridden = !!this.sharedConfig.conversationHostname;
       if (!this.sharedConfig.conversationRegion && !isConversationHostnameOverridden) {
-        console.warn(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+        new SinchLogger(resolveLogger(this.sharedConfig.logger)).warn(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
       }
       if(!Object.values(SupportedConversationRegion).includes(region as SupportedConversationRegion)) {
-        new SinchLogger(this.sharedConfig.logger ?? console).warn(
+        new SinchLogger(resolveLogger(this.sharedConfig.logger)).warn(
           `The region "${region}" is not known as a supported region for the Conversation API`,
         );
       }
@@ -68,10 +69,10 @@ export class LazyConversationTemplateApiClient {
       // Deprecation Notice - to remove in 2.0
       const isConversationTemplatesHostnameOverridden = !!this.sharedConfig.conversationTemplatesHostname;
       if (!this.sharedConfig.conversationRegion && !isConversationTemplatesHostnameOverridden) {
-        console.warn(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+        new SinchLogger(resolveLogger(this.sharedConfig.logger)).warn(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
       }
       if(!Object.values(SupportedConversationRegion).includes(region as SupportedConversationRegion)) {
-        new SinchLogger(this.sharedConfig.logger ?? console).warn(
+        new SinchLogger(resolveLogger(this.sharedConfig.logger)).warn(
           `The region "${region}" is not known as a supported region for the Conversation API`,
         );
       }
@@ -137,6 +138,7 @@ export class ConversationService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
+    params.logger = resolveLogger(params.logger);
     const sharedConversationClient = new LazyConversationApiClient(params);
     this.lazyConversationClient = sharedConversationClient;
 
@@ -203,7 +205,7 @@ export class ConversationService {
       this.lazyConversationClient.getApiClient();
       this.lazyConversationTemplateClient.getApiClient();
     } catch (error) {
-      new SinchLogger(this.lazyConversationClient.sharedConfig.logger ?? console).error(
+      new SinchLogger(resolveLogger(this.lazyConversationClient.sharedConfig.logger)).error(
         'Impossible to assign the new credentials to the Conversation API',
       );
       this.lazyConversationClient.sharedConfig = parametersBackup;

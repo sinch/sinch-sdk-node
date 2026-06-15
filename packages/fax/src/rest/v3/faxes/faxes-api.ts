@@ -8,6 +8,8 @@ import {
   PaginatedApiProperties,
   PaginationEnum,
   RequestBody,
+  SinchLogger,
+  resolveLogger,
 } from '@sinch/sdk-client';
 import { FaxDomainApi } from '../fax-domain-api';
 import {
@@ -78,7 +80,7 @@ export class FaxesApi extends FaxDomainApi {
     let basePathUrl: string;
     let operationId: string;
     if (data['fileFormat'] !== undefined) {
-      console.info('Deprecated: The fileFormat path parameter is deprecated. Use downloadContent without fileFormat. See https://developers.sinch.com/docs/fax/api-reference/fax/faxes/getfaxfilebyid');
+      new SinchLogger(resolveLogger(this.client.apiClientOptions.logger)).info('Deprecated: The fileFormat path parameter is deprecated. Use downloadContent without fileFormat. See https://developers.sinch.com/docs/fax/api-reference/fax/faxes/getfaxfilebyid');
       basePathUrl = `${filePath}.${data['fileFormat']}`;
       operationId = 'GetFaxFileByIdDeprecated';
     } else {

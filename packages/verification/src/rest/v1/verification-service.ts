@@ -5,6 +5,7 @@ import {
   SinchClientParameters,
   SinchLogger,
   VERIFICATION_HOSTNAME,
+  resolveLogger,
 } from '@sinch/sdk-client';
 import { VerificationStatusApi } from './verification-status';
 import { VerificationsApi } from './verifications';
@@ -48,6 +49,7 @@ export class VerificationService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
+    params.logger = resolveLogger(params.logger);
     this.lazyClient = new LazyVerificationApiClient(params);
 
     this.verificationStatus = new VerificationStatusApi(this.lazyClient);
@@ -78,7 +80,7 @@ export class VerificationService {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      new SinchLogger(this.lazyClient.sharedConfig.logger ?? console).error(
+      new SinchLogger(resolveLogger(this.lazyClient.sharedConfig.logger)).error(
         'Impossible to assign the new credentials to the Verification API',
       );
       this.lazyClient.sharedConfig = parametersBackup;
