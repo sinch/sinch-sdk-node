@@ -4,9 +4,9 @@ describe('Fax models helpers', () => {
 
   describe('convertToSupportedFileType', () => {
     it('should convert a file extension to a FaxBase64FileType', () => {
-      console.warn = jest.fn();
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
       let convertedFileExtension = convertToSupportedFileType('doc');
-      expect(console.warn).toHaveBeenCalledWith('The file extension "DOC" is not supported.');
+      expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] The file extension "DOC" is not supported.');
       expect(convertedFileExtension).toBe('DOC');
 
       convertedFileExtension = convertToSupportedFileType('docx');
@@ -34,12 +34,13 @@ describe('Fax models helpers', () => {
       expect(convertedFileExtension).toBe('PNG');
 
       convertedFileExtension = convertToSupportedFileType(undefined);
-      expect(console.warn).toHaveBeenCalledWith('No file extension has been defined.');
+      expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] No file extension has been defined.');
       expect(convertedFileExtension).toBeUndefined();
 
       convertedFileExtension = convertToSupportedFileType('unknown');
-      expect(console.warn).toHaveBeenCalledWith('The file extension "UNKNOWN" is not supported.');
+      expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] The file extension "UNKNOWN" is not supported.');
       expect(convertedFileExtension).toBe('UNKNOWN');
+      warnSpy.mockRestore();
     });
   });
 

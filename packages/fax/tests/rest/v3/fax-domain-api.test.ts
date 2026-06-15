@@ -47,11 +47,11 @@ describe('Fax API', () => {
     faxApi.setRegion(FaxRegion.UNITED_STATES);
     expect(faxApi.client?.apiClientOptions.hostname).toBe('https://fax.api.sinch.com');
     expect(infoSpy).toHaveBeenCalledWith(
-      'Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint https://fax.api.sinch.com');
+      '[Sinch SDK][Info] Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint https://fax.api.sinch.com');
     faxApi.setRegion(FaxRegion.EUROPE);
     expect(faxApi.client?.apiClientOptions.hostname).toBe('https://fax.api.sinch.com');
     expect(infoSpy).toHaveBeenCalledWith(
-      'Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint https://fax.api.sinch.com');
+      '[Sinch SDK][Info] Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint https://fax.api.sinch.com');
     faxApi.setRegion('');
     expect(faxApi.client?.apiClientOptions.hostname).toBe('https://fax.api.sinch.com');
     infoSpy.mockRestore();

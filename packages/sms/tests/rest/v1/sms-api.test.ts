@@ -34,7 +34,7 @@ describe('SMS API', () => {
   it('should initialize the client with unified credentials and use the "zt." URL', () => {
     smsApi = new SmsDomainApi(lazyClientWithProjectId, 'dummy');
     expect(smsApi.client).toBeDefined();
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_SMS_REGION_DEPRECATION_WARNING);
     expect(smsApi.client?.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.us.sms.api.sinch.com');
   });
@@ -42,7 +42,7 @@ describe('SMS API', () => {
   it('should initialize the client with servicePlanId credentials and use standard URL', () => {
     smsApi = new SmsDomainApi(lazyClientWithServicePlanId, 'dummy');
     expect(smsApi.client).toBeDefined();
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_SMS_REGION_DEPRECATION_WARNING);
     expect(smsApi.client?.apiClientOptions.projectId).toBe('SERVICE_PLAN_ID');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://us.sms.api.sinch.com');
   });
@@ -87,7 +87,7 @@ describe('SMS API', () => {
   it ('should update the region with OAuth2 credentials', () => {
     smsApi = new SmsDomainApi(lazyClientWithProjectId, 'dummy');
     expect(smsApi.client).toBeDefined();
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_SMS_REGION_DEPRECATION_WARNING);
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.us.sms.api.sinch.com');
     smsApi.setRegion(SmsRegion.UNITED_STATES);
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.us.sms.api.sinch.com');
@@ -102,7 +102,7 @@ describe('SMS API', () => {
   it ('should update the region with servicePlanId credentials', () => {
     smsApi = new SmsDomainApi(lazyClientWithServicePlanId, 'dummy');
     expect(smsApi.client).toBeDefined();
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_SMS_REGION_DEPRECATION_WARNING);
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://us.sms.api.sinch.com');
     smsApi.setRegion(SmsRegion.UNITED_STATES);
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://us.sms.api.sinch.com');
@@ -123,7 +123,7 @@ describe('SMS API', () => {
   it('should update the credentials and URL when adding SMS credentials to the unified credentials', () => {
     smsApi = new SmsDomainApi(lazyClientWithProjectId, 'dummy');
     expect(smsApi.client).toBeDefined();
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_SMS_REGION_DEPRECATION_WARNING);
     expect(smsApi.client?.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.us.sms.api.sinch.com');
     smsApi.setCredentials({
@@ -137,7 +137,7 @@ describe('SMS API', () => {
   it('should update the credentials and URL when adding SMS credentials on BR region to the unified credentials', () => {
     smsApi = new SmsDomainApi(lazyClientWithProjectId, 'dummy');
     expect(smsApi.client).toBeDefined();
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_SMS_REGION_DEPRECATION_WARNING);
     expect(smsApi.client?.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.us.sms.api.sinch.com');
     smsApi.setCredentials({
@@ -152,7 +152,7 @@ describe('SMS API', () => {
   it('should not update the credentials nor URL when adding unified credentials to the SMS credentials', () => {
     smsApi = new SmsDomainApi(lazyClientWithServicePlanId, 'dummy');
     expect(smsApi.client).toBeDefined();
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_SMS_REGION_DEPRECATION_WARNING);
     expect(smsApi.client?.apiClientOptions.projectId).toBe('SERVICE_PLAN_ID');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://us.sms.api.sinch.com');
     smsApi.setCredentials({
@@ -166,7 +166,7 @@ describe('SMS API', () => {
   it('should update the region in the URL when adding unified credentials and region to the SMS credentials', () => {
     smsApi = new SmsDomainApi(lazyClientWithServicePlanId, 'dummy');
     expect(smsApi.client).toBeDefined();
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_SMS_REGION_DEPRECATION_WARNING);
     warnSpy.mockClear();
     expect(smsApi.client?.apiClientOptions.projectId).toBe('SERVICE_PLAN_ID');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://us.sms.api.sinch.com');

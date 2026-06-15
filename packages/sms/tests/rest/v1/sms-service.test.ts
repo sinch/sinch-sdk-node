@@ -59,7 +59,7 @@ describe('SMS Service', () => {
     expect(smsService.deliveryReports.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(smsService.inbounds.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(smsService.groups.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_SMS_REGION_DEPRECATION_WARNING);
   });
 
   it('should update the API client for all the subdomains', () => {

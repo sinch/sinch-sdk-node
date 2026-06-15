@@ -38,7 +38,7 @@ describe('Conversation API', () => {
   it('should initialize the client with the default "us" region and log a warning', () => {
     conversationApi = new ConversationDomainApi(lazyClient, 'dummy');
     expect(conversationApi.client).toBeDefined();
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
     expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://us.conversation.api.sinch.com');
   });
 
@@ -66,7 +66,7 @@ describe('Conversation API', () => {
     expect(warnSpy).toHaveBeenCalledTimes(0);
     warnSpy.mockClear();
     expect(templateApi.client?.apiClientOptions.hostname).toBe('https://us.template.api.sinch.com');
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
   });
 
   it('should use the hostname parameter for templates only', () => {
@@ -74,7 +74,7 @@ describe('Conversation API', () => {
     conversationApi = new ConversationDomainApi(lazyClient, 'dummy');
     templateApi = new ConversationDomainApi(lazyTemplateClient, 'dummy');
     expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://us.conversation.api.sinch.com');
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
     warnSpy.mockClear();
     expect(templateApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
     expect(warnSpy).toHaveBeenCalledTimes(0);
@@ -100,7 +100,7 @@ describe('Conversation API', () => {
   it ('should update the region', () => {
     conversationApi = new ConversationDomainApi(lazyClient, 'dummy');
     expect(conversationApi.client).toBeDefined();
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
     expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://us.conversation.api.sinch.com');
     conversationApi.setRegion(ConversationRegion.UNITED_STATES);
     expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://us.conversation.api.sinch.com');
@@ -117,7 +117,7 @@ describe('Conversation API', () => {
   it ('should update the region with an API using the template lazy client', () => {
     conversationApi = new ConversationDomainApi(lazyTemplateClient, 'dummy');
     expect(conversationApi.client).toBeDefined();
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
     expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://us.template.api.sinch.com');
     conversationApi.setRegion(ConversationRegion.EUROPE);
     expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://eu.template.api.sinch.com');

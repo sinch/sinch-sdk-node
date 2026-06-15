@@ -178,7 +178,7 @@ describe('Conversation Service', () => {
     expect(conversationService.templatesV1.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME_TEMPLATES);
     expect(conversationService.templatesV2.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME_TEMPLATES);
     expect(warnSpy).toHaveBeenCalledTimes(1);
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
   });
 
   it('should set a custom hostnames for the templates APIs only', () => {
@@ -204,7 +204,7 @@ describe('Conversation Service', () => {
     expect(conversationService.webhooks.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(conversationService.consents.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(warnSpy).toHaveBeenCalledTimes(1);
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
     warnSpy.mockClear();
     expect(conversationService.templatesV1.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
     expect(conversationService.templatesV2.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
