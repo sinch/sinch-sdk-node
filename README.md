@@ -1,7 +1,7 @@
 # Sinch Node.js SDK
 
 
-[![Node.js](https://img.shields.io/badge/node.js-blue.svg)]
+![Node.js](https://img.shields.io/badge/node.js-blue.svg)
 [![Latest Release](https://img.shields.io/npm/v/@sinch/sdk-core?label=%40sinch%2Fsdk-core&labelColor=FFC658)](https://www.npmjs.com/package/@sinch/sdk-core)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/sinch/sinch-sdk-node/blob/main/LICENSE)
 
