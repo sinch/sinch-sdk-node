@@ -149,7 +149,7 @@ Here is the list of the Sinch products and their level of support by the Node.js
 |                        | Fax API                  |   ✅    |
 | Voice and Video        | Voice API                |   ✅    |
 |                        | Elastic SIP Trunking API |   ✅    |
-| Numbers & Connectivity | Numbers API              |   ✅    |
+| Numbers                | Numbers API              |   ✅    |
 | Verification           | Verification API         |   ✅    |
 |                        | Number Lookup API        |   ✅    |
 
