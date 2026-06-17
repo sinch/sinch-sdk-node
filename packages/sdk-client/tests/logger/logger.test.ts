@@ -1,22 +1,45 @@
-import { Logger, CONSOLE_LOGGER, NOOP_LOGGER, resolveLogger, SinchLogger } from '../../src/logger';
+import { Logger, NOOP_LOGGER, resolveLogger, SinchLogger } from '../../src/logger';
 
 describe('resolveLogger', () => {
-  it('should return CONSOLE_LOGGER when logger is undefined', () => {
-    expect(resolveLogger(undefined)).toBe(CONSOLE_LOGGER);
+  beforeEach(() => {
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
   });
 
-  it('should return NOOP_LOGGER when logger is null', () => {
-    expect(resolveLogger(null)).toBe(NOOP_LOGGER);
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
-  it('should return the provided logger instance', () => {
+  it('should wrap CONSOLE_LOGGER when logger is undefined', () => {
+    const logger = resolveLogger(undefined);
+    expect(logger).toBeInstanceOf(SinchLogger);
+    logger.warn('test');
+    expect(console.warn).toHaveBeenCalledWith('[Sinch SDK][Warn] test');
+  });
+
+  it('should wrap NOOP_LOGGER when logger is null', () => {
+    const logger = resolveLogger(null);
+    expect(logger).toBeInstanceOf(SinchLogger);
+    const callback = jest.fn(() => 'silent');
+    logger.warn(callback);
+    expect(callback).not.toHaveBeenCalled();
+  });
+
+  it('should wrap the provided logger instance', () => {
     const customLogger: Logger = {
       debug: jest.fn(),
       info: jest.fn(),
       warn: jest.fn(),
       error: jest.fn(),
     };
-    expect(resolveLogger(customLogger)).toBe(customLogger);
+    const logger = resolveLogger(customLogger);
+    expect(logger).toBeInstanceOf(SinchLogger);
+    logger.warn('test message');
+    expect(customLogger.warn).toHaveBeenCalledWith('[Sinch SDK][Warn] test message');
+  });
+
+  it('should return the same instance when logger is already resolved', () => {
+    const logger = resolveLogger(undefined);
+    expect(resolveLogger(logger)).toBe(logger);
   });
 });
 

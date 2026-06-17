@@ -24,7 +24,7 @@ export const NOOP_LOGGER: Logger = {
   error: () => {},
 };
 
-export const resolveLogger = (logger?: Logger | null): Logger => {
+const resolveBaseLogger = (logger?: Logger | null): Logger => {
   if (logger === null) {
     return NOOP_LOGGER;
   }
@@ -32,6 +32,13 @@ export const resolveLogger = (logger?: Logger | null): Logger => {
     return CONSOLE_LOGGER;
   }
   return logger;
+};
+
+export const resolveLogger = (logger?: Logger | null): Logger => {
+  if (logger instanceof SinchLogger) {
+    return logger;
+  }
+  return new SinchLogger(resolveBaseLogger(logger));
 };
 
 export class SinchLogger implements Logger {
