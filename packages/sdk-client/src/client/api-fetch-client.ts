@@ -20,7 +20,7 @@ import {
 } from '../api/api-errors';
 import fetch, { Response, Headers } from 'node-fetch';
 import { buildErrorContext, manageExpiredToken, reviveDates } from './api-client-helpers';
-import { SinchLogger, resolveLogger } from '../logger';
+import { resolveLogger } from '../logger';
 import {
   buildPaginationContext,
   calculateNextPage,
@@ -274,7 +274,7 @@ export class ApiFetchClient extends ApiClient {
   private logFailedResponse(context: ResponseContext): void {
     if (!context.response?.ok) {
       const { apiCallParameters } = context;
-      new SinchLogger(resolveLogger(this.apiClientOptions.logger)).debug(() =>
+      this.apiClientOptions.logger!.debug(() =>
         `[${apiCallParameters.apiName}][${apiCallParameters.operationId}][${context.response?.status}]\n`
         + `HTTP method: ${apiCallParameters.requestOptions.method}\n`
         + `URL: ${apiCallParameters.url}\n`

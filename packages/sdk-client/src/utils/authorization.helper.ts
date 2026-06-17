@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 import { IncomingHttpHeaders } from 'http';
 import { RequestBody } from '../plugins/core/request-plugin';
-import { Logger, SinchLogger, resolveLogger } from '../logger';
 
 /**
  * Generate authorization header for application-signed requests (Verification and Voice)
@@ -73,7 +72,6 @@ export const validateWebhookSignature = (
  * @param {any} body - Incoming request's body
  * @param {string} path - Incoming request's path
  * @param {string} method - Incoming request's HTTP method
- * @param {Logger} logger
  * @return {boolean} - true if the authorization header is valid
  */
 export const validateAuthenticationHeader = (
@@ -83,16 +81,14 @@ export const validateAuthenticationHeader = (
   body: any,
   path: string,
   method: string,
-  logger? : Logger | null,
 ): boolean => {
-  const sinchLogger = new SinchLogger(resolveLogger(logger));
   const normalizedHeaders = normalizeHeaders(headers);
 
   const authorization = getHeader(normalizedHeaders.authorization);
   if (typeof authorization === 'undefined') {
     return false;
   }
-  const authParts = checkAuthorizationHeaderFormat(authorization, sinchLogger);
+  const authParts = checkAuthorizationHeaderFormat(authorization);
   if (null === authParts) {
     return false;
   }
@@ -100,7 +96,7 @@ export const validateAuthenticationHeader = (
   const authorizationScheme = authParts[0].toLowerCase();
   const authorizationValue = authParts[1];
   if (authorizationScheme === 'basic') {
-    return validateBasicAuth(authorizationValue, applicationKey, applicationSecret, sinchLogger);
+    return validateBasicAuth(authorizationValue, applicationKey, applicationSecret);
   }
   if (authorizationScheme === 'application') {
     return validateApplicationAuth(
@@ -111,11 +107,8 @@ export const validateAuthenticationHeader = (
       path,
       body,
       method,
-      sinchLogger,
     );
   }
-  // Other schemes than 'basic' or 'application' are not supported
-  sinchLogger.error(`Scheme is not valid: ${authParts[0]}`);
   return false;
 };
 
@@ -179,15 +172,12 @@ const validateApplicationAuth = (
   path: string,
   body: any,
   method: string,
-  sinchLogger: SinchLogger,
 ): boolean => {
   const authKeyAndSecret = authorizationValue.split(':');
   if(authKeyAndSecret.length !== 2) {
-    sinchLogger.error('Invalid authorization value format provided');
     return false;
   }
   if(authKeyAndSecret[0] !== applicationKey) {
-    sinchLogger.error('Application Key is not valid');
     return false;
   }
 
@@ -204,7 +194,6 @@ const validateApplicationAuth = (
   const signature = calculateSignature(applicationSecret, stringToSign);
 
   if(authKeyAndSecret[1] !== signature) {
-    sinchLogger.error('Invalid signature');
     return false;
   }
 
@@ -233,11 +222,9 @@ const buildStringToSign = (
   return `${httpVerb}\n${contentMD5}\n${contentType}\n${canonicalizedHeaders}\n${canonicalizedResource}`;
 };
 
-const checkAuthorizationHeaderFormat = (authorizationHeader: string, sinchLogger: SinchLogger) => {
+const checkAuthorizationHeaderFormat = (authorizationHeader: string) => {
   const authParts = authorizationHeader.split(' ');
   if(authParts.length !== 2) {
-    // The authorization header must be in 2 part: scheme and authorization value
-    sinchLogger.error('Invalid authorization format provided');
     return null;
   }
   return authParts;
@@ -247,15 +234,12 @@ const validateBasicAuth = (
   authorization: string,
   applicationKey: string,
   applicationSecret: string,
-  sinchLogger: SinchLogger,
 ): boolean => {
   const authKeyAndSecret = authorization.split(':');
   if(authKeyAndSecret.length !== 2) {
-    sinchLogger.error('Invalid authorization value format provided');
     return false;
   }
   if(authKeyAndSecret[0] !== applicationKey || authKeyAndSecret[1] !== applicationSecret) {
-    sinchLogger.error('Invalid credentials provided');
     return false;
   }
   return true;
