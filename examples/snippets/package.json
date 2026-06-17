@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build": "tsc --noEmit",
+    "sdk-client:logger": "node sdk-client/logger.js",
     "conversation:app:create": "node conversation/applications/create.js",
     "conversation:app:get": "node conversation/applications/get.js",
     "conversation:app:list": "node conversation/applications/list.js",
