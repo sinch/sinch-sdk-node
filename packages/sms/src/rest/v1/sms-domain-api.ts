@@ -4,8 +4,6 @@ import {
   SmsRegion,
   UnifiedCredentials,
   ServicePlanIdCredentials,
-  SinchLogger,
-  resolveLogger,
 } from '@sinch/sdk-client';
 import { LazySmsApiClient } from './sms-service';
 
@@ -61,7 +59,7 @@ export class SmsDomainApi implements Api {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      new SinchLogger(resolveLogger(this.lazyClient.sharedConfig.logger)).error(
+      this.lazyClient.sharedConfig.logger!.error(
         'Impossible to assign the new credentials to the SMS API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

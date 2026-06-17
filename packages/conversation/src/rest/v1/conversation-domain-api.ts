@@ -2,9 +2,7 @@ import {
   Api,
   ApiClient,
   ConversationRegion,
-  SinchLogger,
   UnifiedCredentials,
-  resolveLogger,
 } from '@sinch/sdk-client';
 import { LazyConversationApiClient, LazyConversationTemplateApiClient } from './conversation-service';
 
@@ -67,7 +65,7 @@ export class ConversationDomainApi implements Api {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      new SinchLogger(resolveLogger(this.lazyClient.sharedConfig.logger)).error(
+      this.lazyClient.sharedConfig.logger!.error(
         'Impossible to assign the new credentials to the Conversation API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

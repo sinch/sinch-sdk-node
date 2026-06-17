@@ -1,9 +1,7 @@
 import {
   Api,
   ApiClient,
-  SinchLogger,
   UnifiedCredentials,
-  resolveLogger,
 } from '@sinch/sdk-client';
 import { LazyNumberLookupApiClient } from './number-lookup-service';
 
@@ -41,7 +39,7 @@ export class NumberLookupDomainApi implements Api {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      new SinchLogger(resolveLogger(this.lazyClient.sharedConfig.logger)).error(
+      this.lazyClient.sharedConfig.logger!.error(
         'Impossible to assign the new credentials to the Number Lookup API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

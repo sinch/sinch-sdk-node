@@ -4,7 +4,6 @@ import {
   buildOAuth2ApiClientOptions,
   NUMBERS_HOSTNAME,
   SinchClientParameters,
-  SinchLogger,
   UnifiedCredentials,
   resolveLogger,
 } from '@sinch/sdk-client';
@@ -113,7 +112,7 @@ export class NumbersService {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      new SinchLogger(resolveLogger(this.lazyClient.sharedConfig.logger)).error(
+      this.lazyClient.sharedConfig.logger!.error(
         'Impossible to assign the new credentials to the Numbers API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

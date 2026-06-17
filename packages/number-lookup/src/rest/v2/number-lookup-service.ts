@@ -3,7 +3,6 @@ import {
   buildOAuth2ApiClientOptions,
   NUMBER_LOOKUP_HOSTNAME,
   SinchClientParameters,
-  SinchLogger,
   UnifiedCredentials,
   resolveLogger,
 } from '@sinch/sdk-client';
@@ -66,7 +65,7 @@ export class NumberLookupService {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      new SinchLogger(resolveLogger(this.lazyClient.sharedConfig.logger)).error(
+      this.lazyClient.sharedConfig.logger!.error(
         'Impossible to assign the new credentials to the Number Lookup API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

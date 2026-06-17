@@ -2,9 +2,7 @@ import {
   Api,
   ApiClient,
   ApplicationCredentials,
-  SinchLogger,
   VoiceRegion,
-  resolveLogger,
 } from '@sinch/sdk-client';
 import { LazyVoiceApiClient, LazyVoiceApplicationManagementApiClient } from './voice-service';
 
@@ -64,7 +62,7 @@ export class VoiceDomainApi implements Api {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      new SinchLogger(resolveLogger(this.lazyClient.sharedConfig.logger)).error(
+      this.lazyClient.sharedConfig.logger!.error(
         'Impossible to assign the new credentials to the Voice API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

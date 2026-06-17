@@ -6,7 +6,6 @@ import {
   ConversationRegion,
   formatRegionalizedHostname,
   SinchClientParameters,
-  SinchLogger,
   SupportedConversationRegion, UnifiedCredentials,
   resolveLogger,
 } from '@sinch/sdk-client';
@@ -34,10 +33,10 @@ export class LazyConversationApiClient {
       // Deprecation Notice - to remove in 2.0
       const isConversationHostnameOverridden = !!this.sharedConfig.conversationHostname;
       if (!this.sharedConfig.conversationRegion && !isConversationHostnameOverridden) {
-        new SinchLogger(resolveLogger(this.sharedConfig.logger)).warn(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+      this.sharedConfig.logger!.warn(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
       }
       if(!Object.values(SupportedConversationRegion).includes(region as SupportedConversationRegion)) {
-        new SinchLogger(resolveLogger(this.sharedConfig.logger)).warn(
+        this.sharedConfig.logger!.warn(
           `The region "${region}" is not known as a supported region for the Conversation API`,
         );
       }
@@ -69,10 +68,10 @@ export class LazyConversationTemplateApiClient {
       // Deprecation Notice - to remove in 2.0
       const isConversationTemplatesHostnameOverridden = !!this.sharedConfig.conversationTemplatesHostname;
       if (!this.sharedConfig.conversationRegion && !isConversationTemplatesHostnameOverridden) {
-        new SinchLogger(resolveLogger(this.sharedConfig.logger)).warn(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+      this.sharedConfig.logger!.warn(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
       }
       if(!Object.values(SupportedConversationRegion).includes(region as SupportedConversationRegion)) {
-        new SinchLogger(resolveLogger(this.sharedConfig.logger)).warn(
+        this.sharedConfig.logger!.warn(
           `The region "${region}" is not known as a supported region for the Conversation API`,
         );
       }
@@ -205,7 +204,7 @@ export class ConversationService {
       this.lazyConversationClient.getApiClient();
       this.lazyConversationTemplateClient.getApiClient();
     } catch (error) {
-      new SinchLogger(resolveLogger(this.lazyConversationClient.sharedConfig.logger)).error(
+      this.lazyConversationClient.sharedConfig.logger!.error(
         'Impossible to assign the new credentials to the Conversation API',
       );
       this.lazyConversationClient.sharedConfig = parametersBackup;
