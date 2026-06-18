@@ -1,3 +1,4 @@
+import { ProvisioningService } from '@sinch/provisioning';
 import { ConversationService } from '@sinch/conversation';
 import { FaxService } from '@sinch/fax';
 import { NumbersService } from '@sinch/numbers';
@@ -19,6 +20,7 @@ export class SinchClient {
   public readonly verification: VerificationService;
   public readonly voice: VoiceService;
   public readonly numberLookup: NumberLookupService;
+  public readonly provisioning: ProvisioningService;
 
   /**
    * Initialize your API Client instance with the provided credentials.
@@ -34,5 +36,6 @@ export class SinchClient {
     this.verification = new VerificationService(params);
     this.voice = new VoiceService(params);
     this.numberLookup = new NumberLookupService(params);
+    this.provisioning = new ProvisioningService(params);
   }
 }

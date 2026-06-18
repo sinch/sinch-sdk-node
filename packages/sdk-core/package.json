@@ -36,7 +36,8 @@
     "@sinch/sms": "1.4.3",
     "@sinch/verification": "1.4.3",
     "@sinch/voice": "1.4.3",
-    "@sinch/number-lookup": "1.4.3"
+    "@sinch/number-lookup": "1.4.3",
+    "@sinch/provisioning": "1.5.0"
   },
   "devDependencies": {},
   "publishConfig": {
