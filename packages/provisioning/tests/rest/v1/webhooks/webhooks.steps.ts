@@ -1,6 +1,7 @@
 import { Given, Then, When } from '@cucumber/cucumber';
 import * as assert from 'assert';
-import { Provisioning, ProvisioningService, WebhooksApi } from '../../../../src';
+import { Provisioning, ProvisioningService } from '../../../../src';
+import { WebhooksApi } from '../../../../src/rest/v1/webhooks';
 
 let webhooksApi: WebhooksApi;
 let webhooksList: Provisioning.ListWebhooksResponse;
