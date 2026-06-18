@@ -134,7 +134,7 @@ describe('AccessControlListApi', () => {
   });
 
   describe ('getAccessControlListById', () => {
-    // eslint-disable-next-line max-len
+     
     it('should make a GET request to retrieve an access control list', async () => {
       // Given
       const requestData: ElasticSipTrunking.GetAccessControlListRequestData = {

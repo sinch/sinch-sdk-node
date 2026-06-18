@@ -148,7 +148,7 @@ describe('SMS API', () => {
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://br.sms.api.sinch.com');
   });
 
-  // eslint-disable-next-line max-len
+   
   it('should not update the credentials nor URL when adding unified credentials to the SMS credentials', () => {
     smsApi = new SmsDomainApi(lazyClientWithServicePlanId, 'dummy');
     expect(smsApi.client).toBeDefined();
@@ -162,7 +162,7 @@ describe('SMS API', () => {
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://us.sms.api.sinch.com');
   });
 
-  // eslint-disable-next-line max-len
+   
   it('should update the region in the URL when adding unified credentials and region to the SMS credentials', () => {
     smsApi = new SmsDomainApi(lazyClientWithServicePlanId, 'dummy');
     expect(smsApi.client).toBeDefined();

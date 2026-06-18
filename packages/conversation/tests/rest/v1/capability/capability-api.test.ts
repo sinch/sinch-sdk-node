@@ -49,7 +49,7 @@ describe('CapabilityApi', () => {
       ['contact ID', requestDataWithContactId, expectedResponse],
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
     ])('should make a POST request to trigger a CAPABILITY event for a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.lookup.mockResolvedValue(expectedResponse);
