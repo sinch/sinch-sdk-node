@@ -2,6 +2,11 @@ name: Publish Packages
 
 on:
   workflow_dispatch:
+    inputs:
+      publish_public:
+        description: 'Publish packages as public (private by default)'
+        type: boolean
+        default: false
 
 jobs:
   publish:
@@ -53,6 +58,7 @@ jobs:
           mkdir -p ./packages/numbers/tests/e2e/features
           mkdir -p ./packages/conversation/tests/e2e/features
           mkdir -p ./packages/elastic-sip-trunking/tests/e2e/features
+          mkdir -p ./packages/provisioning/tests/e2e/features
           mkdir -p ./packages/sms/tests/e2e/features
           mkdir -p ./packages/verification/tests/e2e/features
           mkdir -p ./packages/voice/tests/e2e/features
@@ -63,6 +69,7 @@ jobs:
           cp sinch-sdk-mockserver/features/numbers/*.feature ./packages/numbers/tests/e2e/features/
           cp sinch-sdk-mockserver/features/conversation/*.feature ./packages/conversation/tests/e2e/features/
           cp sinch-sdk-mockserver/features/elastic-sip-trunking/*.feature ./packages/elastic-sip-trunking/tests/e2e/features/
+          cp sinch-sdk-mockserver/features/provisioning/*.feature ./packages/provisioning/tests/e2e/features/
           cp sinch-sdk-mockserver/features/sms/*.feature ./packages/sms/tests/e2e/features/
           cp sinch-sdk-mockserver/features/verification/*.feature ./packages/verification/tests/e2e/features/
           cp sinch-sdk-mockserver/features/voice/*.feature ./packages/voice/tests/e2e/features/
@@ -72,14 +79,19 @@ jobs:
 
       - name: Publish packages
         run: |
-          cd packages/sdk-client && npm publish
-          cd ../numbers && npm publish
-          cd ../sms && npm publish
-          cd ../verification && npm publish
-          cd ../voice && npm publish
-          cd ../conversation && npm publish
-          cd ../fax && npm publish
-          cd ../elastic-sip-trunking && npm publish
-          cd ../sdk-core && npm publish
+          PUBLISH_ACCESS=""
+          if [ "${{ inputs.publish_public }}" = "true" ]; then
+            PUBLISH_ACCESS="--access public"
+          fi
+          cd packages/sdk-client && npm publish $PUBLISH_ACCESS
+          cd ../numbers && npm publish $PUBLISH_ACCESS
+          cd ../sms && npm publish $PUBLISH_ACCESS
+          cd ../verification && npm publish $PUBLISH_ACCESS
+          cd ../voice && npm publish $PUBLISH_ACCESS
+          cd ../conversation && npm publish $PUBLISH_ACCESS
+          cd ../fax && npm publish $PUBLISH_ACCESS
+          cd ../elastic-sip-trunking && npm publish $PUBLISH_ACCESS
+          cd ../provisioning && npm publish $PUBLISH_ACCESS
+          cd ../sdk-core && npm publish $PUBLISH_ACCESS
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
