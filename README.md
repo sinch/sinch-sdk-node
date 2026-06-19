@@ -27,7 +27,7 @@ For more information on the SDK, refer to the dedicated [Node SDK documentation 
 
 ## Prerequisites
 
-- Node.js 18 or later (LTS recommended)
+- Node.js [18.20.8](https://nodejs.org/en/download/archive/v18.20.8), [20.20.2](https://nodejs.org/en/download/archive/v20.20.2), or [22.23.0](https://nodejs.org/en/download/archive/v22.23.0) (LTS recommended)
 - [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) (recommended)
 - [Sinch account](https://dashboard.sinch.com/)
 
@@ -54,13 +54,15 @@ yarn add @sinch/sdk-core
 | API Category    | API Name |
 |-----------------|----------|
 | Messaging       | [Conversation API](https://developers.sinch.com/docs/conversation) |
-| Messaging       | [SMS API](https://developers.sinch.com/docs/sms) |
+|                 | [SMS API](https://developers.sinch.com/docs/sms) |
 | Voice and Video | [Voice API](https://developers.sinch.com/docs/voice) |
-| Voice and Video | [Elastic SIP Trunking API](https://developers.sinch.com/docs/est) |
+|                 | [Elastic SIP Trunking API](https://developers.sinch.com/docs/est) |
 | Numbers         | [Numbers API](https://developers.sinch.com/docs/numbers) |
 | Verification    | [Verification API](https://developers.sinch.com/docs/verification) |
-| Verification    | [Number Lookup API](https://developers.sinch.com/docs/number-lookup-api-v2) |
+|                 | [Number Lookup API](https://developers.sinch.com/docs/number-lookup-api-v2) |
 | Fax             | [Fax API](https://developers.sinch.com/docs/fax) |
+
+> **Note:** The SMS API is end-of-sale. New integrations should use the [Conversation API](https://developers.sinch.com/docs/conversation/) instead, which supports SMS and many other channels.
 
 ## Getting started
 
@@ -119,7 +121,7 @@ const event = callbackWebhooks.parseEvent(request.body);
 
 `SINCH_CONVERSATION_APP_SECRET` is the app secret set per app in the [Conversation dashboard](https://dashboard.sinch.com/convapi/apps). `parseEvent` works without validating the request, but then its origin can't be verified, so validating is recommended in production.
 
-You can find a complete example in [examples/webhooks](./examples/webhooks).
+You can find a complete example in the Conversation section of [.examples/webhooks](./examples/webhooks/src/controller/app.controller.ts#L41-L61).
 
 ### SMS API
 
