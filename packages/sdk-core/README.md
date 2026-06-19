@@ -96,6 +96,7 @@ For convenience, importing `@sinch/sdk-core` is sufficient to be able to access 
  - Elastic SIP Trunking: [`@sinch/elastic-sip-trunking`](https://www.npmjs.com/package/@sinch/elastic-sip-trunking)
  - Fax: [`@sinch/fax`](https://www.npmjs.com/package/@sinch/fax)
  - Numbers: [`@sinch/numbers`](https://www.npmjs.com/package/@sinch/numbers)
+ - Number Lookup: [`@sinch/number-lookup`](https://www.npmjs.com/package/@sinch/number-lookup)
  - Verification: [`@sinch/verification`](https://www.npmjs.com/package/@sinch/verification)
  - Voice: [`@sinch/voice`](https://www.npmjs.com/package/@sinch/voice)
 
@@ -105,6 +106,7 @@ All the interfaces are exported with an alias, equal to the API name:
  - `ElasticSipTrunking` for the Elastic SIP Trunking API
  - `Fax` for the Fax API
  - `Numbers` for the Numbers API
+ - `NumberLookup` for the Number Lookup API
  - `Verification` for the Verification API
  - `Voice` for the Voice API
 
