@@ -30,7 +30,7 @@ describe('Number Lookup API', () => {
   });
 
   it('should use the hostname parameter', () => {
-    params.numberLookupHostname = CUSTOM_HOSTNAME;
+    lazyClient.sharedConfig.numberLookupHostname = CUSTOM_HOSTNAME;
     numberLookupApi = new NumberLookupDomainApi(lazyClient, 'dummy');
     expect(numberLookupApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });

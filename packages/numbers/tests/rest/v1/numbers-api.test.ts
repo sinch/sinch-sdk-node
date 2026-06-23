@@ -30,7 +30,7 @@ describe('Numbers API', () => {
   });
 
   it('should use the hostname parameter', () => {
-    params.numbersHostname = CUSTOM_HOSTNAME;
+    lazyClient.sharedConfig.numbersHostname = CUSTOM_HOSTNAME;
     numbersApi = new NumbersDomainApi(lazyClient, 'dummy');
     expect(numbersApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });

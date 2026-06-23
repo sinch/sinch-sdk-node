@@ -27,7 +27,7 @@ describe('Verification API', () => {
   });
 
   it('should use the hostname parameter', () => {
-    params.verificationHostname = CUSTOM_HOSTNAME;
+    lazyClient.sharedConfig.verificationHostname = CUSTOM_HOSTNAME;
     verificationApi = new VerificationDomainApi(lazyClient, 'dummy');
     expect(verificationApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
