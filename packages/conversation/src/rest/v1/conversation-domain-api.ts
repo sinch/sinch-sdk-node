@@ -65,7 +65,7 @@ export class ConversationDomainApi implements Api {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      this.lazyClient.sharedConfig.logger!.error(
+      this.lazyClient.sharedConfig.logger.error(
         'Impossible to assign the new credentials to the Conversation API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

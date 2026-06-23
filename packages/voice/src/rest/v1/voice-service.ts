@@ -6,7 +6,8 @@ import {
   formatRegionalizedHostname,
   SinchClientParameters,
   SupportedVoiceRegion,
-  resolveLogger,
+  LazyApiClient,
+  resolveClientParameters,
   VOICE_APPLICATION_MANAGEMENT_HOSTNAME,
   VOICE_HOSTNAME,
   VoiceRegion,
@@ -16,15 +17,12 @@ import { ConferencesApi } from './conferences';
 import { CallsApi } from './calls';
 import { CalloutsApi } from './callouts';
 
-export class LazyVoiceApiClient {
-  apiFetchClient?: ApiFetchClient;
-  constructor(public sharedConfig: SinchClientParameters) {}
-
+export class LazyVoiceApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
       const region = this.sharedConfig.voiceRegion ?? VoiceRegion.DEFAULT;
       if(!Object.values(SupportedVoiceRegion).includes(region as SupportedVoiceRegion)) {
-        this.sharedConfig.logger!.warn(
+        this.sharedConfig.logger.warn(
           `The region "${region}" is not known as a supported region for the Voice API`,
         );
       }
@@ -35,10 +33,6 @@ export class LazyVoiceApiClient {
     return this.apiFetchClient;
   }
 
-  public resetApiClient() {
-    this.apiFetchClient = undefined;
-  }
-
   private buildHostname(region: ConversationRegion) {
     const formattedRegion = region === VoiceRegion.DEFAULT ? region : `-${region}`;
     return this.sharedConfig.voiceHostname ?? formatRegionalizedHostname(VOICE_HOSTNAME, formattedRegion);
@@ -46,10 +40,7 @@ export class LazyVoiceApiClient {
 
 }
 
-export class LazyVoiceApplicationManagementApiClient {
-  apiFetchClient?: ApiFetchClient;
-  constructor(public sharedConfig: SinchClientParameters) {}
-
+export class LazyVoiceApplicationManagementApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
       const apiClientOptions = buildApplicationSignedApiClientOptions(this.sharedConfig, 'Voice');
@@ -58,10 +49,6 @@ export class LazyVoiceApplicationManagementApiClient {
         = this.sharedConfig.voiceApplicationManagementHostname ?? VOICE_APPLICATION_MANAGEMENT_HOSTNAME;
     }
     return this.apiFetchClient;
-  }
-
-  public resetApiClient() {
-    this.apiFetchClient = undefined;
   }
 }
 
@@ -93,11 +80,11 @@ export class VoiceService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
-    params.logger = resolveLogger(params.logger);
-    const sharedVoiceClient = new LazyVoiceApiClient(params);
+    const sharedConfig = resolveClientParameters(params);
+    const sharedVoiceClient = new LazyVoiceApiClient(sharedConfig);
     this.lazyVoiceClient = sharedVoiceClient;
 
-    const sharedVoiceAppMgmtClient = new LazyVoiceApplicationManagementApiClient(params);
+    const sharedVoiceAppMgmtClient = new LazyVoiceApplicationManagementApiClient(sharedConfig);
     this.lazyVoiceAppMgmtClient = sharedVoiceAppMgmtClient;
 
     this.applications = new ApplicationsApi(sharedVoiceAppMgmtClient);
@@ -107,9 +94,10 @@ export class VoiceService {
   }
 
   public setApiClientConfig(newParams: SinchClientParameters) {
-    this.lazyVoiceClient.sharedConfig = newParams;
+    const resolvedParams = resolveClientParameters(newParams);
+    this.lazyVoiceClient.sharedConfig = resolvedParams;
     this.lazyVoiceClient.resetApiClient();
-    this.lazyVoiceAppMgmtClient.sharedConfig = newParams;
+    this.lazyVoiceAppMgmtClient.sharedConfig = resolvedParams;
     this.lazyVoiceAppMgmtClient.resetApiClient();
   }
 
@@ -161,7 +149,7 @@ export class VoiceService {
       this.lazyVoiceClient.getApiClient();
       this.lazyVoiceAppMgmtClient.getApiClient();
     } catch (error) {
-      this.lazyVoiceClient.sharedConfig.logger!.error(
+      this.lazyVoiceClient.sharedConfig.logger.error(
         'Impossible to assign the new credentials to the Voice API',
       );
       this.lazyVoiceClient.sharedConfig = parametersBackup;

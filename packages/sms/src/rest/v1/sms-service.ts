@@ -6,7 +6,8 @@ import {
   SMS_HOSTNAME,
   SmsRegion,
   SupportedSmsRegion, UnifiedCredentials,
-  resolveLogger,
+  LazyApiClient,
+  resolveClientParameters,
 } from '@sinch/sdk-client';
 import { GroupsApi } from './groups';
 import { DeliveryReportsApi } from './delivery-reports';
@@ -17,19 +18,16 @@ export const DEFAULT_SMS_REGION_DEPRECATION_WARNING = '** DEPRECATION NOTICE ** 
   + 'The "smsRegion" property will become mandatory in the next major version of the SDK and not default '
   + 'to "us" anymore. Please set it to a valid region.';
 
-export class LazySmsApiClient {
-  apiFetchClient?: ApiFetchClient;
-  constructor(public sharedConfig: SinchClientParameters) {}
-
+export class LazySmsApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
       const region = this.sharedConfig.smsRegion ?? SmsRegion.UNITED_STATES;
       // Deprecation Notice - to remove in 2.0
       if (!this.sharedConfig.smsRegion && !this.sharedConfig.smsHostname) {
-        this.sharedConfig.logger!.warn(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+        this.sharedConfig.logger.warn(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
       }
       if(!Object.values(SupportedSmsRegion).includes(region as SupportedSmsRegion)) {
-        this.sharedConfig.logger!.warn(
+        this.sharedConfig.logger.warn(
           `The region "${region}" is not known as a supported region for the SMS API`,
         );
       }
@@ -45,10 +43,6 @@ export class LazySmsApiClient {
   private buildHostname(region: SmsRegion, useZapStack: boolean) {
     const formattedRegion = region !== '' ? `${region}.` : '';
     return formatRegionalizedHostname(SMS_HOSTNAME, `${useZapStack?'zt.':''}${formattedRegion}`);
-  }
-
-  public resetApiClient() {
-    this.apiFetchClient = undefined;
   }
 }
 
@@ -80,7 +74,6 @@ export class SmsService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
-    params.logger = resolveLogger(params.logger);
     this.lazyClient = new LazySmsApiClient(params);
 
     this.groups = new GroupsApi(this.lazyClient);
@@ -90,7 +83,7 @@ export class SmsService {
   }
 
   public setApiClientConfig(newParams: SinchClientParameters) {
-    this.lazyClient.sharedConfig = newParams;
+    this.lazyClient.sharedConfig = resolveClientParameters(newParams);
     this.lazyClient.resetApiClient();
   }
 
@@ -122,7 +115,7 @@ export class SmsService {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      this.lazyClient.sharedConfig.logger!.error(
+      this.lazyClient.sharedConfig.logger.error(
         'Impossible to assign the new credentials to the SMS API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

@@ -44,7 +44,7 @@ export class FaxDomainApi implements Api {
     // Deprecated: regions are ignored by the Fax API which uses a single global endpoint.
     // Keep this method for backward compatibility but avoid mutating shared state or
     // resetting the client to prevent unexpected side effects.
-    this.lazyClient.sharedConfig.logger!.info(`Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint ${this.lazyClient.sharedConfig.faxHostname ?? 'https://fax.api.sinch.com'}`);
+    this.lazyClient.sharedConfig.logger.info(`Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint ${this.lazyClient.sharedConfig.faxHostname ?? 'https://fax.api.sinch.com'}`);
   }
 
   /**
@@ -61,7 +61,7 @@ export class FaxDomainApi implements Api {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      this.lazyClient.sharedConfig.logger!.error(
+      this.lazyClient.sharedConfig.logger.error(
         'Impossible to assign the new credentials to the Fax API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

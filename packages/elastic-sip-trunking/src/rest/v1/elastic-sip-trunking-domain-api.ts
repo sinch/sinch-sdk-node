@@ -48,7 +48,7 @@ export class ElasticSipTrunkingDomainApi implements Api {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      this.lazyClient.sharedConfig.logger!.error(
+      this.lazyClient.sharedConfig.logger.error(
         'Impossible to assign the new credentials to the Elastic SIP Trunking API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

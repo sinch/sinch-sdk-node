@@ -25,7 +25,7 @@ describe('Fax API', () => {
   });
 
   it('should use the hostname parameter', () => {
-    params.faxHostname = CUSTOM_HOSTNAME;
+    lazyClient.sharedConfig.faxHostname = CUSTOM_HOSTNAME;
     faxApi = new FaxDomainApi(lazyClient, 'dummy');
     expect(faxApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });

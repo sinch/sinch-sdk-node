@@ -48,14 +48,14 @@ describe('SMS API', () => {
   });
 
   it('should change the URL when specifying a different region', () => {
-    paramsWithServicePlanId.smsRegion = SmsRegion.CANADA;
+    lazyClientWithServicePlanId.sharedConfig.smsRegion = SmsRegion.CANADA;
     smsApi = new SmsDomainApi(lazyClientWithServicePlanId, 'dummy');
     expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://ca.sms.api.sinch.com');
   });
 
   it('should log a warning when using an unsupported region', async () => {
-    paramsWithProjectId.smsRegion = 'bzh';
+    lazyClientWithProjectId.sharedConfig.smsRegion = 'bzh';
     smsApi = new SmsDomainApi(lazyClientWithProjectId, 'dummy');
     expect(smsApi.client?.apiClientOptions.hostname).toBe('https://zt.bzh.sms.api.sinch.com');
     expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] '
@@ -63,14 +63,14 @@ describe('SMS API', () => {
   });
 
   it('should use the hostname parameter when using projectId credentials', () => {
-    paramsWithProjectId.smsHostname = CUSTOM_HOSTNAME;
+    lazyClientWithProjectId.sharedConfig.smsHostname = CUSTOM_HOSTNAME;
     smsApi = new SmsDomainApi(lazyClientWithProjectId, 'dummy');
     expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(smsApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
 
   it('should use the hostname parameter when using servicePlanId credentials', () => {
-    paramsWithServicePlanId.smsHostname = CUSTOM_HOSTNAME;
+    lazyClientWithServicePlanId.sharedConfig.smsHostname = CUSTOM_HOSTNAME;
     smsApi = new SmsDomainApi(lazyClientWithServicePlanId, 'dummy');
     expect(warnSpy).toHaveBeenCalledTimes(0);
     expect(smsApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);

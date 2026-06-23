@@ -3,9 +3,10 @@ import {
   ApiListPromise,
   buildOAuth2ApiClientOptions,
   NUMBERS_HOSTNAME,
+  LazyApiClient,
   SinchClientParameters,
   UnifiedCredentials,
-  resolveLogger,
+  resolveClientParameters,
 } from '@sinch/sdk-client';
 import { AvailableRegionsApi } from './available-regions';
 import { CallbacksApi } from './callbacks';
@@ -31,10 +32,7 @@ import {
   ValidateEmergencyAddressRequestData,
 } from '../../models';
 
-export class LazyNumbersApiClient {
-  apiFetchClient?: ApiFetchClient;
-  constructor(public sharedConfig: SinchClientParameters) {}
-
+export class LazyNumbersApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sharedConfig, 'Numbers');
@@ -42,10 +40,6 @@ export class LazyNumbersApiClient {
       this.apiFetchClient.apiClientOptions.hostname = this.sharedConfig.numbersHostname ?? NUMBERS_HOSTNAME;
     }
     return this.apiFetchClient;
-  }
-
-  public resetApiClient() {
-    this.apiFetchClient = undefined;
   }
 }
 
@@ -77,7 +71,6 @@ export class NumbersService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
-    params.logger = resolveLogger(params.logger);
     const sharedClient = new LazyNumbersApiClient(params);
     this.lazyClient = sharedClient;
 
@@ -88,7 +81,7 @@ export class NumbersService {
   }
 
   public setApiClientConfig(newParams: SinchClientParameters) {
-    this.lazyClient.sharedConfig = newParams;
+    this.lazyClient.sharedConfig = resolveClientParameters(newParams);
     this.lazyClient.resetApiClient();
   }
 
@@ -112,7 +105,7 @@ export class NumbersService {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      this.lazyClient.sharedConfig.logger!.error(
+      this.lazyClient.sharedConfig.logger.error(
         'Impossible to assign the new credentials to the Numbers API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

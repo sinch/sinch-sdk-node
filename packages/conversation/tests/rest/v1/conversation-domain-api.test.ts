@@ -43,14 +43,14 @@ describe('Conversation API', () => {
   });
 
   it('should change the URL when specifying a different region', () => {
-    params.conversationRegion = ConversationRegion.EUROPE;
+    lazyClient.sharedConfig.conversationRegion = ConversationRegion.EUROPE;
     conversationApi = new ConversationDomainApi(lazyClient, 'dummy');
     expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://eu.conversation.api.sinch.com');
     expect(warnSpy).toHaveBeenCalledTimes(0);
   });
 
   it('should log a warning when using an unsupported region', async () => {
-    params.conversationRegion = 'bzh';
+    lazyClient.sharedConfig.conversationRegion = 'bzh';
     conversationApi = new ConversationDomainApi(lazyClient, 'dummy');
     expect(conversationApi.client).toBeDefined();
     expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] '
@@ -59,7 +59,7 @@ describe('Conversation API', () => {
   });
 
   it('should use the hostname parameter but not for templates', () => {
-    params.conversationHostname = CUSTOM_HOSTNAME;
+    lazyClient.sharedConfig.conversationHostname = CUSTOM_HOSTNAME;
     conversationApi = new ConversationDomainApi(lazyClient, 'dummy');
     templateApi = new ConversationDomainApi(lazyTemplateClient, 'dummy');
     expect(conversationApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
@@ -70,7 +70,7 @@ describe('Conversation API', () => {
   });
 
   it('should use the hostname parameter for templates only', () => {
-    params.conversationTemplatesHostname = CUSTOM_HOSTNAME_TEMPLATES;
+    lazyTemplateClient.sharedConfig.conversationTemplatesHostname = CUSTOM_HOSTNAME_TEMPLATES;
     conversationApi = new ConversationDomainApi(lazyClient, 'dummy');
     templateApi = new ConversationDomainApi(lazyTemplateClient, 'dummy');
     expect(conversationApi.client?.apiClientOptions.hostname).toBe('https://us.conversation.api.sinch.com');
@@ -81,8 +81,8 @@ describe('Conversation API', () => {
   });
 
   it('should use the hostname parameter for the 2 different domains', () => {
-    params.conversationHostname = CUSTOM_HOSTNAME;
-    params.conversationTemplatesHostname = CUSTOM_HOSTNAME_TEMPLATES;
+    lazyClient.sharedConfig.conversationHostname = CUSTOM_HOSTNAME;
+    lazyTemplateClient.sharedConfig.conversationTemplatesHostname = CUSTOM_HOSTNAME_TEMPLATES;
     conversationApi = new ConversationDomainApi(lazyClient, 'dummy');
     templateApi = new ConversationDomainApi(lazyTemplateClient, 'dummy');
     expect(conversationApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);

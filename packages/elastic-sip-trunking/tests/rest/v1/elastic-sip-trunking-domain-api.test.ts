@@ -25,7 +25,7 @@ describe('Elastic SIP Trunking API', () => {
   });
 
   it('should use the hostname parameter', () => {
-    params.elasticSipTrunkingHostname = CUSTOM_HOSTNAME;
+    lazyClient.sharedConfig.elasticSipTrunkingHostname = CUSTOM_HOSTNAME;
     elasticSipTrunkingApi = new ElasticSipTrunkingDomainApi(lazyClient, 'dummy');
     expect(elasticSipTrunkingApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });

@@ -39,7 +39,7 @@ export class NumberLookupDomainApi implements Api {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      this.lazyClient.sharedConfig.logger!.error(
+      this.lazyClient.sharedConfig.logger.error(
         'Impossible to assign the new credentials to the Number Lookup API',
       );
       this.lazyClient.sharedConfig = parametersBackup;

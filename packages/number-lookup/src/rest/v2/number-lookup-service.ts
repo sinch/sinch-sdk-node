@@ -2,17 +2,15 @@ import {
   ApiFetchClient,
   buildOAuth2ApiClientOptions,
   NUMBER_LOOKUP_HOSTNAME,
+  LazyApiClient,
   SinchClientParameters,
   UnifiedCredentials,
-  resolveLogger,
+  resolveClientParameters,
 } from '@sinch/sdk-client';
 import { NumberLookupApi } from './number-lookup';
 import { NumberLookupRequestData, NumberLookupResponse } from '../../models';
 
-export class LazyNumberLookupApiClient {
-  apiFetchClient?: ApiFetchClient;
-  constructor(public sharedConfig: SinchClientParameters) {}
-
+export class LazyNumberLookupApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sharedConfig, 'Number Lookup');
@@ -20,10 +18,6 @@ export class LazyNumberLookupApiClient {
       this.apiFetchClient.apiClientOptions.hostname = this.sharedConfig.numberLookupHostname ?? NUMBER_LOOKUP_HOSTNAME;
     }
     return this.apiFetchClient;
-  }
-
-  public resetApiClient() {
-    this.apiFetchClient = undefined;
   }
 }
 
@@ -33,7 +27,6 @@ export class NumberLookupService {
   public readonly lazyClient: LazyNumberLookupApiClient;
 
   constructor(params: SinchClientParameters) {
-    params.logger = resolveLogger(params.logger);
     const sharedClient = new LazyNumberLookupApiClient(params);
     this.lazyClient = sharedClient;
 
@@ -41,7 +34,7 @@ export class NumberLookupService {
   }
 
   public setApiClientConfig(newParams: SinchClientParameters) {
-    this.lazyClient.sharedConfig = newParams;
+    this.lazyClient.sharedConfig = resolveClientParameters(newParams);
     this.lazyClient.resetApiClient();
   }
 
@@ -65,7 +58,7 @@ export class NumberLookupService {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      this.lazyClient.sharedConfig.logger!.error(
+      this.lazyClient.sharedConfig.logger.error(
         'Impossible to assign the new credentials to the Number Lookup API',
       );
       this.lazyClient.sharedConfig = parametersBackup;
