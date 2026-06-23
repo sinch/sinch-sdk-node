@@ -197,3 +197,8 @@ export interface WithLogger {
    */
   logger?: Logger | null;
 }
+
+/** Sinch client parameters with a resolved logger (never null or undefined). */
+export type ResolvedSinchClientParameters = Omit<SinchClientParameters, 'logger'> & {
+  logger: Logger;
+};

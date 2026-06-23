@@ -1,4 +1,4 @@
-import { Logger, NOOP_LOGGER, resolveLogger, SinchLogger } from '../../src/logger';
+import { Logger, NOOP_LOGGER, resolveClientParameters, resolveLogger, SinchLogger } from '../../src/logger';
 
 describe('resolveLogger', () => {
   beforeEach(() => {
@@ -40,6 +40,18 @@ describe('resolveLogger', () => {
   it('should return the same instance when logger is already resolved', () => {
     const logger = resolveLogger(undefined);
     expect(resolveLogger(logger)).toBe(logger);
+  });
+});
+
+describe('resolveClientParameters', () => {
+  it('should always resolve logger on client parameters', () => {
+    expect(resolveClientParameters({}).logger).toBeInstanceOf(SinchLogger);
+    expect(resolveClientParameters({ logger: null }).logger).toBeInstanceOf(SinchLogger);
+  });
+
+  it('should return the same object when logger is already resolved', () => {
+    const resolved = resolveClientParameters({});
+    expect(resolveClientParameters(resolved)).toBe(resolved);
   });
 });
 

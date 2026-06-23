@@ -1,3 +1,5 @@
+import type { ResolvedSinchClientParameters, SinchClientParameters } from '../domain';
+
 export type LogMessage = string | (() => string);
 
 export interface Logger {
@@ -39,6 +41,18 @@ export const resolveLogger = (logger?: Logger | null): Logger => {
     return logger;
   }
   return new SinchLogger(resolveBaseLogger(logger));
+};
+
+export const resolveClientParameters = (
+  params: SinchClientParameters | ResolvedSinchClientParameters,
+): ResolvedSinchClientParameters => {
+  if (params.logger instanceof SinchLogger) {
+    return params as ResolvedSinchClientParameters;
+  }
+  return {
+    ...params,
+    logger: resolveLogger(params.logger),
+  };
 };
 
 export class SinchLogger implements Logger {
