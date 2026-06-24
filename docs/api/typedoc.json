@@ -8,11 +8,23 @@
   "cleanOutputDir": true,
   "excludeExternals": false,
   "excludePrivate": true,
-  "visibilityFilters": {
-    "external": true
-  },
+  "categorizeByGroup": false,
+  "categoryOrder": [
+    "Sinch Client",
+    "SMS",
+    "Conversation",
+    "Fax",
+    "Voice",
+    "Elastic SIP Trunking",
+    "Numbers",
+    "Number Lookup",
+    "Verification",
+    "SDK Client",
+    "*"
+  ],
   "navigation": {
-    "excludeReferences": true
+    "excludeReferences": true,
+    "includeCategories": true
   },
   "navigationLinks": {
     "GitHub": "https://github.com/sinch/sinch-sdk-node",
