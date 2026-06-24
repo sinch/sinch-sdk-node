@@ -16,6 +16,8 @@ export interface CallbackPayload {
   status?: 'SUCCEEDED' | 'FAILED' | string;
   /** If the status is FAILED, a failure code will be provided. For numbers provisioning to SMS platform, there won\'t be any extra `failureCode`, as the result is binary. For campaign provisioning-related failures, refer to the list for the possible values. */
   failureCode?: FailureCodeEnum;
+  /** If the status is FAILED, certain processes (eg. number to campaign provisioning) will have an internalFailureCode in the payload. The details of these codes can be found in our dedicated [Provisioning errors](https://developers.sinch.com/docs/numbers/api-reference/error-codes/provisioning-errors) documentation. */
+  internalFailureCode?: string;
 }
 
 export type EventTypeEnum = 'PROVISIONING_TO_SMS_PLATFORM'
