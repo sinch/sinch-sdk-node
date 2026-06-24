@@ -19,9 +19,9 @@ export interface ListLastMessagesByChannelIdentityRequest {
   page_token?: string;
   /** Optional. Specifies the representation in which messages should be returned. Default to `WITH_METADATA`. */
   view?: ConversationMessagesView;
-  /** Optional. Only fetch messages with `accept_time` after this date. */
+  /** Optional. Only fetch messages with `accept_time` after this timestamp. */
   start_time?: Date;
-  /** Optional. Only fetch messages with `accept_time` before this date. */
+  /** Optional. Only fetch messages with `accept_time` before this timestamp. */
   end_time?: Date;
   /** Optional. Only fetch messages from the `channel`. */
   channel?: ConversationChannel;
