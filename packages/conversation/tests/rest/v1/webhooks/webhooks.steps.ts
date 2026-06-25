@@ -1,4 +1,5 @@
-import { Conversation, ConversationService, WebhooksApi, SupportedConversationRegion } from '../../../../src';
+import { Conversation, ConversationService, WebhooksApi } from '../../../../src';
+import { SupportedConversationRegion } from '@sinch/sdk-client';
 import { Given, Then, When } from '@cucumber/cucumber';
 import * as assert from 'assert';
 

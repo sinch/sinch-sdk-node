@@ -11,6 +11,7 @@ import { LazyConversationApiClient } from '../conversation-service';
 
 export class TranscodingApi extends ConversationDomainApi {
 
+  /** @internal */
   constructor(lazyApiClient: LazyConversationApiClient) {
     super(lazyApiClient, 'TranscodingApi');
   }

@@ -13,8 +13,11 @@ import {
   TemplatesV2Api,
   TranscodingApi,
   WebhooksApi,
-  DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING,
 } from '../../../src';
+
+const DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING = '** DEPRECATION NOTICE ** '
+  + 'The "conversationRegion" property will become mandatory in the next major version of the SDK and not default '
+  + 'to "us" anymore. Please set it to a valid region.';
 
 jest.mock('node-fetch', () => {
   const actual = jest.requireActual('node-fetch');
