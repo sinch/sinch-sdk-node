@@ -16,6 +16,7 @@ export class ConferencesApi extends VoiceDomainApi {
 
   private calloutApi: CalloutsApi;
 
+  /** @internal */
   constructor(lazyClient: LazyVoiceApiClient) {
     super(lazyClient, 'ConferencesApi');
     this.calloutApi = new CalloutsApi(lazyClient);

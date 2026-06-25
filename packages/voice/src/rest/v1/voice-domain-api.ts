@@ -8,11 +8,15 @@ import { LazyVoiceApiClient, LazyVoiceApplicationManagementApiClient } from './v
 
 export class VoiceDomainApi implements Api {
 
+  /** @internal */
   constructor(
+    /** @internal */
     public readonly lazyClient: LazyVoiceApiClient | LazyVoiceApplicationManagementApiClient,
+    /** @internal */
     public readonly apiName: string,
   ) {}
 
+  /** @internal */
   public get client(): ApiClient {
     return this.lazyClient.getApiClient();
   }
@@ -22,6 +26,7 @@ export class VoiceDomainApi implements Api {
    * @return {ApiClient}
    * @deprecated
    */
+  /** @internal */
   public getSinchClient(): ApiClient {
     return this.lazyClient.getApiClient();
   }
