@@ -15,6 +15,7 @@ import { LazyElasticSipTrunkingApiClient } from '../elastic-sip-trunking-service
 
 export class CallsHistoryApi extends ElasticSipTrunkingDomainApi {
 
+  /** @internal */
   constructor(lazyClient: LazyElasticSipTrunkingApiClient) {
     super(lazyClient, 'CallsHistoryApi');
   }

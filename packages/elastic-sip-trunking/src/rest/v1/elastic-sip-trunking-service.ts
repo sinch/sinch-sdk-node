@@ -15,6 +15,7 @@ import { CallBlockingRulesApi } from './call-blocking-rules';
 import { CredentialListsApi } from './credential-lists';
 import { PhoneNumbersApi } from './phone-numbers';
 
+/** @internal */
 export class LazyElasticSipTrunkingApiClient {
   apiFetchClient?: ApiFetchClient;
   constructor(public sharedConfig: SinchClientParameters) {}
@@ -46,8 +47,10 @@ export class ElasticSipTrunkingService {
   public readonly credentialLists: CredentialListsApi;
   public readonly phoneNumbers: PhoneNumbersApi;
 
+  /** @internal */
   public readonly lazyClient: LazyElasticSipTrunkingApiClient;
 
+  /** @internal */
   constructor(params: SinchClientParameters) {
     this.lazyClient = new LazyElasticSipTrunkingApiClient(params);
 

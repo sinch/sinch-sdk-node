@@ -7,11 +7,15 @@ import { LazyElasticSipTrunkingApiClient } from './elastic-sip-trunking-service'
 
 export class ElasticSipTrunkingDomainApi implements Api {
 
+  /** @internal */
   constructor(
+    /** @internal */
     public readonly lazyClient: LazyElasticSipTrunkingApiClient,
+    /** @internal */
     public readonly apiName: string,
   ) {}
 
+  /** @internal */
   public get client(): ApiClient {
     return this.lazyClient.getApiClient();
   }
@@ -21,6 +25,7 @@ export class ElasticSipTrunkingDomainApi implements Api {
    * @return {ApiClient}
    * @deprecated
    */
+  /** @internal */
   public getSinchClient(): ApiClient {
     return this.lazyClient.getApiClient();
   }
