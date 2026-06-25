@@ -11,6 +11,7 @@ import { FaxesApi } from './faxes';
 import { ServicesApi } from './services';
 import { CoverPagesApi } from './cover-pages';
 
+/** @internal */
 export class LazyFaxApiClient {
   apiFetchClient?: ApiFetchClient;
   constructor(public sharedConfig: SinchClientParameters) {}
@@ -45,8 +46,10 @@ export class FaxService {
   public readonly services: ServicesApi;
   public readonly coverPages: CoverPagesApi;
 
+  /** @internal */
   public readonly lazyClient: LazyFaxApiClient;
 
+  /** @internal */
   constructor(params: SinchClientParameters) {
     this.lazyClient = new LazyFaxApiClient(params);
 

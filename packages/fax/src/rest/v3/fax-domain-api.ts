@@ -7,11 +7,15 @@ import { LazyFaxApiClient } from './fax-service';
 
 export class FaxDomainApi implements Api {
 
+  /** @internal */
   constructor(
+    /** @internal */
     public readonly lazyClient: LazyFaxApiClient,
+    /** @internal */
     public readonly apiName: string,
   ) {}
 
+  /** @internal */
   public get client(): ApiClient {
     return this.lazyClient.getApiClient();
   }
@@ -21,6 +25,7 @@ export class FaxDomainApi implements Api {
    * @return {ApiClient}
    * @deprecated
    */
+  /** @internal */
   public getSinchClient(): ApiClient {
     return this.lazyClient.getApiClient();
   }
