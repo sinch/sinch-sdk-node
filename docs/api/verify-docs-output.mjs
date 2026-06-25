@@ -21,6 +21,7 @@ for (const page of [
   "enums/PaginationEnum.html",
   "variables/AUTH_HOSTNAME.html",
   "classes/ResponseJSONParseError.html",
+  "classes/LazyApiClient.html",
   "classes/LazySmsApiClient.html",
   "classes/SmsDomainApi.html",
 ]) {

@@ -87,6 +87,7 @@ export const EXCLUDED_SOURCE_PATH_FRAGMENTS = [
   "api-client-helpers",
   "sdk-client/dist/plugins/",
   "sdk-client/dist/getVersion",
+  "lazy-api-client",
 ];
 
 /** @type {readonly string[]} */
@@ -121,6 +122,7 @@ export const EXCLUDED_SYMBOL_NAMES = [
   "buildFlexibleOAuth2OrApiTokenApiClientOptions",
   "DEFAULT_SMS_REGION_DEPRECATION_WARNING",
   "DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING",
+  "LazyApiClient",
 ];
 
 /** Inherited or leaf-API members hidden from docs. */
@@ -140,7 +142,7 @@ export const INTERNAL_API_MEMBERS = [
 /** @type {readonly RegExp[]} */
 export const EXCLUDED_NAME_PATTERNS = [
   /Fixture$/,
-  /^Lazy\w+ApiClient$/,
+  /^Lazy\w*ApiClient$/,
   /DomainApi$/,
   /^ResponseJSONParseError$/,
   /^EmptyResponseError$/,
