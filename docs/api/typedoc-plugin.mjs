@@ -8,11 +8,15 @@ import {
   isFirstPartySource,
   isTopLevelDeclaration,
   resolveCategory,
+  resolveGroup,
   shouldExclude,
 } from "./doc-organization.mjs";
+import { SinchTheme, trackReflectionGroup } from "./sinch-theme.mjs";
 
 /** @param {import("typedoc").Application} app */
 export function load(app) {
+  app.renderer.defineTheme("sinch", SinchTheme);
+
   app.converter.on(Converter.EVENT_RESOLVE_BEGIN, (context) => {
     const toRemove = [];
     for (const reflection of Object.values(context.project.reflections)) {
@@ -39,5 +43,13 @@ export function load(app) {
     reflection.comment.blockTags.push(
       new CommentTag("@category", [{ kind: "text", text: category }]),
     );
+
+    const group = resolveGroup(reflection);
+    if (group) {
+      trackReflectionGroup(reflection);
+      reflection.comment.blockTags.push(
+        new CommentTag("@group", [{ kind: "text", text: group }]),
+      );
+    }
   });
 }

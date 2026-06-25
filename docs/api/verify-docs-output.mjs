@@ -16,6 +16,13 @@ for (const page of [
   "classes/CallbackConfigurationApiFixture.html",
   "variables/createNextPageMethod.html",
   "variables/textToHex.html",
+  "variables/calculateMD5.html",
+  "variables/calculateSignature.html",
+  "enums/PaginationEnum.html",
+  "variables/AUTH_HOSTNAME.html",
+  "classes/ResponseJSONParseError.html",
+  "classes/LazySmsApiClient.html",
+  "classes/SmsDomainApi.html",
 ]) {
   if (existsSync(join(docsDir, page))) {
     console.error(`Excluded page should not exist: ${page}`);
@@ -30,6 +37,17 @@ for (const page of [
 ]) {
   if (!existsSync(join(docsDir, page))) {
     console.error(`Missing expected public API page: ${page}`);
+    process.exit(1);
+  }
+}
+
+const batchesApiHtml = readFileSync(
+  join(docsDir, "classes/BatchesApi.html"),
+  "utf8",
+);
+for (const internalMember of ["lazyClient", "apiName", "getSinchClient"]) {
+  if (batchesApiHtml.includes(`>${internalMember}<`)) {
+    console.error(`BatchesApi.html should not document internal member: ${internalMember}`);
     process.exit(1);
   }
 }
@@ -64,6 +82,29 @@ for (const category of Object.values(PACKAGE_DIR_TO_CATEGORY)) {
     console.error(`navigation.js: missing domain category: ${category}`);
     process.exit(1);
   }
+}
+
+const smsCategory = navigation.find((item) => item.text === "SMS");
+if (!smsCategory) {
+  console.error("navigation.js: SMS category missing");
+  process.exit(1);
+}
+
+const smsChildTexts = (smsCategory.children ?? []).map((item) => item.text);
+if (!smsChildTexts.includes("Batches")) {
+  console.error(`navigation.js: SMS should contain Batches group, got: ${smsChildTexts.join(", ")}`);
+  process.exit(1);
+}
+
+const batchesGroup = (smsCategory.children ?? []).find((item) => item.text === "Batches");
+if (!batchesGroup?.children?.some((item) => item.text === "BatchesApi")) {
+  console.error("navigation.js: Batches group should contain BatchesApi");
+  process.exit(1);
+}
+
+if (navigation.some((item) => item.text === "SMS / Batches")) {
+  console.error("navigation.js: subdomains must be nested under domain categories, not top-level");
+  process.exit(1);
 }
 
 console.log("API docs output verified");
