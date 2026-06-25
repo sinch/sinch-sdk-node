@@ -7,11 +7,15 @@ import { LazyNumbersApiClient } from './numbers-service';
 
 export class NumbersDomainApi implements Api {
 
+  /** @internal */
   constructor(
+    /** @internal */
     public readonly lazyClient: LazyNumbersApiClient,
+    /** @internal */
     public readonly apiName: string,
   ) {}
 
+  /** @internal */
   public get client(): ApiClient {
     return this.lazyClient.getApiClient();
   }
@@ -21,6 +25,7 @@ export class NumbersDomainApi implements Api {
    * @return {ApiClient}
    * @deprecated
    */
+  /** @internal */
   public getSinchClient(): ApiClient {
     return this.lazyClient.getApiClient();
   }

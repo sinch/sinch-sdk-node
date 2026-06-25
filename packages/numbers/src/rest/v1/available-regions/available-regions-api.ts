@@ -5,6 +5,7 @@ import { LazyNumbersApiClient } from '../numbers-service';
 
 export class AvailableRegionsApi extends NumbersDomainApi {
 
+  /** @internal */
   constructor(lazyApiClient: LazyNumbersApiClient) {
     super(lazyApiClient, 'AvailableRegionsApi');
   }
