@@ -42,14 +42,16 @@ export class VerificationService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
-    this.lazyClient = new LazyVerificationApiClient(params);
+    const resolvedParams = resolveClientParameters(params);
+    this.lazyClient = new LazyVerificationApiClient(resolvedParams);
 
     this.verificationStatus = new VerificationStatusApi(this.lazyClient);
     this.verifications = new VerificationsApi(this.lazyClient);
   }
 
   public setApiClientConfig(newParams: SinchClientParameters) {
-    this.lazyClient.sharedConfig = resolveClientParameters(newParams);
+    const resolvedParams = resolveClientParameters(newParams);
+    this.lazyClient.sharedConfig = resolvedParams;
     this.lazyClient.resetApiClient();
   }
 

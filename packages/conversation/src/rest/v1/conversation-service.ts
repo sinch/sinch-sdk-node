@@ -124,11 +124,11 @@ export class ConversationService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
-    const sharedConfig = resolveClientParameters(params);
-    const sharedConversationClient = new LazyConversationApiClient(sharedConfig);
+    const resolvedParams = resolveClientParameters(params);
+    const sharedConversationClient = new LazyConversationApiClient(resolvedParams);
     this.lazyConversationClient = sharedConversationClient;
 
-    const sharedConversationTemplateClient = new LazyConversationTemplateApiClient(sharedConfig);
+    const sharedConversationTemplateClient = new LazyConversationTemplateApiClient(resolvedParams);
     this.lazyConversationTemplateClient = sharedConversationTemplateClient;
 
     this.contact = new ContactApi(sharedConversationClient);

@@ -43,7 +43,8 @@ export class FaxService {
   public readonly lazyClient: LazyFaxApiClient;
 
   constructor(params: SinchClientParameters) {
-    this.lazyClient = new LazyFaxApiClient(params);
+    const resolvedParams = resolveClientParameters(params);
+    this.lazyClient = new LazyFaxApiClient(resolvedParams);
 
     this.emails = new FaxToEmailApi(this.lazyClient);
     this.faxToEmail = new FaxToEmailApi(this.lazyClient);
@@ -53,7 +54,8 @@ export class FaxService {
   }
 
   public setApiClientConfig(newParams: SinchClientParameters) {
-    this.lazyClient.sharedConfig = resolveClientParameters(newParams);
+    const resolvedParams = resolveClientParameters(newParams);
+    this.lazyClient.sharedConfig = resolvedParams;
     this.lazyClient.resetApiClient();
   }
 

@@ -27,14 +27,16 @@ export class NumberLookupService {
   public readonly lazyClient: LazyNumberLookupApiClient;
 
   constructor(params: SinchClientParameters) {
-    const sharedClient = new LazyNumberLookupApiClient(params);
+    const resolvedParams = resolveClientParameters(params);
+    const sharedClient = new LazyNumberLookupApiClient(resolvedParams);
     this.lazyClient = sharedClient;
 
     this._numberLookup = new NumberLookupApi(sharedClient);
   }
 
   public setApiClientConfig(newParams: SinchClientParameters) {
-    this.lazyClient.sharedConfig = resolveClientParameters(newParams);
+    const resolvedParams = resolveClientParameters(newParams);
+    this.lazyClient.sharedConfig = resolvedParams;
     this.lazyClient.resetApiClient();
   }
 

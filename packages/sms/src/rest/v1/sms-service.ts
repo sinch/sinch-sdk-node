@@ -74,7 +74,8 @@ export class SmsService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
-    this.lazyClient = new LazySmsApiClient(params);
+    const resolvedParams = resolveClientParameters(params);
+    this.lazyClient = new LazySmsApiClient(resolvedParams);
 
     this.groups = new GroupsApi(this.lazyClient);
     this.deliveryReports = new DeliveryReportsApi(this.lazyClient);
@@ -83,7 +84,8 @@ export class SmsService {
   }
 
   public setApiClientConfig(newParams: SinchClientParameters) {
-    this.lazyClient.sharedConfig = resolveClientParameters(newParams);
+    const resolvedParams = resolveClientParameters(newParams);
+    this.lazyClient.sharedConfig = resolvedParams;
     this.lazyClient.resetApiClient();
   }
 

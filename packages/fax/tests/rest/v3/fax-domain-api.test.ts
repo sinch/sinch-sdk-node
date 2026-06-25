@@ -1,5 +1,5 @@
 import { FaxDomainApi, LazyFaxApiClient } from '../../../src';
-import { ApiHostname, FaxRegion, UnifiedCredentials } from '@sinch/sdk-client';
+import { ApiHostname, FaxRegion, UnifiedCredentials, resolveClientParameters } from '@sinch/sdk-client';
 
 describe('Fax API', () => {
   let faxApi: FaxDomainApi;
@@ -14,7 +14,7 @@ describe('Fax API', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    lazyClient = new LazyFaxApiClient(params);
+    lazyClient = new LazyFaxApiClient(resolveClientParameters(params));
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 

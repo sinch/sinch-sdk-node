@@ -1,5 +1,5 @@
 import { ElasticSipTrunkingDomainApi, LazyElasticSipTrunkingApiClient } from '../../../src';
-import { ApiHostname, UnifiedCredentials } from '@sinch/sdk-client';
+import { ApiHostname, UnifiedCredentials, resolveClientParameters } from '@sinch/sdk-client';
 
 describe('Elastic SIP Trunking API', () => {
   let elasticSipTrunkingApi: ElasticSipTrunkingDomainApi;
@@ -14,7 +14,7 @@ describe('Elastic SIP Trunking API', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    lazyClient = new LazyElasticSipTrunkingApiClient(params);
+    lazyClient = new LazyElasticSipTrunkingApiClient(resolveClientParameters(params));
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 

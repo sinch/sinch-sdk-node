@@ -5,6 +5,7 @@ import {
   LazyApiClient,
   SinchClientParameters,
   UnifiedCredentials,
+  resolveClientParameters,
 } from '@sinch/sdk-client';
 import { SipTrunksApi } from './sip-trunks';
 import { AccessControlListApi } from './access-control-list';
@@ -43,7 +44,8 @@ export class ElasticSipTrunkingService {
   public readonly lazyClient: LazyElasticSipTrunkingApiClient;
 
   constructor(params: SinchClientParameters) {
-    this.lazyClient = new LazyElasticSipTrunkingApiClient(params);
+    const resolvedParams = resolveClientParameters(params);
+    this.lazyClient = new LazyElasticSipTrunkingApiClient(resolvedParams);
 
     this.sipTrunks = new SipTrunksApi(this.lazyClient);
     this.sipEndpoints = new SipEndpointsApi(this.lazyClient);
@@ -54,6 +56,12 @@ export class ElasticSipTrunkingService {
     this.callBlockingRules = new CallBlockingRulesApi(this.lazyClient);
     this.credentialLists = new CredentialListsApi(this.lazyClient);
     this.phoneNumbers = new PhoneNumbersApi(this.lazyClient);
+  }
+
+  public setApiClientConfig(newParams: SinchClientParameters) {
+    const resolvedParams = resolveClientParameters(newParams);
+    this.lazyClient.sharedConfig = resolvedParams;
+    this.lazyClient.resetApiClient();
   }
 
   /**

@@ -71,7 +71,8 @@ export class NumbersService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
-    const sharedClient = new LazyNumbersApiClient(params);
+    const resolvedParams = resolveClientParameters(params);
+    const sharedClient = new LazyNumbersApiClient(resolvedParams);
     this.lazyClient = sharedClient;
 
     this.availableRegions = new AvailableRegionsApi(sharedClient);
@@ -81,7 +82,8 @@ export class NumbersService {
   }
 
   public setApiClientConfig(newParams: SinchClientParameters) {
-    this.lazyClient.sharedConfig = resolveClientParameters(newParams);
+    const resolvedParams = resolveClientParameters(newParams);
+    this.lazyClient.sharedConfig = resolvedParams;
     this.lazyClient.resetApiClient();
   }
 

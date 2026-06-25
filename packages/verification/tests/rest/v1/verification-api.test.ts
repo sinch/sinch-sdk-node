@@ -1,4 +1,4 @@
-import { ApiHostname, ApplicationCredentials, SigningRequest } from '@sinch/sdk-client';
+import { ApiHostname, ApplicationCredentials, SigningRequest, resolveClientParameters } from '@sinch/sdk-client';
 import { LazyVerificationApiClient, VerificationDomainApi } from '../../../src';
 
 describe('Verification API', () => {
@@ -14,7 +14,7 @@ describe('Verification API', () => {
       applicationKey: 'APPLICATION_KEY',
       applicationSecret: 'APPLICATION_SECRET',
     };
-    lazyClient = new LazyVerificationApiClient(params);
+    lazyClient = new LazyVerificationApiClient(resolveClientParameters(params));
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 

@@ -1,5 +1,5 @@
 import { NumberLookupDomainApi, LazyNumberLookupApiClient } from '../../../src';
-import { ApiHostname, UnifiedCredentials } from '@sinch/sdk-client';
+import { ApiHostname, UnifiedCredentials, resolveClientParameters } from '@sinch/sdk-client';
 
 describe('Number Lookup API', () => {
   let numberLookupApi: NumberLookupDomainApi;
@@ -14,7 +14,7 @@ describe('Number Lookup API', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    lazyClient = new LazyNumberLookupApiClient(params);
+    lazyClient = new LazyNumberLookupApiClient(resolveClientParameters(params));
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 

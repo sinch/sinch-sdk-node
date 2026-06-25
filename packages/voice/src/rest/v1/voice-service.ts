@@ -80,11 +80,11 @@ export class VoiceService {
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
   constructor(params: SinchClientParameters) {
-    const sharedConfig = resolveClientParameters(params);
-    const sharedVoiceClient = new LazyVoiceApiClient(sharedConfig);
+    const resolvedParams = resolveClientParameters(params);
+    const sharedVoiceClient = new LazyVoiceApiClient(resolvedParams);
     this.lazyVoiceClient = sharedVoiceClient;
 
-    const sharedVoiceAppMgmtClient = new LazyVoiceApplicationManagementApiClient(sharedConfig);
+    const sharedVoiceAppMgmtClient = new LazyVoiceApplicationManagementApiClient(resolvedParams);
     this.lazyVoiceAppMgmtClient = sharedVoiceAppMgmtClient;
 
     this.applications = new ApplicationsApi(sharedVoiceAppMgmtClient);

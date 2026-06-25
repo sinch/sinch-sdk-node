@@ -1,5 +1,5 @@
 import { NumbersDomainApi, LazyNumbersApiClient } from '../../../src';
-import { ApiHostname, UnifiedCredentials } from '@sinch/sdk-client';
+import { ApiHostname, UnifiedCredentials, resolveClientParameters } from '@sinch/sdk-client';
 
 describe('Numbers API', () => {
   let numbersApi: NumbersDomainApi;
@@ -14,7 +14,7 @@ describe('Numbers API', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    lazyClient = new LazyNumbersApiClient(params);
+    lazyClient = new LazyNumbersApiClient(resolveClientParameters(params));
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 

@@ -4,7 +4,7 @@ import {
   LazyConversationApiClient,
   LazyConversationTemplateApiClient,
 } from '../../../src';
-import { ApiHostname, ConversationRegion, UnifiedCredentials } from '@sinch/sdk-client';
+import { ApiHostname, ConversationRegion, UnifiedCredentials, resolveClientParameters } from '@sinch/sdk-client';
 
 describe('Conversation API', () => {
   let conversationApi: ConversationDomainApi;
@@ -23,8 +23,8 @@ describe('Conversation API', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    lazyClient = new LazyConversationApiClient(params);
-    lazyTemplateClient = new LazyConversationTemplateApiClient(params);
+    lazyClient = new LazyConversationApiClient(resolveClientParameters(params));
+    lazyTemplateClient = new LazyConversationTemplateApiClient(resolveClientParameters(params));
     warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });

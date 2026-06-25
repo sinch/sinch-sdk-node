@@ -1,4 +1,4 @@
-import { ApiHostname, ApplicationCredentials, SigningRequest, VoiceRegion } from '@sinch/sdk-client';
+import { ApiHostname, ApplicationCredentials, SigningRequest, VoiceRegion, resolveClientParameters } from '@sinch/sdk-client';
 import { LazyVoiceApiClient, LazyVoiceApplicationManagementApiClient, VoiceDomainApi } from '../../../src';
 
 
@@ -20,8 +20,8 @@ describe('Voice API', () => {
     };
     warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    lazyVoiceClient = new LazyVoiceApiClient(params);
-    lazyVoiceApplicationMgmtClient = new LazyVoiceApplicationManagementApiClient(params);
+    lazyVoiceClient = new LazyVoiceApiClient(resolveClientParameters(params));
+    lazyVoiceApplicationMgmtClient = new LazyVoiceApplicationManagementApiClient(resolveClientParameters(params));
   });
 
   afterEach(() => {

@@ -1,4 +1,4 @@
-import { ApiHostname, ServicePlanIdCredentials, SmsRegion, UnifiedCredentials } from '@sinch/sdk-client';
+import { ApiHostname, ServicePlanIdCredentials, SmsRegion, UnifiedCredentials, resolveClientParameters } from '@sinch/sdk-client';
 import { DEFAULT_SMS_REGION_DEPRECATION_WARNING, LazySmsApiClient, SmsDomainApi } from '../../../src';
 
 describe('SMS API', () => {
@@ -23,8 +23,8 @@ describe('SMS API', () => {
     };
     warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    lazyClientWithProjectId = new LazySmsApiClient(paramsWithProjectId);
-    lazyClientWithServicePlanId = new LazySmsApiClient(paramsWithServicePlanId);
+    lazyClientWithProjectId = new LazySmsApiClient(resolveClientParameters(paramsWithProjectId));
+    lazyClientWithServicePlanId = new LazySmsApiClient(resolveClientParameters(paramsWithServicePlanId));
   });
 
   afterEach(() => {
