@@ -4,7 +4,7 @@ import { NumbersService } from '@sinch/numbers';
 import { SmsService } from '@sinch/sms';
 import { VerificationService } from '@sinch/verification';
 import { VoiceService } from '@sinch/voice';
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, resolveClientParameters } from '@sinch/sdk-client';
 import { ElasticSipTrunkingService } from '@sinch/elastic-sip-trunking';
 import { NumberLookupService } from '@sinch/number-lookup';
 
@@ -33,7 +33,8 @@ export class SinchClient {
    *
    * @param {SinchClientParameters} params - The object containing the Sinch credentials.
    */
-  constructor(params: SinchClientParameters) {
+  constructor(clientParams: SinchClientParameters) {
+    const params = resolveClientParameters(clientParams);
     this.conversation = new ConversationService(params);
     this.elasticSipTrunking = new ElasticSipTrunkingService(params);
     this.fax = new FaxService(params);

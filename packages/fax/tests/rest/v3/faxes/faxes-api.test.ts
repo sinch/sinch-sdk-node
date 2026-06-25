@@ -1,4 +1,4 @@
-import { FileBuffer, SinchClientParameters } from '@sinch/sdk-client';
+import { FileBuffer, SinchClientParameters, resolveClientParameters }from '@sinch/sdk-client';
 import {
   Fax,
   FaxesApi,
@@ -18,7 +18,7 @@ describe('FaxesApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    const lazyClient = new LazyFaxApiClient(credentials);
+    const lazyClient = new LazyFaxApiClient(resolveClientParameters(credentials));
     faxesApi = new FaxesApi(lazyClient);
   });
 

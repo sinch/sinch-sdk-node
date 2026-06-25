@@ -62,7 +62,9 @@ export class VoiceDomainApi implements Api {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the Voice API');
+      this.lazyClient.sharedConfig.logger.error(
+        'Impossible to assign the new credentials to the Voice API',
+      );
       this.lazyClient.sharedConfig = parametersBackup;
       throw error;
     }

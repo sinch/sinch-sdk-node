@@ -135,7 +135,8 @@ describe('Verification Service', () => {
     expect(() => verificationService.setCredentials({ applicationKey: '' }))
       .toThrow('Invalid configuration for the Verification API: "applicationKey" and "applicationSecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Verification API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Verification API');
 
     // Then
     expect(verificationService.lazyClient.sharedConfig.applicationKey).toBe('APPLICATION_KEY');
