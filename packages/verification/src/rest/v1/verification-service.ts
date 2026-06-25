@@ -8,6 +8,7 @@ import {
 import { VerificationStatusApi } from './verification-status';
 import { VerificationsApi } from './verifications';
 
+/** @internal */
 export class LazyVerificationApiClient {
   apiFetchClient?: ApiFetchClient;
   constructor(public sharedConfig: SinchClientParameters) {}
@@ -35,6 +36,7 @@ export class VerificationService {
   public readonly verificationStatus: VerificationStatusApi;
   public readonly verifications: VerificationsApi;
 
+  /** @internal */
   public readonly lazyClient: LazyVerificationApiClient;
 
   /**
@@ -46,6 +48,7 @@ export class VerificationService {
    * - `verificationHostname`
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
+  /** @internal */
   constructor(params: SinchClientParameters) {
     this.lazyClient = new LazyVerificationApiClient(params);
 

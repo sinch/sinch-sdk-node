@@ -7,11 +7,15 @@ import { LazyVerificationApiClient } from './verification-service';
 
 export class VerificationDomainApi implements Api {
 
+  /** @internal */
   constructor(
+    /** @internal */
     public readonly lazyClient: LazyVerificationApiClient,
+    /** @internal */
     public readonly apiName: string,
   ) {}
 
+  /** @internal */
   public get client(): ApiClient {
     return this.lazyClient.getApiClient();
   }
@@ -21,6 +25,7 @@ export class VerificationDomainApi implements Api {
    * @return {ApiClient}
    * @deprecated
    */
+  /** @internal */
   public getSinchClient(): ApiClient {
     return this.lazyClient.getApiClient();
   }
