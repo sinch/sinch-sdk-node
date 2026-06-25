@@ -2,16 +2,15 @@ import {
   ApiFetchClient,
   buildOAuth2ApiClientOptions,
   NUMBER_LOOKUP_HOSTNAME,
+  LazyApiClient,
   SinchClientParameters,
   UnifiedCredentials,
+  resolveClientParameters,
 } from '@sinch/sdk-client';
 import { NumberLookupApi } from './number-lookup';
 import { NumberLookupRequestData, NumberLookupResponse } from '../../models';
 
-export class LazyNumberLookupApiClient {
-  apiFetchClient?: ApiFetchClient;
-  constructor(public sharedConfig: SinchClientParameters) {}
-
+export class LazyNumberLookupApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sharedConfig, 'Number Lookup');
@@ -19,10 +18,6 @@ export class LazyNumberLookupApiClient {
       this.apiFetchClient.apiClientOptions.hostname = this.sharedConfig.numberLookupHostname ?? NUMBER_LOOKUP_HOSTNAME;
     }
     return this.apiFetchClient;
-  }
-
-  public resetApiClient() {
-    this.apiFetchClient = undefined;
   }
 }
 
@@ -32,14 +27,16 @@ export class NumberLookupService {
   public readonly lazyClient: LazyNumberLookupApiClient;
 
   constructor(params: SinchClientParameters) {
-    const sharedClient = new LazyNumberLookupApiClient(params);
+    const resolvedParams = resolveClientParameters(params);
+    const sharedClient = new LazyNumberLookupApiClient(resolvedParams);
     this.lazyClient = sharedClient;
 
     this._numberLookup = new NumberLookupApi(sharedClient);
   }
 
   public setApiClientConfig(newParams: SinchClientParameters) {
-    this.lazyClient.sharedConfig = newParams;
+    const resolvedParams = resolveClientParameters(newParams);
+    this.lazyClient.sharedConfig = resolvedParams;
     this.lazyClient.resetApiClient();
   }
 
@@ -63,7 +60,9 @@ export class NumberLookupService {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the Number Lookup API');
+      this.lazyClient.sharedConfig.logger.error(
+        'Impossible to assign the new credentials to the Number Lookup API',
+      );
       this.lazyClient.sharedConfig = parametersBackup;
       throw error;
     }

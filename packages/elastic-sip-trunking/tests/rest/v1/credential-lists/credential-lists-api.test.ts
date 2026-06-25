@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, resolveClientParameters }from '@sinch/sdk-client';
 import {
   CredentialListsApi,
   CredentialListsApiFixture,
@@ -18,7 +18,7 @@ describe('CredentialListsApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    const lazyClient = new LazyElasticSipTrunkingApiClient(credentials);
+    const lazyClient = new LazyElasticSipTrunkingApiClient(resolveClientParameters(credentials));
     credentialListsApi = new CredentialListsApi(lazyClient);
   });
 

@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, resolveClientParameters }from '@sinch/sdk-client';
 import {
   CoverPagesApi,
   CoverPagesApiFixture,
@@ -18,7 +18,7 @@ describe('CoverPagesApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    const lazyClient = new LazyFaxApiClient(credentials);
+    const lazyClient = new LazyFaxApiClient(resolveClientParameters(credentials));
     coverPagesApi = new CoverPagesApi(lazyClient);
   });
 

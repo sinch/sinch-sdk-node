@@ -9,12 +9,14 @@ export class ExceptionResponse<
   V extends Record<string, any> | undefined = Record<string, any>,
 > implements ResponsePlugin<V | Record<string, unknown>, V>
 {
-/**
+  /**
  * Initialize an instance of the class, with an optional callback function for exception handling.
  *
  * @param {Function} [callback] - A function called in case of an exception. If provided, this function is responsible for throwing the exception or not.
  */
-  constructor(private callback?: (res: V, error: Error | undefined) => V) {}
+  constructor(
+    private callback?: (res: V, error: Error | undefined) => V,
+  ) {}
 
   public load(
     context: ResponsePluginContext,

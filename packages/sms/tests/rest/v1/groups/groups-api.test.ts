@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, resolveClientParameters }from '@sinch/sdk-client';
 import {
   GroupsApi,
   GroupsApiFixture,
@@ -17,7 +17,7 @@ describe('GroupsApi', () => {
       servicePlanId: 'SERVICE_PLAN_ID',
       apiToken: 'API_TOKEN',
     };
-    const lazyClient = new LazySmsApiClient(paramsWithServicePlanId);
+    const lazyClient = new LazySmsApiClient(resolveClientParameters(paramsWithServicePlanId));
     groupsApi = new GroupsApi(lazyClient);
   });
 

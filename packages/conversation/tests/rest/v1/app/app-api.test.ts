@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, resolveClientParameters } from '@sinch/sdk-client';
 import {
   AppApi,
   AppApiFixture,
@@ -19,7 +19,7 @@ describe('AppApi', () => {
       keySecret: 'KEY_SECRET',
     };
 
-    const lazyClient = new LazyConversationApiClient(credentials);
+    const lazyClient = new LazyConversationApiClient(resolveClientParameters(credentials));
     appApi = new AppApi(lazyClient);
   });
 

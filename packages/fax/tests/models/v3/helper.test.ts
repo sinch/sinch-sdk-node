@@ -4,42 +4,17 @@ describe('Fax models helpers', () => {
 
   describe('convertToSupportedFileType', () => {
     it('should convert a file extension to a FaxBase64FileType', () => {
-      console.warn = jest.fn();
-      let convertedFileExtension = convertToSupportedFileType('doc');
-      expect(console.warn).toHaveBeenCalledWith('The file extension "DOC" is not supported.');
-      expect(convertedFileExtension).toBe('DOC');
-
-      convertedFileExtension = convertToSupportedFileType('docx');
-      expect(convertedFileExtension).toBe('DOCX');
-
-      convertedFileExtension = convertToSupportedFileType('pdf');
-      expect(convertedFileExtension).toBe('PDF');
-
-      convertedFileExtension = convertToSupportedFileType('tif');
-      expect(convertedFileExtension).toBe('TIF');
-
-      convertedFileExtension = convertToSupportedFileType('jpg');
-      expect(convertedFileExtension).toBe('JPG');
-
-      convertedFileExtension = convertToSupportedFileType('odt');
-      expect(convertedFileExtension).toBe('ODT');
-
-      convertedFileExtension = convertToSupportedFileType('txt');
-      expect(convertedFileExtension).toBe('TXT');
-
-      convertedFileExtension = convertToSupportedFileType('html');
-      expect(convertedFileExtension).toBe('HTML');
-
-      convertedFileExtension = convertToSupportedFileType('png');
-      expect(convertedFileExtension).toBe('PNG');
-
-      convertedFileExtension = convertToSupportedFileType(undefined);
-      expect(console.warn).toHaveBeenCalledWith('No file extension has been defined.');
-      expect(convertedFileExtension).toBeUndefined();
-
-      convertedFileExtension = convertToSupportedFileType('unknown');
-      expect(console.warn).toHaveBeenCalledWith('The file extension "UNKNOWN" is not supported.');
-      expect(convertedFileExtension).toBe('UNKNOWN');
+      expect(convertToSupportedFileType('doc')).toBe('DOC');
+      expect(convertToSupportedFileType('docx')).toBe('DOCX');
+      expect(convertToSupportedFileType('pdf')).toBe('PDF');
+      expect(convertToSupportedFileType('tif')).toBe('TIF');
+      expect(convertToSupportedFileType('jpg')).toBe('JPG');
+      expect(convertToSupportedFileType('odt')).toBe('ODT');
+      expect(convertToSupportedFileType('txt')).toBe('TXT');
+      expect(convertToSupportedFileType('html')).toBe('HTML');
+      expect(convertToSupportedFileType('png')).toBe('PNG');
+      expect(convertToSupportedFileType(undefined)).toBeUndefined();
+      expect(convertToSupportedFileType('unknown')).toBe('UNKNOWN');
     });
   });
 
