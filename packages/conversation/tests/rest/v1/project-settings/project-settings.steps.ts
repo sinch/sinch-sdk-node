@@ -2,7 +2,7 @@ import {
   Conversation,
   ConversationService,
   ProjectSettingsApi,
-  } from '../../../../src';
+} from '../../../../src';
 import { SupportedConversationRegion } from '@sinch/sdk-client';
 import { Given, Then, When } from '@cucumber/cucumber';
 import * as assert from 'assert';
