@@ -7,11 +7,15 @@ import { LazyNumberLookupApiClient } from './number-lookup-service';
 
 export class NumberLookupDomainApi implements Api {
 
+  /** @internal */
   constructor(
+    /** @internal */
     public readonly lazyClient: LazyNumberLookupApiClient,
+    /** @internal */
     public readonly apiName: string,
   ) {}
 
+  /** @internal */
   public get client(): ApiClient {
     return this.lazyClient.getApiClient();
   }
