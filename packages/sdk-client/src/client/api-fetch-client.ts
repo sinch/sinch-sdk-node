@@ -21,6 +21,7 @@ import {
 import fetch, { Response, Headers } from 'node-fetch';
 import { buildErrorContext, manageExpiredToken, reviveDates } from './api-client-helpers';
 import { resolveLogger } from '../logger';
+import { isSinchLogger } from '../logger/sinch-logger';
 import {
   buildPaginationContext,
   calculateNextPage,
@@ -58,9 +59,12 @@ export class ApiFetchClient extends ApiClient {
    * @param {ApiClientOptions} options - Configuration options for the API Client.
    */
   constructor(options: ApiClientOptions) {
+    const logger = options.logger != null && isSinchLogger(options.logger)
+      ? options.logger
+      : resolveLogger(options.logger);
     const resolvedOptions = {
       ...options,
-      logger: resolveLogger(options.logger),
+      logger,
     };
     super({
       ...resolvedOptions,
