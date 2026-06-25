@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, resolveClientParameters }from '@sinch/sdk-client';
 import {
   EventsApi,
   EventsApiFixture,
@@ -27,7 +27,7 @@ describe('EventsApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    const lazyClient = new LazyConversationApiClient(credentials);
+    const lazyClient = new LazyConversationApiClient(resolveClientParameters(credentials));
     eventsApi = new EventsApi(lazyClient);
   });
 
