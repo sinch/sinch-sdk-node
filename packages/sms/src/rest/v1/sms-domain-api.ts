@@ -36,6 +36,7 @@ export class SmsDomainApi implements Api {
    * Update the default hostname for the API
    * @param {string} hostname - The new hostname to use for the APIs.
    */
+  /** @internal */
   public setHostname(hostname: string) {
     this.lazyClient.sharedConfig.smsHostname = hostname;
     this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
@@ -45,6 +46,7 @@ export class SmsDomainApi implements Api {
    * Update the region in the basePath
    * @param {SmsRegion} region - The new region to send the requests to
    */
+  /** @internal */
   public setRegion(region: SmsRegion) {
     this.lazyClient.sharedConfig.smsRegion = region;
     this.lazyClient.resetApiClient();
@@ -54,6 +56,7 @@ export class SmsDomainApi implements Api {
    * Updates the credentials used to authenticate API requests
    * @param {UnifiedCredentials | ServicePlanIdCredentials} credentials
    */
+  /** @internal */
   public setCredentials(credentials: Partial<UnifiedCredentials | ServicePlanIdCredentials>) {
     const parametersBackup = { ...this.lazyClient.sharedConfig };
     this.lazyClient.sharedConfig = {

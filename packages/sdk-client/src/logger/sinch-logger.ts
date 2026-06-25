@@ -2,8 +2,10 @@ import type { Logger, LogMessage } from './logger-types';
 
 const sinchLoggers = new WeakSet<Logger>();
 
+/** @internal */
 export const isSinchLogger = (logger: Logger): boolean => sinchLoggers.has(logger);
 
+/** @internal */
 export class SinchLogger implements Logger {
   constructor(private baseLogger: Logger) {
     sinchLoggers.add(this);

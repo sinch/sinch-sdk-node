@@ -52,4 +52,12 @@ export function load(app) {
       );
     }
   });
+
+  // Sources are needed during resolve for categorization, but dist/ paths are
+  // not useful in rendered docs (gitignored, no GitHub links). Strip before HTML.
+  app.converter.on(Converter.EVENT_RESOLVE_END, (context) => {
+    for (const reflection of Object.values(context.project.reflections)) {
+      reflection.sources = undefined;
+    }
+  });
 }

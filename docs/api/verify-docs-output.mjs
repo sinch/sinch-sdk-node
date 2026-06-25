@@ -21,6 +21,9 @@ for (const page of [
   "enums/PaginationEnum.html",
   "variables/AUTH_HOSTNAME.html",
   "classes/ResponseJSONParseError.html",
+  "classes/ApiClient.html",
+  "variables/NOOP_LOGGER.html",
+  "variables/resolveLogger.html",
   "classes/LazyApiClient.html",
   "classes/LazySmsApiClient.html",
   "classes/SmsDomainApi.html",
@@ -46,7 +49,7 @@ const batchesApiHtml = readFileSync(
   join(docsDir, "classes/BatchesApi.html"),
   "utf8",
 );
-for (const internalMember of ["lazyClient", "apiName", "getSinchClient"]) {
+for (const internalMember of ["lazyClient", "apiName", "getSinchClient", "setHostname", "setCredentials"]) {
   if (batchesApiHtml.includes(`>${internalMember}<`)) {
     console.error(`BatchesApi.html should not document internal member: ${internalMember}`);
     process.exit(1);

@@ -5,8 +5,8 @@ import { ReflectionKind } from "typedoc";
 /** Package directory name (under packages/) -> sidebar category. */
 /** @type {Readonly<Record<string, string>>} */
 export const PACKAGE_DIR_TO_CATEGORY = {
-  "sdk-core": "Sinch Client",
-  "sdk-client": "SDK Client",
+  "sdk-core": "SinchClient",
+  "sdk-client": "Configuration & Utilities",
   sms: "SMS",
   conversation: "Conversation",
   fax: "Fax",
@@ -123,6 +123,13 @@ export const EXCLUDED_SYMBOL_NAMES = [
   "DEFAULT_SMS_REGION_DEPRECATION_WARNING",
   "DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING",
   "LazyApiClient",
+  "NOOP_LOGGER",
+  "CONSOLE_LOGGER",
+  "resolveLogger",
+  "resolveClientParameters",
+  "SinchLogger",
+  "isSinchLogger",
+  "ApiClient",
 ];
 
 /** Inherited or leaf-API members hidden from docs. */
@@ -137,6 +144,10 @@ export const INTERNAL_API_MEMBERS = [
   "client",
   "getSinchClient",
   "constructor",
+  "setHostname",
+  "setCredentials",
+  "setRegion",
+  "setApplication",
 ];
 
 /** @type {readonly RegExp[]} */

@@ -33,6 +33,7 @@ export class ConversationDomainApi implements Api {
    * Update the default hostname for the API
    * @param {string} hostname - The new hostname to use for the APIs.
    */
+  /** @internal */
   public setHostname(hostname: string) {
     if (this.apiName === 'TemplatesV1Api' || this.apiName === 'TemplatesV2Api') {
       this.lazyClient.sharedConfig.conversationTemplatesHostname = hostname;
@@ -46,6 +47,7 @@ export class ConversationDomainApi implements Api {
    * Update the region in the basePath
    * @param {ConversationRegion} region - The new region to send the requests to
    */
+  /** @internal */
   public setRegion(region: ConversationRegion) {
     this.lazyClient.sharedConfig.conversationRegion = region;
     this.lazyClient.resetApiClient();
@@ -55,6 +57,7 @@ export class ConversationDomainApi implements Api {
    * Updates the credentials used to authenticate API requests
    * @param {UnifiedCredentials} credentials
    */
+  /** @internal */
   public setCredentials(credentials: Partial<UnifiedCredentials>) {
     const parametersBackup = { ...this.lazyClient.sharedConfig };
     this.lazyClient.sharedConfig = {

@@ -35,6 +35,7 @@ export class VoiceDomainApi implements Api {
    * Update the default hostname for the API
    * @param {string} hostname - The new hostname to use for the APIs.
    */
+  /** @internal */
   public setHostname(hostname: string) {
     if (this.apiName === 'ApplicationsApi') {
       this.lazyClient.sharedConfig.voiceApplicationManagementHostname = hostname;
@@ -48,6 +49,7 @@ export class VoiceDomainApi implements Api {
    * Update the region in the hostname
    * @param {VoiceRegion} region - The new region to send the requests to
    */
+  /** @internal */
   public setRegion(region: VoiceRegion) {
     this.lazyClient.sharedConfig.voiceRegion = region;
     this.lazyClient.resetApiClient();
@@ -57,6 +59,7 @@ export class VoiceDomainApi implements Api {
    * Updates the application credentials used to authenticate API requests
    * @param {ApplicationCredentials} credentials
    */
+  /** @internal */
   public setCredentials(credentials: Partial<ApplicationCredentials>) {
     const parametersBackup = { ...this.lazyClient.sharedConfig };
     this.lazyClient.sharedConfig = {
@@ -78,6 +81,7 @@ export class VoiceDomainApi implements Api {
   /**
    * @deprecated Use setCredentials instead
    */
+  /** @internal */
   public setApplication(credentials: ApplicationCredentials) {
     this.setCredentials(credentials);
   }

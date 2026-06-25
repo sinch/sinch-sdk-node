@@ -34,6 +34,7 @@ export class ElasticSipTrunkingDomainApi implements Api {
    * Update the default hostname for the API
    * @param {string} hostname - The new hostname to use for the APIs.
    */
+  /** @internal */
   public setHostname(hostname: string) {
     this.lazyClient.sharedConfig.elasticSipTrunkingHostname = hostname;
     this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
@@ -43,6 +44,7 @@ export class ElasticSipTrunkingDomainApi implements Api {
    * Updates the credentials used to authenticate API requests
    * @param {UnifiedCredentials} credentials
    */
+  /** @internal */
   public setCredentials(credentials: Partial<UnifiedCredentials>) {
     const parametersBackup = { ...this.lazyClient.sharedConfig };
     this.lazyClient.sharedConfig = {

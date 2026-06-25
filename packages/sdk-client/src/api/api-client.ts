@@ -73,6 +73,7 @@ export interface CSVFile {
 
 /**
  * API Client used to call the server
+ * @internal
  */
 export class ApiClient {
 

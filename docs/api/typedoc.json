@@ -12,7 +12,7 @@
   "excludeInternal": true,
   "categorizeByGroup": false,
   "categoryOrder": [
-    "Sinch Client",
+    "SinchClient",
     "SMS",
     "Conversation",
     "Fax",
@@ -21,7 +21,7 @@
     "Numbers",
     "Number Lookup",
     "Verification",
-    "SDK Client",
+    "Configuration & Utilities",
     "*"
   ],
   "navigation": {

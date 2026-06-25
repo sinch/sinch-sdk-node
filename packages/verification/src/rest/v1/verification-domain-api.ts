@@ -34,6 +34,7 @@ export class VerificationDomainApi implements Api {
    * Update the default hostname for the API
    * @param {string} hostname - The new hostname to use for the APIs.
    */
+  /** @internal */
   public setHostname(hostname: string) {
     this.lazyClient.sharedConfig.verificationHostname = hostname;
     this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
@@ -43,6 +44,7 @@ export class VerificationDomainApi implements Api {
    * Updates the application credentials used to authenticate API requests
    * @param {ApplicationCredentials} credentials
    */
+  /** @internal */
   public setCredentials(credentials: Partial<ApplicationCredentials>) {
     const parametersBackup = { ...this.lazyClient.sharedConfig };
     this.lazyClient.sharedConfig = {
@@ -64,6 +66,7 @@ export class VerificationDomainApi implements Api {
   /**
    * @deprecated Use setCredentials instead
    */
+  /** @internal */
   public setApplication(credentials: ApplicationCredentials) {
     this.setCredentials(credentials);
   }

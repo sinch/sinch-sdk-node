@@ -34,6 +34,7 @@ export class FaxDomainApi implements Api {
    * Update the default hostname for the API
    * @param {string} hostname - The new hostname to use for the APIs.
    */
+  /** @internal */
   public setHostname(hostname: string) {
     this.lazyClient.sharedConfig.faxHostname = hostname;
     this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
@@ -45,6 +46,7 @@ export class FaxDomainApi implements Api {
    * @deprecated
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  /** @internal */
   public setRegion(_region: FaxRegion) {
     // Deprecated: regions are ignored by the Fax API which uses a single global endpoint.
     // Keep this method for backward compatibility but avoid mutating shared state or
@@ -56,6 +58,7 @@ export class FaxDomainApi implements Api {
    * Updates the credentials used to authenticate API requests
    * @param {UnifiedCredentials} credentials
    */
+  /** @internal */
   public setCredentials(credentials: Partial<UnifiedCredentials>) {
     const parametersBackup = { ...this.lazyClient.sharedConfig };
     this.lazyClient.sharedConfig = {
