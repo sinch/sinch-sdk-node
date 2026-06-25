@@ -45,9 +45,9 @@ export class FaxDomainApi implements Api {
    * @param {FaxRegion} _region - The new region to send the requests to
    * @deprecated
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   /** @internal */
   public setRegion(_region: FaxRegion) {
+    void _region;
     // Deprecated: regions are ignored by the Fax API which uses a single global endpoint.
     // Keep this method for backward compatibility but avoid mutating shared state or
     // resetting the client to prevent unexpected side effects.
