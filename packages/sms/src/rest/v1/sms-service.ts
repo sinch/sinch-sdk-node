@@ -12,10 +12,11 @@ import { DeliveryReportsApi } from './delivery-reports';
 import { BatchesApi } from './batches';
 import { InboundsApi } from './inbounds';
 
-export const DEFAULT_SMS_REGION_DEPRECATION_WARNING = '** DEPRECATION NOTICE ** '
+const DEFAULT_SMS_REGION_DEPRECATION_WARNING = '** DEPRECATION NOTICE ** '
   + 'The "smsRegion" property will become mandatory in the next major version of the SDK and not default '
   + 'to "us" anymore. Please set it to a valid region.';
 
+/** @internal */
 export class LazySmsApiClient {
   apiFetchClient?: ApiFetchClient;
   constructor(public sharedConfig: SinchClientParameters) {}
@@ -62,6 +63,7 @@ export class SmsService {
   public readonly batches: BatchesApi;
   public readonly inbounds: InboundsApi;
 
+  /** @internal */
   public readonly lazyClient: LazySmsApiClient;
 
   /**
@@ -76,6 +78,7 @@ export class SmsService {
    *  - `forceServicePlanIdUsageForSmsApi`
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
+  /** @internal */
   constructor(params: SinchClientParameters) {
     this.lazyClient = new LazySmsApiClient(params);
 

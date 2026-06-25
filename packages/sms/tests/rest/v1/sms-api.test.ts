@@ -1,5 +1,9 @@
 import { ApiHostname, ServicePlanIdCredentials, SmsRegion, UnifiedCredentials } from '@sinch/sdk-client';
-import { DEFAULT_SMS_REGION_DEPRECATION_WARNING, LazySmsApiClient, SmsDomainApi } from '../../../src';
+import { LazySmsApiClient, SmsDomainApi } from '../../../src';
+
+const DEFAULT_SMS_REGION_DEPRECATION_WARNING = '** DEPRECATION NOTICE ** '
+  + 'The "smsRegion" property will become mandatory in the next major version of the SDK and not default '
+  + 'to "us" anymore. Please set it to a valid region.';
 
 describe('SMS API', () => {
   let smsApi: SmsDomainApi;
