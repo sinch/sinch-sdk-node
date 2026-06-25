@@ -62,7 +62,7 @@ describe('SMS Service', () => {
     expect(smsService.deliveryReports.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(smsService.inbounds.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(smsService.groups.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_SMS_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_SMS_REGION_DEPRECATION_WARNING);
   });
 
   it('should update the API client for all the subdomains', () => {
@@ -192,7 +192,8 @@ describe('SMS Service', () => {
     const smsService = new SmsService(params);
     expect(() => smsService.setCredentials({ projectId: '' }))
       .toThrow('Invalid parameters for the SMS API: check your configuration');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the SMS API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the SMS API');
 
     // Then
     expect(smsService.batches.client.apiClientOptions.projectId).toBe('PROJECT_ID');

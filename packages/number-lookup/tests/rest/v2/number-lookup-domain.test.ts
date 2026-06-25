@@ -1,5 +1,5 @@
 import { NumberLookupDomainApi, LazyNumberLookupApiClient } from '../../../src';
-import { ApiHostname, UnifiedCredentials } from '@sinch/sdk-client';
+import { ApiHostname, UnifiedCredentials, resolveClientParameters } from '@sinch/sdk-client';
 
 describe('Number Lookup API', () => {
   let numberLookupApi: NumberLookupDomainApi;
@@ -14,7 +14,7 @@ describe('Number Lookup API', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    lazyClient = new LazyNumberLookupApiClient(params);
+    lazyClient = new LazyNumberLookupApiClient(resolveClientParameters(params));
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
@@ -30,7 +30,7 @@ describe('Number Lookup API', () => {
   });
 
   it('should use the hostname parameter', () => {
-    params.numberLookupHostname = CUSTOM_HOSTNAME;
+    lazyClient.sharedConfig.numberLookupHostname = CUSTOM_HOSTNAME;
     numberLookupApi = new NumberLookupDomainApi(lazyClient, 'dummy');
     expect(numberLookupApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
@@ -54,6 +54,7 @@ describe('Number Lookup API', () => {
     expect(() => numberLookupApi.setCredentials({ projectId: '' }))
       .toThrow('Invalid configuration for the Number Lookup API: "projectId", "keyId" and "keySecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Number Lookup API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Number Lookup API');
   });
 });

@@ -4,15 +4,14 @@ import {
   buildApplicationSignedApiClientOptions,
   SinchClientParameters,
   VERIFICATION_HOSTNAME,
+  LazyApiClient,
+  resolveClientParameters,
 } from '@sinch/sdk-client';
 import { VerificationStatusApi } from './verification-status';
 import { VerificationsApi } from './verifications';
 
 /** @internal */
-export class LazyVerificationApiClient {
-  apiFetchClient?: ApiFetchClient;
-  constructor(public sharedConfig: SinchClientParameters) {}
-
+export class LazyVerificationApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
       const apiClientOptions = buildApplicationSignedApiClientOptions(this.sharedConfig, 'Verification');
@@ -20,10 +19,6 @@ export class LazyVerificationApiClient {
       this.apiFetchClient.apiClientOptions.hostname = this.sharedConfig.verificationHostname ?? VERIFICATION_HOSTNAME;
     }
     return this.apiFetchClient;
-  }
-
-  public resetApiClient() {
-    this.apiFetchClient = undefined;
   }
 }
 
@@ -50,14 +45,16 @@ export class VerificationService {
    */
   /** @internal */
   constructor(params: SinchClientParameters) {
-    this.lazyClient = new LazyVerificationApiClient(params);
+    const resolvedParams = resolveClientParameters(params);
+    this.lazyClient = new LazyVerificationApiClient(resolvedParams);
 
     this.verificationStatus = new VerificationStatusApi(this.lazyClient);
     this.verifications = new VerificationsApi(this.lazyClient);
   }
 
   public setApiClientConfig(newParams: SinchClientParameters) {
-    this.lazyClient.sharedConfig = newParams;
+    const resolvedParams = resolveClientParameters(newParams);
+    this.lazyClient.sharedConfig = resolvedParams;
     this.lazyClient.resetApiClient();
   }
 
@@ -80,7 +77,9 @@ export class VerificationService {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the Verification API');
+      this.lazyClient.sharedConfig.logger.error(
+        'Impossible to assign the new credentials to the Verification API',
+      );
       this.lazyClient.sharedConfig = parametersBackup;
       throw error;
     }

@@ -1,5 +1,5 @@
 import { FaxDomainApi, LazyFaxApiClient } from '../../../src';
-import { ApiHostname, FaxRegion, UnifiedCredentials } from '@sinch/sdk-client';
+import { ApiHostname, FaxRegion, UnifiedCredentials, resolveClientParameters } from '@sinch/sdk-client';
 
 describe('Fax API', () => {
   let faxApi: FaxDomainApi;
@@ -14,7 +14,7 @@ describe('Fax API', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    lazyClient = new LazyFaxApiClient(params);
+    lazyClient = new LazyFaxApiClient(resolveClientParameters(params));
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
@@ -25,7 +25,7 @@ describe('Fax API', () => {
   });
 
   it('should use the hostname parameter', () => {
-    params.faxHostname = CUSTOM_HOSTNAME;
+    lazyClient.sharedConfig.faxHostname = CUSTOM_HOSTNAME;
     faxApi = new FaxDomainApi(lazyClient, 'dummy');
     expect(faxApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
@@ -47,11 +47,11 @@ describe('Fax API', () => {
     faxApi.setRegion(FaxRegion.UNITED_STATES);
     expect(faxApi.client?.apiClientOptions.hostname).toBe('https://fax.api.sinch.com');
     expect(infoSpy).toHaveBeenCalledWith(
-      'Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint https://fax.api.sinch.com');
+      '[Sinch SDK][Info] Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint https://fax.api.sinch.com');
     faxApi.setRegion(FaxRegion.EUROPE);
     expect(faxApi.client?.apiClientOptions.hostname).toBe('https://fax.api.sinch.com');
     expect(infoSpy).toHaveBeenCalledWith(
-      'Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint https://fax.api.sinch.com');
+      '[Sinch SDK][Info] Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint https://fax.api.sinch.com');
     faxApi.setRegion('');
     expect(faxApi.client?.apiClientOptions.hostname).toBe('https://fax.api.sinch.com');
     infoSpy.mockRestore();
@@ -72,7 +72,8 @@ describe('Fax API', () => {
     expect(() => faxApi.setCredentials({ projectId: '' }))
       .toThrow('Invalid configuration for the Fax API: "projectId", "keyId" and "keySecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Fax API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Fax API');
   });
 
 });

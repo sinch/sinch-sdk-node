@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, resolveClientParameters }from '@sinch/sdk-client';
 import { ElasticSipTrunking, LazyElasticSipTrunkingApiClient } from '../../../../src';
 import { CallBlockingRulesApi, CallBlockingRulesApiFixture } from '../../../../src';
 
@@ -14,7 +14,7 @@ describe('CallBlockingRulesApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    const lazyClient = new LazyElasticSipTrunkingApiClient(credentials);
+    const lazyClient = new LazyElasticSipTrunkingApiClient(resolveClientParameters(credentials));
     callBlockingRulesApi = new CallBlockingRulesApi(lazyClient);
   });
 

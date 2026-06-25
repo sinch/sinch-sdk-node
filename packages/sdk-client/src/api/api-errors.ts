@@ -17,7 +17,7 @@ export class GenericError extends Error {
   constructor(message: string, errorContext: ErrorContext) {
     const baseUrl = GenericError.formatUrl(errorContext.url);
     super(
-      `[SDK] [apiName: ${errorContext.apiName || 'unknown'}]
+      `[apiName: ${errorContext.apiName || 'unknown'}]
         [operationId: ${errorContext.operationId || 'unknown'}] 
         [baseUrl: ${baseUrl}] [errorType: SDK] ${message}`,
     );

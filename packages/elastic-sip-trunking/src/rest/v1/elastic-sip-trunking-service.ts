@@ -2,8 +2,10 @@ import {
   ApiFetchClient,
   buildOAuth2ApiClientOptions,
   ELASTIC_SIP_TRUNKING_HOSTNAME,
+  LazyApiClient,
   SinchClientParameters,
   UnifiedCredentials,
+  resolveClientParameters,
 } from '@sinch/sdk-client';
 import { SipTrunksApi } from './sip-trunks';
 import { AccessControlListApi } from './access-control-list';
@@ -16,10 +18,7 @@ import { CredentialListsApi } from './credential-lists';
 import { PhoneNumbersApi } from './phone-numbers';
 
 /** @internal */
-export class LazyElasticSipTrunkingApiClient {
-  apiFetchClient?: ApiFetchClient;
-  constructor(public sharedConfig: SinchClientParameters) {}
-
+export class LazyElasticSipTrunkingApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sharedConfig, 'Elastic SIP Trunking');
@@ -28,10 +27,6 @@ export class LazyElasticSipTrunkingApiClient {
         ?? ELASTIC_SIP_TRUNKING_HOSTNAME;
     }
     return this.apiFetchClient;
-  }
-
-  public resetApiClient() {
-    this.apiFetchClient = undefined;
   }
 }
 
@@ -52,7 +47,8 @@ export class ElasticSipTrunkingService {
 
   /** @internal */
   constructor(params: SinchClientParameters) {
-    this.lazyClient = new LazyElasticSipTrunkingApiClient(params);
+    const resolvedParams = resolveClientParameters(params);
+    this.lazyClient = new LazyElasticSipTrunkingApiClient(resolvedParams);
 
     this.sipTrunks = new SipTrunksApi(this.lazyClient);
     this.sipEndpoints = new SipEndpointsApi(this.lazyClient);
@@ -63,6 +59,12 @@ export class ElasticSipTrunkingService {
     this.callBlockingRules = new CallBlockingRulesApi(this.lazyClient);
     this.credentialLists = new CredentialListsApi(this.lazyClient);
     this.phoneNumbers = new PhoneNumbersApi(this.lazyClient);
+  }
+
+  public setApiClientConfig(newParams: SinchClientParameters) {
+    const resolvedParams = resolveClientParameters(newParams);
+    this.lazyClient.sharedConfig = resolvedParams;
+    this.lazyClient.resetApiClient();
   }
 
   /**
@@ -85,7 +87,9 @@ export class ElasticSipTrunkingService {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the Elastic SIP Trunking API');
+      this.lazyClient.sharedConfig.logger.error(
+        'Impossible to assign the new credentials to the Elastic SIP Trunking API',
+      );
       this.lazyClient.sharedConfig = parametersBackup;
       throw error;
     }

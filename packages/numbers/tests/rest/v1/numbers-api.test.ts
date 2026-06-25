@@ -1,5 +1,5 @@
 import { NumbersDomainApi, LazyNumbersApiClient } from '../../../src';
-import { ApiHostname, UnifiedCredentials } from '@sinch/sdk-client';
+import { ApiHostname, UnifiedCredentials, resolveClientParameters } from '@sinch/sdk-client';
 
 describe('Numbers API', () => {
   let numbersApi: NumbersDomainApi;
@@ -14,7 +14,7 @@ describe('Numbers API', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    lazyClient = new LazyNumbersApiClient(params);
+    lazyClient = new LazyNumbersApiClient(resolveClientParameters(params));
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
@@ -30,7 +30,7 @@ describe('Numbers API', () => {
   });
 
   it('should use the hostname parameter', () => {
-    params.numbersHostname = CUSTOM_HOSTNAME;
+    lazyClient.sharedConfig.numbersHostname = CUSTOM_HOSTNAME;
     numbersApi = new NumbersDomainApi(lazyClient, 'dummy');
     expect(numbersApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
@@ -54,6 +54,7 @@ describe('Numbers API', () => {
     expect(() => numbersApi.setCredentials({ projectId: '' }))
       .toThrow('Invalid configuration for the Numbers API: "projectId", "keyId" and "keySecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Numbers API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Numbers API');
   });
 });
