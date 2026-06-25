@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, resolveClientParameters }from '@sinch/sdk-client';
 import { AddProjectsRequestData, AddProjectsResponse } from '../../../../src/models';
 import { ProjectsApi, ProjectsApiFixture } from '../../../../src/rest/v1/projects';
 import { LazyElasticSipTrunkingApiClient } from '../../../../src';
@@ -15,7 +15,7 @@ describe('ProjectsApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    const lazyClient = new LazyElasticSipTrunkingApiClient(credentials);
+    const lazyClient = new LazyElasticSipTrunkingApiClient(resolveClientParameters(credentials));
     projectsApi = new ProjectsApi(lazyClient);
   });
 

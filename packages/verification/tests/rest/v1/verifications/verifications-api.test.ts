@@ -1,4 +1,4 @@
-import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
+import { ApiClientOptions, SigningRequest, resolveClientParameters }from '@sinch/sdk-client';
 import {
   LazyVerificationApiClient,
   Verification,
@@ -30,7 +30,7 @@ describe('VerificationsApi', () => {
       projectId: 'Test_ProjectId',
       requestPlugins: [new SigningRequest('keyId', 'keySecret')],
     };
-    const lazyClient = new LazyVerificationApiClient(apiClientOptions);
+    const lazyClient = new LazyVerificationApiClient(resolveClientParameters(apiClientOptions));
     verificationsApi = new VerificationsApi(lazyClient);
   });
 

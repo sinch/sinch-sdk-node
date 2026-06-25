@@ -268,6 +268,43 @@ describe('concurrent token refresh', () => {
   });
 });
 
+describe('logFailedResponse', () => {
+  it('should debug-log failed HTTP responses from the transport layer', async () => {
+    const debugSpy = jest.spyOn(console, 'debug').mockImplementation(() => {});
+    mockedFetch.mockResolvedValueOnce(
+      new Response(JSON.stringify({ error: 'bad request' }), {
+        status: 400,
+        statusText: 'Bad Request',
+        headers: { 'x-request-id': 'req-123' },
+      }),
+    );
+
+    const apiClient = new ApiFetchClient({ requestPlugins: [] });
+
+    await expect(apiClient.processCall({
+      url: 'https://api.example.com/endpoint',
+      requestOptions: {
+        method: 'GET',
+        headers: new Headers(),
+        hostname: 'https://api.example.com',
+      },
+      apiName: 'TestAPI',
+      operationId: 'testOperation',
+    })).rejects.toThrow();
+
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('[Sinch SDK][Debug] [TestAPI][testOperation][400]'),
+    );
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('HTTP method: GET'),
+    );
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('URL: https://api.example.com/endpoint'),
+    );
+    debugSpy.mockRestore();
+  });
+});
+
 describe('processFileResponse', () => {
 
   it('should return file buffer and file name when response is ok', async () => {

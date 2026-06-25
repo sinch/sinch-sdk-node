@@ -59,7 +59,9 @@ export class SmsDomainApi implements Api {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the SMS API');
+      this.lazyClient.sharedConfig.logger.error(
+        'Impossible to assign the new credentials to the SMS API',
+      );
       this.lazyClient.sharedConfig = parametersBackup;
       throw error;
     }
