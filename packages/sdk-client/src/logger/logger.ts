@@ -1,13 +1,8 @@
 import type { ResolvedSinchClientParameters, SinchClientParameters } from '../domain';
+import type { Logger, LogMessage } from './logger-types';
+import { isSinchLogger, SinchLogger } from './sinch-logger';
 
-export type LogMessage = string | (() => string);
-
-export interface Logger {
-  debug(message: LogMessage, ...meta: any[]): void;
-  info(message: LogMessage, ...meta: any[]): void;
-  warn(message: LogMessage, ...meta: any[]): void;
-  error(message: LogMessage, ...meta: any[]): void;
-}
+export type { LogMessage, Logger } from './logger-types';
 
 const evaluateMessage = (message: LogMessage): string =>
   typeof message === 'function' ? message() : message;
@@ -37,7 +32,7 @@ const resolveBaseLogger = (logger?: Logger | null): Logger => {
 };
 
 export const resolveLogger = (logger?: Logger | null): Logger => {
-  if (logger instanceof SinchLogger) {
+  if (logger != null && isSinchLogger(logger)) {
     return logger;
   }
   return new SinchLogger(resolveBaseLogger(logger));
@@ -46,7 +41,7 @@ export const resolveLogger = (logger?: Logger | null): Logger => {
 export const resolveClientParameters = (
   params: SinchClientParameters | ResolvedSinchClientParameters,
 ): ResolvedSinchClientParameters => {
-  if (params.logger instanceof SinchLogger) {
+  if (params.logger != null && isSinchLogger(params.logger)) {
     return params as ResolvedSinchClientParameters;
   }
   return {
@@ -54,32 +49,3 @@ export const resolveClientParameters = (
     logger: resolveLogger(params.logger),
   };
 };
-
-export class SinchLogger implements Logger {
-  constructor(private baseLogger: Logger) {}
-
-  private format(level: string, message: string): string {
-    return `[Sinch SDK][${level}] ${message}`;
-  }
-
-  private log(level: string, method: keyof Logger, message: LogMessage, ...meta: any[]): void {
-    if (typeof message === 'function') {
-      this.baseLogger[method](() => this.format(level, message()), ...meta);
-    } else {
-      this.baseLogger[method](this.format(level, message), ...meta);
-    }
-  }
-
-  debug(message: LogMessage, ...meta: any[]): void {
-    this.log('Debug', 'debug', message, ...meta);
-  }
-  info(message: LogMessage, ...meta: any[]): void {
-    this.log('Info', 'info', message, ...meta);
-  }
-  warn(message: LogMessage, ...meta: any[]): void {
-    this.log('Warn', 'warn', message, ...meta);
-  }
-  error(message: LogMessage, ...meta: any[]): void {
-    this.log('Error', 'error', message, ...meta);
-  }
-}

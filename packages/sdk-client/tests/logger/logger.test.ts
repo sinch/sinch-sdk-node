@@ -1,4 +1,5 @@
-import { Logger, NOOP_LOGGER, resolveClientParameters, resolveLogger, SinchLogger } from '../../src/logger';
+import { Logger, NOOP_LOGGER, resolveClientParameters, resolveLogger } from '../../src/logger';
+import { isSinchLogger, SinchLogger } from '../../src/logger/sinch-logger';
 
 describe('resolveLogger', () => {
   beforeEach(() => {
@@ -11,14 +12,14 @@ describe('resolveLogger', () => {
 
   it('should wrap CONSOLE_LOGGER when logger is undefined', () => {
     const logger = resolveLogger(undefined);
-    expect(logger).toBeInstanceOf(SinchLogger);
+    expect(isSinchLogger(logger)).toBe(true);
     logger.warn('test');
     expect(console.warn).toHaveBeenCalledWith('[Sinch SDK][Warn] test');
   });
 
   it('should wrap NOOP_LOGGER when logger is null', () => {
     const logger = resolveLogger(null);
-    expect(logger).toBeInstanceOf(SinchLogger);
+    expect(isSinchLogger(logger)).toBe(true);
     const callback = jest.fn(() => 'silent');
     logger.warn(callback);
     expect(callback).not.toHaveBeenCalled();
@@ -32,7 +33,7 @@ describe('resolveLogger', () => {
       error: jest.fn(),
     };
     const logger = resolveLogger(customLogger);
-    expect(logger).toBeInstanceOf(SinchLogger);
+    expect(isSinchLogger(logger)).toBe(true);
     logger.warn('test message');
     expect(customLogger.warn).toHaveBeenCalledWith('[Sinch SDK][Warn] test message');
   });
@@ -45,8 +46,8 @@ describe('resolveLogger', () => {
 
 describe('resolveClientParameters', () => {
   it('should always resolve logger on client parameters', () => {
-    expect(resolveClientParameters({}).logger).toBeInstanceOf(SinchLogger);
-    expect(resolveClientParameters({ logger: null }).logger).toBeInstanceOf(SinchLogger);
+    expect(isSinchLogger(resolveClientParameters({}).logger)).toBe(true);
+    expect(isSinchLogger(resolveClientParameters({ logger: null }).logger)).toBe(true);
   });
 
   it('should return the same object when logger is already resolved', () => {
