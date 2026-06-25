@@ -33,6 +33,7 @@ export interface UnifiedCredentials {
   conversationRegion?: ConversationRegion;
 }
 
+/** @internal */
 export interface MailgunCredentials {
   /** Your API Key created from the [Mailgun Dashboard](https://app.mailgun.com/settings/api_security) */
   mailgunApiKey: string;
@@ -176,13 +177,16 @@ export const ConversationRegion = {
 
 // ////////////////////
 // Mailgun regions
+/** @internal */
 export enum SupportedMailgunRegion {
   DEFAULT = '',
   EUROPE = 'eu',
 }
 
+/** @internal */
 export type MailgunRegion = SupportedMailgunRegion | string;
 
+/** @internal */
 export const MailgunRegion = {
   ...SupportedMailgunRegion,
 };

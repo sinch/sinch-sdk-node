@@ -25,6 +25,7 @@ const MAX_RATE_LIMIT_RETRIES = 3;
 const RATE_LIMIT_RETRY_BASE_MS = 1_000;
 const RATE_LIMIT_RETRY_GROWTH = 4;
 
+/** @internal */
 export class Oauth2TokenRequest implements RequestPlugin {
   private readonly apiClient: ApiClient;
 

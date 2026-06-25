@@ -8,6 +8,7 @@ import {
   XTimestampRequest,
 } from '../plugins';
 
+/** @internal */
 export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiName: string): ApiClientOptions => {
   if (!params.projectId || !params.keyId || !params.keySecret) {
     throw new Error(`Invalid configuration for the ${apiName} API: "projectId", "keyId" and "keySecret" values must be provided`);
@@ -21,6 +22,7 @@ export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiNa
   return apiClientOptions;
 };
 
+/** @internal */
 export const buildMailgunApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
   if (!params.mailgunApiKey) {
     throw new Error('Invalid configuration for the Mailgun API: the "mailgunApiKey" must be provided');
@@ -34,6 +36,7 @@ export const buildMailgunApiClientOptions = (params: SinchClientParameters): Api
   return apiClientOptions;
 };
 
+/** @internal */
 export const buildApplicationSignedApiClientOptions = (
   params: SinchClientParameters, apiName: string,
 ): ApiClientOptions => {
@@ -50,6 +53,7 @@ export const buildApplicationSignedApiClientOptions = (
   return apiClientOptions;
 };
 
+/** @internal */
 export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
   let apiClientOptions: ApiClientOptions | undefined;
 
