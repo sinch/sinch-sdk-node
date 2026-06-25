@@ -2,12 +2,14 @@
   "entryPoints": ["./node_modules/@sinch/sdk-core/dist/index.d.ts"],
   "tsconfig": "./tsconfig.json",
   "out": "./docs",
-  "readme": "./readme.md",
+  "readme": "none",
   "name": "Sinch Node.js SDK",
+  "theme": "sinch",
   "includeVersion": true,
   "cleanOutputDir": true,
   "excludeExternals": false,
   "excludePrivate": true,
+  "excludeInternal": true,
   "categorizeByGroup": false,
   "categoryOrder": [
     "Sinch Client",
@@ -24,7 +26,8 @@
   ],
   "navigation": {
     "excludeReferences": true,
-    "includeCategories": true
+    "includeCategories": true,
+    "includeGroups": true
   },
   "navigationLinks": {
     "GitHub": "https://github.com/sinch/sinch-sdk-node",
