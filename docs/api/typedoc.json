@@ -13,15 +13,15 @@
   "categorizeByGroup": false,
   "categoryOrder": [
     "SinchClient",
-    "SMS",
-    "Conversation",
-    "Fax",
-    "Voice",
-    "Elastic SIP Trunking",
-    "Numbers",
-    "Number Lookup",
-    "Verification",
     "Configuration & Utilities",
+    "Conversation",
+    "Elastic SIP Trunking",
+    "Fax",
+    "Number Lookup",
+    "Numbers",
+    "SMS",
+    "Verification",
+    "Voice",
     "*"
   ],
   "navigation": {
