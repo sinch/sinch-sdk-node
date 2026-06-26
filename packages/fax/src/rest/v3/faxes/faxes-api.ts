@@ -2,6 +2,7 @@ import {
   ApiListPromise,
   buildPageResultPromise,
   createIteratorMethodsForPagination,
+  CSVFile,
   FileBuffer,
   formatCreateTimeFilter,
   formatCreateTimeRangeFilter,
@@ -15,6 +16,7 @@ import {
   FaxRequestJson,
   DeleteFaxContentRequestData,
   DownloadFaxContentRequestData,
+  ExportFaxesRequestData,
   GetFaxRequestData,
   ListFaxesRequestData,
   SendSingleFaxRequestData,
@@ -83,7 +85,7 @@ export class FaxesApi extends FaxDomainApi {
       operationId = 'GetFaxFileByIdDeprecated';
     } else {
       basePathUrl = filePath;
-      operationId = 'GetFaxFileById';
+      operationId = 'GetFaxFilebyId';
     }
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
@@ -136,6 +138,7 @@ export class FaxesApi extends FaxDomainApi {
       'status',
       'to',
       'from',
+      'labels',
       'pageSize',
       'page']);
     (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data?.createTime));
@@ -173,6 +176,44 @@ export class FaxesApi extends FaxDomainApi {
     );
 
     return listPromise as ApiListPromise<Fax>;
+  }
+
+  /**
+   * Export faxes
+   * Export faxes sent (OUTBOUND) or received (INBOUND) as a .csv file. Set parameters to filter the export.
+   * @param { ExportFaxesRequestData } data - The data to provide to the API call.
+   */
+  public async export(data?: ExportFaxesRequestData): Promise<CSVFile> {
+    const getParams = this.client.extractQueryParams<ExportFaxesRequestData>(data ?? {}, [
+      'serviceId',
+      'direction',
+      'status',
+      'to',
+      'from',
+      'labels',
+    ]);
+    (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data?.createTime));
+    (getParams as any)['createTime>'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.from));
+    (getParams as any)['createTime<'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.to));
+    (getParams as any).format = 'csv';
+
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'text/csv',
+    };
+
+    const body: RequestBody = '';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v3/projects/${this.client.apiClientOptions.projectId}/faxes`;
+
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCsvCall({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'GetFaxes',
+    });
   }
 
   /**
