@@ -1,13 +1,14 @@
 import {
   DeleteFaxContentRequestData,
   DownloadFaxContentRequestData,
+  ExportFaxesRequestData,
   Fax,
   GetFaxRequestData,
   ListFaxesRequestData,
   SendFaxRequestData,
 } from '../../../models';
 import { FaxesApi } from './faxes-api';
-import { ApiListPromise, FileBuffer } from '@sinch/sdk-client';
+import { ApiListPromise, CSVFile, FileBuffer } from '@sinch/sdk-client';
 
 export class FaxesApiFixture implements Partial<Readonly<FaxesApi>> {
 
@@ -27,6 +28,10 @@ export class FaxesApiFixture implements Partial<Readonly<FaxesApi>> {
    * Fixture associated to function list
    */
   public list: jest.Mock<ApiListPromise<Fax>, [ListFaxesRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function export
+   */
+  public export: jest.Mock<Promise<CSVFile>, [ExportFaxesRequestData]> = jest.fn();
   /**
    * Fixture associated to function send
    */

@@ -42,7 +42,7 @@ describe('FaxesApi', () => {
     });
   });
 
-  describe ('getFaxFileById', () => {
+  describe ('getFaxFilebyId', () => {
     it('should make a GET request to download a fax content', async () => {
       // Given
       const requestData: Fax.DownloadFaxContentRequestData = {
@@ -163,6 +163,29 @@ describe('FaxesApi', () => {
       expect(response).toEqual(expectedResponse);
       expect(response.data).toBeDefined();
       expect(fixture.list).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('exportFaxes', () => {
+    it('should make a GET request to export faxes as CSV', async () => {
+      // Given
+      const requestData: Fax.ExportFaxesRequestData = {
+        direction: 'OUTBOUND',
+        labels: { customerId: '1234' },
+      };
+      const expectedResponse = {
+        fileName: 'faxes.csv',
+        data: 'id,direction,status\nfax_id,OUTBOUND,COMPLETED\n',
+      };
+
+      // When
+      fixture.export.mockResolvedValue(expectedResponse);
+      faxesApi.export = fixture.export;
+      const response = await faxesApi.export(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.export).toHaveBeenCalledWith(requestData);
     });
   });
 
