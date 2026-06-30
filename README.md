@@ -347,22 +347,11 @@ const response = await sinch.conversation.messages.send({
 
 ## Logging
 
-The SDK supports configurable logging through an optional `logger` property on `SinchClient` initialization parameters. Logging is handled by `@sinch/sdk-client`, the shared HTTP layer used by all API packages.
+The SDK supports configurable logging through an optional `logger` property on `SinchClient` initialization parameters. Logging is handled by `@sinch/sdk-client`, the shared HTTP layer used by all API packages. Method contracts and log levels are defined on the [`Logger`](./packages/sdk-client/src/logger/logger-types.ts) interface.
 
-Pass any object that implements the SDK `Logger` interface (`debug`, `info`, `warn`, and `error`).
-
-**Default behavior.** If you omit `logger`, the SDK uses `console`. Pass `logger: null` to silence all SDK log output.
-
-**Custom loggers.** Plug in any compatible logger, for example [Winston](https://www.npmjs.com/package/winston), and route SDK messages into your existing logging stack, format, and transports.
-
-**Lazy messages.** Log messages can be strings or functions that return a string. With a level-aware logger, expensive messages are only evaluated when that level is enabled.
-
-### What gets logged
-
-- **Debug:** On failed HTTP responses (non-success status), the SDK logs the API name, operation, status code, HTTP method, request URL, and response headers. Enable debug on your logger to troubleshoot authentication issues, expired tokens, and other API errors.
-- **Warn:** Deprecation notices and configuration warnings (for example conflicting credentials or deprecated region parameters).
-- **Info:** Informational SDK messages, such as deprecation guidance for specific APIs.
-- **Error:** SDK-level errors surfaced during client initialization or configuration.
+- **Without a custom logger**: Omit `logger` to send SDK output to `console`, or pass `logger: null` to suppress it.
+- **Lazy messages**: Each method accepts a [`LogMessage`](./packages/sdk-client/src/logger/logger-types.ts), a `string` or `() => string`. Pass a function to defer building the message until your logger reads it; level-aware loggers can then skip that work when the level is disabled.
+- **Custom loggers**: Plug in any compatible logger, for example [Winston](https://www.npmjs.com/package/winston), and route SDK messages into your existing logging stack, format, and transports.
 
 For a runnable example using Winston, see [examples/snippets/sdk-client/logger.js](./examples/snippets/sdk-client/logger.js).
 
