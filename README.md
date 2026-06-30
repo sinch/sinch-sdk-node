@@ -1,179 +1,422 @@
 # Sinch Node.js SDK
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/sinch/sinch-sdk-node/run-ci.yaml?branch=main)
-[![Node.js LTS](https://img.shields.io/badge/Node.js-LTS%20supported-brightgreen)](https://nodejs.org/en/download/)
+
+![Node.js](https://img.shields.io/badge/node.js-blue.svg)
 [![Latest Release](https://img.shields.io/npm/v/@sinch/sdk-core?label=%40sinch%2Fsdk-core&labelColor=FFC658)](https://www.npmjs.com/package/@sinch/sdk-core)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/sinch/sinch-sdk-node/blob/main/LICENSE)
 
-Here you'll find documentation related to the Sinch Node.js SDK, including how to install it, initialize it, and start developing Node.js code using Sinch services.
+
+Here you'll find documentation related to the Sinch Node SDK, including how to install it, initialize it, and start developing Node code using Sinch services.
 
 To use Sinch services, you'll need a Sinch account and access keys. You can sign up for an account and create access keys at [dashboard.sinch.com](https://dashboard.sinch.com).
 
-Once logged in you'll find different sets of credentials to access the various Sinch APIs:
- - On the [Account dashboard](https://dashboard.sinch.com/account/access-keys), you will find your `projectId` and access keys composed of pairs of `keyId` / `keySecret`. Unless mentioned otherwise, these are the credentials you will need to access most of the Sinch APIs
-  - For the **Verification** and **Voice** APIs, you will find pairs of `App key` / `App secret` in the [Verification dashboard](https://dashboard.sinch.com/verification/apps) and the [Voice dashboard](https://dashboard.sinch.com/voice/apps) respectively. Note that the apps are the same, regardless of where you access them.
-  - For the **SMS** API, the standard credentials (`projectId`, `keyId`, `keySecret`) are available only in the US and EU regions. If your business involves any of the other regions (BR, CA, AU), you will need to use your `servicePlanId`, which you can find on the [Service APIs dashboard](https://dashboard.sinch.com/sms/api/services). Note that the `servicePlanId` supports all regions (US, EU, BR, CA, AU).
-  - The **Conversation** API uses the standard credentials (`projectId`, `keyId`, `keySecret`) and is available in the US, EU and BR regions.
+For more information on the SDK, refer to the dedicated [Node SDK documentation section](https://developers.sinch.com/docs/sdks/node) and for the Sinch APIs on which this SDK is based, refer to the official [developer documentation portal](https://developers.sinch.com).
 
-For more information on the Sinch APIs on which this SDK is based, refer to the official [developer documentation portal](developers.sinch.com).
+## Table of contents:
+
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Supported APIs](#supported-apis)
+- [Getting started](#getting-started)
+- [Logging](#logging)
+- [Handling exceptions](#handling-exceptions)
+- [Third-party dependencies](#third-party-dependencies)
+- [Examples](#examples)
+- [Changelog](#changelog)
+- [License](#license)
+- [Contact](#contact)
 
 ## Prerequisites
 
-Before being able to execute the commands described below, you will need to install Node.js. We recommend [installing the current or the LTS version](https://nodejs.org/en).
-
-NPM will come with the Node.js installation. If you want to use `yarn` as a package manager, you'll need to install it separately with the following command:
-```bash
-npm install --global yarn
-```
+- Node.js [18.20.8](https://nodejs.org/en/download/archive/v18.20.8), [20.20.2](https://nodejs.org/en/download/archive/v20.20.2), or [22.23.0](https://nodejs.org/en/download/archive/v22.23.0) (LTS recommended)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) (recommended)
+- [Sinch account](https://dashboard.sinch.com/)
 
 > **Warning**:
-> Do not use this Node.js library in front-end applications (such as Angular, React, Vue.js, etc.). Doing so can expose your Sinch credentials to end-users as part of the HTML/JavaScript files loaded on their browser.
-
-### Node.js supported versions
-
-The Sinch Node.js SDK follows the [Node.js release cycle](https://nodejs.org/en/about/previous-releases). 
-
-Support removal of EoL versions will happen in SDK major releases.
+> This SDK is intended for server-side (backend) use only. Do not use it in front-end or client-side applications (web, mobile, or desktop), regardless of language or framework. Doing so can expose your Sinch credentials to end-users.
 
 ## Installation
 
-### With NPM
-
+Run the following command to install the SDK:
 ```bash
-# Create a new folder (For Windows Command Prompt or PowerShell users, replace 'mkdir' by 'md')
-mkdir my-sinch-app
-# Move to the new folder
-cd my-sinch-app
-# Init the project (provide information about your project, such as package name, version, description, ...)
 npm init
-# Install the Sinch Node.js SDK dependency
 npm install @sinch/sdk-core
 ```
 
-### With Yarn
-
+If you want to use yarn as a package manager, run:
 ```bash
-# Create a new folder (For Windows Command Prompt or PowerShell users, replace 'mkdir' by 'md')
-mkdir my-sinch-app
-# Move to the new folder
-cd my-sinch-app
-# Init the project (provide information about your project, such as package name, version, description, ...)
+npm install --global yarn
 yarn init
-# Install the Sinch Node.js SDK dependency
 yarn add @sinch/sdk-core
-```
-
-## SDK usage
-
-### Constructor
-
-To initialize communication with the Sinch servers, credentials obtained from the Sinch dashboard must be provided to the main client class of this SDK. It's highly recommended to not hardcode these credentials and to load them from environment variables instead.
-
-```typescript
-import {
-  SinchClient,
-} from '@sinch/sdk-core';
-
-const sinchClient = new SinchClient(sinchClientParameters);
-```
-where `sinchClientParameters` is an object containing the properties required to access the API you want to use:
- - for **Verification** and **Voice** APIs:
-   - `applicationKey`
-   - `applicationSecret`
-   - (For the Voice API, `voiceRegion` is optional. Default is empty).
- - for **SMS** API when using the AU, BR or CA region (works also for US and EU)
-   - `servicePlanId`
-   - `apiToken`
-   - (`smsRegion` is optional. Default is `US` - It will be required in the next major version of the SDK).
- - for all the other APIs (including SMS when using the US and EU regions only)
-   - `projectId`
-   - `keyId`
-   - `keySecret`
-   - (For the SMS API, `smsRegion` is optional. Default is `US` - It will be required in the next major version of the SDK).
-   - (For the Conversation API, `conversationRegion` is optional. Default is `US` - It will be required in the next major version of the SDK).
-
-From this client, you have access to all the SDK services that support the Sinch APIs:
-```typescript
-import {
-  SinchClient,
-} from '@sinch/sdk-core';
-
-const sinch = new SinchClient(sinchClientParameters);
-const conversationService = sinch.conversation;
-const elasticSipTrunkingService = sinch.elasticSipTrunking;
-const faxService = sinch.fax;
-const numbersService = sinch.numbers;
-const numberLookupService = sinch.numberLookup;
-const smsService = sinch.sms;
-const verificationService = sinch.verification;
-const voiceService = sinch.voice;
-```
-
-### Promises
-
-All the methods that interact with the Sinch APIs use Promises.
-
-```typescript
-const response: SendSMSResponse = await conversationService.messages.sendTextMessage({
-   sendMessageRequestBody: {
-      app_id: appId,
-      recipient: {
-         identified_by: {
-            channel_identities: [
-               {
-                  channel: 'RCS',
-                  identity: '+33612345678',
-               },
-            ],
-         },
-      },
-      message: {
-         text_message: {
-            text: 'Hi from Sinch SDK!',
-         },
-      },
-   },
-});
-
-console.log(`The RCS message has been sent successfully. Here is the message id: ${response.message_id}`)
 ```
 
 ## Supported APIs
 
-Here is the list of the Sinch products and their level of support by the Node.js SDK:
+| API Category    | API Name |
+|-----------------|----------|
+| Messaging       | [Conversation API](https://developers.sinch.com/docs/conversation) |
+|                 | [SMS API](https://developers.sinch.com/docs/sms) |
+| Voice and Video | [Voice API](https://developers.sinch.com/docs/voice) |
+|                 | [Elastic SIP Trunking API](https://developers.sinch.com/docs/est) |
+| Numbers         | [Numbers API](https://developers.sinch.com/docs/numbers) |
+| Verification    | [Verification API](https://developers.sinch.com/docs/verification) |
+|                 | [Number Lookup API](https://developers.sinch.com/docs/number-lookup-api-v2) |
+| Fax             | [Fax API](https://developers.sinch.com/docs/fax) |
 
-| API Category           | API Name                 | Status |
-|------------------------|--------------------------|:------:|
-| Messaging              | SMS API                  |   ✅    |
-|                        | Conversation API         |   ✅    |
-|                        | Fax API                  |   ✅    |
-| Voice and Video        | Voice API                |   ✅    |
-|                        | Elastic SIP Trunking API |   ✅    |
-| Numbers & Connectivity | Numbers API              |   ✅    |
-| Verification           | Verification API         |   ✅    |
-|                        | Number Lookup API        |   ✅    |
+> **Note:** The SMS API is end-of-sale. New integrations should use the [Conversation API](https://developers.sinch.com/docs/conversation/) instead, which supports SMS and many other channels.
 
-### Packages
+## Getting started
 
-The Sinch Node.js SDK is packaged in the following way:
- - [`@sinch/sdk-core`](./packages/sdk-core): package defining the `SinchClient` class and wrapping all the other packages.
- - [`@sinch/conversation`](./packages/conversation): package that contains Conversation services: App, Capability, Consents, Contact, Conversation, Events, Messages, Project Settings, Templates V1 (deprecated) and V2, Transcoding, Webhooks management and Webhooks callbacks.
- - [`@sinch/elastic-sip-trunking`](./packages/elastic-sip-trunking): package that contains the Elastic SIP Trunking services: SIP Trunks, Access Control List, SIP Endpoints, Credential Lists, Projects, Country Permissions, Call Blocking Rules, and Calls History.
- - [`@sinch/fax`](./packages/fax): package that contains the Fax services: Services, Faxes, Faxes-on-emails and Cover Pages.
- - [`@sinch/number-lookup`](./packages/number-lookup): package that contains the Number Lookup service: Lookup a phone number.
- - [`@sinch/numbers`](./packages/numbers): package that contains the Numbers services: Available number, Active number, Available regions, Callbacks management and Webhooks callbacks.
- - [`@sinch/sms`](./packages/sms): package that contains SMS services: Batches, Delivery reports, Inbounds, Groups and Webhooks callbacks.
- - [`@sinch/verification`](./packages/verification): package that contains the Verification services: Verification start and report, Verification status and Webhooks callbacks.
- - [`@sinch/voice`](./packages/voice): package that contains the Voice services: Callouts, Calls, Conferences, Applications management and Webhooks callbacks.
- - [`@sinch/sdk-client`](./packages/sdk-client): package included by all the other ones that contains the API client classes and helpers.
+The SDK is split across npm packages. Import `SinchClient` from [`@sinch/sdk-core`](./packages/sdk-core), which bundles all API packages. Each API lives in its own package, and all packages share the HTTP layer from [`@sinch/sdk-client`](./packages/sdk-client).
+
+### Client initialization
+
+To start using the SDK, initialize the main client class. This client gives you access to all the SDK services:
+
+```typescript
+import { SinchClient } from '@sinch/sdk-core';
+
+// Warning: not all APIs support project authentication. Check the section for each API before using this snippet.
+const sinch = new SinchClient({
+  projectId: process.env.SINCH_PROJECT_ID,
+  keyId: process.env.SINCH_KEY_ID,
+  keySecret: process.env.SINCH_KEY_SECRET,
+});
+```
+
+Get `project_id`, `key_id` and `key_secret` from the [Access keys](https://dashboard.sinch.com/settings/access-keys) page in your Sinch dashboard (`key_secret` is shown only once, at creation time). It's highly recommended to not hardcode these credentials: load them from environment variables for local development, and from a secret manager in production.
+
+This snippet is the common starting point for every API. Some APIs have a different initialization or need extra parameters (for example, a region), see the section for each API.
+
+### Conversation API
+
+The Conversation API is regionalized. To use this API, the `conversation_region` parameter is required:
+
+```typescript
+import { SinchClient } from '@sinch/sdk-core';
+
+const sinch = new SinchClient({
+  projectId: process.env.SINCH_PROJECT_ID,
+  keyId: process.env.SINCH_KEY_ID,
+  keySecret: process.env.SINCH_KEY_SECRET,
+  conversationRegion: 'us',
+});
+```
+
+#### Callbacks
+
+The Conversation API delivers asynchronous callbacks to the webhook URL you configure for your app in the [Conversation dashboard](https://dashboard.sinch.com/convapi/apps). `validateAuthenticationHeader` confirms a request comes from Sinch and `parseEvent` turns its payload into a typed callback object; `headers` and `rawBody` are the incoming request's headers and raw body:
+
+```typescript
+import { ConversationCallbackWebhooks } from '@sinch/sdk-core';
+
+const callbackWebhooks = new ConversationCallbackWebhooks(process.env.SINCH_CONVERSATION_APP_SECRET);
+
+const validated = callbackWebhooks.validateAuthenticationHeader(request.headers, request.rawBody);
+if (!validated) {
+  return res.status(401).send('Invalid webhook signature');
+}
+
+const event = callbackWebhooks.parseEvent(request.body);
+```
+
+`SINCH_CONVERSATION_APP_SECRET` is the app secret set per app in the [Conversation dashboard](https://dashboard.sinch.com/convapi/apps). `parseEvent` works without validating the request, but then its origin can't be verified, so validating is recommended in production.
+
+You can find a complete example in the Conversation section of [.examples/webhooks](./examples/webhooks/src/controller/app.controller.ts#L41-L61).
+
+### SMS API
+
+> **Warning:** the SMS API is end-of-sale. For new integrations, prefer the [Conversation API](#conversation-api).
+
+The SMS API is regionalized: set `sms_region` to the region where your SMS account is hosted. The accepted values are `us`, `eu`, `au`, `br` and `ca`, and the region also determines which credentials you can use:
+
+- **Project access keys** — available only in the `us` and `eu` regions. Use the same `project_id`, `key_id` and `key_secret` as the common client, plus `sms_region`:
+
+```typescript
+import { SinchClient } from '@sinch/sdk-core';
+
+const sinch = new SinchClient({
+  projectId: process.env.SINCH_PROJECT_ID,
+  keyId: process.env.SINCH_KEY_ID,
+  keySecret: process.env.SINCH_KEY_SECRET,
+  smsRegion: 'us',
+});
+```
+
+> **SMS authentication for new projects**
+>
+> Projects created after the SMS API end-of-sale (`15/04/26`) cannot use project access keys — the SMS API requests return `401 Unauthorized`.
+>
+> If you encounter this issue, consider the following options:
+>
+> 1. Use service plan credentials (`service_plan_id` + `sms_api_token`)
+> 2. Use the Conversation API, which works with project access keys.
+> 3. Contact your account manager
+
+- **Service plan** — available in all regions (`us`, `eu`, `au`, `br`, `ca`). Use a `service_plan_id` and `sms_api_token`, both available on the [Service APIs dashboard](https://dashboard.sinch.com/sms/api/services):
+
+```typescript
+import { SinchClient } from '@sinch/sdk-core';
+
+const sinch = new SinchClient({
+  servicePlanId: process.env.SINCH_SERVICE_PLAN_ID,
+  apiToken: process.env.SINCH_API_TOKEN,
+  smsRegion: 'au',
+});
+```
+
+> **Note:** if you use both the SMS and the [Conversation API](#conversation-api) from the same client, set `sms_region` and `conversation_region` to the same region. Mismatched regions cause delivery failures.
+
+#### Callbacks
+
+The SMS API delivers asynchronous callbacks to a webhook URL set per batch with the `callback_url` parameter on the send, update and replace operations. `validateAuthenticationHeader` confirms a request comes from Sinch and `parseEvent` turns its payload into a typed callback object; `headers` and `rawBody` are the incoming request's headers and raw body:
+
+```typescript
+import { SmsCallbackWebhooks } from '@sinch/sdk-core';
+
+const callbackWebhooks = new SmsCallbackWebhooks(process.env.SINCH_SMS_APP_SECRET);
+
+const validated = callbackWebhooks.validateAuthenticationHeader(request.headers, request.rawBody);
+if (!validated) {
+  return res.status(401).send('Invalid webhook signature');
+}
+
+const event = callbackWebhooks.parseEvent(request.body);
+```
+
+Signature authentication for SMS callbacks must be enabled for your account by your account manager. Until it is activated, signature headers will not be present and `parseEvent` can be called directly without signature validation. See the [SMS callbacks documentation](https://developers.sinch.com/docs/sms/api-reference/sms/tag/Webhooks/#tag/Webhooks/section/Callbacks).
+
+You can find a complete example in [examples/webhooks](./examples/webhooks).
+
+### Voice API
+
+The Voice API does not use project access keys. It authenticates with an `application_key` and `application_secret`, which you create per application in the [Voice dashboard](https://dashboard.sinch.com/voice/apps). Optionally set `voice_region` to select the regional endpoint:
+
+```typescript
+import { SinchClient } from '@sinch/sdk-core';
+
+const sinch = new SinchClient({
+  applicationKey: process.env.SINCH_APPLICATION_KEY,
+  applicationSecret: process.env.SINCH_APPLICATION_SECRET,
+  voiceRegion: 'euc1',
+});
+```
+
+#### Callbacks
+
+The Voice API delivers asynchronous callbacks to the callback URL you configure for your application in the [Voice dashboard](https://dashboard.sinch.com/voice/apps). `validateAuthenticationHeader` confirms a request comes from Sinch and `parseEvent` turns its payload into a typed callback object; `headers`, `rawBody`, `path` and `method` are the incoming request's headers, raw body, path and HTTP method:
+
+```typescript
+import { VoiceCallbackWebhooks } from '@sinch/sdk-core';
+
+const callbackWebhooks = new VoiceCallbackWebhooks({
+  applicationKey: process.env.SINCH_APPLICATION_KEY,
+  applicationSecret: process.env.SINCH_APPLICATION_SECRET,
+});
+
+const validated = callbackWebhooks.validateAuthenticationHeader(
+  request.headers,
+  request.rawBody,
+  request.path,
+  request.method,
+);
+if (!validated) {
+  return res.status(401).send('Invalid authorization');
+}
+
+const event = callbackWebhooks.parseEvent(request.body);
+```
+
+You can find a complete example in [examples/webhooks](./examples/webhooks).
+
+### Verification API
+
+The Verification API uses the same application credentials as the Voice API. Create an application in the [Verification dashboard](https://dashboard.sinch.com/verification/apps):
+
+```typescript
+import { SinchClient } from '@sinch/sdk-core';
+
+const sinch = new SinchClient({
+  applicationKey: process.env.SINCH_APPLICATION_KEY,
+  applicationSecret: process.env.SINCH_APPLICATION_SECRET,
+});
+```
+
+#### Callbacks
+
+The Verification API delivers asynchronous callbacks to the callback URL you configure for your application in the [Verification dashboard](https://dashboard.sinch.com/verification/apps). `validateAuthenticationHeader` confirms a request comes from Sinch and `parseEvent` turns its payload into a typed callback object; `headers`, `rawBody`, `path` and `method` are the incoming request's headers, raw body, path and HTTP method:
+
+```typescript
+import { VerificationCallbackWebhooks } from '@sinch/sdk-core';
+
+const callbackWebhooks = new VerificationCallbackWebhooks({
+  applicationKey: process.env.SINCH_APPLICATION_KEY,
+  applicationSecret: process.env.SINCH_APPLICATION_SECRET,
+});
+
+const validated = callbackWebhooks.validateAuthenticationHeader(
+  request.headers,
+  request.rawBody,
+  request.path,
+  request.method,
+);
+if (!validated) {
+  return res.status(401).send('Invalid authorization');
+}
+
+const event = callbackWebhooks.parseEvent(request.body);
+```
+
+You can find a complete example in [examples/webhooks](./examples/webhooks).
+
+### Elastic SIP Trunking API
+
+The Elastic SIP Trunking API needs no extra parameters, use the [common client](#client-initialization) shown above.
+
+### Numbers API
+
+The Numbers API needs no extra parameters, use the [common client](#client-initialization) shown above.
+
+#### Callbacks
+
+The Numbers API delivers asynchronous callbacks to the callback URL you configure through `numbers.callbacks`. `validateAuthenticationHeader` confirms a request comes from Sinch and `parseEvent` turns its payload into a typed callback object; `headers` and `rawBody` are the incoming request's headers and raw body:
+
+```typescript
+import { NumbersCallbackWebhooks } from '@sinch/sdk-core';
+
+const callbackWebhooks = new NumbersCallbackWebhooks(process.env.SINCH_NUMBERS_CALLBACK_SECRET);
+
+const validated = callbackWebhooks.validateAuthenticationHeader(request.headers, request.rawBody);
+if (!validated) {
+  return res.status(401).send('Invalid signature');
+}
+
+const event = callbackWebhooks.parseEvent(request.body);
+```
+
+`SINCH_NUMBERS_CALLBACK_SECRET` is the `hmacSecret` returned by `numbers.callbacks.get()`. `parseEvent` works without validating the request, but then its origin can't be verified, so validating is recommended in production.
+
+You can find a complete example in [examples/webhooks](./examples/webhooks).
+
+### Number Lookup API
+
+The Number Lookup API needs no extra parameters, use the [common client](#client-initialization) shown above.
+
+### Fax API
+
+The Fax API needs no extra parameters, use the [common client](#client-initialization) shown above.
+
+#### Callbacks
+
+The Fax API delivers asynchronous callbacks to the incoming webhook URL you configure per service in the [Fax dashboard](https://dashboard.sinch.com/fax/services). `parseEvent` turns the payload into a typed callback object:
+
+```typescript
+import { FaxCallbackWebhooks } from '@sinch/sdk-core';
+
+const event = FaxCallbackWebhooks.parseEvent(request.body);
+```
+
+No request signature validation is implemented for the Fax API. You can find a complete example in [examples/webhooks](./examples/webhooks).
+
+### Your first request
+
+Once your client is configured, you can send your first message. The example below uses the Conversation API to send a simple text message over SMS. Replace CONVERSATION_APP_ID with your app ID and RECIPIENT_PHONE_NUMBER with the recipient's phone number:
+
+```typescript
+const response = await sinch.conversation.messages.send({
+  sendMessageRequestBody: {
+    app_id: CONVERSATION_APP_ID,
+    message: {
+      text_message: {
+        text: '[Node.js SDK: Conversation Message] Sample text message',
+      },
+    },
+    recipient: {
+      identified_by: {
+        channel_identities: [
+          {
+            channel: 'SMS',
+            identity: 'RECIPIENT_PHONE_NUMBER',
+          },
+        ],
+      },
+    },
+  },
+});
+```
+
+## Logging
+
+The SDK supports configurable logging through an optional `logger` property on `SinchClient` initialization parameters. Logging is handled by `@sinch/sdk-client`, the shared HTTP layer used by all API packages.
+
+Pass any object that implements the SDK `Logger` interface (`debug`, `info`, `warn`, and `error`).
+
+**Default behavior.** If you omit `logger`, the SDK uses `console`. Pass `logger: null` to silence all SDK log output.
+
+**Custom loggers.** Plug in any compatible logger, for example [Winston](https://www.npmjs.com/package/winston), and route SDK messages into your existing logging stack, format, and transports.
+
+**Lazy messages.** Log messages can be strings or functions that return a string. With a level-aware logger, expensive messages are only evaluated when that level is enabled.
+
+### What gets logged
+
+- **Debug:** On failed HTTP responses (non-success status), the SDK logs the API name, operation, status code, HTTP method, request URL, and response headers. Enable debug on your logger to troubleshoot authentication issues, expired tokens, and other API errors.
+- **Warn:** Deprecation notices and configuration warnings (for example conflicting credentials or deprecated region parameters).
+- **Info:** Informational SDK messages, such as deprecation guidance for specific APIs.
+- **Error:** SDK-level errors surfaced during client initialization or configuration.
+
+For a runnable example using Winston, see [examples/snippets/sdk-client/logger.js](./examples/snippets/sdk-client/logger.js).
+
+## Handling exceptions
+
+Failed API calls throw typed errors from `@sinch/sdk-core`. The SDK validates every response automatically and raises an exception when the HTTP status is not successful or when the response body is empty or invalid.
+
+| Error class | When it is thrown |
+|-------------|-------------------|
+| `RequestFailedError` | The API returned a non-success HTTP status (`statusCode` and `data` are available on the error) |
+| `EmptyResponseError` | The response is missing or empty |
+| `ResponseJSONParseError` | The response body could not be parsed as JSON |
+| `GenericError` | Other SDK-level errors |
+
+```typescript
+try {
+  await sinchClient.sms.batches.send({
+  sendSMSRequestBody: {
+    body: 'Hello from the Sinch Node.js SDK!',
+    to: ['+12065550100'],
+    from: 'YOUR_sender_number',
+  },
+});
+} catch (error) {
+  if (error instanceof RequestFailedError) {
+    console.error(`Request failed (${error.statusCode}):`, error.data);
+  } else {
+    console.error(error);
+  }
+}
+```
+
+## Third-party dependencies
+
+The SDK relies on the following third-party dependencies:
+- [node-fetch](https://www.npmjs.com/package/node-fetch): HTTP client used to send API requests.
+- [form-data](https://www.npmjs.com/package/form-data): Multipart form-data support for file uploads.
 
 ## Examples
 
 You can find:
- - a TS example of each request in the [examples/simple-examples](./examples/simple-examples) folder.
  - a JS example of each request in the [examples/snippets](./examples/snippets) folder.
  - getting started guides for specific use cases in the [examples/getting-started](./examples/getting-started) folder.
+ - a TS example of each request in the [examples/simple-examples](./examples/simple-examples) folder.
+ - a Nest.js application for handling Sinch webhook callbacks in the [examples/webhooks](./examples/webhooks) folder.
  - examples of integrated flows in the [examples/integrated-flows-examples](./examples/integrated-flows-examples) folder.
+
+## Changelog
+
+For information about the latest changes in the SDK, please refer to the [CHANGELOG](./packages/sdk-core/CHANGELOG.md) file.
+
+## License
+
+This project is licensed under the Apache License. See the [LICENSE](LICENSE) file for the license text.
 
 ## Contact
 
