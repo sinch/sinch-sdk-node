@@ -2,7 +2,7 @@ import {
   ApiListPromise,
   buildPageResultPromise,
   createIteratorMethodsForPagination,
-  CSVFile,
+  FileData,
   FileBuffer,
   formatCreateTimeFilter,
   formatCreateTimeRangeFilter,
@@ -16,7 +16,7 @@ import {
   FaxRequestJson,
   DeleteFaxContentRequestData,
   DownloadFaxContentRequestData,
-  ExportFaxesRequestData,
+  ExportListFaxesRequestData,
   GetFaxRequestData,
   ListFaxesRequestData,
   SendSingleFaxRequestData,
@@ -180,11 +180,11 @@ export class FaxesApi extends FaxDomainApi {
 
   /**
    * Export faxes
-   * Export faxes sent (OUTBOUND) or received (INBOUND) as a .csv file. Set parameters to filter the export.
-   * @param { ExportFaxesRequestData } data - The data to provide to the API call.
+   * Export faxes sent (OUTBOUND) or received (INBOUND). Set parameters to filter the export.
+   * @param { ExportListFaxesRequestData } data - The data to provide to the API call.
    */
-  public async export(data?: ExportFaxesRequestData): Promise<CSVFile> {
-    const getParams = this.client.extractQueryParams<ExportFaxesRequestData>(data ?? {}, [
+  public async exportList(data?: ExportListFaxesRequestData): Promise<FileData> {
+    const getParams = this.client.extractQueryParams<ExportListFaxesRequestData>(data ?? {}, [
       'serviceId',
       'direction',
       'status',
@@ -195,7 +195,9 @@ export class FaxesApi extends FaxDomainApi {
     (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data?.createTime));
     (getParams as any)['createTime>'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.from));
     (getParams as any)['createTime<'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.to));
-    (getParams as any).format = 'csv';
+    if (typeof data?.format === 'string') {
+      (getParams as any).format = data.format;
+    }
 
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

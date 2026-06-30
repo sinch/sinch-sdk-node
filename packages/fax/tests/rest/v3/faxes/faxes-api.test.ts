@@ -166,12 +166,13 @@ describe('FaxesApi', () => {
     });
   });
 
-  describe ('exportFaxes', () => {
+  describe ('exportListFaxes', () => {
     it('should make a GET request to export faxes as CSV', async () => {
       // Given
-      const requestData: Fax.ExportFaxesRequestData = {
+      const requestData: Fax.ExportListFaxesRequestData = {
         direction: 'OUTBOUND',
         labels: { customerId: '1234' },
+        format: 'csv',
       };
       const expectedResponse = {
         fileName: 'faxes.csv',
@@ -179,13 +180,13 @@ describe('FaxesApi', () => {
       };
 
       // When
-      fixture.export.mockResolvedValue(expectedResponse);
-      faxesApi.export = fixture.export;
-      const response = await faxesApi.export(requestData);
+      fixture.exportList.mockResolvedValue(expectedResponse);
+      faxesApi.exportList = fixture.exportList;
+      const response = await faxesApi.exportList(requestData);
 
       // Then
       expect(response).toEqual(expectedResponse);
-      expect(fixture.export).toHaveBeenCalledWith(requestData);
+      expect(fixture.exportList).toHaveBeenCalledWith(requestData);
     });
   });
 
