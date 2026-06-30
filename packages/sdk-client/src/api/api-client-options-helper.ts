@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '../domain';
+import { ApiPlugins, MailgunCredentials, SinchClientParameters, WithLogger } from '../domain';
 import { ApiClientOptions } from './api-client-options';
 import {
   ApiTokenRequest,
@@ -30,7 +30,9 @@ export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiNa
 };
 
 /** @internal */
-export const buildMailgunApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
+export const buildMailgunApiClientOptions = (
+  params: Partial<MailgunCredentials & ApiPlugins & WithLogger>,
+): ApiClientOptions => {
   if (!params.mailgunApiKey) {
     throw new Error('Invalid configuration for the Mailgun API: the "mailgunApiKey" must be provided');
   }

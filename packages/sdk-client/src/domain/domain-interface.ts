@@ -11,7 +11,6 @@ import { Logger } from '../logger';
  */
 export type SinchClientParameters = Partial<
   UnifiedCredentials
-  & MailgunCredentials
   & ServicePlanIdCredentials
   & ApplicationCredentials
   & ApiHostname
