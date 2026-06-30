@@ -63,7 +63,7 @@ export interface FileBuffer {
   buffer: Buffer;
 }
 
-export interface CSVFile {
+export interface FileData {
   /** Name of the file extracted from the 'content-disposition' header */
   fileName: string;
   /** File content as string */
@@ -227,10 +227,10 @@ export class ApiClient {
    * Process HTTP call to download a CSV file as plain text
    * @abstract
    * @param {ApiCallParameters} _httpCallParameters - Parameters for the HTTP call.
-   * @return {Promise<CSVFile>} A promise that resolves to the result of the HTTP call.
+   * @return {Promise<FileData>} A promise that resolves to the result of the HTTP call.
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  processCsvCall(_httpCallParameters: ApiCallParameters): Promise<CSVFile> {
+  processCsvCall(_httpCallParameters: ApiCallParameters): Promise<FileData> {
     throw new Error('Abstract method must be implemented');
   }
 

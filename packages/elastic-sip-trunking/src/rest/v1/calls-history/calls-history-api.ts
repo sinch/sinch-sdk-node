@@ -1,7 +1,7 @@
 import {
   RequestBody,
   ApiListPromise,
-  CSVFile,
+  FileData,
   PaginatedApiProperties,
   PaginationEnum,
   buildPageResultPromise,
@@ -24,7 +24,7 @@ export class CallsHistoryApi extends ElasticSipTrunkingDomainApi {
    * Export call records for a project. This returns a comma separate value (CSV) response. You can specify which records to export using the query parameters.
    * @param { ExportCallRecordsRequestData } data - The data to provide to the API call.
    */
-  public async export(data: ExportCallRecordsRequestData): Promise<CSVFile> {
+  public async export(data: ExportCallRecordsRequestData): Promise<FileData> {
     const getParams = this.client.extractQueryParams<ExportCallRecordsRequestData>(data,
       ['from',
         'to',
