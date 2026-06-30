@@ -27,6 +27,11 @@ for (const page of [
   "classes/LazyApiClient.html",
   "classes/LazySmsApiClient.html",
   "classes/SmsDomainApi.html",
+  "interfaces/Api.html",
+  "interfaces/ApiClientOptions.html",
+  "interfaces/CallbackProcessor.html",
+  "variables/computeSignedData.html",
+  "variables/calculateWebhookSignature.html",
 ]) {
   if (existsSync(join(docsDir, page))) {
     console.error(`Excluded page should not exist: ${page}`);
@@ -38,6 +43,13 @@ for (const page of [
   "classes/SinchClient.html",
   "classes/BatchesApi.html",
   "classes/ServicesApi.html",
+  "classes/VoiceService.html",
+  "interfaces/ApiListPromise.html",
+  "interfaces/DateFormat.html",
+  "classes/GenericError.html",
+  "variables/generateAuthorizationHeader.html",
+  "variables/validateAuthenticationHeader.html",
+  "classes/VoiceCallbackWebhooks.html",
 ]) {
   if (!existsSync(join(docsDir, page))) {
     console.error(`Missing expected public API page: ${page}`);
@@ -52,6 +64,28 @@ const batchesApiHtml = readFileSync(
 for (const internalMember of ["lazyClient", "apiName", "getSinchClient", "setHostname", "setCredentials"]) {
   if (batchesApiHtml.includes(`>${internalMember}<`)) {
     console.error(`BatchesApi.html should not document internal member: ${internalMember}`);
+    process.exit(1);
+  }
+}
+
+const callsApiHtml = readFileSync(
+  join(docsDir, "classes/CallsApi.html"),
+  "utf8",
+);
+for (const internalMember of ["lazyClient", "client", "setHostname", "setCredentials", "setRegion"]) {
+  if (callsApiHtml.includes(`>${internalMember}<`)) {
+    console.error(`CallsApi.html should not document internal member: ${internalMember}`);
+    process.exit(1);
+  }
+}
+
+const voiceServiceHtml = readFileSync(
+  join(docsDir, "classes/VoiceService.html"),
+  "utf8",
+);
+for (const serviceMember of ["setHostname", "setCredentials", "setRegion"]) {
+  if (!voiceServiceHtml.includes(`>${serviceMember}<`)) {
+    console.error(`VoiceService.html should document service-level member: ${serviceMember}`);
     process.exit(1);
   }
 }

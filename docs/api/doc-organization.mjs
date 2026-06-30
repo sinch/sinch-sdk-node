@@ -130,6 +130,11 @@ export const EXCLUDED_SYMBOL_NAMES = [
   "SinchLogger",
   "isSinchLogger",
   "ApiClient",
+  "Api",
+  "ApiClientOptions",
+  "CallbackProcessor",
+  "computeSignedData",
+  "calculateWebhookSignature",
 ];
 
 /** Inherited or leaf-API members hidden from docs. */

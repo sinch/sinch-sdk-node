@@ -31,4 +31,5 @@ interface BaseApiClientOptions {
   useServicePlanId?: boolean;
 }
 
+/** @internal */
 export interface ApiClientOptions extends Partial<BaseApiClientOptions>, WithLogger {}

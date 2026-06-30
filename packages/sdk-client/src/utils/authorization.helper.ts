@@ -149,6 +149,7 @@ const computeHmacSignature = (body: string, secret: string): string => {
   return crypto.createHmac('sha1', secret).update(body).digest('hex');
 };
 
+/** @internal */
 export const computeSignedData = (
   body: string,
   nonce: string,
@@ -157,6 +158,7 @@ export const computeSignedData = (
   return `${body}.${nonce}.${timestamp}`;
 };
 
+/** @internal */
 export const calculateWebhookSignature = (
   signedData: string,
   secret: string,
