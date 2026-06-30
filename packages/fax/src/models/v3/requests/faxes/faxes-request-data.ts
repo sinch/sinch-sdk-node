@@ -1,4 +1,4 @@
-import { FaxDirection, FaxStatus } from '../../enums';
+import { FaxDirection, FaxExportFormat, FaxStatus } from '../../enums';
 import { SingleFaxRequest, MultipleFaxRequest } from '../../fax-request';
 import { DateRangeFilter } from '../../date-range-filter';
 
@@ -48,7 +48,10 @@ export interface ListFaxesRequestData extends FaxesFilterRequestData {
   'page'?: string;
 }
 
-export interface ExportFaxesRequestData extends FaxesFilterRequestData {}
+export interface ExportListFaxesRequestData extends FaxesFilterRequestData {
+  /** Export format for the fax list. */
+  'format'?: FaxExportFormat;
+}
 
 export type SendFaxRequestData = SendSingleFaxRequestData | SendMultipleFaxRequestData;
 
