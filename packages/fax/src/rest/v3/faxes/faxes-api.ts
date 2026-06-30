@@ -195,9 +195,7 @@ export class FaxesApi extends FaxDomainApi {
     (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data?.createTime));
     (getParams as any)['createTime>'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.from));
     (getParams as any)['createTime<'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.to));
-    if (typeof data?.format === 'string') {
-      (getParams as any).format = data.format;
-    }
+    (getParams as any).format = 'csv';
 
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',

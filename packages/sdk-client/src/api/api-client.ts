@@ -63,12 +63,17 @@ export interface FileBuffer {
   buffer: Buffer;
 }
 
-export interface FileData {
+/**
+ * @deprecated Use {@link FileData} instead.
+ */
+export interface CSVFile {
   /** Name of the file extracted from the 'content-disposition' header */
   fileName: string;
   /** File content as string */
   data: string;
 }
+
+export interface FileData extends CSVFile {}
 
 /**
  * API Client used to call the server
