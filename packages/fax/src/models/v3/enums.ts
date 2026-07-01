@@ -52,3 +52,9 @@ export type Resolution = 'FINE' | 'SUPERFINE' | string;
  * - receive: Allows the email to only receive faxes from this email/phone number combination.
  */
 export type Permissions = 'both' | 'send' | 'receive' | string;
+
+/**
+ * Export format for fax list requests.
+ * - csv: Exports the list of faxes as a .csv file.
+ */
+export type FaxExportFormat = 'csv' | string;

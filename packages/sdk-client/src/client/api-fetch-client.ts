@@ -7,7 +7,7 @@ import {
   ApiCallParametersWithPagination,
   PageResult,
   FileBuffer,
-  CSVFile,
+  FileData,
 } from '../api/api-client';
 import {
   ApiClientOptions,
@@ -98,7 +98,7 @@ export class ApiFetchClient extends ApiClient {
   }
 
   /** @inheritdoc */
-  public async processCsvCall(apiCallParameters: ApiCallParameters): Promise<CSVFile> {
+  public async processCsvCall(apiCallParameters: ApiCallParameters): Promise<FileData> {
     const responseContext = await this.executeRequest(apiCallParameters, true);
     return this.processCSVResponse(responseContext);
   }
@@ -176,7 +176,7 @@ export class ApiFetchClient extends ApiClient {
     return { fileName, buffer };
   }
 
-  private async processCSVResponse(context: ResponseContext): Promise<CSVFile> {
+  private async processCSVResponse(context: ResponseContext): Promise<FileData> {
     if (!context.response || !context.response.ok) {
       throw this.buildFetchError(
         new Error('No response received'),
