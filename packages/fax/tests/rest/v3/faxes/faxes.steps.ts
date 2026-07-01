@@ -1,5 +1,5 @@
 import { Given, When, Then } from '@cucumber/cucumber';
-import { FileBuffer, PageResult } from '@sinch/sdk-client';
+import { FileBuffer, FileData, PageResult } from '@sinch/sdk-client';
 import * as assert from 'assert';
 import { FaxService, Fax, FaxesApi } from '../../../../src';
 
@@ -9,6 +9,7 @@ const faxList: Fax.Fax[] = [];
 let sendFaxResponse: Fax.Fax[];
 let fax: Fax.Fax;
 let fileBuffer: FileBuffer;
+let csvResponse: FileData;
 let deleteContentResponse: void;
 
 Given('the Fax service "Faxes" is available', () => {
@@ -185,6 +186,17 @@ When('I send a request to list all the faxes', async () => {
 Then('the faxes list contains {string} faxes', (expectedAnswer: string) => {
   const expectedFaxes = parseInt(expectedAnswer, 10);
   assert.strictEqual(faxList.length, expectedFaxes);
+});
+
+When('I send a request to export faxes as CSV', async () => {
+  csvResponse = await faxesApi.exportList({
+    direction: 'OUTBOUND',
+  });
+});
+
+Then('the response contains the CSV file with the fax records', () => {
+  assert.equal(csvResponse.fileName, 'faxes.csv');
+  assert.equal(csvResponse.data.split(/\r?\n/).length, 3);
 });
 
 When('I send a request to download a fax content as PDF', async () => {
