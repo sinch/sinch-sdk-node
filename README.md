@@ -18,6 +18,7 @@ For more information on the SDK, refer to the dedicated [Node SDK documentation 
 - [Installation](#installation)
 - [Supported APIs](#supported-apis)
 - [Getting started](#getting-started)
+- [Logging](#logging)
 - [Handling exceptions](#handling-exceptions)
 - [Third-party dependencies](#third-party-dependencies)
 - [Examples](#examples)
@@ -343,6 +344,16 @@ const response = await sinch.conversation.messages.send({
   },
 });
 ```
+
+## Logging
+
+The SDK supports configurable logging through an optional `logger` property on `SinchClient` initialization parameters. Logging is handled by `@sinch/sdk-client`, the shared HTTP layer used by all API packages. Method contracts and log levels are defined on the [`Logger`](./packages/sdk-client/src/logger/logger-types.ts) interface.
+
+- **Without a custom logger**: Omit `logger` to send SDK output to `console`, or pass `logger: null` to suppress it.
+- **Lazy messages**: Each method accepts a [`LogMessage`](./packages/sdk-client/src/logger/logger-types.ts), a `string` or `() => string`. Pass a function to defer building the message until your logger reads it; level-aware loggers can then skip that work when the level is disabled.
+- **Custom loggers**: Plug in any compatible logger, for example [Winston](https://www.npmjs.com/package/winston), and route SDK messages into your existing logging stack, format, and transports.
+
+For a runnable example using Winston, see [examples/snippets/sdk-client/logger.js](./examples/snippets/sdk-client/logger.js).
 
 ## Handling exceptions
 
