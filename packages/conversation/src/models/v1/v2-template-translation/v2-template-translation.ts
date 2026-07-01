@@ -36,7 +36,7 @@ export type V2TemplateTranslation =
   update_time?: Date;
 }
 
-interface V2TemplateTranslationCardMessage extends V2TemplateTranslationBase, CardMessage {
+export interface V2TemplateTranslationCardMessage extends V2TemplateTranslationBase, CardMessage {
   // Exclude other template translation types
   carousel_message?: never;
   choice_message?: never;
@@ -47,7 +47,7 @@ interface V2TemplateTranslationCardMessage extends V2TemplateTranslationBase, Ca
   template_message?: never;
   text_message?: never;
 }
-interface V2TemplateTranslationCarouselMessage extends V2TemplateTranslationBase, CarouselMessage {
+export interface V2TemplateTranslationCarouselMessage extends V2TemplateTranslationBase, CarouselMessage {
   // Exclude other template translation types
   card_message?: never;
   choice_message?: never;
@@ -58,7 +58,7 @@ interface V2TemplateTranslationCarouselMessage extends V2TemplateTranslationBase
   template_message?: never;
   text_message?: never;
 }
-interface V2TemplateTranslationChoiceMessage extends V2TemplateTranslationBase, ChoiceMessage {
+export interface V2TemplateTranslationChoiceMessage extends V2TemplateTranslationBase, ChoiceMessage {
   // Exclude other template translation types
   card_message?: never;
   carousel_message?: never;
@@ -69,7 +69,7 @@ interface V2TemplateTranslationChoiceMessage extends V2TemplateTranslationBase, 
   template_message?: never;
   text_message?: never;
 }
-interface V2TemplateTranslationContactInfoMessage extends V2TemplateTranslationBase, ContactInfoMessage {
+export interface V2TemplateTranslationContactInfoMessage extends V2TemplateTranslationBase, ContactInfoMessage {
   // Exclude other template translation types
   card_message?: never;
   carousel_message?: never;
@@ -80,7 +80,7 @@ interface V2TemplateTranslationContactInfoMessage extends V2TemplateTranslationB
   template_message?: never;
   text_message?: never;
 }
-interface V2TemplateTranslationListMessage extends V2TemplateTranslationBase, ListMessage {
+export interface V2TemplateTranslationListMessage extends V2TemplateTranslationBase, ListMessage {
   // Exclude other template translation types
   card_message?: never;
   carousel_message?: never;
@@ -91,7 +91,7 @@ interface V2TemplateTranslationListMessage extends V2TemplateTranslationBase, Li
   template_message?: never;
   text_message?: never;
 }
-interface V2TemplateTranslationLocationMessage extends V2TemplateTranslationBase, LocationMessage {
+export interface V2TemplateTranslationLocationMessage extends V2TemplateTranslationBase, LocationMessage {
   // Exclude other template translation types
   card_message?: never;
   carousel_message?: never;
@@ -102,7 +102,7 @@ interface V2TemplateTranslationLocationMessage extends V2TemplateTranslationBase
   template_message?: never;
   text_message?: never;
 }
-interface V2TemplateTranslationMediaMessage extends V2TemplateTranslationBase, MediaMessage {
+export interface V2TemplateTranslationMediaMessage extends V2TemplateTranslationBase, MediaMessage {
   // Exclude other template translation types
   card_message?: never;
   carousel_message?: never;
@@ -113,7 +113,7 @@ interface V2TemplateTranslationMediaMessage extends V2TemplateTranslationBase, M
   template_message?: never;
   text_message?: never;
 }
-interface V2TemplateTranslationTemplateMessage extends V2TemplateTranslationBase, TemplateMessage {
+export interface V2TemplateTranslationTemplateMessage extends V2TemplateTranslationBase, TemplateMessage {
   // Exclude other template translation types
   card_message?: never;
   carousel_message?: never;
@@ -124,7 +124,7 @@ interface V2TemplateTranslationTemplateMessage extends V2TemplateTranslationBase
   media_message?: never;
   text_message?: never;
 }
-interface V2TemplateTranslationTextMessage extends V2TemplateTranslationBase, TextMessage {
+export interface V2TemplateTranslationTextMessage extends V2TemplateTranslationBase, TextMessage {
   // Exclude other template translation types
   card_message?: never;
   carousel_message?: never;

@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '../domain';
+import { ApiPlugins, MailgunCredentials, SinchClientParameters, WithLogger } from '../domain';
 import { ApiClientOptions } from './api-client-options';
 import {
   ApiTokenRequest,
@@ -11,6 +11,7 @@ import { resolveLogger } from '../logger';
 
 const resolveParamsLogger = (params: SinchClientParameters) => resolveLogger(params.logger);
 
+/** @internal */
 export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiName: string): ApiClientOptions => {
   if (!params.projectId || !params.keyId || !params.keySecret) {
     throw new Error(`Invalid configuration for the ${apiName} API: "projectId", "keyId" and "keySecret" values must be provided`);
@@ -28,7 +29,10 @@ export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiNa
   return apiClientOptions;
 };
 
-export const buildMailgunApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
+/** @internal */
+export const buildMailgunApiClientOptions = (
+  params: Partial<MailgunCredentials & ApiPlugins & WithLogger>,
+): ApiClientOptions => {
   if (!params.mailgunApiKey) {
     throw new Error('Invalid configuration for the Mailgun API: the "mailgunApiKey" must be provided');
   }
@@ -43,6 +47,7 @@ export const buildMailgunApiClientOptions = (params: SinchClientParameters): Api
   return apiClientOptions;
 };
 
+/** @internal */
 export const buildApplicationSignedApiClientOptions = (
   params: SinchClientParameters, apiName: string,
 ): ApiClientOptions => {
@@ -61,6 +66,7 @@ export const buildApplicationSignedApiClientOptions = (
   return apiClientOptions;
 };
 
+/** @internal */
 export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
   const logger = resolveParamsLogger(params);
   let apiClientOptions: ApiClientOptions | undefined;

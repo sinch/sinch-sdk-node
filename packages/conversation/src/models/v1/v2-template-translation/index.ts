@@ -1,1 +1,12 @@
-export type { V2TemplateTranslation } from './v2-template-translation';
+export type {
+  V2TemplateTranslation,
+  V2TemplateTranslationCardMessage,
+  V2TemplateTranslationCarouselMessage,
+  V2TemplateTranslationChoiceMessage,
+  V2TemplateTranslationContactInfoMessage,
+  V2TemplateTranslationListMessage,
+  V2TemplateTranslationLocationMessage,
+  V2TemplateTranslationMediaMessage,
+  V2TemplateTranslationTemplateMessage,
+  V2TemplateTranslationTextMessage,
+} from './v2-template-translation';

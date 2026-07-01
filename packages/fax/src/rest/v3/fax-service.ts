@@ -13,6 +13,7 @@ import { FaxesApi } from './faxes';
 import { ServicesApi } from './services';
 import { CoverPagesApi } from './cover-pages';
 
+/** @internal */
 export class LazyFaxApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
@@ -40,8 +41,10 @@ export class FaxService {
   public readonly services: ServicesApi;
   public readonly coverPages: CoverPagesApi;
 
+  /** @internal */
   public readonly lazyClient: LazyFaxApiClient;
 
+  /** @internal */
   constructor(params: SinchClientParameters) {
     const resolvedParams = resolveClientParameters(params);
     this.lazyClient = new LazyFaxApiClient(resolvedParams);

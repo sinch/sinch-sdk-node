@@ -5,6 +5,7 @@ import { ResponsePlugin, ResponsePluginContext } from '../core/response-plugin';
 /**
  * Plugin to fire an exception on wrong response / data
  */
+/** @internal */
 export class ExceptionResponse<
   V extends Record<string, any> | undefined = Record<string, any>,
 > implements ResponsePlugin<V | Record<string, unknown>, V>

@@ -66,6 +66,7 @@ export class RequestFailedError<T> extends GenericError {
 /**
  * Empty response error class
  */
+/** @internal */
 export class EmptyResponseError extends GenericError {
 
   constructor(message: string, errorContext: ErrorContext) {
@@ -76,6 +77,7 @@ export class EmptyResponseError extends GenericError {
 /**
  * Response parse error class
  */
+/** @internal */
 export class ResponseJSONParseError extends RequestFailedError<string> {
   constructor(
     message: string,

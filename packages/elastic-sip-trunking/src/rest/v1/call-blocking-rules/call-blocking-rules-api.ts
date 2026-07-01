@@ -12,6 +12,7 @@ import { ElasticSipTrunkingDomainApi } from '../elastic-sip-trunking-domain-api'
 
 export class CallBlockingRulesApi extends ElasticSipTrunkingDomainApi {
 
+  /** @internal */
   constructor(lazyClient: LazyElasticSipTrunkingApiClient) {
     super(lazyClient, 'CallBlockingRulesApi');
   }

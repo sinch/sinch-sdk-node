@@ -1,3 +1,7 @@
+## Version 1.5.0
+- **Breaking:** Domain packages no longer re-export `@sinch/sdk-client`. Import SDK client types and helpers from `@sinch/sdk-client` or `@sinch/sdk-core` instead.
+- `@sinch/sdk-core` now explicitly re-exports `@sinch/sdk-client` as the single umbrella entry point.
+
 ## Version 1.4.3
 - Update dependency `@sinch/conversation` to version `1.4.3`
 - Update dependency `@sinch/elastic-sip-trunking` to version `1.4.3`

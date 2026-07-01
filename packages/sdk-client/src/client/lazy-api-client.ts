@@ -1,7 +1,7 @@
 import { ResolvedSinchClientParameters } from '../domain';
 import { ApiFetchClient } from './api-fetch-client';
 
-/** Base class for domain lazy clients that share resolved SDK configuration. */
+/** @internal Base class for domain lazy clients that share resolved SDK configuration. */
 export abstract class LazyApiClient {
   public apiFetchClient?: ApiFetchClient;
   public sharedConfig: ResolvedSinchClientParameters;

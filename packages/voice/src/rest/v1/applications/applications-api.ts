@@ -15,6 +15,7 @@ import { LazyVoiceApplicationManagementApiClient } from '../voice-service';
 
 export class ApplicationsApi extends VoiceDomainApi {
 
+  /** @internal */
   constructor(lazyClient: LazyVoiceApplicationManagementApiClient) {
     super(lazyClient, 'ApplicationsApi');
   }

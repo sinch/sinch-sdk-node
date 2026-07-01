@@ -3,12 +3,15 @@ import { ApiFetchClient, ApiTokenRequest, SinchClientParameters, SmsRegion } fro
 
 import {
   BatchesApi,
-  DEFAULT_SMS_REGION_DEPRECATION_WARNING,
   DeliveryReportsApi,
   GroupsApi,
   InboundsApi,
   SmsService,
 } from '../../../src';
+
+const DEFAULT_SMS_REGION_DEPRECATION_WARNING = '** DEPRECATION NOTICE ** '
+  + 'The "smsRegion" property will become mandatory in the next major version of the SDK and not default '
+  + 'to "us" anymore. Please set it to a valid region.';
 
 jest.mock('node-fetch', () => {
   const actual = jest.requireActual('node-fetch');

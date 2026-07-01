@@ -24,6 +24,7 @@ import { ConversationDomainApi } from '../conversation-domain-api';
 import { LazyConversationApiClient } from '../conversation-service';
 export class ContactApi extends ConversationDomainApi {
 
+  /** @internal */
   constructor(lazyApiClient: LazyConversationApiClient) {
     super(lazyApiClient, 'ContactApi');
   }

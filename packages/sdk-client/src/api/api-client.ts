@@ -2,6 +2,7 @@ import { RequestBody, RequestOptions } from '../plugins/core/request-plugin';
 import { ApiClientOptions } from './api-client-options';
 import { Headers } from 'node-fetch';
 
+/** @internal */
 export enum PaginationEnum {
   NONE,
   /** Used by the Numbers API */
@@ -77,6 +78,7 @@ export interface FileData extends CSVFile {}
 
 /**
  * API Client used to call the server
+ * @internal
  */
 export class ApiClient {
 

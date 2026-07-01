@@ -27,6 +27,7 @@ import { LazyConversationApiClient } from '../conversation-service';
 
 export class EventsApi extends ConversationDomainApi {
 
+  /** @internal */
   constructor(lazyApiClient: LazyConversationApiClient) {
     super(lazyApiClient, 'EventsApi');
   }

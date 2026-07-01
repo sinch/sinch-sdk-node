@@ -2,6 +2,7 @@ import { PluginRunner } from '../core';
 import { RequestOptions, RequestPlugin, RequestPluginEnum } from '../core/request-plugin';
 import { generateAuthorizationHeader } from '../../utils/authorization.helper';
 
+/** @internal */
 export class SigningRequest implements RequestPlugin {
   private readonly applicationId: string;
   private readonly applicationSecret: string;

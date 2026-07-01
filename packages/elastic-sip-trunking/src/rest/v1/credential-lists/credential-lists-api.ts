@@ -24,6 +24,7 @@ import { ElasticSipTrunkingDomainApi } from '../elastic-sip-trunking-domain-api'
 
 export class CredentialListsApi extends ElasticSipTrunkingDomainApi {
 
+  /** @internal */
   constructor(lazyClient: LazyElasticSipTrunkingApiClient) {
     super(lazyClient, 'CredentialListsApi');
   }
