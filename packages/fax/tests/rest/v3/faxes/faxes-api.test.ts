@@ -175,7 +175,7 @@ describe('FaxesApi', () => {
         format: 'csv',
       };
       const expectedResponse = {
-        fileName: 'faxes.csv',
+        fileName: 'fax_logs_exp20260701101551.csv',
         data: 'id,direction,status\nfax_id,OUTBOUND,COMPLETED\n',
       };
 

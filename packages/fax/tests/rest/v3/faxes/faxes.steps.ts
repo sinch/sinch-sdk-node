@@ -195,8 +195,15 @@ When('I send a request to export faxes as CSV', async () => {
 });
 
 Then('the response contains the CSV file with the fax records', () => {
-  assert.equal(csvResponse.fileName, 'faxes.csv');
-  assert.equal(csvResponse.data.split(/\r?\n/).length, 3);
+  assert.match(csvResponse.fileName, /^fax_logs_exp\d+\.csv$/);
+  const lines = csvResponse.data.split(/\r?\n/).filter((line) => line.length > 0);
+  assert.equal(lines.length, 2);
+  assert.equal(
+    lines[0],
+    'Id,Direction,From,To,Number Of Pages,Status,Header Time Zone,Retry Delay Seconds,Resolution,Callback Url,Callback Url Content Type,Error Type,Error Message,Error Code,Project,Service,Max Retries,Create Time,Header Text,Header Page Numbers,Content Url,Labels,Image Conversion Method,Has File,Currency Code,From Country,To Country',
+  );
+  assert.ok(lines[1].startsWith('01W4FFL35P4NC4K35CR3P35P002,OUTBOUND,'));
+  assert.ok(lines[1].includes('COMPLETED'));
 });
 
 When('I send a request to download a fax content as PDF', async () => {
