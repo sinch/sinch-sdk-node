@@ -5,16 +5,19 @@ import { ResponsePlugin, ResponsePluginContext } from '../core/response-plugin';
 /**
  * Plugin to fire an exception on wrong response / data
  */
+/** @internal */
 export class ExceptionResponse<
   V extends Record<string, any> | undefined = Record<string, any>,
 > implements ResponsePlugin<V | Record<string, unknown>, V>
 {
-/**
+  /**
  * Initialize an instance of the class, with an optional callback function for exception handling.
  *
  * @param {Function} [callback] - A function called in case of an exception. If provided, this function is responsible for throwing the exception or not.
  */
-  constructor(private callback?: (res: V, error: Error | undefined) => V) {}
+  constructor(
+    private callback?: (res: V, error: Error | undefined) => V,
+  ) {}
 
   public load(
     context: ResponsePluginContext,
@@ -38,11 +41,16 @@ export class ExceptionResponse<
             errorContext,
           );
         } else if (!context.response.ok) {
+          const headers: { [key: string]: string } = {};
+          context.response.headers.forEach((value, key) => {
+            headers[key.toLowerCase()] = value;
+          });
           error = new RequestFailedError<V>(
             context.response.statusText,
             context.response.status,
             errorContext,
             res,
+            headers,
           );
         } else if (!res) {
           if (context.response.status !== 204

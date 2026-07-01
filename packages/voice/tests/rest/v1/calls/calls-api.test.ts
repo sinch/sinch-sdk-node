@@ -1,4 +1,4 @@
-import { ApiClientOptions, SigningRequest } from '@sinch/sdk-client';
+import { ApiClientOptions, SigningRequest, resolveClientParameters }from '@sinch/sdk-client';
 import {
   CallsApi,
   CallsApiFixture,
@@ -16,7 +16,7 @@ describe('CallsApi', () => {
     apiClientOptions = {
       requestPlugins: [new SigningRequest('keyId', 'keySecret')],
     };
-    const lazyClient = new LazyVoiceApiClient(apiClientOptions);
+    const lazyClient = new LazyVoiceApiClient(resolveClientParameters(apiClientOptions));
     callsApi = new CallsApi(lazyClient);
   });
 
@@ -67,7 +67,7 @@ describe('CallsApi', () => {
         text: 'Hello, the call is over, hanging up now. Goodbye',
         locale: 'en-US',
       } as Voice.SvamlInstructionSay;
-      const action: Voice.SvamlAction = {
+      const action: Voice.ManagedCallSvamlAction = {
         name: 'hangup',
       } as Voice.SvamlActionHangup;
       const requestData: Voice.ManageWithCallLegRequestData = {
@@ -99,7 +99,7 @@ describe('CallsApi', () => {
         name: 'sendDtmf',
         value: '1234#',
       } as Voice.SvamlInstructionSendDtmf;
-      const action: Voice.SvamlAction = {
+      const action: Voice.ManagedCallSvamlAction = {
         name: 'hangup',
       } as Voice.SvamlActionHangup;
       const requestData: Voice.UpdateCallRequestData = {

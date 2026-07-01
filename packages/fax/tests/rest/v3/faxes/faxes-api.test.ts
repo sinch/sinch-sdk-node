@@ -1,4 +1,4 @@
-import { FileBuffer, SinchClientParameters } from '@sinch/sdk-client';
+import { FileBuffer, SinchClientParameters, resolveClientParameters }from '@sinch/sdk-client';
 import {
   Fax,
   FaxesApi,
@@ -18,7 +18,7 @@ describe('FaxesApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    const lazyClient = new LazyFaxApiClient(credentials);
+    const lazyClient = new LazyFaxApiClient(resolveClientParameters(credentials));
     faxesApi = new FaxesApi(lazyClient);
   });
 
@@ -42,7 +42,7 @@ describe('FaxesApi', () => {
     });
   });
 
-  describe ('getFaxFileById', () => {
+  describe ('getFaxFilebyId', () => {
     it('should make a GET request to download a fax content', async () => {
       // Given
       const requestData: Fax.DownloadFaxContentRequestData = {
@@ -163,6 +163,30 @@ describe('FaxesApi', () => {
       expect(response).toEqual(expectedResponse);
       expect(response.data).toBeDefined();
       expect(fixture.list).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('exportListFaxes', () => {
+    it('should make a GET request to export faxes as CSV', async () => {
+      // Given
+      const requestData: Fax.ExportListFaxesRequestData = {
+        direction: 'OUTBOUND',
+        labels: { customerId: '1234' },
+        format: 'csv',
+      };
+      const expectedResponse = {
+        fileName: 'fax_logs_exp20260701101551.csv',
+        data: 'id,direction,status\nfax_id,OUTBOUND,COMPLETED\n',
+      };
+
+      // When
+      fixture.exportList.mockResolvedValue(expectedResponse);
+      faxesApi.exportList = fixture.exportList;
+      const response = await faxesApi.exportList(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.exportList).toHaveBeenCalledWith(requestData);
     });
   });
 

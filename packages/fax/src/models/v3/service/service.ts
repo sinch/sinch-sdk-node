@@ -6,7 +6,11 @@ import { ImageConversionMethod, Resolution, WebhookContentType } from '../enums'
 export interface ServiceRequest {
   /** A friendly name for the service. Maximum is 60 characters. */
   name?: string;
-  /** The URL to which Sinch will post when someone sends a fax to your Sinch number. To accept incoming faxes this must be set and your Sinch phone number must be configured to receive faxes. */
+  /**
+   * The URL to which Sinch will post when someone sends a fax to your Sinch number. To accept incoming faxes this must be set and your Sinch phone number must be configured to receive faxes.
+   *
+   * Note: If a webhook uses basicauth credentials, when the webhook URL is retrieved those credentials are masked. It is not possible to retrieve previously-set credentials through the API.
+   */
   incomingWebhookUrl?: string;
   /** The content type of the webhook. */
   webhookContentType?: WebhookContentType;

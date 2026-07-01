@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, resolveClientParameters }from '@sinch/sdk-client';
 import {
   ContactApi,
   ContactApiFixture,
@@ -19,7 +19,7 @@ describe('ContactApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    const lazyClient = new LazyConversationApiClient(credentials);
+    const lazyClient = new LazyConversationApiClient(resolveClientParameters(credentials));
     contactApi = new ContactApi(lazyClient);
   });
 
@@ -100,7 +100,7 @@ describe('ContactApi', () => {
       ['contact ID', requestDataWithContactId, expectedResponse],
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
     ])('should make a POST request to get a user profile from a specific channel for a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.getChannelProfile.mockResolvedValue(expectedResponse);

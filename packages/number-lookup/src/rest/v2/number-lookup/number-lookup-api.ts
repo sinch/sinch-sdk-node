@@ -5,6 +5,7 @@ import { NumberLookupRequestData, NumberLookupResponse } from '../../../models';
 
 export class NumberLookupApi extends NumberLookupDomainApi {
 
+  /** @internal */
   constructor(lazyApiClient: LazyNumberLookupApiClient) {
     super(lazyApiClient, 'NumberLookupApi');
   }

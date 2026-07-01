@@ -17,7 +17,7 @@ export class GenericError extends Error {
   constructor(message: string, errorContext: ErrorContext) {
     const baseUrl = GenericError.formatUrl(errorContext.url);
     super(
-      `[SDK] [apiName: ${errorContext.apiName || 'unknown'}]
+      `[apiName: ${errorContext.apiName || 'unknown'}]
         [operationId: ${errorContext.operationId || 'unknown'}] 
         [baseUrl: ${baseUrl}] [errorType: SDK] ${message}`,
     );
@@ -44,21 +44,29 @@ export class RequestFailedError<T> extends GenericError {
    */
   public data?: string;
 
+  /**
+   * Response headers (lower-cased keys), captured at the moment of failure.
+   */
+  public responseHeaders?: { [key: string]: string };
+
   constructor(
     message: string,
     statusCode: number,
     errorContext: ErrorContext,
     data?: T,
+    responseHeaders?: { [key: string]: string },
   ) {
     super(`[status: ${statusCode}] ${message}`, errorContext);
     this.statusCode = statusCode;
     this.data = JSON.stringify(data, null, 2);
+    this.responseHeaders = responseHeaders;
   }
 }
 
 /**
  * Empty response error class
  */
+/** @internal */
 export class EmptyResponseError extends GenericError {
 
   constructor(message: string, errorContext: ErrorContext) {
@@ -69,6 +77,7 @@ export class EmptyResponseError extends GenericError {
 /**
  * Response parse error class
  */
+/** @internal */
 export class ResponseJSONParseError extends RequestFailedError<string> {
   constructor(
     message: string,

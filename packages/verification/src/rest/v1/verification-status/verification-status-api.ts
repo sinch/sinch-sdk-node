@@ -10,6 +10,7 @@ import { LazyVerificationApiClient } from '../verification-service';
 
 export class VerificationStatusApi extends VerificationDomainApi {
 
+  /** @internal */
   constructor(lazyClient: LazyVerificationApiClient) {
     super(lazyClient,  'VerificationStatusApi');
   }

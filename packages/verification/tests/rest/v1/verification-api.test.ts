@@ -1,4 +1,4 @@
-import { ApiHostname, ApplicationCredentials, SigningRequest } from '@sinch/sdk-client';
+import { ApiHostname, ApplicationCredentials, SigningRequest, resolveClientParameters } from '@sinch/sdk-client';
 import { LazyVerificationApiClient, VerificationDomainApi } from '../../../src';
 
 describe('Verification API', () => {
@@ -14,7 +14,7 @@ describe('Verification API', () => {
       applicationKey: 'APPLICATION_KEY',
       applicationSecret: 'APPLICATION_SECRET',
     };
-    lazyClient = new LazyVerificationApiClient(params);
+    lazyClient = new LazyVerificationApiClient(resolveClientParameters(params));
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
@@ -27,7 +27,7 @@ describe('Verification API', () => {
   });
 
   it('should use the hostname parameter', () => {
-    params.verificationHostname = CUSTOM_HOSTNAME;
+    lazyClient.sharedConfig.verificationHostname = CUSTOM_HOSTNAME;
     verificationApi = new VerificationDomainApi(lazyClient, 'dummy');
     expect(verificationApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
@@ -55,6 +55,7 @@ describe('Verification API', () => {
     expect(() => verificationApi.setCredentials({ applicationKey: '' }))
       .toThrow('Invalid configuration for the Verification API: "applicationKey" and "applicationSecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Verification API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Verification API');
   });
 });

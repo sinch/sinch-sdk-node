@@ -25,7 +25,7 @@ describe('manageExpiredToken', () => {
 
     oauth2Plugin = {
       getName: () => RequestPluginEnum.OAUTH2_TOKEN_REQUEST,
-      invalidateToken: jest.fn(() => {
+      clearCachedToken: jest.fn(() => {
         token = undefined;
       }),
       load: () => ({
@@ -80,7 +80,7 @@ describe('manageExpiredToken', () => {
     });
 
     expect(result).toEqual({ data: 'success' });
-    expect(oauth2Plugin.invalidateToken).toHaveBeenCalledTimes(1);
+    expect(oauth2Plugin.clearCachedToken).toHaveBeenCalledTimes(1);
     expect(mockedFetch).toHaveBeenCalledTimes(2);
     expect(mockedFetch.mock.calls[0][1].headers.get('Authorization')).toBe('Bearer expired-token');
     expect(mockedFetch.mock.calls[1][1].headers.get('Authorization')).toBe('Bearer new-token');
@@ -128,7 +128,7 @@ describe('manageExpiredToken', () => {
 
     expect(result).toMatchObject(expectedResponse);
     expect(typeof result.nextPage).toBe('function');
-    expect(oauth2Plugin.invalidateToken).toHaveBeenCalledTimes(1);
+    expect(oauth2Plugin.clearCachedToken).toHaveBeenCalledTimes(1);
     expect(mockedFetch).toHaveBeenCalledTimes(2);
     expect(mockedFetch.mock.calls[0][1].headers.get('Authorization')).toBe('Bearer expired-token');
     expect(mockedFetch.mock.calls[1][1].headers.get('Authorization')).toBe('Bearer new-token');
@@ -172,7 +172,7 @@ describe('manageExpiredToken', () => {
     };
 
     expect(result).toMatchObject(expectedResponse);
-    expect(oauth2Plugin.invalidateToken).toHaveBeenCalledTimes(1);
+    expect(oauth2Plugin.clearCachedToken).toHaveBeenCalledTimes(1);
     expect(mockedFetch).toHaveBeenCalledTimes(2);
     expect(mockedFetch.mock.calls[0][1].headers.get('Authorization')).toBe('Bearer expired-token');
     expect(mockedFetch.mock.calls[1][1].headers.get('Authorization')).toBe('Bearer new-token');
@@ -268,6 +268,43 @@ describe('concurrent token refresh', () => {
   });
 });
 
+describe('logFailedResponse', () => {
+  it('should debug-log failed HTTP responses from the transport layer', async () => {
+    const debugSpy = jest.spyOn(console, 'debug').mockImplementation(() => {});
+    mockedFetch.mockResolvedValueOnce(
+      new Response(JSON.stringify({ error: 'bad request' }), {
+        status: 400,
+        statusText: 'Bad Request',
+        headers: { 'x-request-id': 'req-123' },
+      }),
+    );
+
+    const apiClient = new ApiFetchClient({ requestPlugins: [] });
+
+    await expect(apiClient.processCall({
+      url: 'https://api.example.com/endpoint',
+      requestOptions: {
+        method: 'GET',
+        headers: new Headers(),
+        hostname: 'https://api.example.com',
+      },
+      apiName: 'TestAPI',
+      operationId: 'testOperation',
+    })).rejects.toThrow();
+
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('[Sinch SDK][Debug] [TestAPI][testOperation][400]'),
+    );
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('HTTP method: GET'),
+    );
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('URL: https://api.example.com/endpoint'),
+    );
+    debugSpy.mockRestore();
+  });
+});
+
 describe('processFileResponse', () => {
 
   it('should return file buffer and file name when response is ok', async () => {
@@ -311,4 +348,34 @@ describe('processFileResponse', () => {
       .rejects
       .toThrow('No response received');
   });
+});
+
+describe('processCSVResponse', () => {
+
+  it('should parse filename from production content-disposition header', async () => {
+    const apiClient = new ApiFetchClient({ requestPlugins: [] });
+    const csvData = 'id,direction\nfax-1,OUTBOUND\n';
+    const mockResponse = new Response(csvData, { status: 200 });
+    mockResponse.headers.set('content-type', 'text/csv');
+    mockResponse.headers.set(
+      'content-disposition',
+      'attachment; filename="fax_logs_exp20260701101551.csv"; filename*=UTF-8\'\'fax_logs_exp20260701101551.csv',
+    );
+    mockResponse.headers.set('content-transfer-encoding', 'binary');
+
+    const context = {
+      response: mockResponse,
+      body: undefined,
+      apiCallParameters: {} as any,
+      errorContext: {} as any,
+    };
+
+    const result = await apiClient['processCSVResponse'](context);
+
+    expect(result).toEqual({
+      fileName: 'fax_logs_exp20260701101551.csv',
+      data: csvData,
+    });
+  });
+
 });

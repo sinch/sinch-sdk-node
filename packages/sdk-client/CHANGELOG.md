@@ -1,3 +1,15 @@
+## Version 1.5.0
+- [Feature] Add configurable SDK logging via the optional `logger` property on `SinchClientParameters` (`WithLogger`): provide a custom `Logger`, default to `console`, or pass `logger: null` to silence output; includes lazy message support, debug logging of failed HTTP responses, and routing of SDK warnings through the configured logger
+- [Feature] Add `FileData` interface as the preferred return type for CSV downloads (`fileName` and `data` properties)
+- [Deprecation] `CSVFile` is deprecated in favor of `FileData`
+- [Tech] Bump `form-data` dependency from `4.0.4` to `4.0.6`
+
+## Version 1.4.2
+- [Bugfix] OAuth2 429 backoff with full-jitter retry
+
+## Version 1.4.1
+- [Bugfix] Harness OAuth2 token refresh
+
 ## Version 1.4.0
  - [Tech] Remove `client` attribute from the `Api` interface
  - [Feature] Add `WithAdditionalProperties` interface to support additional properties in API models

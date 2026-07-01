@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '../domain';
+import { ApiPlugins, MailgunCredentials, SinchClientParameters, WithLogger } from '../domain';
 import { ApiClientOptions } from './api-client-options';
 import {
   ApiTokenRequest,
@@ -7,50 +7,68 @@ import {
   SigningRequest,
   XTimestampRequest,
 } from '../plugins';
+import { resolveLogger } from '../logger';
 
+const resolveParamsLogger = (params: SinchClientParameters) => resolveLogger(params.logger);
+
+/** @internal */
 export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiName: string): ApiClientOptions => {
   if (!params.projectId || !params.keyId || !params.keySecret) {
     throw new Error(`Invalid configuration for the ${apiName} API: "projectId", "keyId" and "keySecret" values must be provided`);
   }
+  const logger = resolveParamsLogger(params);
   const apiClientOptions: ApiClientOptions = {
     projectId: params.projectId,
-    requestPlugins: [new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname)],
+    requestPlugins: [
+      new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, logger),
+    ],
     useServicePlanId: false,
+    logger,
   };
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
 };
 
-export const buildMailgunApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
+/** @internal */
+export const buildMailgunApiClientOptions = (
+  params: Partial<MailgunCredentials & ApiPlugins & WithLogger>,
+): ApiClientOptions => {
   if (!params.mailgunApiKey) {
     throw new Error('Invalid configuration for the Mailgun API: the "mailgunApiKey" must be provided');
   }
+  const logger = resolveParamsLogger(params);
   const apiClientOptions: ApiClientOptions = {
     requestPlugins: [
       new BasicAuthenticationRequest('api', params.mailgunApiKey),
     ],
+    logger,
   };
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
 };
 
+/** @internal */
 export const buildApplicationSignedApiClientOptions = (
   params: SinchClientParameters, apiName: string,
 ): ApiClientOptions => {
   if (!params.applicationKey || !params.applicationSecret) {
     throw new Error(`Invalid configuration for the ${apiName} API: "applicationKey" and "applicationSecret" values must be provided`);
   }
+  const logger = resolveParamsLogger(params);
   const apiClientOptions: ApiClientOptions = {
     requestPlugins: [
       new XTimestampRequest(),
       new SigningRequest(params.applicationKey, params.applicationSecret),
     ],
+    logger,
   };
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
 };
 
+/** @internal */
 export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
+  const logger = resolveParamsLogger(params);
   let apiClientOptions: ApiClientOptions | undefined;
 
   if (params.servicePlanId && params.apiToken) {
@@ -58,15 +76,20 @@ export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClien
       projectId: params.servicePlanId,
       requestPlugins: [new ApiTokenRequest(params.apiToken)],
       useServicePlanId: true,
+      logger,
     };
     if (params.projectId || params.keyId || params.keySecret) {
-      console.warn('As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
+      logger.warn(
+        'As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
     }
   } else if (params.projectId && params.keyId && params.keySecret) {
     apiClientOptions = {
       projectId: params.projectId,
-      requestPlugins: [new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname)],
+      requestPlugins: [
+        new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, logger),
+      ],
       useServicePlanId: false,
+      logger,
     };
   }
   if (!apiClientOptions) {

@@ -1,5 +1,6 @@
 import { RequestPlugin } from '../plugins/core/request-plugin';
 import { ResponsePlugin } from '../plugins/core/response-plugin';
+import { WithLogger } from '../domain';
 
 interface BaseApiClientOptions {
   /**
@@ -30,4 +31,5 @@ interface BaseApiClientOptions {
   useServicePlanId?: boolean;
 }
 
-export interface ApiClientOptions extends Partial<BaseApiClientOptions> {}
+/** @internal */
+export interface ApiClientOptions extends Partial<BaseApiClientOptions>, WithLogger {}

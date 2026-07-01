@@ -1,5 +1,5 @@
 import { ElasticSipTrunkingDomainApi, LazyElasticSipTrunkingApiClient } from '../../../src';
-import { ApiHostname, UnifiedCredentials } from '@sinch/sdk-client';
+import { ApiHostname, UnifiedCredentials, resolveClientParameters } from '@sinch/sdk-client';
 
 describe('Elastic SIP Trunking API', () => {
   let elasticSipTrunkingApi: ElasticSipTrunkingDomainApi;
@@ -14,7 +14,7 @@ describe('Elastic SIP Trunking API', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    lazyClient = new LazyElasticSipTrunkingApiClient(params);
+    lazyClient = new LazyElasticSipTrunkingApiClient(resolveClientParameters(params));
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
@@ -25,7 +25,7 @@ describe('Elastic SIP Trunking API', () => {
   });
 
   it('should use the hostname parameter', () => {
-    params.elasticSipTrunkingHostname = CUSTOM_HOSTNAME;
+    lazyClient.sharedConfig.elasticSipTrunkingHostname = CUSTOM_HOSTNAME;
     elasticSipTrunkingApi = new ElasticSipTrunkingDomainApi(lazyClient, 'dummy');
     expect(elasticSipTrunkingApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
   });
@@ -50,6 +50,7 @@ describe('Elastic SIP Trunking API', () => {
     expect(() => elasticSipTrunkingApi.setCredentials({ projectId: '' }))
       .toThrow('Invalid configuration for the Elastic SIP Trunking API: "projectId", "keyId" and "keySecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Elastic SIP Trunking API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Elastic SIP Trunking API');
   });
 });

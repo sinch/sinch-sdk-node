@@ -1,4 +1,5 @@
-import { Conversation, ConversationService, SupportedConversationRegion, TemplatesV2Api } from '../../../../src';
+import { Conversation, ConversationService, TemplatesV2Api } from '../../../../src';
+import { SupportedConversationRegion } from '@sinch/sdk-client';
 import { Given, Then, When } from '@cucumber/cucumber';
 import * as assert from 'assert';
 
@@ -69,7 +70,11 @@ Then('for each templateV2 in the templateV2 list response, it defines a translat
     let otherVersionCount = 0;
     const translations = templateV2.translations!;
     for(const translation of translations) {
-      translation.version === 'latest' ? latestVersionCount++ : otherVersionCount++;
+      if (translation.version === 'latest') {
+        latestVersionCount++;
+      } else {
+        otherVersionCount++;
+      }
     }
     assert.equal(latestVersionCount, otherVersionCount);
   }

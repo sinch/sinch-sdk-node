@@ -1,4 +1,5 @@
-import { ApiTokenRequest, ConversationRegion, SinchClientParameters } from '@sinch/sdk-client';
+import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
+import { ApiFetchClient, ApiTokenRequest, ConversationRegion, SinchClientParameters } from '@sinch/sdk-client';
 import {
   AppApi,
   CapabilityApi,
@@ -12,9 +13,24 @@ import {
   TemplatesV2Api,
   TranscodingApi,
   WebhooksApi,
-  DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING,
 } from '../../../src';
-import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
+
+const DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING = '** DEPRECATION NOTICE ** '
+  + 'The "conversationRegion" property will become mandatory in the next major version of the SDK and not default '
+  + 'to "us" anymore. Please set it to a valid region.';
+
+jest.mock('node-fetch', () => {
+  const actual = jest.requireActual('node-fetch');
+  return {
+    __esModule: true,
+    default: jest.fn(),
+    Headers: actual.Headers,
+    Response: actual.Response,
+  };
+});
+import fetch, { Response } from 'node-fetch';
+
+const mockedFetch = fetch as unknown as jest.Mock;
 
 describe('Conversation Service', () => {
   const DEFAULT_HOSTNAME = 'https://us.conversation.api.sinch.com';
@@ -102,9 +118,9 @@ describe('Conversation Service', () => {
     const newRequestPlugin = new ApiTokenRequest('test-token');
 
     // When
-    const apiFetchClientConversation = (conversationService as any).lazyConversationClient.getApiClient();
+    const apiFetchClientConversation = conversationService.lazyConversationClient.getApiClient();
     apiFetchClientConversation.apiClientOptions.requestPlugins = [newRequestPlugin];
-    const apiFetchClientTemplates = (conversationService as any).lazyConversationTemplateClient.getApiClient();
+    const apiFetchClientTemplates = conversationService.lazyConversationTemplateClient.getApiClient();
     apiFetchClientTemplates.apiClientOptions.requestPlugins = [newRequestPlugin];
 
     // Then
@@ -165,7 +181,7 @@ describe('Conversation Service', () => {
     expect(conversationService.templatesV1.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME_TEMPLATES);
     expect(conversationService.templatesV2.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME_TEMPLATES);
     expect(warnSpy).toHaveBeenCalledTimes(1);
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
   });
 
   it('should set a custom hostnames for the templates APIs only', () => {
@@ -191,7 +207,7 @@ describe('Conversation Service', () => {
     expect(conversationService.webhooks.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(conversationService.consents.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(warnSpy).toHaveBeenCalledTimes(1);
-    expect(warnSpy).toHaveBeenCalledWith(DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] ' + DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING);
     warnSpy.mockClear();
     expect(conversationService.templatesV1.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
     expect(conversationService.templatesV2.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_TEMPLATES);
@@ -240,7 +256,8 @@ describe('Conversation Service', () => {
     expect(() => conversationService.setCredentials({ projectId: '' }))
       .toThrow('Invalid configuration for the Conversation API: "projectId", "keyId" and "keySecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Conversation API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Conversation API');
 
     // Then
     expect(conversationService.app.client.apiClientOptions.projectId).toBe('PROJECT_ID');
@@ -282,5 +299,64 @@ describe('Conversation Service', () => {
     expect(conversationService.projectSettings.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME);
     expect(conversationService.templatesV1.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME_TEMPLATES);
     expect(conversationService.templatesV2.client.apiClientOptions.hostname).toBe(EUROPE_HOSTNAME_TEMPLATES);
+  });
+
+  it('should use the injected ApiFetchClient in the lazyConversationClient and invoke its custom plugins', async () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+    };
+    const conversationService = new ConversationService(params);
+
+    const transformSpy = jest.fn((options: any) => options);
+    const dummyPlugin = {
+      getName: () => 'DummyPlugin',
+      load: () => ({ transform: transformSpy }),
+    };
+
+    conversationService.lazyConversationClient.apiFetchClient = new ApiFetchClient({
+      projectId: params.projectId,
+      requestPlugins: [dummyPlugin],
+    });
+
+    mockedFetch.mockResolvedValue(
+      new Response(JSON.stringify({ apps: [] }), { status: 200 }),
+    );
+
+    // When
+    await conversationService.app.list();
+
+    // Then
+    expect(transformSpy).toHaveBeenCalled();
+  });
+
+  // eslint-disable-next-line max-len
+  it('should use the injected ApiFetchClient in the lazyConversationTemplateClient and invoke its custom plugins', async () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+    };
+    const conversationService = new ConversationService(params);
+
+    const transformSpy = jest.fn((options: any) => options);
+    const dummyPlugin = {
+      getName: () => 'DummyPlugin',
+      load: () => ({ transform: transformSpy }),
+    };
+
+    conversationService.lazyConversationTemplateClient.apiFetchClient = new ApiFetchClient({
+      projectId: params.projectId,
+      requestPlugins: [dummyPlugin],
+    });
+
+    mockedFetch.mockResolvedValue(
+      new Response(JSON.stringify({ templates: [] }), { status: 200 }),
+    );
+
+    // When
+    await conversationService.templatesV2.list();
+
+    // Then
+    expect(transformSpy).toHaveBeenCalled();
   });
 });

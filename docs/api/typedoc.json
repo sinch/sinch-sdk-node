@@ -1,0 +1,43 @@
+{
+  "entryPoints": ["./node_modules/@sinch/sdk-core/dist/index.d.ts"],
+  "tsconfig": "./tsconfig.json",
+  "out": "./docs",
+  "readme": "none",
+  "name": "Sinch Node.js SDK",
+  "theme": "sinch",
+  "includeVersion": true,
+  "cleanOutputDir": true,
+  "excludeExternals": false,
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "categorizeByGroup": false,
+  "categoryOrder": [
+    "SinchClient",
+    "Configuration & Utilities",
+    "Conversation",
+    "Elastic SIP Trunking",
+    "Fax",
+    "Number Lookup",
+    "Numbers",
+    "SMS",
+    "Verification",
+    "Voice",
+    "*"
+  ],
+  "navigation": {
+    "excludeReferences": true,
+    "includeCategories": true,
+    "includeGroups": true
+  },
+  "navigationLinks": {
+    "GitHub": "https://github.com/sinch/sinch-sdk-node",
+    "npm": "https://www.npmjs.com/package/@sinch/sdk-core",
+    "Developers": "https://developers.sinch.com/docs/"
+  },
+  "validation": {
+    "notDocumented": true,
+    "invalidLink": true
+  },
+  "treatValidationWarningsAsErrors": true,
+  "plugin": ["./typedoc-plugin.mjs"]
+}

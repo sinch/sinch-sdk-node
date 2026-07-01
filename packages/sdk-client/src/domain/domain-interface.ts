@@ -1,5 +1,6 @@
 import { RequestPlugin } from '../plugins/core/request-plugin';
 import { ResponsePlugin } from '../plugins/core/response-plugin';
+import { Logger } from '../logger';
 
 /**
  * Global object that holds the API configuration.
@@ -10,11 +11,11 @@ import { ResponsePlugin } from '../plugins/core/response-plugin';
  */
 export type SinchClientParameters = Partial<
   UnifiedCredentials
-  & MailgunCredentials
   & ServicePlanIdCredentials
   & ApplicationCredentials
   & ApiHostname
-  & ApiPlugins>;
+  & ApiPlugins
+  & WithLogger>;
 
 export interface UnifiedCredentials {
   /** The project ID associated with the API Client. You can find this on your [Dashboard](https://dashboard.sinch.com/account/access-keys). */
@@ -33,6 +34,7 @@ export interface UnifiedCredentials {
   conversationRegion?: ConversationRegion;
 }
 
+/** @internal */
 export interface MailgunCredentials {
   /** Your API Key created from the [Mailgun Dashboard](https://app.mailgun.com/settings/api_security) */
   mailgunApiKey: string;
@@ -176,13 +178,30 @@ export const ConversationRegion = {
 
 // ////////////////////
 // Mailgun regions
+/** @internal */
 export enum SupportedMailgunRegion {
   DEFAULT = '',
   EUROPE = 'eu',
 }
 
+/** @internal */
 export type MailgunRegion = SupportedMailgunRegion | string;
 
+/** @internal */
 export const MailgunRegion = {
   ...SupportedMailgunRegion,
+};
+
+export interface WithLogger {
+  /**
+   * Logger instance to be used by the SDK.
+   * - omitted or `undefined`: defaults to `console`
+   * - `null`: silent (no SDK output)
+   */
+  logger?: Logger | null;
+}
+
+/** Sinch client parameters with a resolved logger (never null or undefined). */
+export type ResolvedSinchClientParameters = Omit<SinchClientParameters, 'logger'> & {
+  logger: Logger;
 };

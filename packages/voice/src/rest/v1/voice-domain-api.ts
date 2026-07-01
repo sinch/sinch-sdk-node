@@ -8,11 +8,15 @@ import { LazyVoiceApiClient, LazyVoiceApplicationManagementApiClient } from './v
 
 export class VoiceDomainApi implements Api {
 
+  /** @internal */
   constructor(
+    /** @internal */
     public readonly lazyClient: LazyVoiceApiClient | LazyVoiceApplicationManagementApiClient,
+    /** @internal */
     public readonly apiName: string,
   ) {}
 
+  /** @internal */
   public get client(): ApiClient {
     return this.lazyClient.getApiClient();
   }
@@ -22,6 +26,7 @@ export class VoiceDomainApi implements Api {
    * @return {ApiClient}
    * @deprecated
    */
+  /** @internal */
   public getSinchClient(): ApiClient {
     return this.lazyClient.getApiClient();
   }
@@ -30,6 +35,7 @@ export class VoiceDomainApi implements Api {
    * Update the default hostname for the API
    * @param {string} hostname - The new hostname to use for the APIs.
    */
+  /** @internal */
   public setHostname(hostname: string) {
     if (this.apiName === 'ApplicationsApi') {
       this.lazyClient.sharedConfig.voiceApplicationManagementHostname = hostname;
@@ -43,6 +49,7 @@ export class VoiceDomainApi implements Api {
    * Update the region in the hostname
    * @param {VoiceRegion} region - The new region to send the requests to
    */
+  /** @internal */
   public setRegion(region: VoiceRegion) {
     this.lazyClient.sharedConfig.voiceRegion = region;
     this.lazyClient.resetApiClient();
@@ -52,6 +59,7 @@ export class VoiceDomainApi implements Api {
    * Updates the application credentials used to authenticate API requests
    * @param {ApplicationCredentials} credentials
    */
+  /** @internal */
   public setCredentials(credentials: Partial<ApplicationCredentials>) {
     const parametersBackup = { ...this.lazyClient.sharedConfig };
     this.lazyClient.sharedConfig = {
@@ -62,7 +70,9 @@ export class VoiceDomainApi implements Api {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the Voice API');
+      this.lazyClient.sharedConfig.logger.error(
+        'Impossible to assign the new credentials to the Voice API',
+      );
       this.lazyClient.sharedConfig = parametersBackup;
       throw error;
     }
@@ -71,6 +81,7 @@ export class VoiceDomainApi implements Api {
   /**
    * @deprecated Use setCredentials instead
    */
+  /** @internal */
   public setApplication(credentials: ApplicationCredentials) {
     this.setCredentials(credentials);
   }

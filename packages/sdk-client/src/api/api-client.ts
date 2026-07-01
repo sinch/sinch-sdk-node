@@ -2,6 +2,7 @@ import { RequestBody, RequestOptions } from '../plugins/core/request-plugin';
 import { ApiClientOptions } from './api-client-options';
 import { Headers } from 'node-fetch';
 
+/** @internal */
 export enum PaginationEnum {
   NONE,
   /** Used by the Numbers API */
@@ -63,6 +64,9 @@ export interface FileBuffer {
   buffer: Buffer;
 }
 
+/**
+ * @deprecated Use {@link FileData} instead.
+ */
 export interface CSVFile {
   /** Name of the file extracted from the 'content-disposition' header */
   fileName: string;
@@ -70,8 +74,11 @@ export interface CSVFile {
   data: string;
 }
 
+export interface FileData extends CSVFile {}
+
 /**
  * API Client used to call the server
+ * @internal
  */
 export class ApiClient {
 
@@ -136,6 +143,7 @@ export class ApiClient {
         opts = await plugin.load().transform(opts);
       }
     }
+    opts.logger = this.apiClientOptions.logger;
 
     return opts;
   };
@@ -226,10 +234,10 @@ export class ApiClient {
    * Process HTTP call to download a CSV file as plain text
    * @abstract
    * @param {ApiCallParameters} _httpCallParameters - Parameters for the HTTP call.
-   * @return {Promise<CSVFile>} A promise that resolves to the result of the HTTP call.
+   * @return {Promise<FileData>} A promise that resolves to the result of the HTTP call.
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  processCsvCall(_httpCallParameters: ApiCallParameters): Promise<CSVFile> {
+  processCsvCall(_httpCallParameters: ApiCallParameters): Promise<FileData> {
     throw new Error('Abstract method must be implemented');
   }
 

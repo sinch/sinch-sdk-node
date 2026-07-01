@@ -22,6 +22,7 @@ import { LazyFaxApiClient } from '../fax-service';
 
 export class ServicesApi extends FaxDomainApi {
 
+  /** @internal */
   constructor(lazyClient: LazyFaxApiClient) {
     super(lazyClient, 'ServicesApi');
   }

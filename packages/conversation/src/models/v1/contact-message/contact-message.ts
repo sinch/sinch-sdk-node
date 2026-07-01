@@ -21,7 +21,7 @@ export type ContactMessage =
   | ContactMessageProductResponseMessage
   | ContactMessageChannelSpecificContactMessage;
 
-interface ContactMessageChannelSpecificContactMessage extends ContactMessageBase {
+export interface ContactMessageChannelSpecificContactMessage extends ContactMessageBase {
   /** @see ChannelSpecificContactMessage */
   channel_specific_message: ChannelSpecificContactMessage;
   // Exclude other message types
@@ -35,7 +35,7 @@ interface ContactMessageChannelSpecificContactMessage extends ContactMessageBase
 
 }
 
-interface ContactMessageChoiceResponseMessage extends ContactMessageBase {
+export interface ContactMessageChoiceResponseMessage extends ContactMessageBase {
   /** @see ChoiceResponseMessage */
   choice_response_message: ChoiceResponseMessage;
   // Exclude other message types
@@ -48,7 +48,7 @@ interface ContactMessageChoiceResponseMessage extends ContactMessageBase {
   text_message?: never
 }
 
-interface ContactMessageFallbackMessage extends ContactMessageBase {
+export interface ContactMessageFallbackMessage extends ContactMessageBase {
   /** @see FallbackMessage */
   fallback_message: FallbackMessage;
   // Exclude other message types
@@ -61,7 +61,7 @@ interface ContactMessageFallbackMessage extends ContactMessageBase {
   text_message?: never;
 }
 
-interface ContactMessageLocationMessage extends ContactMessageBase {
+export interface ContactMessageLocationMessage extends ContactMessageBase {
   /** @see LocationMessageItem */
   location_message: LocationMessageItem;
   // Exclude other message types
@@ -74,7 +74,7 @@ interface ContactMessageLocationMessage extends ContactMessageBase {
   text_message?: never;
 }
 
-interface ContactMessageMediaCardMessage extends ContactMessageBase {
+export interface ContactMessageMediaCardMessage extends ContactMessageBase {
   /** @see MediaCardMessage */
   media_card_message: MediaCardMessage;
   // Exclude other message types
@@ -87,7 +87,7 @@ interface ContactMessageMediaCardMessage extends ContactMessageBase {
   text_message?: never;
 }
 
-interface ContactMessageMediaMessage extends ContactMessageBase {
+export interface ContactMessageMediaMessage extends ContactMessageBase {
   /** @see MediaProperties */
   media_message: MediaProperties;
   // Exclude other message types
@@ -100,7 +100,7 @@ interface ContactMessageMediaMessage extends ContactMessageBase {
   text_message?: never;
 }
 
-interface ContactMessageProductResponseMessage extends ContactMessageBase {
+export interface ContactMessageProductResponseMessage extends ContactMessageBase {
   /** @see ProductResponseMessage */
   product_response_message: ProductResponseMessage
   // Exclude other message types
@@ -113,7 +113,7 @@ interface ContactMessageProductResponseMessage extends ContactMessageBase {
   text_message?: never
 }
 
-interface ContactMessageTextMessage extends ContactMessageBase {
+export interface ContactMessageTextMessage extends ContactMessageBase {
   /** @see TextMessageItem */
   text_message: TextMessageItem;
   // Exclude other message types

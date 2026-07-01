@@ -1,6 +1,19 @@
-import { ApiTokenRequest, FaxRegion, SinchClientParameters } from '@sinch/sdk-client';
-import { FaxToEmailApi, FaxesApi, FaxService, ServicesApi, CoverPagesApi } from '../../../src';
 import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
+import { ApiFetchClient, ApiTokenRequest, FaxRegion, SinchClientParameters } from '@sinch/sdk-client';
+import { FaxToEmailApi, FaxesApi, FaxService, ServicesApi, CoverPagesApi } from '../../../src';
+
+jest.mock('node-fetch', () => {
+  const actual = jest.requireActual('node-fetch');
+  return {
+    __esModule: true,
+    default: jest.fn(),
+    Headers: actual.Headers,
+    Response: actual.Response,
+  };
+});
+import fetch, { Response } from 'node-fetch';
+
+const mockedFetch = fetch as unknown as jest.Mock;
 
 describe('Fax Service', () => {
   const DEFAULT_HOSTNAME = 'https://fax.api.sinch.com';
@@ -75,7 +88,7 @@ describe('Fax Service', () => {
     const newRequestPlugin = new ApiTokenRequest('test-token');
 
     // When
-    const apiFetchClient = (faxService as any).lazyClient.getApiClient();
+    const apiFetchClient = faxService.lazyClient.getApiClient();
     apiFetchClient.apiClientOptions.requestPlugins = [newRequestPlugin];
 
     // Then
@@ -132,7 +145,7 @@ describe('Fax Service', () => {
     // Then
     // Fax API is global: setRegion is deprecated and should not change the hostname.
     expect(infoSpy).toHaveBeenCalledWith(
-      `Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint ${DEFAULT_HOSTNAME}`,
+      `[Sinch SDK][Info] Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint ${DEFAULT_HOSTNAME}`,
     );
     expect(faxService.faxes.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(faxService.faxToEmail.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
@@ -177,7 +190,8 @@ describe('Fax Service', () => {
     expect(() => faxService.setCredentials({ projectId: '' }))
       .toThrow('Invalid configuration for the Fax API: "projectId", "keyId" and "keySecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Fax API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Fax API');
 
     // Then
     expect(faxService.faxes.client.apiClientOptions.projectId).toBe('PROJECT_ID');
@@ -185,5 +199,34 @@ describe('Fax Service', () => {
     expect(faxService.emails.client.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(faxService.services.client.apiClientOptions.projectId).toBe('PROJECT_ID');
     expect(faxService.coverPages.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+  });
+
+  it('should use the injected ApiFetchClient and invoke its custom plugins', async () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+    };
+    const faxService = new FaxService(params);
+
+    const transformSpy = jest.fn((options: any) => options);
+    const dummyPlugin = {
+      getName: () => 'DummyPlugin',
+      load: () => ({ transform: transformSpy }),
+    };
+
+    faxService.lazyClient.apiFetchClient = new ApiFetchClient({
+      projectId: params.projectId,
+      requestPlugins: [dummyPlugin],
+    });
+
+    mockedFetch.mockResolvedValue(
+      new Response(JSON.stringify({ faxes: [] }), { status: 200 }),
+    );
+
+    // When
+    await faxService.faxes.list();
+
+    // Then
+    expect(transformSpy).toHaveBeenCalled();
   });
 });

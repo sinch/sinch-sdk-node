@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, resolveClientParameters }from '@sinch/sdk-client';
 import {
   TemplatesV1Api,
   TemplatesV1ApiFixture,
@@ -18,7 +18,7 @@ describe('TemplatesV1Api', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    const lazyClient = new LazyConversationTemplateApiClient(credentials);
+    const lazyClient = new LazyConversationTemplateApiClient(resolveClientParameters(credentials));
     templatesV1Api = new TemplatesV1Api(lazyClient);
   });
 

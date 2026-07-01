@@ -1,5 +1,5 @@
 import { Given, When, Then } from '@cucumber/cucumber';
-import { FileBuffer, PageResult } from '@sinch/sdk-client';
+import { FileBuffer, FileData, PageResult } from '@sinch/sdk-client';
 import * as assert from 'assert';
 import { FaxService, Fax, FaxesApi } from '../../../../src';
 
@@ -9,6 +9,7 @@ const faxList: Fax.Fax[] = [];
 let sendFaxResponse: Fax.Fax[];
 let fax: Fax.Fax;
 let fileBuffer: FileBuffer;
+let csvResponse: FileData;
 let deleteContentResponse: void;
 
 Given('the Fax service "Faxes" is available', () => {
@@ -187,14 +188,41 @@ Then('the faxes list contains {string} faxes', (expectedAnswer: string) => {
   assert.strictEqual(faxList.length, expectedFaxes);
 });
 
+When('I send a request to export faxes as CSV', async () => {
+  csvResponse = await faxesApi.exportList({
+    direction: 'OUTBOUND',
+  });
+});
+
+Then('the response contains the CSV file with the fax records', () => {
+  assert.match(csvResponse.fileName, /^fax_logs_exp\d+\.csv$/);
+  const lines = csvResponse.data.split(/\r?\n/).filter((line) => line.length > 0);
+  assert.equal(lines.length, 2);
+  assert.equal(
+    lines[0],
+    // eslint-disable-next-line max-len
+    'Id,Direction,From,To,Number Of Pages,Status,Header Time Zone,Retry Delay Seconds,Resolution,Callback Url,Callback Url Content Type,Error Type,Error Message,Error Code,Project,Service,Max Retries,Create Time,Header Text,Header Page Numbers,Content Url,Labels,Image Conversion Method,Has File,Currency Code,From Country,To Country',
+  );
+  assert.ok(lines[1].startsWith('01W4FFL35P4NC4K35CR3P35P002,OUTBOUND,'));
+  assert.ok(lines[1].includes('COMPLETED'));
+});
+
 When('I send a request to download a fax content as PDF', async () => {
   fileBuffer = await faxesApi.downloadContent({
     id: '01W4FFL35P4NC4K35CR3P35DWLD',
   });
 });
 
+When('I send a request to download a fax content via deprecated .pdf path', async () => {
+  fileBuffer = await faxesApi.downloadContent({
+    id: '01W4FFL35P4NC4K35CR3P35DWLD',
+    fileFormat: 'pdf',
+  });
+});
+
 Then('the response contains a PDF document', () => {
-  assert.equal(fileBuffer.fileName, '01W4FFL35P4NC4K35CR3P35DWLD.pdf');
+  assert.ok(fileBuffer.fileName.endsWith('.pdf'));
+  assert.ok(['fax.pdf', '01W4FFL35P4NC4K35CR3P35DWLD.pdf'].includes(fileBuffer.fileName));
 });
 
 When('I send a request to delete a fax content on the server', async () => {

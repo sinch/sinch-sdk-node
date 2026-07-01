@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, resolveClientParameters } from '@sinch/sdk-client';
 import {
   CapabilityApi,
   CapabilityApiFixture,
@@ -19,7 +19,7 @@ describe('CapabilityApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    const lazyClient = new LazyConversationApiClient(credentials);
+    const lazyClient = new LazyConversationApiClient(resolveClientParameters(credentials));
     capabilityApi = new CapabilityApi(lazyClient);
   });
 
@@ -49,7 +49,7 @@ describe('CapabilityApi', () => {
       ['contact ID', requestDataWithContactId, expectedResponse],
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
     ])('should make a POST request to trigger a CAPABILITY event for a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.lookup.mockResolvedValue(expectedResponse);

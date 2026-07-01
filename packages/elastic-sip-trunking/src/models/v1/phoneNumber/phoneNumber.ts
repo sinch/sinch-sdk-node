@@ -13,5 +13,5 @@ export interface PhoneNumber {
   /** The date and time that the number was assigned to the SIP trunk. */
   createTime?: Date;
   /** The date and time that the phone number was last modified. */
-  updateTime?: Date;
+  updateTime?: Date | null;
 }

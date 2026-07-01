@@ -56,4 +56,20 @@ describe('Callback Webhook', () => {
     expect(parsedPayload.timestamp).toEqual(expectedDate);
   });
 
+  it('should preserve internalFailureCode on failed events', () => {
+    const payload: any = {
+      eventId: 'bcd1234efghijklmnop567890',
+      timestamp: '2023-06-06T07:45:27.785357Z',
+      projectId: 'abcd12ef-ab12-ab12-bc34-abcdef123456',
+      resourceId: '+12345612345',
+      resourceType: 'ACTIVE_NUMBER',
+      eventType: 'PROVISIONING_TO_CAMPAIGN',
+      status: 'FAILED',
+      failureCode: 'CAMPAIGN_PROVISIONING_FAILED',
+      internalFailureCode: 'CRS0018',
+    };
+    const parsedPayload = callbackWebhooks.parseEvent(payload);
+    expect(parsedPayload.internalFailureCode).toEqual('CRS0018');
+  });
+
 });

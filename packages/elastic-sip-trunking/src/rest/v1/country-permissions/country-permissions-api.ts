@@ -11,6 +11,7 @@ import { LazyElasticSipTrunkingApiClient } from '../elastic-sip-trunking-service
 
 export class CountryPermissionsApi extends ElasticSipTrunkingDomainApi {
 
+  /** @internal */
   constructor(lazyClient: LazyElasticSipTrunkingApiClient) {
     super(lazyClient, 'CountryPermissionsApi');
   }

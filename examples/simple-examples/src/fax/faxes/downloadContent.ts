@@ -5,14 +5,13 @@ import * as path from 'path';
 
 (async () => {
   console.log('******************');
-  console.log('* getFaxFileById *');
+  console.log('* GetFaxFilebyId *');
   console.log('******************');
 
   const faxId = getFaxIdFromConfig();
 
   const requestData: Fax.DownloadFaxContentRequestData = {
     id: faxId,
-    fileFormat: 'pdf',
   };
 
   const faxService = initFaxService();

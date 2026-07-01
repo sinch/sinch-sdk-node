@@ -10,7 +10,9 @@ import {
   DeleteIpRangeFromAccessControlListRequestData,
   ListAccessControlListRequestData,
   ListAccessControlListsForTrunkRequestData,
+  ListTrunksForAccessControlListRequestData,
   ListIpRangesForAccessControlListRequestData,
+  SipTrunk,
   UpdateAccessControlListRequestData,
   UpdateIpRangeFromAccessControlListRequestData,
   AddAccessControlListToTrunk,
@@ -30,6 +32,11 @@ export class AccessControlListApiFixture implements Partial<Readonly<AccessContr
    */
   public listForTrunk: jest.Mock<
     ApiListPromise<string>, [ListAccessControlListsForTrunkRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function listTrunks
+   */
+  public listTrunks: jest.Mock<
+    ApiListPromise<SipTrunk>, [ListTrunksForAccessControlListRequestData]> = jest.fn();
   /**
    * Fixture associated to function deleteFromTrunk
    */

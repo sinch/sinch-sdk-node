@@ -24,6 +24,7 @@ import { ConversationDomainApi } from '../conversation-domain-api';
 import { LazyConversationApiClient } from '../conversation-service';
 export class ContactApi extends ConversationDomainApi {
 
+  /** @internal */
   constructor(lazyApiClient: LazyConversationApiClient) {
     super(lazyApiClient, 'ContactApi');
   }
@@ -227,7 +228,7 @@ export class ContactApi extends ConversationDomainApi {
 
   /**
    * Merge two Contacts
-   * The remaining contact will contain all conversations that the removed contact did. If both contacts had conversations within the same App, messages from the removed contact will be merged into corresponding active conversations in the destination contact. Channel identities will be moved from the source contact to the destination contact only for channels that weren\&#39;t present there before. Moved channel identities will be placed at the bottom of the channel priority list. Optional fields from the source contact will be copied only if corresponding fields in the destination contact are empty The contact being removed cannot be referenced after this call.
+   * The remaining contact will contain all conversations that the removed contact did. If both contacts had conversations within the same App, messages from the removed contact will be merged into corresponding active conversations in the destination contact. Channel identities will be moved from the source contact to the destination contact only for channels that weren\&#39;t present there before. Moved channel identities will be placed at the bottom of the channel priority list. Optional fields from the source contact will be copied only if corresponding fields in the destination contact are empty. The contact being removed cannot be referenced after this call.
    * @param { MergeContactRequestData } data - The data to provide to the API call.
    */
   public async mergeContact(data: MergeContactRequestData): Promise<Contact> {

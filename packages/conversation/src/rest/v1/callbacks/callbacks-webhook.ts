@@ -25,7 +25,7 @@ import {
 import { CallbackProcessor, validateWebhookSignature } from '@sinch/sdk-client';
 import { IncomingHttpHeaders } from 'http';
 
-interface WebhookTriggerEvent {
+export interface WebhookTriggerEvent {
   trigger: WebhookTrigger;
 }
 export type ConversationWebhookEventParsed = ConversationWebhookEvent & WebhookTriggerEvent;

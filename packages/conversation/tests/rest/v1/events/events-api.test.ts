@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, resolveClientParameters }from '@sinch/sdk-client';
 import {
   EventsApi,
   EventsApiFixture,
@@ -27,7 +27,7 @@ describe('EventsApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    const lazyClient = new LazyConversationApiClient(credentials);
+    const lazyClient = new LazyConversationApiClient(resolveClientParameters(credentials));
     eventsApi = new EventsApi(lazyClient);
   });
 
@@ -232,7 +232,7 @@ describe('EventsApi', () => {
       ['contact ID', requestDataWithContactId, expectedResponse],
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
     ])('should make a POST request to send any event to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.send.mockResolvedValue(expectedResponse);
@@ -274,7 +274,7 @@ describe('EventsApi', () => {
       ['contact ID', requestDataWithContactId, expectedResponse],
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
     ])('should make a POST request to send a composing event to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.sendComposingEvent.mockResolvedValue(expectedResponse);
@@ -316,7 +316,7 @@ describe('EventsApi', () => {
       ['contact ID', requestDataWithContactId, expectedResponse],
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
     ])('should make a POST request to send a composing end event to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.sendComposingEndEvent.mockResolvedValue(expectedResponse);
@@ -358,7 +358,7 @@ describe('EventsApi', () => {
       ['contact ID', requestDataWithContactId, expectedResponse],
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
     ])('should make a POST request to send a comment reply event to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.sendCommentReplyEvent.mockResolvedValue(expectedResponse);
@@ -400,7 +400,7 @@ describe('EventsApi', () => {
       ['contact ID', requestDataWithContactId, expectedResponse],
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
     ])('should make a POST request to send an agent joined event to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.sendAgentJoinedEvent.mockResolvedValue(expectedResponse);
@@ -442,7 +442,7 @@ describe('EventsApi', () => {
       ['contact ID', requestDataWithContactId, expectedResponse],
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
     ])('should make a POST request to send an agent left event to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.sendAgentLeftEvent.mockResolvedValue(expectedResponse);
@@ -484,7 +484,7 @@ describe('EventsApi', () => {
       ['contact ID', requestDataWithContactId, expectedResponse],
       ['channel identities', requestDataWithChannelIdentity, expectedResponse],
     ])('should make a POST request to send a generic event to a recipient identified by its %s',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       async (_identification, requestData, expectedResponse) => {
         // When
         fixture.sendGenericEvent.mockResolvedValue(expectedResponse);

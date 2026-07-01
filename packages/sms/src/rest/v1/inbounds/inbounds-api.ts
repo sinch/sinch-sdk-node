@@ -16,6 +16,7 @@ import { LazySmsApiClient } from '../sms-service';
 
 export class InboundsApi extends SmsDomainApi {
 
+  /** @internal */
   constructor(lazyClient: LazySmsApiClient) {
     super(lazyClient, 'InboundsApi');
   }

@@ -24,6 +24,7 @@ import { LazyNumbersApiClient } from '../numbers-service';
 
 export class ActiveNumberApi extends NumbersDomainApi {
 
+  /** @internal */
   constructor(lazyClient: LazyNumbersApiClient) {
     super(lazyClient, 'ActiveNumberApi');
   }
