@@ -200,6 +200,7 @@ Then('the response contains the CSV file with the fax records', () => {
   assert.equal(lines.length, 2);
   assert.equal(
     lines[0],
+    // eslint-disable-next-line max-len
     'Id,Direction,From,To,Number Of Pages,Status,Header Time Zone,Retry Delay Seconds,Resolution,Callback Url,Callback Url Content Type,Error Type,Error Message,Error Code,Project,Service,Max Retries,Create Time,Header Text,Header Page Numbers,Content Url,Labels,Image Conversion Method,Has File,Currency Code,From Country,To Country',
   );
   assert.ok(lines[1].startsWith('01W4FFL35P4NC4K35CR3P35P002,OUTBOUND,'));
