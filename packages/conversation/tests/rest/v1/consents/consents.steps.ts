@@ -1,5 +1,6 @@
 import { Given, Then, When } from '@cucumber/cucumber';
-import { ConsentsApi, Conversation, ConversationService, SupportedConversationRegion } from '../../../../src';
+import { ConsentsApi, Conversation, ConversationService } from '../../../../src';
+import { SupportedConversationRegion } from '@sinch/sdk-client';
 import { PageResult } from '@sinch/sdk-client';
 import assert from 'assert';
 

@@ -9,6 +9,7 @@ import { LazyNumbersApiClient } from '../numbers-service';
 
 export class CallbacksApi extends NumbersDomainApi {
 
+  /** @internal */
   constructor(lazyClient: LazyNumbersApiClient) {
     super(lazyClient, 'CallbacksApi');
   }

@@ -32,5 +32,8 @@ if (existsSync(localEntry)) {
   );
   process.exit(1);
 } else {
-  console.log("Using @sinch packages from npm");
+  console.error(
+    "API docs must be built from the sinch-sdk-node monorepo (local packages only).",
+  );
+  process.exit(1);
 }

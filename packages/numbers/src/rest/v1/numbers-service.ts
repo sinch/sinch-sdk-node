@@ -32,6 +32,7 @@ import {
   ValidateEmergencyAddressRequestData,
 } from '../../models';
 
+/** @internal */
 export class LazyNumbersApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
@@ -58,6 +59,7 @@ export class NumbersService {
   /** @deprecated Use the methods exposed at the Numbers Service level instead */
   public readonly activeNumber: ActiveNumberApi;
 
+  /** @internal */
   public readonly lazyClient: LazyNumbersApiClient;
 
   /**
@@ -70,6 +72,7 @@ export class NumbersService {
    *  - `numbersHostname`
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
+  /** @internal */
   constructor(params: SinchClientParameters) {
     const resolvedParams = resolveClientParameters(params);
     const sharedClient = new LazyNumbersApiClient(resolvedParams);

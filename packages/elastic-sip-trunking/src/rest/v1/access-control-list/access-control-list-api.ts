@@ -33,6 +33,7 @@ export class AccessControlListApi extends ElasticSipTrunkingDomainApi {
 
   private sipTrunksApi: SipTrunksApi;
 
+  /** @internal */
   constructor(lazyClient: LazyElasticSipTrunkingApiClient) {
     super(lazyClient, 'AccessControlListApi');
     this.sipTrunksApi = new SipTrunksApi(lazyClient);

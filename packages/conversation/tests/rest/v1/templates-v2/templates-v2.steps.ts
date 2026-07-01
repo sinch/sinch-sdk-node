@@ -1,4 +1,5 @@
-import { Conversation, ConversationService, SupportedConversationRegion, TemplatesV2Api } from '../../../../src';
+import { Conversation, ConversationService, TemplatesV2Api } from '../../../../src';
+import { SupportedConversationRegion } from '@sinch/sdk-client';
 import { Given, Then, When } from '@cucumber/cucumber';
 import * as assert from 'assert';
 

@@ -10,6 +10,7 @@ import {
 import { VerificationStatusApi } from './verification-status';
 import { VerificationsApi } from './verifications';
 
+/** @internal */
 export class LazyVerificationApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
@@ -30,6 +31,7 @@ export class VerificationService {
   public readonly verificationStatus: VerificationStatusApi;
   public readonly verifications: VerificationsApi;
 
+  /** @internal */
   public readonly lazyClient: LazyVerificationApiClient;
 
   /**
@@ -41,6 +43,7 @@ export class VerificationService {
    * - `verificationHostname`
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
+  /** @internal */
   constructor(params: SinchClientParameters) {
     const resolvedParams = resolveClientParameters(params);
     this.lazyClient = new LazyVerificationApiClient(resolvedParams);

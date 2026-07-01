@@ -149,6 +149,7 @@ const computeHmacSignature = (body: string, secret: string): string => {
   return crypto.createHmac('sha1', secret).update(body).digest('hex');
 };
 
+/** @internal */
 export const computeSignedData = (
   body: string,
   nonce: string,
@@ -157,6 +158,7 @@ export const computeSignedData = (
   return `${body}.${nonce}.${timestamp}`;
 };
 
+/** @internal */
 export const calculateWebhookSignature = (
   signedData: string,
   secret: string,
@@ -200,12 +202,12 @@ const validateApplicationAuth = (
   return true;
 };
 
-export const calculateMD5 = (body: string): string => {
+const calculateMD5 = (body: string): string => {
   // Content-MD5 = Base64 ( MD5 ( UTF8 ( [BODY] ) ) )
   return crypto.createHash('md5').update(Buffer.from(body, 'utf-8')).digest('base64');
 };
 
-export const calculateSignature = (secret: string, stringToSign: string): string => {
+const calculateSignature = (secret: string, stringToSign: string): string => {
   // Signature = Base64 ( HMAC-SHA256 ( Base64-Decode ( ApplicationSecret ), UTF8 ( StringToSign ) ) );
   return crypto.createHmac('sha256', Buffer.from(secret, 'base64'))
     .update(Buffer.from(stringToSign, 'utf-8'))

@@ -22,8 +22,12 @@ import { WebhooksApi } from './webhooks';
 import { TemplatesV1Api } from './templates-v1';
 import { TemplatesV2Api } from './templates-v2';
 import { ConsentsApi } from './consents';
-import { DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING } from './conversation-domain-api';
 
+const DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING = '** DEPRECATION NOTICE ** '
+  + 'The "conversationRegion" property will become mandatory in the next major version of the SDK and not default '
+  + 'to "us" anymore. Please set it to a valid region.';
+
+/** @internal */
 export class LazyConversationApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
@@ -52,6 +56,7 @@ export class LazyConversationApiClient extends LazyApiClient {
   }
 }
 
+/** @internal */
 export class LazyConversationTemplateApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
@@ -108,7 +113,9 @@ export class ConversationService {
   public readonly templatesV2: TemplatesV2Api;
   public readonly consents: ConsentsApi;
 
+  /** @internal */
   public readonly lazyConversationClient: LazyConversationApiClient;
+  /** @internal */
   public readonly lazyConversationTemplateClient: LazyConversationTemplateApiClient;
 
   /**
@@ -123,6 +130,7 @@ export class ConversationService {
    *  - `conversationTemplatesHostname`
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
+  /** @internal */
   constructor(params: SinchClientParameters) {
     const resolvedParams = resolveClientParameters(params);
     const sharedConversationClient = new LazyConversationApiClient(resolvedParams);

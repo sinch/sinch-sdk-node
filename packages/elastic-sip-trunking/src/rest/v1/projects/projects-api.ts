@@ -5,6 +5,7 @@ import { AddProjectsRequestData, AddProjectsResponse } from '../../../models';
 
 export class ProjectsApi extends ElasticSipTrunkingDomainApi {
 
+  /** @internal */
   constructor(lazyClient: LazyElasticSipTrunkingApiClient) {
     super(lazyClient, 'SipProjectsApi');
   }

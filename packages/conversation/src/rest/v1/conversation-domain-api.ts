@@ -6,16 +6,15 @@ import {
 } from '@sinch/sdk-client';
 import { LazyConversationApiClient, LazyConversationTemplateApiClient } from './conversation-service';
 
-export const DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING = '** DEPRECATION NOTICE ** '
-  + 'The "conversationRegion" property will become mandatory in the next major version of the SDK and not default '
-  + 'to "us" anymore. Please set it to a valid region.';
-
 export class ConversationDomainApi implements Api {
   constructor(
+    /** @internal */
     public readonly lazyClient: LazyConversationApiClient | LazyConversationTemplateApiClient,
+    /** @internal */
     public readonly apiName: string,
   ) {}
 
+  /** @internal */
   public get client(): ApiClient {
     return this.lazyClient.getApiClient();
   }
@@ -25,6 +24,7 @@ export class ConversationDomainApi implements Api {
    * @return {ApiClient}
    * @deprecated
    */
+  /** @internal */
   public getSinchClient(): ApiClient {
     return this.lazyClient.getApiClient();
   }
@@ -33,6 +33,7 @@ export class ConversationDomainApi implements Api {
    * Update the default hostname for the API
    * @param {string} hostname - The new hostname to use for the APIs.
    */
+  /** @internal */
   public setHostname(hostname: string) {
     if (this.apiName === 'TemplatesV1Api' || this.apiName === 'TemplatesV2Api') {
       this.lazyClient.sharedConfig.conversationTemplatesHostname = hostname;
@@ -46,6 +47,7 @@ export class ConversationDomainApi implements Api {
    * Update the region in the basePath
    * @param {ConversationRegion} region - The new region to send the requests to
    */
+  /** @internal */
   public setRegion(region: ConversationRegion) {
     this.lazyClient.sharedConfig.conversationRegion = region;
     this.lazyClient.resetApiClient();
@@ -55,6 +57,7 @@ export class ConversationDomainApi implements Api {
    * Updates the credentials used to authenticate API requests
    * @param {UnifiedCredentials} credentials
    */
+  /** @internal */
   public setCredentials(credentials: Partial<UnifiedCredentials>) {
     const parametersBackup = { ...this.lazyClient.sharedConfig };
     this.lazyClient.sharedConfig = {

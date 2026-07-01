@@ -17,6 +17,7 @@ import { ConferencesApi } from './conferences';
 import { CallsApi } from './calls';
 import { CalloutsApi } from './callouts';
 
+/** @internal */
 export class LazyVoiceApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
@@ -40,6 +41,7 @@ export class LazyVoiceApiClient extends LazyApiClient {
 
 }
 
+/** @internal */
 export class LazyVoiceApplicationManagementApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
@@ -65,7 +67,9 @@ export class VoiceService {
   public readonly calls: CallsApi;
   public readonly callouts: CalloutsApi;
 
+  /** @internal */
   public readonly lazyVoiceClient: LazyVoiceApiClient;
+  /** @internal */
   public readonly lazyVoiceAppMgmtClient: LazyVoiceApplicationManagementApiClient;
 
   /**
@@ -79,6 +83,7 @@ export class VoiceService {
    * - `voiceApplicationManagementHostname`
    * @param {SinchClientParameters} params - an Object containing the necessary properties to initialize the service
    */
+  /** @internal */
   constructor(params: SinchClientParameters) {
     const resolvedParams = resolveClientParameters(params);
     const sharedVoiceClient = new LazyVoiceApiClient(resolvedParams);

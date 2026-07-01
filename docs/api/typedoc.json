@@ -2,17 +2,32 @@
   "entryPoints": ["./node_modules/@sinch/sdk-core/dist/index.d.ts"],
   "tsconfig": "./tsconfig.json",
   "out": "./docs",
-  "readme": "./readme.md",
+  "readme": "none",
   "name": "Sinch Node.js SDK",
+  "theme": "sinch",
   "includeVersion": true,
   "cleanOutputDir": true,
   "excludeExternals": false,
   "excludePrivate": true,
-  "visibilityFilters": {
-    "external": true
-  },
+  "excludeInternal": true,
+  "categorizeByGroup": false,
+  "categoryOrder": [
+    "SinchClient",
+    "Configuration & Utilities",
+    "Conversation",
+    "Elastic SIP Trunking",
+    "Fax",
+    "Number Lookup",
+    "Numbers",
+    "SMS",
+    "Verification",
+    "Voice",
+    "*"
+  ],
   "navigation": {
-    "excludeReferences": true
+    "excludeReferences": true,
+    "includeCategories": true,
+    "includeGroups": true
   },
   "navigationLinks": {
     "GitHub": "https://github.com/sinch/sinch-sdk-node",

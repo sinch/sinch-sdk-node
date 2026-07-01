@@ -1,6 +1,7 @@
 import { PluginRunner } from '../core';
 import { RequestOptions, RequestPlugin, RequestPluginEnum } from '../core/request-plugin';
 
+/** @internal */
 export class BasicAuthenticationRequest implements RequestPlugin {
   private readonly userName: string;
   private readonly password: string;

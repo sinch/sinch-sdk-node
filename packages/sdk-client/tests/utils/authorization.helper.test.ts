@@ -1,6 +1,4 @@
 import {
-  calculateMD5,
-  calculateSignature,
   calculateWebhookSignature,
   computeSignedData,
   generateAuthorizationHeader,
@@ -18,23 +16,6 @@ describe('Authorization validation', () => {
   const METHOD = 'POST';
   const CONTENT_TYPE = 'application/json; charset=utf-8';
   const X_TIMESTAMP = 'x-timestamp:2024-01-19T09:19:28.9372196Z';
-
-  it('should calculate the content-MD5 for the stringified JSON', () => {
-    const body = {
-      identity: {
-        type: 'number',
-        endpoint: '+33444555666',
-      },
-      method: 'sms',
-    };
-    expect(calculateMD5(JSON.stringify(body))).toBe('RkD29EocJh6t7zr5QfKM4g==');
-  });
-
-  it('should calculate the signature', () => {
-    const secret = btoa('my-secret');
-    const stringToSign = 'pKXhl9sOsUjClws1oANArA==';
-    expect(calculateSignature(secret, stringToSign)).toBe('1vZeB9AYiJthOvaZeZFhOxZWLSqHHFWzFw7AGjrTtmk=');
-  });
 
   it('should generate the authorization header', () => {
     const header = generateAuthorizationHeader(

@@ -1,10 +1,13 @@
 import {
   ConversationDomainApi,
-  DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING,
   LazyConversationApiClient,
   LazyConversationTemplateApiClient,
 } from '../../../src';
 import { ApiHostname, ConversationRegion, UnifiedCredentials, resolveClientParameters } from '@sinch/sdk-client';
+
+const DEFAULT_CONVERSATION_REGION_DEPRECATION_WARNING = '** DEPRECATION NOTICE ** '
+  + 'The "conversationRegion" property will become mandatory in the next major version of the SDK and not default '
+  + 'to "us" anymore. Please set it to a valid region.';
 
 describe('Conversation API', () => {
   let conversationApi: ConversationDomainApi;
