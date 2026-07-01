@@ -186,14 +186,14 @@ export class FaxesApi extends FaxDomainApi {
   public async exportList(data?: ExportListFaxesRequestData): Promise<FileData> {
     const getParams = this.client.extractQueryParams<ExportListFaxesRequestData>(
       { ...data, format: data?.format ?? 'csv' }, [
-      'serviceId',
-      'direction',
-      'status',
-      'to',
-      'from',
-      'labels',
-      'format',
-    ]);
+        'serviceId',
+        'direction',
+        'status',
+        'to',
+        'from',
+        'labels',
+        'format',
+      ]);
     (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data?.createTime));
     (getParams as any)['createTime>'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.from));
     (getParams as any)['createTime<'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.to));
