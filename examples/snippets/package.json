@@ -117,6 +117,7 @@
     "fax:faxes:send": "node fax/faxes/send.js",
     "fax:faxes:get": "node fax/faxes/get.js",
     "fax:faxes:list": "node fax/faxes/list.js",
+    "fax:faxes:export-list": "node fax/faxes/export-list.js",
     "fax:faxes:download-content": "node fax/faxes/download-content.js",
     "fax:faxes:download-content-deprecated": "node fax/faxes/download-content-deprecated.js",
     "fax:faxes:delete-content": "node fax/faxes/delete-content.js",

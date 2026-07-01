@@ -1,13 +1,13 @@
 import { CallsHistoryApi } from './calls-history-api';
 import { Call, ExportCallRecordsRequestData, FindCallsRequestData } from '../../../models';
-import { ApiListPromise, CSVFile } from '@sinch/sdk-client';
+import { ApiListPromise, FileData } from '@sinch/sdk-client';
 
 export class CallsHistoryApiFixture implements Partial<Readonly<CallsHistoryApi>> {
 
   /**
    * Fixture associated with function export
    */
-  public export: jest.Mock<Promise<CSVFile>, [ExportCallRecordsRequestData]> = jest.fn();
+  public export: jest.Mock<Promise<FileData>, [ExportCallRecordsRequestData]> = jest.fn();
   /**
    * Fixture associated with function find
    */

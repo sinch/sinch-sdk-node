@@ -38,7 +38,11 @@ export interface Fax {
   retryDelaySeconds?: number;
   /** You can use this to attach labels to your call that you can use in your applications. It is a key value store. */
   labels?: { [key: string]: string; };
-  /** The URL to which a callback will be sent when the fax is completed. The callback will be sent as a POST request with a JSON body. The callback will be sent to the URL specified in the `callbackUrl` parameter, if provided, otherwise it will be sent to the URL specified in the `callbackUrl` field of the Fax Service object. */
+  /**
+   * The URL to which a callback will be sent when the fax is completed. The callback will be sent as a POST request with a JSON body. The callback will be sent to the URL specified in the `callbackUrl` parameter, if provided, otherwise it will be sent to the URL specified in the `callbackUrl` field of the Fax Service object.
+   *
+   * Note: If a callback URL uses basicauth credentials, when the callback URL is retrieved those credentials are masked. It is not possible to retrieve previously-set credentials through the API.
+   */
   callbackUrl?: string;
   /** The content type of the callback. */
   callbackUrlContentType?: WebhookContentType;
