@@ -16,6 +16,11 @@ export const handleIncomingFaxEvent = async (incomingFaxEvent) => {
   const fileName = `${incomingFaxEvent.fax.id}.${fileExtension}`;
   const buffer = Buffer.from(incomingFaxEvent.file, 'base64');
 
-  await fs.promises.writeFile(fileName, buffer);
-  console.log('The file has been saved.');
+  // Replace 'tmp' with your preferred directory for saving received faxes
+  const outputDir = 'tmp';
+  const filePath = `${outputDir}/${fileName}`;
+
+  await fs.promises.mkdir(outputDir, { recursive: true });
+  await fs.promises.writeFile(filePath, buffer);
+  console.log(`The file has been saved to ${filePath}.`);
 };

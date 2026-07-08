@@ -10,7 +10,7 @@ export class FaxSample {
   }
 
   async start() {
-    const recipient = '+12016904690';
+    const recipient = 'YOUR_FAX_NUMBER';
     const contentUrl = 'https://developers.sinch.com/fax/fax.pdf';
     const callbackUrl = 'FAX_CALLBACK_URL';
 
