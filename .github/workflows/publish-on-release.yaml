@@ -1,18 +1,5 @@
 name: Publish on release
 
-# Fires automatically when a GitHub Release is published from the UI.
-# Workflow:
-#   1. Author "Prepare release X.Y.Z" PR
-#   2. Merge that PR into the target branch (e.g. v1.4).
-#   3. Create a release on github.com: tag = "vX.Y.Z", target = the same branch,
-#      write release notes, click "Publish release".
-#   4. This workflow takes over from here: checks out the tag, installs, builds,
-#      runs unit tests, then publishes every workspace package to npmjs.com in
-#      the right dependency order.
-#
-# Requires the repository secret `NPM_TOKEN` (an npm "Automation" or
-# "Granular Access" token with publish rights on the @sinch scope).
-
 on:
   release:
     types: [published]
