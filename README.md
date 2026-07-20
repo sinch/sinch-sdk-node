@@ -10,11 +10,10 @@ Here you'll find documentation related to the Sinch Node SDK, including how to i
 
 To use Sinch services, you'll need a Sinch account and access keys. You can sign up for an account and create access keys at [dashboard.sinch.com](https://dashboard.sinch.com).
 
-For more information on the SDK, refer to the dedicated [Node SDK documentation section](https://developers.sinch.com/docs/sdks/node) and for the Sinch APIs on which this SDK is based, refer to the official [developer documentation portal](https://developers.sinch.com).
-
 ## Table of contents:
 
 - [Prerequisites](#prerequisites)
+- [Documentation](#documentation)
 - [Installation](#installation)
 - [Supported APIs](#supported-apis)
 - [Getting started](#getting-started)
@@ -34,6 +33,14 @@ For more information on the SDK, refer to the dedicated [Node SDK documentation 
 
 > **Warning**:
 > This SDK is intended for server-side (backend) use only. Do not use it in front-end or client-side applications (web, mobile, or desktop), regardless of language or framework. Doing so can expose your Sinch credentials to end-users.
+
+## Documentation
+
+For more information on the SDK, refer to the dedicated [Node SDK documentation](https://developers.sinch.com/docs/sdks/node).
+
+For the SDK's programmatic API surface, see the online [SDK reference](https://developers.sinch.com/sdk/sinch-sdk-node/latest).
+
+For broader Sinch product documentation, including the underlying REST APIs, visit the official [Sinch developer portal](https://developers.sinch.com/).
 
 ## Installation
 
@@ -67,7 +74,7 @@ yarn add @sinch/sdk-core
 
 ## Getting started
 
-The SDK is split across npm packages. Import `SinchClient` from [`@sinch/sdk-core`](./packages/sdk-core), which bundles all API packages. Each API lives in its own package, and all packages share the HTTP layer from [`@sinch/sdk-client`](./packages/sdk-client).
+The SDK is split across npm packages. Import `SinchClient` from [`@sinch/sdk-core`](https://github.com/sinch/sinch-sdk-node/blob/main/packages/sdk-core), which bundles all API packages. Each API lives in its own package, and all packages share the HTTP layer from [`@sinch/sdk-client`](https://github.com/sinch/sinch-sdk-node/blob/main/packages/sdk-client).
 
 ### Client initialization
 
@@ -122,7 +129,7 @@ const event = callbackWebhooks.parseEvent(request.body);
 
 `SINCH_CONVERSATION_APP_SECRET` is the app secret set per app in the [Conversation dashboard](https://dashboard.sinch.com/convapi/apps). `parseEvent` works without validating the request, but then its origin can't be verified, so validating is recommended in production.
 
-You can find a complete example in the Conversation section of [.examples/webhooks](./examples/webhooks/src/controller/app.controller.ts#L41-L61).
+You can find a complete example in the Conversation section of [examples/webhooks](https://github.com/sinch/sinch-sdk-node/blob/main/examples/webhooks/src/controller/app.controller.ts#L41-L61).
 
 ### SMS API
 
@@ -186,7 +193,7 @@ const event = callbackWebhooks.parseEvent(request.body);
 
 Signature authentication for SMS callbacks must be enabled for your account by your account manager. Until it is activated, signature headers will not be present and `parseEvent` can be called directly without signature validation. See the [SMS callbacks documentation](https://developers.sinch.com/docs/sms/api-reference/sms/tag/Webhooks/#tag/Webhooks/section/Callbacks).
 
-You can find a complete example in [examples/webhooks](./examples/webhooks).
+You can find a complete example in [examples/webhooks](https://github.com/sinch/sinch-sdk-node/blob/main/examples/webhooks).
 
 ### Voice API
 
@@ -227,7 +234,7 @@ if (!validated) {
 const event = callbackWebhooks.parseEvent(request.body);
 ```
 
-You can find a complete example in [examples/webhooks](./examples/webhooks).
+You can find a complete example in [examples/webhooks](https://github.com/sinch/sinch-sdk-node/blob/main/examples/webhooks).
 
 ### Verification API
 
@@ -267,7 +274,7 @@ if (!validated) {
 const event = callbackWebhooks.parseEvent(request.body);
 ```
 
-You can find a complete example in [examples/webhooks](./examples/webhooks).
+You can find a complete example in [examples/webhooks](https://github.com/sinch/sinch-sdk-node/blob/main/examples/webhooks).
 
 ### Elastic SIP Trunking API
 
@@ -296,7 +303,7 @@ const event = callbackWebhooks.parseEvent(request.body);
 
 `SINCH_NUMBERS_CALLBACK_SECRET` is the `hmacSecret` returned by `numbers.callbacks.get()`. `parseEvent` works without validating the request, but then its origin can't be verified, so validating is recommended in production.
 
-You can find a complete example in [examples/webhooks](./examples/webhooks).
+You can find a complete example in [examples/webhooks](https://github.com/sinch/sinch-sdk-node/blob/main/examples/webhooks).
 
 ### Number Lookup API
 
@@ -316,7 +323,7 @@ import { FaxCallbackWebhooks } from '@sinch/sdk-core';
 const event = FaxCallbackWebhooks.parseEvent(request.body);
 ```
 
-No request signature validation is implemented for the Fax API. You can find a complete example in [examples/webhooks](./examples/webhooks).
+No request signature validation is implemented for the Fax API. You can find a complete example in [examples/webhooks](https://github.com/sinch/sinch-sdk-node/blob/main/examples/webhooks).
 
 ### Your first request
 
@@ -347,13 +354,13 @@ const response = await sinch.conversation.messages.send({
 
 ## Logging
 
-The SDK supports configurable logging through an optional `logger` property on `SinchClient` initialization parameters. Logging is handled by `@sinch/sdk-client`, the shared HTTP layer used by all API packages. Method contracts and log levels are defined on the [`Logger`](./packages/sdk-client/src/logger/logger-types.ts) interface.
+The SDK supports configurable logging through an optional `logger` property on `SinchClient` initialization parameters. Logging is handled by `@sinch/sdk-client`, the shared HTTP layer used by all API packages. Method contracts and log levels are defined on the [`Logger`](https://github.com/sinch/sinch-sdk-node/blob/main/packages/sdk-client/src/logger/logger-types.ts) interface.
 
 - **Without a custom logger**: Omit `logger` to send SDK output to `console`, or pass `logger: null` to suppress it.
-- **Lazy messages**: Each method accepts a [`LogMessage`](./packages/sdk-client/src/logger/logger-types.ts), a `string` or `() => string`. Pass a function to defer building the message until your logger reads it; level-aware loggers can then skip that work when the level is disabled.
+- **Lazy messages**: Each method accepts a [`LogMessage`](https://github.com/sinch/sinch-sdk-node/blob/main/packages/sdk-client/src/logger/logger-types.ts), a `string` or `() => string`. Pass a function to defer building the message until your logger reads it; level-aware loggers can then skip that work when the level is disabled.
 - **Custom loggers**: Plug in any compatible logger, for example [Winston](https://www.npmjs.com/package/winston), and route SDK messages into your existing logging stack, format, and transports.
 
-For a runnable example using Winston, see [examples/snippets/sdk-client/logger.js](./examples/snippets/sdk-client/logger.js).
+For a runnable example using Winston, see [examples/snippets/sdk-client/logger.js](https://github.com/sinch/sinch-sdk-node/blob/main/examples/snippets/sdk-client/logger.js).
 
 ## Handling exceptions
 
@@ -393,19 +400,19 @@ The SDK relies on the following third-party dependencies:
 ## Examples
 
 You can find:
- - a JS example of each request in the [examples/snippets](./examples/snippets) folder.
- - getting started guides for specific use cases in the [examples/getting-started](./examples/getting-started) folder.
- - a TS example of each request in the [examples/simple-examples](./examples/simple-examples) folder.
- - a Nest.js application for handling Sinch webhook callbacks in the [examples/webhooks](./examples/webhooks) folder.
- - examples of integrated flows in the [examples/integrated-flows-examples](./examples/integrated-flows-examples) folder.
+ - a JS example of each request in the [examples/snippets](https://github.com/sinch/sinch-sdk-node/blob/main/examples/snippets) folder.
+ - getting started guides for specific use cases in the [examples/getting-started](https://github.com/sinch/sinch-sdk-node/blob/main/examples/getting-started) folder.
+ - a TS example of each request in the [examples/simple-examples](https://github.com/sinch/sinch-sdk-node/blob/main/examples/simple-examples) folder.
+ - a Nest.js application for handling Sinch webhook callbacks in the [examples/webhooks](https://github.com/sinch/sinch-sdk-node/blob/main/examples/webhooks) folder.
+ - examples of integrated flows in the [examples/integrated-flows-examples](https://github.com/sinch/sinch-sdk-node/blob/main/examples/integrated-flows-examples) folder.
 
 ## Changelog
 
-For information about the latest changes in the SDK, please refer to the [CHANGELOG](./packages/sdk-core/CHANGELOG.md) file.
+For information about the latest changes in the SDK, please refer to the [CHANGELOG](https://github.com/sinch/sinch-sdk-node/blob/main/packages/sdk-core/CHANGELOG.md) file.
 
 ## License
 
-This project is licensed under the Apache License. See the [LICENSE](LICENSE) file for the license text.
+This project is licensed under the Apache License. See the [LICENSE](https://github.com/sinch/sinch-sdk-node/blob/main/LICENSE) file for the license text.
 
 ## Contact
 
