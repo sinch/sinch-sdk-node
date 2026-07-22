@@ -32,6 +32,7 @@ import { LazyConversationApiClient } from '../conversation-service';
 
 export class MessagesApi extends ConversationDomainApi {
 
+  /** @internal */
   constructor(lazyApiClient: LazyConversationApiClient) {
     super(lazyApiClient, 'MessagesApi');
   }

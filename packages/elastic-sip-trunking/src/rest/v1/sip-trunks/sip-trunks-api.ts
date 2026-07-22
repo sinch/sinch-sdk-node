@@ -29,6 +29,7 @@ import { LazyElasticSipTrunkingApiClient } from '../elastic-sip-trunking-service
 
 export class SipTrunksApi extends ElasticSipTrunkingDomainApi {
 
+  /** @internal */
   constructor(lazyClient: LazyElasticSipTrunkingApiClient) {
     super(lazyClient, 'SipTrunksApi');
   }

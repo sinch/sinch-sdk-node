@@ -30,11 +30,14 @@ jobs:
       - name: Run unit tests
         run: yarn run test
 
+      - name: Build API docs
+        run: cd docs/api && npm run build
+
       - name: Checkout sinch-sdk-mockserver repository
         uses: actions/checkout@v3
         with:
           repository: sinch/sinch-sdk-mockserver
-          token: ${{ secrets.PAT_CI }}
+          token: ${{ secrets.MOCKSERVER_REPO_PAT_CI }}
           fetch-depth: 0
           path: sinch-sdk-mockserver
 
@@ -85,5 +88,5 @@ jobs:
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_CI }}
+          GITHUB_TOKEN: ${{ secrets.MOCKSERVER_REPO_PAT_CI }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

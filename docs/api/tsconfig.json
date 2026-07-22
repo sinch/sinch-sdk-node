@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true
+  },
+  "include": ["node_modules/@sinch/**/*.d.ts"]
+}

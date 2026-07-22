@@ -1,5 +1,6 @@
 import { IncomingHttpHeaders } from 'http';
 
+/** @internal */
 export interface CallbackProcessor<T> {
 
   validateAuthenticationHeader(

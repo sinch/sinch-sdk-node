@@ -185,7 +185,8 @@ describe('Voice Service', () => {
     expect(() => voiceService.setCredentials({ applicationKey: '' }))
       .toThrow('Invalid configuration for the Voice API: "applicationKey" and "applicationSecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Voice API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Voice API');
 
     // Then
     expect(voiceService.lazyVoiceClient.sharedConfig.applicationKey).toBe('APPLICATION_KEY');

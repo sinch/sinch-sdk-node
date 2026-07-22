@@ -7,6 +7,7 @@ import { BasicAuthenticationRequest } from '../basicAuthentication';
 import { ApiFetchClient } from '../../client/api-fetch-client';
 import { AUTH_HOSTNAME } from '../../domain';
 import { RequestFailedError } from '../../api/api-errors';
+import { Logger } from '../../logger';
 
 const EXPIRY_SAFETY_MARGIN_SEC = 60;
 
@@ -25,6 +26,7 @@ const MAX_RATE_LIMIT_RETRIES = 3;
 const RATE_LIMIT_RETRY_BASE_MS = 1_000;
 const RATE_LIMIT_RETRY_GROWTH = 4;
 
+/** @internal */
 export class Oauth2TokenRequest implements RequestPlugin {
   private readonly apiClient: ApiClient;
 
@@ -41,6 +43,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
     clientId: string,
     clientSecret: string,
     authenticationUrl?: string,
+    logger?: Logger | null,
   ) {
     const basicAuthenticationPlugin = new BasicAuthenticationRequest(
       clientId,
@@ -52,6 +55,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
     this.apiClient = new ApiFetchClient({
       hostname: authenticationUrl,
       requestPlugins: [basicAuthenticationPlugin],
+      logger,
     });
   }
 

@@ -24,6 +24,7 @@ export class FaxToEmailApi extends FaxDomainApi {
 
   private servicesApi: ServicesApi;
 
+  /** @internal */
   constructor(lazyClient: LazyFaxApiClient) {
     super(lazyClient, 'FaxToEmailApi');
     this.servicesApi = new ServicesApi(lazyClient);

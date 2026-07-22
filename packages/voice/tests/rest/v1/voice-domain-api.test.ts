@@ -1,4 +1,4 @@
-import { ApiHostname, ApplicationCredentials, SigningRequest, VoiceRegion } from '@sinch/sdk-client';
+import { ApiHostname, ApplicationCredentials, SigningRequest, VoiceRegion, resolveClientParameters } from '@sinch/sdk-client';
 import { LazyVoiceApiClient, LazyVoiceApplicationManagementApiClient, VoiceDomainApi } from '../../../src';
 
 
@@ -20,8 +20,8 @@ describe('Voice API', () => {
     };
     warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    lazyVoiceClient = new LazyVoiceApiClient(params);
-    lazyVoiceApplicationMgmtClient = new LazyVoiceApplicationManagementApiClient(params);
+    lazyVoiceClient = new LazyVoiceApiClient(resolveClientParameters(params));
+    lazyVoiceApplicationMgmtClient = new LazyVoiceApplicationManagementApiClient(resolveClientParameters(params));
   });
 
   afterEach(() => {
@@ -37,21 +37,21 @@ describe('Voice API', () => {
   });
 
   it('should change the URL when specifying a different region', () => {
-    params.voiceRegion = VoiceRegion.UNITED_STATES;
+    lazyVoiceClient.sharedConfig.voiceRegion = VoiceRegion.UNITED_STATES;
     voiceApi = new VoiceDomainApi(lazyVoiceClient, 'dummy');
     expect(voiceApi.client?.apiClientOptions.hostname).toBe('https://calling-use1.api.sinch.com');
   });
 
   it('should log a warning when using an unsupported region', async () => {
-    params.voiceRegion = 'bzh';
+    lazyVoiceClient.sharedConfig.voiceRegion = 'bzh';
     voiceApi = new VoiceDomainApi(lazyVoiceClient, 'dummy');
     expect(voiceApi.client?.apiClientOptions.hostname).toBe('https://calling-bzh.api.sinch.com');
-    expect(warnSpy).toHaveBeenCalledWith(
-      'The region "bzh" is not known as a supported region for the Voice API');
+    expect(warnSpy).toHaveBeenCalledWith('[Sinch SDK][Warn] '
+      + 'The region "bzh" is not known as a supported region for the Voice API');
   });
 
   it('should use the hostname parameter but not for voice application management', () => {
-    params.voiceHostname = CUSTOM_HOSTNAME;
+    lazyVoiceClient.sharedConfig.voiceHostname = CUSTOM_HOSTNAME;
     voiceApi = new VoiceDomainApi(lazyVoiceClient, 'dummy');
     voiceApplicationApi = new VoiceDomainApi(lazyVoiceApplicationMgmtClient, 'dummy');
     expect(voiceApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
@@ -59,7 +59,7 @@ describe('Voice API', () => {
   });
 
   it('should use the hostname parameter for voice application management only', () => {
-    params.voiceApplicationManagementHostname = CUSTOM_HOSTNAME_APPLICATIONS;
+    lazyVoiceApplicationMgmtClient.sharedConfig.voiceApplicationManagementHostname = CUSTOM_HOSTNAME_APPLICATIONS;
     voiceApi = new VoiceDomainApi(lazyVoiceClient, 'dummy');
     voiceApplicationApi = new VoiceDomainApi(lazyVoiceApplicationMgmtClient, 'dummy');
     expect(voiceApi.client?.apiClientOptions.hostname).toBe('https://calling.api.sinch.com');
@@ -67,8 +67,8 @@ describe('Voice API', () => {
   });
 
   it('should use the hostname parameter for the 2 different domains', () => {
-    params.voiceHostname = CUSTOM_HOSTNAME;
-    params.voiceApplicationManagementHostname = CUSTOM_HOSTNAME_APPLICATIONS;
+    lazyVoiceClient.sharedConfig.voiceHostname = CUSTOM_HOSTNAME;
+    lazyVoiceApplicationMgmtClient.sharedConfig.voiceApplicationManagementHostname = CUSTOM_HOSTNAME_APPLICATIONS;
     voiceApi = new VoiceDomainApi(lazyVoiceClient, 'dummy');
     voiceApplicationApi = new VoiceDomainApi(lazyVoiceApplicationMgmtClient, 'dummy');
     expect(voiceApi.client?.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
@@ -100,7 +100,8 @@ describe('Voice API', () => {
     expect(() => voiceApi.setCredentials({ applicationKey: '' }))
       .toThrow('Invalid configuration for the Voice API: "applicationKey" and "applicationSecret"'
         + ' values must be provided');
-    expect(errorSpy).toHaveBeenCalledWith('Impossible to assign the new credentials to the Voice API');
+    expect(errorSpy).toHaveBeenCalledWith('[Sinch SDK][Error] '
+      + 'Impossible to assign the new credentials to the Voice API');
   });
 
   it('should update the region', () => {

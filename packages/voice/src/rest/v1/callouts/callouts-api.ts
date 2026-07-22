@@ -10,6 +10,7 @@ import { LazyVoiceApiClient } from '../voice-service';
 
 export class CalloutsApi extends VoiceDomainApi {
 
+  /** @internal */
   constructor(lazyClient: LazyVoiceApiClient) {
     super(lazyClient, 'CalloutsApi');
   }

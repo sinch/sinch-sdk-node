@@ -11,6 +11,7 @@ export {
   ApiClient,
   ApiListPromise,
   CSVFile,
+  FileData,
   FileBuffer,
   PageResult,
   PaginatedApiProperties,

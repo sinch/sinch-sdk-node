@@ -1,6 +1,6 @@
 {
   "name": "@sinch/voice",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "description": "Sinch Voice API",
   "homepage": "",
   "repository": {
@@ -29,7 +29,7 @@
     "test:e2e": "cucumber-js"
   },
   "dependencies": {
-    "@sinch/sdk-client": "1.4.2"
+    "@sinch/sdk-client": "1.5.0"
   },
   "devDependencies": {},
   "publishConfig": {

@@ -1,3 +1,11 @@
+## Version 1.5.0
+- **Breaking:** No longer re-exports `@sinch/sdk-client`. Import SDK client types and helpers from `@sinch/sdk-client` or `@sinch/sdk-core` instead.
+- [Tech] Update dependency `@sinch/sdk-client` to `1.5.0` — configurable SDK logging
+- [Feature] Support Phone Numbers API: `elasticSipTrunking.phoneNumbers.list()` and `get()`
+- [Feature] Support listing SIP trunks by access control list: `accessControlList.listTrunks()`
+- [Tech] Call history export (`calls.export()`) now returns `FileData` instead of `CSVFile`
+- [Bugfix] Allow `updateTime` to be `null` in `PhoneNumber` interface
+
 ## Version 1.4.3
 - [Bugfix] Update dependency `@sinch/sdk-client` to `1.4.3` - OAuth2 429 backoff with full-jitter retry
 

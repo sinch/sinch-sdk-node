@@ -1,4 +1,5 @@
 export * from './sinch-client';
+export * from '@sinch/sdk-client';
 export * from '@sinch/conversation';
 export * from '@sinch/elastic-sip-trunking';
 export * from '@sinch/fax';

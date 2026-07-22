@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, resolveClientParameters }from '@sinch/sdk-client';
 import { LazyNumberLookupApiClient, NumberLookup } from '../../../../src';
 import { NumberLookupApi, NumberLookupApiFixture } from '../../../../src';
 
@@ -14,7 +14,7 @@ describe('NumberLookupApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    const lazyClient = new LazyNumberLookupApiClient(credentials);
+    const lazyClient = new LazyNumberLookupApiClient(resolveClientParameters(credentials));
     numberLookupApi = new NumberLookupApi(lazyClient);
   });
 

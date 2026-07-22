@@ -1,9 +1,9 @@
 import { ElasticSipTrunking, ElasticSipTrunkingService, CallsHistoryApi } from '../../../../src';
 import { Given, Then, When } from '@cucumber/cucumber';
 import assert from 'assert';
-import { CSVFile, PageResult } from '@sinch/sdk-client';
+import { FileData, PageResult } from '@sinch/sdk-client';
 
-let csvResponse: CSVFile;
+let csvResponse: FileData;
 let callsHistoryApi: CallsHistoryApi;
 let listResponse: PageResult<ElasticSipTrunking.Call>;
 let callsHistoryList: ElasticSipTrunking.Call[];

@@ -1,4 +1,4 @@
-import { SinchClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, resolveClientParameters }from '@sinch/sdk-client';
 import {
   SipEndpointsApi,
   SipEndpointsApiFixture,
@@ -19,7 +19,7 @@ describe('SIPEndpointsApi', () => {
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
-    const lazyClient = new LazyElasticSipTrunkingApiClient(credentials);
+    const lazyClient = new LazyElasticSipTrunkingApiClient(resolveClientParameters(credentials));
     sipEndpointsApi = new SipEndpointsApi(lazyClient);
   });
 

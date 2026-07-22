@@ -3,6 +3,7 @@ import { RequestOptions, RequestPlugin, RequestPluginEnum } from '../core/reques
 import * as process from 'process';
 import { sdkCoreVersion } from '../../getVersion';
 
+/** @internal */
 export class VersionRequest implements RequestPlugin {
 
   getName(): string {

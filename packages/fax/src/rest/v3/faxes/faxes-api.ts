@@ -2,6 +2,7 @@ import {
   ApiListPromise,
   buildPageResultPromise,
   createIteratorMethodsForPagination,
+  FileData,
   FileBuffer,
   formatCreateTimeFilter,
   formatCreateTimeRangeFilter,
@@ -15,6 +16,7 @@ import {
   FaxRequestJson,
   DeleteFaxContentRequestData,
   DownloadFaxContentRequestData,
+  ExportListFaxesRequestData,
   GetFaxRequestData,
   ListFaxesRequestData,
   SendSingleFaxRequestData,
@@ -30,6 +32,7 @@ import { LazyFaxApiClient } from '../fax-service';
 
 export class FaxesApi extends FaxDomainApi {
 
+  /** @internal */
   constructor(lazyClient: LazyFaxApiClient) {
     super(lazyClient, 'FaxesApi');
   }
@@ -78,12 +81,12 @@ export class FaxesApi extends FaxDomainApi {
     let basePathUrl: string;
     let operationId: string;
     if (data['fileFormat'] !== undefined) {
-      console.info('Deprecated: The fileFormat path parameter is deprecated. Use downloadContent without fileFormat. See https://developers.sinch.com/docs/fax/api-reference/fax/faxes/getfaxfilebyid');
+      this.client.apiClientOptions.logger!.info('Deprecated: The fileFormat path parameter is deprecated. Use downloadContent without fileFormat. See https://developers.sinch.com/docs/fax/api-reference/fax/faxes/getfaxfilebyid');
       basePathUrl = `${filePath}.${data['fileFormat']}`;
       operationId = 'GetFaxFileByIdDeprecated';
     } else {
       basePathUrl = filePath;
-      operationId = 'GetFaxFileById';
+      operationId = 'GetFaxFilebyId';
     }
 
     const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
@@ -136,6 +139,7 @@ export class FaxesApi extends FaxDomainApi {
       'status',
       'to',
       'from',
+      'labels',
       'pageSize',
       'page']);
     (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data?.createTime));
@@ -173,6 +177,45 @@ export class FaxesApi extends FaxDomainApi {
     );
 
     return listPromise as ApiListPromise<Fax>;
+  }
+
+  /**
+   * Export faxes
+   * Export faxes sent (OUTBOUND) or received (INBOUND). Sets parameters to filter the export.
+   * @param { ExportListFaxesRequestData } data - The data to provide to the API call.
+   */
+  public async exportList(data?: ExportListFaxesRequestData): Promise<FileData> {
+    const getParams = this.client.extractQueryParams<ExportListFaxesRequestData>(
+      { ...data, format: data?.format ?? 'csv' }, [
+        'serviceId',
+        'direction',
+        'status',
+        'to',
+        'from',
+        'labels',
+        'format',
+      ]);
+    (getParams as any).createTime = JSON.stringify(formatCreateTimeFilter(data?.createTime));
+    (getParams as any)['createTime>'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.from));
+    (getParams as any)['createTime<'] = JSON.stringify(formatCreateTimeRangeFilter(data?.createTimeRange?.to));
+
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'text/csv',
+    };
+
+    const body: RequestBody = '';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v3/projects/${this.client.apiClientOptions.projectId}/faxes`;
+
+    const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCsvCall({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'GetFaxes',
+    });
   }
 
   /**

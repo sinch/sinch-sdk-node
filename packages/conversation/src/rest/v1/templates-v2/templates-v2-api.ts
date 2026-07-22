@@ -17,6 +17,7 @@ import { LazyConversationTemplateApiClient } from '../conversation-service';
 
 export class TemplatesV2Api extends ConversationDomainApi {
 
+  /** @internal */
   constructor(lazyApiClient: LazyConversationTemplateApiClient) {
     super(lazyApiClient, 'TemplatesV2Api');
   }

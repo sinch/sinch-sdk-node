@@ -5,16 +5,16 @@ import {
   FaxRegion,
   SinchClientParameters,
   UnifiedCredentials,
+  LazyApiClient,
+  resolveClientParameters,
 } from '@sinch/sdk-client';
 import { FaxToEmailApi } from './fax-to-email';
 import { FaxesApi } from './faxes';
 import { ServicesApi } from './services';
 import { CoverPagesApi } from './cover-pages';
 
-export class LazyFaxApiClient {
-  apiFetchClient?: ApiFetchClient;
-  constructor(public sharedConfig: SinchClientParameters) {}
-
+/** @internal */
+export class LazyFaxApiClient extends LazyApiClient {
   public getApiClient(): ApiFetchClient {
     if (!this.apiFetchClient) {
       const apiClientOptions = buildOAuth2ApiClientOptions(this.sharedConfig, 'Fax');
@@ -23,10 +23,6 @@ export class LazyFaxApiClient {
       this.apiFetchClient.apiClientOptions.hostname = this.sharedConfig.faxHostname ?? FAX_HOSTNAME;
     }
     return this.apiFetchClient;
-  }
-
-  public resetApiClient() {
-    this.apiFetchClient = undefined;
   }
 }
 
@@ -45,10 +41,13 @@ export class FaxService {
   public readonly services: ServicesApi;
   public readonly coverPages: CoverPagesApi;
 
+  /** @internal */
   public readonly lazyClient: LazyFaxApiClient;
 
+  /** @internal */
   constructor(params: SinchClientParameters) {
-    this.lazyClient = new LazyFaxApiClient(params);
+    const resolvedParams = resolveClientParameters(params);
+    this.lazyClient = new LazyFaxApiClient(resolvedParams);
 
     this.emails = new FaxToEmailApi(this.lazyClient);
     this.faxToEmail = new FaxToEmailApi(this.lazyClient);
@@ -58,7 +57,8 @@ export class FaxService {
   }
 
   public setApiClientConfig(newParams: SinchClientParameters) {
-    this.lazyClient.sharedConfig = newParams;
+    const resolvedParams = resolveClientParameters(newParams);
+    this.lazyClient.sharedConfig = resolvedParams;
     this.lazyClient.resetApiClient();
   }
 
@@ -81,7 +81,7 @@ export class FaxService {
     // Deprecated: regions are ignored by the Fax API which uses a single global endpoint.
     // Keep this method for backward compatibility but avoid mutating shared state or
     // resetting the client to prevent unexpected side effects.
-    console.info(`Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint ${FAX_HOSTNAME}`);
+    this.lazyClient.sharedConfig.logger.info(`Deprecated: The regions are not used for the Fax API, the request will be perform against the global endpoint ${FAX_HOSTNAME}`);
   }
 
   public setCredentials(credentials: Partial<UnifiedCredentials>): void {
@@ -94,7 +94,9 @@ export class FaxService {
     try {
       this.lazyClient.getApiClient();
     } catch (error) {
-      console.error('Impossible to assign the new credentials to the Fax API');
+      this.lazyClient.sharedConfig.logger.error(
+        'Impossible to assign the new credentials to the Fax API',
+      );
       this.lazyClient.sharedConfig = parametersBackup;
       throw error;
     }

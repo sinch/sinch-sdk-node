@@ -1,0 +1,16 @@
+{
+  "name": "@sinch/sdk-api-docs",
+  "private": true,
+  "description": "TypeDoc API reference for @sinch/sdk-core",
+  "scripts": {
+    "doc": "typedoc",
+    "verify": "node verify-docs-output.mjs",
+    "build": "npm ci && node use-local-packages.mjs && npm run doc && npm run verify",
+    "zip:docs": "test -f docs/index.html || (echo 'Run npm run build first' && exit 1); rm -f api-docs.zip && (cd docs && zip -qr ../api-docs.zip .)",
+    "start": "npx --yes serve -l tcp://0.0.0.0:8080 docs"
+  },
+  "devDependencies": {
+    "typedoc": "0.28.19",
+    "typescript": "~5.8"
+  }
+}
