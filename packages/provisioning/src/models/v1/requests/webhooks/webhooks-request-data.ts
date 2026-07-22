@@ -4,7 +4,7 @@ import { WebhookUpdateRequest } from '../../webhook-update-request';
 export interface ListWebhooksRequestData {
   /** The page token if retrieving the next page from a previous query. */
   pageToken?: string;
-  /** The page size requested. */
+  /** The page size requested (1-15). */
   pageSize?: number;
 }
 
