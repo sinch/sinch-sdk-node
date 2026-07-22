@@ -14,17 +14,15 @@ async function main() {
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
   try {
-    const response = await sinch.provisioning.webhooks.list({
-      pageSize: 15,
-    });
-    if (!response.webhooks?.length) {
+    const response = await sinch.provisioning.webhooks.list();
+    if (response.data.length === 0) {
       console.log('No Provisioning webhooks found for this project.');
       return;
     }
-    console.log(`✅ Found ${response.webhooks.length} Provisioning webhooks.`);
-    response.webhooks.forEach((webhook) => {
+    console.log(`✅ Found ${response.data.length} Provisioning webhooks.`);
+    for (const webhook of response.data) {
       console.log(webhook);
-    });
+    }
   } catch (err) {
     console.error('❌ Failed to list Provisioning webhooks:');
     console.error(err);

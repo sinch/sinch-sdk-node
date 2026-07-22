@@ -10,9 +10,13 @@ async function main() {
   const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
   const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
   const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
-  const webhookId = process.env.WEBHOOK_ID ?? 'WEBHOOK_ID';
-  const webhookTarget = process.env.WEBHOOK_TARGET ?? 'https://example.com/webhook';
-  const webhookSecret = process.env.WEBHOOK_SECRET ?? 'MY_WEBHOOK_SECRET';
+
+  // The ID of the Webhook to replace
+  const webhookId = 'WEBHOOK_ID';
+  // The URL called by Sinch when sending event
+  const webhookTarget = 'MY_WEBHOOK_URL';
+  // The secret to be used to validate event
+  const webhookSecret = 'MY_WEBHOOK_SECRET';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 

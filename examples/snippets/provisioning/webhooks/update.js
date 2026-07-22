@@ -10,7 +10,9 @@ async function main() {
   const projectId = process.env.SINCH_PROJECT_ID ?? 'MY_PROJECT_ID';
   const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
   const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
-  const webhookId = process.env.WEBHOOK_ID ?? 'WEBHOOK_ID';
+
+  // The ID of the Webhook to update
+  const webhookId = 'WEBHOOK_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
