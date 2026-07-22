@@ -87,17 +87,19 @@ describe('WebhooksApi', () => {
       const requestData: Provisioning.ListWebhooksRequestData = {
         pageSize: 15,
       };
-      const expectedResponse: Provisioning.ListWebhooksResponse = {
-        totalSize: 1,
-        pageSize: 15,
-        webhooks: [
-          {
-            id: 'webhook-id',
-            target: 'https://example.com/webhook',
-            projectId: 'PROJECT_ID',
-            triggers: ['ALL'],
-          },
-        ],
+      const mockData: Provisioning.Webhook[] = [
+        {
+          id: 'webhook-id',
+          target: 'https://example.com/webhook',
+          projectId: 'PROJECT_ID',
+          triggers: ['ALL'],
+        },
+      ];
+      const expectedResponse = {
+        data: mockData,
+        hasNextPage: false,
+        nextPageValue: '',
+        nextPage: jest.fn(),
       };
 
       fixture.list.mockResolvedValue(expectedResponse);
@@ -105,6 +107,7 @@ describe('WebhooksApi', () => {
       const response = await webhooksApi.list(requestData);
 
       expect(response).toEqual(expectedResponse);
+      expect(response.data).toBeDefined();
       expect(fixture.list).toHaveBeenCalledWith(requestData);
     });
   });

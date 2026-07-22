@@ -1,10 +1,16 @@
-import { RequestBody } from '@sinch/sdk-client';
+import {
+  ApiListPromise,
+  PaginatedApiProperties,
+  PaginationEnum,
+  RequestBody,
+  buildPageResultPromise,
+  createIteratorMethodsForPagination,
+} from '@sinch/sdk-client';
 import {
   CreateWebhookRequestData,
   DeleteWebhookRequestData,
   GetWebhookRequestData,
   ListWebhooksRequestData,
-  ListWebhooksResponse,
   ReplaceWebhookRequestData,
   UpdateWebhookRequestData,
   Webhook,
@@ -108,9 +114,10 @@ export class WebhooksApi extends ProvisioningDomainApi {
    * List all webhooks in project
    * Returns a paginated list of webhooks for the specified project.
    * @param { ListWebhooksRequestData } data - The data to provide to the API call.
+   * @return {ApiListPromise<Webhook>}
    */
-  public async list(data: ListWebhooksRequestData): Promise<ListWebhooksResponse> {
-    const getParams = this.client.extractQueryParams<ListWebhooksRequestData>(data, ['pageToken', 'pageSize']);
+  public list(data?: ListWebhooksRequestData): ApiListPromise<Webhook> {
+    const getParams = this.client.extractQueryParams<ListWebhooksRequestData>(data ?? {}, ['pageToken', 'pageSize']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -119,15 +126,29 @@ export class WebhooksApi extends ProvisioningDomainApi {
     const body: RequestBody = '';
     const basePathUrl = `${this.client.apiClientOptions.hostname}/v1/projects/${this.client.apiClientOptions.projectId}/webhooks`;
 
-    const requestOptions = await this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
-    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+    const requestOptionsPromise
+      = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
 
-    return this.client.processCall<ListWebhooksResponse>({
-      url,
-      requestOptions,
+    const operationProperties: PaginatedApiProperties = {
+      pagination: PaginationEnum.TOKEN,
       apiName: this.apiName,
       operationId: 'list',
-    });
+      dataKey: 'webhooks',
+    };
+
+    const listPromise = buildPageResultPromise<Webhook>(
+      this.client,
+      requestOptionsPromise,
+      operationProperties,
+    );
+
+    Object.assign(
+      listPromise,
+      createIteratorMethodsForPagination<Webhook>(
+        this.client, requestOptionsPromise, listPromise, operationProperties),
+    );
+
+    return listPromise as ApiListPromise<Webhook>;
   }
 
   /**
