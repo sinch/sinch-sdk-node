@@ -144,5 +144,5 @@ When('I send a request to delete a provisioning webhook', async () => {
 });
 
 Then('the delete provisioning webhook response contains no data', () => {
-  assert.equal(deleteWebhookResponse, undefined);
+  assert.deepEqual(deleteWebhookResponse, {});
 });
