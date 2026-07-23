@@ -19,7 +19,7 @@ Given('the Provisioning service "Webhooks" is available', function () {
     keyId: 'keyId',
     keySecret: 'keySecret',
     authHostname: 'http://localhost:3011',
-    provisioningHostname: 'http://localhost:3024',
+    provisioningHostname: 'http://localhost:3025',
   });
   webhooksApi = provisioningService.webhooks;
 });
