@@ -14,15 +14,18 @@ async function main() {
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
   try {
-    const response = await sinch.provisioning.webhooks.list();
-    if (response.data.length === 0) {
+    const webhooks = [];
+    for await (const webhook of sinch.provisioning.webhooks.list()) {
+      webhooks.push(webhook);
+    }
+    if (!webhooks.length) {
       console.log('No Provisioning webhooks found for this project.');
       return;
     }
-    console.log(`✅ Found ${response.data.length} Provisioning webhooks.`);
-    for (const webhook of response.data) {
+    console.log(`✅ Found ${webhooks.length} Provisioning webhooks.`);
+    webhooks.forEach((webhook) => {
       console.log(webhook);
-    }
+    });
   } catch (err) {
     console.error('❌ Failed to list Provisioning webhooks:');
     console.error(err);

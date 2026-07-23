@@ -12,9 +12,9 @@ async function main() {
   const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
   // The URL called by Sinch when sending event
-  const webhookTarget = 'MY_WEBHOOK_URL';
+  const webhookTarget = 'https://my.callback.url/provisioning';
   // The secret to be used to validate event
-  const webhookSecret = 'MY_WEBHOOK_SECRET';
+  const webhookSecret = 'NEW_WEBHOOK_SECRET';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
