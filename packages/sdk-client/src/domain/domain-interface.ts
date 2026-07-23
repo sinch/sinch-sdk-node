@@ -87,6 +87,8 @@ export interface ApiHostname {
   voiceApplicationManagementHostname?: string;
   /** Override the hostname for the Number Lookup API */
   numberLookupHostname?: string;
+  /** Override the hostname for the Provisioning API */
+  provisioningHostname?: string;
 }
 
 export interface ApiPlugins {

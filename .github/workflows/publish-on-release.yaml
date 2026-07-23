@@ -63,7 +63,7 @@ jobs:
         run: |
           set -euo pipefail
           for pkg in sdk-client conversation elastic-sip-trunking fax number-lookup \
-                     numbers sms verification voice sdk-core; do
+                     numbers provisioning sms verification voice sdk-core; do
             (cd "packages/$pkg" && npm publish --access public)
           done
         env:
