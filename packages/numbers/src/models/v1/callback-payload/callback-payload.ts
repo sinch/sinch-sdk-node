@@ -1,24 +1,50 @@
-export interface CallbackPayload {
-
+/**
+ * Shared fields for Numbers callback events (ACTIVE_NUMBER and NUMBER_ORDER).
+ * Optional fields that apply to only one variant remain here so property access on
+ * `CallbackPayload` stays non-breaking without mandatory narrowing.
+ */
+export interface CallbackPayloadCommon {
   /** The ID of the event. */
   eventId?: string;
   /** The date and time when the callback was created and added to the callbacks queue. */
   timestamp?: Date;
   /** The ID of the project to which the event belongs. */
   projectId?: string;
-  /** The unique identifier of the resource, depending on the resource type. For example, a phone number, a hosting order ID, or a brand ID. */
+  /** The unique identifier of the resource, depending on the resource type. For example, a phone number or a number order ID. */
   resourceId?: string;
   /** The type of the resource. */
-  resourceType?: 'ACTIVE_NUMBER' | string;
+  resourceType?: 'ACTIVE_NUMBER' | 'NUMBER_ORDER' | string;
   /** The type of the event. */
   eventType?: EventTypeEnum;
-  /** The status of the event. For example, `SUCCEEDED` or `FAILED`. */
-  status?: 'SUCCEEDED' | 'FAILED' | string;
-  /** If the status is FAILED, a failure code will be provided. For numbers provisioning to SMS platform, there won\'t be any extra `failureCode`, as the result is binary. For campaign provisioning-related failures, refer to the list for the possible values. */
+  /** The status of the event or the state transition it represents. */
+  status?: CallbackPayloadStatusEnum;
+  /** If the status is FAILED, a failure code will be provided. For numbers provisioning to SMS platform, there won't be any extra `failureCode`, as the result is binary. For campaign provisioning-related failures, refer to the list for the possible values. Meaningful for ACTIVE_NUMBER events. */
   failureCode?: FailureCodeEnum;
-  /** If the status is FAILED, certain processes (eg. number to campaign provisioning) will have an internalFailureCode in the payload. The details of these codes can be found in our dedicated [Provisioning errors](https://developers.sinch.com/docs/numbers/api-reference/error-codes/provisioning-errors) documentation. */
+  /** If the status is FAILED, certain processes (eg. number to campaign provisioning) will have an internalFailureCode in the payload. The details of these codes can be found in our dedicated [Provisioning errors](https://developers.sinch.com/docs/numbers/api-reference/error-codes/provisioning-errors) documentation. Meaningful for ACTIVE_NUMBER events. */
   internalFailureCode?: string;
 }
+
+/**
+ * Callback for an active number provisioning / deprovisioning event.
+ */
+export interface CallbackPayloadActiveNumber extends CallbackPayloadCommon {
+  /** The type of the resource. */
+  resourceType?: 'ACTIVE_NUMBER' | string;
+}
+
+/**
+ * Callback for a number order state transition event.
+ */
+export interface CallbackPayloadNumberOrder extends CallbackPayloadCommon {
+  /** The type of the resource. */
+  resourceType?: 'NUMBER_ORDER' | string;
+}
+
+/**
+ * A notification of an event sent to your configured callback URL.
+ * Discriminated by `resourceType`: `ACTIVE_NUMBER` or `NUMBER_ORDER`.
+ */
+export type CallbackPayload = CallbackPayloadActiveNumber | CallbackPayloadNumberOrder;
 
 export type EventTypeEnum = 'PROVISIONING_TO_SMS_PLATFORM'
   | 'DEPROVISIONING_FROM_SMS_PLATFORM'
@@ -26,6 +52,22 @@ export type EventTypeEnum = 'PROVISIONING_TO_SMS_PLATFORM'
   | 'DEPROVISIONING_FROM_CAMPAIGN'
   | 'PROVISIONING_TO_VOICE_PLATFORM'
   | 'DEPROVISIONING_FROM_VOICE_PLATFORM'
+  | 'NUMBER_ORDER_PROCESSING'
+  | string;
+
+/**
+ * Status of the event or number-order state transition.
+ * - ACTIVE_NUMBER: typically `SUCCEEDED` or `FAILED`
+ * - NUMBER_ORDER: `IN_REVIEW`, `BLOCKED`, `COMPLETED`, `REJECTED`, or `EXPIRED`
+ */
+export type CallbackPayloadStatusEnum = 'SUCCEEDED'
+  | 'FAILED'
+  | 'IN_REVIEW'
+  | 'BLOCKED'
+  | 'COMPLETED'
+  | 'REJECTED'
+  | 'EXPIRED'
+  | string;
 
 export type FailureCodeEnum = 'CAMPAIGN_NOT_AVAILABLE'
   | 'EXCEEDED_10DLC_LIMIT'
@@ -42,4 +84,3 @@ export type FailureCodeEnum = 'CAMPAIGN_NOT_AVAILABLE'
   | 'MOCK_CAMPAIGN_NOT_ALLOWED'
   | 'TFN_NOT_ALLOWED'
   | 'INVALID_NNID';
-
