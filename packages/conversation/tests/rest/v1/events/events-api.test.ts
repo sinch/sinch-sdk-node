@@ -13,6 +13,7 @@ import {
   composingEndEvent,
   composingEvent,
   genericEvent,
+  readMessageEvent,
 } from '../../../events-mocks';
 
 describe('EventsApi', () => {
@@ -326,6 +327,48 @@ describe('EventsApi', () => {
         // Then
         expect(response).toEqual(expectedResponse);
         expect(fixture.sendComposingEndEvent).toHaveBeenCalledWith(requestData);
+      });
+  });
+
+  describe ('sendReadMessageEvent', () => {
+    // Given
+    const sendEventRequest: Omit<Conversation.SendReadMessageEventRequest<Conversation.Recipient>, 'recipient'> = {
+      app_id: 'app_id',
+      event: {
+        ...readMessageEvent,
+      },
+    };
+    const requestDataWithContactId: Conversation.SendReadMessageEventRequestData<Conversation.ContactId> = {
+      sendEventRequestBody: {
+        ...sendEventRequest,
+        ...recipientContactId,
+      },
+    };
+    const requestDataWithChannelIdentity: Conversation.SendReadMessageEventRequestData<Conversation.IdentifiedBy> = {
+      sendEventRequestBody: {
+        ...sendEventRequest,
+        ...recipientChannelIdentities,
+      },
+    };
+    const expectedResponse: Conversation.SendEventResponse = {
+      accepted_time: new Date('2019-08-24T14:15:22Z'),
+      event_id: 'event_id',
+    };
+
+    test.each([
+      ['contact ID', requestDataWithContactId, expectedResponse],
+      ['channel identities', requestDataWithChannelIdentity, expectedResponse],
+    ])('should make a POST request to send a read message event to a recipient identified by its %s',
+
+      async (_identification, requestData, expectedResponse) => {
+        // When
+        fixture.sendReadMessageEvent.mockResolvedValue(expectedResponse);
+        eventsApi.sendReadMessageEvent = fixture.sendReadMessageEvent;
+        const response = await eventsApi.sendReadMessageEvent(requestData);
+
+        // Then
+        expect(response).toEqual(expectedResponse);
+        expect(fixture.sendReadMessageEvent).toHaveBeenCalledWith(requestData);
       });
   });
 

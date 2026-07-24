@@ -3,6 +3,7 @@ import { Recipient } from '../recipient';
 import { MessageQueue } from '../enums';
 import { ComposingEvent } from '../composing-event';
 import { ComposingEndEvent } from '../composing-end-event';
+import { ReadMessageEvent } from '../read-message-event';
 import { CommentReplyEvent } from '../comment-reply-event';
 import { AgentJoinedEvent } from '../agent-joined-event';
 import { AgentLeftEvent } from '../agent-left-event';
@@ -37,6 +38,11 @@ export interface SendComposingEventRequest<T extends Recipient> extends SendEven
 export interface SendComposingEndEventRequest<T extends Recipient> extends SendEventRequestBase<T> {
   /** @see ComposingEndEvent */
   event: ComposingEndEvent;
+}
+
+export interface SendReadMessageEventRequest<T extends Recipient> extends SendEventRequestBase<T> {
+  /** @see ReadMessageEvent */
+  event: ReadMessageEvent;
 }
 
 export interface SendCommentReplyEventRequest<T extends Recipient> extends SendEventRequestBase<T> {

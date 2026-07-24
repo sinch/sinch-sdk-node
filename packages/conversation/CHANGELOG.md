@@ -1,3 +1,8 @@
+## Version 1.6.0
+- [Feature] Support sending Read Message events: `sendReadMessageEvent()`
+- [Feature] Support `display_mode` on Choice (`DisplayMode` enum for RBM persistent suggestions)
+- [Tech] Templates V2 delete success response is HTTP 204 (no body); method signature unchanged
+
 ## Version 1.5.0
 - **Breaking:** No longer re-exports `@sinch/sdk-client`. Import SDK client types and helpers from `@sinch/sdk-client` or `@sinch/sdk-core` instead.
 - [Tech] Update dependency `@sinch/sdk-client` to `1.5.0` — configurable SDK logging

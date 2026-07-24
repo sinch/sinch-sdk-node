@@ -15,6 +15,13 @@ export type ConversationMetadataUpdateStrategy = 'REPLACE' | 'MERGE_PATCH' | str
 export type CardHeight = 'UNSPECIFIED_HEIGHT' | 'SHORT' | 'MEDIUM' | 'TALL' | string;
 
 /**
+ * Controls the display behavior of a choice.
+ * - `DISPLAY_MODE_UNSPECIFIED`: Default. Transient — choice disappears when new messages arrive.
+ * - `PERSISTENT`: Persistent — choice remains visible in the message bubble.
+ */
+export type DisplayMode = 'DISPLAY_MODE_UNSPECIFIED' | 'PERSISTENT' | string;
+
+/**
  * The direction of the message flow, indicating whether the message was sent to or from the Conversation API app.
  */
 export type ConversationDirection = 'TO_APP' | 'TO_CONTACT' | string;
