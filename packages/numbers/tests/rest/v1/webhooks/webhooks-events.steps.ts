@@ -45,3 +45,17 @@ Then('the event describes a "failure" for "PROVISIONING_TO_VOICE_PLATFORM" event
   assert.equal(event.status, 'FAILED');
   assert.equal(event.failureCode, 'PROVISIONING_TO_VOICE_PLATFORM_FAILED');
 });
+
+When('I send a request to trigger the "completed" for "NUMBER_ORDER_PROCESSING" event', async () => {
+  const response = await fetch('http://localhost:3013/webhooks/numbers/number_order_processing');
+  await processEvent(response);
+});
+
+Then('the event describes a "completed" for "NUMBER_ORDER_PROCESSING" event', () => {
+  assert.equal(event.resourceType, 'NUMBER_ORDER');
+  assert.equal(event.eventType, 'NUMBER_ORDER_PROCESSING');
+  assert.equal(event.status, 'COMPLETED');
+  assert.equal(event.resourceId, '01jgkbb8xywmz3hhahd76menqf');
+  assert.equal(event.failureCode, null);
+  assert.equal(event.internalFailureCode, null);
+});
