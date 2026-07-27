@@ -1,11 +1,19 @@
 {
-  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "allowJs": false,
+    "noEmit": true,
+    "outDir": "dist",
+    "skipLibCheck": true
+  },
+  "include": [],
+  "exclude": [
+    "cucumber.js",
+    "dist",
+    "node_modules",
+    "**/*"
+  ],
   "references": [
-    {
-      "path": "tsconfig.build.json"
-    },
-    {
-      "path": "tsconfig.tests.json"
-    }
+    { "path": "./tsconfig.build.json" },
+    { "path": "./tsconfig.tests.json" }
   ]
 }

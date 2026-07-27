@@ -1,16 +1,22 @@
 {
   "extends": "../../tsconfig.json",
-
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+    "noEmit": false
   },
-
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"],
-
-  "references": [{ "path": "../sdk-client" }],
-
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "references": [
+    {
+      "path": "../sdk-client/tsconfig.build.json"
+    }
+  ],
   "ts-node": {
     "esm": true
   }

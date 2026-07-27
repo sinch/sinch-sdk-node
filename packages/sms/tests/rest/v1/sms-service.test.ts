@@ -1,5 +1,4 @@
-import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
-import { ApiFetchClient, ApiTokenRequest, SinchClientParameters, SmsRegion } from '@sinch/sdk-client';
+import { RequestPlugin, ApiFetchClient, ApiTokenRequest, SinchClientParameters, SmsRegion } from '@sinch/sdk-client';
 
 import {
   BatchesApi,
