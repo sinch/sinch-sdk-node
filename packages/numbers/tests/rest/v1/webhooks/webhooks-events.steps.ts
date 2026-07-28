@@ -32,6 +32,7 @@ Then('the header of the "{}" for "{}" event contains a valid signature', (_state
 Then('the event describes a "success" for "PROVISIONING_TO_VOICE_PLATFORM" event', () => {
   assert.equal(event.eventType, 'PROVISIONING_TO_VOICE_PLATFORM');
   assert.equal(event.status, 'SUCCEEDED');
+  assert.ok('failureCode' in event);
   assert.equal(event.failureCode, null);
 });
 
@@ -43,6 +44,7 @@ When('I send a request to trigger the "failure" for "PROVISIONING_TO_VOICE_PLATF
 Then('the event describes a "failure" for "PROVISIONING_TO_VOICE_PLATFORM" event', () => {
   assert.equal(event.eventType, 'PROVISIONING_TO_VOICE_PLATFORM');
   assert.equal(event.status, 'FAILED');
+  assert.ok('failureCode' in event);
   assert.equal(event.failureCode, 'PROVISIONING_TO_VOICE_PLATFORM_FAILED');
 });
 

@@ -3,7 +3,10 @@ export type {
   CallbackPayloadCommon,
   CallbackPayloadActiveNumber,
   CallbackPayloadNumberOrder,
-  CallbackPayloadStatusEnum,
+  ResourceTypeEnum,
   EventTypeEnum,
+  CallbackPayloadNumberOrderEventTypeEnum,
+  CallbackPayloadActiveNumberStatusEnum,
+  CallbackPayloadNumberOrderStatusEnum,
   FailureCodeEnum,
 } from './callback-payload';

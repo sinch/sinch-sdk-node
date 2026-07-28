@@ -1,5 +1,5 @@
 ## Version 1.6.0
-- [Feature] Support new `CallbackPayloadNumberOrder` event
+- [Feature] Support new `CallbackPayloadActiveNumber` and `CallbackPayloadNumberOrder` events
 
 ## Version 1.5.0
 - **Breaking:** No longer re-exports `@sinch/sdk-client`. Import SDK client types and helpers from `@sinch/sdk-client` or `@sinch/sdk-core` instead.

@@ -1,7 +1,5 @@
 /**
  * Shared fields for Numbers callback events (ACTIVE_NUMBER and NUMBER_ORDER).
- * Optional fields that apply to only one variant remain here so property access on
- * `CallbackPayload` stays non-breaking without mandatory narrowing.
  */
 export interface CallbackPayloadCommon {
   /** The ID of the event. */
@@ -10,18 +8,8 @@ export interface CallbackPayloadCommon {
   timestamp?: Date;
   /** The ID of the project to which the event belongs. */
   projectId?: string;
-  /** The unique identifier of the resource, depending on the resource type. For example, a phone number or a number order ID. */
-  resourceId?: string;
   /** The type of the resource. */
-  resourceType?: 'ACTIVE_NUMBER' | 'NUMBER_ORDER' | string;
-  /** The type of the event. */
-  eventType?: EventTypeEnum;
-  /** The status of the event or the state transition it represents. */
-  status?: CallbackPayloadStatusEnum;
-  /** If the status is FAILED, a failure code will be provided. For numbers provisioning to SMS platform, there won't be any extra `failureCode`, as the result is binary. For campaign provisioning-related failures, refer to the list for the possible values. Meaningful for ACTIVE_NUMBER events. */
-  failureCode?: FailureCodeEnum;
-  /** If the status is FAILED, certain processes (eg. number to campaign provisioning) will have an internalFailureCode in the payload. The details of these codes can be found in our dedicated [Provisioning errors](https://developers.sinch.com/docs/numbers/api-reference/error-codes/provisioning-errors) documentation. Meaningful for ACTIVE_NUMBER events. */
-  internalFailureCode?: string;
+  resourceType?: ResourceTypeEnum;
 }
 
 /**
@@ -30,6 +18,16 @@ export interface CallbackPayloadCommon {
 export interface CallbackPayloadActiveNumber extends CallbackPayloadCommon {
   /** The type of the resource. */
   resourceType?: 'ACTIVE_NUMBER' | string;
+  /** The unique identifier of the resource, depending on the resource type. For example, a phone number. */
+  resourceId?: string;
+  /** The type of the event. */
+  eventType?: EventTypeEnum;
+  /** The status of the event or the state transition it represents. */
+  status?: CallbackPayloadActiveNumberStatusEnum;
+  /** If the status is FAILED, a failure code will be provided. For numbers provisioning to SMS platform, there won't be any extra `failureCode`, as the result is binary. For campaign provisioning-related failures, refer to the list for the possible values. */
+  failureCode?: FailureCodeEnum;
+  /** If the status is FAILED, certain processes (eg. number to campaign provisioning) will have an internalFailureCode in the payload. The details of these codes can be found in our dedicated [Provisioning errors](https://developers.sinch.com/docs/numbers/api-reference/error-codes/provisioning-errors) documentation. */
+  internalFailureCode?: string;
 }
 
 /**
@@ -38,6 +36,12 @@ export interface CallbackPayloadActiveNumber extends CallbackPayloadCommon {
 export interface CallbackPayloadNumberOrder extends CallbackPayloadCommon {
   /** The type of the resource. */
   resourceType?: 'NUMBER_ORDER' | string;
+  /** The unique identifier of the resource, depending on the resource type. For example, a number order ID. */
+  resourceId?: string;
+  /** The type of the event. */
+  eventType?: CallbackPayloadNumberOrderEventTypeEnum;
+  /** The status of the event or the state transition it represents. */
+  status?: CallbackPayloadNumberOrderStatusEnum;
 }
 
 /**
@@ -46,23 +50,26 @@ export interface CallbackPayloadNumberOrder extends CallbackPayloadCommon {
  */
 export type CallbackPayload = CallbackPayloadActiveNumber | CallbackPayloadNumberOrder;
 
+/** The type of the resource. */
+export type ResourceTypeEnum = 'ACTIVE_NUMBER' | 'NUMBER_ORDER' | string;
+
+/** Event types for ACTIVE_NUMBER callbacks. */
 export type EventTypeEnum = 'PROVISIONING_TO_SMS_PLATFORM'
   | 'DEPROVISIONING_FROM_SMS_PLATFORM'
   | 'PROVISIONING_TO_CAMPAIGN'
   | 'DEPROVISIONING_FROM_CAMPAIGN'
   | 'PROVISIONING_TO_VOICE_PLATFORM'
   | 'DEPROVISIONING_FROM_VOICE_PLATFORM'
-  | 'NUMBER_ORDER_PROCESSING'
   | string;
 
-/**
- * Status of the event or number-order state transition.
- * - ACTIVE_NUMBER: typically `SUCCEEDED` or `FAILED`
- * - NUMBER_ORDER: `IN_REVIEW`, `BLOCKED`, `COMPLETED`, `REJECTED`, or `EXPIRED`
- */
-export type CallbackPayloadStatusEnum = 'SUCCEEDED'
-  | 'FAILED'
-  | 'IN_REVIEW'
+/** Event types for NUMBER_ORDER callbacks. */
+export type CallbackPayloadNumberOrderEventTypeEnum = 'NUMBER_ORDER_PROCESSING' | string;
+
+/** Status values for ACTIVE_NUMBER callbacks. */
+export type CallbackPayloadActiveNumberStatusEnum = 'SUCCEEDED' | 'FAILED' | string;
+
+/** Status values for NUMBER_ORDER callbacks. */
+export type CallbackPayloadNumberOrderStatusEnum = 'IN_REVIEW'
   | 'BLOCKED'
   | 'COMPLETED'
   | 'REJECTED'
