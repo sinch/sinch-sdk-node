@@ -1,6 +1,6 @@
 ## Version 1.6.0
-- [Feature] Support sending Read Message events: `sendReadMessageEvent()`
-- [Feature] Support `display_mode` on Choice (`DisplayMode` enum for RBM persistent suggestions)
+- [Feature] Support sending new `ReadMessageEvent` events: `sendReadMessageEvent()`
+- [Feature] Support new `display_mode` field on ChoiceBase 
 - [Tech] Templates V2 delete success response is HTTP 204 (no body); method signature unchanged
 
 ## Version 1.5.0

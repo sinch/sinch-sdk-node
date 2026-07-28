@@ -13,6 +13,7 @@ import { getAppIdFromConfig, getContactIdFromConfig, initConversationService, pr
     sendEventRequestBody: {
       app_id: appId,
       recipient: {
+        // Only supports WhatsApp channel
         contact_id: contactId,
       },
       event: {
