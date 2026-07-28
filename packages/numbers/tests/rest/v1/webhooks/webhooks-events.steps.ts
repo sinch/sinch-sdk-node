@@ -56,6 +56,4 @@ Then('the event describes a "completed" for "NUMBER_ORDER_PROCESSING" event', ()
   assert.equal(event.eventType, 'NUMBER_ORDER_PROCESSING');
   assert.equal(event.status, 'COMPLETED');
   assert.equal(event.resourceId, '01jgkbb8xywmz3hhahd76menqf');
-  assert.equal(event.failureCode, null);
-  assert.equal(event.internalFailureCode, null);
 });

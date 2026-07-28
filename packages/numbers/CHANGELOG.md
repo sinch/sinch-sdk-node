@@ -1,5 +1,5 @@
 ## Version 1.6.0
-- [Feature] Support Numbers callback oneOf events: `CallbackPayloadActiveNumber` and `CallbackPayloadNumberOrder` (discriminated by `resourceType`), including `NUMBER_ORDER_PROCESSING` and number-order statuses
+- [Feature] Support new `CallbackPayloadNumberOrder` event
 
 ## Version 1.5.0
 - **Breaking:** No longer re-exports `@sinch/sdk-client`. Import SDK client types and helpers from `@sinch/sdk-client` or `@sinch/sdk-core` instead.
