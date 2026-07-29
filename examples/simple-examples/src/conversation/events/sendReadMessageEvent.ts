@@ -7,14 +7,15 @@ import { getAppIdFromConfig, getContactIdFromConfig, initConversationService, pr
   console.log('********************');
 
   const appId = getAppIdFromConfig();
-  const contactId = getContactIdFromConfig();
+
+  // Only supports WhatsApp channel, so we need to use the WhatsApp contact ID
+  const whatsAppContactId = getContactIdFromConfig();
 
   const requestData: Conversation.SendReadMessageEventRequestData<Conversation.ContactId> = {
     sendEventRequestBody: {
       app_id: appId,
       recipient: {
-        // Only supports WhatsApp channel
-        contact_id: contactId,
+        contact_id: whatsAppContactId,
       },
       event: {
         read_message_event: {},
