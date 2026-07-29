@@ -1,4 +1,4 @@
-import { Numbers, NumbersCallbackWebhooks } from '../../../../src';
+import { NumbersCallbackWebhooks } from '../../../../src';
 
 describe('Callback Webhook', () => {
   let callbackWebhooks: NumbersCallbackWebhooks;
@@ -68,7 +68,7 @@ describe('Callback Webhook', () => {
       failureCode: 'CAMPAIGN_PROVISIONING_FAILED',
       internalFailureCode: 'CRS0018',
     };
-    const parsedPayload = callbackWebhooks.parseEvent(payload) as Numbers.CallbackPayloadActiveNumber;
+    const parsedPayload = callbackWebhooks.parseEvent(payload);
     expect(parsedPayload.internalFailureCode).toEqual('CRS0018');
   });
 

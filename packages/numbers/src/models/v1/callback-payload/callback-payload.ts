@@ -10,12 +10,36 @@ export interface CallbackPayloadCommon {
   projectId?: string;
   /** The type of the resource. */
   resourceType?: ResourceTypeEnum;
+  /**
+   * The status of the event.
+   * @deprecated Prefer `CallbackPayloadActiveNumber.status` or `CallbackPayloadNumberOrder.status` after narrowing on `resourceType`.
+   */
+  status?: string;
+  /**
+   * If the status is FAILED, a failure code will be provided. For numbers provisioning to SMS platform, there won't be any extra `failureCode`, as the result is binary. For campaign provisioning-related failures, refer to the list for the possible values.
+   * @deprecated Prefer `CallbackPayloadActiveNumber.failureCode` after narrowing on `resourceType`.
+   */
+  failureCode?: FailureCodeEnum;
+  /**
+   * If the status is FAILED, certain processes (eg. number to campaign provisioning) will have an internalFailureCode in the payload. The details of these codes can be found in our dedicated [Provisioning errors](https://developers.sinch.com/docs/numbers/api-reference/error-codes/provisioning-errors) documentation.
+   * @deprecated Prefer `CallbackPayloadActiveNumber.internalFailureCode` after narrowing on `resourceType`.
+   */
+  internalFailureCode?: string;
 }
+
+type CallbackPayloadDeprecatedFields = 'status' | 'failureCode' | 'internalFailureCode';
+
+/**
+ * Keeps `failureCode` / `internalFailureCode` accessible on the `CallbackPayload` union for backwards
+ * compatibility. Access via the union is `@deprecated`; prefer narrowing to `CallbackPayloadActiveNumber`.
+ */
+type CallbackPayloadDeprecatedCompat = Pick<CallbackPayloadCommon, 'failureCode' | 'internalFailureCode'>;
 
 /**
  * Callback for an active number provisioning / deprovisioning event.
  */
-export interface CallbackPayloadActiveNumber extends CallbackPayloadCommon {
+export interface CallbackPayloadActiveNumber
+  extends Omit<CallbackPayloadCommon, CallbackPayloadDeprecatedFields> {
   /** The type of the resource. */
   resourceType?: 'ACTIVE_NUMBER' | string;
   /** The unique identifier of the resource, depending on the resource type. For example, a phone number. */
@@ -33,7 +57,8 @@ export interface CallbackPayloadActiveNumber extends CallbackPayloadCommon {
 /**
  * Callback for a number order state transition event.
  */
-export interface CallbackPayloadNumberOrder extends CallbackPayloadCommon {
+export interface CallbackPayloadNumberOrder
+  extends Omit<CallbackPayloadCommon, CallbackPayloadDeprecatedFields> {
   /** The type of the resource. */
   resourceType?: 'NUMBER_ORDER' | string;
   /** The unique identifier of the resource, depending on the resource type. For example, a number order ID. */
@@ -47,8 +72,12 @@ export interface CallbackPayloadNumberOrder extends CallbackPayloadCommon {
 /**
  * A notification of an event sent to your configured callback URL.
  * Discriminated by `resourceType`: `ACTIVE_NUMBER` or `NUMBER_ORDER`.
+ *
+ * `failureCode` and `internalFailureCode` remain readable on this union for backwards compatibility,
+ * but are `@deprecated` here — narrow to `CallbackPayloadActiveNumber` instead.
  */
-export type CallbackPayload = CallbackPayloadActiveNumber | CallbackPayloadNumberOrder;
+export type CallbackPayload =
+  (CallbackPayloadActiveNumber | CallbackPayloadNumberOrder) & CallbackPayloadDeprecatedCompat;
 
 /** The type of the resource. */
 export type ResourceTypeEnum = 'ACTIVE_NUMBER' | 'NUMBER_ORDER' | string;
