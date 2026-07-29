@@ -5,6 +5,7 @@ import {
   SinchClientParameters,
   UnifiedCredentials,
 } from '@sinch/sdk-client';
+import { RcsApi } from './rcs';
 import { WebhooksApi } from './webhooks';
 
 export class LazyProvisioningApiClient {
@@ -26,12 +27,14 @@ export class LazyProvisioningApiClient {
 }
 
 export class ProvisioningService {
+  public readonly rcs: RcsApi;
   public readonly webhooks: WebhooksApi;
   public readonly lazyClient: LazyProvisioningApiClient;
 
   constructor(params: SinchClientParameters) {
     const sharedClient = new LazyProvisioningApiClient(params);
     this.lazyClient = sharedClient;
+    this.rcs = new RcsApi(sharedClient);
     this.webhooks = new WebhooksApi(sharedClient);
   }
 
