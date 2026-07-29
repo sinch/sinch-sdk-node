@@ -56,6 +56,7 @@ yarn add @sinch/sdk-core
 |-----------------|----------|
 | Messaging       | [Conversation API](https://developers.sinch.com/docs/conversation) |
 |                 | [SMS API](https://developers.sinch.com/docs/sms) |
+|                 | [Provisioning API](https://developers.sinch.com/docs/provisioning-api) |
 | Voice and Video | [Voice API](https://developers.sinch.com/docs/voice) |
 |                 | [Elastic SIP Trunking API](https://developers.sinch.com/docs/est) |
 | Numbers         | [Numbers API](https://developers.sinch.com/docs/numbers) |
@@ -272,6 +273,10 @@ You can find a complete example in [examples/webhooks](./examples/webhooks).
 ### Elastic SIP Trunking API
 
 The Elastic SIP Trunking API needs no extra parameters, use the [common client](#client-initialization) shown above.
+
+### Provisioning API
+
+The Provisioning API needs no extra parameters, use the [common client](#client-initialization) shown above.
 
 ### Numbers API
 

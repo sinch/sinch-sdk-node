@@ -28,6 +28,7 @@ export class SinchClient {
   public readonly voice: VoiceService;
   /** Number Lookup API service (OAuth2: `projectId`, `keyId`, `keySecret`). */
   public readonly numberLookup: NumberLookupService;
+  /** Provisioning API service (OAuth2: `projectId`, `keyId`, `keySecret`). */
   public readonly provisioning: ProvisioningService;
 
   /**
