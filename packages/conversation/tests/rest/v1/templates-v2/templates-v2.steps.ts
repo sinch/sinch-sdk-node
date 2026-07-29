@@ -194,5 +194,5 @@ When('I send a request to delete a conversation template with the V2 API', async
 });
 
 Then('the delete conversation template response V2 contains no data', () => {
-  assert.deepEqual(deleteTemplateResponse ?? {}, {});
+  assert.deepEqual(deleteTemplateResponse, {});
 });
