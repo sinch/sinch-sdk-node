@@ -29,6 +29,7 @@ export * from './comment-reply-event';
 export * from './composing-end-event';
 export * from './composing-event';
 export * from './consent-identity';
+
 export * from './contact';
 export * from './contact-create-request';
 export * from './contact-event';
@@ -90,6 +91,7 @@ export * from './project-settings-request';
 export * from './queue-stats';
 export * from './rate-limits';
 export * from './reason';
+export * from './read-message-event';
 export * from './recipient';
 export * from './reply-to';
 export * from './retention-policy';
