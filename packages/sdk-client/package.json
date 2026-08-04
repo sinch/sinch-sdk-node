@@ -38,7 +38,7 @@
   "devDependencies": {
     "@types/node-fetch": "^2.6.6",
     "rimraf": "^5.0.5",
-    "typescript": "^6.0.2"
+    "typescript": "npm:@typescript/typescript6@^6.0.2"
   },
   "publishConfig": {
     "directory": "dist",
