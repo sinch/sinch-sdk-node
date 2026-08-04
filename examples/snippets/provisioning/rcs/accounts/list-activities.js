@@ -14,16 +14,13 @@ async function main() {
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
   try {
-    const activities = [];
-    for await (const activity of sinch.provisioning.rcs.accounts.listActivities()) {
-      activities.push(activity);
-    }
-    if (!activities.length) {
+    const response = await sinch.provisioning.rcs.accounts.listActivities({});
+    if (response.data.length === 0) {
       console.log('No RCS account activities found for this project.');
       return;
     }
-    console.log(`✅ Found ${activities.length} RCS account activities.`);
-    activities.forEach((activity) => {
+    console.log(`✅ Found ${response.data.length} RCS account activities.`);
+    response.data.forEach((activity) => {
       console.log(activity);
     });
   } catch (err) {
