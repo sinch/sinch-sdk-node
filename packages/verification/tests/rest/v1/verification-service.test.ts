@@ -1,5 +1,4 @@
-import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
-import { ApiFetchClient, ApiTokenRequest, SinchClientParameters } from '@sinch/sdk-client';
+import { RequestPlugin, ApiFetchClient, ApiTokenRequest, SinchClientParameters } from '@sinch/sdk-client';
 import { VerificationsApi, VerificationService, VerificationStatusApi } from '../../../src';
 
 jest.mock('node-fetch', () => {

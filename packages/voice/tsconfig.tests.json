@@ -1,16 +1,27 @@
 {
   "extends": "../../tsconfig.json",
-
   "compilerOptions": {
     "rootDir": ".",
-    "outDir": "dist/tests"
+    "outDir": "dist/tests",
+    "allowJs": false,
+    "noEmit": false
   },
-
-  "include": ["src/**/*.ts", "tests/**/*.ts"],
-  "exclude": ["node_modules", "dist"],
-
-  "references": [{ "path": "../sdk-client" }],
-
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "cucumber.js",
+    "jest.config.js",
+    "jest.config.ts"
+  ],
+  "references": [
+    {
+      "path": "../sdk-client/tsconfig.build.json"
+    }
+  ],
   "ts-node": {
     "esm": true
   }

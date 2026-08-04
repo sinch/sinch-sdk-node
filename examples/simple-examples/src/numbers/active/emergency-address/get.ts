@@ -4,7 +4,6 @@ import {
   printFullResponse,
 } from '../../../config';
 import { Numbers } from '@sinch/sdk-core';
-import { EmergencyAddress } from '@sinch/numbers/src/models';
 
 (async () => {
   console.log('***********************');
@@ -18,7 +17,7 @@ import { EmergencyAddress } from '@sinch/numbers/src/models';
   };
 
   const numbersService = initNumbersService();
-  let response: EmergencyAddress;
+  let response: Numbers.EmergencyAddress;
   try {
     response = await numbersService.getEmergencyAddress(requestData);
   } catch (error) {

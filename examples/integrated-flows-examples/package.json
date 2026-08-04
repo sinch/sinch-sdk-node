@@ -17,7 +17,7 @@
     "@types/node": "^20.8.7",
     "dotenv": "^16.3.1",
     "inquirer": "^12.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^6.0.2"
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.7",

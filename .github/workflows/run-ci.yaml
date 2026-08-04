@@ -79,6 +79,7 @@ jobs:
         run: yarn run e2e
 
   sonarcloud:
+    if: ${{ github.repository_visibility == 'public' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

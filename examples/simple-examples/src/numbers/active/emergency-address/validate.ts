@@ -4,7 +4,6 @@ import {
   printFullResponse,
 } from '../../../config';
 import { Numbers } from '@sinch/sdk-core';
-import { ValidateEmergencyAddressResponse } from '@sinch/numbers/src/models';
 
 (async () => {
   console.log('****************************');
@@ -28,7 +27,7 @@ import { ValidateEmergencyAddressResponse } from '@sinch/numbers/src/models';
   };
 
   const numbersService = initNumbersService();
-  let response: ValidateEmergencyAddressResponse;
+  let response: Numbers.ValidateEmergencyAddressResponse;
   try {
     response = await numbersService.validateEmergencyAddress(requestData);
   } catch (error) {
