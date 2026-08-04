@@ -48,6 +48,7 @@
     "conversation:events:send": "ts-node src/conversation/events/send.ts",
     "conversation:events:sendComposingEvent": "ts-node src/conversation/events/sendComposingEvent.ts",
     "conversation:events:sendComposingEndEvent": "ts-node src/conversation/events/sendComposingEndEvent.ts",
+    "conversation:events:sendReadMessageEvent": "ts-node src/conversation/events/sendReadMessageEvent.ts",
     "conversation:events:sendCommentReplyEvent": "ts-node src/conversation/events/sendCommentReplyEvent.ts",
     "conversation:events:sendAgentJoinedEvent": "ts-node src/conversation/events/sendAgentJoinedEvent.ts",
     "conversation:events:sendAgentLeftEvent": "ts-node src/conversation/events/sendAgentLeftEvent.ts",
