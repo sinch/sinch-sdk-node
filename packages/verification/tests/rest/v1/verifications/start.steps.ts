@@ -1,7 +1,7 @@
 import { VerificationsApi, VerificationService, Verification  } from '../../../../src';
 import { Given, When, Then } from '@cucumber/cucumber';
 import * as assert from 'assert';
-import { RequestFailedError } from '@sinch/sdk-client/src';
+import { RequestFailedError } from '@sinch/sdk-client';
 
 let startVerificationApi: VerificationsApi;
 let startSmsVerificationResponse: Verification.StartSmsVerificationResponse;

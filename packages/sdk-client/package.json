@@ -13,6 +13,7 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.js"
     },
@@ -22,7 +23,9 @@
     "src": "dist",
     "test": "tests"
   },
-  "files": ["/dist"],
+  "files": [
+    "/dist"
+  ],
   "scripts": {
     "build": "yarn run clean && yarn run compile",
     "clean": "rimraf dist tsconfig.tsbuildinfo tsconfig.build.tsbuildinfo",
@@ -35,7 +38,7 @@
   "devDependencies": {
     "@types/node-fetch": "^2.6.6",
     "rimraf": "^5.0.5",
-    "typescript": "^5.2.2"
+    "typescript": "npm:@typescript/typescript6@^6.0.2"
   },
   "publishConfig": {
     "directory": "dist",

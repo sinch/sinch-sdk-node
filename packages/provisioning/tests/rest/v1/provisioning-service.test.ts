@@ -1,5 +1,4 @@
-import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
-import { ApiTokenRequest, SinchClientParameters } from '@sinch/sdk-client';
+import { RequestPlugin, ApiTokenRequest, SinchClientParameters } from '@sinch/sdk-client';
 import { ProvisioningService } from '../../../src';
 import { RcsAccountsApi } from '../../../src/rest/v1/rcs/accounts';
 import { RcsApi } from '../../../src/rest/v1/rcs';

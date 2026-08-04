@@ -230,6 +230,6 @@
   "devDependencies": {
     "@types/node": "^24.10.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "npm:@typescript/typescript6@^6.0.2"
   }
 }

@@ -6,9 +6,8 @@
     "strictNullChecks": false,
     "target": "es2020",
     "module": "es2020",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "pretty": true,
-    "baseUrl": ".",
     "noEmit": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true
