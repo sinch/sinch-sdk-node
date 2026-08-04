@@ -6,5 +6,5 @@ export interface RcsComment {
   /** The comment text. */
   comment: string;
   /** When the comment was created. */
-  created?: string;
+  created?: Date;
 }

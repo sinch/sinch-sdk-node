@@ -31,7 +31,7 @@ describe('RcsAccountsApi', () => {
       const expectedResponse: Provisioning.RcsComment = {
         type: 'CREATED',
         comment: 'Example comment',
-        created: '2023-01-19T13:11:08.204Z',
+        created: new Date('2023-01-19T13:11:08.204Z'),
       };
 
       fixture.createComment.mockResolvedValue(expectedResponse);
@@ -51,12 +51,12 @@ describe('RcsAccountsApi', () => {
       const mockData: Provisioning.RcsAccountNotification[] = [
         {
           type: 'CREATED',
-          created: '2023-02-10T11:41:14.202Z',
+          created: new Date('2023-02-10T11:41:14.202Z'),
           author: 'Provisioning API user',
         },
         {
           type: 'COMMENT_ADDED',
-          created: '2023-02-10T11:41:14.202Z',
+          created: new Date('2023-02-10T11:41:14.202Z'),
           comment: 'Example comment',
           author: 'Provisioning API user',
         },
