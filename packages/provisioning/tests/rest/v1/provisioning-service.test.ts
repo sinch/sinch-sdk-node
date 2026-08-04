@@ -1,5 +1,4 @@
-import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
-import { ApiTokenRequest, SinchClientParameters } from '@sinch/sdk-client';
+import { RequestPlugin, ApiTokenRequest, SinchClientParameters } from '@sinch/sdk-client';
 import { ProvisioningService } from '../../../src';
 import { WebhooksApi } from '../../../src/rest/v1/webhooks';
 
