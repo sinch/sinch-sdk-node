@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout release tag
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           # The release event sets github.ref to refs/tags/<tag>; checking out
           # the tag name keeps the working tree at exactly what was released,
@@ -40,7 +40,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '18'
           # `registry-url` writes an `.npmrc` that references `NODE_AUTH_TOKEN`,
