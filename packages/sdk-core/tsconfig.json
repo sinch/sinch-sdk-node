@@ -10,7 +10,6 @@
   ],
   "exclude": [
     "tests",
-    "jest.config.js",
     "dist",
     "node_modules"
   ],

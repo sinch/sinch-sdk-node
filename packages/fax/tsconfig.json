@@ -7,7 +7,6 @@
   },
   "include": [],
   "exclude": [
-    "cucumber.js",
     "dist",
     "node_modules",
     "**/*"
