@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - main
-      - v1.6-next
   pull_request:
     branches:
       - main
-      - v1.6-next
 
 jobs:
   audit:
