@@ -8,6 +8,10 @@ import { Logger } from '../logger';
  *  - OAuth2: Conversation, Fax, Numbers and SMS (US and EU regions only)
  *  - API Token: SMS on all regions
  *  - Application Signed: Verification and Voice
+ *
+ * Optional cross-cutting settings include `logger` ({@link WithLogger}) and HTTP 429
+ * retry tuning via `retryPolicy`, `maxRetryCount`, and `exponentialBackoff`
+ * ({@link WithRetryPolicy}).
  */
 export type SinchClientParameters = Partial<
   UnifiedCredentials
@@ -15,7 +19,8 @@ export type SinchClientParameters = Partial<
   & ApplicationCredentials
   & ApiHostname
   & ApiPlugins
-  & WithLogger>;
+  & WithLogger
+  & WithRetryPolicy>;
 
 export interface UnifiedCredentials {
   /** The project ID associated with the API Client. You can find this on your [Dashboard](https://dashboard.sinch.com/account/access-keys). */
@@ -201,6 +206,49 @@ export interface WithLogger {
    * - `null`: silent (no SDK output)
    */
   logger?: Logger | null;
+}
+
+/**
+ * Policy used when the SDK receives an HTTP 429 (Too Many Requests).
+ * - `DEFAULT`: honor `Retry-After` when present, otherwise exponential backoff
+ * - `RETRY_AFTER`: only retry when a usable `Retry-After` header is present
+ * - `BACKOFF`: ignore `Retry-After`; use full-jitter exponential backoff only
+ * - `NONE`: disable automatic 429 retries
+ */
+export enum SupportedRetryPolicy {
+  DEFAULT = 'DEFAULT',
+  RETRY_AFTER = 'RETRY_AFTER',
+  BACKOFF = 'BACKOFF',
+  NONE = 'NONE',
+}
+
+export type RetryPolicy = SupportedRetryPolicy | string;
+
+export const RetryPolicy = {
+  ...SupportedRetryPolicy,
+};
+
+/**
+ * Tunable HTTP 429 retry settings applied to all SDK HTTP calls (OAuth and product APIs).
+ * Defaults: `retryPolicy=DEFAULT`, `maxRetryCount=3`, `exponentialBackoff=4`.
+ */
+export interface WithRetryPolicy {
+  /**
+   * How the SDK should react to HTTP 429 responses.
+   * @default RetryPolicy.DEFAULT
+   */
+  retryPolicy?: RetryPolicy;
+  /**
+   * Maximum number of retries after the first attempt before surfacing the 429 error.
+   * @default 3
+   */
+  maxRetryCount?: number;
+  /**
+   * Growth factor for the full-jitter exponential backoff ceiling
+   * (`1000ms * exponentialBackoff^attempt`).
+   * @default 4
+   */
+  exponentialBackoff?: number;
 }
 
 /** Sinch client parameters with a resolved logger (never null or undefined). */

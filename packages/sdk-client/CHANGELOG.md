@@ -1,4 +1,5 @@
 ## Version 1.5.0
+- [Feature] Configurable HTTP 429 retries (`retryPolicy`, `maxRetryCount`, `exponentialBackoff` on `SinchClientParameters`) via `WithRetryPolicy` param
 - [Feature] Add configurable SDK logging via the optional `logger` property on `SinchClientParameters` (`WithLogger`): provide a custom `Logger`, default to `console`, or pass `logger: null` to silence output; includes lazy message support, debug logging of failed HTTP responses, and routing of SDK warnings through the configured logger
 - [Feature] Add `FileData` interface as the preferred return type for CSV downloads (`fileName` and `data` properties)
 - [Deprecation] `CSVFile` is deprecated in favor of `FileData`

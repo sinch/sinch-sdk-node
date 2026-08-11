@@ -1,4 +1,10 @@
-import { ApiPlugins, MailgunCredentials, SinchClientParameters, WithLogger } from '../domain';
+import {
+  ApiPlugins,
+  MailgunCredentials,
+  SinchClientParameters,
+  WithLogger,
+  WithRetryPolicy,
+} from '../domain';
 import { ApiClientOptions } from './api-client-options';
 import {
   ApiTokenRequest,
@@ -8,8 +14,19 @@ import {
   XTimestampRequest,
 } from '../plugins';
 import { resolveLogger } from '../logger';
+import { resolveRetryConfig } from '../client/retry-policy';
 
 const resolveParamsLogger = (params: SinchClientParameters) => resolveLogger(params.logger);
+
+const applyRetryConfig = (
+  apiClientOptions: ApiClientOptions,
+  params: WithRetryPolicy,
+): void => {
+  const retry = resolveRetryConfig(params);
+  apiClientOptions.retryPolicy = retry.retryPolicy;
+  apiClientOptions.maxRetryCount = retry.maxRetryCount;
+  apiClientOptions.exponentialBackoff = retry.exponentialBackoff;
+};
 
 /** @internal */
 export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiName: string): ApiClientOptions => {
@@ -17,21 +34,29 @@ export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiNa
     throw new Error(`Invalid configuration for the ${apiName} API: "projectId", "keyId" and "keySecret" values must be provided`);
   }
   const logger = resolveParamsLogger(params);
+  const retry = resolveRetryConfig(params);
   const apiClientOptions: ApiClientOptions = {
     projectId: params.projectId,
     requestPlugins: [
-      new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, logger),
+      new Oauth2TokenRequest(
+        params.keyId,
+        params.keySecret,
+        params.authHostname,
+        logger,
+        retry,
+      ),
     ],
     useServicePlanId: false,
     logger,
   };
+  applyRetryConfig(apiClientOptions, params);
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
 };
 
 /** @internal */
 export const buildMailgunApiClientOptions = (
-  params: Partial<MailgunCredentials & ApiPlugins & WithLogger>,
+  params: Partial<MailgunCredentials & ApiPlugins & WithLogger & WithRetryPolicy>,
 ): ApiClientOptions => {
   if (!params.mailgunApiKey) {
     throw new Error('Invalid configuration for the Mailgun API: the "mailgunApiKey" must be provided');
@@ -43,6 +68,7 @@ export const buildMailgunApiClientOptions = (
     ],
     logger,
   };
+  applyRetryConfig(apiClientOptions, params);
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
 };
@@ -62,6 +88,7 @@ export const buildApplicationSignedApiClientOptions = (
     ],
     logger,
   };
+  applyRetryConfig(apiClientOptions, params);
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
 };
@@ -69,6 +96,7 @@ export const buildApplicationSignedApiClientOptions = (
 /** @internal */
 export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
   const logger = resolveParamsLogger(params);
+  const retry = resolveRetryConfig(params);
   let apiClientOptions: ApiClientOptions | undefined;
 
   if (params.servicePlanId && params.apiToken) {
@@ -86,7 +114,13 @@ export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClien
     apiClientOptions = {
       projectId: params.projectId,
       requestPlugins: [
-        new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, logger),
+        new Oauth2TokenRequest(
+          params.keyId,
+          params.keySecret,
+          params.authHostname,
+          logger,
+          retry,
+        ),
       ],
       useServicePlanId: false,
       logger,
@@ -95,6 +129,7 @@ export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClien
   if (!apiClientOptions) {
     throw new Error('Invalid parameters for the SMS API: check your configuration');
   }
+  applyRetryConfig(apiClientOptions, params);
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
 };

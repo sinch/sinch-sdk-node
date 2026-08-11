@@ -28,6 +28,12 @@ import {
   createNextPageMethod,
   hasMore,
 } from './api-client-pagination-helper';
+import {
+  computeRateLimitBackoffMs,
+  resolveRetryConfig,
+  shouldRetryRateLimit,
+  sleep,
+} from './retry-policy';
 
 /**
  * Context for response processing
@@ -195,23 +201,39 @@ export class ApiFetchClient extends ApiClient {
   }
 
   /**
-   * Handle fetch request with token refresh mechanism
+   * Handle fetch request with token refresh and HTTP 429 retry.
    * @param {ApiCallParameters} apiCallParameters
    * @param {ErrorContext} errorContext
    */
   private async sinchFetch(apiCallParameters: ApiCallParameters, errorContext: ErrorContext) {
+    const retryConfig = resolveRetryConfig(this.apiClientOptions);
     let response = await fetch(apiCallParameters.url, apiCallParameters.requestOptions);
+    let requestOptions = apiCallParameters.requestOptions;
 
     if (this.isTokenExpired(response)) {
       // Capture the JWT used by the failing request so the OAuth2 plugin can
       // refuse to clear a cached token that has since been refreshed by another caller.
-      const failingAuth = apiCallParameters.requestOptions.headers.get('Authorization') || '';
+      const failingAuth = requestOptions.headers.get('Authorization') || '';
       const failingJwt = failingAuth.startsWith('Bearer ') ? failingAuth.slice('Bearer '.length) : undefined;
-      const requestOptions = await manageExpiredToken(
+      requestOptions = await manageExpiredToken(
         apiCallParameters,
         errorContext,
         this.apiClientOptions.requestPlugins,
         failingJwt);
+      response = await fetch(apiCallParameters.url, requestOptions);
+    }
+
+    for (let attempt = 0; shouldRetryRateLimit(
+      response.status,
+      attempt,
+      retryConfig,
+      response.headers.get('retry-after'),
+    ); attempt++) {
+      await sleep(computeRateLimitBackoffMs(
+        attempt,
+        retryConfig,
+        response.headers.get('retry-after'),
+      ));
       response = await fetch(apiCallParameters.url, requestOptions);
     }
 

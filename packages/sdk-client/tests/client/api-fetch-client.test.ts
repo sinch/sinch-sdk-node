@@ -379,3 +379,110 @@ describe('processCSVResponse', () => {
   });
 
 });
+
+describe('HTTP 429 rate-limit retry', () => {
+  let randomSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    randomSpy = jest.spyOn(Math, 'random').mockReturnValue(0);
+  });
+
+  afterEach(() => {
+    randomSpy.mockRestore();
+  });
+
+  const callApi = (apiClient: ApiFetchClient) => apiClient.processCall<{ data: string }>({
+    url: 'https://api.example.com/endpoint',
+    requestOptions: {
+      method: 'GET',
+      headers: new Headers(),
+      hostname: 'https://api.example.com',
+    },
+    apiName: 'TestAPI',
+    operationId: 'testOperation',
+  });
+
+  it('retries on 429 and succeeds when the rate limit clears', async () => {
+    let calls = 0;
+    mockedFetch.mockImplementation(async () => {
+      calls++;
+      if (calls === 1) {
+        return new Response('', { status: 429, statusText: 'Too Many Requests' });
+      }
+      return new Response(JSON.stringify({ data: 'ok' }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    });
+
+    const apiClient = new ApiFetchClient({ requestPlugins: [] });
+    const result = await callApi(apiClient);
+
+    expect(calls).toBe(2);
+    expect(result).toEqual({ data: 'ok' });
+  });
+
+  it('honors Retry-After on product API calls', async () => {
+    randomSpy.mockReturnValue(0.5);
+    const setTimeoutSpy = jest.spyOn(global, 'setTimeout');
+    let calls = 0;
+    mockedFetch.mockImplementation(async () => {
+      calls++;
+      if (calls === 1) {
+        return new Response('', {
+          status: 429,
+          statusText: 'Too Many Requests',
+          headers: { 'retry-after': '0' },
+        });
+      }
+      return new Response(JSON.stringify({ data: 'ok' }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    });
+
+    const apiClient = new ApiFetchClient({ requestPlugins: [] });
+    await callApi(apiClient);
+
+    expect(calls).toBe(2);
+    const backoffDelays = setTimeoutSpy.mock.calls
+      .map((args) => args[1])
+      .filter((d) => d === 125 || d === 500);
+    expect(backoffDelays).toEqual([125]);
+    setTimeoutSpy.mockRestore();
+  });
+
+  it('does not retry when retryPolicy is NONE', async () => {
+    let calls = 0;
+    mockedFetch.mockImplementation(async () => {
+      calls++;
+      return new Response('', { status: 429, statusText: 'Too Many Requests' });
+    });
+
+    const apiClient = new ApiFetchClient({
+      requestPlugins: [],
+      retryPolicy: 'NONE',
+    });
+
+    await expect(callApi(apiClient)).rejects.toMatchObject({ statusCode: 429 });
+    expect(calls).toBe(1);
+  });
+
+  it('surfaces RequestFailedError after maxRetryCount is exhausted', async () => {
+    let calls = 0;
+    mockedFetch.mockImplementation(async () => {
+      calls++;
+      return new Response('', { status: 429, statusText: 'Too Many Requests' });
+    });
+
+    const apiClient = new ApiFetchClient({
+      requestPlugins: [],
+      maxRetryCount: 2,
+    });
+
+    await expect(callApi(apiClient)).rejects.toMatchObject({ statusCode: 429 });
+    // initial attempt + 2 retries
+    expect(calls).toBe(3);
+  });
+});

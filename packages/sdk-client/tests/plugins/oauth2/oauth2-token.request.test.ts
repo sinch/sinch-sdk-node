@@ -382,6 +382,31 @@ describe('Oauth2TokenRequest - concurrent token refresh', () => {
         expect(r.headers.get('Authorization')).toBe('Bearer shared-retry');
       }
     });
+
+    it('does not retry when retryPolicy is NONE', async () => {
+      const noRetryPlugin = new Oauth2TokenRequest(
+        'test-key-id',
+        'test-key-secret',
+        'https://auth.test.com',
+        undefined,
+        { retryPolicy: 'NONE' },
+      );
+      let calls = 0;
+      mockedFetch.mockImplementation(async (url: string) => {
+        if (!url.includes('/oauth2/token')) {
+          return new Response('Not Found', { status: 404 });
+        }
+        calls++;
+        return make429();
+      });
+
+      const opts = { method: 'GET', headers: new Headers(), hostname: 'https://api.example.com' };
+      await expect(
+        noRetryPlugin.load().transform({ ...opts, headers: new Headers() }),
+      ).rejects.toMatchObject({ statusCode: 429 });
+
+      expect(calls).toBe(1);
+    });
   });
 
   it('clearCachedToken with a stale JWT should not wipe a freshly refreshed token', async () => {
