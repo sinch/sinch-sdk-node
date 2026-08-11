@@ -215,6 +215,7 @@ export class ApiFetchClient extends ApiClient {
       // refuse to clear a cached token that has since been refreshed by another caller.
       const failingAuth = requestOptions.headers.get('Authorization') || '';
       const failingJwt = failingAuth.startsWith('Bearer ') ? failingAuth.slice('Bearer '.length) : undefined;
+      this.discardResponseBody(response);
       requestOptions = await manageExpiredToken(
         apiCallParameters,
         errorContext,
@@ -234,10 +235,21 @@ export class ApiFetchClient extends ApiClient {
         retryConfig,
         response.headers.get('retry-after'),
       ));
+      this.discardResponseBody(response);
       response = await fetch(apiCallParameters.url, requestOptions);
     }
 
     return response;
+  }
+
+  /**
+   * Release the unused response stream so sockets can be reused.
+   */
+  private discardResponseBody(response: Response): void {
+    const body = response.body as { destroy?: () => void } | null | undefined;
+    if (body && typeof body.destroy === 'function') {
+      body.destroy();
+    }
   }
 
   private isTokenExpired(response: Response): boolean {
