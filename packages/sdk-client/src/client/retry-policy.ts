@@ -1,4 +1,4 @@
-import { RetryPolicy, SupportedRetryPolicy, WithRetryPolicy } from '../domain';
+import { SupportedRetryPolicy, WithRetryPolicy } from '../domain';
 
 /** Base delay for full-jitter exponential backoff (1 second). */
 export const RATE_LIMIT_RETRY_BASE_MS = 1_000;
@@ -8,7 +8,7 @@ const DEFAULT_EXPONENTIAL_BACKOFF = 4;
 
 /** @internal */
 export interface ResolvedRetryConfig {
-  retryPolicy: RetryPolicy;
+  retryPolicy: SupportedRetryPolicy;
   maxRetryCount: number;
   exponentialBackoff: number;
 }

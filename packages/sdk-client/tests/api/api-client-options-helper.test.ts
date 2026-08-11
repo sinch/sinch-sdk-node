@@ -7,6 +7,7 @@ import {
   PluginRunner,
   SigningRequest,
   SinchClientParameters,
+  SupportedRetryPolicy,
   XTimestampRequest,
 } from '../../src';
 import { RequestOptions, RequestPlugin } from '../../src/plugins/core/request-plugin';
@@ -55,7 +56,7 @@ describe('API Client Options helper', () => {
       expect(apiClientOptions.requestPlugins?.length).toBe(1);
       expect(apiClientOptions.requestPlugins?.[0]).toBeInstanceOf(Oauth2TokenRequest);
       expect(apiClientOptions.responsePlugins).toBeUndefined();
-      expect(apiClientOptions.retryPolicy).toBe('DEFAULT');
+      expect(apiClientOptions.retryPolicy).toBe(SupportedRetryPolicy.DEFAULT);
       expect(apiClientOptions.maxRetryCount).toBe(3);
       expect(apiClientOptions.exponentialBackoff).toBe(4);
     });
@@ -65,14 +66,14 @@ describe('API Client Options helper', () => {
         projectId: 'PROJECT_ID',
         keyId: 'KEY_ID',
         keySecret: 'KEY_SECRET',
-        retryPolicy: 'NONE',
+        retryPolicy: SupportedRetryPolicy.NONE,
         maxRetryCount: 1,
         exponentialBackoff: 2,
       };
 
       const apiClientOptions = buildOAuth2ApiClientOptions(params, 'foo');
 
-      expect(apiClientOptions.retryPolicy).toBe('NONE');
+      expect(apiClientOptions.retryPolicy).toBe(SupportedRetryPolicy.NONE);
       expect(apiClientOptions.maxRetryCount).toBe(1);
       expect(apiClientOptions.exponentialBackoff).toBe(2);
     });

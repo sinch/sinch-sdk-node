@@ -9,7 +9,7 @@ jest.mock('node-fetch', () => {
 });
 
 import { RequestPluginEnum } from '../../src/plugins/core/request-plugin';
-import { ApiFetchClient, PaginationEnum, Oauth2TokenRequest } from '../../src';
+import { ApiFetchClient, PaginationEnum, Oauth2TokenRequest, SupportedRetryPolicy } from '../../src';
 import fetch, { Headers, Response } from 'node-fetch';
 
 const mockedFetch = fetch as unknown as jest.Mock;
@@ -423,6 +423,32 @@ describe('HTTP 429 rate-limit retry', () => {
     expect(result).toEqual({ data: 'ok' });
   });
 
+  it('discards the rate-limited response body before retrying', async () => {
+    const destroy = jest.fn();
+    let calls = 0;
+    mockedFetch.mockImplementation(async () => {
+      calls++;
+      if (calls === 1) {
+        const rateLimited = new Response('', { status: 429, statusText: 'Too Many Requests' });
+        Object.defineProperty(rateLimited, 'body', {
+          value: { destroy },
+          configurable: true,
+        });
+        return rateLimited;
+      }
+      return new Response(JSON.stringify({ data: 'ok' }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    });
+
+    const apiClient = new ApiFetchClient({ requestPlugins: [] });
+    await callApi(apiClient);
+
+    expect(destroy).toHaveBeenCalledTimes(1);
+    expect(calls).toBe(2);
+  });
+
   it('honors Retry-After on product API calls', async () => {
     randomSpy.mockReturnValue(0.5);
     const setTimeoutSpy = jest.spyOn(global, 'setTimeout');
@@ -462,7 +488,7 @@ describe('HTTP 429 rate-limit retry', () => {
 
     const apiClient = new ApiFetchClient({
       requestPlugins: [],
-      retryPolicy: 'NONE',
+      retryPolicy: SupportedRetryPolicy.NONE,
     });
 
     await expect(callApi(apiClient)).rejects.toMatchObject({ statusCode: 429 });

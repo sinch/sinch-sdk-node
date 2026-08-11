@@ -222,7 +222,7 @@ export enum SupportedRetryPolicy {
   NONE = 'NONE',
 }
 
-export type RetryPolicy = SupportedRetryPolicy | string;
+export type RetryPolicy = SupportedRetryPolicy;
 
 export const RetryPolicy = {
   ...SupportedRetryPolicy,

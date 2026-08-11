@@ -10,6 +10,7 @@ jest.mock('node-fetch', () => {
 
 import fetch, { Headers, Response } from 'node-fetch';
 import { Oauth2TokenRequest } from '../../../src/plugins/oauth2/oauth2-token.request';
+import { SupportedRetryPolicy } from '../../../src/domain';
 
 const mockedFetch = fetch as unknown as jest.Mock;
 
@@ -389,7 +390,7 @@ describe('Oauth2TokenRequest - concurrent token refresh', () => {
         'test-key-secret',
         'https://auth.test.com',
         undefined,
-        { retryPolicy: 'NONE' },
+        { retryPolicy: SupportedRetryPolicy.NONE },
       );
       let calls = 0;
       mockedFetch.mockImplementation(async (url: string) => {
