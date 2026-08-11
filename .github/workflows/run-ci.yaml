@@ -9,9 +9,9 @@ jobs:
       matrix:
         node-version: [18.x, 20.x, 22.x]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
       - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -34,7 +34,7 @@ jobs:
         run: cd docs/api && npm run build
 
       - name: Checkout sinch-sdk-mockserver repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
         with:
           repository: sinch/sinch-sdk-mockserver
           token: ${{ secrets.MOCKSERVER_REPO_PAT_CI }}
@@ -82,7 +82,7 @@ jobs:
     if: ${{ github.repository_visibility == 'public' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0

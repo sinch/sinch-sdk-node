@@ -144,6 +144,8 @@
     "provisioning:webhooks:delete": "node provisioning/webhooks/delete.js",
     "provisioning:webhooks:replace": "node provisioning/webhooks/replace.js",
     "provisioning:webhooks:update": "node provisioning/webhooks/update.js",
+    "provisioning:rcs:accounts:list-activities": "node provisioning/rcs/accounts/list-activities.js",
+    "provisioning:rcs:accounts:create-comment": "node provisioning/rcs/accounts/create-comment.js",
     "numbers:get": "node numbers/active-numbers/get.js",
     "numbers:list": "node numbers/active-numbers/list.js",
     "numbers:release": "node numbers/active-numbers/release.js",

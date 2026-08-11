@@ -1,5 +1,7 @@
 import { RequestPlugin, ApiTokenRequest, SinchClientParameters } from '@sinch/sdk-client';
 import { ProvisioningService } from '../../../src';
+import { RcsAccountsApi } from '../../../src/rest/v1/rcs/accounts';
+import { RcsApi } from '../../../src/rest/v1/rcs';
 import { WebhooksApi } from '../../../src/rest/v1/webhooks';
 
 describe('Provisioning Service', () => {
@@ -16,7 +18,7 @@ describe('Provisioning Service', () => {
     jest.clearAllMocks();
   });
 
-  it('should initialize the webhooks API', () => {
+  it('should initialize the webhooks and rcs.accounts APIs', () => {
     const params: SinchClientParameters = {
       projectId: 'PROJECT_ID',
       keyId: 'KEY_ID',
@@ -27,6 +29,9 @@ describe('Provisioning Service', () => {
 
     expect(provisioningService.webhooks).toBeInstanceOf(WebhooksApi);
     expect(provisioningService.webhooks.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+    expect(provisioningService.rcs).toBeInstanceOf(RcsApi);
+    expect(provisioningService.rcs.accounts).toBeInstanceOf(RcsAccountsApi);
+    expect(provisioningService.rcs.accounts.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
   });
 
   it('should update the API client config', () => {
