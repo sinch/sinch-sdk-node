@@ -3,7 +3,6 @@ import { dirname, join } from 'node:path';
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import jest from 'eslint-plugin-jest';
-import jestExtended from 'eslint-plugin-jest-extended';
 import jestFormatting from 'eslint-plugin-jest-formatting';
 import prettier from 'eslint-config-prettier';
 import globals from 'globals';
@@ -72,7 +71,6 @@ export default tseslint.config(
     files: ['**/tests/**/*.ts', '**/*.test.ts', '**/*.spec.ts'],
     plugins: {
       jest,
-      'jest-extended': jestExtended,
       'jest-formatting': jestFormatting,
     },
     languageOptions: {
@@ -83,8 +81,6 @@ export default tseslint.config(
     rules: {
       ...jest.configs['flat/recommended'].rules,
       'jest/expect-expect': 'error',
-      'jest-extended/prefer-to-be-true': 'warn',
-      'jest-extended/prefer-to-be-false': 'error',
       'jest-formatting/padding-around-describe-blocks': 2,
       'jest-formatting/padding-around-test-blocks': 2,
     },
