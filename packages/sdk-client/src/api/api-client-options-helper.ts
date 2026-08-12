@@ -1,4 +1,11 @@
-import { ApiPlugins, MailgunCredentials, SinchClientParameters, WithLogger } from '../domain';
+import {
+  ApiPlugins,
+  DEFAULT_TIMEOUT_SECONDS,
+  MailgunCredentials,
+  SinchClientParameters,
+  TransportSettings,
+  WithLogger,
+} from '../domain';
 import { ApiClientOptions } from './api-client-options';
 import {
   ApiTokenRequest,
@@ -11,19 +18,27 @@ import { resolveLogger } from '../logger';
 
 const resolveParamsLogger = (params: SinchClientParameters) => resolveLogger(params.logger);
 
+const resolveTimeoutSeconds = (params: { timeoutSeconds?: number }): number =>
+  params.timeoutSeconds ?? DEFAULT_TIMEOUT_SECONDS;
+
+const shouldUseSinchAuth = (params: SinchClientParameters): boolean =>
+  params.useSinchAuth ?? true;
+
 /** @internal */
 export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiName: string): ApiClientOptions => {
   if (!params.projectId || !params.keyId || !params.keySecret) {
     throw new Error(`Invalid configuration for the ${apiName} API: "projectId", "keyId" and "keySecret" values must be provided`);
   }
   const logger = resolveParamsLogger(params);
+  const timeoutSeconds = resolveTimeoutSeconds(params);
   const apiClientOptions: ApiClientOptions = {
     projectId: params.projectId,
-    requestPlugins: [
-      new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, logger),
-    ],
+    requestPlugins: shouldUseSinchAuth(params)
+      ? [new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, logger, timeoutSeconds)]
+      : [],
     useServicePlanId: false,
     logger,
+    timeoutSeconds,
   };
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
@@ -31,7 +46,7 @@ export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiNa
 
 /** @internal */
 export const buildMailgunApiClientOptions = (
-  params: Partial<MailgunCredentials & ApiPlugins & WithLogger>,
+  params: Partial<MailgunCredentials & ApiPlugins & WithLogger & TransportSettings>,
 ): ApiClientOptions => {
   if (!params.mailgunApiKey) {
     throw new Error('Invalid configuration for the Mailgun API: the "mailgunApiKey" must be provided');
@@ -42,6 +57,7 @@ export const buildMailgunApiClientOptions = (
       new BasicAuthenticationRequest('api', params.mailgunApiKey),
     ],
     logger,
+    timeoutSeconds: resolveTimeoutSeconds(params),
   };
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
@@ -61,6 +77,7 @@ export const buildApplicationSignedApiClientOptions = (
       new SigningRequest(params.applicationKey, params.applicationSecret),
     ],
     logger,
+    timeoutSeconds: resolveTimeoutSeconds(params),
   };
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
@@ -69,6 +86,7 @@ export const buildApplicationSignedApiClientOptions = (
 /** @internal */
 export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
   const logger = resolveParamsLogger(params);
+  const timeoutSeconds = resolveTimeoutSeconds(params);
   let apiClientOptions: ApiClientOptions | undefined;
 
   if (params.servicePlanId && params.apiToken) {
@@ -77,6 +95,7 @@ export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClien
       requestPlugins: [new ApiTokenRequest(params.apiToken)],
       useServicePlanId: true,
       logger,
+      timeoutSeconds,
     };
     if (params.projectId || params.keyId || params.keySecret) {
       logger.warn(
@@ -85,11 +104,12 @@ export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClien
   } else if (params.projectId && params.keyId && params.keySecret) {
     apiClientOptions = {
       projectId: params.projectId,
-      requestPlugins: [
-        new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, logger),
-      ],
+      requestPlugins: shouldUseSinchAuth(params)
+        ? [new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, logger, timeoutSeconds)]
+        : [],
       useServicePlanId: false,
       logger,
+      timeoutSeconds,
     };
   }
   if (!apiClientOptions) {

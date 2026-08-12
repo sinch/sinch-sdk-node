@@ -1,5 +1,6 @@
 import { RequestBody, RequestOptions } from '../plugins/core/request-plugin';
 import { ApiClientOptions } from './api-client-options';
+import { DEFAULT_TIMEOUT_SECONDS } from '../domain';
 import { Headers } from 'node-fetch';
 
 /** @internal */
@@ -135,6 +136,7 @@ export class ApiClient {
       queryParams: filterUndefinedValues(queryParams),
       hostname: url,
       path,
+      timeout: (this.apiClientOptions.timeoutSeconds ?? DEFAULT_TIMEOUT_SECONDS) * 1000,
     };
 
     let opts = options;

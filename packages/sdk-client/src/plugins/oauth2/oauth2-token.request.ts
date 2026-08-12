@@ -44,6 +44,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
     clientSecret: string,
     authenticationUrl?: string,
     logger?: Logger | null,
+    timeoutSeconds?: number,
   ) {
     const basicAuthenticationPlugin = new BasicAuthenticationRequest(
       clientId,
@@ -56,6 +57,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
       hostname: authenticationUrl,
       requestPlugins: [basicAuthenticationPlugin],
       logger,
+      timeoutSeconds,
     });
   }
 
