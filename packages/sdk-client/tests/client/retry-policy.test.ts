@@ -34,6 +34,7 @@ describe('retry-policy helpers', () => {
     it('parses delta-seconds', () => {
       expect(parseRetryAfterMs('5')).toBe(5_000);
       expect(parseRetryAfterMs('0')).toBe(0);
+      expect(parseRetryAfterMs('  5  ')).toBe(5_000);
     });
 
     it('ignores negative delta-seconds', () => {
@@ -48,10 +49,52 @@ describe('retry-policy helpers', () => {
       expect(ms!).toBeLessThanOrEqual(2_500);
     });
 
+    describe('RFC 7231 HTTP-date formats', () => {
+      const imfFixdate = 'Sun, 06 Nov 1994 08:49:37 GMT';
+      const rfc850 = 'Sunday, 06-Nov-94 08:49:37 GMT';
+      const asctime = 'Sun Nov  6 08:49:37 1994';
+      const instant = Date.parse(imfFixdate);
+
+      beforeEach(() => {
+        jest.spyOn(Date, 'now').mockReturnValue(instant);
+      });
+
+      afterEach(() => {
+        jest.restoreAllMocks();
+      });
+
+      it('accepts the three formats a recipient must parse', () => {
+        expect(parseRetryAfterMs(imfFixdate)).toBe(0);
+        expect(parseRetryAfterMs(rfc850)).toBe(0);
+        expect(parseRetryAfterMs(asctime)).toBe(0);
+      });
+
+      it('returns the delay until a future IMF-fixdate', () => {
+        expect(parseRetryAfterMs('Sun, 06 Nov 1994 08:49:38 GMT')).toBe(1_000);
+      });
+
+      it('treats asctime as GMT and accepts a two-digit day', () => {
+        expect(parseRetryAfterMs('Wed Nov 16 08:49:37 1994')).toBe(10 * 24 * 60 * 60 * 1_000);
+      });
+
+      it('clamps past dates to 0', () => {
+        expect(parseRetryAfterMs('Sun, 06 Nov 1994 08:49:36 GMT')).toBe(0);
+      });
+
+      it('parses an HTTP-date with a numeric timezone offset', () => {
+        expect(parseRetryAfterMs('Sun, 06 Nov 1994 09:49:37 +0100')).toBe(0);
+      });
+
+      it('trims surrounding whitespace', () => {
+        expect(parseRetryAfterMs(`  ${imfFixdate}  `)).toBe(0);
+      });
+    });
+
     it('returns undefined for absent or invalid values', () => {
       expect(parseRetryAfterMs(undefined)).toBeUndefined();
       expect(parseRetryAfterMs(null)).toBeUndefined();
       expect(parseRetryAfterMs('')).toBeUndefined();
+      expect(parseRetryAfterMs('   ')).toBeUndefined();
       expect(parseRetryAfterMs('not-a-date')).toBeUndefined();
     });
   });
@@ -71,17 +114,17 @@ describe('retry-policy helpers', () => {
 
     it('never retries when policy is NONE', () => {
       const config = resolveRetryConfig({ retryPolicy: SupportedRetryPolicy.NONE });
-      expect(shouldRetryRateLimit(429, 0, config, '1')).toBe(false);
+      expect(shouldRetryRateLimit(429, 0, config, 1_000)).toBe(false);
     });
 
-    it('RETRY_AFTER requires a usable Retry-After header', () => {
+    it('RETRY_AFTER requires a usable Retry-After delay', () => {
       const config = resolveRetryConfig({ retryPolicy: SupportedRetryPolicy.RETRY_AFTER });
       expect(shouldRetryRateLimit(429, 0, config)).toBe(false);
-      expect(shouldRetryRateLimit(429, 0, config, '2')).toBe(true);
-      expect(shouldRetryRateLimit(429, 0, config, 'bogus')).toBe(false);
+      expect(shouldRetryRateLimit(429, 0, config, 2_000)).toBe(true);
+      expect(shouldRetryRateLimit(429, 0, config, 0)).toBe(true);
     });
 
-    it('BACKOFF retries without a Retry-After header', () => {
+    it('BACKOFF retries without a Retry-After delay', () => {
       const config = resolveRetryConfig({ retryPolicy: SupportedRetryPolicy.BACKOFF });
       expect(shouldRetryRateLimit(429, 0, config)).toBe(true);
     });
@@ -101,7 +144,7 @@ describe('retry-policy helpers', () => {
     it('DEFAULT honors Retry-After with jitter', () => {
       const config = resolveRetryConfig();
       // 0s + floor(0.5 * 250) = 125
-      expect(computeRateLimitBackoffMs(0, config, '0')).toBe(125);
+      expect(computeRateLimitBackoffMs(0, config, 0)).toBe(125);
     });
 
     it('DEFAULT falls back to full-jitter exponential without header', () => {
@@ -114,12 +157,12 @@ describe('retry-policy helpers', () => {
 
     it('BACKOFF ignores Retry-After', () => {
       const config = resolveRetryConfig({ retryPolicy: SupportedRetryPolicy.BACKOFF });
-      expect(computeRateLimitBackoffMs(0, config, '0')).toBe(500);
+      expect(computeRateLimitBackoffMs(0, config, 0)).toBe(500);
     });
 
     it('RETRY_AFTER uses header delay only', () => {
       const config = resolveRetryConfig({ retryPolicy: SupportedRetryPolicy.RETRY_AFTER });
-      expect(computeRateLimitBackoffMs(0, config, '0')).toBe(125);
+      expect(computeRateLimitBackoffMs(0, config, 0)).toBe(125);
     });
 
     it('respects custom exponentialBackoff growth', () => {

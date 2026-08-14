@@ -8,8 +8,17 @@ jest.mock('node-fetch', () => {
   };
 });
 
+jest.mock('../../src/client/retry-policy', () => {
+  const actual = jest.requireActual('../../src/client/retry-policy');
+  return {
+    ...actual,
+    sleep: jest.fn().mockResolvedValue(undefined),
+  };
+});
+
 import { RequestPluginEnum } from '../../src/plugins/core/request-plugin';
 import { ApiFetchClient, PaginationEnum, Oauth2TokenRequest, SupportedRetryPolicy } from '../../src';
+import * as retryPolicy from '../../src/client/retry-policy';
 import fetch, { Headers, Response } from 'node-fetch';
 
 const mockedFetch = fetch as unknown as jest.Mock;
@@ -451,7 +460,6 @@ describe('HTTP 429 rate-limit retry', () => {
 
   it('honors Retry-After on product API calls', async () => {
     randomSpy.mockReturnValue(0.5);
-    const setTimeoutSpy = jest.spyOn(global, 'setTimeout');
     let calls = 0;
     mockedFetch.mockImplementation(async () => {
       calls++;
@@ -472,11 +480,9 @@ describe('HTTP 429 rate-limit retry', () => {
     await callApi(apiClient);
 
     expect(calls).toBe(2);
-    const backoffDelays = setTimeoutSpy.mock.calls
-      .map((args) => args[1])
-      .filter((d) => d === 125 || d === 500);
-    expect(backoffDelays).toEqual([125]);
-    setTimeoutSpy.mockRestore();
+    // Retry-After: 0s + floor(0.5 * 250ms jitter) = 125; not the 500ms backoff fallback.
+    expect(retryPolicy.sleep).toHaveBeenCalledTimes(1);
+    expect(retryPolicy.sleep).toHaveBeenCalledWith(125);
   });
 
   it('does not retry when retryPolicy is NONE', async () => {
