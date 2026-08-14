@@ -30,6 +30,7 @@ import {
 } from './api-client-pagination-helper';
 import {
   computeRateLimitBackoffMs,
+  parseRetryAfterMs,
   resolveRetryConfig,
   shouldRetryRateLimit,
   sleep,
@@ -224,17 +225,12 @@ export class ApiFetchClient extends ApiClient {
       response = await fetch(apiCallParameters.url, requestOptions);
     }
 
-    for (let attempt = 0; shouldRetryRateLimit(
-      response.status,
-      attempt,
-      retryConfig,
-      response.headers.get('retry-after'),
-    ); attempt++) {
-      await sleep(computeRateLimitBackoffMs(
-        attempt,
-        retryConfig,
-        response.headers.get('retry-after'),
-      ));
+    for (let attempt = 0; ; attempt++) {
+      const retryAfterMs = parseRetryAfterMs(response.headers.get('retry-after'));
+      if (!shouldRetryRateLimit(response.status, attempt, retryConfig, retryAfterMs)) {
+        break;
+      }
+      await sleep(computeRateLimitBackoffMs(attempt, retryConfig, retryAfterMs));
       this.discardResponseBody(response);
       response = await fetch(apiCallParameters.url, requestOptions);
     }
