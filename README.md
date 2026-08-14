@@ -19,6 +19,7 @@ For more information on the SDK, refer to the dedicated [Node SDK documentation 
 - [Supported APIs](#supported-apis)
 - [Getting started](#getting-started)
 - [Logging](#logging)
+- [Retry policy](#retry-policy)
 - [Handling exceptions](#handling-exceptions)
 - [Third-party dependencies](#third-party-dependencies)
 - [Examples](#examples)
@@ -359,6 +360,42 @@ The SDK supports configurable logging through an optional `logger` property on `
 - **Custom loggers**: Plug in any compatible logger, for example [Winston](https://www.npmjs.com/package/winston), and route SDK messages into your existing logging stack, format, and transports.
 
 For a runnable example using Winston, see [examples/snippets/sdk-client/logger.js](./examples/snippets/sdk-client/logger.js).
+
+## Retry policy
+
+When an API call or OAuth token request returns HTTP 429 (Too Many Requests), the SDK retries automatically. Configure this on `SinchClient`; the same settings apply to product API calls and token fetches.
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `retryPolicy` | `RetryPolicy` | `DEFAULT` | `DEFAULT`: honor `Retry-After` when present, otherwise exponential backoff. `RETRY_AFTER`: retry only when a usable `Retry-After` header is present. `BACKOFF`: ignore `Retry-After` and use full-jitter exponential backoff. `NONE`: disable automatic 429 retries. |
+| `maxRetryCount` | `number` | `3` | Maximum retries after the first attempt before the 429 is surfaced to the caller. |
+| `exponentialBackoff` | `number` | `4` | Growth factor for the backoff ceiling (`1000ms * exponentialBackoff^attempt`). The wait is a random value between 0 and that ceiling. |
+
+`Retry-After` may be a delay in seconds or an HTTP-date (RFC 7231). A small jitter (0–250 ms) is added so concurrent clients do not retry in lockstep.
+
+```typescript
+import { SinchClient, RetryPolicy } from '@sinch/sdk-core';
+
+const sinch = new SinchClient({
+  projectId: process.env.SINCH_PROJECT_ID,
+  keyId: process.env.SINCH_KEY_ID,
+  keySecret: process.env.SINCH_KEY_SECRET,
+  retryPolicy: RetryPolicy.DEFAULT,
+  maxRetryCount: 3,
+  exponentialBackoff: 4,
+});
+```
+
+To disable automatic retries (for example when an outer HTTP layer already honors `Retry-After`):
+
+```typescript
+const sinch = new SinchClient({
+  projectId: process.env.SINCH_PROJECT_ID,
+  keyId: process.env.SINCH_KEY_ID,
+  keySecret: process.env.SINCH_KEY_SECRET,
+  retryPolicy: RetryPolicy.NONE,
+});
+```
 
 ## Handling exceptions
 
