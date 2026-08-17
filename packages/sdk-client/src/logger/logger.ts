@@ -1,5 +1,5 @@
 import type { ResolvedSinchClientParameters, SinchClientParameters } from '../domain';
-import { DEFAULT_TIMEOUT_SECONDS } from '../domain';
+import { resolveTimeoutSeconds } from '../domain';
 import type { Logger, LogMessage } from './logger-types';
 import { isSinchLogger, SinchLogger } from './sinch-logger';
 
@@ -47,7 +47,7 @@ export const resolveClientParameters = (
   params: SinchClientParameters | ResolvedSinchClientParameters,
 ): ResolvedSinchClientParameters => {
   const useSinchAuth = params.useSinchAuth ?? true;
-  const timeoutSeconds = params.timeoutSeconds ?? DEFAULT_TIMEOUT_SECONDS;
+  const timeoutSeconds = resolveTimeoutSeconds(params.timeoutSeconds);
   const loggerAlreadyResolved = params.logger != null && isSinchLogger(params.logger);
 
   if (

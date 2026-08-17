@@ -70,6 +70,11 @@ describe('resolveClientParameters', () => {
     expect(resolved.timeoutSeconds).toBe(0);
   });
 
+  it('should reject negative timeoutSeconds', () => {
+    expect(() => resolveClientParameters({ timeoutSeconds: -1 }))
+      .toThrow('Invalid configuration: "timeoutSeconds" must be a non-negative number');
+  });
+
   it('should fill missing transport defaults when logger is already resolved', () => {
     const withLogger = resolveClientParameters({});
     const partial = {

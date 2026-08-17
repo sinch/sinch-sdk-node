@@ -208,12 +208,26 @@ export interface WithLogger {
 export const DEFAULT_TIMEOUT_SECONDS = 60;
 
 /**
+ * Resolve `timeoutSeconds`, defaulting to {@link DEFAULT_TIMEOUT_SECONDS}.
+ * `0` disables the timeout.
+ * @internal
+ */
+export const resolveTimeoutSeconds = (timeoutSeconds?: number): number => {
+  const value = timeoutSeconds ?? DEFAULT_TIMEOUT_SECONDS;
+  if (!Number.isFinite(value) || value < 0) {
+    throw new Error('Invalid configuration: "timeoutSeconds" must be a non-negative number');
+  }
+  return value;
+};
+
+/**
  * Transport-level settings shared by SinchClient and (later) request-level options.
  */
 export interface TransportSettings {
   /**
    * When true (default), OAuth-capable APIs authenticate against Sinch auth.
    * Set false to skip Sinch OAuth (e.g. custom Authorization via requestPlugins).
+   * When false, OAuth-capable APIs require only `projectId`.
    */
   useSinchAuth?: boolean;
   /**

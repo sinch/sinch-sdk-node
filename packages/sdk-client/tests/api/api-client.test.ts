@@ -62,6 +62,11 @@ describe('API client', () => {
       const opts = await client.prepareOptions('https://example.com', 'GET', {}, {});
       expect(opts.timeout).toBe(0);
     });
+
+    it('should not accept negative timeoutSeconds', () => {
+      expect(() => new ApiFetchClient({ requestPlugins: [], timeoutSeconds: -1 }))
+        .toThrow('Invalid configuration: "timeoutSeconds" must be a non-negative number');
+    });
   });
 
 });

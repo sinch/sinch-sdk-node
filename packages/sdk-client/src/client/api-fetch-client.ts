@@ -22,6 +22,7 @@ import fetch, { Response, Headers } from 'node-fetch';
 import { buildErrorContext, manageExpiredToken, reviveDates } from './api-client-helpers';
 import { resolveLogger } from '../logger';
 import { isSinchLogger } from '../logger/sinch-logger';
+import { resolveTimeoutSeconds } from '../domain';
 import {
   buildPaginationContext,
   calculateNextPage,
@@ -65,6 +66,7 @@ export class ApiFetchClient extends ApiClient {
     const resolvedOptions = {
       ...options,
       logger,
+      timeoutSeconds: resolveTimeoutSeconds(options.timeoutSeconds),
     };
     super({
       ...resolvedOptions,
