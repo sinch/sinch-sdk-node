@@ -1,7 +1,7 @@
 import {
   ApiPlugins,
-  DEFAULT_TIMEOUT_SECONDS,
   MailgunCredentials,
+  resolveTimeoutSeconds,
   SinchClientParameters,
   TransportSettings,
   WithLogger,
@@ -14,28 +14,40 @@ import {
   SigningRequest,
   XTimestampRequest,
 } from '../plugins';
+import { RequestPlugin } from '../plugins/core/request-plugin';
 import { resolveLogger } from '../logger';
+import type { Logger } from '../logger';
 
 const resolveParamsLogger = (params: SinchClientParameters) => resolveLogger(params.logger);
 
-const resolveTimeoutSeconds = (params: { timeoutSeconds?: number }): number =>
-  params.timeoutSeconds ?? DEFAULT_TIMEOUT_SECONDS;
+const getAuthPlugins = (
+  params: SinchClientParameters,
+  logger: Logger,
+  timeoutSeconds: number,
+): RequestPlugin[] =>
+  (params.useSinchAuth ?? true)
+    ? [new Oauth2TokenRequest(params.keyId!, params.keySecret!, params.authHostname, logger, timeoutSeconds)]
+    : [];
 
-const shouldUseSinchAuth = (params: SinchClientParameters): boolean =>
-  params.useSinchAuth ?? true;
+const assertOAuth2Credentials = (params: SinchClientParameters, apiName: string): void => {
+  const useSinchAuth = params.useSinchAuth ?? true;
+  if (!params.projectId || (useSinchAuth && (!params.keyId || !params.keySecret))) {
+    throw new Error(
+      useSinchAuth
+        ? `Invalid configuration for the ${apiName} API: "projectId", "keyId" and "keySecret" values must be provided`
+        : `Invalid configuration for the ${apiName} API: "projectId" must be provided`,
+    );
+  }
+};
 
 /** @internal */
 export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiName: string): ApiClientOptions => {
-  if (!params.projectId || !params.keyId || !params.keySecret) {
-    throw new Error(`Invalid configuration for the ${apiName} API: "projectId", "keyId" and "keySecret" values must be provided`);
-  }
+  assertOAuth2Credentials(params, apiName);
   const logger = resolveParamsLogger(params);
-  const timeoutSeconds = resolveTimeoutSeconds(params);
+  const timeoutSeconds = resolveTimeoutSeconds(params.timeoutSeconds);
   const apiClientOptions: ApiClientOptions = {
     projectId: params.projectId,
-    requestPlugins: shouldUseSinchAuth(params)
-      ? [new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, logger, timeoutSeconds)]
-      : [],
+    requestPlugins: getAuthPlugins(params, logger, timeoutSeconds),
     useServicePlanId: false,
     logger,
     timeoutSeconds,
@@ -57,7 +69,7 @@ export const buildMailgunApiClientOptions = (
       new BasicAuthenticationRequest('api', params.mailgunApiKey),
     ],
     logger,
-    timeoutSeconds: resolveTimeoutSeconds(params),
+    timeoutSeconds: resolveTimeoutSeconds(params.timeoutSeconds),
   };
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
@@ -77,7 +89,7 @@ export const buildApplicationSignedApiClientOptions = (
       new SigningRequest(params.applicationKey, params.applicationSecret),
     ],
     logger,
-    timeoutSeconds: resolveTimeoutSeconds(params),
+    timeoutSeconds: resolveTimeoutSeconds(params.timeoutSeconds),
   };
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
@@ -86,7 +98,8 @@ export const buildApplicationSignedApiClientOptions = (
 /** @internal */
 export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
   const logger = resolveParamsLogger(params);
-  const timeoutSeconds = resolveTimeoutSeconds(params);
+  const timeoutSeconds = resolveTimeoutSeconds(params.timeoutSeconds);
+  const useSinchAuth = params.useSinchAuth ?? true;
   let apiClientOptions: ApiClientOptions | undefined;
 
   if (params.servicePlanId && params.apiToken) {
@@ -101,12 +114,10 @@ export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClien
       logger.warn(
         'As the servicePlanId and the apiToken are provided, all other credentials will be disregarded.');
     }
-  } else if (params.projectId && params.keyId && params.keySecret) {
+  } else if (params.projectId && (!useSinchAuth || (params.keyId && params.keySecret))) {
     apiClientOptions = {
       projectId: params.projectId,
-      requestPlugins: shouldUseSinchAuth(params)
-        ? [new Oauth2TokenRequest(params.keyId, params.keySecret, params.authHostname, logger, timeoutSeconds)]
-        : [],
+      requestPlugins: getAuthPlugins(params, logger, timeoutSeconds),
       useServicePlanId: false,
       logger,
       timeoutSeconds,

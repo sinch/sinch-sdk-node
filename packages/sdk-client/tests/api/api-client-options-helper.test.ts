@@ -93,8 +93,6 @@ describe('API Client Options helper', () => {
       // Given
       const params: SinchClientParameters = {
         projectId: 'PROJECT_ID',
-        keyId: 'KEY_ID',
-        keySecret: 'KEY_SECRET',
         useSinchAuth: false,
       };
 
@@ -102,8 +100,16 @@ describe('API Client Options helper', () => {
       const apiClientOptions = buildOAuth2ApiClientOptions(params, 'foo');
 
       // Then
+      expect(apiClientOptions.projectId).toBe('PROJECT_ID');
       expect(apiClientOptions.requestPlugins).toEqual([]);
       expect(apiClientOptions.timeoutSeconds).toBe(60);
+    });
+
+    it('should throw when useSinchAuth is false and projectId is missing', () => {
+      const buildApiClientOptionsFunction = () => buildOAuth2ApiClientOptions({ useSinchAuth: false }, 'foo');
+
+      expect(buildApiClientOptionsFunction).toThrow(
+        'Invalid configuration for the foo API: "projectId" must be provided');
     });
 
     it('should apply a custom timeoutSeconds', () => {
@@ -295,8 +301,6 @@ describe('API Client Options helper', () => {
       // Given
       const params: SinchClientParameters = {
         projectId: 'PROJECT_ID',
-        keyId: 'KEY_ID',
-        keySecret: 'KEY_SECRET',
         useSinchAuth: false,
         timeoutSeconds: 15,
       };
@@ -305,6 +309,7 @@ describe('API Client Options helper', () => {
       const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params);
 
       // Then
+      expect(apiClientOptions.projectId).toBe('PROJECT_ID');
       expect(apiClientOptions.useServicePlanId).toBeFalsy();
       expect(apiClientOptions.requestPlugins).toEqual([]);
       expect(apiClientOptions.timeoutSeconds).toBe(15);
