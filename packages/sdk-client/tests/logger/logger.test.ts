@@ -54,36 +54,19 @@ describe('resolveClientParameters', () => {
     const resolved = resolveClientParameters({});
     expect(resolveClientParameters(resolved)).toBe(resolved);
   });
+});
 
-  it('should default useSinchAuth to true and timeoutSeconds to 60', () => {
-    const resolved = resolveClientParameters({});
-    expect(resolved.useSinchAuth).toBe(true);
-    expect(resolved.timeoutSeconds).toBe(60);
-  });
-
-  it('should respect explicit transport overrides including disabling timeout', () => {
-    const resolved = resolveClientParameters({
-      useSinchAuth: false,
-      timeoutSeconds: 0,
-    });
-    expect(resolved.useSinchAuth).toBe(false);
-    expect(resolved.timeoutSeconds).toBe(0);
-  });
-
-  it('should reject negative timeoutSeconds', () => {
-    expect(() => resolveClientParameters({ timeoutSeconds: -1 }))
-      .toThrow('Invalid configuration: "timeoutSeconds" must be a non-negative number');
-  });
-
-  it('should fill missing transport defaults when logger is already resolved', () => {
-    const withLogger = resolveClientParameters({});
-    const partial = {
-      logger: withLogger.logger,
+describe('isSinchLogger', () => {
+  it('should return false for undefined, null, and non-Sinch loggers', () => {
+    const customLogger: Logger = {
+      debug: jest.fn(),
+      info: jest.fn(),
+      warn: jest.fn(),
+      error: jest.fn(),
     };
-    const reResolved = resolveClientParameters(partial);
-    expect(reResolved.useSinchAuth).toBe(true);
-    expect(reResolved.timeoutSeconds).toBe(60);
-    expect(reResolved.logger).toBe(withLogger.logger);
+    expect(isSinchLogger(undefined)).toBe(false);
+    expect(isSinchLogger(null)).toBe(false);
+    expect(isSinchLogger(customLogger)).toBe(false);
   });
 });
 

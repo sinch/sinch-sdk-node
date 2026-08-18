@@ -373,9 +373,7 @@ For a runnable example using Winston, see [examples/snippets/sdk-client/logger.j
 import { SinchClient } from '@sinch/sdk-core';
 
 const sinch = new SinchClient({
-  projectId: process.env.SINCH_PROJECT_ID,
-  keyId: process.env.SINCH_KEY_ID,
-  keySecret: process.env.SINCH_KEY_SECRET,
+  ...,
   timeoutSeconds: 30,
 });
 ```
@@ -388,7 +386,7 @@ By default (`useSinchAuth: true`), OAuth-capable APIs fetch a Sinch access token
 import { SinchClient } from '@sinch/sdk-core';
 
 const sinch = new SinchClient({
-  projectId: process.env.SINCH_PROJECT_ID,
+  ...,
   useSinchAuth: false,
   requestPlugins: [/* custom Auth plugin */],
 });

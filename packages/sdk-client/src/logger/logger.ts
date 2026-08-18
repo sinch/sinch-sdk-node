@@ -36,7 +36,7 @@ const resolveBaseLogger = (logger?: Logger | null): Logger => {
 
 /** @internal */
 export const resolveLogger = (logger?: Logger | null): Logger => {
-  if (logger != null && isSinchLogger(logger)) {
+  if (isSinchLogger(logger)) {
     return logger;
   }
   return new SinchLogger(resolveBaseLogger(logger));
@@ -48,10 +48,10 @@ export const resolveClientParameters = (
 ): ResolvedSinchClientParameters => {
   const useSinchAuth = params.useSinchAuth ?? true;
   const timeoutSeconds = resolveTimeoutSeconds(params.timeoutSeconds);
-  const loggerAlreadyResolved = params.logger != null && isSinchLogger(params.logger);
+  const logger = isSinchLogger(params.logger) ? params.logger : resolveLogger(params.logger);
 
   if (
-    loggerAlreadyResolved
+    logger === params.logger
     && params.useSinchAuth === useSinchAuth
     && params.timeoutSeconds === timeoutSeconds
   ) {
@@ -60,7 +60,7 @@ export const resolveClientParameters = (
 
   return {
     ...params,
-    logger: loggerAlreadyResolved ? params.logger as Logger : resolveLogger(params.logger),
+    logger,
     useSinchAuth,
     timeoutSeconds,
   };
