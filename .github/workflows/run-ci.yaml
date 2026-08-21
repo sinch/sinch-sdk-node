@@ -61,7 +61,7 @@ jobs:
           cp sinch-sdk-mockserver/features/conversation/*.feature ./packages/conversation/tests/e2e/features/
           cp sinch-sdk-mockserver/features/elastic-sip-trunking/*.feature ./packages/elastic-sip-trunking/tests/e2e/features/
           cp sinch-sdk-mockserver/features/sms/*.feature ./packages/sms/tests/e2e/features/
-          # Pricing e2e not implemented in Node SDK yet (DEVEXP-1593 workaround)
+          # Pricing e2e not implemented in Node SDK yet
           rm -f ./packages/sms/tests/e2e/features/pricing.feature
           cp sinch-sdk-mockserver/features/verification/*.feature ./packages/verification/tests/e2e/features/
           cp sinch-sdk-mockserver/features/voice/*.feature ./packages/voice/tests/e2e/features/
