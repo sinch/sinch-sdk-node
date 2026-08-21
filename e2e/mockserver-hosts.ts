@@ -1,10 +1,11 @@
 /**
  * Temporary e2e mockserver hostnames (DEVEXP-1593).
- * Default: hosted mockserver. Override with SINCH_MOCKSERVER_BASE for local Docker.
+ * Defaults to the hosted mockserver. Override with SINCH_MOCKSERVER_BASE if needed.
  *
  * Note: verificationHostname is the site root (not .../verification) because SDK
  * paths already start with /verification/v1/.... Webhook fixtures use
  * verificationWebhooksHostname (.../verification/webhooks/...).
+ * Revert the verification split once the mockserver path routing is fixed.
  */
 const DEFAULT_BASE = 'https://sinch-sdk-mockserver.sliplane.app';
 

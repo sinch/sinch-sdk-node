@@ -39,7 +39,7 @@ jobs:
         with:
           repository: sinch/sinch-sdk-mockserver
           token: ${{ secrets.MOCKSERVER_REPO_PAT_CI }}
-          fetch-depth: 0
+          fetch-depth: 1
           path: sinch-sdk-mockserver
 
       - name: Create target directories for feature files
