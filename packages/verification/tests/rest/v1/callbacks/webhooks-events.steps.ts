@@ -23,7 +23,7 @@ Given('the Verification Webhooks handler is available', () => {
 });
 
 When('I send a request to trigger a "Verification Request" event', async () => {
-  const response = await fetch(`${mockserverHosts.verificationWebhooksHostname}/webhooks/verification/verification-request-event`);
+  const response = await fetch(`${mockserverHosts.verificationHostname}/webhooks/verification/verification-request-event`);
   await processEvent(response);
 });
 
@@ -61,7 +61,7 @@ Then('the Verification event describes a "Verification Request" event type', () 
 });
 
 When('I send a request to trigger a "Verification Result" event', async () => {
-  const response = await fetch(`${mockserverHosts.verificationWebhooksHostname}/webhooks/verification/verification-result-event`);
+  const response = await fetch(`${mockserverHosts.verificationHostname}/webhooks/verification/verification-result-event`);
   await processEvent(response);
 });
 
@@ -80,7 +80,7 @@ Then('the Verification event describes a "Verification Result" event type', () =
 });
 
 When('I send a request to trigger a "Verification SMS Delivered Event" event', async () => {
-  const response = await fetch(`${mockserverHosts.verificationWebhooksHostname}/webhooks/verification/verification-sms-delivery-event`);
+  const response = await fetch(`${mockserverHosts.verificationHostname}/webhooks/verification/verification-sms-delivery-event`);
   await processEvent(response);
 });
 
