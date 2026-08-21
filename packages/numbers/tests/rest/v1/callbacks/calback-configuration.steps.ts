@@ -1,6 +1,7 @@
 import { Given, Then, When } from '@cucumber/cucumber';
 import { CallbacksApi, NumbersService, Numbers } from '../../../../src';
 import * as assert from 'assert';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let callbackConfigurationApi: CallbacksApi;
 let callbackConfiguration: Numbers.CallbackConfiguration;
@@ -10,8 +11,8 @@ Given('the Numbers service "Callback Configuration" is available', function () {
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    numbersHostname: 'http://localhost:3013',
+    authHostname: mockserverHosts.authHostname,
+    numbersHostname: mockserverHosts.numbersHostname,
   });
   callbackConfigurationApi = numbersService.callbacks;
 });

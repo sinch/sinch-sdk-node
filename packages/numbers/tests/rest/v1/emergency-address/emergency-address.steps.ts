@@ -2,6 +2,7 @@ import { Given, Then, When } from '@cucumber/cucumber';
 import assert from 'assert';
 import { NumbersService } from '../../../../src';
 import { EmergencyAddressValidationResultCode, EmergencyAddress, ValidateEmergencyAddressResponse } from '../../../../src/models';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let numbersService: NumbersService;
 let validateEmergencyAddressResponse: ValidateEmergencyAddressResponse;
@@ -13,8 +14,8 @@ Given('the Numbers service is available to handle emergency addresses', function
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    numbersHostname: 'http://localhost:3013',
+    authHostname: mockserverHosts.authHostname,
+    numbersHostname: mockserverHosts.numbersHostname,
   });
 });
 

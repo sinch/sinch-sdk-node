@@ -2,6 +2,7 @@ import { ElasticSipTrunkingService, CallBlockingRulesApi, ElasticSipTrunking } f
 import { Given, When, Then } from '@cucumber/cucumber';
 import assert from 'assert';
 import { PageResult } from '@sinch/sdk-client';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let callBlockingRulesApi: CallBlockingRulesApi;
 let callBlockingRule: ElasticSipTrunking.CallBlockingRule;
@@ -15,8 +16,8 @@ Given('the Elastic SIP Trunking service "Call Blocking Rules" is available', fun
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    elasticSipTrunkingHostname: 'http://localhost:3016',
+    authHostname: mockserverHosts.authHostname,
+    elasticSipTrunkingHostname: mockserverHosts.elasticSipTrunkingHostname,
   });
   callBlockingRulesApi = elasticSipTrunkingService.callBlockingRules;
 });

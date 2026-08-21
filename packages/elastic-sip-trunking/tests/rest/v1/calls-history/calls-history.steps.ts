@@ -2,6 +2,7 @@ import { ElasticSipTrunking, ElasticSipTrunkingService, CallsHistoryApi } from '
 import { Given, Then, When } from '@cucumber/cucumber';
 import assert from 'assert';
 import { FileData, PageResult } from '@sinch/sdk-client';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let csvResponse: FileData;
 let callsHistoryApi: CallsHistoryApi;
@@ -14,8 +15,8 @@ Given('the Elastic SIP Trunking service "Calls History" is available', function 
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    elasticSipTrunkingHostname: 'http://localhost:3016',
+    authHostname: mockserverHosts.authHostname,
+    elasticSipTrunkingHostname: mockserverHosts.elasticSipTrunkingHostname,
   });
   callsHistoryApi = elasticSipTrunkingService.calls;
 });

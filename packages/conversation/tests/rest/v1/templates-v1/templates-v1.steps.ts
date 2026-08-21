@@ -2,6 +2,7 @@ import { Conversation, ConversationService, TemplatesV1Api } from '../../../../s
 import { SupportedConversationRegion } from '@sinch/sdk-client';
 import { Given, Then, When } from '@cucumber/cucumber';
 import * as assert from 'assert';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let templatesV1Api: TemplatesV1Api;
 let template: Conversation.V1Template;
@@ -35,8 +36,8 @@ Given('the Conversation service "TemplatesV1" is available', function () {
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    conversationTemplatesHostname: 'http://localhost:3015',
+    authHostname: mockserverHosts.authHostname,
+    conversationTemplatesHostname: mockserverHosts.conversationTemplatesHostname,
     conversationRegion: SupportedConversationRegion.UNITED_STATES,
   });
   templatesV1Api = conversationService.templatesV1;
