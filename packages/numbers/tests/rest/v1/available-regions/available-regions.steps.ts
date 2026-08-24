@@ -1,6 +1,7 @@
 import { AvailableRegionsApi, NumbersService, Numbers } from '../../../../src';
 import { Given, Then, When } from '@cucumber/cucumber';
 import * as assert from 'assert';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let regionsApi: AvailableRegionsApi;
 let regions: Numbers.ListAvailableRegionsResponse;
@@ -16,8 +17,8 @@ Given('the Numbers service "Regions" is available', function () {
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    numbersHostname: 'http://localhost:3013',
+    authHostname: mockserverHosts.authHostname,
+    numbersHostname: mockserverHosts.numbersHostname,
   });
   regionsApi = numbersService.availableRegions;
 });

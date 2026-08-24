@@ -2,6 +2,7 @@ import { Conversation, ConversationService, TranscodingApi } from '../../../../s
 import { SupportedConversationRegion } from '@sinch/sdk-client';
 import { Given, Then, When } from '@cucumber/cucumber';
 import * as assert from 'assert';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let transcodingApi: TranscodingApi;
 let transcodeMessageResponse: Conversation.TranscodeMessageResponse;
@@ -11,8 +12,8 @@ Given('the Conversation service "Transcoding" is available', function () {
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    conversationHostname: 'http://localhost:3014',
+    authHostname: mockserverHosts.authHostname,
+    conversationHostname: mockserverHosts.conversationHostname,
     conversationRegion: SupportedConversationRegion.UNITED_STATES,
   });
   transcodingApi = conversationService.transcoding;

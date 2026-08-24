@@ -1,6 +1,7 @@
 import { VerificationsApi, VerificationService, Verification  } from '../../../../src';
 import { Given, When, Then } from '@cucumber/cucumber';
 import * as assert from 'assert';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let reportVerificationApi: VerificationsApi;
 let reportSmsResponse: Verification.SmsVerificationReportResponse;
@@ -12,7 +13,7 @@ Given('the Verification service "Report" is available', () => {
   const verificationService = new VerificationService({
     applicationKey: 'appKey',
     applicationSecret: 'appSecret',
-    verificationHostname: 'http://localhost:3018',
+    verificationHostname: mockserverHosts.verificationHostname,
   });
   reportVerificationApi = verificationService.verifications;
 });

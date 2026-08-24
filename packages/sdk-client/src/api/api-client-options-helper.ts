@@ -56,7 +56,7 @@ export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiNa
   return apiClientOptions;
 };
 
-/** @internal */
+/** @internal @deprecated */
 export const buildMailgunApiClientOptions = (
   params: Partial<MailgunCredentials & ApiPlugins & WithLogger & TransportSettings>,
 ): ApiClientOptions => {

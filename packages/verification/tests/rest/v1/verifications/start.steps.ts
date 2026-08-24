@@ -2,6 +2,7 @@ import { VerificationsApi, VerificationService, Verification  } from '../../../.
 import { Given, When, Then } from '@cucumber/cucumber';
 import * as assert from 'assert';
 import { RequestFailedError } from '@sinch/sdk-client';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let startVerificationApi: VerificationsApi;
 let startSmsVerificationResponse: Verification.StartSmsVerificationResponse;
@@ -14,7 +15,7 @@ Given('the Verification service "Start" is available', () => {
   const verificationService = new VerificationService({
     applicationKey: 'appKey',
     applicationSecret: 'appSecret',
-    verificationHostname: 'http://localhost:3018',
+    verificationHostname: mockserverHosts.verificationHostname,
   });
   startVerificationApi = verificationService.verifications;
 });

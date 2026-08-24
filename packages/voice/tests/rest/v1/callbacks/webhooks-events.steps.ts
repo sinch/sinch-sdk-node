@@ -2,6 +2,7 @@ import { VoiceCallbackWebhooks, Voice } from '../../../../src';
 import { Given, Then, When } from '@cucumber/cucumber';
 import assert from 'assert';
 import { IncomingHttpHeaders } from 'http';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let voiceCallbackWebhooks: VoiceCallbackWebhooks;
 let rawEvent: any;
@@ -23,7 +24,7 @@ Given('the Voice Webhooks handler is available', () => {
 });
 
 When('I send a request to trigger a "PIE" event with a "return" type', async () => {
-  const response = await fetch('http://localhost:3019/webhooks/voice/pie-return');
+  const response = await fetch(`${mockserverHosts.voiceHostname}/webhooks/voice/pie-return`);
   await processEvent(response);
 });
 
@@ -56,7 +57,7 @@ Then('the Voice event describes a "PIE" event with a "return" type', () => {
 });
 
 When('I send a request to trigger a "PIE" event with a "sequence" type', async () => {
-  const response = await fetch('http://localhost:3019/webhooks/voice/pie-sequence');
+  const response = await fetch(`${mockserverHosts.voiceHostname}/webhooks/voice/pie-sequence`);
   await processEvent(response);
 });
 
@@ -89,7 +90,7 @@ Then('the Voice event describes a "PIE" event with a "sequence" type', () => {
 });
 
 When('I send a request to trigger a "DICE" event', async () => {
-  const response = await fetch('http://localhost:3019/webhooks/voice/dice');
+  const response = await fetch(`${mockserverHosts.voiceHostname}/webhooks/voice/dice`);
   await processEvent(response);
 });
 
@@ -132,7 +133,7 @@ Then('the Voice event describes a "DICE" event', () => {
 });
 
 When('I send a request to trigger a "ACE" event', async () => {
-  const response = await fetch('http://localhost:3019/webhooks/voice/ace');
+  const response = await fetch(`${mockserverHosts.voiceHostname}/webhooks/voice/ace`);
   await processEvent(response);
 });
 
@@ -155,7 +156,7 @@ Then('the Voice event describes a "ACE" event', () => {
 });
 
 When('I send a request to trigger a "ICE" event', async () => {
-  const response = await fetch('http://localhost:3019/webhooks/voice/ice');
+  const response = await fetch(`${mockserverHosts.voiceHostname}/webhooks/voice/ice`);
   await processEvent(response);
 });
 
@@ -192,7 +193,7 @@ Then('the Voice event describes a "ICE" event', () => {
 });
 
 When('I send a request to trigger a "recording_finished" event', async () => {
-  const response = await fetch('http://localhost:3019/webhooks/voice/notify/recording_finished');
+  const response = await fetch(`${mockserverHosts.voiceHostname}/webhooks/voice/notify/recording_finished`);
   await processEvent(response);
 });
 
@@ -213,7 +214,7 @@ Then('the Voice event describes a "notify" event with a "recording_finished" typ
 });
 
 When('I send a request to trigger a "recording_available" event', async () => {
-  const response = await fetch('http://localhost:3019/webhooks/voice/notify/recording_available');
+  const response = await fetch(`${mockserverHosts.voiceHostname}/webhooks/voice/notify/recording_available`);
   await processEvent(response);
 });
 
@@ -235,7 +236,7 @@ Then('the Voice event describes a "notify" event with a "recording_available" ty
 });
 
 When('I send a request to trigger a "transcription_available" event', async () => {
-  const response = await fetch('http://localhost:3019/webhooks/voice/notify/transcription_available');
+  const response = await fetch(`${mockserverHosts.voiceHostname}/webhooks/voice/notify/transcription_available`);
   await processEvent(response);
 });
 

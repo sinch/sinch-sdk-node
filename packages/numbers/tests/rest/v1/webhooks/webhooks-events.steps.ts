@@ -2,6 +2,7 @@ import { Given, Then, When } from '@cucumber/cucumber';
 import { NumbersCallbackWebhooks, Numbers } from '../../../../src';
 import assert from 'assert';
 import { IncomingHttpHeaders } from 'http';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 const SINCH_NUMBERS_CALLBACK_SECRET = 'strongPa$$PhraseWith36CharactersMax';
 let numbersCallbackWebhook: NumbersCallbackWebhooks;
@@ -20,7 +21,7 @@ Given('the Numbers Webhooks handler is available', function () {
 });
 
 When('I send a request to trigger the "success" for "PROVISIONING_TO_VOICE_PLATFORM" event', async () => {
-  const response = await fetch('http://localhost:3013/webhooks/numbers/provisioning_to_voice_platform/succeeded');
+  const response = await fetch(`${mockserverHosts.numbersHostname}/webhooks/numbers/provisioning_to_voice_platform/succeeded`);
   await processEvent(response);
 });
 
@@ -37,7 +38,7 @@ Then('the event describes a "success" for "PROVISIONING_TO_VOICE_PLATFORM" event
 });
 
 When('I send a request to trigger the "failure" for "PROVISIONING_TO_VOICE_PLATFORM" event', async () => {
-  const response = await fetch('http://localhost:3013/webhooks/numbers/provisioning_to_voice_platform/failed');
+  const response = await fetch(`${mockserverHosts.numbersHostname}/webhooks/numbers/provisioning_to_voice_platform/failed`);
   await processEvent(response);
 });
 
@@ -49,7 +50,7 @@ Then('the event describes a "failure" for "PROVISIONING_TO_VOICE_PLATFORM" event
 });
 
 When('I send a request to trigger the "completed" for "NUMBER_ORDER_PROCESSING" event', async () => {
-  const response = await fetch('http://localhost:3013/webhooks/numbers/number_order_processing');
+  const response = await fetch(`${mockserverHosts.numbersHostname}/webhooks/numbers/number_order_processing`);
   await processEvent(response);
 });
 

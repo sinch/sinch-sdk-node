@@ -35,7 +35,7 @@ export interface UnifiedCredentials {
   conversationRegion?: ConversationRegion;
 }
 
-/** @internal */
+/** @internal @deprecated */
 export interface MailgunCredentials {
   /** Your API Key created from the [Mailgun Dashboard](https://app.mailgun.com/settings/api_security) */
   mailgunApiKey: string;
@@ -74,7 +74,7 @@ export interface ApiHostname {
   elasticSipTrunkingHostname?: string;
   /** Override the hostname for the Fax API */
   faxHostname?: string;
-  /** Override the hostname for the Mailgun API - Note the regions become ineffective */
+  /** @deprecated Mailgun was never released as a Node SDK product. */
   mailgunHostname?: string;
   /** Override the hostname for the Numbers API */
   numbersHostname?: string;
@@ -181,16 +181,16 @@ export const ConversationRegion = {
 
 // ////////////////////
 // Mailgun regions
-/** @internal */
+/** @internal @deprecated Mailgun was never released as a Node SDK product. */
 export enum SupportedMailgunRegion {
   DEFAULT = '',
   EUROPE = 'eu',
 }
 
-/** @internal */
+/** @internal @deprecated Mailgun was never released as a Node SDK product. */
 export type MailgunRegion = SupportedMailgunRegion | string;
 
-/** @internal */
+/** @internal @deprecated Mailgun was never released as a Node SDK product. */
 export const MailgunRegion = {
   ...SupportedMailgunRegion,
 };
