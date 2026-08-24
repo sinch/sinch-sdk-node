@@ -2,6 +2,7 @@ import { ElasticSipTrunking, ElasticSipTrunkingService, CredentialListsApi } fro
 import { Given, When, Then } from '@cucumber/cucumber';
 import assert from 'assert';
 import { PageResult } from '@sinch/sdk-client';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let credentialListsApi: CredentialListsApi;
 let credentialList: ElasticSipTrunking.CredentialList;
@@ -18,8 +19,8 @@ Given('the Elastic SIP Trunking service "Credential Lists" is available', functi
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    elasticSipTrunkingHostname: 'http://localhost:3016',
+    authHostname: mockserverHosts.authHostname,
+    elasticSipTrunkingHostname: mockserverHosts.elasticSipTrunkingHostname,
   });
   credentialListsApi = elasticSipTrunkingService.credentialLists;
 });

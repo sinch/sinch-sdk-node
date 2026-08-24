@@ -1,14 +1,15 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": ".",
+    "rootDir": "../..",
     "outDir": "dist/tests",
     "allowJs": false,
     "noEmit": false
   },
   "include": [
     "src/**/*.ts",
-    "tests/**/*.ts"
+    "tests/**/*.ts",
+    "../../e2e/mockserver-hosts.ts"
   ],
   "exclude": [
     "node_modules",

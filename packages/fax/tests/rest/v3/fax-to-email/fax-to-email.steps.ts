@@ -2,6 +2,7 @@ import { FaxToEmailApi, Fax, FaxService } from '../../../../src';
 import { Given, Then, When } from '@cucumber/cucumber';
 import * as assert from 'assert';
 import { PageResult } from '@sinch/sdk-client';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let faxToEmailApi: FaxToEmailApi;
 let listEmailsResponse: PageResult<string>;
@@ -18,8 +19,8 @@ Given('the Fax service "Emails" is available', () => {
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    faxHostname: 'http://localhost:3012',
+    authHostname: mockserverHosts.authHostname,
+    faxHostname: mockserverHosts.faxHostname,
   });
   faxToEmailApi = faxService.faxToEmail;
 });

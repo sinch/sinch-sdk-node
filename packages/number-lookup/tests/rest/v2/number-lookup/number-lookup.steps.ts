@@ -1,6 +1,7 @@
 import { Given, Then, When } from '@cucumber/cucumber';
 import { NumberLookupService, NumberLookup } from '../../../../src';
 import * as assert from 'assert';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let numberLookupService: NumberLookupService;
 let response: NumberLookup.NumberLookupResponse;
@@ -10,8 +11,8 @@ Given('the Number Lookup service is available', () => {
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    numberLookupHostname: 'http://localhost:3022',
+    authHostname: mockserverHosts.authHostname,
+    numberLookupHostname: mockserverHosts.numberLookupHostname,
   });
 });
 
