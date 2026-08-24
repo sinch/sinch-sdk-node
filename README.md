@@ -372,7 +372,9 @@ When an API call or OAuth token request returns HTTP 429 (Too Many Requests), th
 | `maxRetryCount` | `number` | `3` | Maximum retries after the first attempt before the error is surfaced to the caller. |
 | `exponentialBackoff` | `number` | `4` | Growth factor for the backoff ceiling (`1000ms * exponentialBackoff^attempt`). The wait is a random value between 0 and that ceiling. |
 
-`Retry-After` may be a delay in seconds or an HTTP-date (RFC 7231). A small jitter (0–250 ms) is added so concurrent clients do not retry in lockstep.
+`Retry-After` may be a delay in seconds or an HTTP-date (RFC 7231). A small jitter (0–250 ms) is added so concurrent clients do not retry in lockstep. Invalid values are rejected.
+
+### Retry settings
 
 ```typescript
 import { SinchClient, RetryPolicy } from '@sinch/sdk-core';
@@ -384,6 +386,8 @@ const sinch = new SinchClient({
   exponentialBackoff: 2,
 });
 ```
+
+### Disable Retry Policy
 
 To disable automatic retries (for example when an outer HTTP layer already honors `Retry-After`):
 
