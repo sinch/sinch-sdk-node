@@ -28,6 +28,40 @@ describe('retry-policy helpers', () => {
         exponentialBackoff: 2,
       });
     });
+
+    it('allows maxRetryCount of 0', () => {
+      expect(resolveRetryConfig({ maxRetryCount: 0 }).maxRetryCount).toBe(0);
+    });
+
+    it('falls back to defaults for non-finite or out-of-range numbers', () => {
+      expect(resolveRetryConfig({
+        maxRetryCount: Number.NaN,
+        exponentialBackoff: Number.POSITIVE_INFINITY,
+      })).toEqual({
+        retryPolicy: SupportedRetryPolicy.DEFAULT,
+        maxRetryCount: 3,
+        exponentialBackoff: 4,
+      });
+      expect(resolveRetryConfig({
+        maxRetryCount: -1,
+        exponentialBackoff: 0,
+      })).toEqual({
+        retryPolicy: SupportedRetryPolicy.DEFAULT,
+        maxRetryCount: 3,
+        exponentialBackoff: 4,
+      });
+      expect(resolveRetryConfig({ exponentialBackoff: -2 }).exponentialBackoff).toBe(4);
+    });
+
+    it('floors a fractional maxRetryCount', () => {
+      expect(resolveRetryConfig({ maxRetryCount: 2.9 }).maxRetryCount).toBe(2);
+    });
+
+    it('falls back to DEFAULT for an unrecognized retryPolicy', () => {
+      expect(resolveRetryConfig({
+        retryPolicy: 'UNKNOWN' as SupportedRetryPolicy,
+      }).retryPolicy).toBe(SupportedRetryPolicy.DEFAULT);
+    });
   });
 
   describe('parseRetryAfterMs', () => {
@@ -127,6 +161,14 @@ describe('retry-policy helpers', () => {
     it('BACKOFF retries without a Retry-After delay', () => {
       const config = resolveRetryConfig({ retryPolicy: SupportedRetryPolicy.BACKOFF });
       expect(shouldRetryRateLimit(429, 0, config)).toBe(true);
+    });
+
+    it('does not retry an unrecognized policy', () => {
+      const config = {
+        ...defaults,
+        retryPolicy: 'UNKNOWN' as SupportedRetryPolicy,
+      };
+      expect(shouldRetryRateLimit(429, 0, config)).toBe(false);
     });
   });
 

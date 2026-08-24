@@ -13,12 +13,37 @@ export interface ResolvedRetryConfig {
   exponentialBackoff: number;
 }
 
+const isSupportedRetryPolicy = (value: unknown): value is SupportedRetryPolicy =>
+  value === SupportedRetryPolicy.DEFAULT
+  || value === SupportedRetryPolicy.RETRY_AFTER
+  || value === SupportedRetryPolicy.BACKOFF
+  || value === SupportedRetryPolicy.NONE;
+
+const resolveInteger = (value: number | undefined, fallback: number, min: number): number => {
+  if (value === undefined || !Number.isFinite(value) || value < min) {
+    return fallback;
+  }
+  return Math.floor(value);
+};
+
+const resolveExponentialBackoff = (value: number | undefined): number => {
+  if (value === undefined || !Number.isFinite(value) || value <= 0) {
+    return DEFAULT_EXPONENTIAL_BACKOFF;
+  }
+  return value;
+};
+
 /** @internal */
-export const resolveRetryConfig = (partial?: WithRetryPolicy): ResolvedRetryConfig => ({
-  retryPolicy: partial?.retryPolicy ?? SupportedRetryPolicy.DEFAULT,
-  maxRetryCount: partial?.maxRetryCount ?? DEFAULT_MAX_RETRY_COUNT,
-  exponentialBackoff: partial?.exponentialBackoff ?? DEFAULT_EXPONENTIAL_BACKOFF,
-});
+export const resolveRetryConfig = (partial?: WithRetryPolicy): ResolvedRetryConfig => {
+  const retryPolicy = partial?.retryPolicy;
+  return {
+    retryPolicy: isSupportedRetryPolicy(retryPolicy)
+      ? retryPolicy
+      : SupportedRetryPolicy.DEFAULT,
+    maxRetryCount: resolveInteger(partial?.maxRetryCount, DEFAULT_MAX_RETRY_COUNT, 0),
+    exponentialBackoff: resolveExponentialBackoff(partial?.exponentialBackoff),
+  };
+};
 
 /**
  * ANSI C asctime() form from RFC 7231 §7.1.1.1 (`Sun Nov  6 08:49:37 1994`).
@@ -58,7 +83,7 @@ export const parseRetryAfterMs = (value: string | null | undefined): number | un
 };
 
 /**
- * Whether the SDK should retry an HTTP 429 for the given attempt index (0 = first retry).
+ * Whether the SDK should retry this response for the given attempt index (0 = first retry).
  * `retryAfterMs` is the already-parsed `Retry-After` delay (undefined if absent/invalid).
  */
 /** @internal */
@@ -80,7 +105,8 @@ export const shouldRetryRateLimit = (
   if (config.retryPolicy === SupportedRetryPolicy.RETRY_AFTER) {
     return retryAfterMs !== undefined;
   }
-  return true;
+  return config.retryPolicy === SupportedRetryPolicy.DEFAULT
+    || config.retryPolicy === SupportedRetryPolicy.BACKOFF;
 };
 
 /**
