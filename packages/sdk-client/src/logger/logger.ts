@@ -1,4 +1,5 @@
 import type { ResolvedSinchClientParameters, SinchClientParameters } from '../domain';
+import { resolveTimeoutSeconds } from '../domain';
 import type { Logger, LogMessage } from './logger-types';
 import { isSinchLogger, SinchLogger } from './sinch-logger';
 
@@ -35,7 +36,7 @@ const resolveBaseLogger = (logger?: Logger | null): Logger => {
 
 /** @internal */
 export const resolveLogger = (logger?: Logger | null): Logger => {
-  if (logger != null && isSinchLogger(logger)) {
+  if (isSinchLogger(logger)) {
     return logger;
   }
   return new SinchLogger(resolveBaseLogger(logger));
@@ -45,11 +46,22 @@ export const resolveLogger = (logger?: Logger | null): Logger => {
 export const resolveClientParameters = (
   params: SinchClientParameters | ResolvedSinchClientParameters,
 ): ResolvedSinchClientParameters => {
-  if (params.logger != null && isSinchLogger(params.logger)) {
+  const useSinchAuth = params.useSinchAuth ?? true;
+  const timeoutSeconds = resolveTimeoutSeconds(params.timeoutSeconds);
+  const logger = isSinchLogger(params.logger) ? params.logger : resolveLogger(params.logger);
+
+  if (
+    logger === params.logger
+    && params.useSinchAuth === useSinchAuth
+    && params.timeoutSeconds === timeoutSeconds
+  ) {
     return params as ResolvedSinchClientParameters;
   }
+
   return {
     ...params,
-    logger: resolveLogger(params.logger),
+    logger,
+    useSinchAuth,
+    timeoutSeconds,
   };
 };

@@ -3,6 +3,7 @@ import * as assert from 'assert';
 import { PageResult } from '@sinch/sdk-client';
 import { Provisioning, ProvisioningService } from '../../../../src';
 import { WebhooksApi } from '../../../../src/rest/v1/webhooks';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 const PROJECT_ID = 'tinyfrog-jump-high-over-lilypadbasin';
 
@@ -18,8 +19,8 @@ Given('the Provisioning service "Webhooks" is available', function () {
     projectId: PROJECT_ID,
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    provisioningHostname: 'http://localhost:3025',
+    authHostname: mockserverHosts.authHostname,
+    provisioningHostname: mockserverHosts.provisioningHostname,
   });
   webhooksApi = provisioningService.webhooks;
 });

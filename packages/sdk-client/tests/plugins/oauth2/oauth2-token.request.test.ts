@@ -390,6 +390,7 @@ describe('Oauth2TokenRequest - concurrent token refresh', () => {
         'test-key-secret',
         'https://auth.test.com',
         undefined,
+        undefined,
         { retryPolicy: SupportedRetryPolicy.NONE },
       );
       let calls = 0;

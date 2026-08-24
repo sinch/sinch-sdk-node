@@ -15,7 +15,8 @@ export type ConversationMetadataUpdateStrategy = 'REPLACE' | 'MERGE_PATCH' | str
 export type CardHeight = 'UNSPECIFIED_HEIGHT' | 'SHORT' | 'MEDIUM' | 'TALL' | string;
 
 /**
- * Controls the display behavior of a choice.
+ * Controls the display behavior of a choice. Only supported for Choice Message on the RCS channel.
+ * Has no effect on other channels or message types, except for a carousel's outer choices, where it is rejected outright.
  * - `DISPLAY_MODE_UNSPECIFIED`: Default. Transient — choice disappears when new messages arrive.
  * - `PERSISTENT`: Persistent — choice remains visible in the message bubble.
  */

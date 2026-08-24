@@ -2,6 +2,7 @@ import { Given, When, Then } from '@cucumber/cucumber';
 import { FileBuffer, FileData, PageResult } from '@sinch/sdk-client';
 import * as assert from 'assert';
 import { FaxService, Fax, FaxesApi } from '../../../../src';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let faxesApi: FaxesApi;
 let listResponse: PageResult<Fax.Fax>;
@@ -17,8 +18,8 @@ Given('the Fax service "Faxes" is available', () => {
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    faxHostname: 'http://localhost:3012',
+    authHostname: mockserverHosts.authHostname,
+    faxHostname: mockserverHosts.faxHostname,
   });
   faxesApi = faxService.faxes;
 });

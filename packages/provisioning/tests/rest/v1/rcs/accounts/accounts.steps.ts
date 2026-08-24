@@ -3,6 +3,7 @@ import * as assert from 'assert';
 import { PageResult } from '@sinch/sdk-client';
 import { Provisioning, ProvisioningService } from '../../../../../src';
 import { RcsAccountsApi } from '../../../../../src/rest/v1/rcs/accounts';
+import { mockserverHosts } from '../../../../e2e/hosts';
 
 const PROJECT_ID = 'tinyfrog-jump-high-over-lilypadbasin';
 
@@ -17,8 +18,8 @@ Given('the Provisioning service "RCS Accounts" is available', function () {
     projectId: PROJECT_ID,
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    provisioningHostname: 'http://localhost:3025',
+    authHostname: mockserverHosts.authHostname,
+    provisioningHostname: mockserverHosts.provisioningHostname,
   });
   accountsApi = provisioningService.rcs.accounts;
 });

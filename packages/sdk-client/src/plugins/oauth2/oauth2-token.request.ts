@@ -30,6 +30,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
     clientSecret: string,
     authenticationUrl?: string,
     logger?: Logger | null,
+    timeoutSeconds?: number,
     retryPolicy?: WithRetryPolicy,
   ) {
     const basicAuthenticationPlugin = new BasicAuthenticationRequest(
@@ -40,12 +41,13 @@ export class Oauth2TokenRequest implements RequestPlugin {
       authenticationUrl = AUTH_HOSTNAME;
     }
     const retry = resolveRetryConfig(retryPolicy);
-    // Token-fetch 429 retries are handled by ApiFetchClient using the same
+    // Token-fetch retries are handled by ApiFetchClient using the same
     // policy as product API calls (Retry-After + full-jitter backoff).
     this.apiClient = new ApiFetchClient({
       hostname: authenticationUrl,
       requestPlugins: [basicAuthenticationPlugin],
       logger,
+      timeoutSeconds,
       retryPolicy: retry.retryPolicy,
       maxRetryCount: retry.maxRetryCount,
       exponentialBackoff: retry.exponentialBackoff,

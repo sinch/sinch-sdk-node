@@ -2,6 +2,7 @@ import { Given, Then, When } from '@cucumber/cucumber';
 import { NumbersService, Numbers } from '../../../src';
 import { PageResult } from '@sinch/sdk-client';
 import assert from 'assert';
+import { mockserverHosts } from '../../e2e/hosts';
 
 let numbersService: NumbersService;
 let availableNumbersResponse: Numbers.AvailableNumbersResponse;
@@ -16,8 +17,8 @@ Given('the Numbers service is available', function () {
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    numbersHostname: 'http://localhost:3013',
+    authHostname: mockserverHosts.authHostname,
+    numbersHostname: mockserverHosts.numbersHostname,
   });
 });
 

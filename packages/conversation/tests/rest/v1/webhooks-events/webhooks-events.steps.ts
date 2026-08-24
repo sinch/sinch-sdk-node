@@ -2,6 +2,7 @@ import { Given, Then, When } from '@cucumber/cucumber';
 import { ConversationCallbackWebhooks, Conversation } from '../../../../src';
 import assert from 'assert';
 import { IncomingHttpHeaders } from 'http';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 const APP_SECRET = 'CactusKnight_SurfsWaves';
 let conversationCallbackWebhook: ConversationCallbackWebhooks;
@@ -20,7 +21,7 @@ Given('the Conversation Webhooks handler is available', () => {
 });
 
 When('I send a request to trigger a "CAPABILITY" event', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/capability-lookup');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/capability-lookup`);
   await processEvent(response);
 });
 
@@ -37,7 +38,7 @@ Then('the Conversation event describes a "CAPABILITY" event type', () => {
 });
 
 When('I send a request to trigger a "CONTACT_CREATE" event', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/contact-create');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/contact-create`);
   await processEvent(response);
 });
 
@@ -49,7 +50,7 @@ Then('the Conversation event describes a "CONTACT_CREATE" event type', () => {
 });
 
 When('I send a request to trigger a "CONTACT_DELETE" event', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/contact-delete');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/contact-delete`);
   await processEvent(response);
 });
 
@@ -61,7 +62,7 @@ Then('the Conversation event describes a "CONTACT_DELETE" event type', () => {
 });
 
 When('I send a request to trigger a "CONTACT_MERGE" event', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/contact-merge');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/contact-merge`);
   await processEvent(response);
 });
 
@@ -73,7 +74,7 @@ Then('the Conversation event describes a "CONTACT_MERGE" event type', () => {
 });
 
 When('I send a request to trigger a "CONTACT_UPDATE" event', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/contact-update');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/contact-update`);
   await processEvent(response);
 });
 
@@ -85,7 +86,7 @@ Then('the Conversation event describes a "CONTACT_UPDATE" event type', () => {
 });
 
 When('I send a request to trigger a "CONVERSATION_DELETE" event', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/conversation-delete');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/conversation-delete`);
   await processEvent(response);
 });
 
@@ -97,7 +98,7 @@ Then('the Conversation event describes a "CONVERSATION_DELETE" event type', () =
 });
 
 When('I send a request to trigger a "CONVERSATION_START" event', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/conversation-start');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/conversation-start`);
   await processEvent(response);
 });
 
@@ -109,7 +110,7 @@ Then('the Conversation event describes a "CONVERSATION_START" event type', () =>
 });
 
 When('I send a request to trigger a "CONVERSATION_STOP" event', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/conversation-stop');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/conversation-stop`);
   await processEvent(response);
 });
 
@@ -121,7 +122,7 @@ Then('the Conversation event describes a "CONVERSATION_STOP" event type', () => 
 });
 
 When('I send a request to trigger a "EVENT_DELIVERY" event with a "FAILED" status', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/event-delivery-report/failed');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/event-delivery-report/failed`);
   await processEvent(response);
 });
 
@@ -147,12 +148,12 @@ Then('the Conversation event describes a FAILED event delivery status and its re
 });
 
 When('I send a request to trigger a "EVENT_DELIVERY" event with a "DELIVERED" status', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/event-delivery-report/succeeded');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/event-delivery-report/succeeded`);
   await processEvent(response);
 });
 
 When('I send a request to trigger a "EVENT_INBOUND" event', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/event-inbound');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/event-inbound`);
   await processEvent(response);
 });
 
@@ -164,12 +165,12 @@ Then('the Conversation event describes a "EVENT_INBOUND" event type', () => {
 });
 
 When('I send a request to trigger a "MESSAGE_DELIVERY" event with a "FAILED" status', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/message-delivery-report/failed');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/message-delivery-report/failed`);
   await processEvent(response);
 });
 
 When('I send a request to trigger a "MESSAGE_DELIVERY" event with a "QUEUED_ON_CHANNEL" status', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/message-delivery-report/succeeded');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/message-delivery-report/succeeded`);
   await processEvent(response);
 });
 
@@ -190,7 +191,7 @@ Then('the Conversation event describes a FAILED message delivery status and its 
 });
 
 When('I send a request to trigger a "MESSAGE_INBOUND" event', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/message-inbound');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/message-inbound`);
   await processEvent(response);
 });
 
@@ -202,7 +203,7 @@ Then('the Conversation event describes a "MESSAGE_INBOUND" event type', () => {
 });
 
 When('I send a request to trigger a "MESSAGE_INBOUND_SMART_CONVERSATION_REDACTION" event', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/message-inbound/smart-conversation-redaction');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/message-inbound/smart-conversation-redaction`);
   await processEvent(response);
 });
 
@@ -215,7 +216,7 @@ Then('the Conversation event describes a "MESSAGE_INBOUND_SMART_CONVERSATION_RED
 });
 
 When('I send a request to trigger a "MESSAGE_SUBMIT" event for a "media" message', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/message-submit/media');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/message-submit/media`);
   await processEvent(response);
 });
 
@@ -233,7 +234,7 @@ Then('the Conversation event describes a "MESSAGE_SUBMIT" event type for a "medi
 });
 
 When('I send a request to trigger a "MESSAGE_SUBMIT" event for a "text" message', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/message-submit/text');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/message-submit/text`);
   await processEvent(response);
 });
 
@@ -246,7 +247,7 @@ Then('the Conversation event describes a "MESSAGE_SUBMIT" event type for a "text
 });
 
 When('I send a request to trigger a "SMART_CONVERSATIONS" event for a "media" message', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/smart-conversations/media');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/smart-conversations/media`);
   await processEvent(response);
 });
 
@@ -260,7 +261,7 @@ Then('the Conversation event describes a "SMART_CONVERSATIONS" event type for a 
 });
 
 When('I send a request to trigger a "SMART_CONVERSATIONS" event for a "text" message', async () => {
-  const response = await fetch('http://localhost:3014/webhooks/conversation/smart-conversations/text');
+  const response = await fetch(`${mockserverHosts.conversationHostname}/webhooks/conversation/smart-conversations/text`);
   await processEvent(response);
 });
 

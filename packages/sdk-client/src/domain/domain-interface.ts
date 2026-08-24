@@ -9,9 +9,9 @@ import { Logger } from '../logger';
  *  - API Token: SMS on all regions
  *  - Application Signed: Verification and Voice
  *
- * Optional cross-cutting settings include `logger` ({@link WithLogger}) and HTTP 429
+ * Optional cross-cutting settings include `logger` ({@link WithLogger}),
  * retry tuning via `retryPolicy`, `maxRetryCount`, and `exponentialBackoff`
- * ({@link WithRetryPolicy}).
+ * ({@link WithRetryPolicy}), and transport settings ({@link TransportSettings}).
  */
 export type SinchClientParameters = Partial<
   UnifiedCredentials
@@ -20,7 +20,8 @@ export type SinchClientParameters = Partial<
   & ApiHostname
   & ApiPlugins
   & WithLogger
-  & WithRetryPolicy>;
+  & WithRetryPolicy
+  & TransportSettings>;
 
 export interface UnifiedCredentials {
   /** The project ID associated with the API Client. You can find this on your [Dashboard](https://dashboard.sinch.com/account/access-keys). */
@@ -39,7 +40,7 @@ export interface UnifiedCredentials {
   conversationRegion?: ConversationRegion;
 }
 
-/** @internal */
+/** @internal @deprecated */
 export interface MailgunCredentials {
   /** Your API Key created from the [Mailgun Dashboard](https://app.mailgun.com/settings/api_security) */
   mailgunApiKey: string;
@@ -78,7 +79,7 @@ export interface ApiHostname {
   elasticSipTrunkingHostname?: string;
   /** Override the hostname for the Fax API */
   faxHostname?: string;
-  /** Override the hostname for the Mailgun API - Note the regions become ineffective */
+  /** @deprecated Mailgun was never released as a Node SDK product. */
   mailgunHostname?: string;
   /** Override the hostname for the Numbers API */
   numbersHostname?: string;
@@ -185,16 +186,16 @@ export const ConversationRegion = {
 
 // ////////////////////
 // Mailgun regions
-/** @internal */
+/** @internal @deprecated Mailgun was never released as a Node SDK product. */
 export enum SupportedMailgunRegion {
   DEFAULT = '',
   EUROPE = 'eu',
 }
 
-/** @internal */
+/** @internal @deprecated Mailgun was never released as a Node SDK product. */
 export type MailgunRegion = SupportedMailgunRegion | string;
 
-/** @internal */
+/** @internal @deprecated Mailgun was never released as a Node SDK product. */
 export const MailgunRegion = {
   ...SupportedMailgunRegion,
 };
@@ -209,11 +210,11 @@ export interface WithLogger {
 }
 
 /**
- * Policy used when the SDK receives an HTTP 429 (Too Many Requests).
+ * Policy used when the SDK retries a failed HTTP call.
  * - `DEFAULT`: honor `Retry-After` when present, otherwise exponential backoff
  * - `RETRY_AFTER`: only retry when a usable `Retry-After` header is present
  * - `BACKOFF`: ignore `Retry-After`; use full-jitter exponential backoff only
- * - `NONE`: disable automatic 429 retries
+ * - `NONE`: disable automatic retries
  */
 export enum SupportedRetryPolicy {
   DEFAULT = 'DEFAULT',
@@ -229,17 +230,17 @@ export const RetryPolicy = {
 };
 
 /**
- * Tunable HTTP 429 retry settings applied to all SDK HTTP calls (OAuth and product APIs).
+ * Tunable retry settings applied to all SDK HTTP calls (OAuth and product APIs).
  * Defaults: `retryPolicy=DEFAULT`, `maxRetryCount=3`, `exponentialBackoff=4`.
  */
 export interface WithRetryPolicy {
   /**
-   * How the SDK should react to HTTP 429 responses.
+   * How the SDK should retry eligible failed HTTP responses.
    * @default RetryPolicy.DEFAULT
    */
   retryPolicy?: RetryPolicy;
   /**
-   * Maximum number of retries after the first attempt before surfacing the 429 error.
+   * Maximum number of retries after the first attempt before the error is surfaced to the caller.
    * @default 3
    */
   maxRetryCount?: number;
@@ -251,7 +252,45 @@ export interface WithRetryPolicy {
   exponentialBackoff?: number;
 }
 
-/** Sinch client parameters with a resolved logger (never null or undefined). */
-export type ResolvedSinchClientParameters = Omit<SinchClientParameters, 'logger'> & {
+/** Default HTTP I/O timeout in seconds when `timeoutSeconds` is omitted. */
+export const DEFAULT_TIMEOUT_SECONDS = 60;
+
+/**
+ * Resolve `timeoutSeconds`, defaulting to {@link DEFAULT_TIMEOUT_SECONDS}.
+ * `0` disables the timeout.
+ * @internal
+ */
+export const resolveTimeoutSeconds = (timeoutSeconds?: number): number => {
+  const value = timeoutSeconds ?? DEFAULT_TIMEOUT_SECONDS;
+  if (!Number.isFinite(value) || value < 0) {
+    throw new Error('Invalid configuration: "timeoutSeconds" must be a non-negative number');
+  }
+  return value;
+};
+
+/**
+ * Transport-level settings shared by SinchClient and (later) request-level options.
+ */
+export interface TransportSettings {
+  /**
+   * When true (default), OAuth-capable APIs authenticate against Sinch auth.
+   * Set false to skip Sinch OAuth (e.g. custom Authorization via requestPlugins).
+   * When false, OAuth-capable APIs require only `projectId`.
+   */
+  useSinchAuth?: boolean;
+  /**
+   * Request/connection timeout in seconds for HTTP I/O. Default: 60.
+   * Pass 0 to disable the timeout.
+   */
+  timeoutSeconds?: number;
+}
+
+/** Sinch client parameters with resolved logger and transport defaults. */
+export type ResolvedSinchClientParameters = Omit<
+  SinchClientParameters,
+  'logger' | 'useSinchAuth' | 'timeoutSeconds'
+> & {
   logger: Logger;
+  useSinchAuth: boolean;
+  timeoutSeconds: number;
 };

@@ -1,4 +1,4 @@
-import { RequestPlugin, ApiFetchClient, ApiTokenRequest, SinchClientParameters } from '@sinch/sdk-client';
+import { RequestPlugin, ApiFetchClient, ApiTokenRequest, Oauth2TokenRequest, SinchClientParameters } from '@sinch/sdk-client';
 import {
   ActiveNumberApi,
   AvailableNumberApi,
@@ -53,6 +53,21 @@ describe('Numbers Service', () => {
     expect(numbersService.availableNumber.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(numbersService.activeNumber.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(numbersService.callbacks.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+  });
+
+  it('should initialize with only projectId when useSinchAuth is false', () => {
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+      useSinchAuth: false,
+    };
+
+    const numbersService = new NumbersService(params);
+
+    expect(numbersService.availableRegions.client.apiClientOptions.projectId).toBe('PROJECT_ID');
+    expect(
+      numbersService.availableRegions.client.apiClientOptions.requestPlugins
+        ?.some((plugin) => plugin instanceof Oauth2TokenRequest),
+    ).toBe(false);
   });
 
   it('should update the API client for all the subdomains', () => {
