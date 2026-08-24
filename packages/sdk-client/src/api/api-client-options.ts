@@ -29,6 +29,12 @@ interface BaseApiClientOptions {
    *  @default false
    */
   useServicePlanId?: boolean;
+
+  /**
+   * Request/connection timeout in seconds for HTTP I/O.
+   * @default 60
+   */
+  timeoutSeconds?: number;
 }
 
 /** @internal */

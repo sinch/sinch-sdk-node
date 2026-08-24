@@ -15,7 +15,8 @@ export type SinchClientParameters = Partial<
   & ApplicationCredentials
   & ApiHostname
   & ApiPlugins
-  & WithLogger>;
+  & WithLogger
+  & TransportSettings>;
 
 export interface UnifiedCredentials {
   /** The project ID associated with the API Client. You can find this on your [Dashboard](https://dashboard.sinch.com/account/access-keys). */
@@ -203,7 +204,45 @@ export interface WithLogger {
   logger?: Logger | null;
 }
 
-/** Sinch client parameters with a resolved logger (never null or undefined). */
-export type ResolvedSinchClientParameters = Omit<SinchClientParameters, 'logger'> & {
+/** Default HTTP I/O timeout in seconds when `timeoutSeconds` is omitted. */
+export const DEFAULT_TIMEOUT_SECONDS = 60;
+
+/**
+ * Resolve `timeoutSeconds`, defaulting to {@link DEFAULT_TIMEOUT_SECONDS}.
+ * `0` disables the timeout.
+ * @internal
+ */
+export const resolveTimeoutSeconds = (timeoutSeconds?: number): number => {
+  const value = timeoutSeconds ?? DEFAULT_TIMEOUT_SECONDS;
+  if (!Number.isFinite(value) || value < 0) {
+    throw new Error('Invalid configuration: "timeoutSeconds" must be a non-negative number');
+  }
+  return value;
+};
+
+/**
+ * Transport-level settings shared by SinchClient and (later) request-level options.
+ */
+export interface TransportSettings {
+  /**
+   * When true (default), OAuth-capable APIs authenticate against Sinch auth.
+   * Set false to skip Sinch OAuth (e.g. custom Authorization via requestPlugins).
+   * When false, OAuth-capable APIs require only `projectId`.
+   */
+  useSinchAuth?: boolean;
+  /**
+   * Request/connection timeout in seconds for HTTP I/O. Default: 60.
+   * Pass 0 to disable the timeout.
+   */
+  timeoutSeconds?: number;
+}
+
+/** Sinch client parameters with resolved logger and transport defaults. */
+export type ResolvedSinchClientParameters = Omit<
+  SinchClientParameters,
+  'logger' | 'useSinchAuth' | 'timeoutSeconds'
+> & {
   logger: Logger;
+  useSinchAuth: boolean;
+  timeoutSeconds: number;
 };

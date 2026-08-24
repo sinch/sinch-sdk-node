@@ -19,6 +19,7 @@ For more information on the SDK, refer to the dedicated [Node SDK documentation 
 - [Supported APIs](#supported-apis)
 - [Getting started](#getting-started)
 - [Logging](#logging)
+- [Transport settings](#transport-settings)
 - [Handling exceptions](#handling-exceptions)
 - [Third-party dependencies](#third-party-dependencies)
 - [Examples](#examples)
@@ -359,6 +360,37 @@ The SDK supports configurable logging through an optional `logger` property on `
 - **Custom loggers**: Plug in any compatible logger, for example [Winston](https://www.npmjs.com/package/winston), and route SDK messages into your existing logging stack, format, and transports.
 
 For a runnable example using Winston, see [examples/snippets/sdk-client/logger.js](./examples/snippets/sdk-client/logger.js).
+
+## Transport settings
+
+`SinchClient` accepts optional transport-level settings on the same parameters object as credentials. They apply to product API calls and to OAuth token fetches.
+
+### Timeout
+
+`timeoutSeconds` is the HTTP I/O timeout. The default is `60`. Pass `0` to disable the timeout. Negative values are rejected.
+
+```typescript
+import { SinchClient } from '@sinch/sdk-core';
+
+const sinch = new SinchClient({
+  ...,
+  timeoutSeconds: 30,
+});
+```
+
+### Disable Sinch OAuth
+
+By default (`useSinchAuth: true`), OAuth-capable APIs fetch a Sinch access token. Set `useSinchAuth: false` to skip that plugin and supply your own `Authorization` header through `requestPlugins`. In that mode only `projectId` is required.
+
+```typescript
+import { SinchClient } from '@sinch/sdk-core';
+
+const sinch = new SinchClient({
+  ...,
+  useSinchAuth: false,
+  requestPlugins: [/* custom Auth plugin */],
+});
+```
 
 ## Handling exceptions
 

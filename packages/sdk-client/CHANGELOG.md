@@ -1,4 +1,5 @@
 ## Version 1.6.0
+- [Feature] Add transport-level settings on `SinchClientParameters` (`TransportSettings`).
 - [Deprecation] Mailgun-related settings are deprecated (`MailgunCredentials`, `MailgunRegion`, `SupportedMailgunRegion`, `MAILGUN_HOSTNAME`, `mailgunHostname`, and `buildMailgunApiClientOptions`). Mailgun was never released as a Node SDK product; these settings will be removed in a future major version.
 
 ## Version 1.5.0
