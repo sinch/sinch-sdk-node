@@ -19,7 +19,7 @@ For more information on the SDK, refer to the dedicated [Node SDK documentation 
 - [Supported APIs](#supported-apis)
 - [Getting started](#getting-started)
 - [Logging](#logging)
-- [Retry policy](#retry-policy)
+- [Retry configuration](#retry-configuration)
 - [Transport settings](#transport-settings)
 - [Handling exceptions](#handling-exceptions)
 - [Third-party dependencies](#third-party-dependencies)
@@ -362,7 +362,7 @@ The SDK supports configurable logging through an optional `logger` property on `
 
 For a runnable example using Winston, see [examples/snippets/sdk-client/logger.js](./examples/snippets/sdk-client/logger.js).
 
-## Retry policy
+## Retry configuration
 
 When an API call or OAuth token request returns HTTP 429 (Too Many Requests), the SDK retries automatically. Configure this on `SinchClient`; the same settings apply to product API calls and token fetches.
 
