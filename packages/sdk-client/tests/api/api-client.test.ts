@@ -69,4 +69,20 @@ describe('API client', () => {
     });
   });
 
+  describe('constructor retry configuration', () => {
+    it('should reject an unrecognized retryPolicy', () => {
+      expect(() => new ApiFetchClient({
+        requestPlugins: [],
+        retryPolicy: 'UNKNOWN' as ApiClientOptions['retryPolicy'],
+      })).toThrow(
+        'Invalid configuration: "retryPolicy" must be DEFAULT, RETRY_AFTER, BACKOFF, or NONE',
+      );
+    });
+
+    it('should reject a negative maxRetryCount', () => {
+      expect(() => new ApiFetchClient({ requestPlugins: [], maxRetryCount: -1 }))
+        .toThrow('Invalid configuration: "maxRetryCount" must be a non-negative integer');
+    });
+  });
+
 });

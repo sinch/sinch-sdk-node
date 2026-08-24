@@ -19,30 +19,26 @@ const isSupportedRetryPolicy = (value: unknown): value is SupportedRetryPolicy =
   || value === SupportedRetryPolicy.BACKOFF
   || value === SupportedRetryPolicy.NONE;
 
-const resolveInteger = (value: number | undefined, fallback: number, min: number): number => {
-  if (value === undefined || !Number.isFinite(value) || value < min) {
-    return fallback;
-  }
-  return Math.floor(value);
-};
-
-const resolveExponentialBackoff = (value: number | undefined): number => {
-  if (value === undefined || !Number.isFinite(value) || value <= 0) {
-    return DEFAULT_EXPONENTIAL_BACKOFF;
-  }
-  return value;
-};
-
 /** @internal */
 export const resolveRetryConfig = (partial?: WithRetryPolicy): ResolvedRetryConfig => {
-  const retryPolicy = partial?.retryPolicy;
-  return {
-    retryPolicy: isSupportedRetryPolicy(retryPolicy)
-      ? retryPolicy
-      : SupportedRetryPolicy.DEFAULT,
-    maxRetryCount: resolveInteger(partial?.maxRetryCount, DEFAULT_MAX_RETRY_COUNT, 0),
-    exponentialBackoff: resolveExponentialBackoff(partial?.exponentialBackoff),
-  };
+  const retryPolicy = partial?.retryPolicy ?? SupportedRetryPolicy.DEFAULT;
+  if (!isSupportedRetryPolicy(retryPolicy)) {
+    throw new Error(
+      'Invalid configuration: "retryPolicy" must be DEFAULT, RETRY_AFTER, BACKOFF, or NONE',
+    );
+  }
+
+  const maxRetryCount = partial?.maxRetryCount ?? DEFAULT_MAX_RETRY_COUNT;
+  if (!Number.isInteger(maxRetryCount) || maxRetryCount < 0) {
+    throw new Error('Invalid configuration: "maxRetryCount" must be a non-negative integer');
+  }
+
+  const exponentialBackoff = partial?.exponentialBackoff ?? DEFAULT_EXPONENTIAL_BACKOFF;
+  if (!Number.isFinite(exponentialBackoff) || exponentialBackoff <= 0) {
+    throw new Error('Invalid configuration: "exponentialBackoff" must be a positive number');
+  }
+
+  return { retryPolicy, maxRetryCount, exponentialBackoff };
 };
 
 /**

@@ -67,10 +67,14 @@ export class ApiFetchClient extends ApiClient {
    */
   constructor(options: ApiClientOptions) {
     const logger = resolveLogger(options.logger);
+    const retry = resolveRetryConfig(options);
     const resolvedOptions = {
       ...options,
       logger,
       timeoutSeconds: resolveTimeoutSeconds(options.timeoutSeconds),
+      retryPolicy: retry.retryPolicy,
+      maxRetryCount: retry.maxRetryCount,
+      exponentialBackoff: retry.exponentialBackoff,
     };
     super({
       ...resolvedOptions,

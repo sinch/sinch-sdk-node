@@ -236,17 +236,20 @@ export const RetryPolicy = {
 export interface WithRetryPolicy {
   /**
    * How the SDK should retry eligible failed HTTP responses.
+   * Unknown values are rejected.
    * @default RetryPolicy.DEFAULT
    */
   retryPolicy?: RetryPolicy;
   /**
    * Maximum number of retries after the first attempt before the error is surfaced to the caller.
+   * Must be a non-negative integer.
    * @default 3
    */
   maxRetryCount?: number;
   /**
    * Growth factor for the full-jitter exponential backoff ceiling
    * (`1000ms * exponentialBackoff^attempt`).
+   * Must be a positive number.
    * @default 4
    */
   exponentialBackoff?: number;

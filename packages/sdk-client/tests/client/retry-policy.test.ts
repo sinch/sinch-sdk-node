@@ -33,34 +33,27 @@ describe('retry-policy helpers', () => {
       expect(resolveRetryConfig({ maxRetryCount: 0 }).maxRetryCount).toBe(0);
     });
 
-    it('falls back to defaults for non-finite or out-of-range numbers', () => {
-      expect(resolveRetryConfig({
-        maxRetryCount: Number.NaN,
-        exponentialBackoff: Number.POSITIVE_INFINITY,
-      })).toEqual({
-        retryPolicy: SupportedRetryPolicy.DEFAULT,
-        maxRetryCount: 3,
-        exponentialBackoff: 4,
-      });
-      expect(resolveRetryConfig({
-        maxRetryCount: -1,
-        exponentialBackoff: 0,
-      })).toEqual({
-        retryPolicy: SupportedRetryPolicy.DEFAULT,
-        maxRetryCount: 3,
-        exponentialBackoff: 4,
-      });
-      expect(resolveRetryConfig({ exponentialBackoff: -2 }).exponentialBackoff).toBe(4);
+    it('rejects non-finite or out-of-range numbers', () => {
+      expect(() => resolveRetryConfig({ maxRetryCount: Number.NaN }))
+        .toThrow('Invalid configuration: "maxRetryCount" must be a non-negative integer');
+      expect(() => resolveRetryConfig({ maxRetryCount: -1 }))
+        .toThrow('Invalid configuration: "maxRetryCount" must be a non-negative integer');
+      expect(() => resolveRetryConfig({ maxRetryCount: 2.9 }))
+        .toThrow('Invalid configuration: "maxRetryCount" must be a non-negative integer');
+      expect(() => resolveRetryConfig({ exponentialBackoff: Number.POSITIVE_INFINITY }))
+        .toThrow('Invalid configuration: "exponentialBackoff" must be a positive number');
+      expect(() => resolveRetryConfig({ exponentialBackoff: 0 }))
+        .toThrow('Invalid configuration: "exponentialBackoff" must be a positive number');
+      expect(() => resolveRetryConfig({ exponentialBackoff: -2 }))
+        .toThrow('Invalid configuration: "exponentialBackoff" must be a positive number');
     });
 
-    it('floors a fractional maxRetryCount', () => {
-      expect(resolveRetryConfig({ maxRetryCount: 2.9 }).maxRetryCount).toBe(2);
-    });
-
-    it('falls back to DEFAULT for an unrecognized retryPolicy', () => {
-      expect(resolveRetryConfig({
+    it('rejects an unrecognized retryPolicy', () => {
+      expect(() => resolveRetryConfig({
         retryPolicy: 'UNKNOWN' as SupportedRetryPolicy,
-      }).retryPolicy).toBe(SupportedRetryPolicy.DEFAULT);
+      })).toThrow(
+        'Invalid configuration: "retryPolicy" must be DEFAULT, RETRY_AFTER, BACKOFF, or NONE',
+      );
     });
   });
 
