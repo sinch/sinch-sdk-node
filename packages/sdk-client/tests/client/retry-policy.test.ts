@@ -33,6 +33,10 @@ describe('retry-policy helpers', () => {
       expect(resolveRetryConfig({ maxRetryCount: 0 }).maxRetryCount).toBe(0);
     });
 
+    it('allows a decimal exponentialBackoff greater than 0', () => {
+      expect(resolveRetryConfig({ exponentialBackoff: 1.5 }).exponentialBackoff).toBe(1.5);
+    });
+
     it('rejects non-finite or out-of-range numbers', () => {
       expect(() => resolveRetryConfig({ maxRetryCount: Number.NaN }))
         .toThrow('Invalid configuration: "maxRetryCount" must be a non-negative integer');

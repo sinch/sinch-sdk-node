@@ -369,8 +369,8 @@ When an API call or OAuth token request returns HTTP 429 (Too Many Requests), th
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `retryPolicy` | `RetryPolicy` | `DEFAULT` | `DEFAULT`: honor `Retry-After` when present, otherwise exponential backoff. `RETRY_AFTER`: retry only when a usable `Retry-After` header is present. `BACKOFF`: ignore `Retry-After` and use full-jitter exponential backoff. `NONE`: disable automatic retries. |
-| `maxRetryCount` | `number` | `3` | Maximum retries after the first attempt before the error is surfaced to the caller. |
-| `exponentialBackoff` | `number` | `4` | Growth factor for the backoff ceiling (`1000ms * exponentialBackoff^attempt`). The wait is a random value between 0 and that ceiling. |
+| `maxRetryCount` | `number` | `3` | Maximum retries after the first attempt before the error is surfaced to the caller. Must be a non-negative integer (`0` is allowed; decimals are rejected). |
+| `exponentialBackoff` | `number` | `4` | Growth factor for the backoff ceiling (`1000ms * exponentialBackoff^attempt`). The wait is a random value between 0 and that ceiling. Must be a positive number (`> 0`; decimals are allowed). |
 
 `Retry-After` may be a delay in seconds or an HTTP-date (RFC 7231). A small jitter (0–250 ms) is added so concurrent clients do not retry in lockstep. Invalid values are rejected.
 
@@ -402,9 +402,12 @@ const sinch = new SinchClient({
 
 `SinchClient` accepts optional transport-level settings on the same parameters object as credentials. They apply to product API calls and to OAuth token fetches.
 
-### Timeout
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `timeoutSeconds` | `number` | `60` | HTTP I/O timeout in seconds. Pass `0` to disable the timeout. Must be a non-negative number (`0` is allowed; negative values are rejected). |
+| `useSinchAuth` | `boolean` | `true` | When `true`, OAuth-capable APIs fetch a Sinch access token. Set `false` to skip that plugin and supply your own `Authorization` header through `requestPlugins`. In that mode only `projectId` is required. |
 
-`timeoutSeconds` is the HTTP I/O timeout. The default is `60`. Pass `0` to disable the timeout. Negative values are rejected.
+### Timeout
 
 ```typescript
 import { SinchClient } from '@sinch/sdk-core';
@@ -416,8 +419,6 @@ const sinch = new SinchClient({
 ```
 
 ### Disable Sinch OAuth
-
-By default (`useSinchAuth: true`), OAuth-capable APIs fetch a Sinch access token. Set `useSinchAuth: false` to skip that plugin and supply your own `Authorization` header through `requestPlugins`. In that mode only `projectId` is required.
 
 ```typescript
 import { SinchClient } from '@sinch/sdk-core';
