@@ -6,25 +6,11 @@ import { OAuth2Api } from './oauth2-api';
 import { BasicAuthenticationRequest } from '../basicAuthentication';
 import { ApiFetchClient } from '../../client/api-fetch-client';
 import { AUTH_HOSTNAME } from '../../domain';
-import { RequestFailedError } from '../../api/api-errors';
+import { WithRetryPolicy } from '../../domain';
 import { Logger } from '../../logger';
+import { resolveRetryConfig } from '../../client/retry-policy';
 
 const EXPIRY_SAFETY_MARGIN_SEC = 60;
-
-/**
- * Token-fetch 429 backoff. ZAP is a token bucket: capacity 30, refill 10/s,
- * no `Retry-After` header. With N SinchClient instances cold-starting
- * concurrently, the first 30 succeed and the rest get 429s; this backoff
- * absorbs that overflow silently.
- *
- * Full-jitter exponential backoff: each retry waits a uniform sample from
- * [0, ceiling], where ceiling grows by RATE_LIMIT_RETRY_GROWTH each attempt.
- * Jitter is necessary and essential: without it, multiple workers' retries
- * collide at the same wall-clock instant and re-trigger the rate limit.
- */
-const MAX_RATE_LIMIT_RETRIES = 3;
-const RATE_LIMIT_RETRY_BASE_MS = 1_000;
-const RATE_LIMIT_RETRY_GROWTH = 4;
 
 /** @internal */
 export class Oauth2TokenRequest implements RequestPlugin {
@@ -45,6 +31,7 @@ export class Oauth2TokenRequest implements RequestPlugin {
     authenticationUrl?: string,
     logger?: Logger | null,
     timeoutSeconds?: number,
+    retryPolicy?: WithRetryPolicy,
   ) {
     const basicAuthenticationPlugin = new BasicAuthenticationRequest(
       clientId,
@@ -53,11 +40,17 @@ export class Oauth2TokenRequest implements RequestPlugin {
     if (!authenticationUrl) {
       authenticationUrl = AUTH_HOSTNAME;
     }
+    const retry = resolveRetryConfig(retryPolicy);
+    // Token-fetch retries are handled by ApiFetchClient using the same
+    // policy as product API calls (Retry-After + full-jitter backoff).
     this.apiClient = new ApiFetchClient({
       hostname: authenticationUrl,
       requestPlugins: [basicAuthenticationPlugin],
       logger,
       timeoutSeconds,
+      retryPolicy: retry.retryPolicy,
+      maxRetryCount: retry.maxRetryCount,
+      exponentialBackoff: retry.exponentialBackoff,
     });
   }
 
@@ -82,38 +75,24 @@ export class Oauth2TokenRequest implements RequestPlugin {
 
   private async fetchNewToken(): Promise<{ [key: string]: string }> {
     const oauth2Api = new OAuth2Api(this.apiClient);
-    const response = await this.callAuthWithRateLimitRetry(oauth2Api);
-    if (!response.access_token) {
-      this.token = undefined;
-      throw new Error(
-        'The authentication server did not return an access_token. Response keys: ['
-          + Object.keys(response).join(', ') + ']',
-      );
-    }
-    this.token = {
-      value: response.access_token,
-      status: TokenStatus.VALID,
-      exp: decodeJwtExp(response.access_token),
-    };
-    return this.buildAuthorizationHeader();
-  }
-
-  /**
-   * Call the auth endpoint, retrying only on 429 with full-jitter backoff.
-   * Other failures (network, 5xx, malformed response) propagate immediately
-   */
-  private async callAuthWithRateLimitRetry(oauth2Api: OAuth2Api) {
-    for (let attempt = 0; ; attempt++) {
-      try {
-        return await oauth2Api.postAccessToken();
-      } catch (e) {
-        if (attempt < MAX_RATE_LIMIT_RETRIES && isRateLimit(e)) {
-          await sleep(computeRateLimitBackoffMs(e, attempt));
-          continue;
-        }
+    try {
+      const response = await oauth2Api.postAccessToken();
+      if (!response.access_token) {
         this.token = undefined;
-        throw e;
+        throw new Error(
+          'The authentication server did not return an access_token. Response keys: ['
+            + Object.keys(response).join(', ') + ']',
+        );
       }
+      this.token = {
+        value: response.access_token,
+        status: TokenStatus.VALID,
+        exp: decodeJwtExp(response.access_token),
+      };
+      return this.buildAuthorizationHeader();
+    } catch (e) {
+      this.token = undefined;
+      throw e;
     }
   }
 
@@ -167,45 +146,6 @@ enum TokenStatus {
   INVALID,
   VALID,
 }
-
-const sleep = (ms: number): Promise<void> =>
-  new Promise((resolve) => setTimeout(resolve, ms));
-
-const isRateLimit = (error: unknown): error is RequestFailedError<unknown> =>
-  error instanceof RequestFailedError && error.statusCode === 429;
-
-/**
- * Backoff for a rate-limit retry. Honors `Retry-After` if the server sent one
- * (RFC 7231: delta-seconds or HTTP-date); otherwise full-jitter exponential.
- * Sinch prod doesn't send Retry-After today, so the exponential path is what
- * actually runs there — but the Retry-After path works for any third-party OAuth2
- * endpoint the SDK is pointed at.
- */
-const computeRateLimitBackoffMs = (error: RequestFailedError<unknown>, attempt: number): number => {
-  const fromHeader = parseRetryAfterMs(error.responseHeaders?.['retry-after']);
-  if (fromHeader !== undefined) {
-    // Add a sliver of jitter on top so concurrent SinchClient instances don't all
-    // wake at the same millisecond and re-collide at the auth gateway.
-    return fromHeader + Math.floor(Math.random() * 250);
-  }
-  const ceilingMs = RATE_LIMIT_RETRY_BASE_MS * Math.pow(RATE_LIMIT_RETRY_GROWTH, attempt);
-  return Math.floor(Math.random() * ceilingMs);
-};
-
-const parseRetryAfterMs = (value: string | undefined): number | undefined => {
-  if (!value) {
-    return undefined;
-  }
-  const asNumber = Number(value);
-  if (!Number.isNaN(asNumber) && asNumber >= 0) {
-    return Math.floor(asNumber * 1000);
-  }
-  const asDate = Date.parse(value);
-  if (!Number.isNaN(asDate)) {
-    return Math.max(0, asDate - Date.now());
-  }
-  return undefined;
-};
 
 /**
  * Decode the `exp` claim from a JWT without verifying the signature.

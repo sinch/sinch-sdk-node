@@ -19,6 +19,7 @@ For more information on the SDK, refer to the dedicated [Node SDK documentation 
 - [Supported APIs](#supported-apis)
 - [Getting started](#getting-started)
 - [Logging](#logging)
+- [Retry configuration](#retry-configuration)
 - [Transport settings](#transport-settings)
 - [Handling exceptions](#handling-exceptions)
 - [Third-party dependencies](#third-party-dependencies)
@@ -361,13 +362,52 @@ The SDK supports configurable logging through an optional `logger` property on `
 
 For a runnable example using Winston, see [examples/snippets/sdk-client/logger.js](./examples/snippets/sdk-client/logger.js).
 
+## Retry configuration
+
+When an API call or OAuth token request returns HTTP 429 (Too Many Requests), the SDK retries automatically. Configure this on `SinchClient`; the same settings apply to product API calls and token fetches.
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `retryPolicy` | `RetryPolicy` | `DEFAULT` | `DEFAULT`: honor `Retry-After` when present, otherwise exponential backoff. `RETRY_AFTER`: retry only when a usable `Retry-After` header is present. `BACKOFF`: ignore `Retry-After` and use full-jitter exponential backoff. `NONE`: disable automatic retries. |
+| `maxRetryCount` | `number` | `3` | Maximum retries after the first attempt before the error is surfaced to the caller. Must be a non-negative integer (`0` is allowed; decimals are rejected). |
+| `exponentialBackoff` | `number` | `4` | Growth factor for the backoff ceiling (`1000ms * exponentialBackoff^attempt`). The wait is a random value between 0 and that ceiling. Must be a positive number (`> 0`; decimals are allowed). |
+
+`Retry-After` may be a delay in seconds or an HTTP-date (RFC 7231). A small jitter (0–250 ms) is added so concurrent clients do not retry in lockstep. Invalid values are rejected.
+
+### Retry settings
+
+```typescript
+import { SinchClient, RetryPolicy } from '@sinch/sdk-core';
+
+const sinch = new SinchClient({
+  ...,
+  retryPolicy: RetryPolicy.BACKOFF,
+  maxRetryCount: 5,
+  exponentialBackoff: 2,
+});
+```
+
+### Disable Retry Policy
+
+To disable automatic retries (for example when an outer HTTP layer already honors `Retry-After`):
+
+```typescript
+const sinch = new SinchClient({
+  ...,
+  retryPolicy: RetryPolicy.NONE,
+});
+```
+
 ## Transport settings
 
 `SinchClient` accepts optional transport-level settings on the same parameters object as credentials. They apply to product API calls and to OAuth token fetches.
 
-### Timeout
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `timeoutSeconds` | `number` | `60` | HTTP I/O timeout in seconds. Pass `0` to disable the timeout. Must be a non-negative number (`0` is allowed; negative values are rejected). |
+| `useSinchAuth` | `boolean` | `true` | When `true`, OAuth-capable APIs fetch a Sinch access token. Set `false` to skip that plugin and supply your own `Authorization` header through `requestPlugins`. In that mode only `projectId` is required. |
 
-`timeoutSeconds` is the HTTP I/O timeout. The default is `60`. Pass `0` to disable the timeout. Negative values are rejected.
+### Timeout
 
 ```typescript
 import { SinchClient } from '@sinch/sdk-core';
@@ -379,8 +419,6 @@ const sinch = new SinchClient({
 ```
 
 ### Disable Sinch OAuth
-
-By default (`useSinchAuth: true`), OAuth-capable APIs fetch a Sinch access token. Set `useSinchAuth: false` to skip that plugin and supply your own `Authorization` header through `requestPlugins`. In that mode only `projectId` is required.
 
 ```typescript
 import { SinchClient } from '@sinch/sdk-core';

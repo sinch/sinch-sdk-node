@@ -1,6 +1,6 @@
 import { RequestPlugin } from '../plugins/core/request-plugin';
 import { ResponsePlugin } from '../plugins/core/response-plugin';
-import { WithLogger } from '../domain';
+import { WithLogger, WithRetryPolicy } from '../domain';
 
 interface BaseApiClientOptions {
   /**
@@ -38,4 +38,4 @@ interface BaseApiClientOptions {
 }
 
 /** @internal */
-export interface ApiClientOptions extends Partial<BaseApiClientOptions>, WithLogger {}
+export interface ApiClientOptions extends Partial<BaseApiClientOptions>, WithLogger, WithRetryPolicy {}

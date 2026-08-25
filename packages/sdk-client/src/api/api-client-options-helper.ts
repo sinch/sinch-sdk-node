@@ -5,6 +5,7 @@ import {
   SinchClientParameters,
   TransportSettings,
   WithLogger,
+  WithRetryPolicy,
 } from '../domain';
 import { ApiClientOptions } from './api-client-options';
 import {
@@ -16,18 +17,40 @@ import {
 } from '../plugins';
 import { RequestPlugin } from '../plugins/core/request-plugin';
 import { resolveLogger } from '../logger';
+import { resolveRetryConfig } from '../client/retry-policy';
 import type { Logger } from '../logger';
 
 const resolveParamsLogger = (params: SinchClientParameters) => resolveLogger(params.logger);
+
+const applyRetryConfig = (
+  apiClientOptions: ApiClientOptions,
+  params: WithRetryPolicy,
+): void => {
+  const retry = resolveRetryConfig(params);
+  apiClientOptions.retryPolicy = retry.retryPolicy;
+  apiClientOptions.maxRetryCount = retry.maxRetryCount;
+  apiClientOptions.exponentialBackoff = retry.exponentialBackoff;
+};
 
 const getAuthPlugins = (
   params: SinchClientParameters,
   logger: Logger,
   timeoutSeconds: number,
-): RequestPlugin[] =>
-  (params.useSinchAuth ?? true)
-    ? [new Oauth2TokenRequest(params.keyId!, params.keySecret!, params.authHostname, logger, timeoutSeconds)]
-    : [];
+): RequestPlugin[] => {
+  if (!(params.useSinchAuth ?? true)) {
+    return [];
+  }
+  return [
+    new Oauth2TokenRequest(
+      params.keyId!,
+      params.keySecret!,
+      params.authHostname,
+      logger,
+      timeoutSeconds,
+      params,
+    ),
+  ];
+};
 
 const assertOAuth2Credentials = (params: SinchClientParameters, apiName: string): void => {
   const useSinchAuth = params.useSinchAuth ?? true;
@@ -52,13 +75,14 @@ export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiNa
     logger,
     timeoutSeconds,
   };
+  applyRetryConfig(apiClientOptions, params);
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
 };
 
 /** @internal @deprecated */
 export const buildMailgunApiClientOptions = (
-  params: Partial<MailgunCredentials & ApiPlugins & WithLogger & TransportSettings>,
+  params: Partial<MailgunCredentials & ApiPlugins & WithLogger & WithRetryPolicy & TransportSettings>,
 ): ApiClientOptions => {
   if (!params.mailgunApiKey) {
     throw new Error('Invalid configuration for the Mailgun API: the "mailgunApiKey" must be provided');
@@ -71,6 +95,7 @@ export const buildMailgunApiClientOptions = (
     logger,
     timeoutSeconds: resolveTimeoutSeconds(params.timeoutSeconds),
   };
+  applyRetryConfig(apiClientOptions, params);
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
 };
@@ -91,6 +116,7 @@ export const buildApplicationSignedApiClientOptions = (
     logger,
     timeoutSeconds: resolveTimeoutSeconds(params.timeoutSeconds),
   };
+  applyRetryConfig(apiClientOptions, params);
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
 };
@@ -126,6 +152,7 @@ export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClien
   if (!apiClientOptions) {
     throw new Error('Invalid parameters for the SMS API: check your configuration');
   }
+  applyRetryConfig(apiClientOptions, params);
   addPlugins(apiClientOptions, params);
   return apiClientOptions;
 };

@@ -10,6 +10,7 @@ jest.mock('node-fetch', () => {
 
 import fetch, { Headers, Response } from 'node-fetch';
 import { Oauth2TokenRequest } from '../../../src/plugins/oauth2/oauth2-token.request';
+import { SupportedRetryPolicy } from '../../../src/domain';
 
 const mockedFetch = fetch as unknown as jest.Mock;
 
@@ -381,6 +382,32 @@ describe('Oauth2TokenRequest - concurrent token refresh', () => {
       for (const r of results) {
         expect(r.headers.get('Authorization')).toBe('Bearer shared-retry');
       }
+    });
+
+    it('does not retry when retryPolicy is NONE', async () => {
+      const noRetryPlugin = new Oauth2TokenRequest(
+        'test-key-id',
+        'test-key-secret',
+        'https://auth.test.com',
+        undefined,
+        undefined,
+        { retryPolicy: SupportedRetryPolicy.NONE },
+      );
+      let calls = 0;
+      mockedFetch.mockImplementation(async (url: string) => {
+        if (!url.includes('/oauth2/token')) {
+          return new Response('Not Found', { status: 404 });
+        }
+        calls++;
+        return make429();
+      });
+
+      const opts = { method: 'GET', headers: new Headers(), hostname: 'https://api.example.com' };
+      await expect(
+        noRetryPlugin.load().transform({ ...opts, headers: new Headers() }),
+      ).rejects.toMatchObject({ statusCode: 429 });
+
+      expect(calls).toBe(1);
     });
   });
 

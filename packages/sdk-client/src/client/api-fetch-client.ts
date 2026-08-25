@@ -28,6 +28,13 @@ import {
   createNextPageMethod,
   hasMore,
 } from './api-client-pagination-helper';
+import {
+  computeRateLimitBackoffMs,
+  parseRetryAfterMs,
+  resolveRetryConfig,
+  shouldRetryRateLimit,
+  sleep,
+} from './retry-policy';
 
 /**
  * Context for response processing
@@ -60,10 +67,14 @@ export class ApiFetchClient extends ApiClient {
    */
   constructor(options: ApiClientOptions) {
     const logger = resolveLogger(options.logger);
+    const retry = resolveRetryConfig(options);
     const resolvedOptions = {
       ...options,
       logger,
       timeoutSeconds: resolveTimeoutSeconds(options.timeoutSeconds),
+      retryPolicy: retry.retryPolicy,
+      maxRetryCount: retry.maxRetryCount,
+      exponentialBackoff: retry.exponentialBackoff,
     };
     super({
       ...resolvedOptions,
@@ -194,19 +205,22 @@ export class ApiFetchClient extends ApiClient {
   }
 
   /**
-   * Handle fetch request with token refresh mechanism
+   * Handle fetch request with token refresh and retry.
    * @param {ApiCallParameters} apiCallParameters
    * @param {ErrorContext} errorContext
    */
   private async sinchFetch(apiCallParameters: ApiCallParameters, errorContext: ErrorContext) {
+    const retryConfig = resolveRetryConfig(this.apiClientOptions);
     let response = await fetch(apiCallParameters.url, apiCallParameters.requestOptions);
+    let requestOptions = apiCallParameters.requestOptions;
 
     if (this.isTokenExpired(response)) {
       // Capture the JWT used by the failing request so the OAuth2 plugin can
       // refuse to clear a cached token that has since been refreshed by another caller.
-      const failingAuth = apiCallParameters.requestOptions.headers.get('Authorization') || '';
+      const failingAuth = requestOptions.headers.get('Authorization') || '';
       const failingJwt = failingAuth.startsWith('Bearer ') ? failingAuth.slice('Bearer '.length) : undefined;
-      const requestOptions = await manageExpiredToken(
+      this.discardResponseBody(response);
+      requestOptions = await manageExpiredToken(
         apiCallParameters,
         errorContext,
         this.apiClientOptions.requestPlugins,
@@ -214,7 +228,27 @@ export class ApiFetchClient extends ApiClient {
       response = await fetch(apiCallParameters.url, requestOptions);
     }
 
+    for (let attempt = 0; ; attempt++) {
+      const retryAfterMs = parseRetryAfterMs(response.headers.get('retry-after'));
+      if (!shouldRetryRateLimit(response.status, attempt, retryConfig, retryAfterMs)) {
+        break;
+      }
+      await sleep(computeRateLimitBackoffMs(attempt, retryConfig, retryAfterMs));
+      this.discardResponseBody(response);
+      response = await fetch(apiCallParameters.url, requestOptions);
+    }
+
     return response;
+  }
+
+  /**
+   * Release the unused response stream so sockets can be reused.
+   */
+  private discardResponseBody(response: Response): void {
+    const body = response.body as { destroy?: () => void } | null | undefined;
+    if (body && typeof body.destroy === 'function') {
+      body.destroy();
+    }
   }
 
   private isTokenExpired(response: Response): boolean {
