@@ -16,7 +16,10 @@ export class SinchClient {
   public readonly conversation: ConversationService;
   /** Fax API service (OAuth2: `projectId`, `keyId`, `keySecret`). */
   public readonly fax: FaxService;
-  /** Elastic SIP Trunking API service (OAuth2: `projectId`, `keyId`, `keySecret`). */
+  /**
+   * Elastic SIP Trunking API service (OAuth2: `projectId`, `keyId`, `keySecret`).
+   * @deprecated Elastic SIP Trunking support will be removed in version 2 of the SDK.
+   */
   public readonly elasticSipTrunking: ElasticSipTrunkingService;
   /** Numbers API service (OAuth2: `projectId`, `keyId`, `keySecret`). */
   public readonly numbers: NumbersService;

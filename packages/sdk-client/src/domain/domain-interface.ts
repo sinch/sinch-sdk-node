@@ -75,7 +75,7 @@ export interface ApiHostname {
   conversationHostname?: string;
   /** Override the hostname for the Conversation Templates API - Note the regions become ineffective */
   conversationTemplatesHostname?: string;
-  /** Override the hostname for the Elastic SIP Trunking API */
+  /** @deprecated Elastic SIP Trunking support will be removed in version 2 of the SDK. Override the hostname for the Elastic SIP Trunking API */
   elasticSipTrunkingHostname?: string;
   /** Override the hostname for the Fax API */
   faxHostname?: string;

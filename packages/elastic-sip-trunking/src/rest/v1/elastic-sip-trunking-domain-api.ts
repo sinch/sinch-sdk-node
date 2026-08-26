@@ -5,6 +5,10 @@ import {
 } from '@sinch/sdk-client';
 import { LazyElasticSipTrunkingApiClient } from './elastic-sip-trunking-service';
 
+/**
+ * Base class for Elastic SIP Trunking API clients.
+ * @deprecated Elastic SIP Trunking support will be removed in version 2 of the SDK.
+ */
 export class ElasticSipTrunkingDomainApi implements Api {
 
   /** @internal */

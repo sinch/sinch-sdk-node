@@ -1,5 +1,7 @@
 # Sinch Elastic SIP Trunking SDK for Node.js
 
+> **Deprecation notice:** Elastic SIP Trunking support is deprecated and will be removed in version 2 of the SDK. This package remains available on 1.x but will not be included in version 2.
+
 This package contains the Sinch Elastic SIP Trunking SDK for Node.js for use with [Sinch APIs](https://developers.sinch.com/). To use it, you will need a Sinch account. Please [sign up](https://dashboard.sinch.com/signup) or [log in](https://dashboard.sinch.com/login) if you already have one.
 
 ## Installation

@@ -281,6 +281,8 @@ yarn run numbers:regions:list
 
 ### Elastic SIP Trunk
 
+> **Warning:** Elastic SIP Trunking support is deprecated and will be removed in version 2 of the SDK.
+
 | Service             | Sample application name and location                                                                                                   | Required parameters           |
 |---------------------|----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
 | SIP Trunks          | [./src/elastic-sip-trunking/sip-trunks/create.ts](./src/elastic-sip-trunking/sip-trunks/create.ts)                                     |                               |

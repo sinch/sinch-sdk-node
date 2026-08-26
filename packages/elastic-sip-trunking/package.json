@@ -1,7 +1,7 @@
 {
   "name": "@sinch/elastic-sip-trunking",
   "version": "1.5.0",
-  "description": "Sinch Elastic SIP Trunking API",
+  "description": "Sinch Elastic SIP Trunking API (deprecated; will be removed in SDK version 2)",
   "homepage": "",
   "repository": {
     "type": "git"

@@ -1,3 +1,6 @@
+## Version 1.6.0
+- [Deprecation] Elastic SIP Trunking (`elasticSipTrunking`, `@sinch/elastic-sip-trunking`) is deprecated and will be removed in version 2 of the SDK.
+
 ## Version 1.5.0
 - **Breaking:** Domain packages no longer re-export `@sinch/sdk-client`. Import SDK client types and helpers from `@sinch/sdk-client` or `@sinch/sdk-core` instead.
 - `@sinch/sdk-core` now explicitly re-exports `@sinch/sdk-client` as the single umbrella entry point.
