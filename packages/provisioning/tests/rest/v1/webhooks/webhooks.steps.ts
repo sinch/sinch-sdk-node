@@ -1,12 +1,12 @@
 import { Given, Then, When } from '@cucumber/cucumber';
 import * as assert from 'assert';
 import { PageResult } from '@sinch/sdk-client';
-import { Provisioning, ProvisioningService, WebhooksApi } from '../../../../src';
+import { Provisioning, ProvisioningService, ProvisioningWebhooksApi } from '../../../../src';
 import { mockserverHosts } from '../../../e2e/hosts';
 
 const PROJECT_ID = 'tinyfrog-jump-high-over-lilypadbasin';
 
-let webhooksApi: WebhooksApi;
+let webhooksApi: ProvisioningWebhooksApi;
 let listResponse: PageResult<Provisioning.Webhook>;
 let webhooksList: Provisioning.Webhook[];
 let pagesIteration: number;
