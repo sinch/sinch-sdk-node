@@ -1,8 +1,5 @@
 import { RequestPlugin, ApiTokenRequest, SinchClientParameters } from '@sinch/sdk-client';
-import { ProvisioningService } from '../../../src';
-import { RcsAccountsApi } from '../../../src/rest/v1/rcs/accounts';
-import { RcsApi } from '../../../src/rest/v1/rcs';
-import { WebhooksApi } from '../../../src/rest/v1/webhooks';
+import { ProvisioningService, RcsAccountsApi, RcsApi, WebhooksApi } from '../../../src';
 
 describe('Provisioning Service', () => {
 

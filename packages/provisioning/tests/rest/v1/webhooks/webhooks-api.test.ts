@@ -2,8 +2,9 @@ import { SinchClientParameters } from '@sinch/sdk-client';
 import {
   Provisioning,
   LazyProvisioningApiClient,
+  WebhooksApi,
+  WebhooksApiFixture,
 } from '../../../../src';
-import { WebhooksApi, WebhooksApiFixture } from '../../../../src/rest/v1/webhooks';
 
 describe('WebhooksApi', () => {
   let webhooksApi: WebhooksApi;

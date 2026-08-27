@@ -1,8 +1,7 @@
 import { Given, Then, When } from '@cucumber/cucumber';
 import * as assert from 'assert';
 import { PageResult } from '@sinch/sdk-client';
-import { Provisioning, ProvisioningService } from '../../../../../src';
-import { RcsAccountsApi } from '../../../../../src/rest/v1/rcs/accounts';
+import { Provisioning, ProvisioningService, RcsAccountsApi } from '../../../../../src';
 import { mockserverHosts } from '../../../../e2e/hosts';
 
 const PROJECT_ID = 'tinyfrog-jump-high-over-lilypadbasin';
