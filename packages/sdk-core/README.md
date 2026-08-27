@@ -347,12 +347,10 @@ Here is the list of the Sinch API and there level of support by the Node.js SDK:
 |------------------------|-----------------------------------|:------:|
 | Messaging              | SMS API                           |   ✅    |
 |                        | Conversation API                  |   ✅    |
-|                        | Fax API `(beta)`                  |   ✅    |
+|                        | Fax API                           |   ✅    |
 | Voice and Video        | Voice API                         |   ✅    |
 |                        | Elastic SIP Trunking API `(deprecated)` |   ✅    |
 | Numbers & Connectivity | Numbers API                       |   ✅    |
 | Verification           | Verification API                  |   ✅    |
-
-> Note: `(beta)` means that the underlying API product is still in beta version and requires specific actions for the end user to be able to use it. Please check on the dashboard or with your account manager.
 
 > Note: `(deprecated)` means the API will be removed in version 2 of the SDK. Elastic SIP Trunking remains available on 1.x.
