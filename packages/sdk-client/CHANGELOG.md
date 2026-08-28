@@ -1,7 +1,7 @@
 ## Version 1.6.0
 - [Feature] Add transport-level settings on `SinchClientParameters` (`TransportSettings`).
 - [Deprecation] Mailgun-related settings are deprecated (`MailgunCredentials`, `MailgunRegion`, `SupportedMailgunRegion`, `MAILGUN_HOSTNAME`, `mailgunHostname`, and `buildMailgunApiClientOptions`). Mailgun was never released as a Node SDK product; these settings will be removed in a future major version.
-- [Deprecation] `elasticSipTrunkingHostname` and `ELASTIC_SIP_TRUNKING_HOSTNAME` are deprecated. Elastic SIP Trunking support will be removed in version 2 of the SDK.
+- [Deprecation] `elasticSipTrunkingHostname` is deprecated. Elastic SIP Trunking support will be removed in version 2 of the SDK.
 
 ## Version 1.5.0
 - [Feature] Configurable HTTP 429 retries (`retryPolicy`, `maxRetryCount`, `exponentialBackoff` on `SinchClientParameters`) via `WithRetryPolicy` param
