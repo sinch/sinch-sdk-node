@@ -1,3 +1,6 @@
+## Version 1.6.0
+- [Deprecation] Elastic SIP Trunking support is deprecated and will be removed in version 2 of the SDK.
+
 ## Version 1.5.0
 - **Breaking:** No longer re-exports `@sinch/sdk-client`. Import SDK client types and helpers from `@sinch/sdk-client` or `@sinch/sdk-core` instead.
 - [Tech] Update dependency `@sinch/sdk-client` to `1.5.0` — configurable SDK logging

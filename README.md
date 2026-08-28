@@ -68,6 +68,8 @@ yarn add @sinch/sdk-core
 
 > **Note:** The SMS API is end-of-sale. New integrations should use the [Conversation API](https://developers.sinch.com/docs/conversation/) instead, which supports SMS and many other channels.
 
+> **Note:** Elastic SIP Trunking support is deprecated and will be removed in version 2 of the SDK.
+
 ## Getting started
 
 The SDK is split across npm packages. Import `SinchClient` from [`@sinch/sdk-core`](./packages/sdk-core), which bundles all API packages. Each API lives in its own package, and all packages share the HTTP layer from [`@sinch/sdk-client`](./packages/sdk-client).
@@ -273,6 +275,8 @@ const event = callbackWebhooks.parseEvent(request.body);
 You can find a complete example in [examples/webhooks](./examples/webhooks).
 
 ### Elastic SIP Trunking API
+
+> **Warning:** Elastic SIP Trunking support is deprecated and will be removed in version 2 of the SDK.
 
 The Elastic SIP Trunking API needs no extra parameters, use the [common client](#client-initialization) shown above.
 

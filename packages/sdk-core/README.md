@@ -93,7 +93,7 @@ import { SinchClient } from '@sinch/sdk-core';
 For convenience, importing `@sinch/sdk-core` is sufficient to be able to access to all the APIs' classes and interfaces. In case you need to use a single API, they are also packaged as single NPM packages:
  - SMS: [`@sinch/sms`](https://www.npmjs.com/package/@sinch/sms)
  - Conversation: [`@sinch/conversation`](https://www.npmjs.com/package/@sinch/conversation)
- - Elastic SIP Trunking: [`@sinch/elastic-sip-trunking`](https://www.npmjs.com/package/@sinch/elastic-sip-trunking)
+ - Elastic SIP Trunking (deprecated; removed in version 2): [`@sinch/elastic-sip-trunking`](https://www.npmjs.com/package/@sinch/elastic-sip-trunking)
  - Fax: [`@sinch/fax`](https://www.npmjs.com/package/@sinch/fax)
  - Numbers: [`@sinch/numbers`](https://www.npmjs.com/package/@sinch/numbers)
  - Number Lookup: [`@sinch/number-lookup`](https://www.npmjs.com/package/@sinch/number-lookup)
@@ -103,7 +103,7 @@ For convenience, importing `@sinch/sdk-core` is sufficient to be able to access 
 All the interfaces are exported with an alias, equal to the API name: 
  - `Sms` for the SMS API
  - `Conversation` for the Conversation API
- - `ElasticSipTrunking` for the Elastic SIP Trunking API
+ - `ElasticSipTrunking` for the Elastic SIP Trunking API (deprecated; removed in version 2)
  - `Fax` for the Fax API
  - `Numbers` for the Numbers API
  - `NumberLookup` for the Number Lookup API
@@ -182,7 +182,7 @@ Each API exposes dedicated parameters to override the default hostname and regio
 | SMS                   | smsHostname                        | smsRegion          |
 | Conversation          | conversationHostname               | conversationRegion |
 |                       | conversationTemplatesHostname      | conversationRegion |
-| Elastic SIP Trunking  | elasticSipTrunkingHostname         | N/A                |
+| Elastic SIP Trunking (deprecated) | elasticSipTrunkingHostname | N/A                |
 | Fax                   | faxHostname                        | faxRegion          |
 | Voice                 | voiceHostname                      | voiceRegion        |
 |                       | voiceApplicationManagementHostname | N/A                |
@@ -347,10 +347,10 @@ Here is the list of the Sinch API and there level of support by the Node.js SDK:
 |------------------------|-----------------------------------|:------:|
 | Messaging              | SMS API                           |   ✅    |
 |                        | Conversation API                  |   ✅    |
-|                        | Fax API `(beta)`                  |   ✅    |
+|                        | Fax API                           |   ✅    |
 | Voice and Video        | Voice API                         |   ✅    |
-|                        | Elastic SIP Trunking API `(beta)` |   ✅    |
+|                        | Elastic SIP Trunking API `(deprecated)` |   ✅    |
 | Numbers & Connectivity | Numbers API                       |   ✅    |
 | Verification           | Verification API                  |   ✅    |
 
-> Note: `(beta)` means that the underlying API product is still in beta version and requires specific actions for the end user to be able to use it. Please check on the dashboard or with your account manager.
+> Note: `(deprecated)` means the API will be removed in version 2 of the SDK. Elastic SIP Trunking remains available on 1.x.
