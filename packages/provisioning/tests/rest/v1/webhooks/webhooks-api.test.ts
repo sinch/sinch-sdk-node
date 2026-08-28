@@ -2,23 +2,24 @@ import { SinchClientParameters } from '@sinch/sdk-client';
 import {
   Provisioning,
   LazyProvisioningApiClient,
+  ProvisioningWebhooksApi,
+  ProvisioningWebhooksApiFixture,
 } from '../../../../src';
-import { WebhooksApi, WebhooksApiFixture } from '../../../../src/rest/v1/webhooks';
 
 describe('WebhooksApi', () => {
-  let webhooksApi: WebhooksApi;
-  let fixture: WebhooksApiFixture;
+  let webhooksApi: ProvisioningWebhooksApi;
+  let fixture: ProvisioningWebhooksApiFixture;
   let credentials: SinchClientParameters;
 
   beforeEach(() => {
-    fixture = new WebhooksApiFixture();
+    fixture = new ProvisioningWebhooksApiFixture();
     credentials = {
       projectId: 'PROJECT_ID',
       keyId: 'KEY_ID',
       keySecret: 'KEY_SECRET',
     };
     const lazyClient = new LazyProvisioningApiClient(credentials);
-    webhooksApi = new WebhooksApi(lazyClient);
+    webhooksApi = new ProvisioningWebhooksApi(lazyClient);
   });
 
   describe('create', () => {

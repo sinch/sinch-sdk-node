@@ -2,8 +2,9 @@ import { SinchClientParameters } from '@sinch/sdk-client';
 import {
   Provisioning,
   LazyProvisioningApiClient,
+  RcsAccountsApi,
+  RcsAccountsApiFixture,
 } from '../../../../../src';
-import { RcsAccountsApi, RcsAccountsApiFixture } from '../../../../../src/rest/v1/rcs/accounts';
 
 describe('RcsAccountsApi', () => {
   let accountsApi: RcsAccountsApi;
