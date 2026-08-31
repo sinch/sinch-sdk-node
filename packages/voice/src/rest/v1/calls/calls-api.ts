@@ -6,7 +6,7 @@ import {
   UpdateCallRequestData,
 } from '../../../models';
 import { VoiceDomainApi } from '../voice-domain-api';
-import { LazyVoiceApiClient } from '../voice-service';
+import { LazyVoiceApiClient } from '../lazy-voice-api-client';
 
 export class CallsApi extends VoiceDomainApi {
 

@@ -1,5 +1,13 @@
 import { RequestPlugin, ApiFetchClient, ApiTokenRequest, SinchClientParameters, VoiceRegion } from '@sinch/sdk-client';
-import { ApplicationsApi, CalloutsApi, CallsApi, ConferencesApi, VoiceService } from '../../../src';
+import {
+  ApplicationsApi,
+  CalloutsApi,
+  CallsApi,
+  ConferencesApi,
+  VoiceService,
+  VoiceV2CallsApi,
+  VoiceV2Service,
+} from '../../src';
 
 jest.mock('node-fetch', () => {
   const actual = jest.requireActual('node-fetch');
@@ -45,6 +53,8 @@ describe('Voice Service', () => {
     expect(voiceService.calls).toBeInstanceOf(CallsApi);
     expect(voiceService.conferences).toBeInstanceOf(ConferencesApi);
     expect(voiceService.applications).toBeInstanceOf(ApplicationsApi);
+    expect(voiceService.v2).toBeInstanceOf(VoiceV2Service);
+    expect(voiceService.v2.calls).toBeInstanceOf(VoiceV2CallsApi);
   });
 
   it('should update the API client for all the subdomains', () => {
@@ -134,6 +144,40 @@ describe('Voice Service', () => {
     expect(voiceService.calls.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(voiceService.conferences.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(voiceService.applications.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_APPLICATIONS);
+  });
+
+  it('should use the Voice v2 global hostname by default', () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+    };
+
+    // When
+    const voiceService = new VoiceService(params);
+
+    // Then
+    expect(voiceService.v2.calls.client.apiClientOptions.hostname).toBe('https://voice.api.sinch.com');
+  });
+
+  it('should set a custom hostname for Voice v2 only', () => {
+    // Given
+    const params: SinchClientParameters = {
+      applicationKey: 'APPLICATION_KEY',
+      applicationSecret: 'APPLICATION_SECRET',
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+    };
+    const voiceService = new VoiceService(params);
+
+    // When
+    voiceService.setV2Hostname(CUSTOM_HOSTNAME);
+
+    // Then
+    expect(voiceService.v2.calls.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(voiceService.calls.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
   });
 
   it('should update the default region for all APIs but for application management', () => {
