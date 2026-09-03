@@ -186,6 +186,7 @@ Each API exposes dedicated parameters to override the default hostname and regio
 | Fax                   | faxHostname                        | faxRegion          |
 | Voice                 | voiceHostname                      | voiceRegion        |
 |                       | voiceApplicationManagementHostname | N/A                |
+|                       | voiceV2Hostname                    | N/A                |
 | Numbers               | numbersHostname                    | N/A                |
 | Verification          | verificationHostname               | N/A                |
 

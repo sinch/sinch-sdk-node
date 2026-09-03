@@ -161,6 +161,22 @@ describe('Voice Service', () => {
     expect(voiceService.v2.calls.client.apiClientOptions.hostname).toBe('https://voice.api.sinch.com');
   });
 
+  it('should use voiceV2Hostname from constructor params', () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+      voiceV2Hostname: CUSTOM_HOSTNAME,
+    };
+
+    // When
+    const voiceService = new VoiceService(params);
+
+    // Then
+    expect(voiceService.v2.calls.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+  });
+
   it('should set a custom hostname for Voice v2 only', () => {
     // Given
     const params: SinchClientParameters = {

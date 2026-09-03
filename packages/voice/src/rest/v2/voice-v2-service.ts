@@ -32,8 +32,7 @@ export class LazyVoiceV2ApiClient extends LazyApiClient {
   }
 
   private resolveHostname(): string {
-    const fromParams = (this.sharedConfig as { voiceV2Hostname?: string }).voiceV2Hostname;
-    return this.hostnameOverride ?? fromParams ?? DEFAULT_VOICE_V2_HOSTNAME;
+    return this.hostnameOverride ?? this.sharedConfig.voiceV2Hostname ?? DEFAULT_VOICE_V2_HOSTNAME;
   }
 }
 
@@ -51,9 +50,8 @@ export class VoiceV2Service {
   constructor(params: SinchClientParameters) {
     const resolvedParams = resolveClientParameters(params);
     this.lazyClient = new LazyVoiceV2ApiClient(resolvedParams);
-    const fromParams = (resolvedParams as { voiceV2Hostname?: string }).voiceV2Hostname;
-    if (fromParams) {
-      this.lazyClient.hostnameOverride = fromParams;
+    if (resolvedParams.voiceV2Hostname) {
+      this.lazyClient.hostnameOverride = resolvedParams.voiceV2Hostname;
     }
     this.calls = new CallsApi(this.lazyClient);
   }
