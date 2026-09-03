@@ -1,5 +1,5 @@
 export * from './svaml-command';
-export * from './sinch-event-command';
+export * from './callback-command';
 export * from './sip-sip';
 export * from './recording-options';
 export * from './voice-relay';

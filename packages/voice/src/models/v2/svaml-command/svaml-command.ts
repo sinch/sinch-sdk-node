@@ -7,7 +7,7 @@ import { HangupCommand } from '../hangup-command';
 import { MenuCommand } from '../menu-command';
 import { MessagesCommand } from '../messages-command';
 import { PauseCommand } from '../pause-command';
-import { SinchEventCommand } from '../sinch-event-command';
+import { CallbackCommand } from '../callback-command';
 import { StartRecordingCommand } from '../start-recording-command';
 import { StopMessagesCommand } from '../stop-messages-command';
 import { StopRecordingCommand } from '../stop-recording-command';
@@ -20,7 +20,7 @@ export type SvamlCommand =
   | DialCommand
   | MessagesCommand
   | StopMessagesCommand
-  | SinchEventCommand
+  | CallbackCommand
   | HangupCommand
   | AnswerCommand
   | PauseCommand

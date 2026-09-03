@@ -1,4 +1,4 @@
-export type { CommandEnum as SinchEventCommandCommandEnum } from './sinch-event-command/sinch-event-command';
+export type { CommandEnum as CallbackCommandCommandEnum } from './callback-command/callback-command';
 export type { TransportEnum as SipSipTransportEnum } from './sip-sip/sip-sip';
 export type { TypeEnum as VoiceRelayTypeEnum } from './voice-relay/voice-relay';
 export type { CommandEnum as HangupCommandCommandEnum } from './hangup-command/hangup-command';
