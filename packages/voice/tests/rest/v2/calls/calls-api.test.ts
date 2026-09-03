@@ -121,7 +121,6 @@ describe('VoiceV2CallsApi', () => {
       const expectedResponse: Voice.v2.CallResponse = {
         projectId: '5c5bf2b1-35ae-4825-ab89-457e07bb60e6',
         serviceId: '6e124178-c29d-46a5-943c-5c2ae544aade',
-        sessionId: '01BX5ZZKBKACTAV9WEVGEMMVRB',
         batchId: '01BX5ZZKBKACTAV9WEVGEMMVRC',
       };
 
