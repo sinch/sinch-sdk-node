@@ -1,5 +1,5 @@
-import { RecordingEvents } from '../recording-events';
-import { RecordingOptions } from '../recording-options';
+import { RecordingOptions } from '../../recording-options';
+import { RecordingEvents } from './recording-events';
 
 /**
  * Starts recording the call. This is a non-blocking command — execution continues to the next command in the sequence immediately after recording begins.

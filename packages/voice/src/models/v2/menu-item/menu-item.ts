@@ -1,5 +1,6 @@
 import { MenuPrompt } from '../menu-prompt';
-import { SvamlCommand } from '../svaml-command';
+import { SvamlCommand } from '../svaml-commands';
+
 
 /**
  * Defines a single menu step, including prompts, input handling rules, input-to-command matches, and failure handling.  Each collected input is matched against the values in the `matches` property. If no match succeeds, the `onFail` commands are executed.  If neither `matches` nor `onFail` is defined and the service call behavior is set to `WEBHOOK`, a webhook request is sent including the collected input.

@@ -1,4 +1,4 @@
-import { MenuItem } from '../menu-item';
+import { MenuItem } from '../../menu-item';
 
 /**
  * Defines a set of named menus and executes them starting from startMenu. This is a blocking command — execution waits for the menu to complete before proceeding to the next command.  Each menu item configures prompts, input collection, timeout handling, and repeat behavior.

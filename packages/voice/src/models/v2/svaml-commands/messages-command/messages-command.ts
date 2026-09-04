@@ -1,5 +1,5 @@
-import { Message } from '../message';
-import { MessageEvents } from '../message-events';
+import { Message } from '../../message';
+import { MessageEvents } from './message-events';
 
 /**
  * Plays one or more messages on the call. Multiple messages in the array are played sequentially in order.  This is a non-blocking command — the next command in the sequence executes immediately while messages play in parallel.  Playback outcomes are handled via the `events` property. The `onFinish` event can be used to run a command after all messages complete.

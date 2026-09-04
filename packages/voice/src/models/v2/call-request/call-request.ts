@@ -1,5 +1,5 @@
 import { BatchOptions } from '../batch-options';
-import { SvamlCommand } from '../svaml-command';
+import { SvamlCommand } from '../svaml-commands';
 
 /**
  * Request payload to initiate an outbound call or a batch of outbound call sessions. If parameters are provided a batch of call sessions will be initiated. BatchOptions are only valid in that mode. If not provided, default values of each batch option will be used.

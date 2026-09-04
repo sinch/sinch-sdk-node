@@ -1,6 +1,6 @@
-import { CallDestination } from '../call-destination';
-import { CallEvents } from '../call-events';
-import { CallOrigin } from '../call-origin';
+import { CallDestination } from '../../call-destination';
+import { CallOrigin } from '../../call-origin';
+import { CallEvents } from './call-events';
 
 /**
  * Initiates a new outbound call leg within the current session.  This is a non-blocking command — the next command in the sequence executes immediately while the call is being established in parallel. Call lifecycle events (answer, busy, reject, timeout, hangup, failure) are handled via the `events` property.  The `from` and `to` endpoint types should ideally match. If they differ, the platform attempts to convert the `from` value to be compatible with the `to` type. For example, PSTN supports only E.164 phone numbers, so a SIP address such as `sip:46701234567@acme.se` can be converted to an E.164 number. If the `from` value cannot be converted, it defaults to null (anonymous).
