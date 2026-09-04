@@ -1,13 +1,10 @@
-import { ApiCallParameters } from '../api/api-client';
-import { RequestOptions } from '../plugins/core/request-plugin';
-import { HttpHeaders } from './http-headers';
-import { resolveHttpMethod } from './http-method';
-import { HttpRequest } from './http-request';
+import { ApiCallParameters } from '../../api/api-client';
+import { RequestOptions } from '../../plugins/core/request-plugin';
+import { HttpRequest } from '../http-request';
+import { resolveHttpMethod } from '../http-method';
+import { fromFetchHeaders } from './fetch-http-headers';
 
-/**
- * Split a fully prepared URL into the path URL and the `?query` suffix.
- */
-export const splitUrlAndQuery = (fullUrl: string): { url: string; queryParameters: string | null } => {
+const splitUrlAndQuery = (fullUrl: string): { url: string; queryParameters: string | null } => {
   const queryIndex = fullUrl.indexOf('?');
   if (queryIndex === -1) {
     return { url: fullUrl, queryParameters: null };
@@ -31,7 +28,7 @@ export function toHttpRequest(
     method: resolveHttpMethod(requestOptions.method),
     url,
     queryParameters,
-    headers: HttpHeaders.fromFetchHeaders(requestOptions.headers),
+    headers: fromFetchHeaders(requestOptions.headers),
     content: requestOptions.body ?? null,
   });
 }

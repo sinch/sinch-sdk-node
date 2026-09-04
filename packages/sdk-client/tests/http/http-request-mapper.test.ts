@@ -1,6 +1,7 @@
 import { Headers } from 'node-fetch';
 import { ApiCallParameters } from '../../src/api/api-client';
-import { HttpMethod, splitUrlAndQuery, toHttpRequest } from '../../src/http';
+import { HttpMethod } from '../../src/http';
+import { toHttpRequest } from '../../src/http/fetch';
 
 describe('toHttpRequest', () => {
 
@@ -18,20 +19,7 @@ describe('toHttpRequest', () => {
     operationId: 'ListActiveNumbers',
   });
 
-  it('splits the prepared URL into url and queryParameters', () => {
-    expect(splitUrlAndQuery(
-      'https://numbers.api.sinch.com/v1/projects/P1/activeNumbers?pageSize=5',
-    )).toEqual({
-      url: 'https://numbers.api.sinch.com/v1/projects/P1/activeNumbers',
-      queryParameters: '?pageSize=5',
-    });
-    expect(splitUrlAndQuery('https://example.com/path')).toEqual({
-      url: 'https://example.com/path',
-      queryParameters: null,
-    });
-  });
-
-  it('maps ApiCallParameters onto HttpRequest', () => {
+  it('maps ApiCallParameters onto HttpRequest and splits the prepared URL', () => {
     const request = toHttpRequest(baseParams());
 
     expect(request.method).toBe(HttpMethod.GET);
@@ -40,6 +28,15 @@ describe('toHttpRequest', () => {
     expect(request.headers.get('accept')).toBe('application/json');
     expect(request.headers.get('authorization')).toBe('Bearer token');
     expect(request.content).toBeNull();
+  });
+
+  it('maps a path-only URL with a null query string', () => {
+    const params = baseParams();
+    params.url = 'https://example.com/path';
+    const request = toHttpRequest(params);
+
+    expect(request.url).toBe('https://example.com/path');
+    expect(request.queryParameters).toBeNull();
   });
 
   it('uses rebuilt request options for content and headers', () => {
@@ -65,6 +62,14 @@ describe('toHttpRequest', () => {
       ...params.requestOptions,
       method: 'OPTIONS',
     })).toThrow('Unsupported HTTP method: OPTIONS');
+  });
+
+  it('rejects a missing HTTP method', () => {
+    const params = baseParams();
+    expect(() => toHttpRequest(params, {
+      ...params.requestOptions,
+      method: undefined,
+    })).toThrow('HTTP method is required');
   });
 
 });

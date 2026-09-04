@@ -3,7 +3,7 @@ import { HttpHeaders } from './http-headers';
 import { HttpMethod } from './http-method';
 
 /** @internal */
-export type HttpContent = string | FormData | Buffer | null;
+export type HttpContent = string | FormData | Buffer;
 
 /** @internal */
 export interface HttpRequestParams {
@@ -13,7 +13,7 @@ export interface HttpRequestParams {
   /** Pre-serialized query string including the leading `?`, or null */
   queryParameters?: string | null;
   headers?: HttpHeaders;
-  content?: HttpContent;
+  content?: HttpContent | null;
 }
 
 /**
@@ -25,7 +25,7 @@ export class HttpRequest {
   readonly url: string;
   readonly queryParameters: string | null;
   readonly headers: HttpHeaders;
-  readonly content: HttpContent;
+  readonly content: HttpContent | null;
 
   constructor(params: HttpRequestParams) {
     this.method = params.method;

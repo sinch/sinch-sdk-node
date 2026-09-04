@@ -1,6 +1,14 @@
 import { Response } from 'node-fetch';
-import { FetchHttpContentParser } from '../../src/http';
+import { FetchHttpContentParser } from '../../src/http/fetch';
 import { Readable } from 'stream';
+
+const readStream = async (stream: NodeJS.ReadableStream): Promise<Buffer> => {
+  const chunks: Buffer[] = [];
+  for await (const chunk of stream) {
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+  }
+  return Buffer.concat(chunks);
+};
 
 describe('FetchHttpContentParser', () => {
 
@@ -21,11 +29,11 @@ describe('FetchHttpContentParser', () => {
     await expect(parser.asJson()).resolves.toBeUndefined();
   });
 
-  it('throws when asStream is called after buffered consumption', async () => {
+  it('serves a buffered body as a stream', async () => {
     const parser = new FetchHttpContentParser(new Response('hello', { status: 200 }));
     await parser.asString();
 
-    expect(() => parser.asStream()).toThrow('Response body already consumed as buffered content');
+    await expect(readStream(parser.asStream())).resolves.toEqual(Buffer.from('hello'));
   });
 
   it('throws when buffered helpers are used after asStream', async () => {
@@ -36,6 +44,58 @@ describe('FetchHttpContentParser', () => {
     expect(stream).toBeDefined();
 
     await expect(parser.asString()).rejects.toThrow('Response body already consumed as a stream');
+  });
+
+  it('decodes asString using the content-type charset', async () => {
+    const text = 'café';
+    const parser = new FetchHttpContentParser(
+      new Response(Buffer.from(text, 'latin1'), {
+        status: 200,
+        headers: { 'content-type': 'text/plain; charset=iso-8859-1' },
+      }),
+    );
+
+    await expect(parser.asString()).resolves.toBe(text);
+  });
+
+  it('defaults asString to utf-8 when charset is missing or unknown', async () => {
+    const text = 'hello';
+    const parser = new FetchHttpContentParser(
+      new Response(Buffer.from(text, 'utf-8'), {
+        status: 200,
+        headers: { 'content-type': 'text/plain; charset=unknown-charset' },
+      }),
+    );
+
+    await expect(parser.asString()).resolves.toBe(text);
+  });
+
+  it('does not treat a pdf body as json', async () => {
+    const pdfBytes = Buffer.from('%PDF-1.4 binary \x00\xff content');
+    const parser = new FetchHttpContentParser(
+      new Response(pdfBytes, {
+        status: 200,
+        headers: { 'content-type': 'application/pdf' },
+      }),
+    );
+
+    await expect(parser.asBytes()).resolves.toEqual(pdfBytes);
+    await expect(parser.asJson()).rejects.toThrow(SyntaxError);
+  });
+
+  it('does not treat a multipart body as json', async () => {
+    const multipart = Buffer.from(
+      '--boundary\r\nContent-Disposition: form-data; name="f"\r\n\r\nhi\r\n--boundary--',
+    );
+    const parser = new FetchHttpContentParser(
+      new Response(multipart, {
+        status: 200,
+        headers: { 'content-type': 'multipart/form-data; boundary=boundary' },
+      }),
+    );
+
+    await expect(parser.asBytes()).resolves.toEqual(multipart);
+    await expect(parser.asJson()).rejects.toThrow(SyntaxError);
   });
 
 });

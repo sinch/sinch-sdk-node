@@ -26,9 +26,11 @@ import {
   HttpHeaders,
   HttpRequest,
   HttpResponse,
-  HttpTransport,
-  toHttpRequest,
 } from '../http';
+import {
+  FetchHttpTransport,
+  toHttpRequest,
+} from '../http/fetch';
 import {
   buildPaginationContext,
   calculateNextPage,
@@ -66,7 +68,7 @@ interface PluginContext {
 /** Client to process the call to the API using Fetch API */
 export class ApiFetchClient extends ApiClient {
 
-  private readonly httpTransport: HttpTransport;
+  private readonly httpTransport: FetchHttpTransport;
 
   /**
    * Initialize your API Client instance with the provided configuration options.
@@ -94,7 +96,7 @@ export class ApiFetchClient extends ApiClient {
         ...(resolvedOptions.responsePlugins || []),
       ],
     });
-    this.httpTransport = new HttpTransport();
+    this.httpTransport = new FetchHttpTransport();
   }
 
   /** @inheritdoc */
@@ -136,7 +138,7 @@ export class ApiFetchClient extends ApiClient {
 
       return {
         httpResponse,
-        response: httpResponse.nativeResponse,
+        response: this.httpTransport.getNativeResponse(httpResponse),
         body,
         apiCallParameters,
         errorContext,
@@ -183,7 +185,7 @@ export class ApiFetchClient extends ApiClient {
   private async processFileResponse(context: ResponseContext): Promise<FileBuffer> {
     if (!context.response.ok) {
       throw this.buildFetchError(
-        new Error('No response received'),
+        new Error(`HTTP ${context.httpResponse.status}`),
         context.errorContext,
       );
     }
@@ -201,7 +203,7 @@ export class ApiFetchClient extends ApiClient {
   private async processCSVResponse(context: ResponseContext): Promise<FileData> {
     if (!context.response.ok) {
       throw this.buildFetchError(
-        new Error('No response received'),
+        new Error(`HTTP ${context.httpResponse.status}`),
         context.errorContext,
       );
     }
@@ -237,7 +239,7 @@ export class ApiFetchClient extends ApiClient {
       const failingJwt = failingAuth.startsWith('Bearer ')
         ? failingAuth.slice('Bearer '.length)
         : undefined;
-      this.discardResponseBody(httpResponse);
+      this.httpTransport.release(httpResponse);
       requestOptions = await manageExpiredToken(
         apiCallParameters,
         errorContext,
@@ -253,7 +255,7 @@ export class ApiFetchClient extends ApiClient {
         break;
       }
       await sleep(computeRateLimitBackoffMs(attempt, retryConfig, retryAfterMs));
-      this.discardResponseBody(httpResponse);
+      this.httpTransport.release(httpResponse);
       httpResponse = await this.send(httpRequest, requestOptions.timeout);
     }
 
@@ -262,16 +264,6 @@ export class ApiFetchClient extends ApiClient {
 
   private send(request: HttpRequest, timeout?: number): Promise<HttpResponse> {
     return this.httpTransport.send(request, { timeout });
-  }
-
-  /**
-   * Release the unused response stream so sockets can be reused.
-   */
-  private discardResponseBody(httpResponse: HttpResponse): void {
-    const body = httpResponse.nativeResponse.body as { destroy?: () => void } | null | undefined;
-    if (body && typeof body.destroy === 'function') {
-      body.destroy();
-    }
   }
 
   private isTokenExpired(httpResponse: HttpResponse): boolean {

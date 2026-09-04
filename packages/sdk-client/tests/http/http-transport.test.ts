@@ -10,13 +10,14 @@ jest.mock('node-fetch', () => {
 
 import fetch, { Response } from 'node-fetch';
 import FormData = require('form-data');
-import { HttpHeaders, HttpMethod, HttpRequest, HttpTransport } from '../../src/http';
+import { HttpHeaders, HttpMethod, HttpRequest } from '../../src/http';
+import { FetchHttpTransport } from '../../src/http/fetch';
 
 const mockedFetch = fetch as unknown as jest.Mock;
 
-describe('HttpTransport', () => {
+describe('FetchHttpTransport', () => {
 
-  const transport = new HttpTransport();
+  const transport = new FetchHttpTransport();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -72,6 +73,24 @@ describe('HttpTransport', () => {
     await transport.send(request);
 
     expect(mockedFetch.mock.calls[0][1].body).toBe(formData);
+  });
+
+  it('releases the unused native response body', async () => {
+    const destroy = jest.fn();
+    const native = new Response('', { status: 429 });
+    Object.defineProperty(native, 'body', {
+      value: { destroy },
+      configurable: true,
+    });
+    mockedFetch.mockResolvedValueOnce(native);
+
+    const httpResponse = await transport.send(new HttpRequest({
+      method: HttpMethod.GET,
+      url: 'https://example.com',
+    }));
+    transport.release(httpResponse);
+
+    expect(destroy).toHaveBeenCalledTimes(1);
   });
 
 });
