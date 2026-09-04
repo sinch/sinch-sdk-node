@@ -32,18 +32,23 @@ export class HttpHeaders {
 
   set(name: string, value: string | string[]): this {
     const values = Array.isArray(value) ? [...value] : [value];
-    this.store.set(this.headerKey(name), { originalName: name, values });
+    const key = this.headerKey(name);
+    const existing = this.store.get(key);
+    this.store.set(key, {
+      originalName: existing?.originalName ?? name,
+      values,
+    });
     return this;
   }
 
   append(name: string, value: string | string[]): this {
-    const values = Array.isArray(value) ? value : [value];
+    const values = Array.isArray(value) ? [...value] : [value];
     const key = this.headerKey(name);
     const existing = this.store.get(key);
     if (existing) {
       existing.values.push(...values);
     } else {
-      this.store.set(key, { originalName: name, values: [...values] });
+      this.store.set(key, { originalName: name, values });
     }
     return this;
   }
