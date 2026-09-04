@@ -1,4 +1,4 @@
-export interface StreamStreamStreamOptions {
+export interface StreamOptions {
   /** Defines the version of the stream protocol. */
   version?: number;
   /** Defines the audio codec/format used for the stream audio payload.  Currently, only `PCM` is supported (uncompressed raw audio). Use `sampleRate` to configure the sampling rate for the stream. */

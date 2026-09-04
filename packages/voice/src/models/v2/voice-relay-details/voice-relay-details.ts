@@ -1,6 +1,6 @@
 import { CallHeadersInner } from '../call-headers-inner';
 
-export interface VoiceRelayVoiceRelay {
+export interface VoiceRelayDetails {
   /** URL to the server that will accept the web-socket request */
   endpoint: string;
   /** Allow \"barge-in\" during text-to-speech (TTS) playback.  When `true`, TTS playback is interrupted as soon as inbound speech is detected, unless the currently playing content is marked as uninterruptible.  When `false`, TTS playback continues uninterrupted, but an interruption signal is still sent over the WebSocket so the client application can choose to stop playback manually if needed. */

@@ -1,5 +1,5 @@
 export type { CommandEnum as CallbackCommandCommandEnum } from './callback-command/callback-command';
-export type { TransportEnum as SipSipTransportEnum } from './sip-sip/sip-sip';
+export type { TransportEnum as SipDetailsTransportEnum } from './sip-details/sip-details';
 export type { TypeEnum as VoiceRelayTypeEnum } from './voice-relay/voice-relay';
 export type { CommandEnum as HangupCommandCommandEnum } from './hangup-command/hangup-command';
 export type { TypeEnum as PlayMessageTypeEnum } from './play-message/play-message';
@@ -12,9 +12,9 @@ export type { CommandEnum as MessagesCommandCommandEnum } from './messages-comma
 export type { CommandEnum as AmdCommandCommandEnum } from './amd-command/amd-command';
 export type { TypeEnum as SipFromTypeEnum } from './sip-from/sip-from';
 export type {
-  CodecEnum as StreamStreamStreamOptionsCodecEnum,
-  SampleRateEnum as StreamStreamStreamOptionsSampleRateEnum,
-} from './stream-stream-stream-options/stream-stream-stream-options';
+  CodecEnum as StreamOptionsCodecEnum,
+  SampleRateEnum as StreamOptionsSampleRateEnum,
+} from './stream-options/stream-options';
 export type { FormatEnum as SayFormatEnum } from './say/say';
 export type { CommandEnum as BridgeCallCommandCommandEnum } from './bridge-call-command/bridge-call-command';
 export type { TypeEnum as StreamTypeEnum } from './stream/stream';

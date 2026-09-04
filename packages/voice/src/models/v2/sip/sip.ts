@@ -1,9 +1,9 @@
-import { SipSip } from '../sip-sip';
+import { SipDetails } from '../sip-details';
 
 export interface Sip {
   /** Routes the call to a SIP (Session Initiation Protocol) endpoint. */
   type: TypeEnum;
-  /** @see SipSip */
-  sip: SipSip;
+  /** @see SipDetails */
+  sip: SipDetails;
 }
 export type TypeEnum = 'SIP' | string;

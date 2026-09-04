@@ -1,6 +1,6 @@
 import { SipCallHeadersInner } from '../sip-call-headers-inner';
 
-export interface SipSip {
+export interface SipDetails {
   /** SIP URI of the destination endpoint. Both `sip:` (unencrypted) and `sips:` (TLS-encrypted) schemes are supported. */
   endpoint: string;
   /** Transport protocol to use for the SIP signalling channel.  If omitted, the platform selects a default based on the URI scheme: `UDP` for `sip:` and `TLS` for `sips:`. Setting this explicitly overrides that default — for example, to force `TCP` for a `sip:` URI or to use `TLS` without switching to the `sips:` scheme. */

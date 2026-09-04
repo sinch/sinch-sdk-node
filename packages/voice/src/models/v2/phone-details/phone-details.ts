@@ -1,4 +1,4 @@
-export interface PhonePhone {
+export interface PhoneDetails {
   /** E.164 Phone number */
   number: string;
 }
