@@ -44,7 +44,7 @@ export class FetchHttpContentParser implements HttpContentParser {
 
   asStream(): NodeJS.ReadableStream {
     if (this.buffered) {
-      return Readable.from(this.buffered);
+      return Readable.from([this.buffered]);
     }
     if (this.consumedAsStream) {
       throw new Error('Response body already consumed as a stream');

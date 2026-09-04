@@ -2,14 +2,6 @@ import { Response } from 'node-fetch';
 import { FetchHttpContentParser } from '../../../src/http/fetch';
 import { Readable } from 'stream';
 
-const readStream = async (stream: NodeJS.ReadableStream): Promise<Buffer> => {
-  const chunks: Buffer[] = [];
-  for await (const chunk of stream) {
-    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-  }
-  return Buffer.concat(chunks);
-};
-
 describe('FetchHttpContentParser', () => {
 
   it('parses string, bytes and json from a shared buffer', async () => {
@@ -33,7 +25,14 @@ describe('FetchHttpContentParser', () => {
     const parser = new FetchHttpContentParser(new Response('hello', { status: 200 }));
     await parser.asString();
 
-    await expect(readStream(parser.asStream())).resolves.toEqual(Buffer.from('hello'));
+    const chunks: unknown[] = [];
+    for await (const chunk of parser.asStream()) {
+      chunks.push(chunk);
+    }
+
+    expect(chunks).toHaveLength(1);
+    expect(Buffer.isBuffer(chunks[0])).toBe(true);
+    expect(chunks[0]).toEqual(Buffer.from('hello'));
   });
 
   it('throws when buffered helpers are used after asStream', async () => {
