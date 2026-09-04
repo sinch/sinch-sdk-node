@@ -235,7 +235,7 @@ export class ApiFetchClient extends ApiClient {
     if (this.isTokenExpired(httpResponse)) {
       // Capture the JWT used by the failing request so the OAuth2 plugin can
       // refuse to clear a cached token that has since been refreshed by another caller.
-      const failingAuth = httpRequest.headers.get('Authorization') || '';
+      const failingAuth = httpRequest.headers.getAll('Authorization')[0] || '';
       const failingJwt = failingAuth.startsWith('Bearer ')
         ? failingAuth.slice('Bearer '.length)
         : undefined;
@@ -250,7 +250,7 @@ export class ApiFetchClient extends ApiClient {
     }
 
     for (let attempt = 0; ; attempt++) {
-      const retryAfterMs = parseRetryAfterMs(httpResponse.headers.get('retry-after'));
+      const retryAfterMs = parseRetryAfterMs(httpResponse.headers.getAll('retry-after')[0]);
       if (!shouldRetryRateLimit(httpResponse.status, attempt, retryConfig, retryAfterMs)) {
         break;
       }
@@ -268,7 +268,7 @@ export class ApiFetchClient extends ApiClient {
 
   private isTokenExpired(httpResponse: HttpResponse): boolean {
     return httpResponse.status === 401
-      && httpResponse.headers.get('www-authenticate')?.includes('expired') === true;
+      && httpResponse.headers.getAll('www-authenticate')[0]?.includes('expired') === true;
   }
 
   private async applyResponsePlugins(context: PluginContext): Promise<Record<string, any>> {
@@ -353,7 +353,7 @@ export class ApiFetchClient extends ApiClient {
   }
 
   private extractFileName(headers: HttpHeaders, extension: string) {
-    const contentDisposition = headers.get('content-disposition');
+    const contentDisposition = headers.getAll('content-disposition')[0];
     let fileName = 'default-name.' + extension;
     if (contentDisposition) {
       // Support both quoted and unquoted filenames

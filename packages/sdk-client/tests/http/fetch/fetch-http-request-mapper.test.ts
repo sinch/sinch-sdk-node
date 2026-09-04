@@ -25,8 +25,8 @@ describe('toHttpRequest', () => {
     expect(request.method).toBe(HttpMethod.GET);
     expect(request.url).toBe('https://numbers.api.sinch.com/v1/projects/P1/activeNumbers');
     expect(request.queryParameters).toBe('?pageSize=5&regionCode=US');
-    expect(request.headers.get('accept')).toBe('application/json');
-    expect(request.headers.get('authorization')).toBe('Bearer token');
+    expect(request.headers.getAll('accept')).toEqual(['application/json']);
+    expect(request.headers.getAll('authorization')).toEqual(['Bearer token']);
     expect(request.content).toBeNull();
   });
 
@@ -53,7 +53,7 @@ describe('toHttpRequest', () => {
     expect(request.url).toBe('https://calling.api.sinch.com/calling/v1/callouts');
     expect(request.queryParameters).toBeNull();
     expect(request.content).toBe('{"method":"ttsCallout"}');
-    expect(request.headers.get('content-type')).toBe('application/json');
+    expect(request.headers.getAll('content-type')).toEqual(['application/json']);
   });
 
   it('rejects unsupported HTTP methods', () => {

@@ -5,8 +5,8 @@ describe('HttpHeaders', () => {
   it('looks up headers without regard to case', () => {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    expect(headers.get('content-type')).toBe('application/json');
-    expect(headers.get('CONTENT-TYPE')).toBe('application/json');
+    expect(headers.getAll('content-type')).toEqual(['application/json']);
+    expect(headers.getAll('CONTENT-TYPE')).toEqual(['application/json']);
     expect(headers.has('Content-Type')).toBe(true);
   });
 
@@ -18,7 +18,6 @@ describe('HttpHeaders', () => {
     headers.append('Authorization', 'Bearer token');
 
     expect(headers.getAll('x-custom')).toEqual(['first', 'second']);
-    expect(headers.get('x-custom')).toBe('first, second');
     expect([...headers.entries()]).toEqual([
       ['Accept', 'application/json'],
       ['X-Custom', 'first'],

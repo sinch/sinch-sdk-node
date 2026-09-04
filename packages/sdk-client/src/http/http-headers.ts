@@ -20,11 +20,6 @@ export class HttpHeaders {
     }
   }
 
-  get(name: string): string | undefined {
-    const bucket = this.store.get(this.headerKey(name));
-    return bucket ? bucket.values.join(', ') : undefined;
-  }
-
   getAll(name: string): string[] {
     const bucket = this.store.get(this.headerKey(name));
     return bucket ? bucket.values.slice() : [];
