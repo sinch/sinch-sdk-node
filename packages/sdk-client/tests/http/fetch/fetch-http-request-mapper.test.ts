@@ -1,7 +1,7 @@
 import { Headers } from 'node-fetch';
-import { ApiCallParameters } from '../../src/api/api-client';
-import { HttpMethod } from '../../src/http';
-import { toHttpRequest } from '../../src/http/fetch';
+import { ApiCallParameters } from '../../../src/api/api-client';
+import { HttpMethod } from '../../../src/http';
+import { toHttpRequest } from '../../../src/http/fetch';
 
 describe('toHttpRequest', () => {
 

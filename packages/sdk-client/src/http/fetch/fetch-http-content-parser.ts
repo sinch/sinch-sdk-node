@@ -2,9 +2,11 @@ import { Response } from 'node-fetch';
 import { Readable } from 'stream';
 import { HttpContentParser } from '../http-content-parser';
 
+const DEFAULT_FALLBACK_ENCODING: BufferEncoding = 'utf-8';
+
 const CHARSET_TO_ENCODING: Record<string, BufferEncoding> = {
-  'utf-8': 'utf-8',
-  utf8: 'utf-8',
+  'utf-8': DEFAULT_FALLBACK_ENCODING,
+  utf8: DEFAULT_FALLBACK_ENCODING,
   ascii: 'ascii',
   'us-ascii': 'ascii',
   latin1: 'latin1',
@@ -58,11 +60,11 @@ export class FetchHttpContentParser implements HttpContentParser {
 
 function encodingFromContentType(contentType: string | null | undefined): BufferEncoding {
   if (!contentType) {
-    return 'utf-8';
+    return DEFAULT_FALLBACK_ENCODING;
   }
   const match = /charset\s*=\s*["']?([^;"'\s]+)/i.exec(contentType);
   if (!match) {
-    return 'utf-8';
+    return DEFAULT_FALLBACK_ENCODING;
   }
-  return CHARSET_TO_ENCODING[match[1].toLowerCase()] ?? 'utf-8';
+  return CHARSET_TO_ENCODING[match[1].toLowerCase()] ?? DEFAULT_FALLBACK_ENCODING;
 }

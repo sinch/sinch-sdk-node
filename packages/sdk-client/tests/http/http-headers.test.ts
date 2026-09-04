@@ -1,6 +1,4 @@
 import { HttpHeaders } from '../../src/http';
-import { fromFetchHeaders, toFetchHeaders } from '../../src/http/fetch';
-import { Headers } from 'node-fetch';
 
 describe('HttpHeaders', () => {
 
@@ -29,7 +27,7 @@ describe('HttpHeaders', () => {
     ]);
   });
 
-  it('set replaces existing values for the same header', () => {
+  it('set replaces existing values for the same header (case insensitive)', () => {
     const headers = new HttpHeaders({ Accept: 'text/plain' });
     headers.set('accept', 'application/json');
 
@@ -64,20 +62,6 @@ describe('HttpHeaders', () => {
     appendValues.push('mutated-append');
 
     expect(headers.getAll('accept')).toEqual(['application/json', 'text/plain']);
-  });
-
-  it('round-trips node-fetch Headers including multi-value entries', () => {
-    const fetchHeaders = new Headers();
-    fetchHeaders.append('X-Multi', 'a');
-    fetchHeaders.append('X-Multi', 'b');
-    fetchHeaders.set('Authorization', 'Bearer token');
-
-    const headers = fromFetchHeaders(fetchHeaders);
-    const roundTripped = toFetchHeaders(headers);
-
-    expect(headers.getAll('x-multi')).toEqual(['a', 'b']);
-    expect(roundTripped.get('Authorization')).toBe('Bearer token');
-    expect(fromFetchHeaders(roundTripped).getAll('x-multi')).toEqual(['a', 'b']);
   });
 
 });

@@ -10,8 +10,8 @@ jest.mock('node-fetch', () => {
 
 import fetch, { Response } from 'node-fetch';
 import FormData = require('form-data');
-import { HttpHeaders, HttpMethod, HttpRequest } from '../../src/http';
-import { FetchHttpTransport } from '../../src/http/fetch';
+import { HttpHeaders, HttpMethod, HttpRequest } from '../../../src/http';
+import { FetchHttpTransport } from '../../../src/http/fetch';
 
 const mockedFetch = fetch as unknown as jest.Mock;
 

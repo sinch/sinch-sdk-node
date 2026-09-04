@@ -1,5 +1,5 @@
 import { Response } from 'node-fetch';
-import { FetchHttpContentParser } from '../../src/http/fetch';
+import { FetchHttpContentParser } from '../../../src/http/fetch';
 import { Readable } from 'stream';
 
 const readStream = async (stream: NodeJS.ReadableStream): Promise<Buffer> => {
@@ -59,9 +59,10 @@ describe('FetchHttpContentParser', () => {
   });
 
   it('defaults asString to utf-8 when charset is missing or unknown', async () => {
-    const text = 'hello';
+    const text = 'café';
+    const utf8Bytes = Buffer.from(text, 'utf-8');
     const parser = new FetchHttpContentParser(
-      new Response(Buffer.from(text, 'utf-8'), {
+      new Response(utf8Bytes, {
         status: 200,
         headers: { 'content-type': 'text/plain; charset=unknown-charset' },
       }),
