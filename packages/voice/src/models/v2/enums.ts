@@ -16,12 +16,16 @@ export type {
   SampleRateEnum as StreamOptionsSampleRateEnum,
 } from './stream-options/stream-options';
 export type { FormatEnum as SayFormatEnum } from './say/say';
-export type { CommandEnum as BridgeCallCommandCommandEnum } from './svaml-commands/bridge-call-command/bridge-call-command';
+export type {
+  CommandEnum as BridgeCallCommandCommandEnum,
+} from './svaml-commands/bridge-call-command/bridge-call-command';
 export type { TypeEnum as StreamTypeEnum } from './stream/stream';
 export type { TypeEnum as SipTypeEnum } from './sip/sip';
 export type { TypeEnum as SayMessageTypeEnum } from './say-message/say-message';
 export type { CommandEnum as DialCommandCommandEnum } from './svaml-commands/dial-command/dial-command';
-export type { CommandEnum as StopRecordingCommandCommandEnum } from './svaml-commands/stop-recording-command/stop-recording-command';
+export type {
+  CommandEnum as StopRecordingCommandCommandEnum,
+} from './svaml-commands/stop-recording-command/stop-recording-command';
 export type {
   CommandEnum as StopMessagesCommandCommandEnum,
   FlagsEnum as StopMessagesCommandFlagsEnum,
