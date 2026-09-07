@@ -21,7 +21,7 @@ import { VoiceV2Service } from './v2';
  * - callouts
  * - conferences
  * - calls
- * - v2 (Voice API v2: `v2.calls`)
+ * - v2 (Voice API v2: `v2.calls`, `v2.batches`, `v2.sessions`)
  */
 export class VoiceService {
   public readonly applications: ApplicationsApi;
