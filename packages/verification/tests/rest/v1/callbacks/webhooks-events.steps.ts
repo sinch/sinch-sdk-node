@@ -2,6 +2,7 @@ import { VerificationCallbackWebhooks, Verification } from '../../../../src';
 import { Given, Then, When } from '@cucumber/cucumber';
 import assert from 'assert';
 import { IncomingHttpHeaders } from 'http';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let verificationCallbackWebhook: VerificationCallbackWebhooks;
 let rawEvent: any;
@@ -22,7 +23,7 @@ Given('the Verification Webhooks handler is available', () => {
 });
 
 When('I send a request to trigger a "Verification Request" event', async () => {
-  const response = await fetch('http://localhost:3018/webhooks/verification/verification-request-event');
+  const response = await fetch(`${mockserverHosts.verificationWebhooksHostname}/webhooks/verification/verification-request-event`);
   await processEvent(response);
 });
 
@@ -60,7 +61,7 @@ Then('the Verification event describes a "Verification Request" event type', () 
 });
 
 When('I send a request to trigger a "Verification Result" event', async () => {
-  const response = await fetch('http://localhost:3018/webhooks/verification/verification-result-event');
+  const response = await fetch(`${mockserverHosts.verificationWebhooksHostname}/webhooks/verification/verification-result-event`);
   await processEvent(response);
 });
 
@@ -79,7 +80,7 @@ Then('the Verification event describes a "Verification Result" event type', () =
 });
 
 When('I send a request to trigger a "Verification SMS Delivered Event" event', async () => {
-  const response = await fetch('http://localhost:3018/webhooks/verification/verification-sms-delivery-event');
+  const response = await fetch(`${mockserverHosts.verificationWebhooksHostname}/webhooks/verification/verification-sms-delivery-event`);
   await processEvent(response);
 });
 

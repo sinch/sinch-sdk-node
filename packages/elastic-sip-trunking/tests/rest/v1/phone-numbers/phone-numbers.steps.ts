@@ -2,6 +2,7 @@ import { ElasticSipTrunking, ElasticSipTrunkingService, PhoneNumbersApi } from '
 import { Given, Then, When } from '@cucumber/cucumber';
 import assert from 'assert';
 import { PageResult } from '@sinch/sdk-client';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let phoneNumbersApi: PhoneNumbersApi;
 let phoneNumber: ElasticSipTrunking.PhoneNumber;
@@ -14,8 +15,8 @@ Given('the Elastic SIP Trunking service "Phone Numbers" is available', function 
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    elasticSipTrunkingHostname: 'http://localhost:3016',
+    authHostname: mockserverHosts.authHostname,
+    elasticSipTrunkingHostname: mockserverHosts.elasticSipTrunkingHostname,
   });
   phoneNumbersApi = elasticSipTrunkingService.phoneNumbers;
 });

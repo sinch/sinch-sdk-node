@@ -3,6 +3,7 @@ import { ConsentsApi, Conversation, ConversationService } from '../../../../src'
 import { SupportedConversationRegion } from '@sinch/sdk-client';
 import { PageResult } from '@sinch/sdk-client';
 import assert from 'assert';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let consentsApi: ConsentsApi;
 let listResponse: PageResult<Conversation.ConsentIdentity>;
@@ -15,8 +16,8 @@ Given('the Conversation service "Consents" is available', function () {
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    conversationHostname: 'http://localhost:3014',
+    authHostname: mockserverHosts.authHostname,
+    conversationHostname: mockserverHosts.conversationHostname,
     conversationRegion: SupportedConversationRegion.UNITED_STATES,
   });
   consentsApi = conversationService.consents;

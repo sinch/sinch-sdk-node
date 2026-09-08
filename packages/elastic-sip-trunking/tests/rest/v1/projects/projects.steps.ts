@@ -2,6 +2,7 @@ import { ElasticSipTrunkingService, ElasticSipTrunking } from '../../../../src';
 import { Given, Then, When } from '@cucumber/cucumber';
 import assert from 'assert';
 import { ProjectsApi } from '../../../../src/rest/v1/projects';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let projectsApi: ProjectsApi;
 let addProjectsResponse: ElasticSipTrunking.AddProjectsResponse;
@@ -11,8 +12,8 @@ Given('the Elastic SIP Trunking service "Projects" is available', function () {
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    elasticSipTrunkingHostname: 'http://localhost:3016',
+    authHostname: mockserverHosts.authHostname,
+    elasticSipTrunkingHostname: mockserverHosts.elasticSipTrunkingHostname,
   });
   projectsApi = elasticSipTrunkingService.projects;
 });

@@ -1,6 +1,7 @@
 import { ConferencesApi, VoiceService, Voice  } from '../../../../src';
 import { Given, When, Then } from '@cucumber/cucumber';
 import * as assert from 'assert';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let conferencesApi: ConferencesApi;
 let conferenceCallResponse: Voice.CalloutResponse;
@@ -13,7 +14,7 @@ Given('the Voice service "Conferences" is available', () => {
   const voiceService = new VoiceService({
     applicationKey: 'appKey',
     applicationSecret: 'appSecret',
-    voiceHostname: 'http://localhost:3019',
+    voiceHostname: mockserverHosts.voiceHostname,
   });
   conferencesApi = voiceService.conferences;
 });
