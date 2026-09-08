@@ -50,9 +50,6 @@ export class VoiceV2Service {
   constructor(params: SinchClientParameters) {
     const resolvedParams = resolveClientParameters(params);
     this.lazyClient = new LazyVoiceV2ApiClient(resolvedParams);
-    if (resolvedParams.voiceV2Hostname) {
-      this.lazyClient.hostnameOverride = resolvedParams.voiceV2Hostname;
-    }
     this.calls = new CallsApi(this.lazyClient);
   }
 
@@ -68,7 +65,6 @@ export class VoiceV2Service {
    */
   public setHostname(hostname: string): void {
     this.lazyClient.setHostname(hostname);
-    this.lazyClient.getApiClient().apiClientOptions.hostname = hostname;
   }
 
   public setCredentials(credentials: Partial<UnifiedCredentials>): void {
