@@ -11,6 +11,7 @@ async function main() {
   const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
   const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
+  // The ID of the batch to get details for
   const batchId = 'BATCH_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
@@ -19,10 +20,10 @@ async function main() {
     const response = await sinch.voice.v2.batches.getDetails({
       batchId,
     });
-    console.log(`✅ Successfully retrieved Voice v2 batch details ${batchId}.`);
+    console.log(`✅ Successfully retrieved the details for the batch call with ID ${batchId}.`);
     console.log(`Response:\n${JSON.stringify(response, null, 2)}`);
   } catch (err) {
-    console.error(`❌ Failed to retrieve Voice v2 batch details ${batchId}:`);
+    console.error(`❌ Failed to retrieve the details for the batch call with ID ${batchId}:`);
     console.error(err);
   }
 }
