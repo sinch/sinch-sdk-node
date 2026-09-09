@@ -5,9 +5,9 @@ import { SessionState } from '../session-state';
  */
 export interface BatchSessionSummary {
   /** Unique identifier of the call session within the batch. This identifies the session, not an individual call. Use it with `/v2/projects/{projectId}/sessions/{sessionId}` to retrieve full session details. */
-  id?: string;
+  id: string;
   /** @see SessionState */
-  state?: SessionState;
+  state: SessionState;
 }
 
 /**
