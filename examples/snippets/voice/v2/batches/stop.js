@@ -11,18 +11,18 @@ async function main() {
   const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
   const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
+  // The ID of the batch to stop processing
   const batchId = 'BATCH_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 
   try {
-    const response = await sinch.voice.v2.batches.stop({
+    await sinch.voice.v2.batches.stop({
       batchId,
     });
-    console.log(`✅ Successfully requested stop for Voice v2 batch ${batchId}.`);
-    console.log(`Response:\n${JSON.stringify(response, null, 2)}`);
+    console.log(`✅ Successfully requested stop for the batch call with ID ${batchId}.`);
   } catch (err) {
-    console.error(`❌ Failed to stop Voice v2 batch ${batchId}:`);
+    console.error(`❌ Failed to stop the batch call with ID ${batchId}:`);
     console.error(err);
   }
 }

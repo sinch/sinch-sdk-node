@@ -6,7 +6,7 @@ import { mockserverHosts } from '../../../e2e/hosts';
 let batchesApi: VoiceV2BatchesApi;
 let batchSummary: Voice.v2.BatchSummary;
 let batchDetails: Voice.v2.BatchDetails;
-let batchStopResponse: Voice.v2.BatchStopResponse;
+let batchStopResponse: void;
 
 Given('the Voice-V2 service "Batches" is available', () => {
   const voiceService = new VoiceService({
@@ -59,6 +59,6 @@ When('I send a request to stop batch processing', async () => {
   });
 });
 
-Then('the response confirms the batch stop request was accepted', () => {
-  assert.equal(batchStopResponse.result, 'STOP_REQUESTED');
+Then('the stop batch processing response contains no data', () => {
+  assert.deepEqual(batchStopResponse, {});
 });

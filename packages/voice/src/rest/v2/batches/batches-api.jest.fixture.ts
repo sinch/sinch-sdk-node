@@ -1,7 +1,6 @@
 import { BatchesApi } from './batches-api';
 import {
   BatchDetails,
-  BatchStopResponse,
   BatchSummary,
   GetBatchCallSummaryRequestData,
   GetBatchDetailsRequestData,
@@ -21,5 +20,5 @@ export class BatchesApiFixture implements Partial<Readonly<BatchesApi>> {
   /**
    * Fixture associated to function stop
    */
-  public stop: jest.Mock<Promise<BatchStopResponse>, [StopBatchProcessingRequestData]> = jest.fn();
+  public stop: jest.Mock<Promise<void>, [StopBatchProcessingRequestData]> = jest.fn();
 }

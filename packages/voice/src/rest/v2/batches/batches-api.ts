@@ -1,7 +1,6 @@
 import { RequestBody } from '@sinch/sdk-client';
 import {
   BatchDetails,
-  BatchStopResponse,
   BatchSummary,
   GetBatchCallSummaryRequestData,
   GetBatchDetailsRequestData,
@@ -78,7 +77,7 @@ export class BatchesApi extends VoiceV2DomainApi {
    * Stop processing a batch of call sessions. This will prevent any queued calls in the batch from being initiated. Calls that are already in progress will not be affected and will continue until completion.
    * @param { StopBatchProcessingRequestData } data - The data to provide to the API call.
    */
-  public async stop(data: StopBatchProcessingRequestData): Promise<BatchStopResponse> {
+  public async stop(data: StopBatchProcessingRequestData): Promise<void> {
     const getParams = this.client.extractQueryParams<StopBatchProcessingRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -93,7 +92,7 @@ export class BatchesApi extends VoiceV2DomainApi {
       = await this.client.prepareOptions(basePathUrl, 'DELETE', getParams, headers, body || undefined);
     const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return this.client.processCall<BatchStopResponse>({
+    return this.client.processCall<void>({
       url,
       requestOptions,
       apiName: this.apiName,
