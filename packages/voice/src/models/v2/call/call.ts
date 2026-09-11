@@ -76,6 +76,8 @@ export interface Call {
   serviceId: string;
   /** The ID of the session. */
   sessionId: string;
+  /** The name identifying this call leg within the session, as assigned by the `callName` property in the `dial` command or in the SVAML response to an incoming call webhook. Omitted for calls that were not assigned a name. */
+  callName?: string;
   /** @see CallDirection */
   direction: CallDirection;
   /** @see OriginationType */

@@ -9,6 +9,7 @@ import {
   VoiceV2CallsApi,
   VoiceV2Service,
   VoiceV2SessionsApi,
+  VoiceV2SinchEvents,
 } from '../../src';
 
 jest.mock('node-fetch', () => {
@@ -59,6 +60,7 @@ describe('Voice Service', () => {
     expect(voiceService.v2.calls).toBeInstanceOf(VoiceV2CallsApi);
     expect(voiceService.v2.batches).toBeInstanceOf(VoiceV2BatchesApi);
     expect(voiceService.v2.sessions).toBeInstanceOf(VoiceV2SessionsApi);
+    expect(voiceService.v2.sinchEvents).toBeInstanceOf(VoiceV2SinchEvents);
   });
 
   it('should update the API client for all the subdomains', () => {

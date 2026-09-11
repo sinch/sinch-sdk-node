@@ -34,3 +34,4 @@ export type { CommandEnum as MenuCommandCommandEnum } from './svaml-commands/men
 export type { InputMethodsEnum as MenuItemInputMethodsEnum } from './menu-item/menu-item';
 export type { CommandEnum as AnswerCommandCommandEnum } from './svaml-commands/answer-command/answer-command';
 export type { CommandEnum as GotoMenuCommandCommandEnum } from './svaml-commands/goto-menu-command/goto-menu-command';
+export type { WebhookEvent as WebhookRequestEvent } from './webhook-request/webhook-request';
