@@ -11,6 +11,7 @@ async function main() {
   const keyId = process.env.SINCH_KEY_ID ?? 'MY_KEY_ID';
   const keySecret = process.env.SINCH_KEY_SECRET ?? 'MY_KEY_SECRET';
 
+  // The ID of the session to retrieve
   const sessionId = 'SESSION_ID';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
@@ -19,10 +20,10 @@ async function main() {
     const response = await sinch.voice.v2.sessions.get({
       sessionId,
     });
-    console.log(`✅ Successfully retrieved Voice v2 session ${sessionId}.`);
+    console.log(`✅ Successfully retrieved the session with ID ${sessionId}.`);
     console.log(`Response:\n${JSON.stringify(response, null, 2)}`);
   } catch (err) {
-    console.error(`❌ Failed to retrieve Voice v2 session ${sessionId}:`);
+    console.error(`❌ Failed to retrieve the session with ID ${sessionId}:`);
     console.error(err);
   }
 }
