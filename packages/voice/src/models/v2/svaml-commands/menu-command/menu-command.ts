@@ -5,10 +5,9 @@ import { MenuItem } from '../../menu-item';
  */
 export interface MenuCommand {
   /** Executes menu-based input collection using the configured menu definitions. */
-  command: CommandEnum;
+  command: 'menu';
   /** Name of the menu to execute first. Must match a key in menus. */
   startMenu: string;
   /** Map of menu definitions keyed by menu name. */
   menus: { [key: string]: MenuItem };
 }
-export type CommandEnum = 'menu' | string;

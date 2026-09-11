@@ -3,8 +3,7 @@
  */
 export interface PauseCommand {
   /** Pause execution. */
-  command: CommandEnum;
+  command: 'pause';
   /** Duration of the pause in milliseconds. */
   durationMilliseconds: number;
 }
-export type CommandEnum = 'pause' | string;

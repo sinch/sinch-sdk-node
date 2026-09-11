@@ -6,7 +6,7 @@ import { MessageEvents } from './message-events';
  */
 export interface MessagesCommand {
   /** Command to play a message on the channel */
-  command: CommandEnum;
+  command: 'messages';
   /** Name of the message for identification and reference within the call session.  This name is used to uniquely identify the message and must be unique within the current call session. This name can be referenced in other commands (e.g., `stopMessages`) to control this specific message. */
   messagesName?: string;
   /** Ordered list of messages to play. */
@@ -14,6 +14,5 @@ export interface MessagesCommand {
   /** @see MessageEvents */
   events?: MessageEvents;
 }
-export type CommandEnum = 'messages' | string;
 /** Validation regex for messagesName */
 export const messagesNamePattern = /^\S+$/;

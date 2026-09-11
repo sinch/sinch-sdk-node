@@ -6,7 +6,7 @@ import { RecordingEvents } from './recording-events';
  */
 export interface StartRecordingCommand {
   /** Command to start recording on the channel */
-  command: CommandEnum;
+  command: 'startRecording';
   /** Identifier for this recording within the session. Must be unique across active recordings in the session.  Other commands (e.g., `stopRecording`) reference this name to target a specific recording.  Setting the recording name is useful for stopping the recording using the `stopRecording` command. If name is not set, recording can only be stopped when the call is disconnected. */
   recordingName?: string;
   /** @see RecordingOptions */
@@ -14,6 +14,5 @@ export interface StartRecordingCommand {
   /** @see RecordingEvents */
   events?: RecordingEvents;
 }
-export type CommandEnum = 'startRecording' | string;
 /** Validation regex for recordingName */
 export const recordingNamePattern = /^\S+$/;
