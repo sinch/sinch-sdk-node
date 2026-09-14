@@ -4,6 +4,8 @@ import {
   BatchSummary,
   GetBatchCallSummaryRequestData,
   GetBatchDetailsRequestData,
+  StartBatchRequestData,
+  StartBatchResponse,
   StopBatchProcessingRequestData,
 } from '../../../models/v2';
 import { VoiceV2DomainApi } from '../voice-v2-domain-api';
@@ -14,6 +16,39 @@ export class BatchesApi extends VoiceV2DomainApi {
   /** @internal */
   constructor(lazyClient: LazyVoiceV2ApiClient) {
     super(lazyClient, 'BatchesApi');
+  }
+
+  /**
+   * Create and initiate a batch of outbound call sessions
+   * Create a batch of outbound call sessions associated to the project's default service or to the
+   * service specified in the `serviceId` query parameter. Uses the same HTTP operation as
+   * `voice.v2.calls.start` (`POST /v2/projects/{projectId}/calls`, `operationId: createCall`).
+   * @param { StartBatchRequestData } data - The data to provide to the API call.
+   */
+  public async start(data: StartBatchRequestData): Promise<StartBatchResponse> {
+    const getParams = this.client.extractQueryParams<StartBatchRequestData>(data, ['serviceId']);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Idempotency-Key': data['Idempotency-Key'],
+    };
+
+    const body: RequestBody = data['startBatchRequestBody']
+      ? JSON.stringify(data['startBatchRequestBody'])
+      : '{}';
+    const basePathUrl
+      = `${this.client.apiClientOptions.hostname}/v2/projects/${this.client.apiClientOptions.projectId}/calls`;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<StartBatchResponse>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'createCall',
+    });
   }
 
   /**

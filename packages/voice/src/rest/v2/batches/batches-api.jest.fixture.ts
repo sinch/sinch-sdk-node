@@ -4,11 +4,17 @@ import {
   BatchSummary,
   GetBatchCallSummaryRequestData,
   GetBatchDetailsRequestData,
+  StartBatchRequestData,
+  StartBatchResponse,
   StopBatchProcessingRequestData,
 } from '../../../models/v2';
 
 export class BatchesApiFixture implements Partial<Readonly<BatchesApi>> {
 
+  /**
+   * Fixture associated to function start
+   */
+  public start: jest.Mock<Promise<StartBatchResponse>, [StartBatchRequestData]> = jest.fn();
   /**
    * Fixture associated to function get
    */

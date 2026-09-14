@@ -29,6 +29,8 @@ export * from './voice-relay-details';
 export * from './call-response';
 export * from './call-destination';
 export * from './call-request';
+export * from './batch-request';
+export * from './start-batch-response';
 export * from './session-state';
 export * from './batch-summary';
 export * from './batch-details';
