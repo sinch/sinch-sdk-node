@@ -65,6 +65,8 @@ jobs:
           rm -f ./packages/sms/tests/e2e/features/pricing.feature
           cp sinch-sdk-mockserver/features/verification/*.feature ./packages/verification/tests/e2e/features/
           cp sinch-sdk-mockserver/features/voice/*.feature ./packages/voice/tests/e2e/features/
+          mkdir -p ./packages/voice/tests/e2e/features/voice-v2
+          cp sinch-sdk-mockserver/features/voice-v2/calls.feature ./packages/voice/tests/e2e/features/voice-v2/
           cp sinch-sdk-mockserver/features/number-lookup/*.feature ./packages/number-lookup/tests/e2e/features/
           cp sinch-sdk-mockserver/features/provisioning/*.feature ./packages/provisioning/tests/e2e/features/
 
