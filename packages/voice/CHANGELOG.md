@@ -1,5 +1,5 @@
 ## Version 1.6.0
-- [Feature] Add Voice API v2 `createCall` as `voice.v2.calls.start`
+- [Feature] Add Voice API v2 `createCall` as `voice.v2.calls.start`, batches (`get`, `getDetails`, `stop`), and sessions (`get`)
 
 ## Version 1.5.0
 - **Breaking:** No longer re-exports `@sinch/sdk-client`. Import SDK client types and helpers from `@sinch/sdk-client` or `@sinch/sdk-core` instead.

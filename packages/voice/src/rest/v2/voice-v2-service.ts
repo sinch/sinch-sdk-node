@@ -6,7 +6,9 @@ import {
   SinchClientParameters,
   UnifiedCredentials,
 } from '@sinch/sdk-client';
+import { BatchesApi } from './batches';
 import { CallsApi } from './calls';
+import { SessionsApi } from './sessions';
 
 /** Default global hostname from the Voice v2 OAS `servers` list. */
 export const DEFAULT_VOICE_V2_HOSTNAME = 'https://voice.api.sinch.com';
@@ -39,9 +41,13 @@ export class LazyVoiceV2ApiClient extends LazyApiClient {
 /**
  * The Voice v2 Service exposes the following APIs:
  * - calls
+ * - batches
+ * - sessions
  */
 export class VoiceV2Service {
   public readonly calls: CallsApi;
+  public readonly batches: BatchesApi;
+  public readonly sessions: SessionsApi;
 
   /** @internal */
   public readonly lazyClient: LazyVoiceV2ApiClient;
@@ -51,6 +57,8 @@ export class VoiceV2Service {
     const resolvedParams = resolveClientParameters(params);
     this.lazyClient = new LazyVoiceV2ApiClient(resolvedParams);
     this.calls = new CallsApi(this.lazyClient);
+    this.batches = new BatchesApi(this.lazyClient);
+    this.sessions = new SessionsApi(this.lazyClient);
   }
 
   public setApiClientConfig(newParams: SinchClientParameters) {

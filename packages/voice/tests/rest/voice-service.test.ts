@@ -5,8 +5,10 @@ import {
   CallsApi,
   ConferencesApi,
   VoiceService,
+  VoiceV2BatchesApi,
   VoiceV2CallsApi,
   VoiceV2Service,
+  VoiceV2SessionsApi,
 } from '../../src';
 
 jest.mock('node-fetch', () => {
@@ -55,6 +57,8 @@ describe('Voice Service', () => {
     expect(voiceService.applications).toBeInstanceOf(ApplicationsApi);
     expect(voiceService.v2).toBeInstanceOf(VoiceV2Service);
     expect(voiceService.v2.calls).toBeInstanceOf(VoiceV2CallsApi);
+    expect(voiceService.v2.batches).toBeInstanceOf(VoiceV2BatchesApi);
+    expect(voiceService.v2.sessions).toBeInstanceOf(VoiceV2SessionsApi);
   });
 
   it('should update the API client for all the subdomains', () => {
