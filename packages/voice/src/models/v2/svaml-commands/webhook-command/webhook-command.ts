@@ -3,7 +3,7 @@
  */
 export interface WebhookCommand {
   /** Command to trigger a mid-call webhook */
-  command: CommandEnum;
+  command: 'webhook';
   /** Name for this webhook event. When triggered, the webhook request\'s `event` property will contain this name prepended with `call.webhook.`.  For example, if `webhookName` is set to `\"my.custom.event\"`, the event will be delivered as `\"call.webhook.my.custom.event\"`. */
   webhookName: string;
   /** URL of the webhook endpoint to send the mid-call event to. */
@@ -11,6 +11,5 @@ export interface WebhookCommand {
   /** Fallback webhook URL used when the primary webhook URL fails.  A failed request is re-sent to this URL immediately. After repeated consecutive failures of the primary URL, requests are sent only here until the primary URL recovers.  See *Timeouts and failover* in the **Webhooks** section for the authoritative algorithm. */
   fallbackUrl?: string;
 }
-export type CommandEnum = 'webhook' | string;
 /** Validation regex for webhookName */
 export const webhookNamePattern = /^\S+$/;

@@ -3,8 +3,7 @@
  */
 export interface GotoMenuCommand {
   /** Switch execution to another menu within the current menu context. */
-  command: CommandEnum;
+  command: 'gotoMenu';
   /** Name of the target menu to execute next. Must match a key in menus. */
   menuName: string;
 }
-export type CommandEnum = 'gotoMenu' | string;

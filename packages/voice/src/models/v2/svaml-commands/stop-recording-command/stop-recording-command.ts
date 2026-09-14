@@ -3,10 +3,9 @@
  */
 export interface StopRecordingCommand {
   /** Command to stop recording on the channel */
-  command: CommandEnum;
+  command: 'stopRecording';
   /** Name of the recording to stop, as set by `recordingName` in the `startRecording` command. */
   recordingName: string;
 }
-export type CommandEnum = 'stopRecording' | string;
 /** Validation regex for recordingName */
 export const recordingNamePattern = /^\S+$/;

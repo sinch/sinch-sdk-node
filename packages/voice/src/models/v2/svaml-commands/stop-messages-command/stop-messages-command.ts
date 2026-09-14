@@ -3,13 +3,12 @@
  */
 export interface StopMessagesCommand {
   /** Command to stop playing messages */
-  command: CommandEnum;
+  command: 'stopMessages';
   /** Name of the message sequence to stop, as set by `messagesName` in the `messages` command. */
   messagesName: string;
   /** Controls how much of the sequence is stopped — only the currently playing message or all remaining queued messages. */
   flags?: FlagsEnum;
 }
-export type CommandEnum = 'stopMessages' | string;
 export type FlagsEnum = 'ONLY_PLAYING' | 'ALL_FROM_NOW_ON' | string;
 /** Validation regex for messagesName */
 export const messagesNamePattern = /^\S+$/;

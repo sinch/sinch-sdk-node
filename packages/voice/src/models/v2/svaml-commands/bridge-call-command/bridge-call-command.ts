@@ -3,10 +3,9 @@
  */
 export interface BridgeCallCommand {
   /** Command to add the call to a bridge */
-  command: CommandEnum;
+  command: 'bridgeCall';
   /** Name of the bridge to join. If no bridge with this name exists in the session, a new one is created automatically. */
   bridgeName: string;
 }
-export type CommandEnum = 'bridgeCall' | string;
 /** Validation regex for bridgeName */
 export const bridgeNamePattern = /^\S+$/;

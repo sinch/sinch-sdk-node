@@ -5,8 +5,7 @@ import { AmdEvents } from './amd-events';
  */
 export interface AmdCommand {
   /** Command to run Answering Machine Detection on the call */
-  command: CommandEnum;
+  command: 'amd';
   /** @see AmdEvents */
   events?: AmdEvents;
 }
-export type CommandEnum = 'amd' | string;

@@ -3,6 +3,5 @@
  */
 export interface AnswerCommand {
   /** Answer call */
-  command: CommandEnum;
+  command: 'answer';
 }
-export type CommandEnum = 'answer' | string;
