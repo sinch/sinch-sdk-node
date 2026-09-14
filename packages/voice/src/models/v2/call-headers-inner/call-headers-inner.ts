@@ -5,6 +5,6 @@ export interface CallHeadersInner {
   value?: string;
 }
 /** Validation regex for key */
-export const keyPattern = /[\x20-\x7e\t]+$/;
+export const keyPattern = /^[\x20-\x7e\t]+$/;
 /** Validation regex for value */
-export const valuePattern = /[\x20-\x7e\t]*$/;
+export const valuePattern = /^[\x20-\x7e\t]*$/;

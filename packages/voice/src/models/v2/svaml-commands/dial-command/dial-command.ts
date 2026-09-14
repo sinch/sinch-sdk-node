@@ -7,7 +7,7 @@ import { CallEvents } from './call-events';
  */
 export interface DialCommand {
   /** Command to initiate a new call */
-  command: CommandEnum;
+  command: 'dial';
   /** Identifier for this call leg within the session. Must be unique across all active call legs in the session.  Other commands (e.g., `hangup`) can reference this name to target this specific leg. */
   callName?: string;
   /** @see CallOrigin */
@@ -21,6 +21,5 @@ export interface DialCommand {
   /** @see CallEvents */
   events?: CallEvents;
 }
-export type CommandEnum = 'dial' | string;
 /** Validation regex for callName */
 export const callNamePattern = /^\S+$/;

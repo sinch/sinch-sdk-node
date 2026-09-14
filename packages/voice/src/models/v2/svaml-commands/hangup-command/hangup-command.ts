@@ -3,10 +3,9 @@
  */
 export interface HangupCommand {
   /** Hangup call */
-  command: CommandEnum;
+  command: 'hangup';
   /** Name of the call leg to end, as set by `callName` in the `dial` command.  If omitted, the current call leg is ended. */
   callName?: string;
 }
-export type CommandEnum = 'hangup' | string;
 /** Validation regex for callName */
 export const callNamePattern = /^\S+$/;
