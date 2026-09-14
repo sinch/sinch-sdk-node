@@ -1,8 +1,8 @@
 import { IncomingHttpHeaders } from 'http';
-import { SinchEvents } from './sinch-events';
+import { CallbackWebhooks } from './callbacks-webhook';
 import { WebhookRequest, WebhookResponse } from '../../../models/v2';
 
-export class SinchEventsFixture implements Partial<Readonly<SinchEvents>> {
+export class CallbackWebhooksFixture implements Partial<Readonly<CallbackWebhooks>> {
 
   /**
    * Fixture associated to function validateAuthenticationHeader

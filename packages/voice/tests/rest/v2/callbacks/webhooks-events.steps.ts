@@ -1,4 +1,4 @@
-import { VoiceV2SinchEvents, VoiceService, Voice } from '../../../../src';
+import { VoiceV2CallbackWebhooks, Voice } from '../../../../src';
 import { Given, When, Then } from '@cucumber/cucumber';
 import * as assert from 'assert';
 import { IncomingHttpHeaders } from 'http';
@@ -19,7 +19,7 @@ const EXPECTED_SESSION_ID = '01HZXK7QNPMR8VD3JW9YF2C4TB';
 const EXPECTED_SERVICE_ID = 'f9e8d7c6-b5a4-4321-9876-c5d4e3f2a1b0';
 const EXPECTED_PROJECT_ID = 'a1b2c3d4-e5f6-4789-a012-b3c4d5e6f789';
 
-let sinchEvents: VoiceV2SinchEvents;
+let callbackWebhooks: VoiceV2CallbackWebhooks;
 let rawEvent: string;
 let event: Voice.v2.WebhookRequest;
 let formattedHeaders: IncomingHttpHeaders;
@@ -30,17 +30,7 @@ const phoneNumber = (endpoint: Voice.v2.CallOrigin | Voice.v2.CallDestination | 
 };
 
 Given('the Voice-V2 Webhooks handler is available', () => {
-  const voiceService = new VoiceService({
-    applicationKey: 'appKey',
-    applicationSecret: 'appSecret',
-    projectId: 'tinyfrog-jump-high-over-lilypadbasin',
-    keyId: 'keyId',
-    keySecret: 'keySecret',
-    authHostname: mockserverHosts.authHostname,
-    voiceV2Hostname: mockserverHosts.voiceV2Hostname,
-  });
-  sinchEvents = voiceService.v2.sinchEvents;
-  sinchEvents.setCredentials({
+  callbackWebhooks = new VoiceV2CallbackWebhooks({
     serviceId: SERVICE_ID,
     serviceSecret: SERVICE_SECRET,
   });
@@ -52,12 +42,12 @@ When(/^I send a request to trigger a "(call\.[^"]+)" event$/, async (eventType: 
   const response = await fetch(`${mockserverHosts.voiceV2Hostname}${eventPath}`);
   formattedHeaders = Object.fromEntries(response.headers.entries());
   rawEvent = await response.text();
-  event = sinchEvents.parseEvent(rawEvent);
+  event = callbackWebhooks.parseEvent(rawEvent);
 });
 
 Then(/^the header of the "(call\.[^"]+)" event contains a valid authorization$/, (eventType: string) => {
   assert.ok(eventPath, `No webhook was fetched for "${eventType}"`);
-  assert.ok(sinchEvents.validateAuthenticationHeader(
+  assert.ok(callbackWebhooks.validateAuthenticationHeader(
     formattedHeaders,
     rawEvent,
     eventPath,
@@ -103,7 +93,7 @@ Then('the Voice-V2 event describes a {string} event', (eventType: string) => {
 
 Then('the response to the {string} event matches the expected call control instructions', async (eventType: string) => {
   assert.ok(eventPath, `No webhook was fetched for "${eventType}"`);
-  const body = sinchEvents.serializeResponse({
+  const body = callbackWebhooks.serializeResponse({
     commands: [
       {
         command: 'messages',

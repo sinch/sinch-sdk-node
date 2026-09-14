@@ -9,25 +9,25 @@ import { Call, WebhookRequest, WebhookResponse } from '../../../models/v2';
  * `serviceId` and `serviceSecret` are issued per Voice service in the dashboard.
  * The secret is a Base64 string; it is decoded to 16 bytes before HMAC.
  */
-export interface VoiceV2SinchEventsParameters {
+export interface VoiceV2CallbackWebhooksParameters {
   serviceId?: string;
   serviceSecret?: string;
 }
 
-export class SinchEvents implements CallbackProcessor<WebhookRequest> {
+export class CallbackWebhooks implements CallbackProcessor<WebhookRequest> {
   private serviceId?: string;
   private serviceSecret?: string;
 
-  constructor(params: VoiceV2SinchEventsParameters = {}) {
+  constructor(params: VoiceV2CallbackWebhooksParameters = {}) {
     this.serviceId = params.serviceId;
     this.serviceSecret = params.serviceSecret;
   }
 
   /**
    * Updates the Voice service credentials used to validate webhook signatures.
-   * @param {VoiceV2SinchEventsParameters} credentials - The service ID and Base64 service secret.
+   * @param {VoiceV2CallbackWebhooksParameters} credentials - The service ID and Base64 service secret.
    */
-  public setCredentials(credentials: VoiceV2SinchEventsParameters): void {
+  public setCredentials(credentials: VoiceV2CallbackWebhooksParameters): void {
     this.serviceId = credentials.serviceId;
     this.serviceSecret = credentials.serviceSecret;
   }
@@ -130,8 +130,8 @@ export class SinchEvents implements CallbackProcessor<WebhookRequest> {
    * @return {WebhookRequest} - The parsed webhook event object.
    */
   public static parseEvent(eventBody: any): WebhookRequest {
-    const sinchEvents = new SinchEvents({});
-    return sinchEvents.parseEvent(eventBody);
+    const callbackWebhooks = new CallbackWebhooks({});
+    return callbackWebhooks.parseEvent(eventBody);
   }
 
   /**
@@ -140,8 +140,8 @@ export class SinchEvents implements CallbackProcessor<WebhookRequest> {
    * @return {string} - The JSON payload to send as the HTTP 200 body.
    */
   public static serializeResponse(response: WebhookResponse): string {
-    const sinchEvents = new SinchEvents({});
-    return sinchEvents.serializeResponse(response);
+    const callbackWebhooks = new CallbackWebhooks({});
+    return callbackWebhooks.serializeResponse(response);
   }
 }
 

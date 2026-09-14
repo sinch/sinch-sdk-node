@@ -2,7 +2,7 @@
  * Sinch Node.js Snippet
  * See: https://github.com/sinch/sinch-sdk-node/examples/snippets
  */
-import { VoiceV2SinchEvents } from '@sinch/sdk-core';
+import { VoiceV2CallbackWebhooks } from '@sinch/sdk-core';
 
 function main() {
   const response = {
@@ -27,7 +27,7 @@ function main() {
   };
 
   try {
-    const body = VoiceV2SinchEvents.serializeResponse(response);
+    const body = VoiceV2CallbackWebhooks.serializeResponse(response);
     console.log('✅ Serialized webhook response.');
     console.log(body);
   } catch (err) {

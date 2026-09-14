@@ -2,7 +2,9 @@
  * Sinch Node.js Snippet
  * See: https://github.com/sinch/sinch-sdk-node/examples/snippets
  */
-import { VoiceV2SinchEvents } from '@sinch/sdk-core';
+import { VoiceV2CallbackWebhooks } from '@sinch/sdk-core';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 function main() {
   const eventBody = process.env.VOICE_V2_WEBHOOK_BODY
@@ -27,7 +29,7 @@ function main() {
     });
 
   try {
-    const event = VoiceV2SinchEvents.parseEvent(eventBody);
+    const event = VoiceV2CallbackWebhooks.parseEvent(eventBody);
     console.log(`✅ Parsed webhook event "${event.event}" for call ${event.call.callId}.`);
     console.log(`Call:\n${JSON.stringify(event.call, null, 2)}`);
   } catch (err) {

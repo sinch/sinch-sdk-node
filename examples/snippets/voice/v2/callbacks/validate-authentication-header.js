@@ -2,7 +2,7 @@
  * Sinch Node.js Snippet
  * See: https://github.com/sinch/sinch-sdk-node/examples/snippets
  */
-import { VoiceV2SinchEvents } from '@sinch/sdk-core';
+import { VoiceV2CallbackWebhooks } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -10,7 +10,7 @@ function main() {
   const serviceId = process.env.SINCH_VOICE_SERVICE_ID ?? 'MY_VOICE_SERVICE_ID';
   const serviceSecret = process.env.SINCH_VOICE_SERVICE_SECRET ?? 'MY_VOICE_SERVICE_SECRET';
 
-  const sinchEvents = new VoiceV2SinchEvents({ serviceId, serviceSecret });
+  const callbackWebhooks = new VoiceV2CallbackWebhooks({ serviceId, serviceSecret });
 
   const headers = {
     'content-type': 'application/json; charset=utf-8',
@@ -23,7 +23,7 @@ function main() {
   const path = process.env.VOICE_V2_WEBHOOK_PATH ?? '/voice-webhooks';
 
   try {
-    const validated = sinchEvents.validateAuthenticationHeader(
+    const validated = callbackWebhooks.validateAuthenticationHeader(
       headers,
       rawBody,
       path,

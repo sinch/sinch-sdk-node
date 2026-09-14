@@ -1,7 +1,7 @@
-import { Voice, VoiceV2SinchEvents } from '../../../../src';
+import { Voice, VoiceV2CallbackWebhooks } from '../../../../src';
 
-describe('Voice v2 Sinch Events', () => {
-  let sinchEvents: VoiceV2SinchEvents;
+describe('Voice v2 Callback Webhooks', () => {
+  let callbackWebhooks: VoiceV2CallbackWebhooks;
 
   const SERVICE_ID = 'a74b1566-0f18-4f8e-9c23-8e6b5df8fd3e';
   const SERVICE_SECRET = 'F5wrP9SKYU6w8sbZXkp7GA==';
@@ -17,7 +17,7 @@ describe('Voice v2 Sinch Events', () => {
   const DATE_AS_DATE = new Date(DATE_AS_STRING);
 
   beforeEach(() => {
-    sinchEvents = new VoiceV2SinchEvents({
+    callbackWebhooks = new VoiceV2CallbackWebhooks({
       serviceId: SERVICE_ID,
       serviceSecret: SERVICE_SECRET,
     });
@@ -29,7 +29,7 @@ describe('Voice v2 Sinch Events', () => {
       'x-timestamp': X_TIMESTAMP,
       'authorization': VALID_AUTHORIZATION,
     };
-    const validationStatus = sinchEvents.validateAuthenticationHeader(
+    const validationStatus = callbackWebhooks.validateAuthenticationHeader(
       headers, BODY, PATH, METHOD,
     );
     expect(validationStatus).toBeTruthy();
@@ -41,7 +41,7 @@ describe('Voice v2 Sinch Events', () => {
       'x-timestamp': X_TIMESTAMP,
       'authorization': `service ${SERVICE_ID}:invalid-signature`,
     };
-    const validationStatus = sinchEvents.validateAuthenticationHeader(
+    const validationStatus = callbackWebhooks.validateAuthenticationHeader(
       headers, BODY, PATH, METHOD,
     );
     expect(validationStatus).toBeFalsy();
@@ -52,7 +52,7 @@ describe('Voice v2 Sinch Events', () => {
       'Content-Type': CONTENT_TYPE,
       'x-timestamp': X_TIMESTAMP,
     };
-    const validationStatus = sinchEvents.validateAuthenticationHeader(
+    const validationStatus = callbackWebhooks.validateAuthenticationHeader(
       headers, BODY, PATH, METHOD,
     );
     expect(validationStatus).toBeFalsy();
@@ -64,14 +64,14 @@ describe('Voice v2 Sinch Events', () => {
       'x-timestamp': X_TIMESTAMP,
       'authorization': `Application ${SERVICE_ID}:EWFtVTrykdhMTdyYSbn40GBJpf5UBeggO9T99sdwLyY=`,
     };
-    const validationStatus = sinchEvents.validateAuthenticationHeader(
+    const validationStatus = callbackWebhooks.validateAuthenticationHeader(
       headers, BODY, PATH, METHOD,
     );
     expect(validationStatus).toBeFalsy();
   });
 
   it('should throw when credentials are missing', () => {
-    const unconfigured = new VoiceV2SinchEvents();
+    const unconfigured = new VoiceV2CallbackWebhooks();
     const headers = {
       'Content-Type': CONTENT_TYPE,
       'x-timestamp': X_TIMESTAMP,
@@ -115,7 +115,7 @@ describe('Voice v2 Sinch Events', () => {
         callResourceUrl: 'https://voice.api.sinch.com/v2/projects/5c5bf2b1-35ae-4825-ab89-457e07bb60e6/calls/01AN4Z07BY79KA1307SR9X4MV3',
       },
     };
-    const parsedResult = sinchEvents.parseEvent(payload) as Voice.v2.WebhookRequest;
+    const parsedResult = callbackWebhooks.parseEvent(payload) as Voice.v2.WebhookRequest;
     expect(parsedResult.event).toBe('call.incoming');
     expect(parsedResult.call.callName).toBe('incoming');
     expect(parsedResult.call.startTime).toStrictEqual(DATE_AS_DATE);
@@ -146,7 +146,7 @@ describe('Voice v2 Sinch Events', () => {
         input: '1',
       },
     });
-    const parsedResult = VoiceV2SinchEvents.parseEvent(payload);
+    const parsedResult = VoiceV2CallbackWebhooks.parseEvent(payload);
     expect(parsedResult.event).toBe('call.webhook.menu-selection');
     expect(parsedResult.menu?.menuName).toBe('main');
     expect(parsedResult.call.answerTime).toStrictEqual(new Date('2025-06-01T10:00:03Z'));
@@ -156,7 +156,7 @@ describe('Voice v2 Sinch Events', () => {
     const payload = {
       unknownProperty: 'anyValue',
     };
-    expect(() => sinchEvents.parseEvent(payload)).toThrow('Unknown Voice v2 event');
+    expect(() => callbackWebhooks.parseEvent(payload)).toThrow('Unknown Voice v2 event');
   });
 
   it('should throw an error when parsing a non-voice event type', () => {
@@ -164,7 +164,7 @@ describe('Voice v2 Sinch Events', () => {
       event: 'unknown',
       call: {},
     };
-    expect(() => sinchEvents.parseEvent(payload)).toThrow('Unknown Voice v2 event type: unknown');
+    expect(() => callbackWebhooks.parseEvent(payload)).toThrow('Unknown Voice v2 event type: unknown');
   });
 
   it('should serialize a webhook response', () => {
@@ -188,8 +188,8 @@ describe('Voice v2 Sinch Events', () => {
         },
       ],
     };
-    const serialized = sinchEvents.serializeResponse(response);
+    const serialized = callbackWebhooks.serializeResponse(response);
     expect(JSON.parse(serialized)).toEqual(response);
-    expect(VoiceV2SinchEvents.serializeResponse(response)).toEqual(serialized);
+    expect(VoiceV2CallbackWebhooks.serializeResponse(response)).toEqual(serialized);
   });
 });
