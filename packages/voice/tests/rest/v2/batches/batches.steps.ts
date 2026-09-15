@@ -7,7 +7,7 @@ let batchesApi: VoiceV2BatchesApi;
 let startBatchResponse: Voice.v2.BatchResponse;
 let batchSummary: Voice.v2.BatchSummary;
 let batchDetails: Voice.v2.BatchDetails;
-let batchStopResponse: unknown;
+let batchStopResponse: Voice.v2.BatchStopResponse;
 
 Given('the Voice-V2 service "Batches" is available', () => {
   const voiceService = new VoiceService({
@@ -130,7 +130,5 @@ When('I send a request to stop batch processing', async () => {
 });
 
 Then('the response confirms the batch stop request was accepted', () => {
-  assert.deepEqual(batchStopResponse, {
-    result: 'STOP_REQUESTED',
-  });
+  assert.equal(batchStopResponse.result, 'STOP_REQUESTED');
 });

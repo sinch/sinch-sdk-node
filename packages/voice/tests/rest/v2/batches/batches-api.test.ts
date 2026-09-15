@@ -129,7 +129,9 @@ describe('VoiceV2BatchesApi', () => {
       const requestData: Voice.v2.StopBatchProcessingRequestData = {
         batchId: '01BX5ZZKBKACTAV9WEVGEMMVRC',
       };
-      const expectedResponse: void = undefined;
+      const expectedResponse: Voice.v2.BatchStopResponse = {
+        result: 'STOP_REQUESTED',
+      };
 
       // When
       fixture.stop.mockResolvedValue(expectedResponse);

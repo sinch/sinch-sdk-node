@@ -34,6 +34,7 @@ export * from './batch-response';
 export * from './session-state';
 export * from './batch-summary';
 export * from './batch-details';
+export * from './batch-stop-response';
 export * from './money';
 export * from './call';
 export * from './session';

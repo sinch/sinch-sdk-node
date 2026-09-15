@@ -15,3 +15,4 @@ export type {
   FlagsEnum as StopMessagesCommandFlagsEnum,
 } from './svaml-commands/stop-messages-command/stop-messages-command';
 export type { InputMethodsEnum as MenuItemInputMethodsEnum } from './menu-item/menu-item';
+export type { ResultEnum as BatchStopResponseResultEnum } from './batch-stop-response/batch-stop-response';
