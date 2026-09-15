@@ -4,7 +4,7 @@ import * as assert from 'assert';
 import { mockserverHosts } from '../../../e2e/hosts';
 
 let batchesApi: VoiceV2BatchesApi;
-let startBatchResponse: Voice.v2.StartBatchResponse;
+let startBatchResponse: Voice.v2.BatchResponse;
 let batchSummary: Voice.v2.BatchSummary;
 let batchDetails: Voice.v2.BatchDetails;
 let batchStopResponse: unknown;

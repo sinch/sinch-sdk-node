@@ -53,7 +53,7 @@ describe('VoiceV2BatchesApi', () => {
           },
         },
       };
-      const expectedResponse: Voice.v2.StartBatchResponse = {
+      const expectedResponse: Voice.v2.BatchResponse = {
         projectId: '5c5bf2b1-35ae-4825-ab89-457e07bb60e6',
         serviceId: '6e124178-c29d-46a5-943c-5c2ae544aade',
         batchId: '01BX5ZZKBKACTAV9WEVGEMMVRC',
