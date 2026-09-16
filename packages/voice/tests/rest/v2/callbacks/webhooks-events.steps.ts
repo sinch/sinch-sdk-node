@@ -57,6 +57,7 @@ Then(/^the header of the "(call\.[^"]+)" event contains a valid authorization$/,
 
 Then('the Voice-V2 event describes a {string} event', (eventType: string) => {
   assert.equal(event.event, eventType);
+  assert.ok(event.call, `Expected a call payload for "${eventType}"`);
   assert.equal(event.call.callId, EXPECTED_CALL_ID);
   assert.equal(event.call.sessionId, EXPECTED_SESSION_ID);
   assert.equal(event.call.serviceId, EXPECTED_SERVICE_ID);

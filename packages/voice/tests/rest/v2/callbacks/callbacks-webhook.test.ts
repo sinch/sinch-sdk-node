@@ -117,8 +117,8 @@ describe('Voice v2 Callback Webhooks', () => {
     };
     const parsedResult = callbackWebhooks.parseEvent(payload) as Voice.v2.WebhookRequest;
     expect(parsedResult.event).toBe('call.incoming');
-    expect(parsedResult.call.callName).toBe('incoming');
-    expect(parsedResult.call.startTime).toStrictEqual(DATE_AS_DATE);
+    expect(parsedResult.call?.callName).toBe('incoming');
+    expect(parsedResult.call?.startTime).toStrictEqual(DATE_AS_DATE);
   });
 
   it('should parse a call.webhook.* event from a JSON string', () => {
@@ -149,7 +149,7 @@ describe('Voice v2 Callback Webhooks', () => {
     const parsedResult = VoiceV2CallbackWebhooks.parseEvent(payload);
     expect(parsedResult.event).toBe('call.webhook.menu-selection');
     expect(parsedResult.menu?.menuName).toBe('main');
-    expect(parsedResult.call.answerTime).toStrictEqual(new Date('2025-06-01T10:00:03Z'));
+    expect(parsedResult.call?.answerTime).toStrictEqual(new Date('2025-06-01T10:00:03Z'));
   });
 
   it('should throw an error when parsing a random object', () => {
@@ -159,12 +159,14 @@ describe('Voice v2 Callback Webhooks', () => {
     expect(() => callbackWebhooks.parseEvent(payload)).toThrow('Unknown Voice v2 event');
   });
 
-  it('should throw an error when parsing a non-voice event type', () => {
+  it('should parse an event type that is not call-prefixed', () => {
     const payload = {
-      event: 'unknown',
-      call: {},
+      event: 'batch.completed',
+      batchId: '01M144V4N3GSTNVJ3V32TD7H9A',
     };
-    expect(() => callbackWebhooks.parseEvent(payload)).toThrow('Unknown Voice v2 event type: unknown');
+    const parsedResult = callbackWebhooks.parseEvent(payload);
+    expect(parsedResult.event).toBe('batch.completed');
+    expect(parsedResult.call).toBeUndefined();
   });
 
   it('should serialize a webhook response', () => {

@@ -105,13 +105,12 @@ export class CallbackWebhooks implements CallbackProcessor<WebhookRequest> {
     if (typeof eventBody === 'string') {
       eventBody = JSON.parse(eventBody);
     }
-    if (!eventBody?.event || !eventBody?.call) {
+    if (typeof eventBody?.event !== 'string' || eventBody.event.length === 0) {
       throw new Error(`Unknown Voice v2 event: ${JSON.stringify(eventBody)}`);
     }
-    if (!isVoiceV2WebhookEvent(eventBody.event)) {
-      throw new Error(`Unknown Voice v2 event type: ${eventBody.event}`);
+    if (eventBody.call) {
+      eventBody.call = reviveCallDates(eventBody.call);
     }
-    eventBody.call = reviveCallDates(eventBody.call);
     return eventBody as WebhookRequest;
   }
 
@@ -143,10 +142,6 @@ export class CallbackWebhooks implements CallbackProcessor<WebhookRequest> {
     const callbackWebhooks = new CallbackWebhooks({});
     return callbackWebhooks.serializeResponse(response);
   }
-}
-
-function isVoiceV2WebhookEvent(event: unknown): event is string {
-  return typeof event === 'string' && event.startsWith('call.');
 }
 
 function reviveCallDates(call: Call): Call {

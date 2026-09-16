@@ -58,8 +58,8 @@ export interface WebhookMenu {
 export interface WebhookRequest {
   /** @see WebhookEvent */
   event: WebhookEvent;
-  /** The current state of the call at the time the event was triggered. */
-  call: Call;
+  /** The current state of the call at the time the event was triggered. Present for call events; may be omitted for other Voice v2 event families. */
+  call?: Call;
   /** @see WebhookMenu */
   menu?: WebhookMenu;
 }
