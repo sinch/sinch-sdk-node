@@ -38,5 +38,7 @@ export * from './batch-stop-response';
 export * from './money';
 export * from './call';
 export * from './session';
+export * from './webhook-request';
+export * from './webhook-response';
 export * from './enums';
 export * from './requests';
