@@ -14,9 +14,10 @@ export class CallsApi extends VoiceV2DomainApi {
   }
 
   /**
-   * Create and initiate an outbound voice call or a batch of outbound call sessions
-   * Create a new outbound call (or batch when `parameters` are provided) associated to the project's
-   * default service or to the service specified in the `serviceId` query parameter.
+   * Create and initiate an outbound voice call
+   * Create a new outbound call associated to the project's default service or to the service
+   * specified in the `serviceId` query parameter. For a batch of outbound call sessions, use
+   * `voice.v2.batches.start` instead.
    * @param { CreateCallRequestData } data - The data to provide to the API call.
    */
   public async start(data: CreateCallRequestData): Promise<CallResponse> {
