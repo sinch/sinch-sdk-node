@@ -1,5 +1,5 @@
 ## Version 1.6.0
-- [Feature] Add Voice API v2: `createCall` as `voice.v2.calls.start`, batches (`get`, `getDetails`, `stop`), sessions (`get`), and callback webhooks (`parseEvent`, `validateAuthenticationHeader`, `serializeResponse`)
+- [Feature] Add Voice API v2 `createCall` as `voice.v2.calls.start` and `voice.v2.batches.start`, batches (`get`, `getDetails`, `stop` returning `BatchStopResponse`), sessions (`get`), and callback webhooks (`parseEvent`, `validateAuthenticationHeader`, `serializeResponse`)
 
 ## Version 1.5.0
 - **Breaking:** No longer re-exports `@sinch/sdk-client`. Import SDK client types and helpers from `@sinch/sdk-client` or `@sinch/sdk-core` instead.

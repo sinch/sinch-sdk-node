@@ -201,6 +201,7 @@
     "voice:calls:manage-with-call-leg": "node voice/calls/manage-with-call-leg.js",
     "voice:calls:update": "node voice/calls/update.js",
     "voice:v2:calls:start": "node voice/v2/calls/start.js",
+    "voice:v2:batches:start": "node voice/v2/batches/start.js",
     "voice:v2:batches:get": "node voice/v2/batches/get.js",
     "voice:v2:batches:get-details": "node voice/v2/batches/get-details.js",
     "voice:v2:batches:stop": "node voice/v2/batches/stop.js",

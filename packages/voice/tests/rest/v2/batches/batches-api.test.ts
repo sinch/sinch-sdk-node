@@ -20,6 +20,56 @@ describe('VoiceV2BatchesApi', () => {
     batchesApi = new VoiceV2BatchesApi(lazyClient);
   });
 
+  describe('start', () => {
+    it('should make a POST request to start a batch of outbound voice calls', async () => {
+      // Given
+      const requestData: Voice.v2.StartBatchRequestData = {
+        startBatchRequestBody: {
+          commands: [
+            {
+              command: 'dial',
+              callName: 'origin',
+              from: {
+                type: 'PHONE',
+                phone: {
+                  number: '+15551234567',
+                },
+              },
+              to: {
+                type: 'PHONE',
+                phone: {
+                  number: '@numberB',
+                },
+              },
+            },
+          ],
+          parameters: [
+            { numberB: '+15559876543' },
+            { numberB: '+15559876544' },
+          ],
+          batchOptions: {
+            maxCps: 10,
+            ttlSeconds: 3600,
+          },
+        },
+      };
+      const expectedResponse: Voice.v2.BatchResponse = {
+        projectId: '5c5bf2b1-35ae-4825-ab89-457e07bb60e6',
+        serviceId: '6e124178-c29d-46a5-943c-5c2ae544aade',
+        batchId: '01BX5ZZKBKACTAV9WEVGEMMVRC',
+      };
+
+      // When
+      fixture.start.mockResolvedValue(expectedResponse);
+      batchesApi.start = fixture.start;
+      const response = await batchesApi.start(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.start).toHaveBeenCalledWith(requestData);
+    });
+  });
+
   describe('get', () => {
     it('should make a GET request to retrieve a batch summary', async () => {
       // Given
@@ -79,7 +129,9 @@ describe('VoiceV2BatchesApi', () => {
       const requestData: Voice.v2.StopBatchProcessingRequestData = {
         batchId: '01BX5ZZKBKACTAV9WEVGEMMVRC',
       };
-      const expectedResponse: void = undefined;
+      const expectedResponse: Voice.v2.BatchStopResponse = {
+        result: 'STOP_REQUESTED',
+      };
 
       // When
       fixture.stop.mockResolvedValue(expectedResponse);
