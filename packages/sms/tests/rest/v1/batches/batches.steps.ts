@@ -3,6 +3,7 @@ import { Given, When, Then } from '@cucumber/cucumber';
 import * as assert from 'assert';
 import { PageResult } from '@sinch/sdk-client';
 import { ParameterGroup } from '../../../../src/models';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let batchesApi: BatchesApi;
 let sendSmsResponse: Sms.TextResponse;
@@ -18,8 +19,8 @@ Given('the SMS service "Batches" is available', () => {
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    smsHostname: 'http://localhost:3017',
+    authHostname: mockserverHosts.authHostname,
+    smsHostname: mockserverHosts.smsHostname,
   });
   batchesApi = smsService.batches;
 });
@@ -28,8 +29,8 @@ Given('the SMS service "Batches" is available and is configured for servicePlanI
   const smsService = new SmsService({
     servicePlanId: 'CappyPremiumPlan',
     apiToken: 'HappyCappyToken',
-    authHostname: 'http://localhost:3011',
-    smsHostname: 'http://localhost:3017',
+    authHostname: mockserverHosts.authHostname,
+    smsHostname: mockserverHosts.smsHostname,
   });
   batchesApi = smsService.batches;
 });

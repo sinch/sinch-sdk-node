@@ -2,6 +2,7 @@ import { Given, Then, When } from '@cucumber/cucumber';
 import { SmsCallbackWebhooks, SmsCallback, Sms } from '../../../../src';
 import assert from 'assert';
 import { IncomingHttpHeaders } from 'http';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let smsCallbackWebhook: SmsCallbackWebhooks;
 let rawEvent: any;
@@ -19,7 +20,7 @@ Given('the SMS Webhooks handler is available', () => {
 });
 
 When('I send a request to trigger an "incoming SMS" event', async () => {
-  const response = await fetch('http://localhost:3017/webhooks/sms/incoming-sms');
+  const response = await fetch(`${mockserverHosts.smsHostname}/webhooks/sms/incoming-sms`);
   await processEvent(response);
 });
 
@@ -40,7 +41,7 @@ Then('the SMS event describes an "incoming SMS" event', () => {
 });
 
 When('I send a request to trigger an "SMS delivery report" event', async () => {
-  const response = await fetch('http://localhost:3017/webhooks/sms/delivery-report-sms');
+  const response = await fetch(`${mockserverHosts.smsHostname}/webhooks/sms/delivery-report-sms`);
   await processEvent(response);
 });
 
@@ -62,7 +63,7 @@ Then('the SMS event describes an "SMS delivery report" event', () => {
 
 // eslint-disable-next-line max-len
 When('I send a request to trigger an "SMS recipient delivery report" event with the status {string}', async (status: string) => {
-  const response = await fetch(`http://localhost:3017/webhooks/sms/recipient-delivery-report-sms-${status.toLowerCase()}`);
+  const response = await fetch(`${mockserverHosts.smsHostname}/webhooks/sms/recipient-delivery-report-sms-${status.toLowerCase()}`);
   await processEvent(response);
 });
 

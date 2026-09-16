@@ -2,6 +2,7 @@ import { CoverPagesApi, FaxService, Fax } from '../../../../src';
 import { Given, Then, When } from '@cucumber/cucumber';
 import assert from 'assert';
 import { PageResult } from '@sinch/sdk-client';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let coverPagesApi: CoverPagesApi;
 let coverPage: Fax.CoverPage;
@@ -15,8 +16,8 @@ Given('the Fax service "CoverPages" is available', () => {
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    faxHostname: 'http://localhost:3012',
+    authHostname: mockserverHosts.authHostname,
+    faxHostname: mockserverHosts.faxHostname,
   });
   coverPagesApi = faxService.coverPages;
 });

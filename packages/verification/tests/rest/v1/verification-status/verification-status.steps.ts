@@ -1,6 +1,7 @@
 import { VerificationStatusApi, VerificationService, Verification  } from '../../../../src';
 import { Given, When, Then } from '@cucumber/cucumber';
 import * as assert from 'assert';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let verificationStatusApi: VerificationStatusApi;
 let smsVerificationStatus: Verification.SmsVerificationStatusResponse;
@@ -11,7 +12,7 @@ Given('the Verification service "Status" is available', () => {
   const verificationService = new VerificationService({
     applicationKey: 'appKey',
     applicationSecret: 'appSecret',
-    verificationHostname: 'http://localhost:3018',
+    verificationHostname: mockserverHosts.verificationHostname,
   });
   verificationStatusApi = verificationService.verificationStatus;
 });

@@ -1,16 +1,25 @@
 {
   "extends": "../../tsconfig.json",
-
   "compilerOptions": {
-    "rootDir": ".",
-    "outDir": "dist/tests"
+    "rootDir": "../..",
+    "outDir": "dist/tests",
+    "allowJs": false,
+    "noEmit": false
   },
-
-  "include": ["src/**/*.ts", "tests/**/*.ts"],
-  "exclude": ["node_modules", "dist"],
-
-  "references": [{ "path": "../sdk-client" }],
-
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    "../../e2e/mockserver-hosts.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "references": [
+    {
+      "path": "../sdk-client/tsconfig.build.json"
+    }
+  ],
   "ts-node": {
     "esm": true
   }

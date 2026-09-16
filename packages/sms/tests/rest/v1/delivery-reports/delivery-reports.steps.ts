@@ -2,6 +2,7 @@ import { DeliveryReportsApi, SmsService, Sms  } from '../../../../src';
 import { Given, When, Then } from '@cucumber/cucumber';
 import * as assert from 'assert';
 import { PageResult } from '@sinch/sdk-client';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let deliveryReportsApi: DeliveryReportsApi;
 let deliveryReport: Sms.DeliveryReport;
@@ -15,8 +16,8 @@ Given('the SMS service "Delivery Reports" is available', () => {
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    smsHostname: 'http://localhost:3017',
+    authHostname: mockserverHosts.authHostname,
+    smsHostname: mockserverHosts.smsHostname,
   });
   deliveryReportsApi = smsService.deliveryReports;
 });
@@ -25,8 +26,8 @@ Given('the SMS service "Delivery Reports" is available and is configured for ser
   const smsService = new SmsService({
     servicePlanId: 'CappyPremiumPlan',
     apiToken: 'HappyCappyToken',
-    authHostname: 'http://localhost:3011',
-    smsHostname: 'http://localhost:3017',
+    authHostname: mockserverHosts.authHostname,
+    smsHostname: mockserverHosts.smsHostname,
   });
   deliveryReportsApi = smsService.deliveryReports;
 });

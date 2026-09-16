@@ -3,6 +3,7 @@ import { SupportedConversationRegion } from '@sinch/sdk-client';
 import { Given, Then, When } from '@cucumber/cucumber';
 import * as assert from 'assert';
 import { PageResult } from '@sinch/sdk-client';
+import { mockserverHosts } from '../../../e2e/hosts';
 
 let eventsApi: EventsApi;
 let eventResponse: Conversation.SendEventResponse;
@@ -17,8 +18,8 @@ Given('the Conversation service "Events" is available', function () {
     projectId: 'tinyfrog-jump-high-over-lilypadbasin',
     keyId: 'keyId',
     keySecret: 'keySecret',
-    authHostname: 'http://localhost:3011',
-    conversationHostname: 'http://localhost:3014',
+    authHostname: mockserverHosts.authHostname,
+    conversationHostname: mockserverHosts.conversationHostname,
     conversationRegion: SupportedConversationRegion.UNITED_STATES,
   });
   eventsApi = conversationService.events;
