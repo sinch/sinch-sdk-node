@@ -37,6 +37,10 @@ describe('API Client Pagination Helper', () => {
     pagination: PaginationEnum.PAGE3,
     ...paginationTokenProperties,
   };
+  const paginationContextPage4: PaginationContext = {
+    pagination: PaginationEnum.PAGE4,
+    ...paginationTokenProperties,
+  };
 
 
   describe('hasMore', () => {
@@ -209,6 +213,53 @@ describe('API Client Pagination Helper', () => {
       expect(hasMoreElements).toBeFalsy();
     });
 
+    it('should return "true" when the PaginationContext is "PAGE4" and there is a next link', async () => {
+      // Given
+      const response = {
+        calls: ['H', 'He'],
+        links: {
+          first: 'https://example.com/calls?page=1&pageSize=2',
+          last: 'https://example.com/calls?page=5&pageSize=2',
+          self: 'https://example.com/calls?page=2&pageSize=2',
+          next: 'https://example.com/calls?page=3&pageSize=2',
+        },
+        meta: {
+          totalCount: 10,
+          pageCount: 5,
+        },
+      };
+      const paginationContext = { ...paginationContextPage4 };
+
+      // When
+      const hasMoreElements = hasMore(response, paginationContext);
+
+      // Then
+      expect(hasMoreElements).toBeTruthy();
+    });
+
+    it('should return "false" when the PaginationContext is "PAGE4" and there is no next link', async () => {
+      // Given
+      const response = {
+        calls: ['H', 'He'],
+        links: {
+          first: 'https://example.com/calls?page=1&pageSize=2',
+          last: 'https://example.com/calls?page=1&pageSize=2',
+          self: 'https://example.com/calls?page=1&pageSize=2',
+        },
+        meta: {
+          totalCount: 2,
+          pageCount: 1,
+        },
+      };
+      const paginationContext = { ...paginationContextPage4 };
+
+      // When
+      const hasMoreElements = hasMore(response, paginationContext);
+
+      // Then
+      expect(hasMoreElements).toBeFalsy();
+    });
+
   });
 
   describe('calculateNextPage', () => {
@@ -289,6 +340,61 @@ describe('API Client Pagination Helper', () => {
         totalPages: 1,
       };
       const paginationContext = { ...paginationContextPage3 };
+
+      // When
+      const nextPage = calculateNextPage(response, paginationContext);
+
+      // Then
+      expect(nextPage).toBe('2');
+    });
+
+    it('should return the next page value from links.next when the PaginationContext is "PAGE4"', () => {
+      // Given
+      const response = {
+        calls: ['H', 'He'],
+        links: {
+          first: 'https://example.com/calls?page=1&pageSize=2',
+          last: 'https://example.com/calls?page=5&pageSize=2',
+          self: 'https://example.com/calls?page=2&pageSize=2',
+          next: 'https://example.com/calls?page=3&pageSize=2',
+        },
+        meta: {
+          totalCount: 10,
+          pageCount: 5,
+        },
+      };
+      const paginationContext = { ...paginationContextPage4 };
+
+      // When
+      const nextPage = calculateNextPage(response, paginationContext);
+
+      // Then
+      expect(nextPage).toBe('3');
+    });
+
+    it('should increment the request page when PAGE4 has no next link', () => {
+      // Given
+      const response = {
+        calls: ['H', 'He'],
+        links: {
+          first: 'https://example.com/calls?page=1&pageSize=2',
+          last: 'https://example.com/calls?page=1&pageSize=2',
+          self: 'https://example.com/calls?page=1&pageSize=2',
+        },
+        meta: {
+          totalCount: 2,
+          pageCount: 1,
+        },
+      };
+      const paginationContext: PaginationContext = {
+        ...paginationContextPage4,
+        requestOptions: {
+          ...paginationContextPage4.requestOptions,
+          queryParams: {
+            page: '1',
+          },
+        },
+      };
 
       // When
       const nextPage = calculateNextPage(response, paginationContext);

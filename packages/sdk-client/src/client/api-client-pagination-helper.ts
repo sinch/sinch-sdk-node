@@ -73,7 +73,8 @@ class SinchIterator<T> implements AsyncIterator<T> {
     }
     if (this.paginatedOperationProperties.pagination === PaginationEnum.PAGE
       || this.paginatedOperationProperties.pagination === PaginationEnum.PAGE2
-      || this.paginatedOperationProperties.pagination === PaginationEnum.PAGE3) {
+      || this.paginatedOperationProperties.pagination === PaginationEnum.PAGE3
+      || this.paginatedOperationProperties.pagination === PaginationEnum.PAGE4) {
       const newParams = {
         page: pageResult.nextPageValue,
       };
@@ -184,6 +185,7 @@ export const createNextPageMethod = <T>(
     case PaginationEnum.PAGE:
     case PaginationEnum.PAGE2:
     case PaginationEnum.PAGE3:
+    case PaginationEnum.PAGE4:
       newParams = {
         page: nextPageValue,
       };
@@ -232,6 +234,9 @@ export function hasMore(
   if (context.pagination === PaginationEnum.PAGE3) {
     return response.page < response.totalPages;
   }
+  if (context.pagination === PaginationEnum.PAGE4) {
+    return !!response.links?.next;
+  }
   throw new Error(`The operation ${context.operationId} is not meant to be paginated.`);
 }
 
@@ -260,8 +265,28 @@ export function calculateNextPage(
     const nextPage = currentPage + 1;
     return nextPage.toString();
   }
+  if (context.pagination === PaginationEnum.PAGE4) {
+    const pageFromLink = getPageQueryParam(response.links?.next);
+    if (pageFromLink) {
+      return pageFromLink;
+    }
+    const currentPageParam = context.requestOptions.queryParams?.page;
+    const currentPage: number = currentPageParam ? parseInt(currentPageParam, 10) : 1;
+    return (Number.isNaN(currentPage) ? 1 : currentPage + 1).toString();
+  }
   throw new Error(`The operation ${context.operationId} is not meant to be paginated.`);
 }
+
+const getPageQueryParam = (link: string | undefined): string | undefined => {
+  if (!link) {
+    return undefined;
+  }
+  try {
+    return new URL(link, 'https://example.com').searchParams.get('page') ?? undefined;
+  } catch {
+    return undefined;
+  }
+};
 
 export interface PaginationContext {
   pagination: PaginationEnum;

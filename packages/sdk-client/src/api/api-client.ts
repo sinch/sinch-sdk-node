@@ -15,7 +15,9 @@ export enum PaginationEnum {
   /** used by the Elastic SIP Trunking API */
   PAGE2,
   /** used by the Fax API */
-  PAGE3
+  PAGE3,
+  /** used by Voice API v2 */
+  PAGE4
 }
 export interface ApiListPromise<T> extends Promise<PageResult<T>>, AsyncIterableIterator<T> {
 }
