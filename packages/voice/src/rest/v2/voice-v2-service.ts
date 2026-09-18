@@ -8,6 +8,7 @@ import {
 } from '@sinch/sdk-client';
 import { BatchesApi } from './batches';
 import { CallsApi } from './calls';
+import { ServicesApi } from './services';
 import { SessionsApi } from './sessions';
 
 /** Default global hostname from the Voice v2 OAS `servers` list. */
@@ -43,11 +44,13 @@ export class LazyVoiceV2ApiClient extends LazyApiClient {
  * - calls
  * - batches
  * - sessions
+ * - services
  */
 export class VoiceV2Service {
   public readonly calls: CallsApi;
   public readonly batches: BatchesApi;
   public readonly sessions: SessionsApi;
+  public readonly services: ServicesApi;
 
   /** @internal */
   public readonly lazyClient: LazyVoiceV2ApiClient;
@@ -59,6 +62,7 @@ export class VoiceV2Service {
     this.calls = new CallsApi(this.lazyClient);
     this.batches = new BatchesApi(this.lazyClient);
     this.sessions = new SessionsApi(this.lazyClient);
+    this.services = new ServicesApi(this.lazyClient);
   }
 
   public setApiClientConfig(newParams: SinchClientParameters) {
