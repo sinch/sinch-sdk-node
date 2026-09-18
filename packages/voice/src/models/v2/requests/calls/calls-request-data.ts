@@ -5,7 +5,7 @@ import { CallRequest } from '../../call-request';
 export interface CreateCallRequestData {
   /** The ID of the service. If omitted, the project's default service is used. */
   'serviceId'?: string;
-  /** Client-generated idempotency key to safely retry requests. The server uses this key to recognize retries of the same request. If a request with the same key is received within 10 minutes, the server returns the cached response from the original request. Using a random UUID (v4) is strongly recommended. */
+  /** Client-generated idempotency key to safely retry requests. The server uses this key to recognize retries of the same request. If a request with the same key is received within 10 minutes, the server returns the cached response from the original request. Using a random UUID (v4) is strongly recommended. If omitted, the SDK generates a UUID v4. */
   'Idempotency-Key'?: string;
   /** Request payload to initiate a single outbound call. */
   'createCallRequestBody'?: CallRequest;
@@ -74,7 +74,7 @@ export interface GetCallByIdRequestData {
 export interface PatchCallByIdRequestData {
   /** The ID of the call. */
   'callId': string;
-  /** Client-generated idempotency key to safely retry requests. The server uses this key to recognize retries of the same request. If a request with the same key is received within 10 minutes, the server returns the cached response from the original request. Using a random UUID (v4) is strongly recommended. */
+  /** Client-generated idempotency key to safely retry requests. The server uses this key to recognize retries of the same request. If a request with the same key is received within 10 minutes, the server returns the cached response from the original request. Using a random UUID (v4) is strongly recommended. If omitted, the SDK generates a UUID v4. */
   'Idempotency-Key'?: string;
   /** Request body for patching an ongoing call with SVAML commands. */
   'callPatchRequestBody': CallPatchRequest;
@@ -85,7 +85,7 @@ export interface PatchCallBySessionAndNameRequestData {
   'sessionId': string;
   /** The name of the call leg within the session, as assigned by the `callName` property in the `dial` command. */
   'callName': string;
-  /** Client-generated idempotency key to safely retry requests. The server uses this key to recognize retries of the same request. If a request with the same key is received within 10 minutes, the server returns the cached response from the original request. Using a random UUID (v4) is strongly recommended. */
+  /** Client-generated idempotency key to safely retry requests. The server uses this key to recognize retries of the same request. If a request with the same key is received within 10 minutes, the server returns the cached response from the original request. Using a random UUID (v4) is strongly recommended. If omitted, the SDK generates a UUID v4. */
   'Idempotency-Key'?: string;
   /** Request body for patching an ongoing call with SVAML commands. */
   'callPatchRequestBody': CallPatchRequest;

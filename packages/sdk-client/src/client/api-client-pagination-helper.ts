@@ -73,13 +73,16 @@ class SinchIterator<T> implements AsyncIterator<T> {
     }
     if (this.paginatedOperationProperties.pagination === PaginationEnum.PAGE
       || this.paginatedOperationProperties.pagination === PaginationEnum.PAGE2
-      || this.paginatedOperationProperties.pagination === PaginationEnum.PAGE3
-      || this.paginatedOperationProperties.pagination === PaginationEnum.PAGE4) {
+      || this.paginatedOperationProperties.pagination === PaginationEnum.PAGE3) {
       const newParams = {
         page: pageResult.nextPageValue,
       };
       return updateQueryParamsAndSendRequest(
         this.apiClient,newParams, requestOptions, this.paginatedOperationProperties);
+    }
+    if (this.paginatedOperationProperties.pagination === PaginationEnum.PAGE_LINK) {
+      return followLinkAndSendRequest(
+        this.apiClient, pageResult.nextPageValue, requestOptions, this.paginatedOperationProperties);
     }
     throw new Error(`The operationId "${this.paginatedOperationProperties.operationId}" must define a pagination model`);
   }
@@ -91,6 +94,33 @@ class SinchIterator<T> implements AsyncIterator<T> {
   }
 
 }
+
+const followLinkAndSendRequest = <T>(
+  apiClient: ApiClient,
+  nextPageValue: string,
+  requestOptions: RequestOptions,
+  paginatedApiProperties: PaginatedApiProperties,
+): Promise<PageResult<T>> => {
+  const nextLink = JSON.parse(nextPageValue) as string;
+  const nextUrl = new URL(nextLink, requestOptions.hostname);
+  const newQueryParams: { [key: string]: string } = {};
+  nextUrl.searchParams.forEach((value, key) => {
+    newQueryParams[key] = JSON.stringify(value);
+  });
+  const newRequestOptions: RequestOptions = {
+    ...requestOptions,
+    queryParams: newQueryParams,
+  };
+  const newUrl = apiClient.prepareUrl(
+    requestOptions.hostname,
+    newQueryParams,
+  );
+  return apiClient.processCallWithPagination<T>({
+    url: newUrl,
+    requestOptions: newRequestOptions,
+    ...paginatedApiProperties,
+  });
+};
 
 const updateQueryParamsAndSendRequest = <T>(
   apiClient: ApiClient,
@@ -170,7 +200,18 @@ export const createNextPageMethod = <T>(
   requestOptions: RequestOptions,
   nextPageValue: string,
 ): ApiListPromise<T> => {
-  let newParams;
+  if (context.pagination === PaginationEnum.PAGE_LINK) {
+    const pageResultPromise = followLinkAndSendRequest<T>(
+      apiClient, nextPageValue, requestOptions, context);
+    const requestOptionsPromise = Promise.resolve(requestOptions);
+    Object.assign(
+      pageResultPromise,
+      createIteratorMethodsForPagination<T>(apiClient, requestOptionsPromise, pageResultPromise, context),
+    );
+    return pageResultPromise as ApiListPromise<T>;
+  }
+
+  let newParams: { [key: string]: string };
   switch (context.pagination) {
     case PaginationEnum.TOKEN:
       newParams = {
@@ -185,7 +226,6 @@ export const createNextPageMethod = <T>(
     case PaginationEnum.PAGE:
     case PaginationEnum.PAGE2:
     case PaginationEnum.PAGE3:
-    case PaginationEnum.PAGE4:
       newParams = {
         page: nextPageValue,
       };
@@ -234,8 +274,8 @@ export function hasMore(
   if (context.pagination === PaginationEnum.PAGE3) {
     return response.page < response.totalPages;
   }
-  if (context.pagination === PaginationEnum.PAGE4) {
-    return !!response.links?.next;
+  if (context.pagination === PaginationEnum.PAGE_LINK) {
+    return !!response.links.next;
   }
   throw new Error(`The operation ${context.operationId} is not meant to be paginated.`);
 }
@@ -265,28 +305,11 @@ export function calculateNextPage(
     const nextPage = currentPage + 1;
     return nextPage.toString();
   }
-  if (context.pagination === PaginationEnum.PAGE4) {
-    const pageFromLink = getPageQueryParam(response.links?.next);
-    if (pageFromLink) {
-      return pageFromLink;
-    }
-    const currentPageParam = context.requestOptions.queryParams?.page;
-    const currentPage: number = currentPageParam ? parseInt(currentPageParam, 10) : 1;
-    return (Number.isNaN(currentPage) ? 1 : currentPage + 1).toString();
+  if (context.pagination === PaginationEnum.PAGE_LINK) {
+    return response.links.next ?? '';
   }
   throw new Error(`The operation ${context.operationId} is not meant to be paginated.`);
 }
-
-const getPageQueryParam = (link: string | undefined): string | undefined => {
-  if (!link) {
-    return undefined;
-  }
-  try {
-    return new URL(link, 'https://example.com').searchParams.get('page') ?? undefined;
-  } catch {
-    return undefined;
-  }
-};
 
 export interface PaginationContext {
   pagination: PaginationEnum;

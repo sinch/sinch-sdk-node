@@ -14,7 +14,7 @@ async function main() {
   // The ID of the session that contains the call
   const sessionId = 'SESSION_ID';
   // The name of the call leg within the session, as assigned by the `callName` property in the `dial` command
-  const callName = 'origin';
+  const callName = 'CALL_NAME';
 
   const sinch = new SinchClient({ projectId, keyId, keySecret });
 

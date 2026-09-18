@@ -206,7 +206,6 @@ Then('the calls iteration result contains the data from {string} pages', (expect
 When('I send a request to interact with an ongoing call by call ID', async () => {
   interactResponse = await callsApi.interactByCallId({
     callId: '01HZXK8FQNPMR8VD3JW9YF2C5A',
-    'Idempotency-Key': 'e2e-voice-v2-interact-by-call-id',
     callPatchRequestBody: interactRequestBody,
   });
 });

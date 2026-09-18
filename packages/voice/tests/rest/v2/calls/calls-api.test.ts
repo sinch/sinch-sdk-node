@@ -25,7 +25,7 @@ describe('VoiceV2CallsApi', () => {
       // Given
       const requestData: Voice.v2.CreateCallRequestData = {
         serviceId: '6e124178-c29d-46a5-943c-5c2ae544aade',
-        'Idempotency-Key': '01ARZ3NDEKTSV4RRFFQ69G5FAA',
+        'Idempotency-Key': '7f3a1c2e-9b4d-4e8a-a6c1-2d5e8f0b3a47',
         createCallRequestBody: {
           commands: [
             {
@@ -210,7 +210,7 @@ describe('VoiceV2CallsApi', () => {
       // Given
       const requestData: Voice.v2.PatchCallByIdRequestData = {
         callId: '01ARZ3NDEKTSV4RRFFQ69G5FAA',
-        'Idempotency-Key': '01ARZ3NDEKTSV4RRFFQ69G5FAB',
+        'Idempotency-Key': '8a4b2d3f-0c5e-4f9b-b7d2-3e6f9a1c4b58',
         callPatchRequestBody: {
           commands: [
             {
@@ -237,7 +237,7 @@ describe('VoiceV2CallsApi', () => {
       const requestData: Voice.v2.PatchCallBySessionAndNameRequestData = {
         sessionId: '01BX5ZZKBKACTAV9WEVGEMMVRB',
         callName: 'origin',
-        'Idempotency-Key': '01ARZ3NDEKTSV4RRFFQ69G5FAC',
+        'Idempotency-Key': '9b5c3e4a-1d6f-401c-88e3-4f7a0b2d5c69',
         callPatchRequestBody: {
           commands: [
             {

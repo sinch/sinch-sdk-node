@@ -15,8 +15,14 @@ async function main() {
 
   try {
     const response = await sinch.voice.v2.calls.list();
-    console.log('✅ Successfully listed Voice v2 calls.');
-    console.log(`Response:\n${JSON.stringify(response, null, 2)}`);
+    if (response.data.length === 0) {
+      console.log('No Voice v2 calls found.');
+      return;
+    }
+    console.log(`✅ Found ${response.data.length} Voice v2 calls.`);
+    response.data.forEach((call) => {
+      console.log(call);
+    });
   } catch (err) {
     console.error('❌ Failed to list Voice v2 calls:');
     console.error(err);

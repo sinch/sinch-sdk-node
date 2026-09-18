@@ -16,8 +16,8 @@ export enum PaginationEnum {
   PAGE2,
   /** used by the Fax API */
   PAGE3,
-  /** used by Voice API v2 */
-  PAGE4
+  /** used by Voice API v2 — follow `links.next` */
+  PAGE_LINK
 }
 export interface ApiListPromise<T> extends Promise<PageResult<T>>, AsyncIterableIterator<T> {
 }

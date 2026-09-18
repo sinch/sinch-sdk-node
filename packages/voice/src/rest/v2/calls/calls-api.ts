@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import {
   ApiListPromise,
   PaginatedApiProperties,
@@ -37,7 +38,7 @@ export class CallsApi extends VoiceV2DomainApi {
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Idempotency-Key': data['Idempotency-Key'],
+      'Idempotency-Key': data['Idempotency-Key'] ?? randomUUID(),
     };
 
     const body: RequestBody = data['createCallRequestBody']
@@ -93,7 +94,7 @@ export class CallsApi extends VoiceV2DomainApi {
       = this.client.prepareOptions(basePathUrl, 'GET', getParams, headers, body || undefined);
 
     const operationProperties: PaginatedApiProperties = {
-      pagination: PaginationEnum.PAGE4,
+      pagination: PaginationEnum.PAGE_LINK,
       apiName: this.apiName,
       operationId: 'listCalls',
       dataKey: 'calls',
@@ -154,7 +155,7 @@ export class CallsApi extends VoiceV2DomainApi {
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Idempotency-Key': data['Idempotency-Key'],
+      'Idempotency-Key': data['Idempotency-Key'] ?? randomUUID(),
     };
 
     const body: RequestBody = data['callPatchRequestBody']
@@ -186,7 +187,7 @@ export class CallsApi extends VoiceV2DomainApi {
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Idempotency-Key': data['Idempotency-Key'],
+      'Idempotency-Key': data['Idempotency-Key'] ?? randomUUID(),
     };
 
     const body: RequestBody = data['callPatchRequestBody']
