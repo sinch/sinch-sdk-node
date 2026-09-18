@@ -30,6 +30,9 @@ function main() {
 
   try {
     const event = VoiceV2CallbackWebhooks.parseEvent(eventBody);
+    if (!event.call) {
+      throw new Error('Parsed webhook event is missing the required call payload.');
+    }
     console.log(`✅ Parsed webhook event "${event.event}" for call ${event.call.callId}.`);
     console.log(`Call:\n${JSON.stringify(event.call, null, 2)}`);
   } catch (err) {
