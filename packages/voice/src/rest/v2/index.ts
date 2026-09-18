@@ -4,6 +4,7 @@ export { CallsApi as VoiceV2CallsApi, CallsApiFixture as VoiceV2CallsApiFixture 
 export { BatchesApi as VoiceV2BatchesApi, BatchesApiFixture as VoiceV2BatchesApiFixture } from './batches';
 export { SessionsApi as VoiceV2SessionsApi, SessionsApiFixture as VoiceV2SessionsApiFixture } from './sessions';
 export { ServicesApi as VoiceV2ServicesApi, ServicesApiFixture as VoiceV2ServicesApiFixture } from './services';
+export { SvamlApi as VoiceV2SvamlApi, SvamlApiFixture as VoiceV2SvamlApiFixture } from './svaml';
 export {
   CallbackWebhooks as VoiceV2CallbackWebhooks,
   CallbackWebhooksFixture as VoiceV2CallbackWebhooksFixture,

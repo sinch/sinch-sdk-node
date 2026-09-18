@@ -215,6 +215,8 @@
     "voice:v2:services:get": "node voice/v2/services/get.js",
     "voice:v2:services:update": "node voice/v2/services/update.js",
     "voice:v2:services:delete": "node voice/v2/services/delete.js",
+    "voice:v2:svaml:describe": "node voice/v2/svaml/describe.js",
+    "voice:v2:svaml:validate": "node voice/v2/svaml/validate.js",
     "voice:v2:callbacks:parse-event": "node voice/v2/callbacks/parse-event.js",
     "voice:v2:callbacks:validate-authentication-header": "node voice/v2/callbacks/validate-authentication-header.js",
     "voice:v2:callbacks:serialize-response": "node voice/v2/callbacks/serialize-response.js",

@@ -17,3 +17,6 @@ export type {
 export type { InputMethodsEnum as MenuItemInputMethodsEnum } from './menu-item/menu-item';
 export type { ResultEnum as BatchStopResponseResultEnum } from './batch-stop-response/batch-stop-response';
 export type { WebhookEvent as WebhookRequestEvent } from './webhook-request/webhook-request';
+export type {
+  ValidationTypeEnum as ValidateSvamlRequestValidationTypeEnum,
+} from './validate-svaml-request/validate-svaml-request';
