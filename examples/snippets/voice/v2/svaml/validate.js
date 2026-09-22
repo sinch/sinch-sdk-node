@@ -16,13 +16,8 @@ async function main() {
   try {
     const response = await sinch.voice.v2.svaml.validate({
       validateSvamlRequestBody: {
-        validationType: 'STRICT',
         svaml: {
-          callName: 'incoming',
           commands: [
-            {
-              command: 'answer',
-            },
             {
               command: 'messages',
               messages: [
