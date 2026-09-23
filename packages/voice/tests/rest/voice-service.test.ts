@@ -8,6 +8,7 @@ import {
   VoiceV2BatchesApi,
   VoiceV2CallsApi,
   VoiceV2Service,
+  VoiceV2ServicesApi,
   VoiceV2SessionsApi,
 } from '../../src';
 
@@ -59,6 +60,7 @@ describe('Voice Service', () => {
     expect(voiceService.v2.calls).toBeInstanceOf(VoiceV2CallsApi);
     expect(voiceService.v2.batches).toBeInstanceOf(VoiceV2BatchesApi);
     expect(voiceService.v2.sessions).toBeInstanceOf(VoiceV2SessionsApi);
+    expect(voiceService.v2.services).toBeInstanceOf(VoiceV2ServicesApi);
   });
 
   it('should update the API client for all the subdomains', () => {

@@ -3,6 +3,7 @@
   - Calls: `start`, `list`, `get`, `interactByCallId`, `interactByCallName`
   - Batches: `start`, `get`, `getDetails`, `stop`
   - Sessions: `get`
+  - Services: `list`, `create`, `get`, `update`, `delete`
   - Callback Webhooks: `parseEvent`, `validateAuthenticationHeader`, `serializeResponse`
 
 ## Version 1.5.0
