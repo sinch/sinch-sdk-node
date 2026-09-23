@@ -24,7 +24,7 @@ async function main() {
         commands: [
           {
             command: 'dial',
-            callName: 'origin',
+            callName: 'Node_SDK_Snippet_Call',
             from: {
               type: 'PHONE',
               phone: {

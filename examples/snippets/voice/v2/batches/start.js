@@ -24,7 +24,7 @@ async function main() {
         commands: [
           {
             command: 'dial',
-            callName: 'batch-reminder',
+            callName: 'Node_SDK_Snippet_Call',
             from: {
               type: 'PHONE',
               phone: {
@@ -47,18 +47,11 @@ async function main() {
                     {
                       type: 'SAY',
                       say: {
-                        text: 'Hello, this is an automated reminder from Sinch. Goodbye.',
+                        text: 'Hello, your call is now connected.',
                         voiceName: 'Emma',
                       },
                     },
                   ],
-                  events: {
-                    onFinish: [
-                      {
-                        command: 'hangup',
-                      },
-                    ],
-                  },
                 },
               ],
               onHangup: [

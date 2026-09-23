@@ -4,6 +4,7 @@
   - Batches: `start`, `get`, `getDetails`, `stop`
   - Sessions: `get`
   - Services: `list`, `create`, `get`, `update`, `delete`
+  - Payloads (SVAML): `describe`, `validate`
   - Callback Webhooks: `parseEvent`, `validateAuthenticationHeader`, `serializeResponse`
 
 ## Version 1.5.0
