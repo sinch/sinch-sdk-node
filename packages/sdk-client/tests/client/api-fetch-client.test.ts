@@ -18,6 +18,7 @@ jest.mock('../../src/client/retry-policy', () => {
 
 import { RequestPluginEnum } from '../../src/plugins/core/request-plugin';
 import { ApiFetchClient, PaginationEnum, Oauth2TokenRequest, SupportedRetryPolicy } from '../../src';
+import { toHttpResponse } from '../../src/http/fetch';
 import * as retryPolicy from '../../src/client/retry-policy';
 import fetch, { Headers, Response } from 'node-fetch';
 
@@ -325,6 +326,7 @@ describe('processFileResponse', () => {
     mockResponse.headers.set('content-disposition', 'attachment; filename="test.pdf"');
 
     const context = {
+      httpResponse: toHttpResponse(mockResponse),
       response: mockResponse,
       body: undefined,
       apiCallParameters: {} as any,
@@ -346,6 +348,7 @@ describe('processFileResponse', () => {
     const apiClient = new ApiFetchClient({ requestPlugins: [] });
     const mockResponse = new Response('', { status: 404 });
     const context = {
+      httpResponse: toHttpResponse(mockResponse),
       response: mockResponse,
       body: undefined,
       apiCallParameters: {} as any,
@@ -355,7 +358,7 @@ describe('processFileResponse', () => {
     // When & Then
     await expect(apiClient['processFileResponse'](context))
       .rejects
-      .toThrow('No response received');
+      .toThrow('HTTP 404');
   });
 });
 
@@ -373,6 +376,7 @@ describe('processCSVResponse', () => {
     mockResponse.headers.set('content-transfer-encoding', 'binary');
 
     const context = {
+      httpResponse: toHttpResponse(mockResponse),
       response: mockResponse,
       body: undefined,
       apiCallParameters: {} as any,

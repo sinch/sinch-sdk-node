@@ -2,6 +2,7 @@
 - [Feature] Add `voiceV2Hostname` to `ApiHostname` / `SinchClientParameters` to override the Voice API v2 hostname.
 - [Feature] Add transport-level settings on `SinchClientParameters` (`TransportSettings`).
 - [Feature] Add `PaginationEnum.PAGE_LINK` for Voice API v2 list pagination.
+- [Tech] Internal HTTP transport is based on `HttpRequest`/`HttpResponse` for existing `ApiFetchClient` calls.
 - [Deprecation] Mailgun-related settings are deprecated (`MailgunCredentials`, `MailgunRegion`, `SupportedMailgunRegion`, `MAILGUN_HOSTNAME`, `mailgunHostname`, and `buildMailgunApiClientOptions`). Mailgun was never released as a Node SDK product; these settings will be removed in a future major version.
 - [Deprecation] `elasticSipTrunkingHostname` is deprecated. Elastic SIP Trunking support will be removed in version 2 of the SDK.
 
