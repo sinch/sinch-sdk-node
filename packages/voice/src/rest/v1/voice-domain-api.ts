@@ -4,7 +4,7 @@ import {
   ApplicationCredentials,
   VoiceRegion,
 } from '@sinch/sdk-client';
-import { LazyVoiceApiClient, LazyVoiceApplicationManagementApiClient } from './voice-service';
+import { LazyVoiceApiClient, LazyVoiceApplicationManagementApiClient } from './lazy-voice-api-client';
 
 export class VoiceDomainApi implements Api {
 

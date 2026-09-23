@@ -11,7 +11,7 @@ import {
   UpdateCallbackURLsRequestData,
 } from '../../../models';
 import { VoiceDomainApi } from '../voice-domain-api';
-import { LazyVoiceApplicationManagementApiClient } from '../voice-service';
+import { LazyVoiceApplicationManagementApiClient } from '../lazy-voice-api-client';
 
 export class ApplicationsApi extends VoiceDomainApi {
 

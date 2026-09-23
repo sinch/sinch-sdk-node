@@ -1,3 +1,12 @@
+## Version 1.6.0
+- [Feature] Support Voice API v2:
+  - Calls: `start`, `list`, `get`, `interactByCallId`, `interactByCallName`
+  - Batches: `start`, `get`, `getDetails`, `stop`
+  - Sessions: `get`
+  - Services: `list`, `create`, `get`, `update`, `delete`
+  - Payloads (SVAML): `describe`, `validate`
+  - Callback Webhooks: `parseEvent`, `validateAuthenticationHeader`, `serializeResponse`
+
 ## Version 1.5.0
 - **Breaking:** No longer re-exports `@sinch/sdk-client`. Import SDK client types and helpers from `@sinch/sdk-client` or `@sinch/sdk-core` instead.
 - [Tech] Update dependency `@sinch/sdk-client` to `1.5.0` — configurable SDK logging
