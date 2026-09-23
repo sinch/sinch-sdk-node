@@ -30,8 +30,8 @@ function main() {
 
   try {
     const event = VoiceV2CallbackWebhooks.parseEvent(eventBody);
-    console.log(`✅ Parsed webhook event "${event.event}" for call ${event.call.callId}.`);
-    console.log(`Call:\n${JSON.stringify(event.call, null, 2)}`);
+    console.log(`✅ Parsed webhook event "${event.event}".`);
+    console.log(`Event:\n${JSON.stringify(event, null, 2)}`);
   } catch (err) {
     console.error('❌ Failed to parse the webhook event:');
     console.error(err);

@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import { RequestBody } from '@sinch/sdk-client';
 import {
   BatchDetails,
@@ -32,7 +33,7 @@ export class BatchesApi extends VoiceV2DomainApi {
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Idempotency-Key': data['Idempotency-Key'],
+      'Idempotency-Key': data['Idempotency-Key'] ?? randomUUID(),
     };
 
     const body: RequestBody = data['startBatchRequestBody']
