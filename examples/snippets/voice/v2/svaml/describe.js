@@ -17,11 +17,7 @@ async function main() {
     const response = await sinch.voice.v2.svaml.describe({
       describeSvamlRequestBody: {
         svaml: {
-          callName: 'incoming',
           commands: [
-            {
-              command: 'answer',
-            },
             {
               command: 'messages',
               messages: [
