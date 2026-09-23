@@ -80,6 +80,10 @@ class SinchIterator<T> implements AsyncIterator<T> {
       return updateQueryParamsAndSendRequest(
         this.apiClient,newParams, requestOptions, this.paginatedOperationProperties);
     }
+    if (this.paginatedOperationProperties.pagination === PaginationEnum.PAGE_LINK) {
+      return followLinkAndSendRequest(
+        this.apiClient, pageResult.nextPageValue, requestOptions, this.paginatedOperationProperties);
+    }
     throw new Error(`The operationId "${this.paginatedOperationProperties.operationId}" must define a pagination model`);
   }
 
@@ -90,6 +94,21 @@ class SinchIterator<T> implements AsyncIterator<T> {
   }
 
 }
+
+const followLinkAndSendRequest = <T>(
+  apiClient: ApiClient,
+  nextPageValue: string,
+  requestOptions: RequestOptions,
+  paginatedApiProperties: PaginatedApiProperties,
+): Promise<PageResult<T>> => {
+  const nextLink = JSON.parse(nextPageValue) as string;
+  const nextUrl = new URL(nextLink, requestOptions.hostname);
+  return apiClient.processCallWithPagination<T>({
+    url: nextUrl.toString(),
+    requestOptions,
+    ...paginatedApiProperties,
+  });
+};
 
 const updateQueryParamsAndSendRequest = <T>(
   apiClient: ApiClient,
@@ -169,7 +188,18 @@ export const createNextPageMethod = <T>(
   requestOptions: RequestOptions,
   nextPageValue: string,
 ): ApiListPromise<T> => {
-  let newParams;
+  if (context.pagination === PaginationEnum.PAGE_LINK) {
+    const pageResultPromise = followLinkAndSendRequest<T>(
+      apiClient, nextPageValue, requestOptions, context);
+    const requestOptionsPromise = Promise.resolve(requestOptions);
+    Object.assign(
+      pageResultPromise,
+      createIteratorMethodsForPagination<T>(apiClient, requestOptionsPromise, pageResultPromise, context),
+    );
+    return pageResultPromise as ApiListPromise<T>;
+  }
+
+  let newParams: { [key: string]: string };
   switch (context.pagination) {
     case PaginationEnum.TOKEN:
       newParams = {
@@ -232,6 +262,9 @@ export function hasMore(
   if (context.pagination === PaginationEnum.PAGE3) {
     return response.page < response.totalPages;
   }
+  if (context.pagination === PaginationEnum.PAGE_LINK) {
+    return !!response.links.next;
+  }
   throw new Error(`The operation ${context.operationId} is not meant to be paginated.`);
 }
 
@@ -259,6 +292,9 @@ export function calculateNextPage(
     const currentPage: number = response.page || 1;
     const nextPage = currentPage + 1;
     return nextPage.toString();
+  }
+  if (context.pagination === PaginationEnum.PAGE_LINK) {
+    return response.links.next ?? '';
   }
   throw new Error(`The operation ${context.operationId} is not meant to be paginated.`);
 }

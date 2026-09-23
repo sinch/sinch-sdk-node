@@ -1,5 +1,4 @@
-import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
-import { ApiFetchClient, ApiTokenRequest, FaxRegion, SinchClientParameters } from '@sinch/sdk-client';
+import { RequestPlugin, ApiFetchClient, ApiTokenRequest, FaxRegion, SinchClientParameters } from '@sinch/sdk-client';
 import { FaxToEmailApi, FaxesApi, FaxService, ServicesApi, CoverPagesApi } from '../../../src';
 
 jest.mock('node-fetch', () => {

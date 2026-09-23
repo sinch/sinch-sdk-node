@@ -4,6 +4,7 @@ import { TextMessageItem } from '../text-message';
 import { UrlMessage } from '../url-message';
 import { CalendarMessage } from '../calendar-message';
 import { ShareLocationMessage } from '../share-location-message';
+import { DisplayMode } from '../enums';
 
 /**
  * A choice is an action the user can take such as buttons for quick replies or other call to actions.
@@ -19,6 +20,8 @@ export type Choice =
 export interface ChoiceBase {
   /** An optional field. This data will be returned in the ChoiceResponseMessage. The default is message_id_{text, title}. */
   postback_data?: string;
+  /** @see DisplayMode */
+  display_mode?: DisplayMode;
 }
 
 /**

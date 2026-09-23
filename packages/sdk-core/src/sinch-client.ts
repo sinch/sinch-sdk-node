@@ -1,3 +1,4 @@
+import { ProvisioningService } from '@sinch/provisioning';
 import { ConversationService } from '@sinch/conversation';
 import { FaxService } from '@sinch/fax';
 import { NumbersService } from '@sinch/numbers';
@@ -15,7 +16,10 @@ export class SinchClient {
   public readonly conversation: ConversationService;
   /** Fax API service (OAuth2: `projectId`, `keyId`, `keySecret`). */
   public readonly fax: FaxService;
-  /** Elastic SIP Trunking API service (OAuth2: `projectId`, `keyId`, `keySecret`). */
+  /**
+   * Elastic SIP Trunking API service (OAuth2: `projectId`, `keyId`, `keySecret`).
+   * @deprecated Elastic SIP Trunking support will be removed in version 2 of the SDK.
+   */
   public readonly elasticSipTrunking: ElasticSipTrunkingService;
   /** Numbers API service (OAuth2: `projectId`, `keyId`, `keySecret`). */
   public readonly numbers: NumbersService;
@@ -27,6 +31,8 @@ export class SinchClient {
   public readonly voice: VoiceService;
   /** Number Lookup API service (OAuth2: `projectId`, `keyId`, `keySecret`). */
   public readonly numberLookup: NumberLookupService;
+  /** Provisioning API service (OAuth2: `projectId`, `keyId`, `keySecret`). */
+  public readonly provisioning: ProvisioningService;
 
   /**
    * Initialize your API Client instance with the provided credentials.
@@ -43,5 +49,6 @@ export class SinchClient {
     this.verification = new VerificationService(params);
     this.voice = new VoiceService(params);
     this.numberLookup = new NumberLookupService(params);
+    this.provisioning = new ProvisioningService(params);
   }
 }

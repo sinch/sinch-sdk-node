@@ -7,6 +7,7 @@ import {
   PluginRunner,
   SigningRequest,
   SinchClientParameters,
+  SupportedRetryPolicy,
   XTimestampRequest,
 } from '../../src';
 import { RequestOptions, RequestPlugin } from '../../src/plugins/core/request-plugin';
@@ -55,6 +56,26 @@ describe('API Client Options helper', () => {
       expect(apiClientOptions.requestPlugins?.length).toBe(1);
       expect(apiClientOptions.requestPlugins?.[0]).toBeInstanceOf(Oauth2TokenRequest);
       expect(apiClientOptions.responsePlugins).toBeUndefined();
+      expect(apiClientOptions.retryPolicy).toBe(SupportedRetryPolicy.DEFAULT);
+      expect(apiClientOptions.maxRetryCount).toBe(3);
+      expect(apiClientOptions.exponentialBackoff).toBe(4);
+    });
+
+    it('should propagate custom retry policy settings', () => {
+      const params: SinchClientParameters = {
+        projectId: 'PROJECT_ID',
+        keyId: 'KEY_ID',
+        keySecret: 'KEY_SECRET',
+        retryPolicy: SupportedRetryPolicy.NONE,
+        maxRetryCount: 1,
+        exponentialBackoff: 2,
+      };
+
+      const apiClientOptions = buildOAuth2ApiClientOptions(params, 'foo');
+
+      expect(apiClientOptions.retryPolicy).toBe(SupportedRetryPolicy.NONE);
+      expect(apiClientOptions.maxRetryCount).toBe(1);
+      expect(apiClientOptions.exponentialBackoff).toBe(2);
     });
 
     it('should build some API client options with additional plugins', () => {
@@ -87,6 +108,46 @@ describe('API Client Options helper', () => {
       // Then
       expect(buildApiClientOptionsFunction).toThrow(
         'Invalid configuration for the foo API: "projectId", "keyId" and "keySecret" values must be provided');
+    });
+
+    it('should omit Oauth2TokenRequest when useSinchAuth is false', () => {
+      // Given
+      const params: SinchClientParameters = {
+        projectId: 'PROJECT_ID',
+        useSinchAuth: false,
+      };
+
+      // When
+      const apiClientOptions = buildOAuth2ApiClientOptions(params, 'foo');
+
+      // Then
+      expect(apiClientOptions.projectId).toBe('PROJECT_ID');
+      expect(apiClientOptions.requestPlugins).toEqual([]);
+      expect(apiClientOptions.timeoutSeconds).toBe(60);
+    });
+
+    it('should throw when useSinchAuth is false and projectId is missing', () => {
+      const buildApiClientOptionsFunction = () => buildOAuth2ApiClientOptions({ useSinchAuth: false }, 'foo');
+
+      expect(buildApiClientOptionsFunction).toThrow(
+        'Invalid configuration for the foo API: "projectId" must be provided');
+    });
+
+    it('should apply a custom timeoutSeconds', () => {
+      // Given
+      const params: SinchClientParameters = {
+        projectId: 'PROJECT_ID',
+        keyId: 'KEY_ID',
+        keySecret: 'KEY_SECRET',
+        timeoutSeconds: 30,
+      };
+
+      // When
+      const apiClientOptions = buildOAuth2ApiClientOptions(params, 'foo');
+
+      // Then
+      expect(apiClientOptions.timeoutSeconds).toBe(30);
+      expect(apiClientOptions.requestPlugins?.[0]).toBeInstanceOf(Oauth2TokenRequest);
     });
   });
 
@@ -255,6 +316,41 @@ describe('API Client Options helper', () => {
 
       // Then
       expect(buildApiClientOptionsFunction).toThrow('Invalid parameters for the SMS API: check your configuration');
+    });
+
+    it('should omit Oauth2TokenRequest on the OAuth path when useSinchAuth is false', () => {
+      // Given
+      const params: SinchClientParameters = {
+        projectId: 'PROJECT_ID',
+        useSinchAuth: false,
+        timeoutSeconds: 15,
+      };
+
+      // When
+      const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params);
+
+      // Then
+      expect(apiClientOptions.projectId).toBe('PROJECT_ID');
+      expect(apiClientOptions.useServicePlanId).toBeFalsy();
+      expect(apiClientOptions.requestPlugins).toEqual([]);
+      expect(apiClientOptions.timeoutSeconds).toBe(15);
+    });
+
+    it('should keep API token authentication when useSinchAuth is false', () => {
+      // Given
+      const params: SinchClientParameters = {
+        servicePlanId: 'SERVICE_PLAN_ID',
+        apiToken: 'API_TOKEN',
+        useSinchAuth: false,
+      };
+
+      // When
+      const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params);
+
+      // Then
+      expect(apiClientOptions.requestPlugins?.length).toBe(1);
+      expect(apiClientOptions.requestPlugins?.[0]).toBeInstanceOf(ApiTokenRequest);
+      expect(apiClientOptions.timeoutSeconds).toBe(60);
     });
 
   });

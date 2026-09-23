@@ -8,6 +8,10 @@ export const composingEndEvent: Conversation.ComposingEndEvent = {
   composing_end_event: {},
 };
 
+export const readMessageEvent: Conversation.ReadMessageEvent = {
+  read_message_event: {},
+};
+
 export const commentReplyEvent: Conversation.CommentReplyEvent = {
   comment_reply_event: {
     text: 'Reply comment content',

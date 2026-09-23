@@ -24,6 +24,7 @@ export const mockserverHosts = {
   /** Mockserver route prefix for webhook fixture fetches */
   verificationWebhooksHostname: `${base}/verification`,
   voiceHostname: `${base}/voice`,
+  voiceV2Hostname: `${base}/voice-v2`,
   voiceApplicationManagementHostname: `${base}/voice-application-management`,
   numberLookupHostname: `${base}/number-lookup`,
   provisioningHostname: `${base}/provisioning`,

@@ -5,6 +5,7 @@ import {
   SendComposingEndEventRequest,
   SendComposingEventRequest,
   SendEventRequest, SendGenericEventRequest,
+  SendReadMessageEventRequest,
 } from '../../send-event-request';
 
 export interface DeleteEventRequestData {
@@ -37,6 +38,10 @@ export interface SendComposingEventRequestData<T extends Recipient> {
 export interface SendComposingEndEventRequestData<T extends Recipient> {
   /** The event to be sent. */
   'sendEventRequestBody': SendComposingEndEventRequest<T>;
+}
+export interface SendReadMessageEventRequestData<T extends Recipient> {
+  /** The event to be sent. */
+  'sendEventRequestBody': SendReadMessageEventRequest<T>;
 }
 export interface SendCommentReplyEventRequestData<T extends Recipient> {
   /** The event to be sent. */
