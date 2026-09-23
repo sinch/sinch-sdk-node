@@ -1,4 +1,5 @@
 ## Version 1.6.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.6.0` — transport-level settings
 - [Feature] `CallbackPayload` is now a union of `CallbackPayloadActiveNumber` and `CallbackPayloadNumberOrder` (discriminated by `resourceType`)
 
 ## Version 1.5.0

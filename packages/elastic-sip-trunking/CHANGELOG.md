@@ -1,4 +1,5 @@
 ## Version 1.6.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.6.0` — transport-level settings
 - [Deprecation] Elastic SIP Trunking support is deprecated and will be removed in version 2 of the SDK.
 
 ## Version 1.5.0
