@@ -1,4 +1,5 @@
 ## Version 1.6.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.6.0` — transport-level settings
 - [Feature] Support sending new `ReadMessageEvent` events: `sendReadMessageEvent()`
 - [Feature] Support new `display_mode` field on ChoiceBase 
 - [Tech] Templates V2 delete success response is HTTP 204 (no body); method signature unchanged
