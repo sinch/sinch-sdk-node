@@ -20,7 +20,7 @@ async function main() {
     const response = await sinch.voice.v2.services.update({
       serviceId,
       updateServiceRequestBody: {
-        name: 'Updated from Node SDK Snippet',
+        name: 'Updated service name',
       },
     });
     console.log(`✅ Successfully updated the Voice v2 service with ID ${serviceId}.`);

@@ -103,21 +103,9 @@ const followLinkAndSendRequest = <T>(
 ): Promise<PageResult<T>> => {
   const nextLink = JSON.parse(nextPageValue) as string;
   const nextUrl = new URL(nextLink, requestOptions.hostname);
-  const newQueryParams: { [key: string]: string } = {};
-  nextUrl.searchParams.forEach((value, key) => {
-    newQueryParams[key] = JSON.stringify(value);
-  });
-  const newRequestOptions: RequestOptions = {
-    ...requestOptions,
-    queryParams: newQueryParams,
-  };
-  const newUrl = apiClient.prepareUrl(
-    requestOptions.hostname,
-    newQueryParams,
-  );
   return apiClient.processCallWithPagination<T>({
-    url: newUrl,
-    requestOptions: newRequestOptions,
+    url: nextUrl.toString(),
+    requestOptions,
     ...paginatedApiProperties,
   });
 };
