@@ -1,13 +1,18 @@
 {
   "extends": "../../tsconfig.json",
-
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+    "noEmit": false
   },
-
-  "exclude": ["tests", "jest.config.js", "dist"],
-
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "tests",
+    "dist",
+    "node_modules"
+  ],
   "ts-node": {
     "esm": true
   }

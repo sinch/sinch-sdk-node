@@ -1,6 +1,6 @@
 import { RequestPlugin } from '../plugins/core/request-plugin';
 import { ResponsePlugin } from '../plugins/core/response-plugin';
-import { WithLogger } from '../domain';
+import { WithLogger, WithRetryPolicy } from '../domain';
 
 interface BaseApiClientOptions {
   /**
@@ -29,7 +29,13 @@ interface BaseApiClientOptions {
    *  @default false
    */
   useServicePlanId?: boolean;
+
+  /**
+   * Request/connection timeout in seconds for HTTP I/O.
+   * @default 60
+   */
+  timeoutSeconds?: number;
 }
 
 /** @internal */
-export interface ApiClientOptions extends Partial<BaseApiClientOptions>, WithLogger {}
+export interface ApiClientOptions extends Partial<BaseApiClientOptions>, WithLogger, WithRetryPolicy {}

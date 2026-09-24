@@ -21,6 +21,7 @@ import {
   SendEventRequestData,
   SendEventResponse,
   SendGenericEventRequestData,
+  SendReadMessageEventRequestData,
 } from '../../../models';
 import { ConversationDomainApi } from '../conversation-domain-api';
 import { LazyConversationApiClient } from '../conversation-service';
@@ -156,6 +157,15 @@ export class EventsApi extends ConversationDomainApi {
    */
   public async sendComposingEndEvent(data: SendComposingEndEventRequestData<Recipient>): Promise<SendEventResponse> {
     return this.sendEvent(data, 'SendComposingEndEvent');
+  }
+
+  /**
+   * Send a read message event
+   * Sends an event to the referenced contact from the referenced app. Note that this operation enqueues the event in a queue so a successful response only indicates that the event has been queued.
+   * @param {SendReadMessageEventRequestData<Recipient>} data - The data to provide to the API call.
+   */
+  public async sendReadMessageEvent(data: SendReadMessageEventRequestData<Recipient>): Promise<SendEventResponse> {
+    return this.sendEvent(data, 'SendReadMessageEvent');
   }
 
   /**

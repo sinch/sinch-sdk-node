@@ -10,7 +10,7 @@ import {
 } from '../../../models/';
 import { VoiceDomainApi } from '../voice-domain-api';
 import { CalloutsApi } from '../callouts';
-import { LazyVoiceApiClient } from '../voice-service';
+import { LazyVoiceApiClient } from '../lazy-voice-api-client';
 
 export class ConferencesApi extends VoiceDomainApi {
 

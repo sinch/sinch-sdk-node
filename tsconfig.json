@@ -6,12 +6,11 @@
     "strict": true,
     "target": "ES2022",
     "module": "CommonJS",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowJs": true,
     "pretty": true,
-    "preserveSymlinks": true,
     "resolveJsonModule": true,
     "types": ["jest", "node"],
     "noImplicitAny": true,
@@ -20,9 +19,16 @@
     "useDefineForClassFields": false,
     "declaration": true,
     "composite": true,
-    "noEmit": false,
-    "baseUrl": "."
+    "noEmit": true
   },
+  "include": [],
+  "exclude": [
+    "node_modules",
+    "**/node_modules",
+    "**/dist",
+    "docs",
+    "**/cucumber.js"
+  ],
   "ts-node": {
     "esm": true
   }

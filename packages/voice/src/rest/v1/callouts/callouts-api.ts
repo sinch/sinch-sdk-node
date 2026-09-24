@@ -6,7 +6,7 @@ import {
   TtsCalloutRequestData,
 } from '../../../models';
 import { VoiceDomainApi } from '../voice-domain-api';
-import { LazyVoiceApiClient } from '../voice-service';
+import { LazyVoiceApiClient } from '../lazy-voice-api-client';
 
 export class CalloutsApi extends VoiceDomainApi {
 

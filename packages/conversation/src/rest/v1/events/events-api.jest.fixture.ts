@@ -13,6 +13,7 @@ import {
   SendComposingEventRequestData,
   SendEventRequestData,
   SendGenericEventRequestData,
+  SendReadMessageEventRequestData,
   SendEventResponse,
 } from '../../../models';
 
@@ -47,6 +48,13 @@ export class EventsApiFixture implements Partial<Readonly<EventsApi>> {
   public sendComposingEndEvent: jest.Mock<
     Promise<SendEventResponse>,
     [SendComposingEndEventRequestData<Recipient>]
+  > = jest.fn();
+  /**
+   * Fixture associated to function sendReadMessageEvent
+   */
+  public sendReadMessageEvent: jest.Mock<
+    Promise<SendEventResponse>,
+    [SendReadMessageEventRequestData<Recipient>]
   > = jest.fn();
   /**
    * Fixture associated to function sendCommentReplyEvent

@@ -2,6 +2,7 @@ export type {
   SendEventRequest,
   SendComposingEventRequest,
   SendComposingEndEventRequest,
+  SendReadMessageEventRequest,
   SendCommentReplyEventRequest,
   SendAgentJoinedEventRequest,
   SendAgentLeftEventRequest,

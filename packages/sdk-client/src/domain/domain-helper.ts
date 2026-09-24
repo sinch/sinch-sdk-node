@@ -7,11 +7,11 @@ export const AUTH_HOSTNAME = 'https://auth.sinch.com';
 export const CONVERSATION_HOSTNAME = `https://${REGION_PATTERN}conversation.api.sinch.com`;
 /** @internal */
 export const CONVERSATION_TEMPLATES_HOSTNAME = `https://${REGION_PATTERN}template.api.sinch.com`;
-/** @internal */
+/** @internal @deprecated Elastic SIP Trunking support will be removed in version 2 of the SDK. */
 export const ELASTIC_SIP_TRUNKING_HOSTNAME = 'https://elastic-trunking.api.sinch.com';
 /** @internal */
 export const FAX_HOSTNAME = 'https://fax.api.sinch.com';
-/** @internal */
+/** @internal @deprecated*/
 export const MAILGUN_HOSTNAME = `https://api.${REGION_PATTERN}mailgun.net`;
 /** @internal */
 export const NUMBERS_HOSTNAME = 'https://numbers.api.sinch.com';
@@ -25,6 +25,7 @@ export const VOICE_HOSTNAME = `https://calling${REGION_PATTERN}.api.sinch.com`;
 export const VOICE_APPLICATION_MANAGEMENT_HOSTNAME = 'https://callingapi.sinch.com';
 /** @internal */
 export const NUMBER_LOOKUP_HOSTNAME = 'https://lookup.api.sinch.com';
+export const PROVISIONING_HOSTNAME = 'https://provisioning.api.sinch.com';
 
 /** @internal */
 export const formatRegionalizedHostname = (hostnamePattern: string, region: string) => {

@@ -56,6 +56,20 @@ describe('resolveClientParameters', () => {
   });
 });
 
+describe('isSinchLogger', () => {
+  it('should return false for undefined, null, and non-Sinch loggers', () => {
+    const customLogger: Logger = {
+      debug: jest.fn(),
+      info: jest.fn(),
+      warn: jest.fn(),
+      error: jest.fn(),
+    };
+    expect(isSinchLogger(undefined)).toBe(false);
+    expect(isSinchLogger(null)).toBe(false);
+    expect(isSinchLogger(customLogger)).toBe(false);
+  });
+});
+
 describe('NOOP_LOGGER', () => {
   it('should not invoke lazy message callbacks', () => {
     const callback = jest.fn(() => 'should not run');

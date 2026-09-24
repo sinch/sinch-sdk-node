@@ -72,4 +72,22 @@ describe('Callback Webhook', () => {
     expect(parsedPayload.internalFailureCode).toEqual('CRS0018');
   });
 
+  it('should parse a NUMBER_ORDER callback event', () => {
+    const payload: any = {
+      eventId: 'bcd1234efghijklmnop567890',
+      timestamp: '2023-06-06T07:45:27.785357Z',
+      projectId: 'abcd12ef-ab12-ab12-bc34-abcdef123456',
+      resourceId: '01jgkbb8xywmz3hhahd76menqf',
+      resourceType: 'NUMBER_ORDER',
+      eventType: 'NUMBER_ORDER_PROCESSING',
+      status: 'COMPLETED',
+    };
+    const parsedPayload = callbackWebhooks.parseEvent(payload);
+    expect(parsedPayload.resourceType).toEqual('NUMBER_ORDER');
+    expect(parsedPayload.eventType).toEqual('NUMBER_ORDER_PROCESSING');
+    expect(parsedPayload.status).toEqual('COMPLETED');
+    expect(parsedPayload.resourceId).toEqual('01jgkbb8xywmz3hhahd76menqf');
+    expect(parsedPayload.timestamp).toEqual(new Date('2023-06-06T07:45:27.785357Z'));
+  });
+
 });

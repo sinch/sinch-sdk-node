@@ -1,6 +1,17 @@
-import { RequestPlugin } from '@sinch/sdk-client/src/plugins/core/request-plugin';
-import { ApiFetchClient, ApiTokenRequest, SinchClientParameters, VoiceRegion } from '@sinch/sdk-client';
-import { ApplicationsApi, CalloutsApi, CallsApi, ConferencesApi, VoiceService } from '../../../src';
+import { RequestPlugin, ApiFetchClient, ApiTokenRequest, SinchClientParameters, VoiceRegion } from '@sinch/sdk-client';
+import {
+  ApplicationsApi,
+  CalloutsApi,
+  CallsApi,
+  ConferencesApi,
+  VoiceService,
+  VoiceV2BatchesApi,
+  VoiceV2CallsApi,
+  VoiceV2Service,
+  VoiceV2ServicesApi,
+  VoiceV2SessionsApi,
+  VoiceV2SvamlApi,
+} from '../../src';
 
 jest.mock('node-fetch', () => {
   const actual = jest.requireActual('node-fetch');
@@ -46,6 +57,12 @@ describe('Voice Service', () => {
     expect(voiceService.calls).toBeInstanceOf(CallsApi);
     expect(voiceService.conferences).toBeInstanceOf(ConferencesApi);
     expect(voiceService.applications).toBeInstanceOf(ApplicationsApi);
+    expect(voiceService.v2).toBeInstanceOf(VoiceV2Service);
+    expect(voiceService.v2.calls).toBeInstanceOf(VoiceV2CallsApi);
+    expect(voiceService.v2.batches).toBeInstanceOf(VoiceV2BatchesApi);
+    expect(voiceService.v2.sessions).toBeInstanceOf(VoiceV2SessionsApi);
+    expect(voiceService.v2.services).toBeInstanceOf(VoiceV2ServicesApi);
+    expect(voiceService.v2.svaml).toBeInstanceOf(VoiceV2SvamlApi);
   });
 
   it('should update the API client for all the subdomains', () => {
@@ -135,6 +152,108 @@ describe('Voice Service', () => {
     expect(voiceService.calls.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(voiceService.conferences.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
     expect(voiceService.applications.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME_APPLICATIONS);
+  });
+
+  it('should use the Voice v2 global hostname by default', () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+    };
+
+    // When
+    const voiceService = new VoiceService(params);
+
+    // Then
+    expect(voiceService.v2.calls.client.apiClientOptions.hostname).toBe('https://voice.api.sinch.com');
+  });
+
+  it('should use voiceV2Hostname from constructor params', () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+      voiceV2Hostname: CUSTOM_HOSTNAME,
+    };
+
+    // When
+    const voiceService = new VoiceService(params);
+
+    // Then
+    expect(voiceService.v2.calls.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+  });
+
+  it('should set a custom hostname for Voice v2 only', () => {
+    // Given
+    const params: SinchClientParameters = {
+      applicationKey: 'APPLICATION_KEY',
+      applicationSecret: 'APPLICATION_SECRET',
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+    };
+    const voiceService = new VoiceService(params);
+
+    // When
+    voiceService.setV2Hostname(CUSTOM_HOSTNAME);
+
+    // Then
+    expect(voiceService.v2.calls.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+    expect(voiceService.calls.client.apiClientOptions.hostname).toBe(DEFAULT_HOSTNAME);
+  });
+
+  it('should not require OAuth2 credentials when setting the Voice v2 hostname', () => {
+    // Given
+    const params: SinchClientParameters = {
+      applicationKey: 'APPLICATION_KEY',
+      applicationSecret: 'APPLICATION_SECRET',
+    };
+    const voiceService = new VoiceService(params);
+
+    // When / Then
+    expect(() => voiceService.setV2Hostname(CUSTOM_HOSTNAME)).not.toThrow();
+
+    voiceService.setV2Credentials({
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+    });
+    expect(voiceService.v2.calls.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+  });
+
+  it('should update and clear voiceV2Hostname via setApiClientConfig', () => {
+    // Given
+    const params: SinchClientParameters = {
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+      voiceV2Hostname: CUSTOM_HOSTNAME,
+    };
+    const voiceService = new VoiceService(params);
+    expect(voiceService.v2.calls.client.apiClientOptions.hostname).toBe(CUSTOM_HOSTNAME);
+
+    // When
+    voiceService.setApiClientConfig({
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+      voiceV2Hostname: 'https://another.host.name',
+    });
+
+    // Then
+    expect(voiceService.v2.calls.client.apiClientOptions.hostname).toBe('https://another.host.name');
+
+    // When
+    voiceService.setApiClientConfig({
+      projectId: 'PROJECT_ID',
+      keyId: 'KEY_ID',
+      keySecret: 'KEY_SECRET',
+    });
+
+    // Then
+    expect(voiceService.v2.calls.client.apiClientOptions.hostname).toBe('https://voice.api.sinch.com');
   });
 
   it('should update the default region for all APIs but for application management', () => {

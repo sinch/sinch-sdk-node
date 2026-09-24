@@ -18,22 +18,39 @@ import {
   GenericError,
   ResponseJSONParseError,
 } from '../api/api-errors';
-import fetch, { Response, Headers } from 'node-fetch';
+import { Response } from 'node-fetch';
 import { buildErrorContext, manageExpiredToken, reviveDates } from './api-client-helpers';
 import { resolveLogger } from '../logger';
-import { isSinchLogger } from '../logger/sinch-logger';
+import { resolveTimeoutSeconds } from '../domain';
+import {
+  HttpHeaders,
+  HttpRequest,
+  HttpResponse,
+} from '../http';
+import {
+  FetchHttpTransport,
+  toHttpRequest,
+} from '../http/fetch';
 import {
   buildPaginationContext,
   calculateNextPage,
   createNextPageMethod,
   hasMore,
 } from './api-client-pagination-helper';
+import {
+  computeRateLimitBackoffMs,
+  parseRetryAfterMs,
+  resolveRetryConfig,
+  shouldRetryRateLimit,
+  sleep,
+} from './retry-policy';
 
 /**
  * Context for response processing
  */
 interface ResponseContext {
-  response: Response | undefined;
+  httpResponse: HttpResponse;
+  response: Response;
   body: string | undefined;
   apiCallParameters: ApiCallParameters;
   errorContext: ErrorContext;
@@ -51,6 +68,8 @@ interface PluginContext {
 /** Client to process the call to the API using Fetch API */
 export class ApiFetchClient extends ApiClient {
 
+  private readonly httpTransport: FetchHttpTransport;
+
   /**
    * Initialize your API Client instance with the provided configuration options.
    * Default request plugins: VersionRequest
@@ -59,12 +78,15 @@ export class ApiFetchClient extends ApiClient {
    * @param {ApiClientOptions} options - Configuration options for the API Client.
    */
   constructor(options: ApiClientOptions) {
-    const logger = options.logger != null && isSinchLogger(options.logger)
-      ? options.logger
-      : resolveLogger(options.logger);
+    const logger = resolveLogger(options.logger);
+    const retry = resolveRetryConfig(options);
     const resolvedOptions = {
       ...options,
       logger,
+      timeoutSeconds: resolveTimeoutSeconds(options.timeoutSeconds),
+      retryPolicy: retry.retryPolicy,
+      maxRetryCount: retry.maxRetryCount,
+      exponentialBackoff: retry.exponentialBackoff,
     };
     super({
       ...resolvedOptions,
@@ -74,6 +96,7 @@ export class ApiFetchClient extends ApiClient {
         ...(resolvedOptions.responsePlugins || []),
       ],
     });
+    this.httpTransport = new FetchHttpTransport();
   }
 
   /** @inheritdoc */
@@ -110,11 +133,12 @@ export class ApiFetchClient extends ApiClient {
     const errorContext = buildErrorContext(apiCallParameters);
 
     try {
-      const response = await this.sinchFetch(apiCallParameters, errorContext);
-      const body = isFileDownload ? undefined : await response.text();
+      const httpResponse = await this.sinchFetch(apiCallParameters, errorContext);
+      const body = isFileDownload ? undefined : await httpResponse.content.asString();
 
       return {
-        response,
+        httpResponse,
+        response: this.httpTransport.getNativeResponse(httpResponse),
         body,
         apiCallParameters,
         errorContext,
@@ -159,15 +183,15 @@ export class ApiFetchClient extends ApiClient {
   }
 
   private async processFileResponse(context: ResponseContext): Promise<FileBuffer> {
-    if (!context.response || !context.response.ok) {
+    if (!context.response.ok) {
       throw this.buildFetchError(
-        new Error('No response received'),
+        new Error(`HTTP ${context.httpResponse.status}`),
         context.errorContext,
       );
     }
 
-    const buffer = await context.response.buffer();
-    const fileName = this.extractFileName(context.response.headers, 'pdf');
+    const buffer = await context.httpResponse.content.asBytes();
+    const fileName = this.extractFileName(context.httpResponse.headers, 'pdf');
 
     if (!buffer || !fileName) {
       throw new Error('An error occurred while downloading the file');
@@ -177,15 +201,15 @@ export class ApiFetchClient extends ApiClient {
   }
 
   private async processCSVResponse(context: ResponseContext): Promise<FileData> {
-    if (!context.response || !context.response.ok) {
+    if (!context.response.ok) {
       throw this.buildFetchError(
-        new Error('No response received'),
+        new Error(`HTTP ${context.httpResponse.status}`),
         context.errorContext,
       );
     }
 
-    const responseText = await context.response.text();
-    const fileName = this.extractFileName(context.response.headers, 'csv');
+    const responseText = await context.httpResponse.content.asString();
+    const fileName = this.extractFileName(context.httpResponse.headers, 'csv');
 
     if (!responseText || !fileName) {
       throw new Error('An error occurred while downloading the file');
@@ -195,32 +219,56 @@ export class ApiFetchClient extends ApiClient {
   }
 
   /**
-   * Handle fetch request with token refresh mechanism
+   * Handle fetch request with token refresh and retry.
    * @param {ApiCallParameters} apiCallParameters
    * @param {ErrorContext} errorContext
    */
-  private async sinchFetch(apiCallParameters: ApiCallParameters, errorContext: ErrorContext) {
-    let response = await fetch(apiCallParameters.url, apiCallParameters.requestOptions);
+  private async sinchFetch(
+    apiCallParameters: ApiCallParameters,
+    errorContext: ErrorContext,
+  ): Promise<HttpResponse> {
+    const retryConfig = resolveRetryConfig(this.apiClientOptions);
+    let requestOptions = apiCallParameters.requestOptions;
+    let httpRequest = toHttpRequest(apiCallParameters, requestOptions);
+    let httpResponse = await this.send(httpRequest, requestOptions.timeout);
 
-    if (this.isTokenExpired(response)) {
+    if (this.isTokenExpired(httpResponse)) {
       // Capture the JWT used by the failing request so the OAuth2 plugin can
       // refuse to clear a cached token that has since been refreshed by another caller.
-      const failingAuth = apiCallParameters.requestOptions.headers.get('Authorization') || '';
-      const failingJwt = failingAuth.startsWith('Bearer ') ? failingAuth.slice('Bearer '.length) : undefined;
-      const requestOptions = await manageExpiredToken(
+      const failingAuth = httpRequest.headers.getAll('Authorization')[0] || '';
+      const failingJwt = failingAuth.startsWith('Bearer ')
+        ? failingAuth.slice('Bearer '.length)
+        : undefined;
+      this.httpTransport.release(httpResponse);
+      requestOptions = await manageExpiredToken(
         apiCallParameters,
         errorContext,
         this.apiClientOptions.requestPlugins,
         failingJwt);
-      response = await fetch(apiCallParameters.url, requestOptions);
+      httpRequest = toHttpRequest(apiCallParameters, requestOptions);
+      httpResponse = await this.send(httpRequest, requestOptions.timeout);
     }
 
-    return response;
+    for (let attempt = 0; ; attempt++) {
+      const retryAfterMs = parseRetryAfterMs(httpResponse.headers.getAll('retry-after')[0]);
+      if (!shouldRetryRateLimit(httpResponse.status, attempt, retryConfig, retryAfterMs)) {
+        break;
+      }
+      await sleep(computeRateLimitBackoffMs(attempt, retryConfig, retryAfterMs));
+      this.httpTransport.release(httpResponse);
+      httpResponse = await this.send(httpRequest, requestOptions.timeout);
+    }
+
+    return httpResponse;
   }
 
-  private isTokenExpired(response: Response): boolean {
-    return response.status === 401
-      && response.headers.get('www-authenticate')?.includes('expired') === true;
+  private send(request: HttpRequest, timeout?: number): Promise<HttpResponse> {
+    return this.httpTransport.send(request, { timeout });
+  }
+
+  private isTokenExpired(httpResponse: HttpResponse): boolean {
+    return httpResponse.status === 401
+      && httpResponse.headers.getAll('www-authenticate')[0]?.includes('expired') === true;
   }
 
   private async applyResponsePlugins(context: PluginContext): Promise<Record<string, any>> {
@@ -276,29 +324,20 @@ export class ApiFetchClient extends ApiClient {
   }
 
   private logFailedResponse(context: ResponseContext): void {
-    if (!context.response?.ok) {
+    if (!context.response.ok) {
       const { apiCallParameters } = context;
       this.apiClientOptions.logger!.debug(() =>
-        `[${apiCallParameters.apiName}][${apiCallParameters.operationId}][${context.response?.status}]\n`
+        `[${apiCallParameters.apiName}][${apiCallParameters.operationId}][${context.httpResponse.status}]\n`
         + `HTTP method: ${apiCallParameters.requestOptions.method}\n`
         + `URL: ${apiCallParameters.url}\n`
-        + `Response Headers: ${this.formatResponseHeaders(context.response?.headers)}`,
+        + `Response Headers: ${this.formatResponseHeaders(context.httpResponse.headers)}`,
       );
     }
   }
 
-  private formatResponseHeaders(headers: Headers | undefined): string {
-    if (!headers || typeof headers !== 'object') {
-      return '';
-    }
-
-    return Object.entries(Object.fromEntries(headers.entries()))
-      .map(([key, value]: [any, any]) => {
-        if (value === undefined) { return `${key}=undefined`; }
-        if (value === null) { return `${key}=null`; }
-        if (typeof value === 'object') { return `${key}=${JSON.stringify(value)}`; }
-        return `${key}=${String(value)}`;
-      })
+  private formatResponseHeaders(headers: HttpHeaders): string {
+    return [...headers.entries()]
+      .map(([key, value]) => `${key}=${String(value)}`)
       .join(', ');
   }
 
@@ -313,8 +352,8 @@ export class ApiFetchClient extends ApiClient {
     }
   }
 
-  private extractFileName(headers: Headers, extension: string) {
-    const contentDisposition = headers.get('content-disposition');
+  private extractFileName(headers: HttpHeaders, extension: string) {
+    const contentDisposition = headers.getAll('content-disposition')[0];
     let fileName = 'default-name.' + extension;
     if (contentDisposition) {
       // Support both quoted and unquoted filenames

@@ -1,5 +1,6 @@
 import { RequestBody, RequestOptions } from '../plugins/core/request-plugin';
 import { ApiClientOptions } from './api-client-options';
+import { DEFAULT_TIMEOUT_SECONDS } from '../domain';
 import { Headers } from 'node-fetch';
 
 /** @internal */
@@ -14,7 +15,9 @@ export enum PaginationEnum {
   /** used by the Elastic SIP Trunking API */
   PAGE2,
   /** used by the Fax API */
-  PAGE3
+  PAGE3,
+  /** used by Voice API v2 — follow `links.next` */
+  PAGE_LINK
 }
 export interface ApiListPromise<T> extends Promise<PageResult<T>>, AsyncIterableIterator<T> {
 }
@@ -135,6 +138,7 @@ export class ApiClient {
       queryParams: filterUndefinedValues(queryParams),
       hostname: url,
       path,
+      timeout: (this.apiClientOptions.timeoutSeconds ?? DEFAULT_TIMEOUT_SECONDS) * 1000,
     };
 
     let opts = options;
