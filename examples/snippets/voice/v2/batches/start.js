@@ -63,10 +63,6 @@ async function main() {
           },
         ],
         parameters: recipientPhoneNumbers.map((toNumber) => ({ toNumber })),
-        batchOptions: {
-          maxCps: 5,
-          ttlSeconds: 1800,
-        },
       },
     });
     console.log(`✅ Successfully started a Voice v2 batch of calls.`);
