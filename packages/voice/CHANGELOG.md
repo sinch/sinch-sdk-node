@@ -1,6 +1,6 @@
 ## Version 1.7.0
 - [Feature] Voice v2 helpers:
-  - Services: `callBehaviorHelper.static`
+  - Services: `callBehaviorHelper.static`, `callBehaviorHelper.none`, `callBehaviorHelper.webhook`
 
 ## Version 1.6.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.6.0` — transport-level settings

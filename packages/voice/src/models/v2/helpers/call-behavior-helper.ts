@@ -1,4 +1,4 @@
-import { CallBehaviorsStatic } from '../call-behaviors';
+import { CallBehaviorsNone, CallBehaviorsStatic, CallBehaviorsWebhook } from '../call-behaviors';
 import { SvamlCommand } from '../svaml-commands';
 import { SvamlInput } from '../svaml-input';
 
@@ -18,10 +18,21 @@ export interface StaticCallBehaviorParameters {
 }
 
 /**
+ * Parameters for a WEBHOOK service call behavior.
+ */
+export interface WebhookCallBehaviorParameters {
+  /** Webhook URL that receives call events. */
+  url: string;
+  /** Fallback webhook URL used when the primary URL fails. */
+  fallbackUrl?: string;
+}
+
+/**
  * Dedicated services helper for Voice v2 call behaviors.
  *
  * `static` builds a {@link CallBehaviorsStatic} from `commands`, an optional call `name`,
- * and optional `onHangup` commands.
+ * and optional `onHangup` commands. `none` configures no call behavior. `webhook` sends
+ * call events to a URL.
  */
 export const callBehaviorHelper = {
   /**
@@ -43,5 +54,28 @@ export const callBehaviorHelper = {
       type: 'STATIC',
       static: svaml,
     };
+  },
+  /**
+   * No call behavior is configured. Incoming calls are not handled.
+   */
+  none: (): CallBehaviorsNone => {
+    return {
+      type: 'NONE',
+    };
+  },
+  /**
+   * Calls are handled by sending webhook events to `url`.
+   */
+  webhook: (parameters: WebhookCallBehaviorParameters): CallBehaviorsWebhook => {
+    const behavior: CallBehaviorsWebhook = {
+      type: 'WEBHOOK',
+      webhook: {
+        url: parameters.url,
+      },
+    };
+    if (parameters.fallbackUrl !== undefined) {
+      behavior.webhook.fallbackUrl = parameters.fallbackUrl;
+    }
+    return behavior;
   },
 };

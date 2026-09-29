@@ -75,4 +75,45 @@ describe('Voice v2 dedicated services helper', () => {
       });
     });
   });
+
+  describe('callBehaviorHelper.none', () => {
+    it('should build a none call behavior', () => {
+      const built: Voice.v2.CallBehaviorsNone = Voice.v2.callBehaviorHelper.none();
+
+      expect(built).toEqual({
+        type: 'NONE',
+      });
+    });
+  });
+
+  describe('callBehaviorHelper.webhook', () => {
+    it('should build a webhook call behavior from a url', () => {
+      const built = Voice.v2.callBehaviorHelper.webhook({
+        url: 'https://mi-backend.com/voice/events',
+      });
+
+      const expected: Voice.v2.CallBehaviorsWebhook = {
+        type: 'WEBHOOK',
+        webhook: {
+          url: 'https://mi-backend.com/voice/events',
+        },
+      };
+      expect(built).toEqual(expected);
+    });
+
+    it('should include fallbackUrl when provided', () => {
+      const built = Voice.v2.callBehaviorHelper.webhook({
+        url: 'https://mi-backend.com/voice/events',
+        fallbackUrl: 'https://backup.mi-backend.com/voice/events',
+      });
+
+      expect(built).toEqual({
+        type: 'WEBHOOK',
+        webhook: {
+          url: 'https://mi-backend.com/voice/events',
+          fallbackUrl: 'https://backup.mi-backend.com/voice/events',
+        },
+      });
+    });
+  });
 });
