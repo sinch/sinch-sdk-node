@@ -2,7 +2,7 @@
  * Sinch Node.js Snippet
  * See: https://github.com/sinch/sinch-sdk-node/examples/snippets
  */
-import { SinchClient } from '@sinch/sdk-core';
+import { SinchClient, Voice } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -21,47 +21,32 @@ async function main() {
   try {
     const response = await sinch.voice.v2.batches.start({
       startBatchRequestBody: {
-        commands: [
-          {
-            command: 'dial',
-            callName: 'Node_SDK_Snippet_Call',
-            from: {
-              type: 'PHONE',
-              phone: {
-                number: sinchPhoneNumber,
-              },
-            },
-            to: {
-              type: 'PHONE',
-              phone: {
-                number: '@toNumber',
-              },
-            },
-            dialTimeoutDurationSeconds: 30,
-            maxCallDurationSeconds: 120,
-            events: {
-              onAnswer: [
-                {
-                  command: 'messages',
-                  messages: [
-                    {
-                      type: 'SAY',
-                      say: {
-                        text: 'Hello, your call is now connected.',
-                        voiceName: 'Emma',
-                      },
-                    },
-                  ],
+        commands: new Voice.v2.CommandsSequenceCreator()
+          .dial((dialCreator) => {
+            dialCreator
+              .name('Node_SDK_Snippet_Call')
+              .from({
+                type: 'PHONE',
+                phone: {
+                  number: sinchPhoneNumber,
                 },
-              ],
-              onHangup: [
-                {
-                  command: 'hangup',
+              })
+              .to({
+                type: 'PHONE',
+                phone: {
+                  number: '@toNumber',
                 },
-              ],
-            },
-          },
-        ],
+              })
+              .timeoutDuration(30)
+              .maxDurationSeconds(120)
+              .onAnswer((sequence) => {
+                sequence.text('Hello, your call is now connected.', 'Emma');
+              })
+              .onHangup((sequence) => {
+                sequence.hangup();
+              });
+          })
+          .build(),
         parameters: recipientPhoneNumbers.map((toNumber) => ({ toNumber })),
       },
     });

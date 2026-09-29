@@ -2,7 +2,7 @@
  * Sinch Node.js Snippet
  * See: https://github.com/sinch/sinch-sdk-node/examples/snippets
  */
-import { SinchClient } from '@sinch/sdk-core';
+import { SinchClient, Voice } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -21,46 +21,31 @@ async function main() {
   try {
     const response = await sinch.voice.v2.calls.start({
       createCallRequestBody: {
-        commands: [
-          {
-            command: 'dial',
-            callName: 'Node_SDK_Snippet_Call',
-            from: {
-              type: 'PHONE',
-              phone: {
-                number: sinchPhoneNumber,
-              },
-            },
-            to: {
-              type: 'PHONE',
-              phone: {
-                number: recipientPhoneNumber,
-              },
-            },
-            dialTimeoutDurationSeconds: 30,
-            events: {
-              onAnswer: [
-                {
-                  command: 'messages',
-                  messages: [
-                    {
-                      type: 'SAY',
-                      say: {
-                        text: 'Hello, your call is now connected.',
-                        voiceName: 'Emma',
-                      },
-                    },
-                  ],
+        commands: new Voice.v2.CommandsSequenceCreator()
+          .dial((dialCreator) => {
+            dialCreator
+              .name('Node_SDK_Snippet_Call')
+              .from({
+                type: 'PHONE',
+                phone: {
+                  number: sinchPhoneNumber,
                 },
-              ],
-              onHangup: [
-                {
-                  command: 'hangup',
+              })
+              .to({
+                type: 'PHONE',
+                phone: {
+                  number: recipientPhoneNumber,
                 },
-              ],
-            },
-          },
-        ],
+              })
+              .timeoutDuration(30)
+              .onAnswer((sequence) => {
+                sequence.text('Hello, your call is now connected.', 'Emma');
+              })
+              .onHangup((sequence) => {
+                sequence.hangup();
+              });
+          })
+          .build(),
       },
     });
     console.log(`✅ Successfully started a Voice v2 call to ${recipientPhoneNumber}.`);

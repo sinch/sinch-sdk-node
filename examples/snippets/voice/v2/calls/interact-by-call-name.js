@@ -2,7 +2,7 @@
  * Sinch Node.js Snippet
  * See: https://github.com/sinch/sinch-sdk-node/examples/snippets
  */
-import { SinchClient } from '@sinch/sdk-core';
+import { SinchClient, Voice } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -23,11 +23,7 @@ async function main() {
       sessionId,
       callName,
       callPatchRequestBody: {
-        commands: [
-          {
-            command: 'hangup',
-          },
-        ],
+        commands: new Voice.v2.CommandsSequenceCreator().hangup().build(),
       },
     });
     console.log(`✅ Successfully submitted SVAML commands for the Voice v2 call named ${callName} in session ${sessionId}.`);

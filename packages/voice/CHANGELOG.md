@@ -1,3 +1,7 @@
+## Version 1.7.0
+- [Feature] Voice v2 helpers:
+  - SVAML: `CommandsSequenceCreator` (`amd`, `answer`, `bridgeCall`, `customEvents`, `dial`, `hangup`, `menu`, `gotoMenu`, `messages`, `play`, `pause`, `prompt`, `recording`, `text`, `command`)
+
 ## Version 1.6.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.6.0` — transport-level settings
 - [Feature] Support Voice API v2:
