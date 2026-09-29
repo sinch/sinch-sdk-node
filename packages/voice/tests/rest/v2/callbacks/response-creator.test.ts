@@ -1,28 +1,27 @@
-import { Voice } from '../../../src';
+import { VoiceV2CallbackWebhooks } from '../../../../src';
 
-describe('Voice v2 dedicated response creator helper', () => {
-  const pause: Voice.v2.PauseCommand = {
-    command: 'pause',
+describe('Voice v2 response creator', () => {
+  const pause = {
+    command: 'pause' as const,
     durationMilliseconds: 5000,
   };
-  const hangup: Voice.v2.HangupCommand = {
-    command: 'hangup',
+  const hangup = {
+    command: 'hangup' as const,
   };
 
-  describe('responseCreatorHelper.incomingCallResponse', () => {
+  describe('incomingCallResponse', () => {
     it('should build an incoming-call response from commands', () => {
-      const built = Voice.v2.responseCreatorHelper.incomingCallResponse({
+      const built = VoiceV2CallbackWebhooks.incomingCallResponse({
         commands: [pause, hangup],
       });
 
-      const expected: Voice.v2.WebhookResponse = {
+      expect(built).toEqual({
         commands: [pause, hangup],
-      };
-      expect(built).toEqual(expected);
+      });
     });
 
     it('should map name to callName', () => {
-      const built = Voice.v2.responseCreatorHelper.incomingCallResponse({
+      const built = VoiceV2CallbackWebhooks.incomingCallResponse({
         commands: [pause],
         name: 'incoming',
       });
@@ -34,7 +33,7 @@ describe('Voice v2 dedicated response creator helper', () => {
     });
 
     it('should map onHangup onto events without a call name', () => {
-      const built = Voice.v2.responseCreatorHelper.incomingCallResponse({
+      const built = VoiceV2CallbackWebhooks.incomingCallResponse({
         commands: [pause],
         onHangup: [hangup],
       });
@@ -48,7 +47,7 @@ describe('Voice v2 dedicated response creator helper', () => {
     });
 
     it('should map name and onHangup together', () => {
-      const built = Voice.v2.responseCreatorHelper.incomingCallResponse({
+      const built = VoiceV2CallbackWebhooks.incomingCallResponse({
         commands: [pause, hangup],
         name: 'incoming',
         onHangup: [hangup],
@@ -64,20 +63,19 @@ describe('Voice v2 dedicated response creator helper', () => {
     });
   });
 
-  describe('responseCreatorHelper.response', () => {
+  describe('response', () => {
     it('should build a response from commands only', () => {
-      const built = Voice.v2.responseCreatorHelper.response({
+      const built = VoiceV2CallbackWebhooks.response({
         commands: [pause, hangup],
       });
 
-      const expected: Voice.v2.WebhookResponse = {
+      expect(built).toEqual({
         commands: [pause, hangup],
-      };
-      expect(built).toEqual(expected);
+      });
     });
 
     it('should allow an empty command list', () => {
-      const built = Voice.v2.responseCreatorHelper.response({
+      const built = VoiceV2CallbackWebhooks.response({
         commands: [],
       });
 

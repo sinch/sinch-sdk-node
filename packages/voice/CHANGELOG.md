@@ -1,6 +1,6 @@
 ## Version 1.7.0
 - [Feature] Voice v2 helpers:
-  - Sinch Events: `responseCreatorHelper.incomingCallResponse`, `responseCreatorHelper.response`
+  - Sinch Events: `VoiceV2CallbackWebhooks.incomingCallResponse`, `VoiceV2CallbackWebhooks.response`
 
 ## Version 1.6.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.6.0` — transport-level settings
