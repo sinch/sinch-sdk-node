@@ -6,26 +6,28 @@ import { VoiceV2CallbackWebhooks } from '@sinch/sdk-core';
 
 function main() {
   try {
-    const body = VoiceV2CallbackWebhooks.serializeResponse({
-      callName: 'incoming',
-      commands: [
-        {
-          command: 'messages',
-          messages: [
-            {
-              type: 'SAY',
-              say: {
-                text: 'Thank you for calling. Goodbye.',
-                voiceName: 'Emma',
+    const body = VoiceV2CallbackWebhooks.serializeResponse(
+      VoiceV2CallbackWebhooks.incomingCallResponse({
+        name: 'incoming',
+        commands: [
+          {
+            command: 'messages',
+            messages: [
+              {
+                type: 'SAY',
+                say: {
+                  text: 'Thank you for calling. Goodbye.',
+                  voiceName: 'Emma',
+                },
               },
-            },
-          ],
-        },
-        {
-          command: 'hangup',
-        },
-      ],
-    });
+            ],
+          },
+          {
+            command: 'hangup',
+          },
+        ],
+      }),
+    );
     console.log('✅ Serialized webhook response.');
     console.log(body);
   } catch (err) {
