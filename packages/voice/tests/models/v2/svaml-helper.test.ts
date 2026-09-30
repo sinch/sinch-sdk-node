@@ -511,5 +511,47 @@ describe('Voice v2 SVAML helper', () => {
         },
       ]);
     });
+
+    it('should validate a sequence built inside another sequence callback', () => {
+      expect(() => {
+        new Voice.v2.CommandsSequenceCreator().menu((menu) => {
+          menu
+            .name('main')
+            .item('main', (item) => {
+              item.match('1', () => {
+                new Voice.v2.CommandsSequenceCreator().gotoMenu('main').build();
+              });
+            });
+        });
+      }).toThrow('gotoMenu "main" is not defined');
+    });
+
+    it('should accept match and item names that exist on Object.prototype', () => {
+      const commands = new Voice.v2.CommandsSequenceCreator()
+        .menu((menu) => {
+          menu
+            .name('constructor')
+            .item('constructor', (item) => {
+              item.match('toString', (sequence) => {
+                sequence.hangup();
+              });
+            });
+        })
+        .build();
+
+      expect(commands).toEqual([{
+        command: 'menu',
+        startMenu: 'constructor',
+        menus: {
+          constructor: {
+            matches: {
+              toString: [{
+                command: 'hangup',
+              }],
+            },
+          },
+        },
+      }]);
+    });
   });
 });

@@ -35,21 +35,15 @@ import {
 export type SequenceCallback = (sequence: CommandsSequenceCreator) => void;
 
 /**
- * Depth of sequence callbacks that are still collecting commands.
- * Those temporary sequences skip menu-reference checks: the enclosing menu
- * validates once every item has been registered.
+ * Commands collected by a sequence that is still being filled by a callback.
+ * Reading them here skips menu-reference checks. `build()` always checks.
  */
-let nestedSequenceDepth = 0;
+const collectedCommands = new WeakMap<CommandsSequenceCreator, SvamlCommand[]>();
 
 function collectCommands(build: SequenceCallback): SvamlCommand[] {
   const sequence = new CommandsSequenceCreator();
-  nestedSequenceDepth += 1;
-  try {
-    build(sequence);
-    return sequence.build();
-  } finally {
-    nestedSequenceDepth -= 1;
-  }
+  build(sequence);
+  return [...(collectedCommands.get(sequence) ?? [])];
 }
 
 function appendCommands(current: SvamlCommand[] | undefined, build: SequenceCallback): SvamlCommand[] {
@@ -353,7 +347,7 @@ export class MenuItemCreator {
   private maximumLength: number | undefined;
   private terminating: string | undefined;
   private methods: InputMethodsEnum[] | undefined;
-  private readonly matches: { [key: string]: SvamlCommand[] } = {};
+  private readonly matches: { [key: string]: SvamlCommand[] } = Object.create(null);
   private onFailCommands: SvamlCommand[] | undefined;
 
   prompt(value: MenuPrompt | ((prompt: PromptCreator) => void)): this {
@@ -448,7 +442,7 @@ export class MenuItemCreator {
  */
 export class MenuCreator {
   private start: string | undefined;
-  private readonly items: { [key: string]: MenuItem } = {};
+  private readonly items: { [key: string]: MenuItem } = Object.create(null);
 
   /** Maps to `startMenu` on the menu command. */
   name(name: string): this {
@@ -718,6 +712,10 @@ export interface HangupParameters {
 export class CommandsSequenceCreator {
   private readonly commands: SvamlCommand[] = [];
 
+  constructor() {
+    collectedCommands.set(this, this.commands);
+  }
+
   amd(amdCreator: (creator: AmdCreator) => void): this {
     const creator = new AmdCreator();
     amdCreator(creator);
@@ -854,9 +852,7 @@ export class CommandsSequenceCreator {
 
   build(): SvamlCommand[] {
     const commands = [...this.commands];
-    if (nestedSequenceDepth === 0) {
-      assertMenuReferences(commands, undefined);
-    }
+    assertMenuReferences(commands, undefined);
     return commands;
   }
 }
