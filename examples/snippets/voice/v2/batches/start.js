@@ -25,18 +25,8 @@ async function main() {
           .dial((dialCreator) => {
             dialCreator
               .name('Node_SDK_Snippet_Call')
-              .from({
-                type: 'PHONE',
-                phone: {
-                  number: sinchPhoneNumber,
-                },
-              })
-              .to({
-                type: 'PHONE',
-                phone: {
-                  number: '@toNumber',
-                },
-              })
+              .from(Voice.v2.Destination.phone(sinchPhoneNumber))
+              .to(Voice.v2.Destination.phone('@toNumber'))
               .timeoutDuration(30)
               .maxDurationSeconds(120)
               .onAnswer((sequence) => {
