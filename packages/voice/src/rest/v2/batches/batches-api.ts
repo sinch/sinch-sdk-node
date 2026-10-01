@@ -56,7 +56,8 @@ export class BatchesApi extends VoiceV2DomainApi {
 
   /**
    * Get a batch summary
-   * Retrieve a summary of a batch call operation, including statistics on completed, failed, in-progress, and queued calls. This provides an overview of the batch execution state and individual call session states.
+   * Retrieve a summary of a batch call operation, including counts of queued, in-progress,
+   * completed, and expired call sessions.
    * @param { GetBatchCallSummaryRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetBatchCallSummaryRequestData): Promise<BatchSummary> {
