@@ -20,6 +20,7 @@ for (const page of [
   "variables/calculateSignature.html",
   "enums/PaginationEnum.html",
   "variables/AUTH_HOSTNAME.html",
+  "variables/PROVISIONING_HOSTNAME.html",
   "classes/ResponseJSONParseError.html",
   "classes/ApiClient.html",
   "variables/NOOP_LOGGER.html",
@@ -50,6 +51,9 @@ for (const page of [
   "variables/generateAuthorizationHeader.html",
   "variables/validateAuthenticationHeader.html",
   "classes/VoiceCallbackWebhooks.html",
+  "classes/ProvisioningService.html",
+  "classes/RcsApi.html",
+  "classes/RcsAccountsApi.html",
 ]) {
   if (!existsSync(join(docsDir, page))) {
     console.error(`Missing expected public API page: ${page}`);
@@ -143,6 +147,51 @@ if (!batchesGroup?.children?.some((item) => item.text === "BatchesApi")) {
 if (navigation.some((item) => item.text === "SMS / Batches")) {
   console.error("navigation.js: subdomains must be nested under domain categories, not top-level");
   process.exit(1);
+}
+
+const provisioningCategory = navigation.find((item) => item.text === "Provisioning");
+if (!provisioningCategory) {
+  console.error("navigation.js: Provisioning category missing");
+  process.exit(1);
+}
+
+const provisioningChildTexts = (provisioningCategory.children ?? []).map((item) => item.text);
+for (const group of ["RCS", "Webhooks"]) {
+  if (!provisioningChildTexts.includes(group)) {
+    console.error(
+      `navigation.js: Provisioning should contain ${group} group, got: ${provisioningChildTexts.join(", ")}`,
+    );
+    process.exit(1);
+  }
+}
+
+const rcsGroup = (provisioningCategory.children ?? []).find((item) => item.text === "RCS");
+if (!rcsGroup?.children?.some((item) => item.text === "RcsAccountsApi")) {
+  console.error("navigation.js: RCS group should contain RcsAccountsApi");
+  process.exit(1);
+}
+
+const provisioningWebhooksGroup = (provisioningCategory.children ?? []).find(
+  (item) => item.text === "Webhooks",
+);
+const provisioningWebhooksApiName = (provisioningWebhooksGroup?.children ?? []).map((item) => item.text);
+if (
+  !provisioningWebhooksApiName.includes("ProvisioningWebhooksApi")
+  && !provisioningWebhooksApiName.includes("WebhooksApi")
+) {
+  console.error(
+    `navigation.js: Webhooks group should contain the provisioning webhooks API, got: ${provisioningWebhooksApiName.join(", ")}`,
+  );
+  process.exit(1);
+}
+
+if (navigation.some((item) => item.text === "Other")) {
+  const other = navigation.find((item) => item.text === "Other");
+  const otherTexts = JSON.stringify(other);
+  if (otherTexts.includes("Provisioning")) {
+    console.error("navigation.js: Provisioning symbols must not remain under Other");
+    process.exit(1);
+  }
 }
 
 console.log("API docs output verified");

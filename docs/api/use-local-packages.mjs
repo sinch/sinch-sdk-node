@@ -14,6 +14,7 @@ const packages = [
   "fax",
   "number-lookup",
   "numbers",
+  "provisioning",
   "sms",
   "verification",
   "voice",
