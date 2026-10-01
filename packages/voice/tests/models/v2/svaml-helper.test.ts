@@ -172,10 +172,11 @@ describe('Voice v2 SVAML helper', () => {
             });
         })
         .customEvents((events) => {
-          events
-            .webhookName('collect.input')
-            .url('https://example.com/hook')
-            .fallbackUrl('https://example.com/fallback');
+          events.trigger(
+            'collect.input',
+            'https://example.com/hook',
+            'https://example.com/fallback',
+          );
         })
         .recording((recording) => {
           recording
@@ -246,6 +247,26 @@ describe('Voice v2 SVAML helper', () => {
           recordingName: 'call',
         },
       ]);
+    });
+
+    it('should build a custom event without a fallback URL', () => {
+      const commands = new Voice.v2.CommandsSequenceCreator()
+        .customEvents((events) => {
+          events.trigger('collect.input', 'https://example.com/hook');
+        })
+        .build();
+
+      expect(commands).toEqual([{
+        command: 'webhook',
+        webhookName: 'collect.input',
+        url: 'https://example.com/hook',
+      }]);
+    });
+
+    it('should reject a custom event that does not call trigger', () => {
+      expect(() => {
+        new Voice.v2.CommandsSequenceCreator().customEvents(() => undefined);
+      }).toThrow('customEvents requires trigger');
     });
 
     it('should build a menu from items and prompts', () => {

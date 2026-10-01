@@ -551,34 +551,31 @@ export class MessageCreator {
 
 /**
  * Builds a `webhook` command. The sequence method is `customEvents`.
+ * `trigger` writes `name` to `webhookName`.
  */
 export class CustomEventsCreator {
-  private name: string | undefined;
+  private nameValue: string | undefined;
   private urlValue: string | undefined;
   private fallback: string | undefined;
 
-  webhookName(name: string): this {
-    this.name = name;
-    return this;
-  }
-
-  url(url: string): this {
+  /**
+   * Configures the mid-call webhook.
+   * `name` is written to `webhookName`.
+   */
+  trigger(name: string, url: string, fallbackUrl?: string): this {
+    this.nameValue = name;
     this.urlValue = url;
-    return this;
-  }
-
-  fallbackUrl(url: string): this {
-    this.fallback = url;
+    this.fallback = fallbackUrl;
     return this;
   }
 
   build(): WebhookCommand {
-    if (this.name === undefined || this.urlValue === undefined) {
-      throw new Error('customEvents requires webhookName and url');
+    if (this.nameValue === undefined || this.urlValue === undefined) {
+      throw new Error('customEvents requires trigger');
     }
     const command: WebhookCommand = {
       command: 'webhook',
-      webhookName: this.name,
+      webhookName: this.nameValue,
       url: this.urlValue,
     };
     if (this.fallback !== undefined) {
