@@ -1,6 +1,3 @@
-## Version 1.7.0
-- [Docs] `batches.get` description update
-
 ## Version 1.6.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.6.0` — transport-level settings
 - [Feature] Support Voice API v2:
