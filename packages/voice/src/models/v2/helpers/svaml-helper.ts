@@ -244,7 +244,7 @@ export class AmdCreator {
  */
 export class DialCreator {
   private toDestination: CallDestination | undefined;
-  private fromOrigin: CallOrigin | undefined;
+  private fromOrigin: CallOrigin | CallDestination | undefined;
   private callNameValue: string | undefined;
   private dialTimeout: number | undefined;
   private maxDuration: number | undefined;
@@ -255,7 +255,8 @@ export class DialCreator {
     return this;
   }
 
-  from(from: CallOrigin): this {
+  /** Accepts a call origin or a call destination. */
+  from(from: CallOrigin | CallDestination): this {
     this.fromOrigin = from;
     return this;
   }
@@ -317,7 +318,7 @@ export class DialCreator {
       to: this.toDestination,
     };
     if (this.fromOrigin !== undefined) {
-      command.from = this.fromOrigin;
+      command.from = this.fromOrigin as CallOrigin;
     }
     if (this.callNameValue !== undefined) {
       command.callName = this.callNameValue;

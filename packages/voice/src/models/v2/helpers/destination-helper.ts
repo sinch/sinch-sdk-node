@@ -28,12 +28,11 @@ export interface SipDestinationParameters extends GenericSipEndpoint {
   transport?: TransportEnum;
   /** Maps to `sip.callHeaders`. */
   callHeaders?: SipCallHeadersInner[];
-}
-
-export interface SipFromDestinationParameters extends GenericSipEndpoint {
   /** Maps to `sip.displayName`. */
   displayName?: string;
 }
+
+export type SipFromDestinationParameters = SipDestinationParameters;
 
 export interface VoiceRelayDestinationParameters {
   endpoint: string;
@@ -53,36 +52,25 @@ export class DestinationPhone {
   }
 }
 
-/** SIP destination for `to`, including optional transport and headers. */
+/** SIP destination. Transport, headers, and display name are copied when present. */
 export class DestinationSip extends GenericSipEndpoint {
-  readonly sip: SipDetails;
+  readonly sip: SipDetails & SipFromDetails;
 
   constructor(parameters: SipDestinationParameters, scheme: 'sip:' | 'sips:') {
     const endpoint = withSipScheme(parameters.sip.endpoint, scheme);
     super(endpoint);
-    const sip: SipDetails = { endpoint };
-    if (parameters.transport !== undefined) {
-      sip.transport = parameters.transport;
-    }
-    if (parameters.callHeaders !== undefined) {
-      sip.callHeaders = parameters.callHeaders;
-    }
-    this.sip = sip;
+    this.sip = sipFields(endpoint, parameters);
   }
 }
 
-/** SIP destination for `from`, including an optional display name. */
+/** SIP destination. Transport, headers, and display name are copied when present. */
 export class DestinationSipFrom extends GenericSipEndpoint {
-  readonly sip: SipFromDetails;
+  readonly sip: SipDetails & SipFromDetails;
 
   constructor(parameters: SipFromDestinationParameters, scheme: 'sip:' | 'sips:') {
     const endpoint = withSipScheme(parameters.sip.endpoint, scheme);
     super(endpoint);
-    const sip: SipFromDetails = { endpoint };
-    if (parameters.displayName !== undefined) {
-      sip.displayName = parameters.displayName;
-    }
-    this.sip = sip;
+    this.sip = sipFields(endpoint, parameters);
   }
 }
 
@@ -116,6 +104,20 @@ export class DestinationVoiceRelay {
   }
 }
 
+function sipFields(endpoint: string, parameters: SipDestinationParameters): SipDetails & SipFromDetails {
+  const sip: SipDetails & SipFromDetails = { endpoint };
+  if (parameters.transport !== undefined) {
+    sip.transport = parameters.transport;
+  }
+  if (parameters.callHeaders !== undefined) {
+    sip.callHeaders = parameters.callHeaders;
+  }
+  if (parameters.displayName !== undefined) {
+    sip.displayName = parameters.displayName;
+  }
+  return sip;
+}
+
 function withSipScheme(endpoint: string, scheme: 'sip:' | 'sips:'): string {
   if (endpoint.startsWith('sip:') || endpoint.startsWith('sips:')) {
     return endpoint;
@@ -123,18 +125,11 @@ function withSipScheme(endpoint: string, scheme: 'sip:' | 'sips:'): string {
   return `${scheme}${endpoint}`;
 }
 
-function phoneNumber(destination: string): string {
-  if (destination.startsWith('phone:')) {
-    return destination.slice('phone:'.length);
-  }
-  return destination;
-}
-
 /**
  * Destination factories for Voice v2 call `to` and `from` values.
  *
  * `of('sip:')` and `of('sips:')` return a {@link SipEndpoint} with `type` and `endpoint` only.
- * `sip` and `sipFrom` return subclasses that can also set the optional fields.
+ * `sip` and `sipFrom` can also set transport, headers, and display name.
  */
 export const Destination = {
   phone(number: string): DestinationPhone {
@@ -167,23 +162,21 @@ export const Destination = {
   },
 
   /**
-   * Builds a destination from a tagged value.
-   * `+…` and any value without a tag become a phone destination.
-   * `phone:` is stripped. `sip:` and `sips:` are kept on the endpoint.
-   * `stream:` is stripped. There is no `sipFrom:` tag; from and to share {@link SipEndpoint}.
+   * Builds a phone, SIP, or stream destination from a string.
+   * `sip:` and `sips:` stay on the endpoint and can be used for `from` or `to`.
+   * `stream:` is removed. `phone:` is removed.
+   * Any other value, including a bare number such as `76367472`, is a phone destination and is kept as is.
+   * Voice relay is not built here; it requires `ttsVoice` and `sttLanguage`.
    */
   of(destination: string): DestinationPhone | SipEndpoint | DestinationStream {
-    if (destination.startsWith('phone:')) {
-      return new DestinationPhone(phoneNumber(destination));
-    }
     if (destination.startsWith('sips:') || destination.startsWith('sip:')) {
       return new GenericSipEndpoint(destination);
     }
     if (destination.startsWith('stream:')) {
       return new DestinationStream(destination.slice('stream:'.length));
     }
-    if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(destination)) {
-      throw new Error(`destination "${destination}" is not recognized`);
+    if (destination.startsWith('phone:')) {
+      destination = destination.slice('phone:'.length);
     }
     return new DestinationPhone(destination);
   },

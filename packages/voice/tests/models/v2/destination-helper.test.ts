@@ -18,6 +18,21 @@ describe('Voice v2 destination helper', () => {
   });
 
   describe('sip', () => {
+    it('should keep a display name passed to sip', () => {
+      const destination = Destination.sip({
+        type: 'SIP',
+        sip: {
+          endpoint: 'user@example.com',
+        },
+        displayName: 'Alice',
+      });
+
+      expect(destination.sip).toEqual({
+        endpoint: 'sip:user@example.com',
+        displayName: 'Alice',
+      });
+    });
+
     it('should add a sip scheme and optional fields', () => {
       const destination = Destination.sip({
         type: 'SIP',
@@ -150,13 +165,13 @@ describe('Voice v2 destination helper', () => {
 
   describe('of', () => {
     it('should default an untagged value to a phone destination', () => {
-      const destination = Destination.of('+15550001111');
+      const destination = Destination.of('76367472');
 
       expect(destination).toBeInstanceOf(Voice.v2.DestinationPhone);
       expect(destination).toEqual({
         type: 'PHONE',
         phone: {
-          number: '+15550001111',
+          number: '76367472',
         },
       });
     });
@@ -206,10 +221,43 @@ describe('Voice v2 destination helper', () => {
       });
     });
 
-    it('should reject an unrecognized tag', () => {
-      expect(() => {
-        Destination.of('https://example.com/audio');
-      }).toThrow('destination "https://example.com/audio" is not recognized');
+    it('should keep an unspecified prefix as the phone number', () => {
+      const destination = Destination.of('tel:+15550001111');
+
+      expect(destination).toEqual({
+        type: 'PHONE',
+        phone: {
+          number: 'tel:+15550001111',
+        },
+      });
+    });
+
+    it('should accept a tagged destination for from and for to', () => {
+      const caller = '15550001111@sip.sinch.com';
+      const recipient = '15550002222@sip.sinch.com';
+      const commands = new Voice.v2.CommandsSequenceCreator()
+        .dial((dial) => {
+          dial
+            .from(Destination.of(`sip:${caller}`))
+            .to(Destination.of(`sip:${recipient}`));
+        })
+        .build();
+
+      expect(commands).toEqual([{
+        command: 'dial',
+        from: {
+          type: 'SIP',
+          sip: {
+            endpoint: `sip:${caller}`,
+          },
+        },
+        to: {
+          type: 'SIP',
+          sip: {
+            endpoint: `sip:${recipient}`,
+          },
+        },
+      }]);
     });
   });
 });

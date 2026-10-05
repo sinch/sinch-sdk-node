@@ -25,8 +25,8 @@ async function main() {
           .dial((dialCreator) => {
             dialCreator
               .name('Node_SDK_Snippet_Call')
-              .from(Voice.v2.Destination.phone(sinchPhoneNumber))
-              .to(Voice.v2.Destination.phone(recipientPhoneNumber))
+              .from(Voice.v2.Destination.of(sinchPhoneNumber))
+              .to(Voice.v2.Destination.of(recipientPhoneNumber))
               .timeoutDuration(30)
               .onAnswer((sequence) => {
                 sequence.text('Hello, your call is now connected.', 'Emma');
