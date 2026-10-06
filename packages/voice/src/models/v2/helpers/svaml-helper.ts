@@ -712,6 +712,32 @@ export interface HangupParameters {
   name?: string;
 }
 
+/** Parameters for one `dial` command. `to` is required. */
+export interface DialParameters {
+  /** Call destination. */
+  to: CallDestination;
+  /** Call origin or destination. Maps to `from`. */
+  from?: CallOrigin | CallDestination;
+  /** Name of the call leg. Maps to `callName`. */
+  name?: string;
+  /** Maps to `dialTimeoutDurationSeconds`. */
+  timeoutDurationSeconds?: number;
+  /** Maps to `maxCallDurationSeconds`. */
+  maxDurationSeconds?: number;
+  /** Commands to run when the call is answered. */
+  onAnswer?: CommandInput;
+  /** Commands to run when the call is busy. */
+  onBusy?: CommandInput;
+  /** Commands to run when the call is rejected. */
+  onReject?: CommandInput;
+  /** Commands to run when the call times out. */
+  onTimeout?: CommandInput;
+  /** Commands to run when the call is hung up. */
+  onHangup?: CommandInput;
+  /** Commands to run when the call fails. */
+  onFailure?: CommandInput;
+}
+
 /** Parameters for {@link Recording.options}. `destination`, `url`, and `credentials` are required. */
 export interface RecordingOptionsParameters {
   destination: RecordingDestinationType;
@@ -739,6 +765,66 @@ function hangupCommand(parameters?: HangupParameters): HangupCommand {
   };
   if (parameters?.name !== undefined) {
     command.callName = parameters.name;
+  }
+  return command;
+}
+
+function answerCommand(): AnswerCommand {
+  return { command: 'answer' };
+}
+
+function bridgeCallCommand(name: string): BridgeCallCommand {
+  return {
+    command: 'bridgeCall',
+    bridgeName: name,
+  };
+}
+
+function pauseCommand(durationMilliseconds: number): PauseCommand {
+  return {
+    command: 'pause',
+    durationMilliseconds,
+  };
+}
+
+function dialCommand(parameters: DialParameters): DialCommand {
+  const command: DialCommand = {
+    command: 'dial',
+    to: parameters.to,
+  };
+  if (parameters.from !== undefined) {
+    command.from = parameters.from as CallOrigin;
+  }
+  if (parameters.name !== undefined) {
+    command.callName = parameters.name;
+  }
+  if (parameters.timeoutDurationSeconds !== undefined) {
+    command.dialTimeoutDurationSeconds = parameters.timeoutDurationSeconds;
+  }
+  if (parameters.maxDurationSeconds !== undefined) {
+    command.maxCallDurationSeconds = parameters.maxDurationSeconds;
+  }
+  const events: CallEvents = {};
+  if (parameters.onAnswer !== undefined) {
+    events.onAnswer = resolveCommands(parameters.onAnswer);
+  }
+  if (parameters.onBusy !== undefined) {
+    events.onBusy = resolveCommands(parameters.onBusy);
+  }
+  if (parameters.onReject !== undefined) {
+    events.onReject = resolveCommands(parameters.onReject);
+  }
+  if (parameters.onTimeout !== undefined) {
+    events.onTimeout = resolveCommands(parameters.onTimeout);
+  }
+  if (parameters.onHangup !== undefined) {
+    events.onHangup = resolveCommands(parameters.onHangup);
+  }
+  if (parameters.onFailure !== undefined) {
+    events.onFailure = resolveCommands(parameters.onFailure);
+  }
+  if (Object.keys(events).length > 0) {
+    command.events = events;
   }
   return command;
 }
@@ -794,16 +880,39 @@ function stopRecordingCommand(name: string): StopRecordingCommand {
 
 /**
  * Builds one call-control command.
- * `hangup` returns a single command. Pass it wherever a handler accepts one command
+ * Each method returns a single command. Pass it wherever a handler accepts one command
  * or a list, including request `commands` and nested handlers such as `onFinish`.
  */
 export const Calls = {
+  /** Answers the current call leg. */
+  answer(): AnswerCommand {
+    return answerCommand();
+  },
+
+  /** Joins a bridge. `name` is written to `bridgeName`. */
+  bridgeCall(name: string): BridgeCallCommand {
+    return bridgeCallCommand(name);
+  },
+
+  /**
+   * Dials a new call leg.
+   * `name` is written to `callName`. Event handlers accept one command, a list, or a sequence callback.
+   */
+  dial(parameters: DialParameters): DialCommand {
+    return dialCommand(parameters);
+  },
+
   /**
    * Ends a call leg.
    * `name` is written to `callName`. Omit it to end the current leg.
    */
   hangup(parameters?: HangupParameters): HangupCommand {
     return hangupCommand(parameters);
+  },
+
+  /** Pauses the sequence. `durationMilliseconds` is required by the command. */
+  pause(durationMilliseconds: number): PauseCommand {
+    return pauseCommand(durationMilliseconds);
   },
 };
 
@@ -860,20 +969,13 @@ export class CommandsSequenceCreator {
 
   /** Appends an `answer` command. */
   answer(): this {
-    const command: AnswerCommand = {
-      command: 'answer',
-    };
-    this.commands.push(command);
+    this.commands.push(Calls.answer());
     return this;
   }
 
   /** Appends a `bridgeCall` command. `name` is written to `bridgeName`. */
   bridgeCall(name: string): this {
-    const command: BridgeCallCommand = {
-      command: 'bridgeCall',
-      bridgeName: name,
-    };
-    this.commands.push(command);
+    this.commands.push(Calls.bridgeCall(name));
     return this;
   }
 
@@ -894,7 +996,7 @@ export class CommandsSequenceCreator {
 
   /** Appends a `hangup` command. */
   hangup(parameters?: HangupParameters): this {
-    this.commands.push(hangupCommand(parameters));
+    this.commands.push(Calls.hangup(parameters));
     return this;
   }
 
@@ -946,11 +1048,7 @@ export class CommandsSequenceCreator {
 
   /** Appends a `pause` command. `durationMilliseconds` is required by the command. */
   pause(durationMilliseconds: number): this {
-    const command: PauseCommand = {
-      command: 'pause',
-      durationMilliseconds,
-    };
-    this.commands.push(command);
+    this.commands.push(Calls.pause(durationMilliseconds));
     return this;
   }
 

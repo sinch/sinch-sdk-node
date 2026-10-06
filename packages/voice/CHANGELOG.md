@@ -4,7 +4,7 @@
   - Services: `callBehaviorHelper.static`, `callBehaviorHelper.none`, `callBehaviorHelper.webhook`
   - SVAML: `CommandsSequenceCreator` (`amd`, `answer`, `bridgeCall`, `webhook`, `dial`, `hangup`, `menu`, `gotoMenu`, `messages`, `play`, `pause`, `prompt`, `recording`, `text`, `command`)
   - Destination: `Destination.phone`, `Destination.sip`, `Destination.sips`, `Destination.sipFrom`, `Destination.sipsFrom`, `Destination.stream`, `Destination.voiceRelay`, `Destination.of`
-  - Calls: `Calls.hangup` returns one command. Request `commands` and nested handlers such as `onFinish` accept that command or an array.
+  - Calls: `Calls.answer`, `Calls.bridgeCall`, `Calls.dial`, `Calls.hangup`, `Calls.pause` each return one command. Request `commands` and nested handlers such as `onFinish` accept that command or an array.
   - Recording: `Recording.options`, `Recording.start`, `Recording.stop`
 
 ## Version 1.6.0

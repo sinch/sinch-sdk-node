@@ -25,6 +25,37 @@ describe('Voice v2 SVAML helper', () => {
         callName: 'b-leg',
       });
     });
+
+    it('should build one answer, bridge, or pause command', () => {
+      expect(Voice.v2.Calls.answer()).toEqual({ command: 'answer' });
+      expect(Voice.v2.Calls.bridgeCall('support')).toEqual({
+        command: 'bridgeCall',
+        bridgeName: 'support',
+      });
+      expect(Voice.v2.Calls.pause(500)).toEqual({
+        command: 'pause',
+        durationMilliseconds: 500,
+      });
+    });
+
+    it('should build one dial command and accept a single event command', () => {
+      expect(Voice.v2.Calls.dial({
+        to: phone('+15550001111'),
+        from: phone('+15550002222'),
+        name: 'b-leg',
+        timeoutDurationSeconds: 30,
+        onAnswer: Voice.v2.Calls.hangup(),
+      })).toEqual({
+        command: 'dial',
+        to: phone('+15550001111'),
+        from: phone('+15550002222'),
+        callName: 'b-leg',
+        dialTimeoutDurationSeconds: 30,
+        events: {
+          onAnswer: [{ command: 'hangup' }],
+        },
+      });
+    });
   });
 
   describe('Recording', () => {
