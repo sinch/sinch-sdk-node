@@ -27,13 +27,12 @@ async function main() {
               .name('Node_SDK_Snippet_Call')
               .from(Voice.v2.Destination.phone(sinchPhoneNumber))
               .to(Voice.v2.Destination.phone('@toNumber'))
-              .timeoutDuration(30)
-              .maxDurationSeconds(120)
               .onAnswer((sequence) => {
-                sequence.text('Hello, your call is now connected.', 'Emma');
-              })
-              .onHangup((sequence) => {
-                sequence.hangup();
+                sequence.text('Hello, your call is now connected.', 'Emma', {
+                  onFinish: (after) => {
+                    after.hangup();
+                  },
+                });
               });
           })
           .build(),

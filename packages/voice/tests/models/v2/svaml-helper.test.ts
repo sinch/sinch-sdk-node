@@ -73,6 +73,60 @@ describe('Voice v2 SVAML helper', () => {
       ]);
     });
 
+    it('should accept a message name and onFinish on text and play shortcuts', () => {
+      const commands = new Voice.v2.CommandsSequenceCreator()
+        .text('Hello', 'Emma', {
+          format: 'TEXT',
+          name: 'greeting',
+          onFinish: (sequence) => {
+            sequence.hangup();
+          },
+        })
+        .play('https://example.com/beep.wav', {
+          name: 'beep',
+          onFinish: (sequence) => {
+            sequence.pause(500);
+          },
+        })
+        .build();
+
+      expect(commands).toEqual([
+        {
+          command: 'messages',
+          messagesName: 'greeting',
+          messages: [{
+            type: 'SAY',
+            say: {
+              text: 'Hello',
+              voiceName: 'Emma',
+              format: 'TEXT',
+            },
+          }],
+          events: {
+            onFinish: [{
+              command: 'hangup',
+            }],
+          },
+        },
+        {
+          command: 'messages',
+          messagesName: 'beep',
+          messages: [{
+            type: 'PLAY',
+            play: {
+              url: 'https://example.com/beep.wav',
+            },
+          }],
+          events: {
+            onFinish: [{
+              command: 'pause',
+              durationMilliseconds: 500,
+            }],
+          },
+        },
+      ]);
+    });
+
     it('should build a dial command from the dial creator', () => {
       const commands = new Voice.v2.CommandsSequenceCreator()
         .dial((dial) => {
@@ -80,7 +134,7 @@ describe('Voice v2 SVAML helper', () => {
             .to(phone('+15550001111'))
             .from(phone('+15550002222'))
             .name('b-leg')
-            .timeoutDuration(30)
+            .timeoutDurationSeconds(30)
             .maxDurationSeconds(600)
             .onAnswer((sequence) => {
               sequence.text('Answered', 'Emma');
@@ -164,7 +218,7 @@ describe('Voice v2 SVAML helper', () => {
       const commands = new Voice.v2.CommandsSequenceCreator()
         .messages((messages) => {
           messages
-            .messagesName('greeting')
+            .name('greeting')
             .text('Hello', 'Emma', 'TEXT')
             .play('https://example.com/beep.wav')
             .onFinish((sequence) => {
@@ -180,7 +234,7 @@ describe('Voice v2 SVAML helper', () => {
         })
         .recording((recording) => {
           recording
-            .recordingName('call')
+            .name('call')
             .destination('AWS')
             .destinationUrl('s3://bucket/call.mp3')
             .credentials('secret')
@@ -189,9 +243,7 @@ describe('Voice v2 SVAML helper', () => {
               sequence.hangup();
             });
         })
-        .recording((recording) => {
-          recording.stop('call');
-        })
+        .stopRecording('call')
         .build();
 
       expect(commands).toEqual([
@@ -232,7 +284,7 @@ describe('Voice v2 SVAML helper', () => {
           recordingName: 'call',
           recordingOptions: {
             destination: 'AWS',
-            destinationUrl: 's3://bucket/call.mp3',
+            url: 's3://bucket/call.mp3',
             credentials: 'secret',
             format: 'MP3',
           },
@@ -292,7 +344,7 @@ describe('Voice v2 SVAML helper', () => {
                 .match('1', (sequence) => {
                   sequence.hangup();
                 })
-                .onFail((sequence) => {
+                .onFailure((sequence) => {
                   sequence.hangup();
                 });
             });
@@ -339,6 +391,35 @@ describe('Voice v2 SVAML helper', () => {
           },
         },
       }]);
+    });
+
+    it('should build an SSML say from messages and prompts', () => {
+      const ssml = '<speak>Hello</speak>';
+      const say = {
+        type: 'SAY',
+        say: {
+          text: ssml,
+          format: 'SSML',
+          voiceName: 'Emma',
+        },
+      };
+
+      const commands = new Voice.v2.CommandsSequenceCreator()
+        .messages((messages) => {
+          messages.ssml(ssml, 'Emma');
+        })
+        .build();
+      const prompt = new Voice.v2.CommandsSequenceCreator().prompt((builder) => {
+        builder.ssml(ssml, 'Emma');
+      });
+
+      expect(commands).toEqual([{
+        command: 'messages',
+        messages: [say],
+      }]);
+      expect(prompt).toEqual({
+        messages: [say],
+      });
     });
 
     it('should return a prompt from the sequence without appending a command', () => {
@@ -390,7 +471,7 @@ describe('Voice v2 SVAML helper', () => {
                 .match('1', (sequence) => {
                   sequence.gotoMenu('billing');
                 })
-                .onFail((sequence) => {
+                .onFailure((sequence) => {
                   sequence.gotoMenu('main');
                 });
             })
@@ -512,25 +593,13 @@ describe('Voice v2 SVAML helper', () => {
 
     it('should stop a named message sequence', () => {
       const commands = new Voice.v2.CommandsSequenceCreator()
-        .messages((messages) => {
-          messages.stop('greeting', 'ONLY_PLAYING');
-        })
-        .messages((messages) => {
-          messages.stop('greeting');
-        })
+        .stopMessages('greeting')
         .build();
 
-      expect(commands).toEqual([
-        {
-          command: 'stopMessages',
-          messagesName: 'greeting',
-          flags: 'ONLY_PLAYING',
-        },
-        {
-          command: 'stopMessages',
-          messagesName: 'greeting',
-        },
-      ]);
+      expect(commands).toEqual([{
+        command: 'stopMessages',
+        messagesName: 'greeting',
+      }]);
     });
 
     it('should validate a sequence built inside another sequence callback', () => {

@@ -9,8 +9,11 @@ function main() {
     const body = VoiceV2CallbackWebhooks.serializeResponse({
       callName: 'incoming',
       commands: new Voice.v2.CommandsSequenceCreator()
-        .text('Thank you for calling. Goodbye.', 'Emma')
-        .hangup()
+        .text('Thank you for calling. Goodbye.', 'Emma', {
+          onFinish: (after) => {
+            after.hangup();
+          },
+        })
         .build(),
     });
     console.log('✅ Serialized webhook response.');
