@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import { IncomingHttpHeaders } from 'http';
 import { CallbackProcessor } from '@sinch/sdk-client';
-import { Call, WebhookRequest, WebhookResponse } from '../../../models/v2';
+import { Call, SvamlCommand, WebhookRequest, WebhookResponse } from '../../../models/v2';
 
 /**
  * Credentials used to validate Voice v2 webhook signatures.
@@ -12,6 +12,29 @@ import { Call, WebhookRequest, WebhookResponse } from '../../../models/v2';
 export interface VoiceV2CallbackWebhooksParameters {
   serviceId?: string;
   serviceSecret?: string;
+}
+
+/**
+ * Parameters for a response to a `call.incoming` webhook.
+ *
+ * `name` is written to `callName`.
+ * `onHangup` is written to `events.onHangup`.
+ */
+export interface IncomingCallResponseParameters {
+  /** Ordered SVAML commands to execute for the incoming call. */
+  commands: SvamlCommand[];
+  /** Name of the call. Maps to `callName`. */
+  name?: string;
+  /** SVAML commands executed when the call is hung up. */
+  onHangup?: SvamlCommand[];
+}
+
+/**
+ * Parameters for a webhook response other than `call.incoming`.
+ */
+export interface ResponseParameters {
+  /** Ordered SVAML commands to execute. An empty array takes no action. */
+  commands: SvamlCommand[];
 }
 
 export class CallbackWebhooks implements CallbackProcessor<WebhookRequest> {
@@ -121,6 +144,39 @@ export class CallbackWebhooks implements CallbackProcessor<WebhookRequest> {
    */
   public serializeResponse(response: WebhookResponse): string {
     return JSON.stringify(response);
+  }
+
+  /**
+   * Response to a webhook triggered by an incoming call.
+   * `name` is written to `callName`. `callName` and `events` take effect only for `call.incoming`.
+   * @param {IncomingCallResponseParameters} parameters - Commands, optional call name, and optional hangup commands.
+   * @return {WebhookResponse} - The response body to serialize.
+   */
+  public static incomingCallResponse(parameters: IncomingCallResponseParameters): WebhookResponse {
+    const response: WebhookResponse = {
+      commands: parameters.commands,
+    };
+    if (parameters.name !== undefined) {
+      response.callName = parameters.name;
+    }
+    if (parameters.onHangup !== undefined) {
+      response.events = {
+        onHangup: parameters.onHangup,
+      };
+    }
+    return response;
+  }
+
+  /**
+   * Response to a webhook other than `call.incoming`.
+   * Only `commands` are returned; `callName` and `events` are ignored by the Voice platform.
+   * @param {ResponseParameters} parameters - Commands to execute. An empty array takes no action.
+   * @return {WebhookResponse} - The response body to serialize.
+   */
+  public static response(parameters: ResponseParameters): WebhookResponse {
+    return {
+      commands: parameters.commands,
+    };
   }
 
   /**
