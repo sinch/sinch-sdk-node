@@ -37,13 +37,12 @@ async function main() {
                   number: '@toNumber',
                 },
               })
-              .timeoutDuration(30)
-              .maxDurationSeconds(120)
               .onAnswer((sequence) => {
-                sequence.text('Hello, your call is now connected.', 'Emma');
-              })
-              .onHangup((sequence) => {
-                sequence.hangup();
+                sequence.text('Hello, your call is now connected.', 'Emma', {
+                  onFinish: (after) => {
+                    after.hangup();
+                  },
+                });
               });
           })
           .build(),

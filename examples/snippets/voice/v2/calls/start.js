@@ -37,12 +37,12 @@ async function main() {
                   number: recipientPhoneNumber,
                 },
               })
-              .timeoutDuration(30)
               .onAnswer((sequence) => {
-                sequence.text('Hello, your call is now connected.', 'Emma');
-              })
-              .onHangup((sequence) => {
-                sequence.hangup();
+                sequence.text('Hello, your call is now connected.', 'Emma', {
+                  onFinish: (after) => {
+                    after.hangup();
+                  },
+                });
               });
           })
           .build(),
