@@ -30,8 +30,16 @@ import {
   SvamlCommand,
   WebhookCommand,
 } from '../svaml-commands';
+import { commandList, SvamlCommands } from './commands';
 
 export type SequenceCallback = (sequence: CommandsSequenceCreator) => void;
+
+/**
+ * Commands for a nested handler.
+ * A callback fills a sequence. One command, such as {@link Calls.hangup}, is stored
+ * as a one-element list. An array is stored as given.
+ */
+export type CommandInput = SequenceCallback | SvamlCommands;
 
 /**
  * Optional fields for a one-message `text` or `play` shortcut.
@@ -40,8 +48,8 @@ export type SequenceCallback = (sequence: CommandsSequenceCreator) => void;
 export interface MessagesShortcutOptions {
   /** Maps to `messagesName` on the messages command. */
   name?: string;
-  /** Commands to run when playback finishes. */
-  onFinish?: SequenceCallback;
+  /** Commands to run when playback finishes. One command, a list, or a sequence callback. */
+  onFinish?: CommandInput;
 }
 
 export interface TextShortcutOptions extends MessagesShortcutOptions {
@@ -60,8 +68,15 @@ function collectCommands(build: SequenceCallback): SvamlCommand[] {
   return [...(collectedCommands.get(sequence) ?? [])];
 }
 
-function appendCommands(current: SvamlCommand[] | undefined, build: SequenceCallback): SvamlCommand[] {
-  return [...(current ?? []), ...collectCommands(build)];
+function resolveCommands(input: CommandInput): SvamlCommand[] {
+  if (typeof input === 'function') {
+    return collectCommands(input);
+  }
+  return commandList(input);
+}
+
+function appendCommands(current: SvamlCommand[] | undefined, input: CommandInput): SvamlCommand[] {
+  return [...(current ?? []), ...resolveCommands(input)];
 }
 
 function shortcutMessages(message: Message, options?: MessagesShortcutOptions): MessagesCommand {
@@ -74,7 +89,7 @@ function shortcutMessages(message: Message, options?: MessagesShortcutOptions): 
   }
   if (options?.onFinish !== undefined) {
     command.events = {
-      onFinish: collectCommands(options.onFinish),
+      onFinish: resolveCommands(options.onFinish),
     };
   }
   return command;
@@ -244,22 +259,22 @@ function resolvePrompt(value: MenuPrompt | ((prompt: PromptCreator) => void)): M
 export class AmdCreator {
   private readonly events: AmdEvents = {};
 
-  onHuman(build: SequenceCallback): this {
+  onHuman(build: CommandInput): this {
     this.events.onHuman = appendCommands(this.events.onHuman, build);
     return this;
   }
 
-  onMachine(build: SequenceCallback): this {
+  onMachine(build: CommandInput): this {
     this.events.onMachine = appendCommands(this.events.onMachine, build);
     return this;
   }
 
-  onBeep(build: SequenceCallback): this {
+  onBeep(build: CommandInput): this {
     this.events.onBeep = appendCommands(this.events.onBeep, build);
     return this;
   }
 
-  onUnknown(build: SequenceCallback): this {
+  onUnknown(build: CommandInput): this {
     this.events.onUnknown = appendCommands(this.events.onUnknown, build);
     return this;
   }
@@ -315,32 +330,32 @@ export class DialCreator {
     return this;
   }
 
-  onAnswer(build: SequenceCallback): this {
+  onAnswer(build: CommandInput): this {
     this.events.onAnswer = appendCommands(this.events.onAnswer, build);
     return this;
   }
 
-  onBusy(build: SequenceCallback): this {
+  onBusy(build: CommandInput): this {
     this.events.onBusy = appendCommands(this.events.onBusy, build);
     return this;
   }
 
-  onReject(build: SequenceCallback): this {
+  onReject(build: CommandInput): this {
     this.events.onReject = appendCommands(this.events.onReject, build);
     return this;
   }
 
-  onTimeout(build: SequenceCallback): this {
+  onTimeout(build: CommandInput): this {
     this.events.onTimeout = appendCommands(this.events.onTimeout, build);
     return this;
   }
 
-  onHangup(build: SequenceCallback): this {
+  onHangup(build: CommandInput): this {
     this.events.onHangup = appendCommands(this.events.onHangup, build);
     return this;
   }
 
-  onFailure(build: SequenceCallback): this {
+  onFailure(build: CommandInput): this {
     this.events.onFailure = appendCommands(this.events.onFailure, build);
     return this;
   }
@@ -428,13 +443,13 @@ export class MenuItemCreator {
   }
 
   /** Stacks commands for one match expression. Calling again with the same expression appends. */
-  match(expression: string, build: SequenceCallback): this {
+  match(expression: string, build: CommandInput): this {
     this.matches[expression] = appendCommands(this.matches[expression], build);
     return this;
   }
 
   /** Maps to `onFail` on the menu item. */
-  onFailure(build: SequenceCallback): this {
+  onFailure(build: CommandInput): this {
     this.onFailureCommands = appendCommands(this.onFailureCommands, build);
     return this;
   }
@@ -546,7 +561,7 @@ export class MessageCreator {
     return this;
   }
 
-  onFinish(build: SequenceCallback): this {
+  onFinish(build: CommandInput): this {
     this.onFinishCommands = appendCommands(this.onFinishCommands, build);
     return this;
   }
@@ -658,12 +673,12 @@ export class RecordingCreator {
     return this;
   }
 
-  onFinish(build: SequenceCallback): this {
+  onFinish(build: CommandInput): this {
     this.events.onFinish = appendCommands(this.events.onFinish, build);
     return this;
   }
 
-  onFailure(build: SequenceCallback): this {
+  onFailure(build: CommandInput): this {
     this.events.onFailure = appendCommands(this.events.onFailure, build);
     return this;
   }
@@ -720,7 +735,8 @@ function hangupCommand(parameters?: HangupParameters): HangupCommand {
 
 /**
  * Builds one call-control command.
- * `hangup` returns a command, not a sequence, so it can be passed as `commands`.
+ * `hangup` returns a single command. Pass it wherever a handler accepts one command
+ * or a list, including request `commands` and nested handlers such as `onFinish`.
  */
 export const Calls = {
   /**

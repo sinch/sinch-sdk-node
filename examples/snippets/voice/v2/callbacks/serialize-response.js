@@ -11,9 +11,7 @@ function main() {
         name: 'incoming',
         commands: new Voice.v2.CommandsSequenceCreator()
           .text('Thank you for calling. Goodbye.', 'Emma', {
-            onFinish: (after) => {
-              after.hangup();
-            },
+            onFinish: Voice.v2.Calls.hangup(),
           })
           .build(),
       }),

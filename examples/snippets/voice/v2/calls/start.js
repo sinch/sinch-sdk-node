@@ -29,9 +29,7 @@ async function main() {
               .to(Voice.v2.Destination.of(recipientPhoneNumber))
               .onAnswer((sequence) => {
                 sequence.text('Hello, your call is now connected.', 'Emma', {
-                  onFinish: (after) => {
-                    after.hangup();
-                  },
+                  onFinish: Voice.v2.Calls.hangup(),
                 });
               });
           })

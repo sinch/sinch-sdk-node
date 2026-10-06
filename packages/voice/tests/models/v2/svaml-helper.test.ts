@@ -90,6 +90,46 @@ describe('Voice v2 SVAML helper', () => {
       ]);
     });
 
+    it('should accept one command or a list where a nested handler takes commands', () => {
+      const hangup = Voice.v2.Calls.hangup();
+      const commands = new Voice.v2.CommandsSequenceCreator()
+        .text('Hello', 'Emma', {
+          onFinish: hangup,
+        })
+        .dial((dial) => {
+          dial
+            .to(phone('+15550001111'))
+            .onAnswer([hangup, Voice.v2.Calls.hangup({ name: 'b-leg' })]);
+        })
+        .build();
+
+      expect(commands).toEqual([
+        {
+          command: 'messages',
+          messages: [{
+            type: 'SAY',
+            say: {
+              text: 'Hello',
+              voiceName: 'Emma',
+            },
+          }],
+          events: {
+            onFinish: [hangup],
+          },
+        },
+        {
+          command: 'dial',
+          to: phone('+15550001111'),
+          events: {
+            onAnswer: [
+              hangup,
+              { command: 'hangup', callName: 'b-leg' },
+            ],
+          },
+        },
+      ]);
+    });
+
     it('should accept a message name and onFinish on text and play shortcuts', () => {
       const commands = new Voice.v2.CommandsSequenceCreator()
         .text('Hello', 'Emma', {

@@ -1,7 +1,8 @@
 import crypto from 'crypto';
 import { IncomingHttpHeaders } from 'http';
 import { CallbackProcessor } from '@sinch/sdk-client';
-import { Call, SvamlCommand, WebhookRequest, WebhookResponse } from '../../../models/v2';
+import { Call, WebhookRequest, WebhookResponse } from '../../../models/v2';
+import { commandList, SvamlCommands } from '../../../models/v2/helpers/commands';
 
 /**
  * Credentials used to validate Voice v2 webhook signatures.
@@ -21,20 +22,20 @@ export interface VoiceV2CallbackWebhooksParameters {
  * `onHangup` is written to `events.onHangup`.
  */
 export interface IncomingCallResponseParameters {
-  /** Ordered SVAML commands to execute for the incoming call. */
-  commands: SvamlCommand[];
+  /** Ordered SVAML commands to execute for the incoming call. One command or a list. */
+  commands: SvamlCommands;
   /** Name of the call. Maps to `callName`. */
   name?: string;
-  /** SVAML commands executed when the call is hung up. */
-  onHangup?: SvamlCommand[];
+  /** SVAML commands executed when the call is hung up. One command or a list. */
+  onHangup?: SvamlCommands;
 }
 
 /**
  * Parameters for a webhook response other than `call.incoming`.
  */
 export interface ResponseParameters {
-  /** Ordered SVAML commands to execute. An empty array takes no action. */
-  commands: SvamlCommand[];
+  /** Ordered SVAML commands to execute. One command or a list. An empty array takes no action. */
+  commands: SvamlCommands;
 }
 
 export class CallbackWebhooks implements CallbackProcessor<WebhookRequest> {
@@ -154,14 +155,14 @@ export class CallbackWebhooks implements CallbackProcessor<WebhookRequest> {
    */
   public static incomingCallResponse(parameters: IncomingCallResponseParameters): WebhookResponse {
     const response: WebhookResponse = {
-      commands: parameters.commands,
+      commands: commandList(parameters.commands),
     };
     if (parameters.name !== undefined) {
       response.callName = parameters.name;
     }
     if (parameters.onHangup !== undefined) {
       response.events = {
-        onHangup: parameters.onHangup,
+        onHangup: commandList(parameters.onHangup),
       };
     }
     return response;
@@ -175,7 +176,7 @@ export class CallbackWebhooks implements CallbackProcessor<WebhookRequest> {
    */
   public static response(parameters: ResponseParameters): WebhookResponse {
     return {
-      commands: parameters.commands,
+      commands: commandList(parameters.commands),
     };
   }
 

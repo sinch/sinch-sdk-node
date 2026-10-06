@@ -10,6 +10,23 @@ describe('Voice v2 dedicated services helper', () => {
   };
 
   describe('callBehaviorHelper.static', () => {
+    it('should accept one command where a list is stored', () => {
+      const built = Voice.v2.callBehaviorHelper.static({
+        commands: hangup,
+        onHangup: hangup,
+      });
+
+      expect(built).toEqual({
+        type: 'STATIC',
+        static: {
+          commands: [hangup],
+          events: {
+            onHangup: [hangup],
+          },
+        },
+      });
+    });
+
     it('should build a static call behavior from commands', () => {
       const built = Voice.v2.callBehaviorHelper.static({
         commands: [pause, hangup],

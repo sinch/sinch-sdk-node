@@ -1,6 +1,6 @@
 import { CallBehaviorsNone, CallBehaviorsStatic, CallBehaviorsWebhook } from '../call-behaviors';
-import { SvamlCommand } from '../svaml-commands';
 import { SvamlInput } from '../svaml-input';
+import { commandList, SvamlCommands } from './commands';
 
 /**
  * Parameters for a STATIC service call behavior.
@@ -9,12 +9,12 @@ import { SvamlInput } from '../svaml-input';
  * `onHangup` is written to `events.onHangup`.
  */
 export interface StaticCallBehaviorParameters {
-  /** Ordered SVAML commands executed for every call on this service. */
-  commands: SvamlCommand[];
+  /** Ordered SVAML commands executed for every call on this service. One command or a list. */
+  commands: SvamlCommands;
   /** Name of the call. Maps to `callName`. */
   name?: string;
-  /** SVAML commands executed when the call is hung up. */
-  onHangup?: SvamlCommand[];
+  /** SVAML commands executed when the call is hung up. One command or a list. */
+  onHangup?: SvamlCommands;
 }
 
 /**
@@ -40,14 +40,14 @@ export const callBehaviorHelper = {
    */
   static: (parameters: StaticCallBehaviorParameters): CallBehaviorsStatic => {
     const svaml: SvamlInput = {
-      commands: parameters.commands,
+      commands: commandList(parameters.commands),
     };
     if (parameters.name !== undefined) {
       svaml.callName = parameters.name;
     }
     if (parameters.onHangup !== undefined) {
       svaml.events = {
-        onHangup: parameters.onHangup,
+        onHangup: commandList(parameters.onHangup),
       };
     }
     return {
