@@ -17,7 +17,6 @@ import {
   BridgeCallCommand,
   CallEvents,
   DialCommand,
-  FlagsEnum,
   GotoMenuCommand,
   HangupCommand,
   MenuCommand,
@@ -35,6 +34,21 @@ import {
 export type SequenceCallback = (sequence: CommandsSequenceCreator) => void;
 
 /**
+ * Optional fields for a one-message `text` or `play` shortcut.
+ * `name` is written to `messagesName`.
+ */
+export interface MessagesShortcutOptions {
+  /** Maps to `messagesName` on the messages command. */
+  name?: string;
+  /** Commands to run when playback finishes. */
+  onFinish?: SequenceCallback;
+}
+
+export interface TextShortcutOptions extends MessagesShortcutOptions {
+  format?: FormatEnum;
+}
+
+/**
  * Commands collected by a sequence that is still being filled by a callback.
  * Reading them here skips menu-reference checks. `build()` always checks.
  */
@@ -48,6 +62,22 @@ function collectCommands(build: SequenceCallback): SvamlCommand[] {
 
 function appendCommands(current: SvamlCommand[] | undefined, build: SequenceCallback): SvamlCommand[] {
   return [...(current ?? []), ...collectCommands(build)];
+}
+
+function shortcutMessages(message: Message, options?: MessagesShortcutOptions): MessagesCommand {
+  const command: MessagesCommand = {
+    command: 'messages',
+    messages: [message],
+  };
+  if (options?.name !== undefined) {
+    command.messagesName = options.name;
+  }
+  if (options?.onFinish !== undefined) {
+    command.events = {
+      onFinish: collectCommands(options.onFinish),
+    };
+  }
+  return command;
 }
 
 function present(lists: Array<SvamlCommand[] | undefined>): SvamlCommand[][] {
@@ -152,7 +182,7 @@ function playMessage(url: string): PlayMessage {
 }
 
 /**
- * Builds a menu prompt from stacked `text` and `play` messages.
+ * Builds a menu prompt from stacked `text`, `ssml`, and `play` messages.
  */
 export class PromptCreator {
   private readonly messages: Message[] = [];
@@ -166,6 +196,12 @@ export class PromptCreator {
   /** Adds a Say text message. */
   text(text: string, voiceName: string, format?: FormatEnum): this {
     this.messages.push(sayMessage(text, voiceName, format));
+    return this;
+  }
+
+  /** Adds a Say message with `format: 'SSML'`. */
+  ssml(ssml: string, voiceName: string): this {
+    this.messages.push(sayMessage(ssml, voiceName, 'SSML'));
     return this;
   }
 
@@ -267,7 +303,7 @@ export class DialCreator {
   }
 
   /** Maps to `dialTimeoutDurationSeconds` on the dial command. */
-  timeoutDuration(seconds: number): this {
+  timeoutDurationSeconds(seconds: number): this {
     this.dialTimeout = seconds;
     return this;
   }
@@ -348,7 +384,7 @@ export class MenuItemCreator {
   private terminating: string | undefined;
   private methods: InputMethodsEnum[] | undefined;
   private readonly matches: { [key: string]: SvamlCommand[] } = Object.create(null);
-  private onFailCommands: SvamlCommand[] | undefined;
+  private onFailureCommands: SvamlCommand[] | undefined;
 
   prompt(value: MenuPrompt | ((prompt: PromptCreator) => void)): this {
     this.promptValue = resolvePrompt(value);
@@ -396,8 +432,9 @@ export class MenuItemCreator {
     return this;
   }
 
-  onFail(build: SequenceCallback): this {
-    this.onFailCommands = appendCommands(this.onFailCommands, build);
+  /** Maps to `onFail` on the menu item. */
+  onFailure(build: SequenceCallback): this {
+    this.onFailureCommands = appendCommands(this.onFailureCommands, build);
     return this;
   }
 
@@ -430,8 +467,8 @@ export class MenuItemCreator {
     if (Object.keys(this.matches).length > 0) {
       item.matches = this.matches;
     }
-    if (this.onFailCommands !== undefined) {
-      item.onFail = this.onFailCommands;
+    if (this.onFailureCommands !== undefined) {
+      item.onFail = this.onFailureCommands;
     }
     return item;
   }
@@ -478,33 +515,28 @@ export class MenuCreator {
 }
 
 /**
- * Builds a `messages` command, or a `stopMessages` command when `stop` is used.
- * `text` and `play` stack message items.
+ * Builds a `messages` command.
+ * `text`, `ssml`, and `play` stack message items.
  */
 export class MessageCreator {
   private readonly messages: Message[] = [];
-  private name: string | undefined;
+  private nameValue: string | undefined;
   private onFinishCommands: SvamlCommand[] | undefined;
-  private stopName: string | undefined;
-  private stopFlags: FlagsEnum | undefined;
 
-  /**
-   * Builds a `stopMessages` command instead of `messages`.
-   * `name` is written to `messagesName`.
-   */
-  stop(name: string, flags?: FlagsEnum): this {
-    this.stopName = name;
-    this.stopFlags = flags;
-    return this;
-  }
-
-  messagesName(name: string): this {
-    this.name = name;
+  /** Maps to `messagesName` on the messages command. */
+  name(name: string): this {
+    this.nameValue = name;
     return this;
   }
 
   text(text: string, voiceName: string, format?: FormatEnum): this {
     this.messages.push(sayMessage(text, voiceName, format));
+    return this;
+  }
+
+  /** Adds a Say message with `format: 'SSML'`. */
+  ssml(ssml: string, voiceName: string): this {
+    this.messages.push(sayMessage(ssml, voiceName, 'SSML'));
     return this;
   }
 
@@ -518,17 +550,7 @@ export class MessageCreator {
     return this;
   }
 
-  build(): MessagesCommand | StopMessagesCommand {
-    if (this.stopName !== undefined) {
-      const command: StopMessagesCommand = {
-        command: 'stopMessages',
-        messagesName: this.stopName,
-      };
-      if (this.stopFlags !== undefined) {
-        command.flags = this.stopFlags;
-      }
-      return command;
-    }
+  build(): MessagesCommand {
     if (this.messages.length === 0) {
       throw new Error('messages requires at least one text or play message');
     }
@@ -536,8 +558,8 @@ export class MessageCreator {
       command: 'messages',
       messages: [...this.messages],
     };
-    if (this.name !== undefined) {
-      command.messagesName = this.name;
+    if (this.nameValue !== undefined) {
+      command.messagesName = this.nameValue;
     }
     if (this.onFinishCommands !== undefined) {
       const events: MessageEvents = {
@@ -586,11 +608,10 @@ export class CustomEventsCreator {
 }
 
 /**
- * Builds a `startRecording` command, or a `stopRecording` command when `stop` is used.
+ * Builds a `startRecording` command.
  */
 export class RecordingCreator {
-  private stopName: string | undefined;
-  private name: string | undefined;
+  private nameValue: string | undefined;
   private destinationValue: RecordingDestinationType | undefined;
   private url: string | undefined;
   private credentialsValue: string | undefined;
@@ -599,14 +620,9 @@ export class RecordingCreator {
   private transcription: TranscriptionOptions | undefined;
   private readonly events: RecordingEvents = {};
 
-  /** Builds a `stopRecording` command instead of `startRecording`. */
-  stop(recordingName: string): this {
-    this.stopName = recordingName;
-    return this;
-  }
-
-  recordingName(name: string): this {
-    this.name = name;
+  /** Maps to `recordingName` on the startRecording command. */
+  name(name: string): this {
+    this.nameValue = name;
     return this;
   }
 
@@ -650,13 +666,7 @@ export class RecordingCreator {
     return this;
   }
 
-  build(): StartRecordingCommand | StopRecordingCommand {
-    if (this.stopName !== undefined) {
-      return {
-        command: 'stopRecording',
-        recordingName: this.stopName,
-      };
-    }
+  build(): StartRecordingCommand {
     if (
       this.destinationValue === undefined
       || this.url === undefined
@@ -681,8 +691,8 @@ export class RecordingCreator {
     if (this.transcription !== undefined) {
       command.recordingOptions.transcriptionOptions = this.transcription;
     }
-    if (this.name !== undefined) {
-      command.recordingName = this.name;
+    if (this.nameValue !== undefined) {
+      command.recordingName = this.nameValue;
     }
     if (Object.keys(this.events).length > 0) {
       command.events = this.events;
@@ -700,8 +710,8 @@ export interface HangupParameters {
  * Commands sequence creator.
  *
  * Helper names follow the SVAML sequence creator: `amd`, `answer`, `bridgeCall`,
- * `customEvents`, `dial`, `hangup`, `menu`, `gotoMenu`, `messages`, `play`, `pause`,
- * `prompt`, `recording`, `text`, and `command`.
+ * `customEvents`, `dial`, `hangup`, `menu`, `gotoMenu`, `messages`, `stopMessages`,
+ * `play`, `pause`, `prompt`, `recording`, `stopRecording`, `text`, and `command`.
  *
  * Each command helper appends to the sequence and returns it.
  * `prompt` returns a {@link MenuPrompt} and does not append a command.
@@ -792,15 +802,22 @@ export class CommandsSequenceCreator {
     return this;
   }
 
+  /** Appends a `stopMessages` command. `name` is written to `messagesName`. */
+  stopMessages(name: string): this {
+    const command: StopMessagesCommand = {
+      command: 'stopMessages',
+      messagesName: name,
+    };
+    this.commands.push(command);
+    return this;
+  }
+
   /**
    * Shortcut: appends a `messages` command with one play message.
    * `url` is required by the play message.
    */
-  play(url: string): this {
-    this.commands.push({
-      command: 'messages',
-      messages: [playMessage(url)],
-    });
+  play(url: string, options?: MessagesShortcutOptions): this {
+    this.commands.push(shortcutMessages(playMessage(url), options));
     return this;
   }
 
@@ -829,15 +846,22 @@ export class CommandsSequenceCreator {
     return this;
   }
 
+  /** Appends a `stopRecording` command. `name` is written to `recordingName`. */
+  stopRecording(name: string): this {
+    const command: StopRecordingCommand = {
+      command: 'stopRecording',
+      recordingName: name,
+    };
+    this.commands.push(command);
+    return this;
+  }
+
   /**
    * Shortcut: appends a `messages` command with one Say text message.
    * This is the simple say form described for the sequence creator.
    */
-  text(text: string, voiceName: string, format?: FormatEnum): this {
-    this.commands.push({
-      command: 'messages',
-      messages: [sayMessage(text, voiceName, format)],
-    });
+  text(text: string, voiceName: string, options?: TextShortcutOptions): this {
+    this.commands.push(shortcutMessages(sayMessage(text, voiceName, options?.format), options));
     return this;
   }
 
