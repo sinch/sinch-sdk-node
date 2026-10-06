@@ -284,7 +284,7 @@ describe('Voice v2 SVAML helper', () => {
           recordingName: 'call',
           recordingOptions: {
             destination: 'AWS',
-            destinationUrl: 's3://bucket/call.mp3',
+            url: 's3://bucket/call.mp3',
             credentials: 'secret',
             format: 'MP3',
           },
