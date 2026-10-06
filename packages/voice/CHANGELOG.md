@@ -1,5 +1,6 @@
 ## Version 1.7.0
 - [Feature] Voice v2 helpers:
+  - Sinch Events: `VoiceV2CallbackWebhooks.incomingCallResponse`, `VoiceV2CallbackWebhooks.response`
   - Services: `callBehaviorHelper.static`, `callBehaviorHelper.none`, `callBehaviorHelper.webhook`
 
 ## Version 1.6.0
