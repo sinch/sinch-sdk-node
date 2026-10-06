@@ -1,5 +1,7 @@
 ## Version 1.7.0
 - [Feature] Voice v2 helpers:
+  - Sinch Events: `VoiceV2CallbackWebhooks.incomingCallResponse`, `VoiceV2CallbackWebhooks.response`
+  - Services: `callBehaviorHelper.static`, `callBehaviorHelper.none`, `callBehaviorHelper.webhook`
   - SVAML: `CommandsSequenceCreator` (`amd`, `answer`, `bridgeCall`, `customEvents`, `dial`, `hangup`, `menu`, `gotoMenu`, `messages`, `play`, `pause`, `prompt`, `recording`, `text`, `command`)
 
 ## Version 1.6.0
