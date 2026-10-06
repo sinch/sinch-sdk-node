@@ -57,4 +57,5 @@ export * from './validate-svaml-request';
 export * from './svaml-description-response';
 export * from './validate-svaml-response';
 export * from './enums';
+export * from './helpers';
 export * from './requests';
