@@ -231,7 +231,7 @@ describe('Voice v2 SVAML helper', () => {
       }]);
     });
 
-    it('should build messages, custom events, and recording commands', () => {
+    it('should build messages, webhook, and recording commands', () => {
       const commands = new Voice.v2.CommandsSequenceCreator()
         .messages((messages) => {
           messages
@@ -242,8 +242,8 @@ describe('Voice v2 SVAML helper', () => {
               sequence.pause(1000);
             });
         })
-        .customEvents((events) => {
-          events.trigger(
+        .webhook((webhook) => {
+          webhook.trigger(
             'collect.input',
             'https://example.com/hook',
             'https://example.com/fallback',
@@ -318,10 +318,10 @@ describe('Voice v2 SVAML helper', () => {
       ]);
     });
 
-    it('should build a custom event without a fallback URL', () => {
+    it('should build a webhook without a fallback URL', () => {
       const commands = new Voice.v2.CommandsSequenceCreator()
-        .customEvents((events) => {
-          events.trigger('collect.input', 'https://example.com/hook');
+        .webhook((webhook) => {
+          webhook.trigger('collect.input', 'https://example.com/hook');
         })
         .build();
 
@@ -332,10 +332,10 @@ describe('Voice v2 SVAML helper', () => {
       }]);
     });
 
-    it('should reject a custom event that does not call trigger', () => {
+    it('should reject a webhook that does not call trigger', () => {
       expect(() => {
-        new Voice.v2.CommandsSequenceCreator().customEvents(() => undefined);
-      }).toThrow('customEvents requires trigger');
+        new Voice.v2.CommandsSequenceCreator().webhook(() => undefined);
+      }).toThrow('webhook requires trigger');
     });
 
     it('should build a menu from items and prompts', () => {

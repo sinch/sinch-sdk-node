@@ -1,6 +1,6 @@
 ## Version 1.7.0
 - [Feature] Voice v2 helpers:
-  - SVAML: `CommandsSequenceCreator` (`amd`, `answer`, `bridgeCall`, `customEvents`, `dial`, `hangup`, `menu`, `gotoMenu`, `messages`, `play`, `pause`, `prompt`, `recording`, `text`, `command`)
+  - SVAML: `CommandsSequenceCreator` (`amd`, `answer`, `bridgeCall`, `webhook`, `dial`, `hangup`, `menu`, `gotoMenu`, `messages`, `play`, `pause`, `prompt`, `recording`, `text`, `command`)
   - Destination: `Destination.phone`, `Destination.sip`, `Destination.sips`, `Destination.sipFrom`, `Destination.sipsFrom`, `Destination.stream`, `Destination.voiceRelay`, `Destination.of`
   - Calls: `Calls.hangup`. Call, batch, and interact requests accept one command or an array.
 

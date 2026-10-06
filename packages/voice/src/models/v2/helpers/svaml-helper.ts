@@ -573,10 +573,10 @@ export class MessageCreator {
 }
 
 /**
- * Builds a `webhook` command. The sequence method is `customEvents`.
+ * Builds a `webhook` command. The sequence method is `webhook`.
  * `trigger` writes `name` to `webhookName`.
  */
-export class CustomEventsCreator {
+export class WebhookCreator {
   private nameValue: string | undefined;
   private urlValue: string | undefined;
   private fallback: string | undefined;
@@ -594,7 +594,7 @@ export class CustomEventsCreator {
 
   build(): WebhookCommand {
     if (this.nameValue === undefined || this.urlValue === undefined) {
-      throw new Error('customEvents requires trigger');
+      throw new Error('webhook requires trigger');
     }
     const command: WebhookCommand = {
       command: 'webhook',
@@ -736,7 +736,7 @@ export const Calls = {
  * Commands sequence creator.
  *
  * Helper names follow the SVAML sequence creator: `amd`, `answer`, `bridgeCall`,
- * `customEvents`, `dial`, `hangup`, `menu`, `gotoMenu`, `messages`, `stopMessages`,
+ * `webhook`, `dial`, `hangup`, `menu`, `gotoMenu`, `messages`, `stopMessages`,
  * `play`, `pause`, `prompt`, `recording`, `stopRecording`, `text`, and `command`.
  *
  * Each command helper appends to the sequence and returns it.
@@ -775,9 +775,10 @@ export class CommandsSequenceCreator {
     return this;
   }
 
-  customEvents(customEventsCreator: (creator: CustomEventsCreator) => void): this {
-    const creator = new CustomEventsCreator();
-    customEventsCreator(creator);
+  /** Appends a `webhook` command. */
+  webhook(webhookCreator: (creator: WebhookCreator) => void): this {
+    const creator = new WebhookCreator();
+    webhookCreator(creator);
     this.commands.push(creator.build());
     return this;
   }
