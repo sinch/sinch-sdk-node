@@ -2,6 +2,7 @@
 - [Feature] Voice v2 helpers:
   - SVAML: `CommandsSequenceCreator` (`amd`, `answer`, `bridgeCall`, `customEvents`, `dial`, `hangup`, `menu`, `gotoMenu`, `messages`, `play`, `pause`, `prompt`, `recording`, `text`, `command`)
   - Destination: `Destination.phone`, `Destination.sip`, `Destination.sips`, `Destination.sipFrom`, `Destination.sipsFrom`, `Destination.stream`, `Destination.voiceRelay`, `Destination.of`
+  - Calls: `Calls.hangup`. Call, batch, and interact requests accept one command or an array.
 
 ## Version 1.6.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.6.0` — transport-level settings

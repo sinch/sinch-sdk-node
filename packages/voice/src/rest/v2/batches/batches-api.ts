@@ -12,6 +12,7 @@ import {
 } from '../../../models/v2';
 import { VoiceV2DomainApi } from '../voice-v2-domain-api';
 import { LazyVoiceV2ApiClient } from '../voice-v2-service';
+import { stringifyCommandsBody } from '../command-list';
 
 export class BatchesApi extends VoiceV2DomainApi {
 
@@ -37,7 +38,7 @@ export class BatchesApi extends VoiceV2DomainApi {
     };
 
     const body: RequestBody = data['startBatchRequestBody']
-      ? JSON.stringify(data['startBatchRequestBody'])
+      ? stringifyCommandsBody(data['startBatchRequestBody'])
       : '{}';
     const basePathUrl
       = `${this.client.apiClientOptions.hostname}/v2/projects/${this.client.apiClientOptions.projectId}/calls`;

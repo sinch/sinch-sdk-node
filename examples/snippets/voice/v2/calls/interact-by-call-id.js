@@ -20,7 +20,7 @@ async function main() {
     await sinch.voice.v2.calls.interactByCallId({
       callId,
       callPatchRequestBody: {
-        commands: new Voice.v2.CommandsSequenceCreator().hangup().build(),
+        commands: Voice.v2.Calls.hangup(),
       },
     });
     console.log(`✅ Successfully submitted SVAML commands for the Voice v2 call with ID ${callId}.`);

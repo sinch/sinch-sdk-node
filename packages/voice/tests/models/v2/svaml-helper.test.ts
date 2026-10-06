@@ -10,6 +10,23 @@ describe('Voice v2 SVAML helper', () => {
     };
   };
 
+  describe('Calls', () => {
+    it('should build a hangup command for the current leg', () => {
+      expect(Voice.v2.Calls.hangup()).toEqual({
+        command: 'hangup',
+      });
+    });
+
+    it('should write the call leg name on hangup', () => {
+      expect(Voice.v2.Calls.hangup({
+        name: 'b-leg',
+      })).toEqual({
+        command: 'hangup',
+        callName: 'b-leg',
+      });
+    });
+  });
+
   describe('CommandsSequenceCreator', () => {
     it('should stack simple commands in call order', () => {
       const commands = new Voice.v2.CommandsSequenceCreator()

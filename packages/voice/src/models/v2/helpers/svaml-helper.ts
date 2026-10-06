@@ -708,6 +708,30 @@ export interface HangupParameters {
   name?: string;
 }
 
+function hangupCommand(parameters?: HangupParameters): HangupCommand {
+  const command: HangupCommand = {
+    command: 'hangup',
+  };
+  if (parameters?.name !== undefined) {
+    command.callName = parameters.name;
+  }
+  return command;
+}
+
+/**
+ * Builds one call-control command.
+ * `hangup` returns a command, not a sequence, so it can be passed as `commands`.
+ */
+export const Calls = {
+  /**
+   * Ends a call leg.
+   * `name` is written to `callName`. Omit it to end the current leg.
+   */
+  hangup(parameters?: HangupParameters): HangupCommand {
+    return hangupCommand(parameters);
+  },
+};
+
 /**
  * Commands sequence creator.
  *
@@ -767,13 +791,7 @@ export class CommandsSequenceCreator {
 
   /** Appends a `hangup` command. */
   hangup(parameters?: HangupParameters): this {
-    const command: HangupCommand = {
-      command: 'hangup',
-    };
-    if (parameters?.name !== undefined) {
-      command.callName = parameters.name;
-    }
-    this.commands.push(command);
+    this.commands.push(hangupCommand(parameters));
     return this;
   }
 
