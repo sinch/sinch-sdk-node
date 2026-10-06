@@ -5,6 +5,7 @@
   - SVAML: `CommandsSequenceCreator` (`amd`, `answer`, `bridgeCall`, `webhook`, `dial`, `hangup`, `menu`, `gotoMenu`, `messages`, `play`, `pause`, `prompt`, `recording`, `text`, `command`)
   - Destination: `Destination.phone`, `Destination.sip`, `Destination.sips`, `Destination.sipFrom`, `Destination.sipsFrom`, `Destination.stream`, `Destination.voiceRelay`, `Destination.of`
   - Calls: `Calls.hangup` returns one command. Request `commands` and nested handlers such as `onFinish` accept that command or an array.
+  - Recording: `Recording.options`, `Recording.start`, `Recording.stop`
 
 ## Version 1.6.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.6.0` — transport-level settings

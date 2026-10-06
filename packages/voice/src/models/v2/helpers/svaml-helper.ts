@@ -5,6 +5,7 @@ import { MenuItem, InputMethodsEnum } from '../menu-item';
 import { MenuPrompt } from '../menu-prompt';
 import { Message } from '../message';
 import { PlayMessage } from '../play-message';
+import { RecordingOptions } from '../recording-options';
 import { RecordingDestinationType } from '../recording-destination-type';
 import { RecordingFormatType } from '../recording-format-type';
 import { RecordingType } from '../recording-type';
@@ -691,36 +692,45 @@ export class RecordingCreator {
     ) {
       throw new Error('recording requires destination, destinationUrl, and credentials');
     }
-    const command: StartRecordingCommand = {
-      command: 'startRecording',
-      recordingOptions: {
-        destination: this.destinationValue,
-        url: this.url,
-        credentials: this.credentialsValue,
-      },
-    };
-    if (this.formatValue !== undefined) {
-      command.recordingOptions.format = this.formatValue;
-    }
-    if (this.typeValue !== undefined) {
-      command.recordingOptions.recordingType = this.typeValue;
-    }
-    if (this.transcription !== undefined) {
-      command.recordingOptions.transcriptionOptions = this.transcription;
-    }
-    if (this.nameValue !== undefined) {
-      command.recordingName = this.nameValue;
-    }
-    if (Object.keys(this.events).length > 0) {
-      command.events = this.events;
-    }
-    return command;
+    return startRecordingCommand(recordingOptions({
+      destination: this.destinationValue,
+      url: this.url,
+      credentials: this.credentialsValue,
+      format: this.formatValue,
+      recordingType: this.typeValue,
+      transcriptionOptions: this.transcription,
+    }), {
+      name: this.nameValue,
+      onFinish: this.events.onFinish,
+      onFailure: this.events.onFailure,
+    });
   }
 }
 
 export interface HangupParameters {
   /** Name of the call leg to end. Maps to `callName`. */
   name?: string;
+}
+
+/** Parameters for {@link Recording.options}. `destination`, `url`, and `credentials` are required. */
+export interface RecordingOptionsParameters {
+  destination: RecordingDestinationType;
+  /** Storage location. Maps to `url`. */
+  url: string;
+  credentials: string;
+  format?: RecordingFormatType;
+  recordingType?: RecordingType;
+  transcriptionOptions?: TranscriptionOptions;
+}
+
+/** Optional fields for {@link Recording.start}. */
+export interface StartRecordingParameters {
+  /** Name of the recording. Maps to `recordingName`. */
+  name?: string;
+  /** Commands to run when the recording stops. */
+  onFinish?: CommandInput;
+  /** Commands to run when the recording fails to start. */
+  onFailure?: CommandInput;
 }
 
 function hangupCommand(parameters?: HangupParameters): HangupCommand {
@@ -731,6 +741,55 @@ function hangupCommand(parameters?: HangupParameters): HangupCommand {
     command.callName = parameters.name;
   }
   return command;
+}
+
+function recordingOptions(parameters: RecordingOptionsParameters): RecordingOptions {
+  const options: RecordingOptions = {
+    destination: parameters.destination,
+    url: parameters.url,
+    credentials: parameters.credentials,
+  };
+  if (parameters.format !== undefined) {
+    options.format = parameters.format;
+  }
+  if (parameters.recordingType !== undefined) {
+    options.recordingType = parameters.recordingType;
+  }
+  if (parameters.transcriptionOptions !== undefined) {
+    options.transcriptionOptions = parameters.transcriptionOptions;
+  }
+  return options;
+}
+
+function startRecordingCommand(
+  options: RecordingOptions,
+  parameters?: StartRecordingParameters,
+): StartRecordingCommand {
+  const command: StartRecordingCommand = {
+    command: 'startRecording',
+    recordingOptions: options,
+  };
+  if (parameters?.name !== undefined) {
+    command.recordingName = parameters.name;
+  }
+  const events: RecordingEvents = {};
+  if (parameters?.onFinish !== undefined) {
+    events.onFinish = resolveCommands(parameters.onFinish);
+  }
+  if (parameters?.onFailure !== undefined) {
+    events.onFailure = resolveCommands(parameters.onFailure);
+  }
+  if (Object.keys(events).length > 0) {
+    command.events = events;
+  }
+  return command;
+}
+
+function stopRecordingCommand(name: string): StopRecordingCommand {
+  return {
+    command: 'stopRecording',
+    recordingName: name,
+  };
 }
 
 /**
@@ -745,6 +804,33 @@ export const Calls = {
    */
   hangup(parameters?: HangupParameters): HangupCommand {
     return hangupCommand(parameters);
+  },
+};
+
+/**
+ * Builds recording options and the recording commands.
+ * `options` returns the options object. `start` and `stop` each return one command.
+ */
+export const Recording = {
+  /**
+   * Recording options for third-party storage.
+   * `url` is the storage location.
+   */
+  options(parameters: RecordingOptionsParameters): RecordingOptions {
+    return recordingOptions(parameters);
+  },
+
+  /**
+   * Starts a recording.
+   * `name` is written to `recordingName`. `onFinish` and `onFailure` accept one command, a list, or a sequence callback.
+   */
+  start(options: RecordingOptions, parameters?: StartRecordingParameters): StartRecordingCommand {
+    return startRecordingCommand(options, parameters);
+  },
+
+  /** Stops a recording. `name` is written to `recordingName`. */
+  stop(name: string): StopRecordingCommand {
+    return stopRecordingCommand(name);
   },
 };
 
@@ -885,11 +971,7 @@ export class CommandsSequenceCreator {
 
   /** Appends a `stopRecording` command. `name` is written to `recordingName`. */
   stopRecording(name: string): this {
-    const command: StopRecordingCommand = {
-      command: 'stopRecording',
-      recordingName: name,
-    };
-    this.commands.push(command);
+    this.commands.push(Recording.stop(name));
     return this;
   }
 

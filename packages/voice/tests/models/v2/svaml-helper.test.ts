@@ -27,6 +27,39 @@ describe('Voice v2 SVAML helper', () => {
     });
   });
 
+  describe('Recording', () => {
+    it('should build recording options and one start or stop command', () => {
+      const options = Voice.v2.Recording.options({
+        destination: 'AWS',
+        url: 's3://bucket/call.mp3',
+        credentials: 'secret',
+        format: 'MP3',
+      });
+
+      expect(options).toEqual({
+        destination: 'AWS',
+        url: 's3://bucket/call.mp3',
+        credentials: 'secret',
+        format: 'MP3',
+      });
+      expect(Voice.v2.Recording.start(options, {
+        name: 'call',
+        onFinish: Voice.v2.Calls.hangup(),
+      })).toEqual({
+        command: 'startRecording',
+        recordingName: 'call',
+        recordingOptions: options,
+        events: {
+          onFinish: [{ command: 'hangup' }],
+        },
+      });
+      expect(Voice.v2.Recording.stop('call')).toEqual({
+        command: 'stopRecording',
+        recordingName: 'call',
+      });
+    });
+  });
+
   describe('CommandsSequenceCreator', () => {
     it('should stack simple commands in call order', () => {
       const commands = new Voice.v2.CommandsSequenceCreator()
