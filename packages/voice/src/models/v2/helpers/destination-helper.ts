@@ -1,11 +1,13 @@
-import { CallHeadersInner } from '../call-headers-inner';
-import { SipCallHeadersInner } from '../sip-call-headers-inner';
-import { SipDetails, TransportEnum } from '../sip-details/sip-details';
+import { Phone } from '../phone';
+import { PhoneDetails } from '../phone-details';
+import { Sip } from '../sip';
+import { SipDetails } from '../sip-details';
+import { SipFrom } from '../sip-from';
 import { SipFromDetails } from '../sip-from-details';
+import { Stream } from '../stream';
 import { StreamDetails } from '../stream-details';
-import { StreamOptions } from '../stream-options';
+import { VoiceRelay } from '../voice-relay';
 import { VoiceRelayDetails } from '../voice-relay-details';
-import { TtsVoiceName } from './tts-voice-name';
 
 /**
  * Shared SIP destination. `of('sip:')` and `of('sips:')` return this shape:
@@ -26,46 +28,10 @@ export class GenericSipEndpoint extends SipEndpoint {
   }
 }
 
-/** Maps to {@link SipDetails}. `endpoint` is copied as given. */
-export interface SipDestinationParameters {
-  /** Maps to `sip.endpoint`. */
-  endpoint: string;
-  /** Maps to `sip.transport`. */
-  transport?: TransportEnum;
-  /** Maps to `sip.callHeaders`. */
-  callHeaders?: SipCallHeadersInner[];
-}
-
-/** Maps to {@link SipFromDetails}. `endpoint` is copied as given. */
-export interface SipFromDestinationParameters {
-  /** Maps to `sip.endpoint`. */
-  endpoint: string;
-  /** Maps to `sip.displayName`. */
-  displayName?: string;
-}
-
-/** Maps to {@link StreamDetails}. */
-export interface StreamDestinationParameters {
-  /** Maps to `stream.endpoint`. */
-  endpoint: string;
-  /** Maps to `stream.streamOptions`. */
-  streamOptions?: StreamOptions;
-  /** Maps to `stream.callHeaders`. */
-  callHeaders?: CallHeadersInner[];
-}
-
-export interface VoiceRelayDestinationParameters {
-  endpoint: string;
-  ttsVoice: TtsVoiceName;
-  sttLanguage: string;
-  callHeaders?: CallHeadersInner[];
-  enableInterruptions?: boolean;
-}
-
 /** Phone destination. `number` is the E.164 value, without a `phone:` prefix. */
-export class DestinationPhone {
+export class DestinationPhone implements Phone {
   readonly type = 'PHONE' as const;
-  readonly phone: { number: string };
+  readonly phone: PhoneDetails;
 
   constructor(number: string) {
     this.phone = { number };
@@ -73,110 +39,78 @@ export class DestinationPhone {
 }
 
 /** SIP destination. Transport and headers are copied when present. */
-export class DestinationSip extends GenericSipEndpoint {
+export class DestinationSip extends GenericSipEndpoint implements Sip {
   readonly sip: SipDetails;
 
-  constructor(parameters: SipDestinationParameters) {
-    super(parameters.endpoint);
-    this.sip = sipFields(parameters);
+  constructor(sip: SipDetails) {
+    super(sip.endpoint);
+    this.sip = sip;
   }
 }
 
 /** SIP origin. Display name is copied when present. */
-export class DestinationSipFrom extends GenericSipEndpoint {
+export class DestinationSipFrom extends GenericSipEndpoint implements SipFrom {
   readonly sip: SipFromDetails;
 
-  constructor(parameters: SipFromDestinationParameters) {
-    super(parameters.endpoint);
-    const sip: SipFromDetails = { endpoint: parameters.endpoint };
-    if (parameters.displayName !== undefined) {
-      sip.displayName = parameters.displayName;
-    }
+  constructor(sip: SipFromDetails) {
+    super(sip.endpoint);
     this.sip = sip;
   }
 }
 
 /** Stream destination. Options and headers are copied when present. */
-export class DestinationStream {
+export class DestinationStream implements Stream {
   readonly type = 'STREAM' as const;
   readonly stream: StreamDetails;
 
-  constructor(parameters: StreamDestinationParameters) {
-    const stream: StreamDetails = { endpoint: parameters.endpoint };
-    if (parameters.streamOptions !== undefined) {
-      stream.streamOptions = parameters.streamOptions;
-    }
-    if (parameters.callHeaders !== undefined) {
-      stream.callHeaders = parameters.callHeaders;
-    }
+  constructor(stream: StreamDetails) {
     this.stream = stream;
   }
 }
 
-export class DestinationVoiceRelay {
+/** Voice relay destination. */
+export class DestinationVoiceRelay implements VoiceRelay {
   readonly type = 'VOICE_RELAY' as const;
   readonly voiceRelay: VoiceRelayDetails;
 
-  constructor(parameters: VoiceRelayDestinationParameters) {
-    const voiceRelay: VoiceRelayDetails = {
-      endpoint: parameters.endpoint,
-      ttsVoice: parameters.ttsVoice,
-      sttLanguage: parameters.sttLanguage,
-    };
-    if (parameters.callHeaders !== undefined) {
-      voiceRelay.callHeaders = parameters.callHeaders;
-    }
-    if (parameters.enableInterruptions !== undefined) {
-      voiceRelay.enableInterruptions = parameters.enableInterruptions;
-    }
+  constructor(voiceRelay: VoiceRelayDetails) {
     this.voiceRelay = voiceRelay;
   }
-}
-
-function sipFields(parameters: SipDestinationParameters): SipDetails {
-  const sip: SipDetails = { endpoint: parameters.endpoint };
-  if (parameters.transport !== undefined) {
-    sip.transport = parameters.transport;
-  }
-  if (parameters.callHeaders !== undefined) {
-    sip.callHeaders = parameters.callHeaders;
-  }
-  return sip;
 }
 
 /**
  * Destination factories for Voice v2 call `to` and `from` values.
  *
  * `of('sip:')` and `of('sips:')` return a {@link SipEndpoint} with `type` and `endpoint` only.
- * Endpoint strings are copied as given. `sip` can also set transport and headers.
- * `sipFrom` can also set a display name.
+ * Endpoint strings are copied as given. `sip` takes a {@link SipDetails}.
+ * `sipFrom` takes a {@link SipFromDetails}.
  */
 export const Destination = {
   phone(number: string): DestinationPhone {
     return new DestinationPhone(number);
   },
 
-  sip(parameters: SipDestinationParameters): DestinationSip {
-    return new DestinationSip(parameters);
+  sip(sip: SipDetails): DestinationSip {
+    return new DestinationSip(sip);
   },
 
-  sipFrom(parameters: SipFromDestinationParameters): DestinationSipFrom {
-    return new DestinationSipFrom(parameters);
+  sipFrom(sip: SipFromDetails): DestinationSipFrom {
+    return new DestinationSipFrom(sip);
   },
 
   /**
-   * Sets `stream.endpoint`. Pass a string, or an object with `streamOptions` and `callHeaders`.
+   * Sets `stream.endpoint`. Pass a string, or a {@link StreamDetails}.
    * Voice and language belong on {@link Destination.voiceRelay}.
    */
-  stream(endpointOrParameters: string | StreamDestinationParameters): DestinationStream {
-    if (typeof endpointOrParameters === 'string') {
-      return new DestinationStream({ endpoint: endpointOrParameters });
+  stream(endpointOrDetails: string | StreamDetails): DestinationStream {
+    if (typeof endpointOrDetails === 'string') {
+      return new DestinationStream({ endpoint: endpointOrDetails });
     }
-    return new DestinationStream(endpointOrParameters);
+    return new DestinationStream(endpointOrDetails);
   },
 
-  voiceRelay(parameters: VoiceRelayDestinationParameters): DestinationVoiceRelay {
-    return new DestinationVoiceRelay(parameters);
+  voiceRelay(voiceRelay: VoiceRelayDetails): DestinationVoiceRelay {
+    return new DestinationVoiceRelay(voiceRelay);
   },
 
   /**

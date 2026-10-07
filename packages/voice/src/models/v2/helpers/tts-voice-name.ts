@@ -1,3 +1,5 @@
+import { VoiceName } from '../voice-name';
+
 /**
  * Known Voice v2 text-to-speech voice names.
  * Pass a value from this list as `ttsVoice`. Any other string is accepted,
@@ -780,4 +782,4 @@ export const TtsVoiceName = {
   Zuri: 'Zuri',
 } as const;
 
-export type TtsVoiceName = typeof TtsVoiceName[keyof typeof TtsVoiceName] | string;
+export type TtsVoiceName = VoiceName;

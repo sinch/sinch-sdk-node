@@ -4,6 +4,7 @@
   - Services: `callBehaviorHelper.static`, `callBehaviorHelper.none`, `callBehaviorHelper.webhook`
   - SVAML: `CommandsSequenceCreator` (`amd`, `answer`, `bridgeCall`, `customEvents`, `dial`, `hangup`, `menu`, `gotoMenu`, `messages`, `play`, `pause`, `prompt`, `recording`, `text`, `command`)
   - Destination: `Destination.phone`, `Destination.sip`, `Destination.sipFrom`, `Destination.stream`, `Destination.voiceRelay`, `Destination.of`, `TtsVoiceName`
+  - `VoiceName` enum for `ttsVoice` and `say.voiceName`
 
 ## Version 1.6.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.6.0` — transport-level settings
