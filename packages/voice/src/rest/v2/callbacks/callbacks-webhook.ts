@@ -129,12 +129,10 @@ export class CallbackWebhooks implements CallbackProcessor<WebhookRequest> {
     if (typeof eventBody === 'string') {
       eventBody = JSON.parse(eventBody);
     }
-    if (typeof eventBody?.event !== 'string' || eventBody.event.length === 0) {
+    if (typeof eventBody?.event !== 'string' || eventBody.event.length === 0 || !eventBody.call) {
       throw new Error(`Unknown Voice v2 event: ${JSON.stringify(eventBody)}`);
     }
-    if (eventBody.call) {
-      eventBody.call = reviveCallDates(eventBody.call);
-    }
+    eventBody.call = reviveCallDates(eventBody.call);
     return eventBody as WebhookRequest;
   }
 

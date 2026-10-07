@@ -1,4 +1,5 @@
 ## Version 1.7.0
+- [Bugfix] Voice v2 webhooks: `WebhookRequest.call` is required again. `parseEvent` still accepts event names that do not start with `call.`
 - [Feature] Voice v2 helpers:
   - Sinch Events: `VoiceV2CallbackWebhooks.incomingCallResponse`, `VoiceV2CallbackWebhooks.response`
   - Services: `callBehaviorHelper.static`, `callBehaviorHelper.none`, `callBehaviorHelper.webhook`
