@@ -5,6 +5,7 @@ import { SipFromDetails } from '../sip-from-details';
 import { StreamDetails } from '../stream-details';
 import { StreamOptions } from '../stream-options';
 import { VoiceRelayDetails } from '../voice-relay-details';
+import { TtsVoiceName } from './tts-voice-name';
 
 /**
  * Shared SIP destination. `of('sip:')` and `of('sips:')` return this shape:
@@ -55,7 +56,7 @@ export interface StreamDestinationParameters {
 
 export interface VoiceRelayDestinationParameters {
   endpoint: string;
-  ttsVoice: string;
+  ttsVoice: TtsVoiceName;
   sttLanguage: string;
   callHeaders?: CallHeadersInner[];
   enableInterruptions?: boolean;

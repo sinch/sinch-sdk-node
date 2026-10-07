@@ -28,7 +28,7 @@ async function main() {
               .from(Voice.v2.Destination.of(sinchPhoneNumber))
               .to(Voice.v2.Destination.of('@toNumber'))
               .onAnswer((sequence) => {
-                sequence.text('Hello, your call is now connected.', 'Emma', {
+                sequence.text('Hello, your call is now connected.', Voice.v2.TtsVoiceName.Emma, {
                   onFinish: (after) => {
                     after.hangup();
                   },

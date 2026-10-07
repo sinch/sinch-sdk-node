@@ -10,7 +10,7 @@ function main() {
       VoiceV2CallbackWebhooks.incomingCallResponse({
         name: 'incoming',
         commands: new Voice.v2.CommandsSequenceCreator()
-          .text('Thank you for calling. Goodbye.', 'Emma', {
+          .text('Thank you for calling. Goodbye.', Voice.v2.TtsVoiceName.Emma, {
             onFinish: (after) => {
               after.hangup();
             },

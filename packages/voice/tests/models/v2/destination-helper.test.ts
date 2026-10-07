@@ -119,7 +119,7 @@ describe('Voice v2 destination helper', () => {
     it('should build a voice relay destination', () => {
       const destination = Destination.voiceRelay({
         endpoint: 'wss://example.com/relay',
-        ttsVoice: 'Emma',
+        ttsVoice: Voice.v2.TtsVoiceName.Emma,
         sttLanguage: 'en-US',
         enableInterruptions: true,
         callHeaders: [{
@@ -141,6 +141,16 @@ describe('Voice v2 destination helper', () => {
           }],
         },
       });
+    });
+
+    it('should accept a voice name outside the catalog', () => {
+      const destination = Destination.voiceRelay({
+        endpoint: 'wss://example.com/relay',
+        ttsVoice: 'FutureVoice',
+        sttLanguage: 'en-US',
+      });
+
+      expect(destination.voiceRelay.ttsVoice).toBe('FutureVoice');
     });
   });
 
