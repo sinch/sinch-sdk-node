@@ -18,7 +18,7 @@ async function main() {
       validateSvamlRequestBody: {
         svaml: {
           commands: new Voice.v2.CommandsSequenceCreator()
-            .text('Hello, your call is now connected.', Voice.v2.TtsVoiceName.Emma)
+            .text('Hello, your call is now connected.', 'Emma')
             .build(),
         },
       },
