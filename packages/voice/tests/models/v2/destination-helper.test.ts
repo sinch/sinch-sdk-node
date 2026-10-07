@@ -18,27 +18,9 @@ describe('Voice v2 destination helper', () => {
   });
 
   describe('sip', () => {
-    it('should keep a display name passed to sip', () => {
+    it('should copy the endpoint and optional fields as given', () => {
       const destination = Destination.sip({
-        type: 'SIP',
-        sip: {
-          endpoint: 'user@example.com',
-        },
-        displayName: 'Alice',
-      });
-
-      expect(destination.sip).toEqual({
-        endpoint: 'sip:user@example.com',
-        displayName: 'Alice',
-      });
-    });
-
-    it('should add a sip scheme and optional fields', () => {
-      const destination = Destination.sip({
-        type: 'SIP',
-        sip: {
-          endpoint: 'user@example.com',
-        },
+        endpoint: 'sips:user@example.com',
         transport: 'TCP',
         callHeaders: [{
           key: 'X-Call',
@@ -52,7 +34,7 @@ describe('Voice v2 destination helper', () => {
       expect(destination).toEqual({
         type: 'SIP',
         sip: {
-          endpoint: 'sip:user@example.com',
+          endpoint: 'sips:user@example.com',
           transport: 'TCP',
           callHeaders: [{
             key: 'X-Call',
@@ -62,38 +44,21 @@ describe('Voice v2 destination helper', () => {
       });
     });
 
-    it('should keep an existing sip scheme', () => {
-      const destination = Destination.sips({
-        type: 'SIP',
-        sip: {
-          endpoint: 'sip:user@example.com',
-        },
+    it('should leave an endpoint without a scheme unchanged', () => {
+      const destination = Destination.sip({
+        endpoint: 'user@example.com',
       });
 
       expect(destination.sip).toEqual({
-        endpoint: 'sip:user@example.com',
+        endpoint: 'user@example.com',
       });
-    });
-
-    it('should add a sips scheme when the endpoint has none', () => {
-      const destination = Destination.sips({
-        type: 'SIP',
-        sip: {
-          endpoint: 'user@example.com',
-        },
-      });
-
-      expect(destination.sip.endpoint).toBe('sips:user@example.com');
     });
   });
 
   describe('sipFrom', () => {
-    it('should add a sip scheme and a display name', () => {
+    it('should copy the endpoint and a display name', () => {
       const destination = Destination.sipFrom({
-        type: 'SIP',
-        sip: {
-          endpoint: 'user@example.com',
-        },
+        endpoint: 'sip:user@example.com',
         displayName: 'Alice',
       });
 
@@ -108,19 +73,6 @@ describe('Voice v2 destination helper', () => {
         },
       });
     });
-
-    it('should add a sips scheme for sipsFrom', () => {
-      const destination = Destination.sipsFrom({
-        type: 'SIP',
-        sip: {
-          endpoint: 'user@example.com',
-        },
-      });
-
-      expect(destination.sip).toEqual({
-        endpoint: 'sips:user@example.com',
-      });
-    });
   });
 
   describe('stream and voiceRelay', () => {
@@ -131,6 +83,35 @@ describe('Voice v2 destination helper', () => {
         type: 'STREAM',
         stream: {
           endpoint: 'wss://example.com/audio',
+        },
+      });
+    });
+
+    it('should copy stream options and call headers', () => {
+      const destination = Destination.stream({
+        endpoint: 'wss://example.com/audio',
+        streamOptions: {
+          codec: 'PCM',
+          sampleRate: 16000,
+        },
+        callHeaders: [{
+          key: 'X-Stream',
+          value: '1',
+        }],
+      });
+
+      expect(destination).toEqual({
+        type: 'STREAM',
+        stream: {
+          endpoint: 'wss://example.com/audio',
+          streamOptions: {
+            codec: 'PCM',
+            sampleRate: 16000,
+          },
+          callHeaders: [{
+            key: 'X-Stream',
+            value: '1',
+          }],
         },
       });
     });
