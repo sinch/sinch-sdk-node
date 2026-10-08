@@ -13,8 +13,8 @@ export interface RecordingOptions {
   recordingType?: RecordingType;
   /** @see RecordingDestinationType */
   destination: RecordingDestinationType;
-  /** URL of destination for the recording. */
-  url: string;
+  /** Destination URL for the recording. */
+  destinationUrl: string;
   /** Credentials to third party storage. */
   credentials: string;
   /** @see TranscriptionOptions */

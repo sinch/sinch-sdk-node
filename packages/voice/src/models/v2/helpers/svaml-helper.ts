@@ -1,5 +1,6 @@
 import { CallDestination } from '../call-destination';
 import { CallOrigin } from '../call-origin';
+import { BaseDestination } from './destination-helper';
 import { FormatEnum, Say } from '../say';
 import { MenuItem, InputMethodsEnum } from '../menu-item';
 import { MenuPrompt } from '../menu-prompt';
@@ -296,7 +297,7 @@ export class AmdCreator {
  */
 export class DialCreator {
   private toDestination: CallDestination | undefined;
-  private fromOrigin: CallOrigin | CallDestination | undefined;
+  private fromOrigin: CallOrigin | BaseDestination | undefined;
   private callNameValue: string | undefined;
   private dialTimeout: number | undefined;
   private maxDuration: number | undefined;
@@ -307,8 +308,8 @@ export class DialCreator {
     return this;
   }
 
-  /** Accepts a call origin or a call destination. */
-  from(from: CallOrigin | CallDestination): this {
+  /** Accepts a call origin, or a {@link BaseDestination} from `Destination.of`. */
+  from(from: CallOrigin | BaseDestination): this {
     this.fromOrigin = from;
     return this;
   }
@@ -648,7 +649,7 @@ export class RecordingCreator {
     return this;
   }
 
-  /** Maps to `url` on the recording options. */
+  /** Maps to `destinationUrl` on the recording options. */
   destinationUrl(url: string): this {
     this.url = url;
     return this;
@@ -694,7 +695,7 @@ export class RecordingCreator {
     }
     return startRecordingCommand(recordingOptions({
       destination: this.destinationValue,
-      url: this.url,
+      destinationUrl: this.url,
       credentials: this.credentialsValue,
       format: this.formatValue,
       recordingType: this.typeValue,
@@ -716,8 +717,8 @@ export interface HangupParameters {
 export interface DialParameters {
   /** Call destination. */
   to: CallDestination;
-  /** Call origin or destination. Maps to `from`. */
-  from?: CallOrigin | CallDestination;
+  /** Call origin, or a {@link BaseDestination} from `Destination.of`. */
+  from?: CallOrigin | BaseDestination;
   /** Name of the call leg. Maps to `callName`. */
   name?: string;
   /** Maps to `dialTimeoutDurationSeconds`. */
@@ -738,11 +739,11 @@ export interface DialParameters {
   onFailure?: CommandInput;
 }
 
-/** Parameters for {@link Recording.options}. `destination`, `url`, and `credentials` are required. */
+/** Parameters for {@link Recording.options}. `destination`, `destinationUrl`, and `credentials` are required. */
 export interface RecordingOptionsParameters {
   destination: RecordingDestinationType;
-  /** Storage location. Maps to `url`. */
-  url: string;
+  /** Storage location. Maps to `destinationUrl`. */
+  destinationUrl: string;
   credentials: string;
   format?: RecordingFormatType;
   recordingType?: RecordingType;
@@ -832,7 +833,7 @@ function dialCommand(parameters: DialParameters): DialCommand {
 function recordingOptions(parameters: RecordingOptionsParameters): RecordingOptions {
   const options: RecordingOptions = {
     destination: parameters.destination,
-    url: parameters.url,
+    destinationUrl: parameters.destinationUrl,
     credentials: parameters.credentials,
   };
   if (parameters.format !== undefined) {
@@ -923,7 +924,7 @@ export const Calls = {
 export const Recording = {
   /**
    * Recording options for third-party storage.
-   * `url` is the storage location.
+   * `destinationUrl` is the storage location.
    */
   options(parameters: RecordingOptionsParameters): RecordingOptions {
     return recordingOptions(parameters);

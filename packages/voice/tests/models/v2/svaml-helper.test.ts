@@ -62,14 +62,14 @@ describe('Voice v2 SVAML helper', () => {
     it('should build recording options and one start or stop command', () => {
       const options = Voice.v2.Recording.options({
         destination: 'AWS',
-        url: 's3://bucket/call.mp3',
+        destinationUrl: 's3://bucket/call.mp3',
         credentials: 'secret',
         format: 'MP3',
       });
 
       expect(options).toEqual({
         destination: 'AWS',
-        url: 's3://bucket/call.mp3',
+        destinationUrl: 's3://bucket/call.mp3',
         credentials: 'secret',
         format: 'MP3',
       });
@@ -405,7 +405,7 @@ describe('Voice v2 SVAML helper', () => {
           recordingName: 'call',
           recordingOptions: {
             destination: 'AWS',
-            url: 's3://bucket/call.mp3',
+            destinationUrl: 's3://bucket/call.mp3',
             credentials: 'secret',
             format: 'MP3',
           },
