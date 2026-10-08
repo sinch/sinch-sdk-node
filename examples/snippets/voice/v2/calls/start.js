@@ -25,18 +25,8 @@ async function main() {
           .dial((dialCreator) => {
             dialCreator
               .name('Node_SDK_Snippet_Call')
-              .from({
-                type: 'PHONE',
-                phone: {
-                  number: sinchPhoneNumber,
-                },
-              })
-              .to({
-                type: 'PHONE',
-                phone: {
-                  number: recipientPhoneNumber,
-                },
-              })
+              .from(Voice.v2.Destination.of(sinchPhoneNumber))
+              .to(Voice.v2.Destination.of(recipientPhoneNumber))
               .onAnswer((sequence) => {
                 sequence.text('Hello, your call is now connected.', 'Emma', {
                   onFinish: (after) => {

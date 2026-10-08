@@ -1,5 +1,6 @@
 import { CallDestination } from '../call-destination';
 import { CallOrigin } from '../call-origin';
+import { BaseDestination } from './destination-helper';
 import { FormatEnum, Say } from '../say';
 import { MenuItem, InputMethodsEnum } from '../menu-item';
 import { MenuPrompt } from '../menu-prompt';
@@ -280,7 +281,7 @@ export class AmdCreator {
  */
 export class DialCreator {
   private toDestination: CallDestination | undefined;
-  private fromOrigin: CallOrigin | undefined;
+  private fromOrigin: CallOrigin | BaseDestination | undefined;
   private callNameValue: string | undefined;
   private dialTimeout: number | undefined;
   private maxDuration: number | undefined;
@@ -291,7 +292,8 @@ export class DialCreator {
     return this;
   }
 
-  from(from: CallOrigin): this {
+  /** Accepts a call origin, or a {@link BaseDestination} from `Destination.of`. */
+  from(from: CallOrigin | BaseDestination): this {
     this.fromOrigin = from;
     return this;
   }
@@ -353,7 +355,7 @@ export class DialCreator {
       to: this.toDestination,
     };
     if (this.fromOrigin !== undefined) {
-      command.from = this.fromOrigin;
+      command.from = this.fromOrigin as CallOrigin;
     }
     if (this.callNameValue !== undefined) {
       command.callName = this.callNameValue;

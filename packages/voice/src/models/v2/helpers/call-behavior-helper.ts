@@ -1,6 +1,7 @@
 import { CallBehaviorsNone, CallBehaviorsStatic, CallBehaviorsWebhook } from '../call-behaviors';
 import { SvamlCommand } from '../svaml-commands';
 import { SvamlInput } from '../svaml-input';
+import { WebhookConfiguration } from '../webhook-configuration';
 
 /**
  * Parameters for a STATIC service call behavior.
@@ -15,16 +16,6 @@ export interface StaticCallBehaviorParameters {
   name?: string;
   /** SVAML commands executed when the call is hung up. */
   onHangup?: SvamlCommand[];
-}
-
-/**
- * Parameters for a WEBHOOK service call behavior.
- */
-export interface WebhookCallBehaviorParameters {
-  /** Webhook URL that receives call events. */
-  url: string;
-  /** Fallback webhook URL used when the primary URL fails. */
-  fallbackUrl?: string;
 }
 
 /**
@@ -64,18 +55,12 @@ export const callBehaviorHelper = {
     };
   },
   /**
-   * Calls are handled by sending webhook events to `url`.
+   * Calls are handled by sending webhook events to the configured URL.
    */
-  webhook: (parameters: WebhookCallBehaviorParameters): CallBehaviorsWebhook => {
-    const behavior: CallBehaviorsWebhook = {
+  webhook: (webhook: WebhookConfiguration): CallBehaviorsWebhook => {
+    return {
       type: 'WEBHOOK',
-      webhook: {
-        url: parameters.url,
-      },
+      webhook,
     };
-    if (parameters.fallbackUrl !== undefined) {
-      behavior.webhook.fallbackUrl = parameters.fallbackUrl;
-    }
-    return behavior;
   },
 };

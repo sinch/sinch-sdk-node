@@ -25,6 +25,7 @@ export * from './recording-format-type';
 export * from './menu-item';
 export * from './message';
 export * from './play';
+export * from './voice-name';
 export * from './voice-relay-details';
 export * from './call-response';
 export * from './call-destination';
