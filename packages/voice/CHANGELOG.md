@@ -1,12 +1,11 @@
 ## Version 1.7.0
 - [Feature] Voice v2 helpers:
-  - Sinch Events: `VoiceV2CallbackWebhooks.incomingCallResponse`, `VoiceV2CallbackWebhooks.response`
-  - Services: `callBehaviorHelper.static`, `callBehaviorHelper.none`, `callBehaviorHelper.webhook`
-  - SVAML: `CommandsSequenceCreator` (`amd`, `answer`, `bridgeCall`, `webhook`, `dial`, `hangup`, `menu`, `gotoMenu`, `messages`, `play`, `pause`, `prompt`, `recording`, `text`, `command`)
-  - Destination: `Destination.phone`, `Destination.sip`, `Destination.sipFrom`, `Destination.stream`, `Destination.voiceRelay`, `Destination.of`
-  - `VoiceName` enum for `ttsVoice` and `say.voiceName`
-  - Calls: `Calls.answer`, `Calls.bridgeCall`, `Calls.dial`, `Calls.hangup`, `Calls.pause` each return one command. Request `commands` and nested handlers such as `onFinish` accept that command or an array.
-  - Recording: `Recording.options`, `Recording.start`, `Recording.stop`
+  - Sinch Events: `VoiceV2CallbackWebhooks`
+  - Services: `callBehaviorHelper`
+  - SVAML: `CommandsSequenceCreator`
+  - Destination: `Destination`
+  - `VoiceName` for `ttsVoice` and `say.voiceName`
+  - Commands: `Calls`, `Recording`, `Amd`, `Webhook`, `Menu`, `Messages`
 
 ## Version 1.6.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.6.0` — transport-level settings

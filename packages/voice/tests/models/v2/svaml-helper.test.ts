@@ -62,7 +62,7 @@ describe('Voice v2 SVAML helper', () => {
     it('should build recording options and one start or stop command', () => {
       const options = Voice.v2.Recording.options({
         destination: 'AWS',
-        destinationUrl: 's3://bucket/call.mp3',
+        url: 's3://bucket/call.mp3',
         credentials: 'secret',
         format: 'MP3',
       });
@@ -87,6 +87,144 @@ describe('Voice v2 SVAML helper', () => {
       expect(Voice.v2.Recording.stop('call')).toEqual({
         command: 'stopRecording',
         recordingName: 'call',
+      });
+    });
+  });
+
+  describe('Amd', () => {
+    it('should build one amd command', () => {
+      expect(Voice.v2.Amd.detect()).toEqual({
+        command: 'amd',
+      });
+      expect(Voice.v2.Amd.detect({
+        onHuman: Voice.v2.Calls.answer(),
+        onMachine: Voice.v2.Calls.hangup(),
+      })).toEqual({
+        command: 'amd',
+        events: {
+          onHuman: [{ command: 'answer' }],
+          onMachine: [{ command: 'hangup' }],
+        },
+      });
+    });
+  });
+
+  describe('Webhook', () => {
+    it('should build one webhook command', () => {
+      expect(Voice.v2.Webhook.trigger({
+        name: 'collect.input',
+        url: 'https://example.com/hook',
+        fallbackUrl: 'https://example.com/fallback',
+      })).toEqual({
+        command: 'webhook',
+        webhookName: 'collect.input',
+        url: 'https://example.com/hook',
+        fallbackUrl: 'https://example.com/fallback',
+      });
+    });
+  });
+
+  describe('Menu', () => {
+    it('should build one menu command, a prompt, and a goto command', () => {
+      const prompt = Voice.v2.Menu.prompt((builder) => {
+        builder.text('Press 1', 'Emma');
+      });
+
+      expect(Voice.v2.Menu.create((menu) => {
+        menu
+          .name('main')
+          .item('main', (item) => {
+            item.prompt(prompt).match('1', Voice.v2.Menu.goto('billing'));
+          })
+          .item('billing', (item) => {
+            item.prompt(prompt);
+          });
+      })).toEqual({
+        command: 'menu',
+        startMenu: 'main',
+        menus: {
+          main: {
+            prompt,
+            matches: {
+              1: [{
+                command: 'gotoMenu',
+                menuName: 'billing',
+              }],
+            },
+          },
+          billing: {
+            prompt,
+          },
+        },
+      });
+    });
+  });
+
+  describe('Messages', () => {
+    it('should build one text, ssml, play, or stop command', () => {
+      expect(Voice.v2.Messages.text('Hello', 'Emma', {
+        name: 'greeting',
+        onFinish: Voice.v2.Calls.hangup(),
+      })).toEqual({
+        command: 'messages',
+        messagesName: 'greeting',
+        messages: [{
+          type: 'SAY',
+          say: {
+            text: 'Hello',
+            voiceName: 'Emma',
+          },
+        }],
+        events: {
+          onFinish: [{ command: 'hangup' }],
+        },
+      });
+      expect(Voice.v2.Messages.ssml('<speak>Hello</speak>', 'Emma')).toEqual({
+        command: 'messages',
+        messages: [{
+          type: 'SAY',
+          say: {
+            text: '<speak>Hello</speak>',
+            voiceName: 'Emma',
+            format: 'SSML',
+          },
+        }],
+      });
+      expect(Voice.v2.Messages.play('https://example.com/beep.wav')).toEqual({
+        command: 'messages',
+        messages: [{
+          type: 'PLAY',
+          play: {
+            url: 'https://example.com/beep.wav',
+          },
+        }],
+      });
+      expect(Voice.v2.Messages.stop('greeting')).toEqual({
+        command: 'stopMessages',
+        messagesName: 'greeting',
+      });
+    });
+
+    it('should stack messages in one command', () => {
+      expect(Voice.v2.Messages.create((messages) => {
+        messages.text('Hello', 'Emma').play('https://example.com/beep.wav');
+      })).toEqual({
+        command: 'messages',
+        messages: [
+          {
+            type: 'SAY',
+            say: {
+              text: 'Hello',
+              voiceName: 'Emma',
+            },
+          },
+          {
+            type: 'PLAY',
+            play: {
+              url: 'https://example.com/beep.wav',
+            },
+          },
+        ],
       });
     });
   });
@@ -197,7 +335,6 @@ describe('Voice v2 SVAML helper', () => {
     it('should accept a message name and onFinish on text and play shortcuts', () => {
       const commands = new Voice.v2.CommandsSequenceCreator()
         .text('Hello', 'Emma', {
-          format: 'TEXT',
           name: 'greeting',
           onFinish: (sequence) => {
             sequence.hangup();
@@ -220,7 +357,6 @@ describe('Voice v2 SVAML helper', () => {
             say: {
               text: 'Hello',
               voiceName: 'Emma',
-              format: 'TEXT',
             },
           }],
           events: {
@@ -340,7 +476,7 @@ describe('Voice v2 SVAML helper', () => {
         .messages((messages) => {
           messages
             .name('greeting')
-            .text('Hello', 'Emma', 'TEXT')
+            .text('Hello', 'Emma')
             .play('https://example.com/beep.wav')
             .onFinish((sequence) => {
               sequence.pause(1000);
@@ -356,10 +492,17 @@ describe('Voice v2 SVAML helper', () => {
         .recording((recording) => {
           recording
             .name('call')
-            .destination('AWS')
-            .destinationUrl('s3://bucket/call.mp3')
-            .credentials('secret')
-            .format('MP3')
+            .options({
+              destination: 'AWS',
+              url: 's3://bucket/call.mp3',
+              credentials: 'secret',
+              format: 'MP3',
+              recordingType: 'COMBINED',
+              transcriptionOptions: {
+                isEnabled: true,
+                locale: 'en-US',
+              },
+            })
             .onFinish((sequence) => {
               sequence.hangup();
             });
@@ -377,7 +520,6 @@ describe('Voice v2 SVAML helper', () => {
               say: {
                 text: 'Hello',
                 voiceName: 'Emma',
-                format: 'TEXT',
               },
             },
             {
@@ -408,6 +550,11 @@ describe('Voice v2 SVAML helper', () => {
             destinationUrl: 's3://bucket/call.mp3',
             credentials: 'secret',
             format: 'MP3',
+            recordingType: 'COMBINED',
+            transcriptionOptions: {
+              isEnabled: true,
+              locale: 'en-US',
+            },
           },
           events: {
             onFinish: [{
@@ -440,6 +587,14 @@ describe('Voice v2 SVAML helper', () => {
       expect(() => {
         new Voice.v2.CommandsSequenceCreator().webhook(() => undefined);
       }).toThrow('webhook requires trigger');
+    });
+
+    it('should reject a recording that does not set options', () => {
+      expect(() => {
+        new Voice.v2.CommandsSequenceCreator().recording((recording) => {
+          recording.name('call');
+        });
+      }).toThrow('recording requires options');
     });
 
     it('should build a menu from items and prompts', () => {
