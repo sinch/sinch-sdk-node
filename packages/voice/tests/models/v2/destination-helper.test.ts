@@ -119,7 +119,7 @@ describe('Voice v2 destination helper', () => {
     it('should build a voice relay destination', () => {
       const destination = Destination.voiceRelay({
         endpoint: 'wss://example.com/relay',
-        ttsVoice: Voice.v2.TtsVoiceName.Emma,
+        ttsVoice: 'Emma',
         sttLanguage: 'en-US',
         enableInterruptions: true,
         callHeaders: [{

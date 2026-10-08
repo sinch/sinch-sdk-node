@@ -68,6 +68,12 @@ export class DestinationStream implements Stream {
   }
 }
 
+/**
+ * Value produced by {@link Destination.of}: a phone, a SIP endpoint with `type` and
+ * `endpoint` only, or a stream. Phone and SIP can be used as a dial `from` or `to`.
+ */
+export type BaseDestination = DestinationPhone | SipEndpoint | DestinationStream;
+
 /** Voice relay destination. */
 export class DestinationVoiceRelay implements VoiceRelay {
   readonly type = 'VOICE_RELAY' as const;
@@ -120,7 +126,7 @@ export const Destination = {
    * Any other value, including a bare number such as `76367472`, is a phone destination and is kept as is.
    * Voice relay is not built here; it requires `ttsVoice` and `sttLanguage`.
    */
-  of(destination: string): DestinationPhone | SipEndpoint | DestinationStream {
+  of(destination: string): BaseDestination {
     if (destination.startsWith('sips:') || destination.startsWith('sip:')) {
       return new GenericSipEndpoint(destination);
     }

@@ -3,7 +3,7 @@
   - Sinch Events: `VoiceV2CallbackWebhooks.incomingCallResponse`, `VoiceV2CallbackWebhooks.response`
   - Services: `callBehaviorHelper.static`, `callBehaviorHelper.none`, `callBehaviorHelper.webhook`
   - SVAML: `CommandsSequenceCreator` (`amd`, `answer`, `bridgeCall`, `customEvents`, `dial`, `hangup`, `menu`, `gotoMenu`, `messages`, `play`, `pause`, `prompt`, `recording`, `text`, `command`)
-  - Destination: `Destination.phone`, `Destination.sip`, `Destination.sipFrom`, `Destination.stream`, `Destination.voiceRelay`, `Destination.of`, `TtsVoiceName`
+  - Destination: `Destination.phone`, `Destination.sip`, `Destination.sipFrom`, `Destination.stream`, `Destination.voiceRelay`, `Destination.of`
   - `VoiceName` enum for `ttsVoice` and `say.voiceName`
 
 ## Version 1.6.0
