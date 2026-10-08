@@ -633,7 +633,7 @@ export class RecordingCreator {
     return this;
   }
 
-  /** Maps to `url` on the recording options. */
+  /** Maps to `destinationUrl` on the recording options. */
   destinationUrl(url: string): this {
     this.url = url;
     return this;
@@ -681,7 +681,7 @@ export class RecordingCreator {
       command: 'startRecording',
       recordingOptions: {
         destination: this.destinationValue,
-        url: this.url,
+        destinationUrl: this.url,
         credentials: this.credentialsValue,
       },
     };
