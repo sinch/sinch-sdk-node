@@ -103,7 +103,7 @@ yarn add @sinch/sdk-core
 | Messaging       | [Conversation API](https://developers.sinch.com/docs/conversation) |
 |                 | [SMS API](https://developers.sinch.com/docs/sms) |
 |                 | [Provisioning API](https://developers.sinch.com/docs/provisioning-api) |
-| Voice and Video | [Voice API](https://developers.sinch.com/docs/voice) |
+| Voice and Video | [Voice API v2](https://developers.sinch.com/docs/voice-2.0), [Voice API v1](https://developers.sinch.com/docs/voice) |
 |                 | [Elastic SIP Trunking API](https://developers.sinch.com/docs/est) |
 | Numbers         | [Numbers API](https://developers.sinch.com/docs/numbers) |
 | Verification    | [Verification API](https://developers.sinch.com/docs/verification) |
@@ -111,6 +111,8 @@ yarn add @sinch/sdk-core
 | Fax             | [Fax API](https://developers.sinch.com/docs/fax) |
 
 > **Note:** The SMS API is end-of-sale. New integrations should use the [Conversation API](https://developers.sinch.com/docs/conversation/) instead, which supports SMS and many other channels.
+
+> **Note:** New projects should use [Voice API v2](https://developers.sinch.com/docs/voice-2.0). See [Voice API](#voice-api) for when to stay on v1.
 
 > **Note:** Elastic SIP Trunking support is deprecated and will be removed in version 2 of the SDK.
 
@@ -239,7 +241,19 @@ You can find a complete example in [examples/webhooks](https://github.com/sinch/
 
 ### Voice API
 
-The Voice API does not use project access keys. It authenticates with an `application_key` and `application_secret`, which you create per application in the [Voice dashboard](https://dashboard.sinch.com/voice/apps). Optionally set `voice_region` to select the regional endpoint:
+> **Note:** For all new projects, please use Voice API v2. This is especially important for projects involving:
+>
+> - AI capabilities like Streams and Voice Relay
+> - Voice campaigns like Batch calling
+>
+> You should only use the older Voice API v1 if one of the following is a strict requirement:
+>
+> - The project must be in General Availability (GA).
+> - The project requires In-App voice or Conferencing (until these features are available in v2).
+
+Voice API v2 uses the [common client](#client-initialization). Methods are on `sinch.voice.v2`. The SDK calls `https://voice.api.sinch.com`. Set `voice_v2_hostname` to select a regional endpoint. Callbacks use `VoiceV2CallbackWebhooks` with the Voice service ID and Base64 service secret. See the [Voice API v2 getting started guide](https://developers.sinch.com/docs/voice-2.0/getting-started).
+
+Voice API v1 authenticates with an `application_key` and `application_secret`, which you create per application in the [Voice dashboard](https://dashboard.sinch.com/voice/apps). Optionally set `voice_region` to select the regional endpoint:
 
 ```typescript
 import { SinchClient } from '@sinch/sdk-core';
@@ -253,7 +267,7 @@ const sinch = new SinchClient({
 
 #### Callbacks
 
-The Voice API delivers asynchronous callbacks to the callback URL you configure for your application in the [Voice dashboard](https://dashboard.sinch.com/voice/apps). `validateAuthenticationHeader` confirms a request comes from Sinch and `parseEvent` turns its payload into a typed callback object; `headers`, `rawBody`, `path` and `method` are the incoming request's headers, raw body, path and HTTP method:
+Voice API v1 delivers asynchronous callbacks to the callback URL you configure for your application in the [Voice dashboard](https://dashboard.sinch.com/voice/apps). `validateAuthenticationHeader` confirms a request comes from Sinch and `parseEvent` turns its payload into a typed callback object; `headers`, `rawBody`, `path` and `method` are the incoming request's headers, raw body, path and HTTP method:
 
 ```typescript
 import { VoiceCallbackWebhooks } from '@sinch/sdk-core';
@@ -280,7 +294,7 @@ You can find a complete example in [examples/webhooks](https://github.com/sinch/
 
 ### Verification API
 
-The Verification API uses the same application credentials as the Voice API. Create an application in the [Verification dashboard](https://dashboard.sinch.com/verification/apps):
+The Verification API uses the same application credentials as Voice API v1. Create an application in the [Verification dashboard](https://dashboard.sinch.com/verification/apps):
 
 ```typescript
 import { SinchClient } from '@sinch/sdk-core';
