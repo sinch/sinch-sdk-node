@@ -251,9 +251,20 @@ You can find a complete example in [examples/webhooks](https://github.com/sinch/
 > - The project must be in General Availability (GA).
 > - The project requires In-App voice or Conferencing (until these features are available in v2).
 
-Voice API v2 uses the [common client](#client-initialization). Methods are on `sinch.voice.v2`. The SDK calls `https://voice.api.sinch.com`. Set `voice_v2_hostname` to select a regional endpoint. Callbacks use `VoiceV2CallbackWebhooks` with the Voice service ID and Base64 service secret. See the [Voice API v2 getting started guide](https://developers.sinch.com/docs/voice-2.0/getting-started).
+Voice API v2 uses the [common client](#client-initialization). Methods are on `sinch.voice.v2`. The SDK calls the global endpoint `https://voice.api.sinch.com`. Optionally set `voice_v2_hostname` to select a regional endpoint:
 
-Voice API v1 authenticates with an `application_key` and `application_secret`, which you create per application in the [Voice dashboard](https://dashboard.sinch.com/voice/apps). Optionally set `voice_region` to select the regional endpoint:
+```typescript
+import { SinchClient } from '@sinch/sdk-core';
+
+const sinch = new SinchClient({
+  projectId: process.env.SINCH_PROJECT_ID,
+  keyId: process.env.SINCH_KEY_ID,
+  keySecret: process.env.SINCH_KEY_SECRET,
+  voiceV2Hostname: 'https://eu1.voice.api.sinch.com',
+});
+```
+
+Voice API v1 does not use project access keys. It authenticates with an `application_key` and `application_secret`, which you create per application in the [Voice dashboard](https://dashboard.sinch.com/voice/apps). Optionally set `voice_region` to select the regional endpoint:
 
 ```typescript
 import { SinchClient } from '@sinch/sdk-core';
@@ -266,6 +277,31 @@ const sinch = new SinchClient({
 ```
 
 #### Callbacks
+
+Voice API v2 delivers asynchronous callbacks to the webhook URL configured on the Voice service. `validateAuthenticationHeader` confirms a request comes from Sinch and `parseEvent` turns its payload into a typed callback object; `headers`, `rawBody`, `path` and `method` are the incoming request's headers, raw body, path and HTTP method:
+
+```typescript
+import { VoiceV2CallbackWebhooks } from '@sinch/sdk-core';
+
+const callbackWebhooks = new VoiceV2CallbackWebhooks({
+  serviceId: process.env.SINCH_VOICE_SERVICE_ID,
+  serviceSecret: process.env.SINCH_VOICE_SERVICE_SECRET,
+});
+
+const validated = callbackWebhooks.validateAuthenticationHeader(
+  request.headers,
+  request.rawBody,
+  request.path,
+  request.method,
+);
+if (!validated) {
+  return res.status(401).send('Invalid authorization');
+}
+
+const event = callbackWebhooks.parseEvent(request.body);
+```
+
+`SINCH_VOICE_SERVICE_ID` and `SINCH_VOICE_SERVICE_SECRET` are the service ID and Base64 service secret issued for that Voice service. See the [Voice API v2 getting started guide](https://developers.sinch.com/docs/voice-2.0/getting-started).
 
 Voice API v1 delivers asynchronous callbacks to the callback URL you configure for your application in the [Voice dashboard](https://dashboard.sinch.com/voice/apps). `validateAuthenticationHeader` confirms a request comes from Sinch and `parseEvent` turns its payload into a typed callback object; `headers`, `rawBody`, `path` and `method` are the incoming request's headers, raw body, path and HTTP method:
 
