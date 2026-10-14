@@ -264,7 +264,7 @@ const sinch = new SinchClient({
 });
 ```
 
-Voice API v1 does not use project access keys. It authenticates with an `application_key` and `application_secret`, which you create per application in the [Voice dashboard](https://dashboard.sinch.com/voice/apps). Optionally set `voice_region` to select the regional endpoint:
+Voice API v1 does not use project access keys. It authenticates with an `application_key` and `application_secret`, which you create per application in the [Voice dashboard](https://dashboard.sinch.com/voice/apps). Optionally set `voiceRegion` to select the regional endpoint:
 
 ```typescript
 import { SinchClient } from '@sinch/sdk-core';
