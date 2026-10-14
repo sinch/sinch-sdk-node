@@ -6,6 +6,8 @@ import { CallBehaviors } from '../call-behaviors';
 export interface ServiceResponse {
   /** The ID of the service used. */
   serviceId: string;
+  /** The secret of the service used. */
+  serviceSecret: string;
   /** The `Id` of the project associated with the call. */
   projectId: string;
   /** Timestamp (RFC 3339) indicating when the service was created. */

@@ -677,7 +677,7 @@ describe('Voice v2 SVAML helper', () => {
                 command: 'hangup',
               }],
             },
-            onFail: [{
+            onFailure: [{
               command: 'hangup',
             }],
           },
@@ -786,7 +786,7 @@ describe('Voice v2 SVAML helper', () => {
                 menuName: 'billing',
               }],
             },
-            onFail: [{
+            onFailure: [{
               command: 'gotoMenu',
               menuName: 'main',
             }],

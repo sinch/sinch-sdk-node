@@ -1,8 +1,8 @@
 /**
- * Summary of a batch call operation, including counts of call sessions by state and overall progress.
+ * Summary of a batch, including counts of call sessions by state and overall progress.
  */
 export interface BatchSummary {
-  /** Unique identifier of the batch call operation (ULID). */
+  /** Unique identifier of the batch (ULID). */
   batchId: string;
   /** Total number of call sessions requested in this batch. */
   sessionCount: number;

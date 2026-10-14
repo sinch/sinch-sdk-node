@@ -35,6 +35,7 @@ When('I send a request to create a Voice-V2 service', async () => {
 
 Then('the response contains the information about the Voice-V2 service created', () => {
   assert.equal(createServiceResponse.serviceId, '1a2b3c4d-5e6f-4789-a012-b3c4d5e6f789');
+  assert.equal(createServiceResponse.serviceSecret, '9+MXX5u6dky5aATA7ZfIRg==');
   assert.equal(createServiceResponse.projectId, 'c3d4e5f6-a7b8-4901-c234-d5e6f7a8b901');
   assert.deepEqual(createServiceResponse.createTime, new Date('2026-09-16T10:44:09Z'));
   assert.deepEqual(createServiceResponse.updateTime, new Date('2026-09-16T10:44:09Z'));
@@ -101,6 +102,7 @@ When('I send a request to get Voice-V2 service details', async () => {
 
 Then('the response contains the Voice-V2 service details', () => {
   assert.equal(service.serviceId, '3c4d5e6f-7a8b-4901-c234-d5e6f7a8b901');
+  assert.equal(service.serviceSecret, '9+MXX5u6dky5aATA7ZfIRg==');
   assert.equal(service.projectId, 'c3d4e5f6-a7b8-4901-c234-d5e6f7a8b901');
   assert.deepEqual(service.createTime, new Date('2026-09-16T10:47:36Z'));
   assert.deepEqual(service.updateTime, new Date('2026-09-16T10:47:36Z'));
@@ -130,6 +132,7 @@ When('I send a request to update a Voice-V2 service', async () => {
 
 Then('the response contains the information about the Voice-V2 service updated', () => {
   assert.equal(service.serviceId, '3c4d5e6f-7a8b-4901-c234-d5e6f7a8b901');
+  assert.equal(service.serviceSecret, '9+MXX5u6dky5aATA7ZfIRg==');
   assert.equal(service.projectId, 'c3d4e5f6-a7b8-4901-c234-d5e6f7a8b901');
   assert.deepEqual(service.createTime, new Date('2026-09-16T10:47:36Z'));
   assert.deepEqual(service.updateTime, new Date('2026-09-16T10:51:55Z'));
