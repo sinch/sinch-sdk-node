@@ -251,7 +251,7 @@ You can find a complete example in [examples/webhooks](https://github.com/sinch/
 > - The project must be in General Availability (GA).
 > - The project requires In-App voice or Conferencing (until these features are available in v2).
 
-Voice API v2 uses the [common client](#client-initialization). Methods are on `sinch.voice.v2`. The SDK calls the global endpoint `https://voice.api.sinch.com`. Optionally set `voice_v2_hostname` to select a regional endpoint:
+Voice API v2 uses the [common client](#client-initialization). Methods are on `sinch.voice.v2`. The SDK calls the global endpoint `https://voice.api.sinch.com`. Optionally set `voiceV2Hostname` to select a regional endpoint:
 
 ```typescript
 import { SinchClient } from '@sinch/sdk-core';
