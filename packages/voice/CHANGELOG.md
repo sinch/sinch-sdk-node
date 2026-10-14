@@ -1,4 +1,8 @@
 ## Version 1.7.0
+- **Breaking:** Voice v2 `MenuItem.onFail` renamed to `onFailure` to match the API
+- [Bugfix] Voice v2 `batches.start` now calls `POST /v2/projects/{projectId}/batches` (the API moved batch creation off `/calls`)
+- [Feature] Voice v2 `BatchDetails` sessions expose the `parameters` used to start each session
+- [Feature] Voice v2 `ServiceResponse` exposes `serviceSecret` (returned by `services.create`, `services.get` and `services.update`)
 - [Feature] Voice v2 helpers:
   - Sinch Events: `VoiceV2CallbackWebhooks`
   - Services: `CallBehaviorHelper`
