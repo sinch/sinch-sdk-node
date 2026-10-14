@@ -126,7 +126,7 @@ export class MenuItemCreator {
     return this;
   }
 
-  /** Maps to `onFail` on the menu item. */
+  /** Maps to `onFailure` on the menu item. */
   onFailure(build: CommandInput): this {
     this.onFailureCommands = appendCommands(this.onFailureCommands, build);
     return this;
@@ -162,7 +162,7 @@ export class MenuItemCreator {
       item.matches = this.matches;
     }
     if (this.onFailureCommands !== undefined) {
-      item.onFail = this.onFailureCommands;
+      item.onFailure = this.onFailureCommands;
     }
     return item;
   }

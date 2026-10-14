@@ -52,8 +52,8 @@ function menuItemCommands(command: SvamlCommand & { command: 'menu' }): SvamlCom
         lists.push(matchCommands);
       }
     }
-    if (item.onFail !== undefined) {
-      lists.push(item.onFail);
+    if (item.onFailure !== undefined) {
+      lists.push(item.onFailure);
     }
   }
   return lists;

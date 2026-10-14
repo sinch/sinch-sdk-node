@@ -24,9 +24,10 @@ export class BatchesApi extends VoiceV2DomainApi {
   /**
    * Create and initiate a batch of outbound call sessions
    * Create a batch of outbound call sessions associated to the project's default service or to the
-   * service specified in the `serviceId` query parameter. Uses the same HTTP operation as
-   * `voice.v2.calls.start` (`POST /v2/projects/{projectId}/calls`). Logged as `createBatch`
-   * to distinguish it from single-call `createCall`.
+   * service specified in the `serviceId` query parameter. The request body contains a single set of SVAML commands
+   * describing the call flow, together with one `parameters` entry per call session to queue. Placeholders in the
+   * commands (prefixed with `@`) are substituted with the values of the matching `parameters` entry.
+   * Queued sessions are initiated asynchronously, paced according to `batchOptions`.
    * @param { StartBatchRequestData } data - The data to provide to the API call.
    */
   public async start(data: StartBatchRequestData): Promise<BatchResponse> {
@@ -41,7 +42,7 @@ export class BatchesApi extends VoiceV2DomainApi {
       ? stringifyCommandsBody(data['startBatchRequestBody'])
       : '{}';
     const basePathUrl
-      = `${this.client.apiClientOptions.hostname}/v2/projects/${this.client.apiClientOptions.projectId}/calls`;
+      = `${this.client.apiClientOptions.hostname}/v2/projects/${this.client.apiClientOptions.projectId}/batches`;
 
     const requestOptions
       = await this.client.prepareOptions(basePathUrl, 'POST', getParams, headers, body || undefined);
@@ -57,7 +58,7 @@ export class BatchesApi extends VoiceV2DomainApi {
 
   /**
    * Get a batch summary
-   * Retrieve a summary of a batch call operation, including statistics on completed, failed, in-progress, and queued calls. This provides an overview of the batch execution state and individual call session states.
+   * Retrieve a summary of a batch, including statistics on completed, failed, in-progress, and queued calls. This provides an overview of the batch execution state and individual call session states.
    * @param { GetBatchCallSummaryRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetBatchCallSummaryRequestData): Promise<BatchSummary> {
@@ -85,7 +86,7 @@ export class BatchesApi extends VoiceV2DomainApi {
 
   /**
    * Get batch details
-   * Retrieve per-session details for a batch call operation, including the current state of each call session in the batch. Use this endpoint when individual session-level visibility is needed (for example, to inspect which sessions are `QUEUED`, `IN_PROGRESS` or `COMPLETED`). `EXPIRED` sessions are never returned because they were never initiated.
+   * Retrieve per-session details for a batch, including the current state of each call session in the batch. Use this endpoint when individual session-level visibility is needed (for example, to inspect which sessions are `QUEUED`, `IN_PROGRESS` or `COMPLETED`). `EXPIRED` sessions are never returned because they were never initiated.
    * @param { GetBatchDetailsRequestData } data - The data to provide to the API call.
    */
   public async getDetails(data: GetBatchDetailsRequestData): Promise<BatchDetails> {
