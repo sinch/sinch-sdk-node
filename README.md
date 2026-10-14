@@ -251,18 +251,7 @@ You can find a complete example in [examples/webhooks](https://github.com/sinch/
 > - The project must be in General Availability (GA).
 > - The project requires In-App voice or Conferencing (until these features are available in v2).
 
-Voice API v2 uses the [common client](#client-initialization). Methods are on `sinch.voice.v2`. The SDK calls the global endpoint `https://voice.api.sinch.com`. Optionally set `voiceV2Hostname` to select a regional endpoint:
-
-```typescript
-import { SinchClient } from '@sinch/sdk-core';
-
-const sinch = new SinchClient({
-  projectId: process.env.SINCH_PROJECT_ID,
-  keyId: process.env.SINCH_KEY_ID,
-  keySecret: process.env.SINCH_KEY_SECRET,
-  voiceV2Hostname: 'https://eu1.voice.api.sinch.com',
-});
-```
+Voice API v2 uses the [common client](#client-initialization); methods are on `sinch.voice.v2`. Requests go to the global endpoint `https://voice.api.sinch.com` by default. If you need a specific regional endpoint, you can override it with the `voiceV2Hostname` client option.
 
 Voice API v1 does not use project access keys. It authenticates with an `application_key` and `application_secret`, which you create per application in the [Voice dashboard](https://dashboard.sinch.com/voice/apps). Optionally set `voiceRegion` to select the regional endpoint:
 
