@@ -1,3 +1,4 @@
+import { VoiceName } from '../voice-name';
 import { MenuPrompt } from '../menu-prompt';
 import { SvamlCommand } from '../svaml-commands';
 import { AmdCreator } from './amd';
@@ -84,7 +85,7 @@ export class CommandsSequenceCreator {
   }
 
   messages(messageCreator: (creator: MessageCreator) => void): this {
-    this.commands.push(Messages.create(messageCreator));
+    this.commands.push(Messages.start(messageCreator));
     return this;
   }
 
@@ -135,7 +136,7 @@ export class CommandsSequenceCreator {
    * Shortcut: appends a `messages` command with one plain-text Say message.
    * SSML belongs on `messages` via `ssml`, not on this shortcut.
    */
-  text(text: string, voiceName: string, options?: MessagesShortcutOptions): this {
+  text(text: string, voiceName: VoiceName, options?: MessagesShortcutOptions): this {
     this.commands.push(Messages.text(text, voiceName, options));
     return this;
   }

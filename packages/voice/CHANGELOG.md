@@ -1,7 +1,7 @@
 ## Version 1.7.0
 - [Feature] Voice v2 helpers:
   - Sinch Events: `VoiceV2CallbackWebhooks`
-  - Services: `callBehaviorHelper`
+  - Services: `CallBehaviorHelper`
   - SVAML: `CommandsSequenceCreator`
   - Destination: `Destination`
   - `VoiceName` for `ttsVoice` and `say.voiceName`

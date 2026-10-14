@@ -25,7 +25,7 @@ export interface StaticCallBehaviorParameters {
  * and optional `onHangup` commands. `none` configures no call behavior. `webhook` sends
  * call events to a URL.
  */
-export const callBehaviorHelper = {
+export const CallBehaviorHelper = {
   /**
    * Calls are handled using predefined static SVAML commands, without a backend webhook.
    */

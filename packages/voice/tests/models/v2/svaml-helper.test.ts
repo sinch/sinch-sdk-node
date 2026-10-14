@@ -93,10 +93,10 @@ describe('Voice v2 SVAML helper', () => {
 
   describe('Amd', () => {
     it('should build one amd command', () => {
-      expect(Voice.v2.Amd.detect()).toEqual({
+      expect(Voice.v2.Amd.activate()).toEqual({
         command: 'amd',
       });
-      expect(Voice.v2.Amd.detect({
+      expect(Voice.v2.Amd.activate({
         onHuman: Voice.v2.Calls.answer(),
         onMachine: Voice.v2.Calls.hangup(),
       })).toEqual({
@@ -158,6 +158,22 @@ describe('Voice v2 SVAML helper', () => {
         },
       });
     });
+
+    it('should reuse a prebuilt menu item', () => {
+      const item = Voice.v2.Menu.item((builder) => {
+        builder.prompt((prompt) => prompt.text('Press 1', 'Emma')).match('1', Voice.v2.Calls.hangup());
+      });
+
+      expect(Voice.v2.Menu.create((menu) => {
+        menu.name('main').item('main', item);
+      })).toEqual({
+        command: 'menu',
+        startMenu: 'main',
+        menus: {
+          main: item,
+        },
+      });
+    });
   });
 
   describe('Messages', () => {
@@ -206,7 +222,7 @@ describe('Voice v2 SVAML helper', () => {
     });
 
     it('should stack messages in one command', () => {
-      expect(Voice.v2.Messages.create((messages) => {
+      expect(Voice.v2.Messages.start((messages) => {
         messages.text('Hello', 'Emma').play('https://example.com/beep.wav');
       })).toEqual({
         command: 'messages',

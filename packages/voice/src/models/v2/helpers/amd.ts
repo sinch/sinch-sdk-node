@@ -80,7 +80,7 @@ export const Amd = {
    * Runs answering-machine detection.
    * Each event handler accepts one command, a list, or a sequence callback.
    */
-  detect(parameters?: AmdParameters): AmdCommand {
+  activate(parameters?: AmdParameters): AmdCommand {
     return amdCommand(eventsFromParameters(parameters));
   },
 };

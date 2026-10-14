@@ -1,3 +1,4 @@
+import { VoiceName } from '../voice-name';
 import { Message } from '../message';
 import { MessageEvents } from '../svaml-commands/messages-command/message-events';
 import { MessagesCommand } from '../svaml-commands/messages-command';
@@ -33,13 +34,13 @@ export class MessageCreator {
   }
 
   /** Adds a plain-text Say message. */
-  text(text: string, voiceName: string): this {
+  text(text: string, voiceName: VoiceName): this {
     this.messages.push(sayMessage(text, voiceName));
     return this;
   }
 
   /** Adds a Say message with `format: 'SSML'`. */
-  ssml(ssml: string, voiceName: string): this {
+  ssml(ssml: string, voiceName: VoiceName): this {
     this.messages.push(sayMessage(ssml, voiceName, 'SSML'));
     return this;
   }
@@ -105,14 +106,14 @@ function stopMessagesCommand(name: string): StopMessagesCommand {
 /**
  * Builds one messages command.
  * `text` is a plain-text shortcut. `ssml` is the SSML shortcut. `play` plays one file.
- * `create` stacks several messages. `stop` stops a named sequence.
+ * `start` stacks several messages. `stop` stops a named sequence.
  */
 export const Messages = {
   /**
    * Plays one or more messages.
    * `name` is written to `messagesName`.
    */
-  create(build: (creator: MessageCreator) => void): MessagesCommand {
+  start(build: (creator: MessageCreator) => void): MessagesCommand {
     const creator = new MessageCreator();
     build(creator);
     return creator.build();
@@ -122,7 +123,7 @@ export const Messages = {
    * Shortcut: one plain-text Say message.
    * `name` is written to `messagesName`.
    */
-  text(text: string, voiceName: string, options?: MessagesShortcutOptions): MessagesCommand {
+  text(text: string, voiceName: VoiceName, options?: MessagesShortcutOptions): MessagesCommand {
     return shortcutMessages(sayMessage(text, voiceName), options);
   },
 
@@ -130,7 +131,7 @@ export const Messages = {
    * Shortcut: one Say message with `format: 'SSML'`.
    * `name` is written to `messagesName`.
    */
-  ssml(ssml: string, voiceName: string, options?: MessagesShortcutOptions): MessagesCommand {
+  ssml(ssml: string, voiceName: VoiceName, options?: MessagesShortcutOptions): MessagesCommand {
     return shortcutMessages(sayMessage(ssml, voiceName, 'SSML'), options);
   },
 

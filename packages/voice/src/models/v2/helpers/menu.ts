@@ -1,3 +1,4 @@
+import { VoiceName } from '../voice-name';
 import { InputMethodsEnum, MenuItem } from '../menu-item';
 import { MenuPrompt } from '../menu-prompt';
 import { GotoMenuCommand } from '../svaml-commands/goto-menu-command';
@@ -20,13 +21,13 @@ export class PromptCreator {
   }
 
   /** Adds a plain-text Say message. */
-  text(text: string, voiceName: string): this {
+  text(text: string, voiceName: VoiceName): this {
     this.messages.push(sayMessage(text, voiceName));
     return this;
   }
 
   /** Adds a Say message with `format: 'SSML'`. */
-  ssml(ssml: string, voiceName: string): this {
+  ssml(ssml: string, voiceName: VoiceName): this {
     this.messages.push(sayMessage(ssml, voiceName, 'SSML'));
     return this;
   }
@@ -167,6 +168,19 @@ export class MenuItemCreator {
   }
 }
 
+function buildItem(itemCreator: (creator: MenuItemCreator) => void): MenuItem {
+  const item = new MenuItemCreator();
+  itemCreator(item);
+  return item.build();
+}
+
+function resolveItem(value: MenuItem | ((item: MenuItemCreator) => void)): MenuItem {
+  if (typeof value === 'function') {
+    return buildItem(value);
+  }
+  return value;
+}
+
 /**
  * Builds a `menu` command.
  */
@@ -180,13 +194,12 @@ export class MenuCreator {
     return this;
   }
 
-  item(name: string, create: (item: MenuItemCreator) => void): this {
+  /** Adds a menu item, from a callback or a prebuilt {@link Menu.item}. */
+  item(name: string, value: MenuItem | ((item: MenuItemCreator) => void)): this {
     if (this.items[name] !== undefined) {
       throw new Error(`menu item "${name}" is already defined`);
     }
-    const item = new MenuItemCreator();
-    create(item);
-    this.items[name] = item.build();
+    this.items[name] = resolveItem(value);
     return this;
   }
 
@@ -215,7 +228,7 @@ function gotoMenuCommand(name: string): GotoMenuCommand {
 }
 
 /**
- * Builds one menu command, a menu prompt, or a `gotoMenu` command.
+ * Builds one menu command, a menu prompt, a menu item, or a `gotoMenu` command.
  */
 export const Menu = {
   /**
@@ -234,6 +247,13 @@ export const Menu = {
    */
   prompt(build: (creator: PromptCreator) => void): MenuPrompt {
     return buildPrompt(build);
+  },
+
+  /**
+   * Builds a menu item that can be reused across menus with {@link MenuCreator.item}.
+   */
+  item(build: (creator: MenuItemCreator) => void): MenuItem {
+    return buildItem(build);
   },
 
   /**
