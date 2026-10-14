@@ -9,9 +9,26 @@ describe('Voice v2 dedicated services helper', () => {
     command: 'hangup',
   };
 
-  describe('callBehaviorHelper.static', () => {
+  describe('CallBehaviorHelper.static', () => {
+    it('should accept one command where a list is stored', () => {
+      const built = Voice.v2.CallBehaviorHelper.static({
+        commands: hangup,
+        onHangup: hangup,
+      });
+
+      expect(built).toEqual({
+        type: 'STATIC',
+        static: {
+          commands: [hangup],
+          events: {
+            onHangup: [hangup],
+          },
+        },
+      });
+    });
+
     it('should build a static call behavior from commands', () => {
-      const built = Voice.v2.callBehaviorHelper.static({
+      const built = Voice.v2.CallBehaviorHelper.static({
         commands: [pause, hangup],
       });
 
@@ -25,7 +42,7 @@ describe('Voice v2 dedicated services helper', () => {
     });
 
     it('should map name to callName', () => {
-      const built = Voice.v2.callBehaviorHelper.static({
+      const built = Voice.v2.CallBehaviorHelper.static({
         commands: [pause],
         name: 'incoming',
       });
@@ -40,7 +57,7 @@ describe('Voice v2 dedicated services helper', () => {
     });
 
     it('should map onHangup onto events without a call name', () => {
-      const built = Voice.v2.callBehaviorHelper.static({
+      const built = Voice.v2.CallBehaviorHelper.static({
         commands: [pause],
         onHangup: [hangup],
       });
@@ -57,7 +74,7 @@ describe('Voice v2 dedicated services helper', () => {
     });
 
     it('should map name and onHangup together', () => {
-      const built = Voice.v2.callBehaviorHelper.static({
+      const built = Voice.v2.CallBehaviorHelper.static({
         commands: [pause, hangup],
         name: 'incoming',
         onHangup: [hangup],
@@ -76,9 +93,9 @@ describe('Voice v2 dedicated services helper', () => {
     });
   });
 
-  describe('callBehaviorHelper.none', () => {
+  describe('CallBehaviorHelper.none', () => {
     it('should build a none call behavior', () => {
-      const built: Voice.v2.CallBehaviorsNone = Voice.v2.callBehaviorHelper.none();
+      const built: Voice.v2.CallBehaviorsNone = Voice.v2.CallBehaviorHelper.none();
 
       expect(built).toEqual({
         type: 'NONE',
@@ -86,9 +103,9 @@ describe('Voice v2 dedicated services helper', () => {
     });
   });
 
-  describe('callBehaviorHelper.webhook', () => {
+  describe('CallBehaviorHelper.webhook', () => {
     it('should build a webhook call behavior from a url', () => {
-      const built = Voice.v2.callBehaviorHelper.webhook({
+      const built = Voice.v2.CallBehaviorHelper.webhook({
         url: 'https://mi-backend.com/voice/events',
       });
 
@@ -102,7 +119,7 @@ describe('Voice v2 dedicated services helper', () => {
     });
 
     it('should include fallbackUrl when provided', () => {
-      const built = Voice.v2.callBehaviorHelper.webhook({
+      const built = Voice.v2.CallBehaviorHelper.webhook({
         url: 'https://mi-backend.com/voice/events',
         fallbackUrl: 'https://backup.mi-backend.com/voice/events',
       });

@@ -23,7 +23,7 @@ async function main() {
       sessionId,
       callName,
       callPatchRequestBody: {
-        commands: new Voice.v2.CommandsSequenceCreator().hangup().build(),
+        commands: Voice.v2.Calls.hangup(),
       },
     });
     console.log(`✅ Successfully submitted SVAML commands for the Voice v2 call named ${callName} in session ${sessionId}.`);

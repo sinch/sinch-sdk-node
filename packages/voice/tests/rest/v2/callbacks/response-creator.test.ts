@@ -10,6 +10,20 @@ describe('Voice v2 response creator', () => {
   };
 
   describe('incomingCallResponse', () => {
+    it('should accept one command where a list is stored', () => {
+      const built = VoiceV2CallbackWebhooks.incomingCallResponse({
+        commands: hangup,
+        onHangup: hangup,
+      });
+
+      expect(built).toEqual({
+        commands: [hangup],
+        events: {
+          onHangup: [hangup],
+        },
+      });
+    });
+
     it('should build an incoming-call response from commands', () => {
       const built = VoiceV2CallbackWebhooks.incomingCallResponse({
         commands: [pause, hangup],

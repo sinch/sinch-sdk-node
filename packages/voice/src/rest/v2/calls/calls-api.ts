@@ -18,6 +18,7 @@ import {
 } from '../../../models/v2';
 import { VoiceV2DomainApi } from '../voice-v2-domain-api';
 import { LazyVoiceV2ApiClient } from '../voice-v2-service';
+import { stringifyCommandsBody } from '../command-list';
 
 export class CallsApi extends VoiceV2DomainApi {
 
@@ -42,7 +43,7 @@ export class CallsApi extends VoiceV2DomainApi {
     };
 
     const body: RequestBody = data['createCallRequestBody']
-      ? JSON.stringify(data['createCallRequestBody'])
+      ? stringifyCommandsBody(data['createCallRequestBody'])
       : '{}';
     const basePathUrl
       = `${this.client.apiClientOptions.hostname}/v2/projects/${this.client.apiClientOptions.projectId}/calls`;
@@ -159,7 +160,7 @@ export class CallsApi extends VoiceV2DomainApi {
     };
 
     const body: RequestBody = data['callPatchRequestBody']
-      ? JSON.stringify(data['callPatchRequestBody'])
+      ? stringifyCommandsBody(data['callPatchRequestBody'])
       : '{}';
     const basePathUrl
       = `${this.client.apiClientOptions.hostname}/v2/projects/${this.client.apiClientOptions.projectId}/calls/${data['callId']}`;
@@ -191,7 +192,7 @@ export class CallsApi extends VoiceV2DomainApi {
     };
 
     const body: RequestBody = data['callPatchRequestBody']
-      ? JSON.stringify(data['callPatchRequestBody'])
+      ? stringifyCommandsBody(data['callPatchRequestBody'])
       : '{}';
     const basePathUrl
       = `${this.client.apiClientOptions.hostname}/v2/projects/${this.client.apiClientOptions.projectId}/sessions/${data['sessionId']}/calls/${data['callName']}`;
