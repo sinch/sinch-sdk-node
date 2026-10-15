@@ -111,6 +111,28 @@ describe('ContactApi', () => {
         expect(response).toEqual(expectedResponse);
         expect(fixture.getChannelProfile).toHaveBeenCalledWith(requestData);
       });
+
+    it('should make a POST request to get a user profile from a specific channel by contact ID', async () => {
+      // When
+      fixture.getChannelProfileByContactId.mockResolvedValue(expectedResponse);
+      contactApi.getChannelProfileByContactId = fixture.getChannelProfileByContactId;
+      const response = await contactApi.getChannelProfileByContactId(requestDataWithContactId);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.getChannelProfileByContactId).toHaveBeenCalledWith(requestDataWithContactId);
+    });
+
+    it('should make a POST request to get a user profile from a specific channel by channel identity', async () => {
+      // When
+      fixture.getChannelProfileByChannelIdentity.mockResolvedValue(expectedResponse);
+      contactApi.getChannelProfileByChannelIdentity = fixture.getChannelProfileByChannelIdentity;
+      const response = await contactApi.getChannelProfileByChannelIdentity(requestDataWithChannelIdentity);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.getChannelProfileByChannelIdentity).toHaveBeenCalledWith(requestDataWithChannelIdentity);
+    });
   });
 
   describe ('getContact', () => {
