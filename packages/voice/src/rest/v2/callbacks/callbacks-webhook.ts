@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import { IncomingHttpHeaders } from 'http';
 import { CallbackProcessor } from '@sinch/sdk-client';
 import { Call, WebhookRequest, WebhookResponse } from '../../../models/v2';
+import { commandList, SvamlCommands } from '../../../models/v2/helpers/commands';
 
 /**
  * Credentials used to validate Voice v2 webhook signatures.
@@ -12,6 +13,29 @@ import { Call, WebhookRequest, WebhookResponse } from '../../../models/v2';
 export interface VoiceV2CallbackWebhooksParameters {
   serviceId?: string;
   serviceSecret?: string;
+}
+
+/**
+ * Parameters for a response to a `call.incoming` webhook.
+ *
+ * `name` is written to `callName`.
+ * `onHangup` is written to `events.onHangup`.
+ */
+export interface IncomingCallResponseParameters {
+  /** Ordered SVAML commands to execute for the incoming call. One command or a list. */
+  commands: SvamlCommands;
+  /** Name of the call. Maps to `callName`. */
+  name?: string;
+  /** SVAML commands executed when the call is hung up. One command or a list. */
+  onHangup?: SvamlCommands;
+}
+
+/**
+ * Parameters for a webhook response other than `call.incoming`.
+ */
+export interface ResponseParameters {
+  /** Ordered SVAML commands to execute. One command or a list. An empty array takes no action. */
+  commands: SvamlCommands;
 }
 
 export class CallbackWebhooks implements CallbackProcessor<WebhookRequest> {
@@ -105,12 +129,10 @@ export class CallbackWebhooks implements CallbackProcessor<WebhookRequest> {
     if (typeof eventBody === 'string') {
       eventBody = JSON.parse(eventBody);
     }
-    if (typeof eventBody?.event !== 'string' || eventBody.event.length === 0) {
+    if (typeof eventBody?.event !== 'string' || eventBody.event.length === 0 || !eventBody.call) {
       throw new Error(`Unknown Voice v2 event: ${JSON.stringify(eventBody)}`);
     }
-    if (eventBody.call) {
-      eventBody.call = reviveCallDates(eventBody.call);
-    }
+    eventBody.call = reviveCallDates(eventBody.call);
     return eventBody as WebhookRequest;
   }
 
@@ -121,6 +143,39 @@ export class CallbackWebhooks implements CallbackProcessor<WebhookRequest> {
    */
   public serializeResponse(response: WebhookResponse): string {
     return JSON.stringify(response);
+  }
+
+  /**
+   * Response to a webhook triggered by an incoming call.
+   * `name` is written to `callName`. `callName` and `events` take effect only for `call.incoming`.
+   * @param {IncomingCallResponseParameters} parameters - Commands, optional call name, and optional hangup commands.
+   * @return {WebhookResponse} - The response body to serialize.
+   */
+  public static incomingCallResponse(parameters: IncomingCallResponseParameters): WebhookResponse {
+    const response: WebhookResponse = {
+      commands: commandList(parameters.commands),
+    };
+    if (parameters.name !== undefined) {
+      response.callName = parameters.name;
+    }
+    if (parameters.onHangup !== undefined) {
+      response.events = {
+        onHangup: commandList(parameters.onHangup),
+      };
+    }
+    return response;
+  }
+
+  /**
+   * Response to a webhook other than `call.incoming`.
+   * Only `commands` are returned; `callName` and `events` are ignored by the Voice platform.
+   * @param {ResponseParameters} parameters - Commands to execute. An empty array takes no action.
+   * @return {WebhookResponse} - The response body to serialize.
+   */
+  public static response(parameters: ResponseParameters): WebhookResponse {
+    return {
+      commands: commandList(parameters.commands),
+    };
   }
 
   /**

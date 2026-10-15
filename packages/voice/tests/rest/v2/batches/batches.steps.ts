@@ -119,8 +119,10 @@ Then('the response contains the batch call details', () => {
   assert.equal(batchDetails.sessions.length, 2);
   assert.equal(batchDetails.sessions[0].id, '01M144V4PE5KTSVY2AX19QC332');
   assert.equal(batchDetails.sessions[0].state, 'IN_PROGRESS');
+  assert.deepEqual(batchDetails.sessions[0].parameters, { toNumber: '+12017777777' });
   assert.equal(batchDetails.sessions[1].id, '01M144V4PEH22EHB1SHMJRXBXA');
   assert.equal(batchDetails.sessions[1].state, 'COMPLETED');
+  assert.deepEqual(batchDetails.sessions[1].parameters, { toNumber: '+12018888888' });
 });
 
 When('I send a request to stop batch processing', async () => {

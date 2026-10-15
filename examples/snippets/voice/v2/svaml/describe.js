@@ -2,7 +2,7 @@
  * Sinch Node.js Snippet
  * See: https://github.com/sinch/sinch-sdk-node/examples/snippets
  */
-import { SinchClient } from '@sinch/sdk-core';
+import { SinchClient, Voice } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -17,20 +17,9 @@ async function main() {
     const response = await sinch.voice.v2.svaml.describe({
       describeSvamlRequestBody: {
         svaml: {
-          commands: [
-            {
-              command: 'messages',
-              messages: [
-                {
-                  type: 'SAY',
-                  say: {
-                    text: 'Hello, your call is now connected.',
-                    voiceName: 'Emma',
-                  },
-                },
-              ],
-            },
-          ],
+          commands: new Voice.v2.CommandsSequenceCreator()
+            .text('Hello, your call is now connected.', 'Emma')
+            .build(),
         },
       },
     });

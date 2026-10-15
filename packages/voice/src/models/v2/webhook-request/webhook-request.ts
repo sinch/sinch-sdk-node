@@ -20,7 +20,7 @@ import { Call } from '../call';
  * - `call.message.finished`: Triggered when all messages in a `messages` sequence have finished playing.
  * - `call.recording.finished`: Triggered when a recording is successfully stopped. This event does not guarantee that the recorded file has been delivered to the configured destination yet.
  * - `call.recording.failed`: Triggered when recording could not be started.
- * - `call.menu`: Triggered when a menu completes and input is received from the user or the menu fails.
+ * - `call.menu`: Triggered when a menu fails to collect a matching input and no `onFailure` commands are defined for that menu. Input that matches a menu match item does not trigger this event; a `webhook` command within the menu `matches` can be used to send a webhook request for a specific input.
  */
 export type WebhookEvent =
   | 'call.incoming'
@@ -58,8 +58,8 @@ export interface WebhookMenu {
 export interface WebhookRequest {
   /** @see WebhookEvent */
   event: WebhookEvent;
-  /** The current state of the call at the time the event was triggered. Present for call events; may be omitted for other Voice v2 event families. */
-  call?: Call;
+  /** The current state of the call at the time the event was triggered. */
+  call: Call;
   /** @see WebhookMenu */
   menu?: WebhookMenu;
 }

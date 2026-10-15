@@ -11,6 +11,7 @@ export const PACKAGE_DIR_TO_CATEGORY = {
   conversation: "Conversation",
   fax: "Fax",
   numbers: "Numbers",
+  provisioning: "Provisioning",
   voice: "Voice",
   verification: "Verification",
   "elastic-sip-trunking": "Elastic SIP Trunking",
@@ -56,6 +57,10 @@ export const SUBDOMAIN_LABELS = {
     "available-number": "Available Numbers",
     "available-regions": "Available Regions",
     callbacks: "Callbacks",
+  },
+  provisioning: {
+    rcs: "RCS",
+    webhooks: "Webhooks",
   },
   fax: {
     "cover-pages": "Cover Pages",
@@ -116,6 +121,7 @@ export const EXCLUDED_SYMBOL_NAMES = [
   "VOICE_HOSTNAME",
   "VOICE_APPLICATION_MANAGEMENT_HOSTNAME",
   "NUMBER_LOOKUP_HOSTNAME",
+  "PROVISIONING_HOSTNAME",
   "buildMailgunApiClientOptions",
   "buildOAuth2ApiClientOptions",
   "buildApplicationSignedApiClientOptions",
@@ -186,9 +192,13 @@ export const PACKAGE_TO_CATEGORY = Object.fromEntries(
  * @returns {boolean}
  */
 export function isTopLevelDeclaration(reflection) {
-  if (!reflection.isDeclaration?.()) return false;
+  if (!reflection.isDeclaration?.()) {
+    return false;
+  }
   const parent = reflection.parent;
-  if (!parent) return false;
+  if (!parent) {
+    return false;
+  }
   return parent.kindOf(ReflectionKind.Project | ReflectionKind.Module);
 }
 
@@ -198,7 +208,9 @@ export function isTopLevelDeclaration(reflection) {
  */
 export function getSourcePath(reflection) {
   const source = reflection.sources?.[0];
-  if (!source) return undefined;
+  if (!source) {
+    return undefined;
+  }
   return source.fullFileName ?? source.fileName;
 }
 
@@ -207,7 +219,9 @@ export function getSourcePath(reflection) {
  * @returns {{ packageDir: string, subdomain: string } | undefined}
  */
 export function resolveSubdomainFromPath(sourcePath) {
-  if (!sourcePath) return undefined;
+  if (!sourcePath) {
+    return undefined;
+  }
 
   const restMatch = sourcePath.match(
     /(?:\/packages\/([^/]+)\/(?:src|dist)|@sinch\/([^/]+)\/dist)\/rest\/v\d+\/([^/]+)\//,
@@ -232,14 +246,20 @@ export function resolveSubdomainFromPath(sourcePath) {
  */
 export function resolveGroup(reflection) {
   const sourcePath = getSourcePath(reflection);
-  if (!sourcePath) return undefined;
+  if (!sourcePath) {
+    return undefined;
+  }
 
-  const isApiClass =
-    reflection.name?.endsWith("Api") || reflection.name?.endsWith("Service");
-  if (!isApiClass) return undefined;
+  const isApiClass
+    = reflection.name?.endsWith("Api") || reflection.name?.endsWith("Service");
+  if (!isApiClass) {
+    return undefined;
+  }
 
   const subdomainInfo = resolveSubdomainFromPath(sourcePath);
-  if (!subdomainInfo) return undefined;
+  if (!subdomainInfo) {
+    return undefined;
+  }
 
   return SUBDOMAIN_LABELS[subdomainInfo.packageDir]?.[subdomainInfo.subdomain];
 }
@@ -250,10 +270,14 @@ export function resolveGroup(reflection) {
  */
 export function resolveCategory(reflection) {
   const sourcePath = getSourcePath(reflection);
-  if (!sourcePath) return undefined;
+  if (!sourcePath) {
+    return undefined;
+  }
 
   for (const [packagePath, category] of Object.entries(PACKAGE_TO_CATEGORY)) {
-    if (sourcePath.includes(packagePath)) return category;
+    if (sourcePath.includes(packagePath)) {
+      return category;
+    }
   }
 
   const localPackage = sourcePath.match(/\/packages\/([^/]+)\//);
@@ -270,7 +294,9 @@ export function resolveCategory(reflection) {
  */
 export function isFirstPartySource(reflection) {
   const sourcePath = getSourcePath(reflection);
-  if (!sourcePath) return false;
+  if (!sourcePath) {
+    return false;
+  }
   return sourcePath.includes("@sinch/") || sourcePath.includes("/packages/");
 }
 
@@ -279,8 +305,12 @@ export function isFirstPartySource(reflection) {
  * @returns {boolean}
  */
 function isApiClassParent(reflection) {
-  if (!reflection?.name) return false;
-  if (reflection.name === "ApiClient") return false;
+  if (!reflection?.name) {
+    return false;
+  }
+  if (reflection.name === "ApiClient") {
+    return false;
+  }
   return /Api$/.test(reflection.name);
 }
 
@@ -289,15 +319,23 @@ function isApiClassParent(reflection) {
  * @returns {boolean}
  */
 export function shouldExcludeMember(reflection) {
-  if (isTopLevelDeclaration(reflection)) return false;
+  if (isTopLevelDeclaration(reflection)) {
+    return false;
+  }
 
   const name = reflection.name;
-  if (!name) return false;
+  if (!name) {
+    return false;
+  }
 
-  if (!INTERNAL_API_MEMBERS.includes(name)) return false;
+  if (!INTERNAL_API_MEMBERS.includes(name)) {
+    return false;
+  }
 
   const parent = reflection.parent;
-  if (!isApiClassParent(parent)) return false;
+  if (!isApiClassParent(parent)) {
+    return false;
+  }
 
   return true;
 }
@@ -307,20 +345,30 @@ export function shouldExcludeMember(reflection) {
  * @returns {boolean}
  */
 export function shouldExclude(reflection) {
-  if (shouldExcludeMember(reflection)) return true;
+  if (shouldExcludeMember(reflection)) {
+    return true;
+  }
 
-  if (!isTopLevelDeclaration(reflection)) return false;
+  if (!isTopLevelDeclaration(reflection)) {
+    return false;
+  }
 
   const name = reflection.name;
-  if (!name) return false;
+  if (!name) {
+    return false;
+  }
 
-  if (EXCLUDED_SYMBOL_NAMES.includes(name)) return true;
-  if (EXCLUDED_NAME_PATTERNS.some((pattern) => pattern.test(name))) return true;
+  if (EXCLUDED_SYMBOL_NAMES.includes(name)) {
+    return true;
+  }
+  if (EXCLUDED_NAME_PATTERNS.some((pattern) => pattern.test(name))) {
+    return true;
+  }
 
   const sourcePath = getSourcePath(reflection);
   if (
-    sourcePath &&
-    EXCLUDED_SOURCE_PATH_FRAGMENTS.some((fragment) => sourcePath.includes(fragment))
+    sourcePath
+    && EXCLUDED_SOURCE_PATH_FRAGMENTS.some((fragment) => sourcePath.includes(fragment))
   ) {
     return true;
   }

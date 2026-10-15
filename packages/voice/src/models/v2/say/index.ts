@@ -1,1 +1,1 @@
-export type { Say } from './say';
+export type { FormatEnum, Say } from './say';

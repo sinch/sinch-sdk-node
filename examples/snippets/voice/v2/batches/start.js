@@ -2,7 +2,7 @@
  * Sinch Node.js Snippet
  * See: https://github.com/sinch/sinch-sdk-node/examples/snippets
  */
-import { SinchClient } from '@sinch/sdk-core';
+import { SinchClient, Voice } from '@sinch/sdk-core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -21,47 +21,19 @@ async function main() {
   try {
     const response = await sinch.voice.v2.batches.start({
       startBatchRequestBody: {
-        commands: [
-          {
-            command: 'dial',
-            callName: 'Node_SDK_Snippet_Call',
-            from: {
-              type: 'PHONE',
-              phone: {
-                number: sinchPhoneNumber,
-              },
-            },
-            to: {
-              type: 'PHONE',
-              phone: {
-                number: '@toNumber',
-              },
-            },
-            dialTimeoutDurationSeconds: 30,
-            maxCallDurationSeconds: 120,
-            events: {
-              onAnswer: [
-                {
-                  command: 'messages',
-                  messages: [
-                    {
-                      type: 'SAY',
-                      say: {
-                        text: 'Hello, your call is now connected.',
-                        voiceName: 'Emma',
-                      },
-                    },
-                  ],
-                },
-              ],
-              onHangup: [
-                {
-                  command: 'hangup',
-                },
-              ],
-            },
-          },
-        ],
+        commands: new Voice.v2.CommandsSequenceCreator()
+          .dial((dialCreator) => {
+            dialCreator
+              .name('Node_SDK_Snippet_Call')
+              .from(Voice.v2.Destination.of(sinchPhoneNumber))
+              .to(Voice.v2.Destination.of('@toNumber'))
+              .onAnswer((sequence) => {
+                sequence.text('Hello, your call is now connected.', 'Emma', {
+                  onFinish: Voice.v2.Calls.hangup(),
+                });
+              });
+          })
+          .build(),
         parameters: recipientPhoneNumbers.map((toNumber) => ({ toNumber })),
       },
     });

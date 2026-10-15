@@ -43,6 +43,7 @@ const GROUP_ORDER_BY_CATEGORY = {
     "Available Regions",
     "Callbacks",
   ],
+  Provisioning: ["RCS", "Webhooks"],
   Fax: ["Cover Pages", "Fax to Email", "Faxes", "Services"],
   "Elastic SIP Trunking": [
     "Access Control List",
@@ -64,11 +65,17 @@ const GROUP_ORDER_BY_CATEGORY = {
  * @returns {string | undefined}
  */
 function resolveGroupForNavPath(router, path) {
-  if (!path) return undefined;
+  if (!path) {
+    return undefined;
+  }
 
   for (const target of router.getLinkTargets()) {
-    if (!("id" in target)) continue;
-    if (router.getFullUrl(target) !== path) continue;
+    if (!("id" in target)) {
+      continue;
+    }
+    if (router.getFullUrl(target) !== path) {
+      continue;
+    }
     return reflectionGroups.get(target.id);
   }
 
@@ -85,9 +92,15 @@ function sortGroupNames(category, groupNames) {
   return [...groupNames].sort((a, b) => {
     const ai = preferred.indexOf(a);
     const bi = preferred.indexOf(b);
-    if (ai === -1 && bi === -1) return a.localeCompare(b);
-    if (ai === -1) return 1;
-    if (bi === -1) return -1;
+    if (ai === -1 && bi === -1) {
+      return a.localeCompare(b);
+    }
+    if (ai === -1) {
+      return 1;
+    }
+    if (bi === -1) {
+      return -1;
+    }
     return ai - bi;
   });
 }
@@ -120,7 +133,9 @@ function nestGroupsInCategoryChildren(children, router, category) {
     grouped.set(group, bucket);
   }
 
-  if (grouped.size === 0) return children;
+  if (grouped.size === 0) {
+    return children;
+  }
 
   const nested = [...ungrouped];
   for (const groupName of sortGroupNames(category, [...grouped.keys()])) {
