@@ -72,9 +72,9 @@
     "tmp": "0.2.7",
     "@tootallnate/once": "2.0.1",
     "js-yaml": "4.3.2",
-    "eslint/minimatch/brace-expansion": "1.1.18",
-    "eslint/@eslint/config-array/minimatch/brace-expansion": "1.1.18",
-    "@typescript-eslint/typescript-estree/minimatch/brace-expansion": "2.1.4",
+    "eslint/minimatch/brace-expansion": "1.1.21",
+    "eslint/@eslint/config-array/minimatch/brace-expansion": "1.1.21",
+    "@typescript-eslint/typescript-estree/minimatch/brace-expansion": "2.1.7",
     "typescript": "npm:@typescript/typescript6@^6.0.2"
   }
 }
