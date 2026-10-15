@@ -106,9 +106,9 @@ describe('VoiceV2BatchesApi', () => {
       };
       const expectedResponse: Voice.v2.BatchDetails = {
         sessions: [
-          { id: '01F8Z5J4X2G9Y3J4X2G9Y3J4X2G9', state: 'COMPLETED' },
-          { id: '01F8Z5J4X2G9Y3J4X2G9Y3J4X5YJ', state: 'IN_PROGRESS' },
-          { id: '01F8Z5J4X2G9Y3J4X2G9Y3J4X9QK', state: 'QUEUED' },
+          { id: '01F8Z5J4X2G9Y3J4X2G9Y3J4X2G9', state: 'COMPLETED', parameters: { numberB: '+15559876543' } },
+          { id: '01F8Z5J4X2G9Y3J4X2G9Y3J4X5YJ', state: 'IN_PROGRESS', parameters: { numberB: '+15559876544' } },
+          { id: '01F8Z5J4X2G9Y3J4X2G9Y3J4X9QK', state: 'QUEUED', parameters: { numberB: '+15559876545' } },
         ],
       };
 

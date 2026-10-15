@@ -1,1 +1,1 @@
-export type { MenuItem } from './menu-item';
+export type { InputMethodsEnum, MenuItem } from './menu-item';
