@@ -3,7 +3,7 @@ import { SvamlCommand } from '../svaml-commands';
 
 
 /**
- * Defines a single menu step, including prompts, input handling rules, input-to-command matches, and failure handling.  Each collected input is matched against the values in the `matches` property. If no match succeeds, the `onFail` commands are executed.  If neither `matches` nor `onFail` is defined and the service call behavior is set to `WEBHOOK`, a webhook request is sent including the collected input.
+ * Defines a single menu step, including prompts, input handling rules, input-to-command matches, and failure handling.  Each collected input is matched against the values in the `matches` property. If no match succeeds, the `onFailure` commands are executed.  If no match succeeds and `onFailure` is not defined, a `call.menu` webhook request including the collected input is sent when the service call behavior is set to `WEBHOOK`.
  */
 export interface MenuItem {
   /** Prompt played when this menu starts.  This prompt is also used as the repeat prompt when repeatPrompt is not defined for the menu. */
@@ -25,7 +25,7 @@ export interface MenuItem {
   /** Items matched against the collected input. Maximum number of allowed match expressions is 50.  Defined as a dictionary where each property name is a literal or a regular expression string.  Values are evaluated in the order they are defined. */
   matches?: { [key: string]: SvamlCommand[] };
   /** SVAML commands executed when the menu fails to collect a matching input.  This handler runs after the repeat limit is reached without any input matching a menu match item. */
-  onFail?: SvamlCommand[];
+  onFailure?: SvamlCommand[];
 }
 export type InputMethodsEnum = 'DTMF' | string;
 /** Validation regex for terminatingSequence */
