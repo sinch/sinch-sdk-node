@@ -1,3 +1,6 @@
+## Version 1.7.0
+- [Tech] No changes, version bumped to align with the SDK 1.7.0 release
+
 ## Version 1.6.0
 - [Feature] Add `voiceV2Hostname` to `ApiHostname` / `SinchClientParameters` to override the Voice API v2 hostname.
 - [Feature] Add transport-level settings on `SinchClientParameters` (`TransportSettings`).
