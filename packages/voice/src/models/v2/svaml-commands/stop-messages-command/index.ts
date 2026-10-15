@@ -1,1 +1,1 @@
-export type { FlagsEnum, StopMessagesCommand } from './stop-messages-command';
+export type { StopMessagesCommand } from './stop-messages-command';
