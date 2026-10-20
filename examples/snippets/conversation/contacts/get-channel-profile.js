@@ -22,7 +22,7 @@ async function main() {
   const sinch = new SinchClient({ projectId, keyId, keySecret, conversationRegion });
 
   try {
-    const response = await sinch.conversation.contact.getChannelProfile({
+    const response = await sinch.conversation.contact.getChannelProfileByContactId({
       getChannelProfileRequestBody: {
         app_id: appId,
         channel,
