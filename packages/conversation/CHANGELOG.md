@@ -1,3 +1,6 @@
+## Version 1.8.0
+- [Feature] Support Channel Profile helpers by recipient type: `conversation.contact.getChannelProfileByContactId()` and `conversation.contact.getChannelProfileByChannelIdentity()`
+
 ## Version 1.7.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.7.0`
 

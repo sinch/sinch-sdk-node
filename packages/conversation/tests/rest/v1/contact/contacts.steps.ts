@@ -168,7 +168,7 @@ Then('the response contains data from the destination contact and from the sourc
 });
 
 When('I send a request to get the channel profile of a contact ID', async () => {
-  channelProfile = await contactsApi.getChannelProfile({
+  channelProfile = await contactsApi.getChannelProfileByContactId({
     getChannelProfileRequestBody: {
       app_id: '01W4FFL35P4NC4K35CONVAPP001',
       channel: 'MESSENGER',

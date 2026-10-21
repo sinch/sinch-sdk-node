@@ -32,7 +32,7 @@ import {
   };
 
   const conversationService = initConversationService();
-  const response = await conversationService.contact.getChannelProfile(requestData);
+  const response = await conversationService.contact.getChannelProfileByChannelIdentity(requestData);
 
   printFullResponse(response);
 

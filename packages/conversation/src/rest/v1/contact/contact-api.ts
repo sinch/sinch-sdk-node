@@ -8,11 +8,13 @@ import {
 } from '@sinch/sdk-client';
 import {
   Contact,
+  ContactId,
   CreateContactRequestData,
   DeleteContactRequestData,
   GetChannelProfileRequestData,
   GetChannelProfileResponse,
   GetContactRequestData,
+  IdentifiedBy,
   IdentityConflict,
   ListContactsRequestData,
   ListIdentityConflictsRequestData,
@@ -90,6 +92,35 @@ export class ContactApi extends ConversationDomainApi {
    * @param { GetChannelProfileRequestData<Recipient> } data - The data to provide to the API call.
    */
   public async getChannelProfile(data: GetChannelProfileRequestData<Recipient>): Promise<GetChannelProfileResponse> {
+    return this.getChannelProfileForRecipient(data, 'GetChannelProfile');
+  }
+
+  /**
+   * Get Channel Profile by contact ID
+   * Get user profile from a specific channel for a recipient identified by its contact ID. Only supported on 'MESSENGER', 'INSTAGRAM', 'VIBER' and LINE' channels.
+   * @param { GetChannelProfileRequestData<ContactId> } data - The data to provide to the API call.
+   */
+  public async getChannelProfileByContactId(
+    data: GetChannelProfileRequestData<ContactId>,
+  ): Promise<GetChannelProfileResponse> {
+    return this.getChannelProfileForRecipient(data, 'GetChannelProfileByContactId');
+  }
+
+  /**
+   * Get Channel Profile by channel identity
+   * Get user profile from a specific channel for a recipient identified by its channel identities. Only supported on 'MESSENGER', 'INSTAGRAM', 'VIBER' and LINE' channels.
+   * @param { GetChannelProfileRequestData<IdentifiedBy> } data - The data to provide to the API call.
+   */
+  public async getChannelProfileByChannelIdentity(
+    data: GetChannelProfileRequestData<IdentifiedBy>,
+  ): Promise<GetChannelProfileResponse> {
+    return this.getChannelProfileForRecipient(data, 'GetChannelProfileByChannelIdentity');
+  }
+
+  private async getChannelProfileForRecipient(
+    data: GetChannelProfileRequestData<Recipient>,
+    operationId: string,
+  ): Promise<GetChannelProfileResponse> {
     const getParams = this.client.extractQueryParams<GetChannelProfileRequestData<Recipient>>(
       data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
@@ -108,7 +139,7 @@ export class ContactApi extends ConversationDomainApi {
       url,
       requestOptions,
       apiName: this.apiName,
-      operationId: 'GetChannelProfile',
+      operationId,
     });
   }
 
