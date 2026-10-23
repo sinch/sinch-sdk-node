@@ -7,6 +7,7 @@ import {
   ListServicesRequestData,
   ServicePhoneNumber,
   ServiceResponse,
+  SuspendNumberRequestData,
   UpdateServiceRequestData,
 } from '../../../models';
 import { ServicesApi } from './services-api';
@@ -39,6 +40,11 @@ export class ServicesApiFixture implements Partial<Readonly<ServicesApi>> {
    * Fixture associated to function delete
    */
   public delete: jest.Mock<Promise<void>, [DeleteServiceRequestData]> = jest.fn();
+  /**
+   * Fixture associated to function suspendNumber
+   */
+  public suspendNumber:
+    jest.Mock<Promise<ServicePhoneNumber>, [SuspendNumberRequestData]> = jest.fn();
   /**
    * Fixture associated to function update
    */

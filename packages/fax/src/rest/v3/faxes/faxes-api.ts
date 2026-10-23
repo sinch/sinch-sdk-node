@@ -139,6 +139,8 @@ export class FaxesApi extends FaxDomainApi {
       'status',
       'to',
       'from',
+      'fromCountry',
+      'toCountry',
       'labels',
       'pageSize',
       'page']);
@@ -192,6 +194,8 @@ export class FaxesApi extends FaxDomainApi {
         'status',
         'to',
         'from',
+        'fromCountry',
+        'toCountry',
         'labels',
         'format',
       ]);

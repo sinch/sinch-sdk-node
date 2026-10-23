@@ -1,4 +1,5 @@
 import { ServiceRequest } from '../../service';
+import { SuspendNumberRequest } from '../../suspend-number-request';
 
 export interface CreateServiceRequestData {
   /**  */
@@ -35,6 +36,14 @@ export interface ListServicesRequestData {
 export interface DeleteServiceRequestData {
   /** The serviceId you want to remove from your project. */
   'serviceId': string;
+}
+export interface SuspendNumberRequestData {
+  /** The serviceId containing the number you want to suspend. */
+  'serviceId': string;
+  /** The phone number you want to suspend, in E.164 format. */
+  'phoneNumber': string;
+  /**  */
+  'suspendNumberRequestBody'?: SuspendNumberRequest;
 }
 export interface UpdateServiceRequestData {
   /** The service ID you want to update. */

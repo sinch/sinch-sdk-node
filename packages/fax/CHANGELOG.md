@@ -1,3 +1,9 @@
+## Version 1.8.0
+- [Feature] Support suspending a number on a service via `services.suspendNumber()`
+- [Feature] Support `fromCountry` and `toCountry` filters on fax list and export requests via `FaxesFilterRequestData`
+- [Feature] Support `fromCountry` and `toCountry` in a `Fax` object
+- [Feature] Support `country`, `suspended` and `note` in a `ServicePhoneNumber` object
+
 ## Version 1.7.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.7.0`
 
