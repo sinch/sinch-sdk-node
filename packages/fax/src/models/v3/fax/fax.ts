@@ -58,8 +58,8 @@ export interface Fax {
   maxRetries?: number;
   /** The number of times the fax has been retried. */
   retryCount?: number;
-  /** Only shown on the fax result. This indicates if the content of the fax is stored with Sinch. (true or false) */
-  hasFile?: string;
+  /** Only shown on the fax result. This indicates if the content of the fax is stored with Sinch. */
+  hasFile?: boolean;
   /** @see Resolution */
   resolution?: Resolution;
   /** The cover page id you want to use for the fax */

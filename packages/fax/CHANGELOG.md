@@ -3,6 +3,7 @@
 - [Feature] Support `fromCountry` and `toCountry` filters on fax list and export requests via `FaxesFilterRequestData`
 - [Feature] Support `fromCountry` and `toCountry` in a `Fax` object
 - [Feature] Support `country`, `suspended` and `note` in a `ServicePhoneNumber` object
+- [Bugfix] The `hasFile` property in a `Fax` object is typed as `boolean` instead of `string`, to match the value returned by the API
 
 ## Version 1.7.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.7.0`

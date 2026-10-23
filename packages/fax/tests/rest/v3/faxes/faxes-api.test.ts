@@ -102,7 +102,7 @@ describe('FaxesApi', () => {
           'https://developers.sinch.com/fax/fax.pdf',
         ],
         imageConversionMethod: 'HALFTONE',
-        hasFile: 'true',
+        hasFile: true,
         fromCountry: 'US',
         toCountry: 'US',
       };
@@ -147,7 +147,7 @@ describe('FaxesApi', () => {
             'https://developers.sinch.com/fax/fax.pdf',
           ],
           imageConversionMethod: 'HALFTONE',
-          hasFile: 'true',
+          hasFile: true,
           toCountry: 'US',
         },
       ];
