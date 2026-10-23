@@ -6,8 +6,8 @@ import { mockserverHosts } from '../../../e2e/hosts';
 
 let coverPagesApi: CoverPagesApi;
 let coverPage: Fax.CoverPage;
-let listResponse: PageResult<Fax.CoverPage>;
-let coverPagesList: Fax.CoverPage[];
+let listResponse: PageResult<Fax.CoverPageInfo>;
+let coverPagesList: Fax.CoverPageInfo[];
 let pagesIteration: number;
 let deleteCoverPageResponse: void;
 

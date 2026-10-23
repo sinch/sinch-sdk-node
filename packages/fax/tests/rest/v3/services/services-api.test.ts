@@ -236,13 +236,15 @@ describe('ServicesApi', () => {
           note: 'Reason for suspending the number.',
         },
       };
-      const expectedResponse: Fax.ServicePhoneNumber = {
+      const expectedResponse: Fax.SuspendPhoneNumberResponse = {
         phoneNumber: '+15551235656',
         country: 'US',
         suspended: true,
         note: 'Reason for suspending the number.',
         projectId: 'projectId',
         serviceId: 'serviceId',
+        createdAt: new Date('2025-10-24T18:56:42Z'),
+        updatedAt: new Date('2025-10-24T19:11:50Z'),
       };
 
       // When
