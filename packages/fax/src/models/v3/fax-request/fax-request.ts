@@ -44,7 +44,7 @@ export interface FaxRequestBase {
 }
 
 export type FaxRequestJson = FaxRequestBase & {
-  /** An array of base64 encoded files */
+  /** An array of base64 encoded files. Supported file types are `DOCX`, `HTML`, `JPG`, `PNG`, `TIF`, `PDF` and `TXT`. */
   files: FaxBase64File[];
   filePaths?: never;
 }
@@ -55,12 +55,12 @@ export type SingleFaxRequestJson = FaxRequestJson & {
 }
 
 export type MultipleFaxRequestJson = FaxRequestJson & {
-  /** A list of phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. */
+  /** A list of phone numbers in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. The fax will be sent to all numbers and a Fax resource will be created for each number. */
   to: string[];
 }
 
 export interface FaxRequestFormData extends FaxRequestBase {
-  /** The file(s) you want to send as a fax as body attachment. */
+  /** The path(s) of the file(s) you want to send as a fax as body attachment. Supported file types are `.docx`, `.html`, `.jpg`, `.png`, `.tif`, `.pdf` and `.txt`. */
   filePaths?: string | string[];
   files?: never;
 }
@@ -71,6 +71,6 @@ export type SingleFaxRequestFormData = FaxRequestFormData & {
 }
 
 export type MultipleFaxRequestFormData = FaxRequestFormData & {
-  /** A list of phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. */
+  /** A list of phone numbers in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. The fax will be sent to all numbers and a Fax resource will be created for each number. */
   to: string[];
 }
