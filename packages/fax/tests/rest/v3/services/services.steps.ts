@@ -12,6 +12,7 @@ let service: Fax.ServiceResponse;
 let deleteServiceResponse: void;
 let listNumbersResponse: PageResult<Fax.ServicePhoneNumber>;
 const numbersList: Fax.ServicePhoneNumber[] = [];
+let suspendNumberResponse: Fax.SuspendPhoneNumberResponse;
 let listEmailsResponse: PageResult<string>;
 const emailsList: string[] = [];
 
@@ -148,6 +149,28 @@ When('I send a request to list all the numbers associated to a fax service', asy
 Then('the phone numbers list contains {string} numbers associated to the fax service', (expectedAnswer: string) => {
   const expectedNumbers = parseInt(expectedAnswer, 10);
   assert.strictEqual(numbersList.length, expectedNumbers);
+});
+
+When('I send a request to suspend a phone number associated to a fax service', async () => {
+  suspendNumberResponse = await servicesApi.suspendNumber({
+    serviceId: '01W4FFL35P4NC4K35FAXSERVICE',
+    phoneNumber: '+12014444444',
+    suspendNumberRequestBody: {
+      suspended: true,
+      note: 'Suspended for e2e tests',
+    },
+  });
+});
+
+Then('the response contains the suspended phone number', () => {
+  assert.equal(suspendNumberResponse.phoneNumber, '+12014444444');
+  assert.equal(suspendNumberResponse.country, 'US');
+  assert.strictEqual(suspendNumberResponse.suspended, true);
+  assert.equal(suspendNumberResponse.note, 'Suspended for e2e tests');
+  assert.equal(suspendNumberResponse.projectId, '123coffee-dada-beef-cafe-baadc0de5678');
+  assert.equal(suspendNumberResponse.serviceId, '01W4FFL35P4NC4K35FAXSERVICE');
+  assert.deepEqual(suspendNumberResponse.createdAt, new Date('2025-06-06T15:21:16Z'));
+  assert.deepEqual(suspendNumberResponse.updatedAt, new Date('2025-06-06T15:42:08Z'));
 });
 
 When('I send a request to list the emails associated to a phone number', async () => {

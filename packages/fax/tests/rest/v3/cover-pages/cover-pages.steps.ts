@@ -42,6 +42,8 @@ Then('the Fax Cover Page is created', () => {
   assert.equal(coverPage.serviceId, '01W4FFL35P4NC4K35FAXSERVICE');
   assert.deepEqual(coverPage.createdTime, new Date('2025-06-06T15:21:16Z'));
   assert.deepEqual(coverPage.updatedTime, new Date('2025-06-06T15:21:16Z'));
+  assert.deepEqual(coverPage.createdAt, new Date('2025-06-06T15:21:16Z'));
+  assert.deepEqual(coverPage.updatedAt, new Date('2025-06-06T15:21:16Z'));
   assert.equal(coverPage.file.fileContent, 'V2VsY29tZSB0byBTaW5jaCE=');
   assert.equal(coverPage.file.fileType, 'application/pdf');
 });
@@ -60,6 +62,8 @@ Then('the response contains the Fax Cover Page details', () => {
   assert.equal(coverPage.serviceId, '01W4FFL35P4NC4K35FAXSERVICE');
   assert.deepEqual(coverPage.createdTime, new Date('2025-06-06T15:21:16Z'));
   assert.deepEqual(coverPage.updatedTime, new Date('2025-06-06T15:21:16Z'));
+  assert.deepEqual(coverPage.createdAt, new Date('2025-06-06T15:21:16Z'));
+  assert.deepEqual(coverPage.updatedAt, new Date('2025-06-06T15:21:16Z'));
   assert.equal(coverPage.file.fileContent, 'V2VsY29tZSB0byBTaW5jaCE=');
   assert.equal(coverPage.file.fileType, 'application/pdf');
 });
@@ -74,6 +78,8 @@ When('I send a request to list the Fax Cover Pages', async () => {
 Then('the response contains {string} Fax Cover Pages', (expectedAnswer: string) => {
   const expectedCoverPagesNumber = parseInt(expectedAnswer, 10);
   assert.equal(listResponse.data.length, expectedCoverPagesNumber);
+  assert.equal((listResponse.data[0] as Fax.CoverPage).file, undefined);
+  assert.deepEqual(listResponse.data[0].createdAt, new Date('2025-06-06T15:21:16Z'));
 });
 
 When('I send a request to list all the Fax Cover Pages', async () => {
