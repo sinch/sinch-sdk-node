@@ -103,6 +103,8 @@ describe('FaxesApi', () => {
         ],
         imageConversionMethod: 'HALFTONE',
         hasFile: 'true',
+        fromCountry: 'US',
+        toCountry: 'US',
       };
 
       // When
@@ -121,6 +123,7 @@ describe('FaxesApi', () => {
       // Given
       const requestData: Fax.ListFaxesRequestData = {
         direction: 'OUTBOUND',
+        toCountry: 'US',
       };
       const mockData: Fax.Fax[] = [
         {
@@ -145,6 +148,7 @@ describe('FaxesApi', () => {
           ],
           imageConversionMethod: 'HALFTONE',
           hasFile: 'true',
+          toCountry: 'US',
         },
       ];
       const expectedResponse = {

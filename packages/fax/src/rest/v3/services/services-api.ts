@@ -15,6 +15,7 @@ import {
   ListServicesRequestData,
   ServicePhoneNumber,
   ServiceResponse,
+  SuspendNumberRequestData,
   UpdateServiceRequestData,
 } from '../../../models';
 import { FaxDomainApi } from '../fax-domain-api';
@@ -228,6 +229,35 @@ export class ServicesApi extends FaxDomainApi {
       requestOptions,
       apiName: this.apiName,
       operationId: 'RemoveService',
+    });
+  }
+
+  /**
+   * Suspend a number on the service
+   * Suspends a number assigned to the specified service. You can include a note as to the reason of the suspension.
+   * @param { SuspendNumberRequestData } data - The data to provide to the API call.
+   */
+  public async suspendNumber(data: SuspendNumberRequestData): Promise<ServicePhoneNumber> {
+    const getParams = this.client.extractQueryParams<SuspendNumberRequestData>(data, [] as never[]);
+    const headers: { [key: string]: string | undefined } = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    const body: RequestBody = data['suspendNumberRequestBody']
+      ? JSON.stringify(data['suspendNumberRequestBody'])
+      : '{}';
+    const basePathUrl = `${this.client.apiClientOptions.hostname}/v3/projects/${this.client.apiClientOptions.projectId}/services/${data['serviceId']}/numbers/${data['phoneNumber']}/suspend`;
+
+    const requestOptions
+      = await this.client.prepareOptions(basePathUrl, 'PATCH', getParams, headers, body || undefined);
+    const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
+
+    return this.client.processCall<ServicePhoneNumber>({
+      url,
+      requestOptions,
+      apiName: this.apiName,
+      operationId: 'SuspendNumber',
     });
   }
 

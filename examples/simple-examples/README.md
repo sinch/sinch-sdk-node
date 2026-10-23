@@ -264,6 +264,7 @@ yarn run numbers:regions:list
 |              | [./src/fax/services/list.ts](./src/fax/services/list.ts)                                 |                                     |
 |              | [./src/fax/services/listNumbers.ts](./src/fax/services/listNumbers.ts)                   | `FAX_SERVICE_ID`                    |
 |              | [./src/fax/services/listEmailsForNumber.ts](./src/fax/services/listEmailsForNumber.ts)   | `PHONE_NUMBER` + `FAX_SERVICE_ID`   |
+|              | [./src/fax/services/suspendNumber.ts](./src/fax/services/suspendNumber.ts)               | `PHONE_NUMBER` + `FAX_SERVICE_ID`   |
 |              | [./src/fax/services/update.ts](./src/fax/services/update.ts)                             | `FAX_SERVICE_ID`                    |
 |              | [./src/fax/services/delete.ts](./src/fax/services/delete.ts)                             | `FAX_SERVICE_ID`                    |
 | Faxes        | [./src/fax/faxes/send-filePaths.ts](./src/fax/faxes/send-filePaths.ts)                   | `PHONE_NUMBER` + `FAX_CALLBACK_URL` |

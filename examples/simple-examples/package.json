@@ -133,6 +133,7 @@
     "fax:services:list": "ts-node src/fax/services/list.ts",
     "fax:services:listNumbers": "ts-node src/fax/services/listNumbers.ts",
     "fax:services:listEmailsForNumber": "ts-node src/fax/services/listEmailsForNumber.ts",
+    "fax:services:suspendNumber": "ts-node src/fax/services/suspendNumber.ts",
     "fax:services:update": "ts-node src/fax/services/update.ts",
     "fax:services:delete": "ts-node src/fax/services/delete.ts",
     "fax:faxes:send-filePaths": "ts-node src/fax/faxes/send-filePaths.ts",

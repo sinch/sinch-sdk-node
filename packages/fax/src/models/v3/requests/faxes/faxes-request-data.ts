@@ -16,10 +16,14 @@ export interface FaxesFilterRequestData {
   'direction'?: FaxDirection;
   /** Limits results to faxes with the specified status. */
   'status'?: FaxStatus;
-  /** A phone number that you want to use to filter results. The parameter search with startsWith, so you can pass a partial number to get all faxes sent to numbers that start with the number you passed. */
+  /** Filters the results by the phone number to which the fax was sent. The parameter search with startsWith, so you can pass a partial number to get all faxes sent to numbers that start with the number you passed. */
   'to'?: string;
-  /** A phone number that you want to use to filter results.  The parameter search with startsWith, so you can pass a partial number to get all faxes sent to numbers that start with the number you passed. */
+  /** Filters the results by the phone number from which the fax was sent. The parameter search with startsWith, so you can pass a partial number to get all faxes sent from numbers that start with the number you passed. */
   'from'?: string;
+  /** Filter by the country which sent the fax. The country code should be in ISO 3166-1 alpha-2 format. */
+  'fromCountry'?: string;
+  /** Filter by the country to which the fax was sent. The country code should be in ISO 3166-1 alpha-2 format. */
+  'toCountry'?: string;
   /** Filter faxes by labels. */
   'labels'?: Labels;
 }
