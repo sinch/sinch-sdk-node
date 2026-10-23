@@ -1,3 +1,12 @@
+## Version 1.8.0
+- [Feature] Support suspending a number on a service via `services.suspendNumber()`, returning a `SuspendPhoneNumberResponse`
+- [Feature] Support `fromCountry` and `toCountry` filters on fax list and export requests via `FaxesFilterRequestData`
+- [Feature] Support `fromCountry` and `toCountry` in a `Fax` object
+- [Feature] Support `country`, `suspended` and `note` in a `ServicePhoneNumber` object
+- [Feature] Support `createdAt` and `updatedAt` in a `CoverPage` object
+- [Feature] `coverPages.list()` returns the new `CoverPageInfo` model, a cover page without its `file`, as returned by the API (use `coverPages.get()` to retrieve the file). Code typing the list result as `PageResult<CoverPage>` or `CoverPage[]` must use `CoverPageInfo` instead
+- [Bugfix] The `hasFile` property in a `Fax` object is typed as `boolean` instead of `string`, to match the value returned by the API
+
 ## Version 1.7.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.7.0`
 

@@ -140,6 +140,9 @@ describe('ServicesApi', () => {
           serviceId: 'serviceId',
           projectId: 'projectId',
           phoneNumber: '+15551235656',
+          country: 'US',
+          suspended: false,
+          permissions: 'both',
         },
       ];
       const expectedResponse = {
@@ -219,6 +222,39 @@ describe('ServicesApi', () => {
       // Then
       expect(response).toEqual(expectedResponse);
       expect(fixture.delete).toHaveBeenCalledWith(requestData);
+    });
+  });
+
+  describe ('suspendNumber', () => {
+    it('should make a PATCH request to suspend a number on a service', async () => {
+      // Given
+      const requestData: Fax.SuspendNumberRequestData = {
+        serviceId: 'serviceId',
+        phoneNumber: '+15551235656',
+        suspendNumberRequestBody: {
+          suspended: true,
+          note: 'Reason for suspending the number.',
+        },
+      };
+      const expectedResponse: Fax.SuspendPhoneNumberResponse = {
+        phoneNumber: '+15551235656',
+        country: 'US',
+        suspended: true,
+        note: 'Reason for suspending the number.',
+        projectId: 'projectId',
+        serviceId: 'serviceId',
+        createdAt: new Date('2025-10-24T18:56:42Z'),
+        updatedAt: new Date('2025-10-24T19:11:50Z'),
+      };
+
+      // When
+      fixture.suspendNumber.mockResolvedValue(expectedResponse);
+      servicesApi.suspendNumber = fixture.suspendNumber;
+      const response = await servicesApi.suspendNumber(requestData);
+
+      // Then
+      expect(response).toEqual(expectedResponse);
+      expect(fixture.suspendNumber).toHaveBeenCalledWith(requestData);
     });
   });
 

@@ -1,1 +1,1 @@
-export type { CoverPageRequest, CoverPage } from './cover-page';
+export type { CoverPageRequest, CoverPageInfo, CoverPage } from './cover-page';

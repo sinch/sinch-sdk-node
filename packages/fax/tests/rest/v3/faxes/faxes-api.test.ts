@@ -102,7 +102,9 @@ describe('FaxesApi', () => {
           'https://developers.sinch.com/fax/fax.pdf',
         ],
         imageConversionMethod: 'HALFTONE',
-        hasFile: 'true',
+        hasFile: true,
+        fromCountry: 'US',
+        toCountry: 'US',
       };
 
       // When
@@ -121,6 +123,7 @@ describe('FaxesApi', () => {
       // Given
       const requestData: Fax.ListFaxesRequestData = {
         direction: 'OUTBOUND',
+        toCountry: 'US',
       };
       const mockData: Fax.Fax[] = [
         {
@@ -144,7 +147,8 @@ describe('FaxesApi', () => {
             'https://developers.sinch.com/fax/fax.pdf',
           ],
           imageConversionMethod: 'HALFTONE',
-          hasFile: 'true',
+          hasFile: true,
+          toCountry: 'US',
         },
       ];
       const expectedResponse = {

@@ -58,14 +58,18 @@ export interface Fax {
   maxRetries?: number;
   /** The number of times the fax has been retried. */
   retryCount?: number;
-  /** Only shown on the fax result. This indicates if the content of the fax is stored with Sinch. (true or false) */
-  hasFile?: string;
+  /** Only shown on the fax result. This indicates if the content of the fax is stored with Sinch. */
+  hasFile?: boolean;
   /** @see Resolution */
   resolution?: Resolution;
   /** The cover page id you want to use for the fax */
   coverPageId?: string;
   /** You can use this to specify custom data for your cover page that will be sent as part of the fax. It is a key value store. Read more about how to use this [here](https://developers.sinch.com/docs/fax/api-reference/fax/tag/Cover-pages/). All keys used must be lower case. */
   coverPageData?: { [key: string]: string; };
+  /** The country code in ISO 3166-1 alpha-2 format of the number sending the fax. */
+  fromCountry?: string;
+  /** The country code in ISO 3166-1 alpha-2 format of the number receiving the fax. */
+  toCountry?: string;
   /** The `Id` of the project associated with the call. */
   projectId?: string;
   /** ID of the fax service used. */

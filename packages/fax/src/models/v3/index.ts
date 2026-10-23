@@ -14,6 +14,8 @@ export * from './number-with-permissions';
 export * from './mod-events';
 export * from './service';
 export * from './service-phone-number';
+export * from './suspend-number-request';
+export * from './suspend-phone-number-response';
 export * from './update-email-request';
 export * from './webhook-event-parsed';
 export * from './enums';

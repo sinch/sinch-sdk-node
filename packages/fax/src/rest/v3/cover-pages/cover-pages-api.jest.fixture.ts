@@ -3,6 +3,7 @@ import { ApiListPromise } from '@sinch/sdk-client';
 import {
   AddCoverPageRequestData,
   CoverPage,
+  CoverPageInfo,
   DeleteCoverPageRequestData,
   GetCoverPageRequestData,
   ListCoverPagesRequestData,
@@ -25,5 +26,5 @@ export class CoverPagesApiFixture implements Partial<Readonly<CoverPagesApi>> {
   /**
    * Fixture associated to function list
    */
-  public list: jest.Mock<ApiListPromise<CoverPage>, [ListCoverPagesRequestData]> = jest.fn();
+  public list: jest.Mock<ApiListPromise<CoverPageInfo>, [ListCoverPagesRequestData]> = jest.fn();
 }
