@@ -117,18 +117,16 @@ describe('CoverPagesApi', () => {
       const requestData: Fax.ListCoverPagesRequestData = {
         serviceId: '01GVRB50KEQFFE1SGMPFRNBG6J',
       };
-      const mockData: Fax.CoverPage[] = [
+      const mockData: Fax.CoverPageInfo[] = [
         {
           id: '01K5W528RASFKYNCDS9YWTZ1CX',
           name: 'Acme Company cover page',
-          file: {
-            fileContent: 'c3RyaW5n',
-            fileType: 'application/pdf',
-          },
           projectId: 'ae00f005-e392-44dc-b3f5-a657a2684dg3',
           serviceId: '01GVRB50KEQFFE1SGMPFRNBG6J',
           createdTime: new Date('2024-02-27T12:28:09Z'),
           updatedTime: new Date('2024-02-27T12:28:09Z'),
+          createdAt: new Date('2024-02-27T12:28:09Z'),
+          updatedAt: new Date('2024-02-27T12:28:09Z'),
         },
       ];
       const expectedResponse = {

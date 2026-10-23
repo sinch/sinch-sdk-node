@@ -2,8 +2,8 @@ import { Fax, PageResult } from '@sinch/sdk-core';
 import { getFaxServiceIdFromConfig, getPrintFormat, initFaxService, printFullResponse } from '../../config';
 
 const populateCoverPagesList = (
-  coverPagesPage: PageResult<Fax.CoverPage>,
-  fullCoverPagesList: Fax.CoverPage[],
+  coverPagesPage: PageResult<Fax.CoverPageInfo>,
+  fullCoverPagesList: Fax.CoverPageInfo[],
   coverPagesList: string[],
 ) => {
   fullCoverPagesList.push(...coverPagesPage.data);
@@ -32,7 +32,7 @@ const populateCoverPagesList = (
   let response = await faxService.coverPages.list(requestData);
 
   // Init data structure to hold the response content
-  const fullCoverPagesList: Fax.CoverPage[] = [];
+  const fullCoverPagesList: Fax.CoverPageInfo[] = [];
   // Init data structure to hold the response content for pretty print
   const coverPagesList: string[] = [];
 

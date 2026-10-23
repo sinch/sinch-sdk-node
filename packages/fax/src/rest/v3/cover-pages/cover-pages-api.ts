@@ -8,6 +8,7 @@ import {
 } from '@sinch/sdk-client';
 import {
   CoverPage,
+  CoverPageInfo,
   AddCoverPageRequestData,
   DeleteCoverPageRequestData,
   GetCoverPageRequestData,
@@ -104,11 +105,11 @@ export class CoverPagesApi extends FaxDomainApi {
 
   /**
    * List cover pages
-   * List all cover page to a service
+   * Lists the cover pages on a service. To retrieve the cover page file, use the `get` operation to download it.
    * @param { ListCoverPagesRequestData } data - The data to provide to the API call.
-   * @return {ApiListPromise<CoverPage>}
+   * @return {ApiListPromise<CoverPageInfo>}
    */
-  public list(data: ListCoverPagesRequestData): ApiListPromise<CoverPage> {
+  public list(data: ListCoverPagesRequestData): ApiListPromise<CoverPageInfo> {
     const getParams = this.client.extractQueryParams<ListCoverPagesRequestData>(data, ['pageSize', 'page']);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -128,7 +129,7 @@ export class CoverPagesApi extends FaxDomainApi {
     };
 
     // Create the promise containing the response wrapped as a PageResult
-    const listPromise = buildPageResultPromise<CoverPage>(
+    const listPromise = buildPageResultPromise<CoverPageInfo>(
       this.client,
       requestOptionsPromise,
       operationProperties);
@@ -136,11 +137,11 @@ export class CoverPagesApi extends FaxDomainApi {
     // Add properties to the Promise to offer the possibility to use it as an iterator
     Object.assign(
       listPromise,
-      createIteratorMethodsForPagination<CoverPage>(
+      createIteratorMethodsForPagination<CoverPageInfo>(
         this.client, requestOptionsPromise, listPromise, operationProperties),
     );
 
-    return listPromise as ApiListPromise<CoverPage>;
+    return listPromise as ApiListPromise<CoverPageInfo>;
   }
 
 

@@ -16,6 +16,7 @@ import {
   ServicePhoneNumber,
   ServiceResponse,
   SuspendNumberRequestData,
+  SuspendPhoneNumberResponse,
   UpdateServiceRequestData,
 } from '../../../models';
 import { FaxDomainApi } from '../fax-domain-api';
@@ -237,7 +238,7 @@ export class ServicesApi extends FaxDomainApi {
    * Suspends a number assigned to the specified service. You can include a note as to the reason of the suspension.
    * @param { SuspendNumberRequestData } data - The data to provide to the API call.
    */
-  public async suspendNumber(data: SuspendNumberRequestData): Promise<ServicePhoneNumber> {
+  public async suspendNumber(data: SuspendNumberRequestData): Promise<SuspendPhoneNumberResponse> {
     const getParams = this.client.extractQueryParams<SuspendNumberRequestData>(data, [] as never[]);
     const headers: { [key: string]: string | undefined } = {
       'Content-Type': 'application/json',
@@ -253,7 +254,7 @@ export class ServicesApi extends FaxDomainApi {
       = await this.client.prepareOptions(basePathUrl, 'PATCH', getParams, headers, body || undefined);
     const url = this.client.prepareUrl(requestOptions.hostname, requestOptions.queryParams);
 
-    return this.client.processCall<ServicePhoneNumber>({
+    return this.client.processCall<SuspendPhoneNumberResponse>({
       url,
       requestOptions,
       apiName: this.apiName,
