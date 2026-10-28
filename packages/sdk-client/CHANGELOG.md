@@ -1,3 +1,6 @@
+## Version 1.8.0
+- [Tech] No changes, version bumped to align with the SDK 1.8.0 release
+
 ## Version 1.7.0
 - [Tech] No changes, version bumped to align with the SDK 1.7.0 release
 

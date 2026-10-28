@@ -166,7 +166,9 @@ Then('the response contains a fax object', () => {
   assert.equal(true, fax.headerPageNumbers);
   assert.equal('https://developers.sinch.com/fax/fax.pdf', fax.contentUrl?.[0]);
   assert.equal('MONOCHROME', fax.imageConversionMethod);
-  assert.equal(true, fax.hasFile);
+  assert.strictEqual(true, fax.hasFile);
+  assert.equal('US', fax.fromCountry);
+  assert.equal('US', fax.toCountry);
 });
 
 When('I send a request to list faxes', async () => {
