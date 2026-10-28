@@ -21,6 +21,7 @@ To use Sinch services, you'll need a Sinch account and access keys. You can sign
 - [Logging](#logging)
 - [Retry configuration](#retry-configuration)
 - [Transport settings](#transport-settings)
+- [Low-level HTTP client](#low-level-http-client)
 - [Handling exceptions](#handling-exceptions)
 - [Third-party dependencies](#third-party-dependencies)
 - [Examples](#examples)
@@ -517,6 +518,55 @@ const sinch = new SinchClient({
 });
 ```
 
+## Low-level HTTP client
+
+`sinch.http` sends raw HTTP requests to any Sinch endpoint, including the ones not yet covered by the SDK (e.g. code generated from an OpenAPI specification). The SDK still takes care of:
+- the OAuth2 authentication and the token cache (`keyId` and `keySecret` are required, `projectId` is not)
+- the HTTP 429 retries (see [Retry configuration](#retry-configuration))
+- the timeout and the `User-Agent` header
+
+Everything else is up to the caller: the URL, the query string and the body are sent **untouched**.
+
+```typescript
+import { SinchClient, RetryPolicy } from '@sinch/sdk-core';
+
+const sinch = new SinchClient({ keyId, keySecret });
+
+const response = await sinch.http.get(
+  `https://numbers.api.sinch.com/v1/projects/${projectId}/activeNumbers`,
+  {
+    queryParams: '?regionCode=US&type=LOCAL&pageSize=5', // pre-encoded, including the leading "?"
+    headers: { accept: 'application/json' },
+  },
+);
+const activeNumbers = await response.content.asJson();
+
+await sinch.http.post(
+  'https://calling.api.sinch.com/calling/v1/callouts',
+  JSON.stringify({ method: 'ttsCallout', ttsCallout: { cli: '+14045001000' } }),
+  {
+    headers: { 'content-type': 'application/json' },
+    options: { timeoutSeconds: 10, retryPolicy: RetryPolicy.NONE }, // request-level overrides
+  },
+);
+```
+
+| Method | Body |
+|--------|------|
+| `get(url, params?)` / `delete(url, params?)` | none |
+| `post(url, body, params?)` / `put(...)` / `patch(...)` | `string` \| `Buffer` \| `Uint8Array`, sent untouched: set the `content-type` header. Use `HttpHelpers.fromFile(path)` to send a file. |
+| `postFormData(url, form, params?)` | a `form-data` instance or a record of `string` / `Buffer` fields, sent as `multipart/form-data` (the SDK sets the `content-type` with its boundary) |
+
+`params` holds `queryParams`, `headers` (a record or an `HttpHeaders` instance) and `options`, which override the client settings for this call only: `useSinchAuth`, `timeoutSeconds`, `retryPolicy`, `maxRetryCount` and `exponentialBackoff`. With `useSinchAuth: false`, no token is fetched: set your own `Authorization` header.
+
+The returned `HttpResponse` exposes `status`, `headers` and a lazy `content` parser: `asString()`, `asBytes()`, `asJson()` or `asStream()` (to download large payloads without buffering them). A status >= 400 is thrown as an `ApiHttpError`, whose `response` can still be read.
+
+Known limitations:
+- no automatic pagination, and no path segment or query parameter encoding
+- field names are the raw ones from the API specification (no Date revival either)
+- only OAuth2 authentication is injected: API token (SMS) and signed requests (Voice, Verification) must be handled by the caller with `useSinchAuth: false`
+- stream bodies are not supported, so the request can be replayed on retry
+
 ## Handling exceptions
 
 Failed API calls throw typed errors from `@sinch/sdk-core`. The SDK validates every response automatically and raises an exception when the HTTP status is not successful or when the response body is empty or invalid.
@@ -526,6 +576,7 @@ Failed API calls throw typed errors from `@sinch/sdk-core`. The SDK validates ev
 | `RequestFailedError` | The API returned a non-success HTTP status (`statusCode` and `data` are available on the error) |
 | `EmptyResponseError` | The response is missing or empty |
 | `ResponseJSONParseError` | The response body could not be parsed as JSON |
+| `ApiHttpError` | A [low-level HTTP client](#low-level-http-client) call returned a status >= 400 (extends `RequestFailedError`, adds the raw `response`) |
 | `GenericError` | Other SDK-level errors |
 
 ```typescript

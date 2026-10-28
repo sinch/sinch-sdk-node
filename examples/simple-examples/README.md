@@ -314,3 +314,12 @@ yarn run numbers:regions:list
 |                     | [./src/elastic-sip-trunking/country-permissions/list.ts](./src/elastic-sip-trunking/country-permissions/list.ts)                       |                               |
 |                     | [./src/elastic-sip-trunking/country-permissions/update.ts](./src/elastic-sip-trunking/country-permissions/update.ts)                   |                               |
 | Calls               | [./src/elastic-sip-trunking/calls-history/find.ts](./src/elastic-sip-trunking/calls-history/find.ts)                                   | SIP_TRUNK_ID                  |
+
+### HTTP (low-level client)
+
+The `sinch.http` client calls any Sinch endpoint with raw URLs, query strings, headers and bodies, while the SDK handles OAuth2, rate-limit retries, timeouts and the `User-Agent` header.
+
+| Service | Sample application name and location                     | Required parameters                 |
+|---------|----------------------------------------------------------|-------------------------------------|
+| GET     | [./src/http/get.ts](./src/http/get.ts)                   | `SINCH_PROJECT_ID`                  |
+| POST    | [./src/http/post.ts](./src/http/post.ts)                 | `SINCH_PROJECT_ID` + `PHONE_NUMBER` |

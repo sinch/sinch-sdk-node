@@ -153,6 +153,8 @@
     "fax:cover-pages:get": "ts-node src/fax/cover-pages/get.ts",
     "fax:cover-pages:delete": "ts-node src/fax/cover-pages/delete.ts",
     "number-lookup:lookup": "ts-node src/number-lookup/lookup.ts",
+    "http:get": "ts-node src/http/get.ts",
+    "http:post": "ts-node src/http/post.ts",
     "numbers:regions:list": "ts-node src/numbers/regions/list.ts",
     "numbers:available:list": "ts-node src/numbers/available/list.ts",
     "numbers:available:checkAvailability": "ts-node src/numbers/available/checkAvailability.ts",
