@@ -1,3 +1,6 @@
+## Version 1.8.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.8.0`
+
 ## Version 1.7.0
 - [Tech] Update dependency `@sinch/sdk-client` to `1.7.0`
 - **Breaking:** Voice v2 `MenuItem.onFail` renamed to `onFailure` to match the API
