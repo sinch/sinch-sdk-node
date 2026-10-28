@@ -1,4 +1,5 @@
 ## Version 1.8.0
+- [Tech] Update dependency `@sinch/sdk-client` to `1.8.0`
 - [Feature] Support suspending a number on a service via `services.suspendNumber()`, returning a `SuspendPhoneNumberResponse`
 - [Feature] Support `fromCountry` and `toCountry` filters on fax list and export requests via `FaxesFilterRequestData`
 - [Feature] Support `fromCountry` and `toCountry` in a `Fax` object
