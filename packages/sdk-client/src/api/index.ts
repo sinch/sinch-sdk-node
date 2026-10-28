@@ -6,6 +6,7 @@ export {
   buildMailgunApiClientOptions,
   buildApplicationSignedApiClientOptions,
   buildFlexibleOAuth2OrApiTokenApiClientOptions,
+  buildHttpApiClientOptions,
 } from './api-client-options-helper';
 export {
   ApiClient,
@@ -18,6 +19,7 @@ export {
   PaginationEnum,
 } from './api-client';
 export {
+  ApiHttpError,
   GenericError,
   RequestFailedError,
   EmptyResponseError,

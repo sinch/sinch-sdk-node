@@ -80,6 +80,30 @@ export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiNa
   return apiClientOptions;
 };
 
+/**
+ * Options for the low-level HTTP client: URLs are absolute, so no `projectId` is required.
+ * @internal
+ */
+export const buildHttpApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
+  if ((params.useSinchAuth ?? true) && (!params.keyId || !params.keySecret)) {
+    throw new Error(
+      'Invalid configuration for the HTTP client: "keyId" and "keySecret" values must be provided'
+      + ' (or set "useSinchAuth" to false)',
+    );
+  }
+  const logger = resolveParamsLogger(params);
+  const timeoutSeconds = resolveTimeoutSeconds(params.timeoutSeconds);
+  const apiClientOptions: ApiClientOptions = {
+    requestPlugins: getAuthPlugins(params, logger, timeoutSeconds),
+    logger,
+    timeoutSeconds,
+    implementationType: 'http',
+  };
+  applyRetryConfig(apiClientOptions, params);
+  addPlugins(apiClientOptions, params);
+  return apiClientOptions;
+};
+
 /** @internal @deprecated */
 export const buildMailgunApiClientOptions = (
   params: Partial<MailgunCredentials & ApiPlugins & WithLogger & WithRetryPolicy & TransportSettings>,

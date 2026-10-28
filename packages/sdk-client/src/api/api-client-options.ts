@@ -35,6 +35,12 @@ interface BaseApiClientOptions {
    * @default 60
    */
   timeoutSeconds?: number;
+
+  /**
+   * SDK flavour reported in the User-Agent header
+   * @default 'default'
+   */
+  implementationType?: string;
 }
 
 /** @internal */
