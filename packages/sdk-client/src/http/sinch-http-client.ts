@@ -12,7 +12,7 @@ import {
 import { resolveClientParameters } from '../logger';
 import {
   RequestBody,
-  RequestOptions,
+  RequestPlugin,
   RequestPluginEnum,
 } from '../plugins/core/request-plugin';
 import { HttpHeaders } from './http-headers';
@@ -117,7 +117,7 @@ export class SinchHttpClient {
    * @param {HttpFormData} form - Form fields, as a `form-data` instance or a record. Streams are not supported.
    * @param {HttpCallParameters} [params] - Query string, headers and request-level options
    */
-  public postFormData(url: string, form: HttpFormData, params: HttpCallParameters = {}): Promise<HttpResponse> {
+  public async postFormData(url: string, form: HttpFormData, params: HttpCallParameters = {}): Promise<HttpResponse> {
     const formData = isFormData(form) ? form : buildFormData(form);
     let body: Buffer;
     try {
@@ -161,10 +161,9 @@ export class SinchHttpClient {
     const { apiClientOptions } = apiClient;
     const options = params.options ?? {};
     const useSinchAuth = options.useSinchAuth ?? this.lazyClient.sharedConfig.useSinchAuth;
-    const plugins = apiClientOptions.requestPlugins ?? [];
-    const isOAuth2Plugin = (name: string) => name === RequestPluginEnum.OAUTH2_TOKEN_REQUEST;
+    const isOAuth2Plugin = (plugin: RequestPlugin) => plugin.getName() === RequestPluginEnum.OAUTH2_TOKEN_REQUEST;
 
-    if (useSinchAuth && !plugins.some((plugin) => isOAuth2Plugin(plugin.getName()))) {
+    if (useSinchAuth && !(apiClientOptions.requestPlugins ?? []).some(isOAuth2Plugin)) {
       throw new Error(
         'Invalid configuration for the HTTP client: "useSinchAuth" requires "keyId" and "keySecret"'
         + ' to be set on the client',
@@ -172,20 +171,16 @@ export class SinchHttpClient {
     }
 
     const timeoutSeconds = resolveTimeoutSeconds(options.timeoutSeconds ?? apiClientOptions.timeoutSeconds);
-    let requestOptions: RequestOptions = {
-      method,
-      headers: toFetchHeaders(toHttpHeaders(params.headers)),
-      body,
-      hostname: url,
-      timeout: timeoutSeconds * 1000,
-    };
-    for (const plugin of plugins) {
-      if (!useSinchAuth && isOAuth2Plugin(plugin.getName())) {
-        continue;
-      }
-      requestOptions = await plugin.load().transform(requestOptions);
-    }
-    requestOptions.logger = apiClientOptions.logger;
+    const requestOptions = await apiClient.applyRequestPlugins(
+      {
+        method,
+        headers: toFetchHeaders(toHttpHeaders(params.headers)),
+        body,
+        hostname: url,
+        timeout: timeoutSeconds * 1000,
+      },
+      (plugin) => !useSinchAuth && isOAuth2Plugin(plugin),
+    );
 
     return apiClient.processHttpCall(
       {
@@ -194,8 +189,14 @@ export class SinchHttpClient {
         apiName: 'HTTP',
         operationId: method,
       },
-      options,
-      useSinchAuth,
+      {
+        retry: {
+          retryPolicy: options.retryPolicy,
+          maxRetryCount: options.maxRetryCount,
+          exponentialBackoff: options.exponentialBackoff,
+        },
+        refreshExpiredToken: useSinchAuth,
+      },
     );
   }
 }
@@ -207,7 +208,11 @@ const toHttpHeaders = (headers?: HttpRequestHeaders): HttpHeaders => {
   }
   const entries = headers instanceof HttpHeaders ? headers.entries() : Object.entries(headers);
   for (const [name, value] of entries) {
-    result.append(name, value);
+    // Plain JS callers may pass undefined values: skip them as prepareOptions does
+    const values = (Array.isArray(value) ? value : [value]).filter((entry) => entry !== undefined);
+    if (values.length > 0) {
+      result.append(name, values);
+    }
   }
   return result;
 };

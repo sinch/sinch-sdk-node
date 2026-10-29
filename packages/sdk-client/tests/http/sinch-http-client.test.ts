@@ -18,6 +18,7 @@ jest.mock('../../src/client/retry-policy', () => {
 
 import fetch, { Response } from 'node-fetch';
 import FormData = require('form-data');
+import { Readable } from 'stream';
 import {
   ApiHttpError,
   HttpHeaders,
@@ -168,6 +169,17 @@ describe('SinchHttpClient', () => {
       const [[, init]] = apiCalls();
       expect(init.headers.raw()['x-custom']).toEqual(['a', 'b']);
     });
+
+    it('skips the headers with an undefined value', async () => {
+      const client = new SinchHttpClient(credentials);
+      const headers = { 'x-request-id': undefined, 'x-custom': 'a' } as unknown as Record<string, string>;
+
+      await client.get(API_URL, { headers });
+
+      const [[, init]] = apiCalls();
+      expect(init.headers.has('x-request-id')).toBe(false);
+      expect(init.headers.get('x-custom')).toBe('a');
+    });
   });
 
   describe('SDK headers', () => {
@@ -218,6 +230,17 @@ describe('SinchHttpClient', () => {
       const [[, init]] = apiCalls();
       expect(init.headers.has('Authorization')).toBe(false);
     });
+
+    it('authenticates at request level when the client has credentials but useSinchAuth is false', async () => {
+      const client = new SinchHttpClient({ ...credentials, useSinchAuth: false });
+
+      await client.get(API_URL);
+      await client.get(API_URL, { options: { useSinchAuth: true } });
+
+      const calls = apiCalls();
+      expect(calls[0][1].headers.has('Authorization')).toBe(false);
+      expect(calls[1][1].headers.get('Authorization')).toBe('Bearer token-1');
+    });
   });
 
   describe('configuration errors', () => {
@@ -234,6 +257,26 @@ describe('SinchHttpClient', () => {
 
       await expect(client.get(API_URL, { options: { useSinchAuth: true } }))
         .rejects.toThrow('"useSinchAuth" requires "keyId" and "keySecret"');
+    });
+
+    it('rejects an invalid request-level retry setting as a configuration error', async () => {
+      mockServer(() => ok());
+      const client = new SinchHttpClient(credentials);
+
+      const error = await client.get(API_URL, { options: { maxRetryCount: -1 } }).catch((e) => e);
+
+      expect(error.message).toBe('Invalid configuration: "maxRetryCount" must be a non-negative integer');
+      expect(apiCalls()).toHaveLength(0);
+    });
+
+    it('rejects, rather than throws, when the form data cannot be serialized', async () => {
+      const client = new SinchHttpClient(credentials);
+      const form = new FormData();
+      form.append('file', Readable.from(['content']));
+
+      const result = client.postFormData(API_URL, form);
+
+      await expect(result).rejects.toThrow('Unable to serialize the form data (streams are not supported)');
     });
   });
 

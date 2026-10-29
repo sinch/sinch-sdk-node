@@ -41,6 +41,7 @@ import {
 import {
   computeRateLimitBackoffMs,
   parseRetryAfterMs,
+  ResolvedRetryConfig,
   resolveRetryConfig,
   shouldRetryRateLimit,
   sleep,
@@ -55,6 +56,27 @@ interface ResponseContext {
   body: string | undefined;
   apiCallParameters: ApiCallParameters;
   errorContext: ErrorContext;
+}
+
+/**
+ * Settings overriding the client ones for a single call
+ */
+export interface CallOverrides {
+  /** Retry settings: undefined entries fall back to the client ones */
+  retry?: WithRetryPolicy;
+  /**
+   * Whether a 401 with an expired JWT triggers an OAuth2 token refresh
+   * @default true
+   */
+  refreshExpiredToken?: boolean;
+}
+
+/**
+ * Resolved per-call settings for the fetch loop
+ */
+interface SinchFetchOptions {
+  retryConfig?: ResolvedRetryConfig;
+  refreshExpiredToken?: boolean;
 }
 
 /**
@@ -134,20 +156,23 @@ export class ApiFetchClient extends ApiClient {
    * Process HTTP call and return the raw response, without parsing the body.
    * Token refresh and rate-limit retries are applied as for any other call.
    * @param {ApiCallParameters} apiCallParameters - Parameters for the HTTP call.
-   * @param {WithRetryPolicy} [retry] - Retry settings overriding the client ones for this call.
-   * @param {boolean} [refreshExpiredToken] - Whether a 401 with an expired JWT triggers an OAuth2 token refresh.
+   * @param {CallOverrides} [overrides] - Retry and token refresh settings overriding the client ones for this call.
    * @return {Promise<HttpResponse>} The response, with a body still available for lazy parsing.
    * @throws {ApiHttpError} when the response status is >= 400.
    */
   public async processHttpCall(
     apiCallParameters: ApiCallParameters,
-    retry?: WithRetryPolicy,
-    refreshExpiredToken = true,
+    overrides: CallOverrides = {},
   ): Promise<HttpResponse> {
     const errorContext = buildErrorContext(apiCallParameters);
+    // Resolved outside the fetch error handling so an invalid setting surfaces as a configuration error
+    const retryConfig = resolveRetryConfig({ ...this.apiClientOptions, ...definedValues(overrides.retry) });
     let httpResponse: HttpResponse;
     try {
-      httpResponse = await this.sinchFetch(apiCallParameters, errorContext, retry, refreshExpiredToken);
+      httpResponse = await this.sinchFetch(apiCallParameters, errorContext, {
+        retryConfig,
+        refreshExpiredToken: overrides.refreshExpiredToken,
+      });
     } catch (error: any) {
       throw this.buildFetchError(error, errorContext);
     }
@@ -262,21 +287,19 @@ export class ApiFetchClient extends ApiClient {
    * Handle fetch request with token refresh and retry.
    * @param {ApiCallParameters} apiCallParameters
    * @param {ErrorContext} errorContext
-   * @param {WithRetryPolicy} [retry] - Retry settings overriding the client ones
-   * @param {boolean} [refreshExpiredToken] - Whether a 401 with an expired JWT triggers a token refresh
+   * @param {SinchFetchOptions} [options] - Per-call retry and token refresh settings
    */
   private async sinchFetch(
     apiCallParameters: ApiCallParameters,
     errorContext: ErrorContext,
-    retry?: WithRetryPolicy,
-    refreshExpiredToken = true,
+    options: SinchFetchOptions = {},
   ): Promise<HttpResponse> {
-    const retryConfig = resolveRetryConfig({ ...this.apiClientOptions, ...definedValues(retry) });
+    const retryConfig = options.retryConfig ?? resolveRetryConfig(this.apiClientOptions);
     let requestOptions = apiCallParameters.requestOptions;
     let httpRequest = toHttpRequest(apiCallParameters, requestOptions);
     let httpResponse = await this.send(httpRequest, requestOptions.timeout);
 
-    if (refreshExpiredToken && this.isTokenExpired(httpResponse)) {
+    if ((options.refreshExpiredToken ?? true) && this.isTokenExpired(httpResponse)) {
       // Capture the JWT used by the failing request so the OAuth2 plugin can
       // refuse to clear a cached token that has since been refreshed by another caller.
       const failingAuth = httpRequest.headers.getAll('Authorization')[0] || '';

@@ -542,8 +542,8 @@ const response = await sinch.http.get(
 const activeNumbers = await response.content.asJson();
 
 await sinch.http.post(
-  'https://calling.api.sinch.com/calling/v1/callouts',
-  JSON.stringify({ method: 'ttsCallout', ttsCallout: { cli: '+14045001000' } }),
+  `https://lookup.api.sinch.com/v2/projects/${projectId}/lookups`,
+  JSON.stringify({ number: '+14045001000' }),
   {
     headers: { 'content-type': 'application/json' },
     options: { timeoutSeconds: 10, retryPolicy: RetryPolicy.NONE }, // request-level overrides
@@ -557,7 +557,7 @@ await sinch.http.post(
 | `post(url, body, params?)` / `put(...)` / `patch(...)` | `string` \| `Buffer` \| `Uint8Array`, sent untouched: set the `content-type` header. Use `HttpHelpers.fromFile(path)` to send a file. |
 | `postFormData(url, form, params?)` | a `form-data` instance or a record of `string` / `Buffer` fields, sent as `multipart/form-data` (the SDK sets the `content-type` with its boundary) |
 
-`params` holds `queryParams`, `headers` (a record or an `HttpHeaders` instance) and `options`, which override the client settings for this call only: `useSinchAuth`, `timeoutSeconds`, `retryPolicy`, `maxRetryCount` and `exponentialBackoff`. With `useSinchAuth: false`, no token is fetched: set your own `Authorization` header.
+`params` holds `queryParams`, `headers` (a record or an `HttpHeaders` instance) and `options`, which override the client settings for this call only: `useSinchAuth`, `timeoutSeconds`, `retryPolicy`, `maxRetryCount` and `exponentialBackoff`. With `useSinchAuth: false`, no token is fetched: set your own `Authorization` header. The client-level `useSinchAuth` is only the default: as long as `keyId` and `keySecret` are set, a single call can enable or disable the authentication.
 
 The returned `HttpResponse` exposes `status`, `headers` and a lazy `content` parser: `asString()`, `asBytes()`, `asJson()` or `asStream()` (to download large payloads without buffering them). A status >= 400 is thrown as an `ApiHttpError`, whose `response` can still be read.
 

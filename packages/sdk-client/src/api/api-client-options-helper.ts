@@ -82,10 +82,13 @@ export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiNa
 
 /**
  * Options for the low-level HTTP client: URLs are absolute, so no `projectId` is required.
+ * The OAuth2 plugin is registered whenever the credentials are set, even with `useSinchAuth: false`:
+ * the client-level flag is only the default, and a call can still enable the authentication.
  * @internal
  */
 export const buildHttpApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
-  if ((params.useSinchAuth ?? true) && (!params.keyId || !params.keySecret)) {
+  const hasCredentials = !!params.keyId && !!params.keySecret;
+  if ((params.useSinchAuth ?? true) && !hasCredentials) {
     throw new Error(
       'Invalid configuration for the HTTP client: "keyId" and "keySecret" values must be provided'
       + ' (or set "useSinchAuth" to false)',
@@ -94,7 +97,7 @@ export const buildHttpApiClientOptions = (params: SinchClientParameters): ApiCli
   const logger = resolveParamsLogger(params);
   const timeoutSeconds = resolveTimeoutSeconds(params.timeoutSeconds);
   const apiClientOptions: ApiClientOptions = {
-    requestPlugins: getAuthPlugins(params, logger, timeoutSeconds),
+    requestPlugins: hasCredentials ? getAuthPlugins({ ...params, useSinchAuth: true }, logger, timeoutSeconds) : [],
     logger,
     timeoutSeconds,
     implementationType: 'http',

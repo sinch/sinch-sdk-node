@@ -1,4 +1,4 @@
-import { RequestBody, RequestOptions } from '../plugins/core/request-plugin';
+import { RequestBody, RequestOptions, RequestPlugin } from '../plugins/core/request-plugin';
 import { ApiClientOptions } from './api-client-options';
 import { DEFAULT_TIMEOUT_SECONDS } from '../domain';
 import { Headers } from 'node-fetch';
@@ -141,16 +141,29 @@ export class ApiClient {
       timeout: (this.apiClientOptions.timeoutSeconds ?? DEFAULT_TIMEOUT_SECONDS) * 1000,
     };
 
+    return this.applyRequestPlugins(options);
+  };
+
+  /**
+   * Run the request plugins on the request options and attach the logger.
+   * @param {RequestOptions} options - The request options to transform.
+   * @param {function} [skipPlugin] - Returns true for the plugins that must not run for this request.
+   * @return {Promise<RequestOptions>} The transformed request options.
+   */
+  async applyRequestPlugins(
+    options: RequestOptions,
+    skipPlugin: (plugin: RequestPlugin) => boolean = () => false,
+  ): Promise<RequestOptions> {
     let opts = options;
-    if (this.apiClientOptions.requestPlugins) {
-      for (const plugin of this.apiClientOptions.requestPlugins) {
+    for (const plugin of this.apiClientOptions.requestPlugins ?? []) {
+      if (!skipPlugin(plugin)) {
         opts = await plugin.load().transform(opts);
       }
     }
     opts.logger = this.apiClientOptions.logger;
 
     return opts;
-  };
+  }
 
   /**
    * Prepares the url to be called by appending query parameters.
