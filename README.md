@@ -535,7 +535,7 @@ const sinch = new SinchClient({ keyId, keySecret });
 const response = await sinch.http.get(
   `https://numbers.api.sinch.com/v1/projects/${projectId}/activeNumbers`,
   {
-    queryParams: '?regionCode=US&type=LOCAL&pageSize=5', // pre-encoded, including the leading "?"
+    queryParams: new URLSearchParams({ regionCode: 'US', type: 'LOCAL', pageSize: '5' }), // or a pre-encoded string
     headers: { accept: 'application/json' },
   },
 );
@@ -557,7 +557,7 @@ await sinch.http.post(
 | `post(url, body, params?)` / `put(...)` / `patch(...)` | `string` \| `Buffer` \| `Uint8Array`, sent untouched: set the `content-type` header. Use `HttpHelpers.fromFile(path)` to send a file. |
 | `postFormData(url, form, params?)` | a `form-data` instance or a record of `string` / `Buffer` fields, sent as `multipart/form-data` (the SDK sets the `content-type` with its boundary) |
 
-`params` holds `queryParams`, `headers` (a record or an `HttpHeaders` instance) and `options`, which override the client settings for this call only: `useSinchAuth`, `timeoutSeconds`, `retryPolicy`, `maxRetryCount` and `exponentialBackoff`. With `useSinchAuth: false`, no token is fetched: set your own `Authorization` header. The client-level `useSinchAuth` is only the default: as long as `keyId` and `keySecret` are set, a single call can enable or disable the authentication.
+`params` holds `queryParams` (a `URLSearchParams` or a pre-encoded string, the leading `?` being optional), `headers` (a record or an `HttpHeaders` instance) and `options`, which override the client settings for this call only: `useSinchAuth`, `timeoutSeconds`, `retryPolicy`, `maxRetryCount` and `exponentialBackoff`. With `useSinchAuth: false`, no token is fetched: set your own `Authorization` header. The client-level `useSinchAuth` is only the default: as long as `keyId` and `keySecret` are set, a single call can enable or disable the authentication.
 
 The returned `HttpResponse` exposes `status`, `headers` and a lazy `content` parser: `asString()`, `asBytes()`, `asJson()` or `asStream()` (to download large payloads without buffering them). A status >= 400 is thrown as an `ApiHttpError`, whose `response` can still be read.
 

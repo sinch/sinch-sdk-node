@@ -82,6 +82,22 @@ describe('SinchHttpClient', () => {
       expect(init.headers.get('accept')).toBe('application/json');
     });
 
+    it.each([
+      ['a string without the leading "?"', 'pageSize=5&regionCode=US', '?pageSize=5&regionCode=US'],
+      ['a URLSearchParams', new URLSearchParams([['pageSize', '5'], ['type', 'LOCAL'], ['type', 'MOBILE']]),
+        '?pageSize=5&type=LOCAL&type=MOBILE'],
+      ['an empty string', '', ''],
+      ['a lone "?"', '?', ''],
+      ['an empty URLSearchParams', new URLSearchParams(), ''],
+    ])('builds the query string from %s', async (_label, queryParams, expected) => {
+      const client = new SinchHttpClient(credentials);
+
+      await client.get(API_URL, { queryParams });
+
+      const [[url]] = apiCalls();
+      expect(url).toBe(`${API_URL}${expected}`);
+    });
+
     it('sends a DELETE without query string', async () => {
       const client = new SinchHttpClient(credentials);
 

@@ -72,14 +72,6 @@ export interface CallOverrides {
 }
 
 /**
- * Resolved per-call settings for the fetch loop
- */
-interface SinchFetchOptions {
-  retryConfig?: ResolvedRetryConfig;
-  refreshExpiredToken?: boolean;
-}
-
-/**
  * Context for plugin processing
  */
 interface PluginContext {
@@ -169,10 +161,8 @@ export class ApiFetchClient extends ApiClient {
     const retryConfig = resolveRetryConfig({ ...this.apiClientOptions, ...definedValues(overrides.retry) });
     let httpResponse: HttpResponse;
     try {
-      httpResponse = await this.sinchFetch(apiCallParameters, errorContext, {
-        retryConfig,
-        refreshExpiredToken: overrides.refreshExpiredToken,
-      });
+      httpResponse = await this.sinchFetch(
+        apiCallParameters, errorContext, retryConfig, overrides.refreshExpiredToken);
     } catch (error: any) {
       throw this.buildFetchError(error, errorContext);
     }
@@ -198,7 +188,8 @@ export class ApiFetchClient extends ApiClient {
     const errorContext = buildErrorContext(apiCallParameters);
 
     try {
-      const httpResponse = await this.sinchFetch(apiCallParameters, errorContext);
+      const httpResponse = await this.sinchFetch(
+        apiCallParameters, errorContext, resolveRetryConfig(this.apiClientOptions));
       const body = isFileDownload ? undefined : await httpResponse.content.asString();
 
       return {
@@ -287,19 +278,20 @@ export class ApiFetchClient extends ApiClient {
    * Handle fetch request with token refresh and retry.
    * @param {ApiCallParameters} apiCallParameters
    * @param {ErrorContext} errorContext
-   * @param {SinchFetchOptions} [options] - Per-call retry and token refresh settings
+   * @param {ResolvedRetryConfig} retryConfig - Rate-limit retry settings for this call
+   * @param {boolean} [refreshExpiredToken] - Whether a 401 with an expired JWT triggers a token refresh
    */
   private async sinchFetch(
     apiCallParameters: ApiCallParameters,
     errorContext: ErrorContext,
-    options: SinchFetchOptions = {},
+    retryConfig: ResolvedRetryConfig,
+    refreshExpiredToken = true,
   ): Promise<HttpResponse> {
-    const retryConfig = options.retryConfig ?? resolveRetryConfig(this.apiClientOptions);
     let requestOptions = apiCallParameters.requestOptions;
     let httpRequest = toHttpRequest(apiCallParameters, requestOptions);
     let httpResponse = await this.send(httpRequest, requestOptions.timeout);
 
-    if ((options.refreshExpiredToken ?? true) && this.isTokenExpired(httpResponse)) {
+    if (refreshExpiredToken && this.isTokenExpired(httpResponse)) {
       // Capture the JWT used by the failing request so the OAuth2 plugin can
       // refuse to clear a cached token that has since been refreshed by another caller.
       const failingAuth = httpRequest.headers.getAll('Authorization')[0] || '';

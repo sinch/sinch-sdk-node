@@ -33,8 +33,11 @@ export type HttpBody = string | Buffer | Uint8Array;
 export type HttpFormData = FormData | Record<string, string | Buffer>;
 
 export interface HttpCallParameters {
-  /** Pre-serialized and URL-encoded query string, including the leading `?`. Sent untouched. */
-  queryParams?: string;
+  /**
+   * Query parameters, as a `URLSearchParams` or a URL-encoded string (e.g. `regionCode=US&type=LOCAL`).
+   * A string is sent untouched, except for the leading `?` which is added when missing.
+   */
+  queryParams?: string | URLSearchParams;
   /** Headers to send (`content-type`, `accept`, ...). `User-Agent` and `Authorization` are set by the SDK. */
   headers?: HttpRequestHeaders;
   /** Request-level settings overriding the client ones */
@@ -184,7 +187,7 @@ export class SinchHttpClient {
 
     return apiClient.processHttpCall(
       {
-        url: `${url}${params.queryParams ?? ''}`,
+        url: `${url}${toQueryString(params.queryParams)}`,
         requestOptions,
         apiName: 'HTTP',
         operationId: method,
@@ -215,6 +218,14 @@ const toHttpHeaders = (headers?: HttpRequestHeaders): HttpHeaders => {
     }
   }
   return result;
+};
+
+const toQueryString = (queryParams?: string | URLSearchParams): string => {
+  const query = queryParams?.toString() ?? '';
+  if (query === '' || query === '?') {
+    return '';
+  }
+  return query.startsWith('?') ? query : `?${query}`;
 };
 
 const toRequestBody = (body: HttpBody): RequestBody => {
