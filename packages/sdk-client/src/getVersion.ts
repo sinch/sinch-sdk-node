@@ -1,2 +1,2 @@
-import { version as coreVersion } from '@sinch/sdk-core/package.json';
-export const sdkCoreVersion = coreVersion;
+import { version } from '../package.json';
+export const sdkCoreVersion = version;
