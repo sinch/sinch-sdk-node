@@ -493,7 +493,7 @@ const sinch = new SinchClient({
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `timeoutSeconds` | `number` | `60` | HTTP I/O timeout in seconds. Pass `0` to disable the timeout. Must be a non-negative number (`0` is allowed; negative values are rejected). |
-| `useSinchAuth` | `boolean` | `true` | When `true`, OAuth-capable APIs fetch a Sinch access token. Set `false` to skip that plugin and supply your own `Authorization` header through `requestPlugins`. In that mode only `projectId` is required. |
+| `useSinchAuth` | `boolean` | `true` | When `true`, the SDK authenticates the requests. Set `false` to disable it and supply your own `Authorization` header through `requestPlugins`: whatever the authentication method (OAuth2, SMS API token, Voice and Verification application signing), no authentication header is added and no credentials are required. The values used to build the URL are still required: `projectId` for the OAuth2 APIs (SMS included), or `servicePlanId` and `apiToken` to call the SMS API on its service plan URL. |
 
 ### Timeout
 
@@ -506,7 +506,7 @@ const sinch = new SinchClient({
 });
 ```
 
-### Disable Sinch OAuth
+### Disable Sinch authentication
 
 ```typescript
 import { SinchClient } from '@sinch/sdk-core';
