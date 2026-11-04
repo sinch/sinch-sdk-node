@@ -554,7 +554,7 @@ await sinch.http.post(
 | Method | Body |
 |--------|------|
 | `get(url, params?)` / `delete(url, params?)` | none |
-| `post(url, body, params?)` / `put(...)` / `patch(...)` | `string` \| `Buffer` \| `Uint8Array`, sent untouched: set the `content-type` header. Use `HttpHelpers.fromFile(path)` to send a file. |
+| `post(url, body, params?)` / `put(...)` / `patch(...)` | `string` \| `Buffer` \| `Uint8Array`, sent untouched. The `content-type` header is required: the call is rejected without it. Use `HttpHelpers.fromFile(path)` to send a file. |
 | `postFormData(url, form, params?)` | a `form-data` instance or a record of `string` / `Buffer` fields, sent as `multipart/form-data` (the SDK sets the `content-type` with its boundary) |
 
 `params` holds `queryParams` (a `URLSearchParams` or a pre-encoded string, the leading `?` being optional), `headers` (a record or an `HttpHeaders` instance) and `options`, which override the client settings for this call only: `useSinchAuth`, `timeoutSeconds`, `retryPolicy`, `maxRetryCount` and `exponentialBackoff`. With `useSinchAuth: false`, no token is fetched: set your own `Authorization` header. The client-level `useSinchAuth` is only the default: as long as `keyId` and `keySecret` are set, a single call can enable or disable the authentication.

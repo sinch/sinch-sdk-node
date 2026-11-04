@@ -275,6 +275,25 @@ describe('SinchHttpClient', () => {
         .rejects.toThrow('"useSinchAuth" requires "keyId" and "keySecret"');
     });
 
+    it.each(['post', 'put', 'patch'] as const)(
+      'rejects a %s with a body but no content-type header, without sending it', async (verb) => {
+        mockServer(() => ok());
+        const client = new SinchHttpClient(credentials);
+
+        await expect(client[verb](API_URL, '{}', { headers: { accept: 'application/json' } }))
+          .rejects.toThrow('The "content-type" header is required when sending a body');
+        expect(apiCalls()).toHaveLength(0);
+      });
+
+    it('accepts a content-type header whatever its case', async () => {
+      mockServer(() => ok());
+      const client = new SinchHttpClient(credentials);
+
+      await client.post(API_URL, '{}', { headers: { 'Content-Type': 'application/json' } });
+
+      expect(apiCalls()).toHaveLength(1);
+    });
+
     it('rejects an invalid request-level retry setting as a configuration error', async () => {
       mockServer(() => ok());
       const client = new SinchHttpClient(credentials);

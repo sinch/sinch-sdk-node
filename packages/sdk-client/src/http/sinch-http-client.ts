@@ -26,7 +26,7 @@ export type HttpRequestHeaders = HttpHeaders | Record<string, string | string[]>
 /** Settings overriding the {@link SinchClientParameters} ones for a single low-level HTTP call. */
 export type HttpRequestOptions = Partial<TransportSettings & WithRetryPolicy>;
 
-/** Body of a low-level HTTP call, sent untouched: the `content-type` header must be set by the caller. */
+/** Body of a low-level HTTP call, sent untouched: the `content-type` header is required. */
 export type HttpBody = string | Buffer | Uint8Array;
 
 /** Form fields sent as `multipart/form-data` by {@link SinchHttpClient.postFormData}. */
@@ -106,7 +106,7 @@ export class SinchHttpClient {
   /**
    * Send a POST request.
    * @param {string} url - Absolute URL, without query parameters
-   * @param {HttpBody} body - Body sent untouched (e.g. a JSON string): set the `content-type` header accordingly
+   * @param {HttpBody} body - Body sent untouched (e.g. a JSON string): the `content-type` header is required
    * @param {HttpCallParameters} [params] - Query string, headers and request-level options
    */
   public post(url: string, body: HttpBody, params: HttpCallParameters = {}): Promise<HttpResponse> {
@@ -137,7 +137,7 @@ export class SinchHttpClient {
   /**
    * Send a PUT request.
    * @param {string} url - Absolute URL, without query parameters
-   * @param {HttpBody} body - Body sent untouched (e.g. a JSON string): set the `content-type` header accordingly
+   * @param {HttpBody} body - Body sent untouched (e.g. a JSON string): the `content-type` header is required
    * @param {HttpCallParameters} [params] - Query string, headers and request-level options
    */
   public put(url: string, body: HttpBody, params: HttpCallParameters = {}): Promise<HttpResponse> {
@@ -147,7 +147,7 @@ export class SinchHttpClient {
   /**
    * Send a PATCH request.
    * @param {string} url - Absolute URL, without query parameters
-   * @param {HttpBody} body - Body sent untouched (e.g. a JSON string): set the `content-type` header accordingly
+   * @param {HttpBody} body - Body sent untouched (e.g. a JSON string): the `content-type` header is required
    * @param {HttpCallParameters} [params] - Query string, headers and request-level options
    */
   public patch(url: string, body: HttpBody, params: HttpCallParameters = {}): Promise<HttpResponse> {
@@ -160,6 +160,11 @@ export class SinchHttpClient {
     body: RequestBody | undefined,
     params: HttpCallParameters,
   ): Promise<HttpResponse> {
+    const headers = toHttpHeaders(params.headers);
+    if (body !== undefined && !headers.has('content-type')) {
+      throw new Error('The "content-type" header is required when sending a body');
+    }
+
     const apiClient = this.lazyClient.getApiClient();
     const { apiClientOptions } = apiClient;
     const options = params.options ?? {};
@@ -177,7 +182,7 @@ export class SinchHttpClient {
     const requestOptions = await apiClient.applyRequestPlugins(
       {
         method,
-        headers: toFetchHeaders(toHttpHeaders(params.headers)),
+        headers: toFetchHeaders(headers),
         body,
         hostname: url,
         timeout: timeoutSeconds * 1000,
