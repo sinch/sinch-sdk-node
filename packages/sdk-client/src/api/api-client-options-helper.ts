@@ -84,23 +84,52 @@ export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiNa
 };
 
 /**
+ * Authentication plugins of the low-level HTTP client:
+ * - OAuth2 has priority: when `keyId` and `keySecret` are set, any other credentials are ignored;
+ * - otherwise exactly one of the SMS API token (`apiToken`) and the application signing
+ *   (`applicationKey` and `applicationSecret`) must be set.
+ */
+const getHttpAuthPlugins = (
+  params: SinchClientParameters,
+  logger: Logger,
+  timeoutSeconds: number,
+): RequestPlugin[] => {
+  if (params.keyId && params.keySecret) {
+    return getAuthPlugins(params, logger, timeoutSeconds);
+  }
+  const candidates: RequestPlugin[][] = [];
+  if (params.apiToken) {
+    candidates.push([new ApiTokenRequest(params.apiToken)]);
+  }
+  if (params.applicationKey && params.applicationSecret) {
+    // The x-timestamp header is part of the request signature
+    candidates.push([new XTimestampRequest(), new SigningRequest(params.applicationKey, params.applicationSecret)]);
+  }
+  if (candidates.length === 0) {
+    throw new Error(
+      'Invalid configuration for the HTTP client: "keyId" and "keySecret" values must be provided'
+      + ' (or "apiToken", or "applicationKey" and "applicationSecret", or set "useSinchAuth" to false)',
+    );
+  }
+  if (candidates.length > 1) {
+    throw new Error(
+      'Invalid configuration for the HTTP client: both "apiToken" and "applicationKey"/"applicationSecret"'
+      + ' are set: keep only one of them, or set "keyId" and "keySecret" to use OAuth2',
+    );
+  }
+  return candidates[0];
+};
+
+/**
  * Options for the low-level HTTP client: URLs are absolute, so no `projectId` is required.
- * The OAuth2 plugin is registered whenever the credentials are set, even with `useSinchAuth: false`:
- * the client-level flag is only the default, and a call can still enable the authentication.
+ * With `useSinchAuth: false` on the client, no authentication plugin is registered and no credentials are required.
  * @internal
  */
 export const buildHttpApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
-  const hasCredentials = !!params.keyId && !!params.keySecret;
-  if (isSinchAuthEnabled(params) && !hasCredentials) {
-    throw new Error(
-      'Invalid configuration for the HTTP client: "keyId" and "keySecret" values must be provided'
-      + ' (or set "useSinchAuth" to false)',
-    );
-  }
   const logger = resolveParamsLogger(params);
   const timeoutSeconds = resolveTimeoutSeconds(params.timeoutSeconds);
   const apiClientOptions: ApiClientOptions = {
-    requestPlugins: hasCredentials ? getAuthPlugins({ ...params, useSinchAuth: true }, logger, timeoutSeconds) : [],
+    requestPlugins: isSinchAuthEnabled(params) ? getHttpAuthPlugins(params, logger, timeoutSeconds) : [],
     logger,
     timeoutSeconds,
     implementationType: 'http',

@@ -82,12 +82,22 @@ describe('SinchHttpClient', () => {
       expect(init.headers.get('accept')).toBe('application/json');
     });
 
+    it('sends the URL untouched, without validating it', async () => {
+      const client = new SinchHttpClient(credentials);
+      const rawUrl = `${API_URL}/a b?already=there`;
+
+      await client.get(rawUrl, { queryParams: 'x=1' });
+
+      const [[url]] = apiCalls();
+      expect(url).toBe(`${rawUrl}?x=1`);
+    });
+
     it.each([
       ['a string without the leading "?"', 'pageSize=5&regionCode=US', '?pageSize=5&regionCode=US'],
       ['a URLSearchParams', new URLSearchParams([['pageSize', '5'], ['type', 'LOCAL'], ['type', 'MOBILE']]),
         '?pageSize=5&type=LOCAL&type=MOBILE'],
       ['an empty string', '', ''],
-      ['a lone "?"', '?', ''],
+      ['a lone "?"', '?', '?'],
       ['an empty URLSearchParams', new URLSearchParams(), ''],
     ])('builds the query string from %s', async (_label, queryParams, expected) => {
       const client = new SinchHttpClient(credentials);
@@ -247,7 +257,7 @@ describe('SinchHttpClient', () => {
       expect(init.headers.has('Authorization')).toBe(false);
     });
 
-    it('authenticates at request level when the client has credentials but useSinchAuth is false', async () => {
+    it('never authenticates when useSinchAuth is false at client level, even if a call enables it', async () => {
       const client = new SinchHttpClient({ ...credentials, useSinchAuth: false });
 
       await client.get(API_URL);
@@ -255,7 +265,63 @@ describe('SinchHttpClient', () => {
 
       const calls = apiCalls();
       expect(calls[0][1].headers.has('Authorization')).toBe(false);
-      expect(calls[1][1].headers.get('Authorization')).toBe('Bearer token-1');
+      expect(calls[1][1].headers.has('Authorization')).toBe(false);
+      expect(mockedFetch.mock.calls.filter(([url]) => url === AUTH_URL)).toHaveLength(0);
+    });
+
+    it('uses OAuth2 over any other credentials', async () => {
+      const client = new SinchHttpClient({
+        ...credentials,
+        apiToken: 'API_TOKEN',
+        applicationKey: 'APP_KEY',
+        applicationSecret: 'APP_SECRET',
+      });
+
+      await client.get(API_URL);
+
+      const [[, init]] = apiCalls();
+      expect(init.headers.get('Authorization')).toBe('Bearer token-1');
+      expect(init.headers.has('x-timestamp')).toBe(false);
+    });
+
+    it('uses the SMS API token when it is the only credential', async () => {
+      const client = new SinchHttpClient({ apiToken: 'API_TOKEN', logger: null });
+
+      await client.get(API_URL);
+
+      const [[, init]] = apiCalls();
+      expect(init.headers.get('Authorization')).toBe('Bearer API_TOKEN');
+      expect(mockedFetch.mock.calls.filter(([url]) => url === AUTH_URL)).toHaveLength(0);
+    });
+
+    it('signs the request when the application credentials are the only credential', async () => {
+      const client = new SinchHttpClient({
+        applicationKey: 'APP_KEY',
+        applicationSecret: Buffer.from('APP_SECRET').toString('base64'),
+        logger: null,
+      });
+
+      await client.post(API_URL, '{}', { headers: { 'content-type': 'application/json' } });
+
+      const [[, init]] = apiCalls();
+      expect(init.headers.get('Authorization')).toMatch(/^Application APP_KEY:\S+$/);
+      expect(init.headers.has('x-timestamp')).toBe(true);
+    });
+
+    it.each([
+      ['API token', { apiToken: 'API_TOKEN', logger: null }],
+      ['application signing', { applicationKey: 'APP_KEY', applicationSecret: 'APP_SECRET', logger: null }],
+    ])('does not inject the %s when useSinchAuth is false at request level', async (_, params) => {
+      const client = new SinchHttpClient(params);
+
+      await client.post(API_URL, '{}', {
+        headers: { 'content-type': 'application/json' },
+        options: { useSinchAuth: false },
+      });
+
+      const [[, init]] = apiCalls();
+      expect(init.headers.has('Authorization')).toBe(false);
+      expect(init.headers.has('x-timestamp')).toBe(false);
     });
   });
 
@@ -267,12 +333,31 @@ describe('SinchHttpClient', () => {
       await expect(client.get(API_URL)).rejects.toThrow('"keyId" and "keySecret" values must be provided');
     });
 
-    it('rejects useSinchAuth at request level when the client has no credentials', async () => {
-      mockServer(() => ok());
-      const client = new SinchHttpClient({ useSinchAuth: false, logger: null });
+    it('rejects several credentials when none of them is OAuth2', async () => {
+      const client = new SinchHttpClient({
+        apiToken: 'API_TOKEN',
+        applicationKey: 'APP_KEY',
+        applicationSecret: 'APP_SECRET',
+        logger: null,
+      });
 
-      await expect(client.get(API_URL, { options: { useSinchAuth: true } }))
-        .rejects.toThrow('"useSinchAuth" requires "keyId" and "keySecret"');
+      await expect(client.get(API_URL))
+        .rejects.toThrow('both "apiToken" and "applicationKey"/"applicationSecret" are set');
+    });
+
+    it('accepts several credentials without OAuth2 when useSinchAuth is false at client level', async () => {
+      mockServer(() => ok());
+      const client = new SinchHttpClient({
+        apiToken: 'API_TOKEN',
+        applicationKey: 'APP_KEY',
+        applicationSecret: 'APP_SECRET',
+        useSinchAuth: false,
+        logger: null,
+      });
+
+      await client.get(API_URL);
+
+      expect(apiCalls()[0][1].headers.has('Authorization')).toBe(false);
     });
 
     it.each(['post', 'put', 'patch'] as const)(

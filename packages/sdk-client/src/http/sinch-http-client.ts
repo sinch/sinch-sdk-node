@@ -12,7 +12,6 @@ import {
 import { resolveClientParameters } from '../logger';
 import {
   RequestBody,
-  RequestPlugin,
   RequestPluginEnum,
 } from '../plugins/core/request-plugin';
 import { HttpHeaders } from './http-headers';
@@ -67,8 +66,9 @@ export class LazyHttpApiClient extends LazyApiClient {
 /**
  * Low-level HTTP client to call any Sinch API, including the endpoints not covered by the SDK.
  *
- * The SDK takes care of the OAuth2 authentication (`keyId` and `keySecret`), the rate-limit retries,
- * the timeout and the `User-Agent` header. The URL, query string, headers and body are sent as provided:
+ * The SDK takes care of the authentication (OAuth2 with `keyId` and `keySecret` first, else the SMS API token
+ * or the application signing), the rate-limit retries, the timeout and the `User-Agent` header.
+ * `useSinchAuth: false`, on the client or on a call, sends the request without any authentication. The URL, query string, headers and body are sent as provided:
  * no path or query encoding, no field renaming, no pagination.
  *
  * Any response with a status >= 400 is thrown as an {@link ApiHttpError}.
@@ -79,7 +79,8 @@ export class SinchHttpClient {
   public readonly lazyClient: LazyHttpApiClient;
 
   /**
-   * @param {SinchClientParameters} params - `keyId` and `keySecret` are required unless `useSinchAuth` is false
+   * @param {SinchClientParameters} params - Unless `useSinchAuth` is false, `keyId` and `keySecret` (OAuth2, used
+   *   over any other credentials), or else either `apiToken` or `applicationKey` and `applicationSecret`
    */
   constructor(params: SinchClientParameters) {
     this.lazyClient = new LazyHttpApiClient(resolveClientParameters(params));
@@ -168,15 +169,10 @@ export class SinchHttpClient {
     const apiClient = this.lazyClient.getApiClient();
     const { apiClientOptions } = apiClient;
     const options = params.options ?? {};
-    const useSinchAuth = options.useSinchAuth ?? this.lazyClient.sharedConfig.useSinchAuth;
-    const isOAuth2Plugin = (plugin: RequestPlugin) => plugin.getName() === RequestPluginEnum.OAUTH2_TOKEN_REQUEST;
-
-    if (useSinchAuth && !(apiClientOptions.requestPlugins ?? []).some(isOAuth2Plugin)) {
-      throw new Error(
-        'Invalid configuration for the HTTP client: "useSinchAuth" requires "keyId" and "keySecret"'
-        + ' to be set on the client',
-      );
-    }
+    // `useSinchAuth: false` on the client or on the call disables the authentication: a call cannot enable it
+    const useSinchAuth = this.lazyClient.sharedConfig.useSinchAuth && options.useSinchAuth !== false;
+    const usesOAuth2 = useSinchAuth && (apiClientOptions.requestPlugins ?? [])
+      .some((plugin) => plugin.getName() === RequestPluginEnum.OAUTH2_TOKEN_REQUEST);
 
     const timeoutSeconds = resolveTimeoutSeconds(options.timeoutSeconds ?? apiClientOptions.timeoutSeconds);
     const requestOptions = await apiClient.applyRequestPlugins(
@@ -185,9 +181,11 @@ export class SinchHttpClient {
         headers: toFetchHeaders(headers),
         body,
         hostname: url,
+        // Canonicalized resource of the application signing
+        path: toPath(url),
         timeout: timeoutSeconds * 1000,
       },
-      (plugin) => !useSinchAuth && isOAuth2Plugin(plugin),
+      (plugin) => !useSinchAuth && AUTH_PLUGINS.has(plugin.getName()),
     );
 
     return apiClient.processHttpCall(
@@ -203,11 +201,25 @@ export class SinchHttpClient {
           maxRetryCount: options.maxRetryCount,
           exponentialBackoff: options.exponentialBackoff,
         },
-        refreshExpiredToken: useSinchAuth,
+        refreshExpiredToken: usesOAuth2,
       },
     );
   }
 }
+
+/** Plugins skipped by a call made with `useSinchAuth: false` */
+const AUTH_PLUGINS = new Set<string>([
+  RequestPluginEnum.OAUTH2_TOKEN_REQUEST,
+  RequestPluginEnum.API_TOKEN_REQUEST,
+  RequestPluginEnum.SIGNING_REQUEST,
+  RequestPluginEnum.X_TIMESTAMP_REQUEST,
+]);
+
+/** Path of the URL, taken as given (the URL is neither parsed nor validated) */
+const toPath = (url: string): string => {
+  const path = url.replace(/^[a-zA-Z][a-zA-Z\d+.-]*:\/\/[^/?#]*/, '').split(/[?#]/)[0];
+  return path === '' ? '/' : path;
+};
 
 const toHttpHeaders = (headers?: HttpRequestHeaders): HttpHeaders => {
   const result = new HttpHeaders();
@@ -225,9 +237,10 @@ const toHttpHeaders = (headers?: HttpRequestHeaders): HttpHeaders => {
   return result;
 };
 
+/** The query string is sent as given: only the leading `?` is added when missing */
 const toQueryString = (queryParams?: string | URLSearchParams): string => {
   const query = queryParams?.toString() ?? '';
-  if (query === '' || query === '?') {
+  if (query === '') {
     return '';
   }
   return query.startsWith('?') ? query : `?${query}`;

@@ -317,7 +317,7 @@ yarn run numbers:regions:list
 
 ### HTTP (low-level client)
 
-The `sinch.http` client calls any Sinch endpoint with raw URLs, query strings, headers and bodies, while the SDK handles OAuth2, rate-limit retries, timeouts and the `User-Agent` header.
+The `sinch.http` client calls any Sinch endpoint with raw URLs, query strings, headers and bodies, while the SDK handles the authentication, rate-limit retries, timeouts and the `User-Agent` header.
 
 | Service | Sample application name and location                     | Required parameters                 |
 |---------|----------------------------------------------------------|-------------------------------------|

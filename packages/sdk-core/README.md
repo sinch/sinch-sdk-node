@@ -336,7 +336,7 @@ const sinch: SinchClient = new SinchClient({
 
 ## Low-level HTTP client
 
-`sinch.http` sends raw requests to any Sinch endpoint (including those not covered by the SDK) while the SDK handles the OAuth2 authentication, the rate-limit retries, the timeout and the `User-Agent` header:
+`sinch.http` sends raw requests to any Sinch endpoint (including those not covered by the SDK) while the SDK handles the authentication (OAuth2 first, else the SMS API token or the application signing), the rate-limit retries, the timeout and the `User-Agent` header:
 
 ```typescript
 const response = await sinch.http.get(

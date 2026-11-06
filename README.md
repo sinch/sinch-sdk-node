@@ -521,11 +521,13 @@ const sinch = new SinchClient({
 ## Low-level HTTP client
 
 `sinch.http` sends raw HTTP requests to any Sinch endpoint, including the ones not yet covered by the SDK (e.g. code generated from an OpenAPI specification). The SDK still takes care of:
-- the OAuth2 authentication and the token cache (`keyId` and `keySecret` are required, `projectId` is not)
+- the authentication (`projectId` is not required: it is part of the URL), picked from the client credentials:
+  - OAuth2 and its token cache when `keyId` and `keySecret` are set: it has priority, any other credentials are ignored
+  - otherwise the SMS API token (`apiToken`) or the Voice / Verification application signing (`applicationKey` and `applicationSecret`): setting both of them without `keyId` and `keySecret` is a configuration error
 - the HTTP 429 retries (see [Retry configuration](#retry-configuration))
 - the timeout and the `User-Agent` header
 
-Everything else is up to the caller: the URL, the query string and the body are sent **untouched**.
+Everything else is up to the caller: the URL, the query string and the body are sent **untouched**. The URL is not validated, and the only change to the query string is the leading `?`, added when missing.
 
 ```typescript
 import { SinchClient, RetryPolicy } from '@sinch/sdk-core';
@@ -557,14 +559,13 @@ await sinch.http.post(
 | `post(url, body, params?)` / `put(...)` / `patch(...)` | `string` \| `Buffer` \| `Uint8Array`, sent untouched. The `content-type` header is required: the call is rejected without it. Use `HttpHelpers.fromFile(path)` to send a file. |
 | `postFormData(url, form, params?)` | a `form-data` instance or a record of `string` / `Buffer` fields, sent as `multipart/form-data` (the SDK sets the `content-type` with its boundary) |
 
-`params` holds `queryParams` (a `URLSearchParams` or a pre-encoded string, the leading `?` being optional), `headers` (a record or an `HttpHeaders` instance) and `options`, which override the client settings for this call only: `useSinchAuth`, `timeoutSeconds`, `retryPolicy`, `maxRetryCount` and `exponentialBackoff`. With `useSinchAuth: false`, no token is fetched: set your own `Authorization` header. The client-level `useSinchAuth` is only the default: as long as `keyId` and `keySecret` are set, a single call can enable or disable the authentication.
+`params` holds `queryParams` (a `URLSearchParams` or a pre-encoded string, the leading `?` being optional), `headers` (a record or an `HttpHeaders` instance) and `options`, which override the client settings for this call only: `useSinchAuth`, `timeoutSeconds`, `retryPolicy`, `maxRetryCount` and `exponentialBackoff`. `useSinchAuth: false`, on the client or on the call, sends the request without any authentication header: set your own `Authorization` header. A call can disable the authentication but not enable it: with `useSinchAuth: false` on the client, no credentials are required and no call is authenticated.
 
 The returned `HttpResponse` exposes `status`, `headers` and a lazy `content` parser: `asString()`, `asBytes()`, `asJson()` or `asStream()` (to download large payloads without buffering them). A status >= 400 is thrown as an `ApiHttpError`, whose `response` can still be read.
 
 Known limitations:
 - no automatic pagination, and no path segment or query parameter encoding
 - field names are the raw ones from the API specification (no Date revival either)
-- only OAuth2 authentication is injected: API token (SMS) and signed requests (Voice, Verification) must be handled by the caller with `useSinchAuth: false`
 - stream bodies are not supported, so the request can be replayed on retry
 
 ## Handling exceptions
