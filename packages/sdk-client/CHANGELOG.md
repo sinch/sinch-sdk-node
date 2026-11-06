@@ -1,3 +1,7 @@
+## Version 1.9.0
+- [Bugfix] Read the SDK version for the `User-Agent` header from this package instead of `@sinch/sdk-core`, so installing a domain package alone no longer requires `@sinch/sdk-core`
+- [Tech] Remove the `./version.ts` export. It pointed at `src/version.ts`, which was never part of this package
+
 ## Version 1.8.0
 - [Tech] No changes, version bumped to align with the SDK 1.8.0 release
 

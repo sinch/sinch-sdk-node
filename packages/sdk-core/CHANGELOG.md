@@ -1,3 +1,6 @@
+## Version 1.9.0
+- [Tech] Stop exporting `./package.json`. Nothing in the SDK imports `@sinch/sdk-core/package.json` anymore
+
 ## Version 1.8.0
 - Update dependency `@sinch/conversation` to version `1.8.0`
 - Update dependency `@sinch/elastic-sip-trunking` to version `1.8.0`
