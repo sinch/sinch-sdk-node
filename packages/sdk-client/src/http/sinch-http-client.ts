@@ -18,6 +18,7 @@ import { HttpHeaders } from './http-headers';
 import { HttpMethod } from './http-method';
 import { HttpResponse } from './http-response';
 import { toFetchHeaders } from './fetch/fetch-http-headers';
+import { encodingFromContentType } from './fetch/fetch-http-content-parser';
 
 /** Headers of a low-level HTTP call: names are case-insensitive, a name can hold several values. */
 export type HttpRequestHeaders = HttpHeaders | Record<string, string | string[]>;
@@ -25,7 +26,10 @@ export type HttpRequestHeaders = HttpHeaders | Record<string, string | string[]>
 /** Settings overriding the {@link SinchClientParameters} ones for a single low-level HTTP call. */
 export type HttpRequestOptions = Partial<TransportSettings & WithRetryPolicy>;
 
-/** Body of a low-level HTTP call, sent untouched: the `content-type` header is required. */
+/**
+ * Body of a low-level HTTP call: the `content-type` header is required. Bytes are sent untouched, and a string
+ * is encoded with the charset declared in the `content-type` header (UTF-8 when there is none or it is unknown).
+ */
 export type HttpBody = string | Buffer | Uint8Array;
 
 /** Form fields sent as `multipart/form-data` by {@link SinchHttpClient.postFormData}. */
@@ -107,10 +111,10 @@ export class SinchHttpClient {
   /**
    * Send a POST request.
    * @param {string} url - Absolute URL, without query parameters
-   * @param {HttpBody} body - Body sent untouched (e.g. a JSON string): the `content-type` header is required
+   * @param {HttpBody} [body] - Body (e.g. a JSON string), if any: the `content-type` header is then required
    * @param {HttpCallParameters} [params] - Query string, headers and request-level options
    */
-  public post(url: string, body: HttpBody, params: HttpCallParameters = {}): Promise<HttpResponse> {
+  public post(url: string, body?: HttpBody, params: HttpCallParameters = {}): Promise<HttpResponse> {
     return this.request(HttpMethod.POST, url, toRequestBody(body), params);
   }
 
@@ -138,20 +142,20 @@ export class SinchHttpClient {
   /**
    * Send a PUT request.
    * @param {string} url - Absolute URL, without query parameters
-   * @param {HttpBody} body - Body sent untouched (e.g. a JSON string): the `content-type` header is required
+   * @param {HttpBody} [body] - Body (e.g. a JSON string), if any: the `content-type` header is then required
    * @param {HttpCallParameters} [params] - Query string, headers and request-level options
    */
-  public put(url: string, body: HttpBody, params: HttpCallParameters = {}): Promise<HttpResponse> {
+  public put(url: string, body?: HttpBody, params: HttpCallParameters = {}): Promise<HttpResponse> {
     return this.request(HttpMethod.PUT, url, toRequestBody(body), params);
   }
 
   /**
    * Send a PATCH request.
    * @param {string} url - Absolute URL, without query parameters
-   * @param {HttpBody} body - Body sent untouched (e.g. a JSON string): the `content-type` header is required
+   * @param {HttpBody} [body] - Body (e.g. a JSON string), if any: the `content-type` header is then required
    * @param {HttpCallParameters} [params] - Query string, headers and request-level options
    */
-  public patch(url: string, body: HttpBody, params: HttpCallParameters = {}): Promise<HttpResponse> {
+  public patch(url: string, body?: HttpBody, params: HttpCallParameters = {}): Promise<HttpResponse> {
     return this.request(HttpMethod.PATCH, url, toRequestBody(body), params);
   }
 
@@ -164,6 +168,9 @@ export class SinchHttpClient {
     const headers = toHttpHeaders(params.headers);
     if (body !== undefined && !headers.has('content-type')) {
       throw new Error('The "content-type" header is required when sending a body');
+    }
+    if (typeof body === 'string') {
+      body = Buffer.from(body, encodingFromContentType(headers.getAll('content-type')[0]));
     }
 
     const apiClient = this.lazyClient.getApiClient();
@@ -246,8 +253,8 @@ const toQueryString = (queryParams?: string | URLSearchParams): string => {
   return query.startsWith('?') ? query : `?${query}`;
 };
 
-const toRequestBody = (body: HttpBody): RequestBody => {
-  if (typeof body === 'string' || Buffer.isBuffer(body)) {
+const toRequestBody = (body?: HttpBody): RequestBody | undefined => {
+  if (body === undefined || typeof body === 'string' || Buffer.isBuffer(body)) {
     return body;
   }
   return Buffer.from(body.buffer, body.byteOffset, body.byteLength);

@@ -527,7 +527,7 @@ const sinch = new SinchClient({
 - the HTTP 429 retries (see [Retry configuration](#retry-configuration))
 - the timeout and the `User-Agent` header
 
-Everything else is up to the caller: the URL, the query string and the body are sent **untouched**. The URL is not validated, and the only change to the query string is the leading `?`, added when missing.
+Everything else is up to the caller: the URL, the query string and the body bytes are sent **untouched**. The URL is not validated, and the only change to the query string is the leading `?`, added when missing.
 
 ```typescript
 import { SinchClient, RetryPolicy } from '@sinch/sdk-core';
@@ -556,7 +556,7 @@ await sinch.http.post(
 | Method | Body |
 |--------|------|
 | `get(url, params?)` / `delete(url, params?)` | none |
-| `post(url, body, params?)` / `put(...)` / `patch(...)` | `string` \| `Buffer` \| `Uint8Array`, sent untouched. The `content-type` header is required: the call is rejected without it. Use `HttpHelpers.fromFile(path)` to send a file. |
+| `post(url, body?, params?)` / `put(...)` / `patch(...)` | optional: `string` \| `Buffer` \| `Uint8Array`. With a body, the `content-type` header is required: the call is rejected without it. Bytes are sent untouched, and a string is encoded with the charset of the `content-type` header (UTF-8 when there is none or it is unknown). Use `HttpHelpers.fromFile(path)` to send a file. |
 | `postFormData(url, form, params?)` | a `form-data` instance or a record of `string` / `Buffer` fields, sent as `multipart/form-data` (the SDK sets the `content-type` with its boundary) |
 
 `params` holds `queryParams` (a `URLSearchParams` or a pre-encoded string, the leading `?` being optional), `headers` (a record or an `HttpHeaders` instance) and `options`, which override the client settings for this call only: `useSinchAuth`, `timeoutSeconds`, `retryPolicy`, `maxRetryCount` and `exponentialBackoff`. `useSinchAuth: false`, on the client or on the call, sends the request without any authentication header: set your own `Authorization` header. A call can disable the authentication but not enable it: with `useSinchAuth: false` on the client, no credentials are required and no call is authenticated.

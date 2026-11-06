@@ -130,8 +130,36 @@ describe('SinchHttpClient', () => {
 
       const [[, init]] = apiCalls();
       expect(init.method).toBe(method);
-      expect(init.body).toBe(body);
+      expect(init.body.toString('utf-8')).toBe(body);
       expect(init.headers.get('content-type')).toBe('application/json');
+    });
+
+    it.each([
+      ['post', 'POST'],
+      ['put', 'PUT'],
+      ['patch', 'PATCH'],
+    ] as const)('sends a %s without body nor content-type header', async (verb, method) => {
+      const client = new SinchHttpClient(credentials);
+
+      await client[verb](API_URL);
+
+      const [[, init]] = apiCalls();
+      expect(init.method).toBe(method);
+      expect(init.body).toBeUndefined();
+      expect(init.headers.has('content-type')).toBe(false);
+    });
+
+    it.each([
+      ['the declared charset', 'text/plain; charset=ISO-8859-1', Buffer.from([0x63, 0x61, 0x66, 0xe9])],
+      ['UTF-8 when no charset is declared', 'text/plain', Buffer.from('café', 'utf-8')],
+      ['UTF-8 when the charset is unknown', 'text/plain; charset=unknown', Buffer.from('café', 'utf-8')],
+    ])('encodes a string body with %s', async (_label, contentType, expected) => {
+      const client = new SinchHttpClient(credentials);
+
+      await client.post(API_URL, 'café', { headers: { 'content-type': contentType } });
+
+      const [[, init]] = apiCalls();
+      expect(Buffer.isBuffer(init.body) && init.body.equals(expected)).toBe(true);
     });
 
     it('sends bytes as a Buffer', async () => {
