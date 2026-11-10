@@ -6,7 +6,6 @@ interface HeaderBucket {
 /**
  * Case-insensitive, multi-value HTTP headers.
  * Header names are stored in first-seen order; values for the same name are grouped together.
- * @internal
  */
 export class HttpHeaders {
   private readonly store = new Map<string, HeaderBucket>();

@@ -1,7 +1,9 @@
 import {
   ApiTokenRequest,
+  BasicAuthenticationRequest,
   buildApplicationSignedApiClientOptions,
   buildFlexibleOAuth2OrApiTokenApiClientOptions,
+  buildMailgunApiClientOptions,
   buildOAuth2ApiClientOptions,
   Oauth2TokenRequest,
   PluginRunner,
@@ -203,6 +205,48 @@ describe('API Client Options helper', () => {
       expect(buildApiClientOptionsFunction).toThrow(
         'Invalid configuration for the foo API: "applicationKey" and "applicationSecret" values must be provided');
     });
+
+    it('should omit the signing plugins and require no credentials when useSinchAuth is false', () => {
+      // Given
+      const params: SinchClientParameters = {
+        useSinchAuth: false,
+        requestPlugins: [dummyRequestPlugin],
+      };
+
+      // When
+      const apiClientOptions = buildApplicationSignedApiClientOptions(params, 'foo');
+
+      // Then
+      expect(apiClientOptions.requestPlugins).toEqual([dummyRequestPlugin]);
+    });
+  });
+
+  describe('buildMailgunApiClientOptions', () => {
+    it('should build some API client options to perform basic authentication', () => {
+      // When
+      const apiClientOptions = buildMailgunApiClientOptions({ mailgunApiKey: 'MAILGUN_API_KEY' });
+
+      // Then
+      expect(apiClientOptions.requestPlugins?.length).toBe(1);
+      expect(apiClientOptions.requestPlugins?.[0]).toBeInstanceOf(BasicAuthenticationRequest);
+    });
+
+    it('should throw an exception when the API key is missing', () => {
+      // When
+      const buildApiClientOptionsFunction = () => buildMailgunApiClientOptions({});
+
+      // Then
+      expect(buildApiClientOptionsFunction).toThrow(
+        'Invalid configuration for the Mailgun API: the "mailgunApiKey" must be provided');
+    });
+
+    it('should omit the basic authentication and require no API key when useSinchAuth is false', () => {
+      // When
+      const apiClientOptions = buildMailgunApiClientOptions({ useSinchAuth: false });
+
+      // Then
+      expect(apiClientOptions.requestPlugins).toEqual([]);
+    });
   });
 
 
@@ -336,7 +380,7 @@ describe('API Client Options helper', () => {
       expect(apiClientOptions.timeoutSeconds).toBe(15);
     });
 
-    it('should keep API token authentication when useSinchAuth is false', () => {
+    it('should omit ApiTokenRequest on the service plan path when useSinchAuth is false', () => {
       // Given
       const params: SinchClientParameters = {
         servicePlanId: 'SERVICE_PLAN_ID',
@@ -348,8 +392,9 @@ describe('API Client Options helper', () => {
       const apiClientOptions = buildFlexibleOAuth2OrApiTokenApiClientOptions(params);
 
       // Then
-      expect(apiClientOptions.requestPlugins?.length).toBe(1);
-      expect(apiClientOptions.requestPlugins?.[0]).toBeInstanceOf(ApiTokenRequest);
+      expect(apiClientOptions.projectId).toBe('SERVICE_PLAN_ID');
+      expect(apiClientOptions.useServicePlanId).toBe(true);
+      expect(apiClientOptions.requestPlugins).toEqual([]);
       expect(apiClientOptions.timeoutSeconds).toBe(60);
     });
 

@@ -3,7 +3,7 @@ import { Headers, RequestInit } from 'node-fetch';
 import FormData = require('form-data');
 import { WithLogger } from '../../domain';
 
-export type RequestBody = string | FormData;
+export type RequestBody = string | FormData | Buffer;
 
 export enum RequestPluginEnum {
   ADDITIONAL_HEADER_REQUEST = 'AdditionalHeadersRequest',

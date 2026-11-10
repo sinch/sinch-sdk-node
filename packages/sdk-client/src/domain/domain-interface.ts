@@ -278,9 +278,11 @@ export const resolveTimeoutSeconds = (timeoutSeconds?: number): number => {
  */
 export interface TransportSettings {
   /**
-   * When true (default), OAuth-capable APIs authenticate against Sinch auth.
-   * Set false to skip Sinch OAuth (e.g. custom Authorization via requestPlugins).
-   * When false, OAuth-capable APIs require only `projectId`.
+   * When true (default), the SDK authenticates the requests.
+   * Set false to disable it: whatever the authentication method (OAuth2, SMS API token, application signing),
+   * the SDK adds no authentication header and requires no credentials (e.g. custom Authorization via requestPlugins).
+   * The values used to build the URL are still required: `projectId` for the OAuth2 APIs,
+   * or `servicePlanId` and `apiToken` to call the SMS API on its service plan URL.
    */
   useSinchAuth?: boolean;
   /**

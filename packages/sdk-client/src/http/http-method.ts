@@ -1,4 +1,4 @@
-/** @internal */
+/** HTTP methods supported by the SDK */
 export enum HttpMethod {
   GET = 'GET',
   POST = 'POST',

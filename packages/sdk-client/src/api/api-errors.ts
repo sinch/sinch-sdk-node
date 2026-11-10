@@ -1,3 +1,5 @@
+import { HttpResponse } from '../http/http-response';
+
 /**
  * Generic error context
  */
@@ -91,5 +93,28 @@ export class ResponseJSONParseError extends RequestFailedError<string> {
       errorContext,
       bodyContent,
     );
+  }
+}
+
+/**
+ * Error thrown by the low-level HTTP client (`sinch.http`) when the response status is >= 400.
+ * The response body is already buffered, so `response.content.asString()` / `asJson()` remain usable.
+ */
+export class ApiHttpError extends RequestFailedError<unknown> {
+  /** The HTTP response that caused the error */
+  public readonly response: HttpResponse;
+
+  constructor(
+    response: HttpResponse,
+    errorContext: ErrorContext,
+    data?: unknown,
+  ) {
+    const responseHeaders: { [key: string]: string } = {};
+    for (const [name, value] of response.headers.entries()) {
+      const key = name.toLowerCase();
+      responseHeaders[key] = responseHeaders[key] ? `${responseHeaders[key]}, ${value}` : value;
+    }
+    super(`HTTP ${response.status}`, response.status, errorContext, data, responseHeaders);
+    this.response = response;
   }
 }

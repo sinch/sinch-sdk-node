@@ -58,7 +58,11 @@ export class FetchHttpContentParser implements HttpContentParser {
   }
 }
 
-function encodingFromContentType(contentType: string | null | undefined): BufferEncoding {
+/**
+ * Encoding of the charset declared in a `content-type` header value: UTF-8 when there is none or it is unknown.
+ * @internal
+ */
+export function encodingFromContentType(contentType: string | null | undefined): BufferEncoding {
   if (!contentType) {
     return DEFAULT_FALLBACK_ENCODING;
   }
