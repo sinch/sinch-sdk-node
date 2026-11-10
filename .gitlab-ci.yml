@@ -1,0 +1,147 @@
+# CI for the internal Node.js SDK repository on GitLab.
+# Public CI (including SonarCloud), npm publishing and documentation upload stay
+# on GitHub (.github/workflows), in the public repository sinch/sinch-sdk-node.
+#
+# CI/CD variables (set on the sdks group unless noted):
+#   MOCKSERVER_REPO_TOKEN        Read-only GitHub token for sinch/sinch-sdk-mockserver   (masked, hidden; not protected, because build runs on every branch)
+#   GITHUB_SYNC_APP_CLIENT_ID    Client ID of the sinch-internal-repo-sync-bot GitHub App (protected)
+#   GITHUB_SYNC_APP_PRIVATE_KEY  Private key of that App                                 (File, protected)
+#   GITLAB_SYNC_TOKEN            Project variable. Project access token, Maintainer, write_repository (masked, hidden, protected)
+#
+# Pipelines:
+#   push to any branch          build (Node 18, 20 and 22). audit as well on main and on branches with an open MR
+#   push to main or v*          also sync-to-public if the commit is an MR merge
+#   SYNC_FROM_PUBLIC == "true"  sync-from-public only. Set by the nightly schedule and
+#                               by the trigger in the public repo (notify-private-repo.yml)
+
+workflow:
+  rules:
+    # Branch pipelines only, like "on: push" on GitHub. MR pipelines would run
+    # the build twice.
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - when: always
+
+default:
+  tags: [default]
+
+variables:
+  SDK_NAME: sinch-sdk-node
+  PUBLIC_REPO: sinch/sinch-sdk-node
+
+stages:
+  - build
+  - sync
+
+.yarn-cache:
+  cache:
+    key:
+      files: [yarn.lock]
+      prefix: yarn-$NODE_VERSION
+    paths: [.yarn-cache/]
+
+# Replaces the "build" job of .github/workflows/run-ci.yaml.
+build:
+  stage: build
+  extends: .yarn-cache
+  image: node:$NODE_VERSION
+  timeout: 20m
+  parallel:
+    matrix:
+      - NODE_VERSION: ["18", "20", "22"]
+  rules:
+    - if: $SYNC_FROM_PUBLIC == "true"
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "web"
+  script:
+    - yarn install --cache-folder .yarn-cache
+    - yarn lint
+    - node .github/scripts/verify-snippet-script-paths.mjs
+    - yarn run build
+    - yarn run test
+    - (cd docs/api && npm run build)
+
+    - ': "${MOCKSERVER_REPO_TOKEN:?Set MOCKSERVER_REPO_TOKEN in Settings > CI/CD > Variables}"'
+    - git clone --depth 1 "https://x-access-token:${MOCKSERVER_REPO_TOKEN}@github.com/sinch/sinch-sdk-mockserver.git" sinch-sdk-mockserver
+    - |
+      for api in fax numbers conversation elastic-sip-trunking sms verification voice number-lookup provisioning; do
+        mkdir -p ./packages/$api/tests/e2e/features
+        cp sinch-sdk-mockserver/features/$api/*.feature ./packages/$api/tests/e2e/features/
+      done
+      # Pricing e2e not implemented in Node SDK yet
+      rm -f ./packages/sms/tests/e2e/features/pricing.feature
+      mkdir -p ./packages/voice/tests/e2e/features/voice-v2
+      cp sinch-sdk-mockserver/features/voice-v2/*.feature ./packages/voice/tests/e2e/features/voice-v2/
+    - yarn run e2e
+
+# Replaces .github/workflows/run-audit.yaml, which ran on pushes to main and on
+# PRs targeting main. GitLab branch pipelines cannot see an MR's target branch,
+# so this runs on main and on any branch with an open MR.
+audit:
+  stage: build
+  extends: .yarn-cache
+  image: node:$NODE_VERSION
+  variables:
+    NODE_VERSION: "20"
+  rules:
+    - if: $SYNC_FROM_PUBLIC == "true"
+      when: never
+    - if: ($CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "web") && ($CI_COMMIT_BRANCH == "main" || $CI_OPEN_MERGE_REQUESTS)
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq jq > /dev/null
+  script:
+    - yarn install --frozen-lockfile --cache-folder .yarn-cache
+    - yarn audit --json > audit-report.txt || true
+    # Decides which advisories fail the build (same script as on GitHub).
+    - .github/scripts/validate-audit-report.sh
+
+# Replaces .github/workflows/sync-to-public.yaml. When an MR is merged, push the
+# target branch to the public repository. GitLab has no "MR merged" event, so
+# the rule matches the merge commit, whose message always contains
+# "See merge request". Commits pushed by the sync bot are skipped, so changes
+# that came from the public repo are not pushed back.
+# Only protected branches (main, v*) are synced, because the App key is a
+# protected variable that pipelines on other branches cannot read.
+sync-to-public:
+  stage: sync
+  image: alpine:3.20
+  needs: []
+  resource_group: sync-to-public-$CI_COMMIT_BRANCH
+  rules:
+    - if: $SYNC_FROM_PUBLIC == "true"
+      when: never
+    - if: $CI_COMMIT_REF_PROTECTED != "true"
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $CI_COMMIT_MESSAGE =~ /See merge request / && $GITLAB_USER_LOGIN !~ /^project_\d+_bot/
+    # Manual recovery: Run pipeline on main or v* with SYNC_TO_PUBLIC=true.
+    - if: $CI_PIPELINE_SOURCE == "web" && $SYNC_TO_PUBLIC == "true"
+  variables:
+    GIT_DEPTH: 0
+  before_script:
+    - apk add --no-cache git curl jq openssl
+  script:
+    - TOKEN=$(sh .gitlab/scripts/github-app-token.sh sinch "$SDK_NAME")
+    - echo "Syncing $CI_COMMIT_BRANCH ($CI_COMMIT_SHORT_SHA) to $PUBLIC_REPO"
+    # No force push, so public history is never overwritten if the repos diverge.
+    - git push "https://x-access-token:${TOKEN}@github.com/${PUBLIC_REPO}.git" "${CI_COMMIT_SHA}:refs/heads/${CI_COMMIT_BRANCH}"
+
+# Replaces .github/workflows/sync-from-public.yml. Copies every branch and tag
+# from the public repository into this one.
+sync-from-public:
+  stage: sync
+  image: alpine:3.20
+  needs: []
+  resource_group: sync-from-public
+  rules:
+    - if: $SYNC_FROM_PUBLIC == "true"
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - apk add --no-cache git
+  script:
+    - ': "${GITLAB_SYNC_TOKEN:?Set GITLAB_SYNC_TOKEN in Settings > CI/CD > Variables}"'
+    - rm -rf public_repo
+    - git clone --bare "https://github.com/${PUBLIC_REPO}.git" public_repo
+    - cd public_repo
+    - git push --all "https://oauth2:${GITLAB_SYNC_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+    - git push --tags "https://oauth2:${GITLAB_SYNC_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
