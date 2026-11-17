@@ -1,44 +1,62 @@
+# Changelog
+
+All notable changes to the **Sinch Node Verification SDK** are documented in this file.
+
+> **Tag legend**
+> - `[feature]` — new capability
+> - `[fix]` — bug fix
+> - `[deprecation notice]` — will be removed in a future release
+> - `[dependency]` — third-party library update
+> - `[doc]` — documentation only
+> - `[test]` — test coverage
+> - `[refactor]` — internal restructuring
+> - `[releasing]` — release infrastructure
+> - `[design]` — API design change
+> - `[tech]` — technical improvement
+
+---
+
 ## Version 1.8.0
-- [Tech] Update dependency `@sinch/sdk-client` to `1.8.0`
+- **[dependency]** Update dependency `@sinch/sdk-client` to `1.8.0`
 
 ## Version 1.7.0
-- [Tech] Update dependency `@sinch/sdk-client` to `1.7.0`
+- **[dependency]** Update dependency `@sinch/sdk-client` to `1.7.0`
 
 ## Version 1.6.0
-- [Tech] Update dependency `@sinch/sdk-client` to `1.6.0` — transport-level settings
+- **[dependency]** Update dependency `@sinch/sdk-client` to `1.6.0` — transport-level settings
 
 ## Version 1.5.0
-- **Breaking:** No longer re-exports `@sinch/sdk-client`. Import SDK client types and helpers from `@sinch/sdk-client` or `@sinch/sdk-core` instead.
-- [Tech] Update dependency `@sinch/sdk-client` to `1.5.0` — configurable SDK logging
+- **[design]** Breaking: No longer re-exports `@sinch/sdk-client`. Import SDK client types and helpers from `@sinch/sdk-client` or `@sinch/sdk-core` instead.
+- **[dependency]** Update dependency `@sinch/sdk-client` to `1.5.0` — configurable SDK logging
 
 ## Version 1.4.3
-- [Bugfix] Update dependency `@sinch/sdk-client` to `1.4.3` - OAuth2 429 backoff with full-jitter retry
+- **[fix]** Update dependency `@sinch/sdk-client` to `1.4.3` - OAuth2 429 backoff with full-jitter retry
 
 ## Version 1.4.2
-- [Bugfix] Update dependency `@sinch/sdk-client` to `1.4.1` - Harness OAuth2 token refresh
+- **[fix]** Update dependency `@sinch/sdk-client` to `1.4.1` - Harness OAuth2 token refresh
 
 ## Version 1.4.1
-- [Bugfix] Make the lazyClient public in the VerificationService to be able to override it with a custom one.
+- **[fix]** Make the lazyClient public in the VerificationService to be able to override it with a custom one.
 
 ## Version 1.4.0
-- [Tech] Update dependency `@sinch/sdk-client` to `1.4.0`.
-- [Tech] Lazy load a single `ApiFetchClient` instance in the `VerificationService`.
-- [Feature] Support WhatsApp verification
+- **[dependency]** Update dependency `@sinch/sdk-client` to `1.4.0`.
+- **[tech]** Lazy load a single `ApiFetchClient` instance in the `VerificationService`.
+- **[feature]** Support WhatsApp verification
 
 ## Version 1.3.0
-- [Tech] Update dependency `@sinch/sdk-client` to `1.3.0`.
-- [Feature] Support string input when parsing webhook events
-- [Feature] Support `VerificationSmsDeliveredEvent` as callback event
+- **[dependency]** Update dependency `@sinch/sdk-client` to `1.3.0`.
+- **[feature]** Support string input when parsing webhook events
+- **[feature]** Support `VerificationSmsDeliveredEvent` as callback event
 
 ## Version 1.2.1
-- [Tech] Update dependency `@sinch/sdk-client` to `1.2.1`
-- [Bugfix] Fix refresh token issue
+- **[dependency]** Update dependency `@sinch/sdk-client` to `1.2.1`
+- **[fix]** Fix refresh token issue
 
 ## Version 1.2.0
-- [Tech] Update dependency `@sinch/sdk-client` to `1.2.0`.
-- [Feature] Support the `locale` parameter in the `SmsOptions` interface.
-- [Deprecation Notice] In the interface `VerificationStatusByIdentityRequestData`, the property `method` supports ‘flashcall’ on top of ‘flashCall’.
-- [Deprecation Notice] All the references to "callout" and "seamless" will be replaced by "phoneCall" and "data" respectively.
+- **[dependency]** Update dependency `@sinch/sdk-client` to `1.2.0`.
+- **[feature]** Support the `locale` parameter in the `SmsOptions` interface.
+- **[deprecation notice]** In the interface `VerificationStatusByIdentityRequestData`, the property `method` supports ‘flashcall’ on top of ‘flashCall’.
+- **[deprecation notice]** All the references to "callout" and "seamless" will be replaced by "phoneCall" and "data" respectively.
   - In the interface `VerificationStatusByIdentityRequestData`, the property `method` supports ‘phonecall’ on top of ‘callout’.
   - API methods:
   
@@ -75,7 +93,7 @@
 | `CalloutRequestEventResponse`                                                                                                                                                    | `PhoneCallRequestEventResponse`                                                                                                                                                        |
 | `CalloutProperties`                                                                                                                                                              | `PhoneCallProperties`                                                                                                                                                                  |
 | `CalloutContent`                                                                                                                                                                 | `PhoneCallContent`                                                                                                                                                                     |
-- [Deprecation Notice] The interfaces containing `SMS` in uppercase will be replaced with the same name but with `Sms` in PascaleCase:
+- **[deprecation notice]** The interfaces containing `SMS` in uppercase will be replaced with the same name but with `Sms` in PascaleCase:
 
 | Deprecated                    | New                           |
 |-------------------------------|-------------------------------|
@@ -84,40 +102,40 @@
 | SMSVerificationStatusResponse | SmsVerificationStatusResponse |
 | SMSVerificationReportResponse | SmsVerificationReportResponse |
 
-- [Deprecation Notice] The type `VerificationCallback` becomes `VerificationCallbackEvent` and is accessible on the `Verification` namespace.
+- **[deprecation notice]** The type `VerificationCallback` becomes `VerificationCallbackEvent` and is accessible on the `Verification` namespace.
 
 | Deprecated                                                                                                                  | New                                                                                                                                           |
 |-----------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
 | <pre><code>handleEvent(event: VerificationCallback, res: Response) {<br/>&nbsp;&nbsp;console.log(event);<br/>}</code></pre> | <pre><code>handleEvent(event: Verification.VerificationCallbackEvent, res: Response) {<br/>&nbsp;&nbsp;console.log(event);<br/>}</code></pre> |
 
-- [Deprecation Notice] The type `TypeEnum` should be replaced with the type `IdentityType`.
-- [Deprecation Notice] The type `FlashCallContent` should be replaced with the type `FlashCallProperties`.
-- [Deprecation Notice] The type `SmsContent` should be replaced with the type `SmsProperties`.
-- [E2E] Add Cucumber steps implementation.
+- **[deprecation notice]** The type `TypeEnum` should be replaced with the type `IdentityType`.
+- **[deprecation notice]** The type `FlashCallContent` should be replaced with the type `FlashCallProperties`.
+- **[deprecation notice]** The type `SmsContent` should be replaced with the type `SmsProperties`.
+- **[test]** Add Cucumber steps implementation.
 
 ## Version 1.1.0
-- [Tech] Update dependency `@sinch/sdk-client` to `1.1.0`
+- **[dependency]** Update dependency `@sinch/sdk-client` to `1.1.0`
 
 ## Version 1.0.0
-- [Tech] Update dependency `@sinch/sdk-client` to `1.0.0`
-- [Feature] Update SDK from the latest specification
+- **[dependency]** Update dependency `@sinch/sdk-client` to `1.0.0`
+- **[feature]** Update SDK from the latest specification
   - Add `smsOptions` and `calloutOptions` to the respective Start Verification operations
   - Update response interfaces for Report Verification operations
 
 ## Version 0.0.5
-- [Tech] Update dependency `@sinch/sdk-client` to `0.0.5`
-- [Tech][Breaking] Export all model interfaces under the namespace `Verification`
-- [Feature] Support hostname override
-- [Feature] Support request and response plugins override
+- **[dependency]** Update dependency `@sinch/sdk-client` to `0.0.5`
+- **[tech]** **[design]** Breaking: Export all model interfaces under the namespace `Verification`
+- **[feature]** Support hostname override
+- **[feature]** Support request and response plugins override
 
 ## Version 0.0.4
-- [Tech] Update dependency `@sinch/sdk-client` to `0.0.4`
+- **[dependency]** Update dependency `@sinch/sdk-client` to `0.0.4`
 
 ## Version 0.0.3
-- [Tech] Update dependency `@sinch/sdk-client` to `0.0.3`
+- **[dependency]** Update dependency `@sinch/sdk-client` to `0.0.3`
 
 ## Version 0.0.2
-- [Tech] Update dependency `@sinch/sdk-client` to `0.0.2`
+- **[dependency]** Update dependency `@sinch/sdk-client` to `0.0.2`
 
 **Breaking changes**
  - Removal of the method `verifications.start()`, replaced by the methods:
@@ -138,8 +156,8 @@
    - Move the header validation to the domain with the method `validateAuthenticationHeader`
 
 ## Version 0.0.1
- - [Tech] Update dependency `@sinch/sdk-client` to `0.0.1`
- - [Feature] Add the method `parseVerificationEventNotification` to call when receiving a callback event to transform it into the correct type
+ - **[dependency]** Update dependency `@sinch/sdk-client` to `0.0.1`
+ - **[feature]** Add the method `parseVerificationEventNotification` to call when receiving a callback event to transform it into the correct type
 
 # Version 0.0.0
 - Initial version. Support for:
