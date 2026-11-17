@@ -41,7 +41,7 @@ All notable changes to the **Sinch Node SMS SDK** are documented in this file.
 ## Version 1.4.0
 - **[dependency]** Update dependency `@sinch/sdk-client` to `1.4.0`.
 - **[tech]** Lazy load a single `ApiFetchClient` instance in the `SmsService`.
-- **[tech]** Implement E2E tests with `servicePlanId` authentication
+- **[test]** Implement E2E tests with `servicePlanId` authentication
 
 ## Version 1.3.0
 - **[dependency]** Update dependency `@sinch/sdk-client` to `1.3.0`.

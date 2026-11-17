@@ -116,7 +116,8 @@ All notable changes to the **Sinch Node SDK** are documented in this file.
 - **[dependency]** Update dependency `@sinch/fax` to version `1.3.0`
 - **[dependency]** Update dependency `@sinch/elastic-sip-trunking` to version `1.3.0`
 
-## Version 1.2.1 - **[fix]** Fix refresh token issue
+## Version 1.2.1
+- **[fix]** Fix refresh token issue
 - **[dependency]** Update dependency `@sinch/numbers` to version `1.2.1`
 - **[dependency]** Update dependency `@sinch/sms` to version `1.2.1`
 - **[dependency]** Update dependency `@sinch/verification` to version `1.2.1`

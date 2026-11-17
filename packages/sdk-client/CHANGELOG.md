@@ -21,10 +21,10 @@ All notable changes to the **Sinch Node SDK Client** are documented in this file
 - **[tech]** Remove the `./version.ts` export. It pointed at `src/version.ts`, which was never part of this package
 
 ## Version 1.8.0
-- **[dependency]** No changes, version bumped to align with the SDK 1.8.0 release
+- **[releasing]** No changes, version bumped to align with the SDK 1.8.0 release
 
 ## Version 1.7.0
-- **[dependency]** No changes, version bumped to align with the SDK 1.7.0 release
+- **[releasing]** No changes, version bumped to align with the SDK 1.7.0 release
 
 ## Version 1.6.0
 - **[feature]** Add `voiceV2Hostname` to `ApiHostname` / `SinchClientParameters` to override the Voice API v2 hostname.
