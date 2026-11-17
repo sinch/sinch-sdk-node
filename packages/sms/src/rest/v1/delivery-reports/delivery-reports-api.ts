@@ -25,7 +25,7 @@ export class DeliveryReportsApi extends SmsDomainApi {
 
   /**
    * Retrieve a delivery report
-   * Delivery reports can be retrieved even if no callback was requested. The difference between a summary and a full report is only that the full report contains the phone numbers in &lt;a href&#x3D;\&quot;https://community.sinch.com/t5/Glossary/E-164/ta-p/7537\&quot; target&#x3D;\&quot;_blank\&quot;&gt;E.164&lt;/a&gt; format for each status code.
+   * Delivery reports can be retrieved even if no callback was requested. The difference between a summary and a full report is only that the full report contains the phone numbers in &lt;a href&#x3D;\&quot;https://support.sinch.com/hc/en-us/articles/52299961578771-E-164\&quot; target&#x3D;\&quot;_blank\&quot;&gt;E.164&lt;/a&gt; format for each status code.
    * @param { GetDeliveryReportByBatchIdRequestData } data - The data to provide to the API call.
    */
   public async get(data: GetDeliveryReportByBatchIdRequestData): Promise<DeliveryReport> {

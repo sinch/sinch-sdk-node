@@ -7,7 +7,7 @@ import { CapabilitiesEnum, NumberTypeEnum } from '../enums';
  * The phone number that has been rented by a customer and assigned to a project.
  */
 export interface ActiveNumber {
-  /** The phone number in <a href=\"https://community.sinch.com/t5/Glossary/E-164/ta-p/7537\" target=\"_blank\">E.164</a> format with leading `+`. Example: `+12025550134`. */
+  /** The phone number in <a href=\"https://support.sinch.com/hc/en-us/articles/52299961578771-E-164\" target=\"_blank\">E.164</a> format with leading `+`. Example: `+12025550134`. */
   phoneNumber?: string;
   /** Project ID. Your project ID can be found on your <a href=\"https://dashboard.sinch.com/settings/project-management\" target=\"_blank\">Sinch Customer Dashboard</a>. */
   projectId?: string;

@@ -6,7 +6,7 @@ import { TtsVoice } from '../enums';
  */
 export interface TtsCalloutRequest {
 
-  /** The number that will be displayed as the incoming caller. To set your own CLI, you may use your verified number or your Dashboard number. The number must be in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format. */
+  /** The number that will be displayed as the incoming caller. To set your own CLI, you may use your verified number or your Dashboard number. The number must be in [E.164](https://support.sinch.com/hc/en-us/articles/52299961578771-E-164) format. */
   cli?: string;
   /** The type of device and number or endpoint to call. */
   destination: CalloutDestination;

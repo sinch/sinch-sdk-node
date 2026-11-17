@@ -4,7 +4,7 @@ import { DeliveryReportEnum } from '../enums';
 export interface TextResponse {
   /** Unique identifier for batch */
   id?: string;
-  /** List of Phone numbers and group IDs that will receive the batch. [More info](https://community.sinch.com/t5/Glossary/MSISDN/ta-p/7628) */
+  /** List of Phone numbers and group IDs that will receive the batch. [More info](https://support.sinch.com/hc/en-us/articles/52299915309075-MSISDN) */
   to?: string[];
   /** Sender number. Must be valid phone number, short code or alphanumeric. Required if Automatic Default Originator not configured. */
   from?: string;
