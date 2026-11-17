@@ -8,9 +8,9 @@ export interface Fax {
   id?: string;
   /** @see FaxDirection */
   direction?: FaxDirection;
-  /** A phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. */
+  /** A phone number in [E.164](https://support.sinch.com/hc/en-us/articles/52299961578771-E-164) format, including the leading '+'. */
   from?: string;
-  /** A phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. */
+  /** A phone number in [E.164](https://support.sinch.com/hc/en-us/articles/52299961578771-E-164) format, including the leading '+'. */
   to?: string;
   /** @see FaxContentUrl */
   contentUrl?: FaxContentUrl;

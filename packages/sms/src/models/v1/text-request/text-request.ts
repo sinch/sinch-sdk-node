@@ -2,7 +2,7 @@ import { ParameterGroup } from '../parameter-group';
 import { DeliveryReportEnum } from '../enums';
 
 export interface TextRequest {
-  /** List of Phone numbers and group IDs that will receive the batch. [More info](https://community.sinch.com/t5/Glossary/MSISDN/ta-p/7628) */
+  /** List of Phone numbers and group IDs that will receive the batch. [More info](https://support.sinch.com/hc/en-us/articles/52299915309075-MSISDN) */
   to: string[];
   /** Sender number. Must be valid phone number, short code or alphanumeric. Required if Automatic Default Originator not configured. */
   from?: string;
@@ -20,7 +20,7 @@ export interface TextRequest {
   /** If set, the system will stop trying to deliver the message at this point.
    * Must be after `send_at`. Default and max is 3 days after `send_at`. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601): `YYYY-MM-DDThh:mm:ss.SSSZ`. */
   expire_at?: Date;
-  /** Override the *default* callback URL for this batch. Must be a valid URL. Learn how to set a default callback URL <a href=\"https://community.sinch.com/t5/SMS/How-do-I-assign-a-callback-URL-to-an-SMS-service-plan/ta-p/8414\" target=\"_blank\">here</a>. */
+  /** Override the *default* callback URL for this batch. Must be a valid URL. Learn how to set a default callback URL <a href=\"https://support.sinch.com/hc/en-us/articles/56592718727315-How-do-I-assign-a-callback-URL-to-an-SMS-service\" target=\"_blank\">here</a>. */
   callback_url?: string;
   /** The client identifier of a batch message. If set, the identifier will be added in the delivery report/callback of this batch */
   client_reference?: string;

@@ -23,7 +23,7 @@ export interface Group {
   created_at?: Date;
   /** Timestamp for when the group was last updated. Format: YYYY-MM-DDThh:mm:ss.SSSZ */
   modified_at?: Date;
-  /** Phone numbers ([MSISDNs](https://community.sinch.com/t5/Glossary/MSISDN/ta-p/7628)) of child group will be included in this group. If present, this group will be auto populated.  Constraints: Elements must be group IDs. */
+  /** Phone numbers ([MSISDNs](https://support.sinch.com/hc/en-us/articles/52299915309075-MSISDN)) of child group will be included in this group. If present, this group will be auto populated.  Constraints: Elements must be group IDs. */
   child_groups?: string[];
   /** @see GroupAutoUpdate */
   auto_update?: GroupAutoUpdate;
