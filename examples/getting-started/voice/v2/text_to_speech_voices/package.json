@@ -1,0 +1,16 @@
+{
+  "name": "@sinch/getting-started-voice-v2_text-to-speech-voices",
+  "version": "0.0.0",
+  "author": "Sinch",
+  "description": "Getting Started: Text-to-speech voices (Voice API v2)",
+  "type": "module",
+  "scripts": {
+    "tts-call": "node tts_call.js",
+    "tts-sampler": "node tts_sampler.js",
+    "start": "node tts_call.js"
+  },
+  "dependencies": {
+    "@sinch/sdk-core": "^1.7.0",
+    "dotenv": "^16.4.5"
+  }
+}
