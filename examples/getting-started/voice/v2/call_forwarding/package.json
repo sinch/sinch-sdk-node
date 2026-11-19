@@ -1,0 +1,14 @@
+{
+  "name": "@sinch/getting-started-voice-v2_call-forwarding",
+  "version": "0.0.0",
+  "author": "Sinch",
+  "description": "Getting Started: Call forwarding (Voice API v2)",
+  "type": "module",
+  "scripts": {
+    "start": "node forward_call.js"
+  },
+  "dependencies": {
+    "@sinch/sdk-core": "^1.7.0",
+    "dotenv": "^16.4.5"
+  }
+}

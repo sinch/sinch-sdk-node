@@ -1,0 +1,16 @@
+{
+  "name": "@sinch/getting-started-voice-v2_track-call-status",
+  "version": "0.0.0",
+  "author": "Sinch",
+  "description": "Getting Started: Track call status (Voice API v2)",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "track-session": "node track_session.js"
+  },
+  "dependencies": {
+    "@sinch/sdk-core": "^1.7.0",
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1"
+  }
+}
