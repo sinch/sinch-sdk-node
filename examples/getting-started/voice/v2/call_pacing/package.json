@@ -1,0 +1,15 @@
+{
+  "name": "@sinch/getting-started-voice-v2_call-pacing",
+  "version": "0.0.0",
+  "author": "Sinch",
+  "description": "Getting Started: Call pacing with batch calling (Voice API v2)",
+  "type": "module",
+  "scripts": {
+    "create-batch": "node create_batch.js",
+    "poll-batch": "node poll_batch.js"
+  },
+  "dependencies": {
+    "@sinch/sdk-core": "^1.7.0",
+    "dotenv": "^16.4.5"
+  }
+}

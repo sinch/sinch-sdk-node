@@ -1,0 +1,14 @@
+{
+  "name": "@sinch/getting-started-voice-v2_outbound-text-to-speech",
+  "version": "0.0.0",
+  "author": "Sinch",
+  "description": "Getting Started: Make an Outbound Text-to-Speech Call (Voice API v2)",
+  "type": "module",
+  "scripts": {
+    "start": "node callout.js"
+  },
+  "dependencies": {
+    "@sinch/sdk-core": "^1.7.0",
+    "dotenv": "^16.4.5"
+  }
+}

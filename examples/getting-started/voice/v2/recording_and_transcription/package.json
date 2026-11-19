@@ -1,0 +1,16 @@
+{
+  "name": "@sinch/getting-started-voice-v2_recording-and-transcription",
+  "version": "0.0.0",
+  "author": "Sinch",
+  "description": "Getting Started: Recording and transcription (Voice API v2)",
+  "type": "module",
+  "scripts": {
+    "trigger-call": "node trigger_call.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@sinch/sdk-core": "^1.7.0",
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1"
+  }
+}

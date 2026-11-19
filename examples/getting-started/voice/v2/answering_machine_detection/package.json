@@ -1,0 +1,16 @@
+{
+  "name": "@sinch/getting-started-voice-v2_answering-machine-detection",
+  "version": "0.0.0",
+  "author": "Sinch",
+  "description": "Getting Started: Answering machine detection (Voice API v2)",
+  "type": "module",
+  "scripts": {
+    "amd-callout": "node amd_callout.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@sinch/sdk-core": "^1.7.0",
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1"
+  }
+}
