@@ -16,6 +16,10 @@ All notable changes to the **Sinch Node Fax SDK** are documented in this file.
 
 ---
 
+## Version 1.9.0
+- **[dependency]** Update dependency `@sinch/sdk-client` to `1.9.0`
+- **[doc]** Replace the community.sinch.com links in the code documentation with their support.sinch.com equivalents
+
 ## Version 1.8.0
 - **[dependency]** Update dependency `@sinch/sdk-client` to `1.8.0`
 - **[feature]** Support suspending a number on a service via `services.suspendNumber()`, returning a `SuspendPhoneNumberResponse`

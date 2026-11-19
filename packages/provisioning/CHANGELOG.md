@@ -16,6 +16,9 @@ All notable changes to the **Sinch Node Provisioning SDK** are documented in thi
 
 ---
 
+## Version 1.9.0
+- **[dependency]** Update dependency `@sinch/sdk-client` to `1.9.0`
+
 ## Version 1.8.0
 - **[dependency]** Update dependency `@sinch/sdk-client` to `1.8.0`
 

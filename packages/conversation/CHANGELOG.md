@@ -16,6 +16,9 @@ All notable changes to the **Sinch Node Conversation SDK** are documented in thi
 
 ---
 
+## Version 1.9.0
+- **[dependency]** Update dependency `@sinch/sdk-client` to `1.9.0`
+
 ## Version 1.8.0
 - **[dependency]** Update dependency `@sinch/sdk-client` to `1.8.0`
 - **[feature]** Support Channel Profile helpers by recipient type: `conversation.contact.getChannelProfileByContactId()` and `conversation.contact.getChannelProfileByChannelIdentity()`
