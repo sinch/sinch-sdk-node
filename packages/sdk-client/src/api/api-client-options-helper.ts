@@ -22,6 +22,9 @@ import type { Logger } from '../logger';
 
 const resolveParamsLogger = (params: SinchClientParameters) => resolveLogger(params.logger);
 
+/** With `useSinchAuth: false`, the SDK injects no authentication, whatever the API, and requires no credentials. */
+const isSinchAuthEnabled = (params: Partial<TransportSettings>): boolean => params.useSinchAuth ?? true;
+
 const applyRetryConfig = (
   apiClientOptions: ApiClientOptions,
   params: WithRetryPolicy,
@@ -37,7 +40,7 @@ const getAuthPlugins = (
   logger: Logger,
   timeoutSeconds: number,
 ): RequestPlugin[] => {
-  if (!(params.useSinchAuth ?? true)) {
+  if (!isSinchAuthEnabled(params)) {
     return [];
   }
   return [
@@ -53,7 +56,7 @@ const getAuthPlugins = (
 };
 
 const assertOAuth2Credentials = (params: SinchClientParameters, apiName: string): void => {
-  const useSinchAuth = params.useSinchAuth ?? true;
+  const useSinchAuth = isSinchAuthEnabled(params);
   if (!params.projectId || (useSinchAuth && (!params.keyId || !params.keySecret))) {
     throw new Error(
       useSinchAuth
@@ -80,18 +83,73 @@ export const buildOAuth2ApiClientOptions = (params: SinchClientParameters, apiNa
   return apiClientOptions;
 };
 
+/**
+ * Authentication plugins of the low-level HTTP client:
+ * - OAuth2 has priority: when `keyId` and `keySecret` are set, any other credentials are ignored;
+ * - otherwise exactly one of the SMS API token (`apiToken`) and the application signing
+ *   (`applicationKey` and `applicationSecret`) must be set.
+ */
+const getHttpAuthPlugins = (
+  params: SinchClientParameters,
+  logger: Logger,
+  timeoutSeconds: number,
+): RequestPlugin[] => {
+  if (params.keyId && params.keySecret) {
+    return getAuthPlugins(params, logger, timeoutSeconds);
+  }
+  const candidates: RequestPlugin[][] = [];
+  if (params.apiToken) {
+    candidates.push([new ApiTokenRequest(params.apiToken)]);
+  }
+  if (params.applicationKey && params.applicationSecret) {
+    // The x-timestamp header is part of the request signature
+    candidates.push([new XTimestampRequest(), new SigningRequest(params.applicationKey, params.applicationSecret)]);
+  }
+  if (candidates.length === 0) {
+    throw new Error(
+      'Invalid configuration for the HTTP client: "keyId" and "keySecret" values must be provided'
+      + ' (or "apiToken", or "applicationKey" and "applicationSecret", or set "useSinchAuth" to false)',
+    );
+  }
+  if (candidates.length > 1) {
+    throw new Error(
+      'Invalid configuration for the HTTP client: both "apiToken" and "applicationKey"/"applicationSecret"'
+      + ' are set: keep only one of them, or set "keyId" and "keySecret" to use OAuth2',
+    );
+  }
+  return candidates[0];
+};
+
+/**
+ * Options for the low-level HTTP client: URLs are absolute, so no `projectId` is required.
+ * With `useSinchAuth: false` on the client, no authentication plugin is registered and no credentials are required.
+ * @internal
+ */
+export const buildHttpApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
+  const logger = resolveParamsLogger(params);
+  const timeoutSeconds = resolveTimeoutSeconds(params.timeoutSeconds);
+  const apiClientOptions: ApiClientOptions = {
+    requestPlugins: isSinchAuthEnabled(params) ? getHttpAuthPlugins(params, logger, timeoutSeconds) : [],
+    logger,
+    timeoutSeconds,
+    implementationType: 'http',
+  };
+  applyRetryConfig(apiClientOptions, params);
+  addPlugins(apiClientOptions, params);
+  return apiClientOptions;
+};
+
 /** @internal @deprecated */
 export const buildMailgunApiClientOptions = (
   params: Partial<MailgunCredentials & ApiPlugins & WithLogger & WithRetryPolicy & TransportSettings>,
 ): ApiClientOptions => {
-  if (!params.mailgunApiKey) {
+  const useSinchAuth = isSinchAuthEnabled(params);
+  if (useSinchAuth && !params.mailgunApiKey) {
     throw new Error('Invalid configuration for the Mailgun API: the "mailgunApiKey" must be provided');
   }
   const logger = resolveParamsLogger(params);
   const apiClientOptions: ApiClientOptions = {
-    requestPlugins: [
-      new BasicAuthenticationRequest('api', params.mailgunApiKey),
-    ],
+    requestPlugins: useSinchAuth ? [new BasicAuthenticationRequest('api', params.mailgunApiKey!)] : [],
     logger,
     timeoutSeconds: resolveTimeoutSeconds(params.timeoutSeconds),
   };
@@ -104,15 +162,16 @@ export const buildMailgunApiClientOptions = (
 export const buildApplicationSignedApiClientOptions = (
   params: SinchClientParameters, apiName: string,
 ): ApiClientOptions => {
-  if (!params.applicationKey || !params.applicationSecret) {
+  const useSinchAuth = isSinchAuthEnabled(params);
+  if (useSinchAuth && (!params.applicationKey || !params.applicationSecret)) {
     throw new Error(`Invalid configuration for the ${apiName} API: "applicationKey" and "applicationSecret" values must be provided`);
   }
   const logger = resolveParamsLogger(params);
   const apiClientOptions: ApiClientOptions = {
-    requestPlugins: [
-      new XTimestampRequest(),
-      new SigningRequest(params.applicationKey, params.applicationSecret),
-    ],
+    // The x-timestamp header is part of the request signature
+    requestPlugins: useSinchAuth
+      ? [new XTimestampRequest(), new SigningRequest(params.applicationKey!, params.applicationSecret!)]
+      : [],
     logger,
     timeoutSeconds: resolveTimeoutSeconds(params.timeoutSeconds),
   };
@@ -125,13 +184,13 @@ export const buildApplicationSignedApiClientOptions = (
 export const buildFlexibleOAuth2OrApiTokenApiClientOptions = (params: SinchClientParameters): ApiClientOptions => {
   const logger = resolveParamsLogger(params);
   const timeoutSeconds = resolveTimeoutSeconds(params.timeoutSeconds);
-  const useSinchAuth = params.useSinchAuth ?? true;
+  const useSinchAuth = isSinchAuthEnabled(params);
   let apiClientOptions: ApiClientOptions | undefined;
 
   if (params.servicePlanId && params.apiToken) {
     apiClientOptions = {
       projectId: params.servicePlanId,
-      requestPlugins: [new ApiTokenRequest(params.apiToken)],
+      requestPlugins: useSinchAuth ? [new ApiTokenRequest(params.apiToken)] : [],
       useServicePlanId: true,
       logger,
       timeoutSeconds,

@@ -21,6 +21,7 @@ To use Sinch services, you'll need a Sinch account and access keys. You can sign
 - [Logging](#logging)
 - [Retry configuration](#retry-configuration)
 - [Transport settings](#transport-settings)
+- [Low-level HTTP client](#low-level-http-client)
 - [Handling exceptions](#handling-exceptions)
 - [Third-party dependencies](#third-party-dependencies)
 - [Examples](#examples)
@@ -492,7 +493,7 @@ const sinch = new SinchClient({
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `timeoutSeconds` | `number` | `60` | HTTP I/O timeout in seconds. Pass `0` to disable the timeout. Must be a non-negative number (`0` is allowed; negative values are rejected). |
-| `useSinchAuth` | `boolean` | `true` | When `true`, OAuth-capable APIs fetch a Sinch access token. Set `false` to skip that plugin and supply your own `Authorization` header through `requestPlugins`. In that mode only `projectId` is required. |
+| `useSinchAuth` | `boolean` | `true` | When `true`, the SDK authenticates the requests. Set `false` to disable it and supply your own `Authorization` header through `requestPlugins`: whatever the authentication method (OAuth2, SMS API token, Voice and Verification application signing), no authentication header is added and no credentials are required. The values used to build the URL are still required: `projectId` for the OAuth2 APIs (SMS included), or `servicePlanId` and `apiToken` to call the SMS API on its service plan URL. |
 
 ### Timeout
 
@@ -505,7 +506,7 @@ const sinch = new SinchClient({
 });
 ```
 
-### Disable Sinch OAuth
+### Disable Sinch authentication
 
 ```typescript
 import { SinchClient } from '@sinch/sdk-core';
@@ -517,6 +518,56 @@ const sinch = new SinchClient({
 });
 ```
 
+## Low-level HTTP client
+
+`sinch.http` sends raw HTTP requests to any Sinch endpoint, including the ones not yet covered by the SDK (e.g. code generated from an OpenAPI specification). The SDK still takes care of:
+- the authentication (`projectId` is not required: it is part of the URL), picked from the client credentials:
+  - OAuth2 and its token cache when `keyId` and `keySecret` are set: it has priority, any other credentials are ignored
+  - otherwise the SMS API token (`apiToken`) or the Voice / Verification application signing (`applicationKey` and `applicationSecret`): setting both of them without `keyId` and `keySecret` is a configuration error
+- the HTTP 429 retries (see [Retry configuration](#retry-configuration))
+- the timeout and the `User-Agent` header
+
+Everything else is up to the caller: the URL, the query string and the body bytes are sent **untouched**. The URL is not validated, and the only change to the query string is the leading `?`, added when missing.
+
+```typescript
+import { SinchClient, RetryPolicy } from '@sinch/sdk-core';
+
+const sinch = new SinchClient({ keyId, keySecret });
+
+const response = await sinch.http.get(
+  `https://numbers.api.sinch.com/v1/projects/${projectId}/activeNumbers`,
+  {
+    queryParams: new URLSearchParams({ regionCode: 'US', type: 'LOCAL', pageSize: '5' }), // or a pre-encoded string
+    headers: { accept: 'application/json' },
+  },
+);
+const activeNumbers = await response.content.asJson();
+
+await sinch.http.post(
+  `https://lookup.api.sinch.com/v2/projects/${projectId}/lookups`,
+  JSON.stringify({ number: '+14045001000' }),
+  {
+    headers: { 'content-type': 'application/json' },
+    options: { timeoutSeconds: 10, retryPolicy: RetryPolicy.NONE }, // request-level overrides
+  },
+);
+```
+
+| Method | Body |
+|--------|------|
+| `get(url, params?)` / `delete(url, params?)` | none |
+| `post(url, body?, params?)` / `put(...)` / `patch(...)` | optional: `string` \| `Buffer` \| `Uint8Array`. With a body, the `content-type` header is required: the call is rejected without it. Bytes are sent untouched, and a string is encoded with the charset of the `content-type` header (UTF-8 when there is none or it is unknown). Use `HttpHelpers.fromFile(path)` to send a file. |
+| `postFormData(url, form, params?)` | a `form-data` instance or a record of `string` / `Buffer` fields, sent as `multipart/form-data` (the SDK sets the `content-type` with its boundary) |
+
+`params` holds `queryParams` (a `URLSearchParams` or a pre-encoded string, the leading `?` being optional), `headers` (a record or an `HttpHeaders` instance) and `options`, which override the client settings for this call only: `useSinchAuth`, `timeoutSeconds`, `retryPolicy`, `maxRetryCount` and `exponentialBackoff`. `useSinchAuth: false`, on the client or on the call, sends the request without any authentication header: set your own `Authorization` header. A call can disable the authentication but not enable it: with `useSinchAuth: false` on the client, no credentials are required and no call is authenticated.
+
+The returned `HttpResponse` exposes `status`, `headers` and a lazy `content` parser: `asString()`, `asBytes()`, `asJson()` or `asStream()` (to download large payloads without buffering them). A status >= 400 is thrown as an `ApiHttpError`, whose `response` can still be read.
+
+Known limitations:
+- no automatic pagination, and no path segment or query parameter encoding
+- field names are the raw ones from the API specification (no Date revival either)
+- stream bodies are not supported, so the request can be replayed on retry
+
 ## Handling exceptions
 
 Failed API calls throw typed errors from `@sinch/sdk-core`. The SDK validates every response automatically and raises an exception when the HTTP status is not successful or when the response body is empty or invalid.
@@ -526,6 +577,7 @@ Failed API calls throw typed errors from `@sinch/sdk-core`. The SDK validates ev
 | `RequestFailedError` | The API returned a non-success HTTP status (`statusCode` and `data` are available on the error) |
 | `EmptyResponseError` | The response is missing or empty |
 | `ResponseJSONParseError` | The response body could not be parsed as JSON |
+| `ApiHttpError` | A [low-level HTTP client](#low-level-http-client) call returned a status >= 400 (extends `RequestFailedError`, adds the raw `response`) |
 | `GenericError` | Other SDK-level errors |
 
 ```typescript

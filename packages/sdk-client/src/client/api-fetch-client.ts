@@ -13,6 +13,7 @@ import {
   ApiClientOptions,
 } from '../api/api-client-options';
 import {
+  ApiHttpError,
   EmptyResponseError,
   ErrorContext,
   GenericError,
@@ -21,7 +22,7 @@ import {
 import { Response } from 'node-fetch';
 import { buildErrorContext, manageExpiredToken, reviveDates } from './api-client-helpers';
 import { resolveLogger } from '../logger';
-import { resolveTimeoutSeconds } from '../domain';
+import { resolveTimeoutSeconds, WithRetryPolicy } from '../domain';
 import {
   HttpHeaders,
   HttpRequest,
@@ -40,6 +41,7 @@ import {
 import {
   computeRateLimitBackoffMs,
   parseRetryAfterMs,
+  ResolvedRetryConfig,
   resolveRetryConfig,
   shouldRetryRateLimit,
   sleep,
@@ -54,6 +56,19 @@ interface ResponseContext {
   body: string | undefined;
   apiCallParameters: ApiCallParameters;
   errorContext: ErrorContext;
+}
+
+/**
+ * Settings overriding the client ones for a single call
+ */
+export interface CallOverrides {
+  /** Retry settings: undefined entries fall back to the client ones */
+  retry?: WithRetryPolicy;
+  /**
+   * Whether a 401 with an expired JWT triggers an OAuth2 token refresh
+   * @default true
+   */
+  refreshExpiredToken?: boolean;
 }
 
 /**
@@ -90,7 +105,10 @@ export class ApiFetchClient extends ApiClient {
     };
     super({
       ...resolvedOptions,
-      requestPlugins: [new VersionRequest(), ...(resolvedOptions.requestPlugins || [])],
+      requestPlugins: [
+        new VersionRequest(resolvedOptions.implementationType),
+        ...(resolvedOptions.requestPlugins || []),
+      ],
       responsePlugins: [
         new ExceptionResponse(undefined),
         ...(resolvedOptions.responsePlugins || []),
@@ -126,6 +144,43 @@ export class ApiFetchClient extends ApiClient {
     return this.processCSVResponse(responseContext);
   }
 
+  /**
+   * Process HTTP call and return the raw response, without parsing the body.
+   * Token refresh and rate-limit retries are applied as for any other call.
+   * @param {ApiCallParameters} apiCallParameters - Parameters for the HTTP call.
+   * @param {CallOverrides} [overrides] - Retry and token refresh settings overriding the client ones for this call.
+   * @return {Promise<HttpResponse>} The response, with a body still available for lazy parsing.
+   * @throws {ApiHttpError} when the response status is >= 400.
+   */
+  public async processHttpCall(
+    apiCallParameters: ApiCallParameters,
+    overrides: CallOverrides = {},
+  ): Promise<HttpResponse> {
+    const errorContext = buildErrorContext(apiCallParameters);
+    // Resolved outside the fetch error handling so an invalid setting surfaces as a configuration error
+    const retryConfig = resolveRetryConfig({ ...this.apiClientOptions, ...definedValues(overrides.retry) });
+    let httpResponse: HttpResponse;
+    try {
+      httpResponse = await this.sinchFetch(
+        apiCallParameters, errorContext, retryConfig, overrides.refreshExpiredToken);
+    } catch (error: any) {
+      throw this.buildFetchError(error, errorContext);
+    }
+
+    if (httpResponse.status >= 400) {
+      this.logFailedResponse(apiCallParameters, httpResponse);
+      const body = await httpResponse.content.asString();
+      let data: unknown = body || undefined;
+      try {
+        data = body ? JSON.parse(body) : undefined;
+      } catch {
+        // Not a JSON payload: keep the raw text
+      }
+      throw new ApiHttpError(httpResponse, errorContext, data);
+    }
+    return httpResponse;
+  }
+
   private async executeRequest(
     apiCallParameters: ApiCallParameters,
     isFileDownload = false,
@@ -133,7 +188,8 @@ export class ApiFetchClient extends ApiClient {
     const errorContext = buildErrorContext(apiCallParameters);
 
     try {
-      const httpResponse = await this.sinchFetch(apiCallParameters, errorContext);
+      const httpResponse = await this.sinchFetch(
+        apiCallParameters, errorContext, resolveRetryConfig(this.apiClientOptions));
       const body = isFileDownload ? undefined : await httpResponse.content.asString();
 
       return {
@@ -151,7 +207,7 @@ export class ApiFetchClient extends ApiClient {
   private async processResponse<T>(
     context: ResponseContext,
   ): Promise<T> {
-    this.logFailedResponse(context);
+    this.logFailedResponse(context.apiCallParameters, context.httpResponse);
     const pluginContext = await this.parseAndValidateResponse(context);
     const transformedResponse = await this.applyResponsePlugins(pluginContext);
 
@@ -222,17 +278,20 @@ export class ApiFetchClient extends ApiClient {
    * Handle fetch request with token refresh and retry.
    * @param {ApiCallParameters} apiCallParameters
    * @param {ErrorContext} errorContext
+   * @param {ResolvedRetryConfig} retryConfig - Rate-limit retry settings for this call
+   * @param {boolean} [refreshExpiredToken] - Whether a 401 with an expired JWT triggers a token refresh
    */
   private async sinchFetch(
     apiCallParameters: ApiCallParameters,
     errorContext: ErrorContext,
+    retryConfig: ResolvedRetryConfig,
+    refreshExpiredToken = true,
   ): Promise<HttpResponse> {
-    const retryConfig = resolveRetryConfig(this.apiClientOptions);
     let requestOptions = apiCallParameters.requestOptions;
     let httpRequest = toHttpRequest(apiCallParameters, requestOptions);
     let httpResponse = await this.send(httpRequest, requestOptions.timeout);
 
-    if (this.isTokenExpired(httpResponse)) {
+    if (refreshExpiredToken && this.isTokenExpired(httpResponse)) {
       // Capture the JWT used by the failing request so the OAuth2 plugin can
       // refuse to clear a cached token that has since been refreshed by another caller.
       const failingAuth = httpRequest.headers.getAll('Authorization')[0] || '';
@@ -323,14 +382,13 @@ export class ApiFetchClient extends ApiClient {
     };
   }
 
-  private logFailedResponse(context: ResponseContext): void {
-    if (!context.response.ok) {
-      const { apiCallParameters } = context;
+  private logFailedResponse(apiCallParameters: ApiCallParameters, httpResponse: HttpResponse): void {
+    if (httpResponse.status < 200 || httpResponse.status >= 300) {
       this.apiClientOptions.logger!.debug(() =>
-        `[${apiCallParameters.apiName}][${apiCallParameters.operationId}][${context.httpResponse.status}]\n`
+        `[${apiCallParameters.apiName}][${apiCallParameters.operationId}][${httpResponse.status}]\n`
         + `HTTP method: ${apiCallParameters.requestOptions.method}\n`
         + `URL: ${apiCallParameters.url}\n`
-        + `Response Headers: ${this.formatResponseHeaders(context.httpResponse.headers)}`,
+        + `Response Headers: ${this.formatResponseHeaders(httpResponse.headers)}`,
       );
     }
   }
@@ -366,3 +424,9 @@ export class ApiFetchClient extends ApiClient {
   }
 
 }
+
+/** Drop undefined entries so they don't override the client-level settings when spread */
+const definedValues = <T extends object>(value?: T): Partial<T> =>
+  Object.fromEntries(
+    Object.entries(value ?? {}).filter(([, entry]) => entry !== undefined),
+  ) as Partial<T>;

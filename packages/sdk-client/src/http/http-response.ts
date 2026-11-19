@@ -2,8 +2,7 @@ import { HttpContentParser } from './http-content-parser';
 import { HttpHeaders } from './http-headers';
 
 /**
- * Wire-level HTTP response used by the SDK transport.
- * @internal
+ * HTTP response: status, headers and a lazy parser over the body.
  */
 export class HttpResponse {
   constructor(

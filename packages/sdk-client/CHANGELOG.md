@@ -17,6 +17,10 @@ All notable changes to the **Sinch Node SDK Client** are documented in this file
 ---
 
 ## Version 1.9.0
+- **[feature]** Add `SinchHttpClient`, a low-level HTTP client that sends raw requests to any Sinch endpoint while the SDK handles the authentication (OAuth2, SMS API token or application signing), the HTTP 429 retries, the timeout and the `User-Agent` header
+- **[feature]** Add `ApiHttpError`, thrown by `SinchHttpClient` when the response status is >= 400. It extends `RequestFailedError` and keeps the raw `response`
+- **[feature]** Export `HttpContentParser`, `HttpHeaders`, `HttpMethod` and `HttpResponse`
+- **[design]** `useSinchAuth: false` now disables every SDK authentication and requires no credentials. Previously it only disabled OAuth2: the SMS API token and the Voice / Verification application signing were still applied. The values used to build the URL are still required (`projectId`, or `servicePlanId` and `apiToken` for the SMS service plan URL)
 - **[fix]** Read the SDK version for the `User-Agent` header from this package instead of `@sinch/sdk-core`, so installing a domain package alone no longer requires `@sinch/sdk-core`
 - **[tech]** Remove the `./version.ts` export. It pointed at `src/version.ts`, which was never part of this package
 
