@@ -17,6 +17,15 @@ All notable changes to the **Sinch Node SDK** are documented in this file.
 ---
 
 ## Version 1.9.0
+- **[dependency]** Update dependency `@sinch/conversation` to version `1.9.0`
+- **[dependency]** Update dependency `@sinch/elastic-sip-trunking` to version `1.9.0`
+- **[dependency]** Update dependency `@sinch/fax` to version `1.9.0`
+- **[dependency]** Update dependency `@sinch/numbers` to version `1.9.0`
+- **[dependency]** Update dependency `@sinch/sms` to version `1.9.0`
+- **[dependency]** Update dependency `@sinch/verification` to version `1.9.0`
+- **[dependency]** Update dependency `@sinch/voice` to version `1.9.0`
+- **[dependency]** Update dependency `@sinch/number-lookup` to version `1.9.0`
+- **[dependency]** Update dependency `@sinch/provisioning` to version `1.9.0`
 - **[feature]** Add `sinch.http`, a low-level HTTP client to call any Sinch endpoint, including those not covered by the SDK. See the README for its usage and limitations
 - **[tech]** Stop exporting `./package.json`. Nothing in the SDK imports `@sinch/sdk-core/package.json` anymore
 

@@ -16,6 +16,10 @@ All notable changes to the **Sinch Node Numbers SDK** are documented in this fil
 
 ---
 
+## Version 1.9.0
+- **[dependency]** Update dependency `@sinch/sdk-client` to `1.9.0`
+- **[doc]** Replace the community.sinch.com links in the code documentation with their support.sinch.com equivalents
+
 ## Version 1.8.0
 - **[dependency]** Update dependency `@sinch/sdk-client` to `1.8.0`
 
