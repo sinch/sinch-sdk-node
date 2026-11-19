@@ -3,7 +3,7 @@ import { DeliveryReportEnum } from '../enums';
 export interface BinaryResponse {
   /** Unique identifier for batch. */
   id?: string;
-  /** A list of phone numbers and group IDs that have received the batch. [More info](https://community.sinch.com/t5/Glossary/MSISDN/ta-p/7628). */
+  /** A list of phone numbers and group IDs that have received the batch. [More info](https://support.sinch.com/hc/en-us/articles/52299915309075-MSISDN). */
   to?: string[];
   /** The sender number provided.  Required if the Automatic Default Originator is not configured. */
   from?: string;
@@ -11,9 +11,9 @@ export interface BinaryResponse {
   canceled?: boolean;
   /** The message content provided. Base64 encoded. */
   body?: string;
-  /** The [UDH](https://community.sinch.com/t5/Glossary/UDH-User-Data-Header/ta-p/7776) header of a binary message HEX encoded. Max 140 bytes including the `body`. */
+  /** The [UDH](https://support.sinch.com/hc/en-us/articles/53315962194963-UDH-User-Data-Header) header of a binary message HEX encoded. Max 140 bytes including the `body`. */
   udh?: string;
-  /** SMS in [binary](https://community.sinch.com/t5/Glossary/Binary-SMS/ta-p/7470) format. */
+  /** SMS in [binary](https://support.sinch.com/hc/en-us/articles/52088939246995-Binary-SMS) format. */
   type?: 'mt_binary';
   /** Timestamp for when batch was created.   Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601). For example: `YYYY-MM-DDThh:mm:ss.SSSZ`. */
   created_at?: Date;

@@ -3,7 +3,7 @@ export interface ListInboundMessagesRequestData {
   'page'?: number;
   /** Determines the size of a page */
   'page_size'?: number;
-  /** Only list messages sent to this destination. Multiple phone numbers formatted as either <a href=\"https://community.sinch.com/t5/Glossary/E-164/ta-p/7537\" target=\"_blank\">E.164</a> or short codes can be comma separated. */
+  /** Only list messages sent to this destination. Multiple phone numbers formatted as either <a href=\"https://support.sinch.com/hc/en-us/articles/52299961578771-E-164\" target=\"_blank\">E.164</a> or short codes can be comma separated. */
   'to'?: string | string[];
   /** Only list messages received at or after this date/time. Formatted as [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601): `YYYY-MM-DDThh:mm:ss.SSSZ`.  Default: Now-24 */
   'start_date'?: Date;
