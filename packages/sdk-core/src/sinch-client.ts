@@ -5,7 +5,7 @@ import { NumbersService } from '@sinch/numbers';
 import { SmsService } from '@sinch/sms';
 import { VerificationService } from '@sinch/verification';
 import { VoiceService } from '@sinch/voice';
-import { SinchClientParameters, resolveClientParameters } from '@sinch/sdk-client';
+import { SinchClientParameters, SinchHttpClient, resolveClientParameters } from '@sinch/sdk-client';
 import { ElasticSipTrunkingService } from '@sinch/elastic-sip-trunking';
 import { NumberLookupService } from '@sinch/number-lookup';
 
@@ -33,6 +33,11 @@ export class SinchClient {
   public readonly numberLookup: NumberLookupService;
   /** Provisioning API service (OAuth2: `projectId`, `keyId`, `keySecret`). */
   public readonly provisioning: ProvisioningService;
+  /**
+   * Low-level HTTP client to call any Sinch endpoint, including those not covered by the SDK
+   * (OAuth2: `keyId`, `keySecret`; see {@link SinchHttpClient}).
+   */
+  public readonly http: SinchHttpClient;
 
   /**
    * Initialize your API Client instance with the provided credentials.
@@ -50,5 +55,6 @@ export class SinchClient {
     this.voice = new VoiceService(params);
     this.numberLookup = new NumberLookupService(params);
     this.provisioning = new ProvisioningService(params);
+    this.http = new SinchHttpClient(params);
   }
 }

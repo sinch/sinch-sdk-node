@@ -1,83 +1,109 @@
+# Changelog
+
+All notable changes to the **Sinch Node SDK Client** are documented in this file.
+
+> **Tag legend**
+> - `[feature]` — new capability
+> - `[fix]` — bug fix
+> - `[deprecation notice]` — will be removed in a future release
+> - `[dependency]` — third-party library update
+> - `[doc]` — documentation only
+> - `[test]` — test coverage
+> - `[refactor]` — internal restructuring
+> - `[releasing]` — release infrastructure
+> - `[design]` — API design change
+> - `[tech]` — technical improvement
+
+---
+
+## Version 1.9.0
+- **[feature]** Add `SinchHttpClient`, a low-level HTTP client that sends raw requests to any Sinch endpoint while the SDK handles the authentication (OAuth2, SMS API token or application signing), the HTTP 429 retries, the timeout and the `User-Agent` header
+- **[feature]** Add `ApiHttpError`, thrown by `SinchHttpClient` when the response status is >= 400. It extends `RequestFailedError` and keeps the raw `response`
+- **[feature]** Export `HttpContentParser`, `HttpHeaders`, `HttpMethod` and `HttpResponse`
+- **[design]** `useSinchAuth: false` now disables every SDK authentication and requires no credentials. Previously it only disabled OAuth2: the SMS API token and the Voice / Verification application signing were still applied. The values used to build the URL are still required (`projectId`, or `servicePlanId` and `apiToken` for the SMS service plan URL)
+- **[fix]** Read the SDK version for the `User-Agent` header from this package instead of `@sinch/sdk-core`, so installing a domain package alone no longer requires `@sinch/sdk-core`
+- **[tech]** Remove the `./version.ts` export. It pointed at `src/version.ts`, which was never part of this package
+
 ## Version 1.8.0
-- [Tech] No changes, version bumped to align with the SDK 1.8.0 release
+- **[releasing]** No changes, version bumped to align with the SDK 1.8.0 release
 
 ## Version 1.7.0
-- [Tech] No changes, version bumped to align with the SDK 1.7.0 release
+- **[releasing]** No changes, version bumped to align with the SDK 1.7.0 release
 
 ## Version 1.6.0
-- [Feature] Add `voiceV2Hostname` to `ApiHostname` / `SinchClientParameters` to override the Voice API v2 hostname.
-- [Feature] Add transport-level settings on `SinchClientParameters` (`TransportSettings`).
-- [Feature] Add `PaginationEnum.PAGE_LINK` for Voice API v2 list pagination.
-- [Tech] Internal HTTP transport is based on `HttpRequest`/`HttpResponse` for existing `ApiFetchClient` calls.
-- [Deprecation] Mailgun-related settings are deprecated (`MailgunCredentials`, `MailgunRegion`, `SupportedMailgunRegion`, `MAILGUN_HOSTNAME`, `mailgunHostname`, and `buildMailgunApiClientOptions`). Mailgun was never released as a Node SDK product; these settings will be removed in a future major version.
-- [Deprecation] `elasticSipTrunkingHostname` is deprecated. Elastic SIP Trunking support will be removed in version 2 of the SDK.
+- **[feature]** Add `voiceV2Hostname` to `ApiHostname` / `SinchClientParameters` to override the Voice API v2 hostname.
+- **[feature]** Add transport-level settings on `SinchClientParameters` (`TransportSettings`).
+- **[feature]** Add `PaginationEnum.PAGE_LINK` for Voice API v2 list pagination.
+- **[tech]** Internal HTTP transport is based on `HttpRequest`/`HttpResponse` for existing `ApiFetchClient` calls.
+- **[deprecation notice]** Mailgun-related settings are deprecated (`MailgunCredentials`, `MailgunRegion`, `SupportedMailgunRegion`, `MAILGUN_HOSTNAME`, `mailgunHostname`, and `buildMailgunApiClientOptions`). Mailgun was never released as a Node SDK product; these settings will be removed in a future major version.
+- **[deprecation notice]** `elasticSipTrunkingHostname` is deprecated. Elastic SIP Trunking support will be removed in version 2 of the SDK.
 
 ## Version 1.5.0
-- [Feature] Configurable HTTP 429 retries (`retryPolicy`, `maxRetryCount`, `exponentialBackoff` on `SinchClientParameters`) via `WithRetryPolicy` param
-- [Feature] Add configurable SDK logging via the optional `logger` property on `SinchClientParameters` (`WithLogger`): provide a custom `Logger`, default to `console`, or pass `logger: null` to silence output; includes lazy message support, debug logging of failed HTTP responses, and routing of SDK warnings through the configured logger
-- [Feature] Add `FileData` interface as the preferred return type for CSV downloads (`fileName` and `data` properties)
-- [Deprecation] `CSVFile` is deprecated in favor of `FileData`
-- [Tech] Bump `form-data` dependency from `4.0.4` to `4.0.6`
+- **[feature]** Configurable HTTP 429 retries (`retryPolicy`, `maxRetryCount`, `exponentialBackoff` on `SinchClientParameters`) via `WithRetryPolicy` param
+- **[feature]** Add configurable SDK logging via the optional `logger` property on `SinchClientParameters` (`WithLogger`): provide a custom `Logger`, default to `console`, or pass `logger: null` to silence output; includes lazy message support, debug logging of failed HTTP responses, and routing of SDK warnings through the configured logger
+- **[feature]** Add `FileData` interface as the preferred return type for CSV downloads (`fileName` and `data` properties)
+- **[deprecation notice]** `CSVFile` is deprecated in favor of `FileData`
+- **[dependency]** Bump `form-data` dependency from `4.0.4` to `4.0.6`
 
 ## Version 1.4.2
-- [Bugfix] OAuth2 429 backoff with full-jitter retry
+- **[fix]** OAuth2 429 backoff with full-jitter retry
 
 ## Version 1.4.1
-- [Bugfix] Harness OAuth2 token refresh
+- **[fix]** Harness OAuth2 token refresh
 
 ## Version 1.4.0
- - [Tech] Remove `client` attribute from the `Api` interface
- - [Feature] Add `WithAdditionalProperties` interface to support additional properties in API models
- - [Bugfix] Fix token refresh concurrency issue
+ - **[tech]** Remove `client` attribute from the `Api` interface
+ - **[feature]** Add `WithAdditionalProperties` interface to support additional properties in API models
+ - **[fix]** Fix token refresh concurrency issue
 
 ## Version 1.3.0
-- [Feature] Prepare mailgun support by adding mailgun authentication method
-- [Bugfix] Fix fetch response status handling for document response (issue [#183](https://github.com/sinch/sinch-sdk-node/issues/183))
+- **[feature]** Prepare mailgun support by adding mailgun authentication method
+- **[fix]** Fix fetch response status handling for document response (issue [#183](https://github.com/sinch/sinch-sdk-node/issues/183))
 
 ## Version 1.2.1
-- [Bugfix] Fix refresh token issue: during the refreshToken process, a missing binding was causing the API request to not be sent. The token was refreshed properly thought, enabling the later API calls to work.
+- **[fix]** Fix refresh token issue: during the refreshToken process, a missing binding was causing the API request to not be sent. The token was refreshed properly thought, enabling the later API calls to work.
 
 ## Version 1.2.0
-- [Feature] Support a new mode of pagination to support the Conversation API.
-- [Feature] Remove the `TimezoneResponse` plugin and autocorrect the timezones when reviving the dates in the API responses.
-- [Feature] Add utility methods to support the dateRange filters for EST and Fax APIs.
-- [Bugfix] Handle HTTP status 202 in the `ExceptionResponse` plugin.
-- [Feature][Functionality change] Implement new strategy for selecting which credentials to use with the SMS API.
-- [Deprecation Notice] The property `forceOAuth2ForSmsApi` in the `UnifiedCredentials` is deprecated and has no effect anymore.
-- [Deprecation Notice] The property `forceServicePlanIdUsageForSmsApi` in the `ServicePlanIdCredentials` is deprecated and has no effect anymore.
+- **[feature]** Support a new mode of pagination to support the Conversation API.
+- **[feature]** Remove the `TimezoneResponse` plugin and autocorrect the timezones when reviving the dates in the API responses.
+- **[feature]** Add utility methods to support the dateRange filters for EST and Fax APIs.
+- **[fix]** Handle HTTP status 202 in the `ExceptionResponse` plugin.
+- **[feature]** **[design]** Implement new strategy for selecting which credentials to use with the SMS API.
+- **[deprecation notice]** The property `forceOAuth2ForSmsApi` in the `UnifiedCredentials` is deprecated and has no effect anymore.
+- **[deprecation notice]** The property `forceServicePlanIdUsageForSmsApi` in the `ServicePlanIdCredentials` is deprecated and has no effect anymore.
 
 ## Version 1.1.0
-- [Feature] Add new pagination type support specific to EST
+- **[feature]** Add new pagination type support specific to EST
 
 ## Version 1.0.0
 - No change
 
 ## Version 0.0.5
- - [Tech] Break circular dependencies
- - [Tech][Breaking] Rename `basepath` with `hostname` in the `ApiClientOptions` interface
- - [Feature] Support hostname override: new properties added in the `SinchClientParameters` interface
- - [Feature] Support request and response plugins override: new properties added in the `SinchClientParameters` interface
- - [Feature] Create new functions to build the `ApiClientOptions` for each kind of authentication: `buildOAuth2ApiClientOptions`, `buildApplicationSignedApiClientOptions`, `buildFlexibleOAuth2OrApiTokenApiClientOptions`
- - [Feature][Breaking] Remove the enum `Region` and create flexible enums for API regions: `ConversationRegion`, `FaxRegion`, `SmsRegion` and `VoiceRegion`
+ - **[tech]** Break circular dependencies
+ - **[tech]** **[design]** Breaking: Rename `basepath` with `hostname` in the `ApiClientOptions` interface
+ - **[feature]** Support hostname override: new properties added in the `SinchClientParameters` interface
+ - **[feature]** Support request and response plugins override: new properties added in the `SinchClientParameters` interface
+ - **[feature]** Create new functions to build the `ApiClientOptions` for each kind of authentication: `buildOAuth2ApiClientOptions`, `buildApplicationSignedApiClientOptions`, `buildFlexibleOAuth2OrApiTokenApiClientOptions`
+ - **[feature]** **[design]** Breaking: Remove the enum `Region` and create flexible enums for API regions: `ConversationRegion`, `FaxRegion`, `SmsRegion` and `VoiceRegion`
 
 ## Version 0.0.4
- - [Bugfix] Embed `form-data` dependency
+ - **[fix]** Embed `form-data` dependency
 
 ## Version 0.0.3
- - [Bugfix] Do not transform a timestamp to a Date object in the timezone plugin, this is already done in the reviver for API responses (regression from v0.0.2)
+ - **[fix]** Do not transform a timestamp to a Date object in the timezone plugin, this is already done in the reviver for API responses (regression from v0.0.2)
 
 ## Version 0.0.2
 
- - [Feature] Add interface `CallbackProcessor` to be implemented by each API defining webhooks for callbacks.
- - [Feature] Add `validateSignatureHeader` function to check whether a callback event with a `X-Sinch-Signature` header has been tampered with or not
- - [Feature] Add `Date` reviver for API responses
+ - **[feature]** Add interface `CallbackProcessor` to be implemented by each API defining webhooks for callbacks.
+ - **[feature]** Add `validateSignatureHeader` function to check whether a callback event with a `X-Sinch-Signature` header has been tampered with or not
+ - **[feature]** Add `Date` reviver for API responses
 
 ## Version 0.0.1
 
- - [Feature] Add method `formatQueryParameter` that take an optional boolean parameter `repeatParamArray` to decide how to represent parameters arrays in the URL as all the APIs are not consistent
- - [Tech] Refactor `imports` and `exports` to break the circular dependencies introduced by the automatic refresh token mechanism
- - [Feature] Add `TimezoneResponse` plugin to the list of default plugins to patch responses where the server doesn't send a timezone in a timestamp property
- - [Feature] Add `validateAuthenticationHeader` function to check whether a callback event has been tampered with or not
+ - **[feature]** Add method `formatQueryParameter` that take an optional boolean parameter `repeatParamArray` to decide how to represent parameters arrays in the URL as all the APIs are not consistent
+ - **[tech]** Refactor `imports` and `exports` to break the circular dependencies introduced by the automatic refresh token mechanism
+ - **[feature]** Add `TimezoneResponse` plugin to the list of default plugins to patch responses where the server doesn't send a timezone in a timestamp property
+ - **[feature]** Add `validateAuthenticationHeader` function to check whether a callback event has been tampered with or not
 
 # Version 0.0.0
 

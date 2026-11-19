@@ -7,7 +7,7 @@ export type SingleFaxRequest = SingleFaxRequestJson | SingleFaxRequestFormData;
 export type MultipleFaxRequest = MultipleFaxRequestJson | MultipleFaxRequestFormData;
 
 export interface FaxRequestBase {
-  /** A phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. */
+  /** A phone number in [E.164](https://support.sinch.com/hc/en-us/articles/52299961578771-E-164) format, including the leading '+'. */
   from?: string;
   /**  */
   contentUrl?: FaxContentUrl;
@@ -50,12 +50,12 @@ export type FaxRequestJson = FaxRequestBase & {
 }
 
 export type SingleFaxRequestJson = FaxRequestJson & {
-  /** A phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. */
+  /** A phone number in [E.164](https://support.sinch.com/hc/en-us/articles/52299961578771-E-164) format, including the leading '+'. */
   to: string;
 }
 
 export type MultipleFaxRequestJson = FaxRequestJson & {
-  /** A list of phone numbers in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. The fax will be sent to all numbers and a Fax resource will be created for each number. */
+  /** A list of phone numbers in [E.164](https://support.sinch.com/hc/en-us/articles/52299961578771-E-164) format, including the leading '+'. The fax will be sent to all numbers and a Fax resource will be created for each number. */
   to: string[];
 }
 
@@ -66,11 +66,11 @@ export interface FaxRequestFormData extends FaxRequestBase {
 }
 
 export type SingleFaxRequestFormData = FaxRequestFormData & {
-  /** A phone number in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. */
+  /** A phone number in [E.164](https://support.sinch.com/hc/en-us/articles/52299961578771-E-164) format, including the leading '+'. */
   to: string;
 }
 
 export type MultipleFaxRequestFormData = FaxRequestFormData & {
-  /** A list of phone numbers in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format, including the leading '+'. The fax will be sent to all numbers and a Fax resource will be created for each number. */
+  /** A list of phone numbers in [E.164](https://support.sinch.com/hc/en-us/articles/52299961578771-E-164) format, including the leading '+'. The fax will be sent to all numbers and a Fax resource will be created for each number. */
   to: string[];
 }

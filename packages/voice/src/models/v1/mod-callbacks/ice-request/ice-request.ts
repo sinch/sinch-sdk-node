@@ -21,7 +21,7 @@ export interface IceRequest {
   custom?: string;
   /** The rate that will be charged for the call established to the original destination. If the SVAML response specifies another destination, the same rate may not apply. */
   userRate?: VoicePrice;
-  /** The number that will be displayed to the recipient of the call. To set your own CLI, you may use your verified number or your Dashboard virtual number and add it to the `connectPSTN` SVAML response to the Incoming Call Event request.  It must be in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format. */
+  /** The number that will be displayed to the recipient of the call. To set your own CLI, you may use your verified number or your Dashboard virtual number and add it to the `connectPSTN` SVAML response to the Incoming Call Event request.  It must be in [E.164](https://support.sinch.com/hc/en-us/articles/52299961578771-E-164) format. */
   cli?: string;
   /** An object containing information about the recipient of the call. */
   to?: Destination;

@@ -3,7 +3,7 @@ import { DeliveryReportEnum } from '../enums';
 export interface ApiUpdateBinaryMtMessage {
   /** Sender number. Must be valid phone number, short code or alphanumeric. */
   from?: string;
-  /** SMS in [binary](https://community.sinch.com/t5/Glossary/Binary-SMS/ta-p/7470) format. */
+  /** SMS in [binary](https://support.sinch.com/hc/en-us/articles/52088939246995-Binary-SMS) format. */
   type?: 'mt_binary';
   /** List of phone numbers and group IDs to add to the batch. */
   to_add?: string[];

@@ -4,7 +4,7 @@ import { CalloutDestination } from '../destination';
  * The custom callout, the server initiates a call from the servers that can be controlled by specifying how the call should progress at each call event.
  */
 export interface CustomCalloutRequest {
-  /** The number that will be displayed as the incoming caller, to set your own CLI, you may use your verified number or your Dashboard virtual number, it must be in [E.164](https://community.sinch.com/t5/Glossary/E-164/ta-p/7537) format. */
+  /** The number that will be displayed as the incoming caller, to set your own CLI, you may use your verified number or your Dashboard virtual number, it must be in [E.164](https://support.sinch.com/hc/en-us/articles/52299961578771-E-164) format. */
   cli?: string;
   /** The type of device and number or endpoint to call. */
   destination?: CalloutDestination;

@@ -334,6 +334,20 @@ const sinch: SinchClient = new SinchClient({
 // => All the requests using services registered on this SinchClient will send an extra-header
 ```
 
+## Low-level HTTP client
+
+`sinch.http` sends raw requests to any Sinch endpoint (including those not covered by the SDK) while the SDK handles the authentication (OAuth2 first, else the SMS API token or the application signing), the rate-limit retries, the timeout and the `User-Agent` header:
+
+```typescript
+const response = await sinch.http.get(
+  `https://numbers.api.sinch.com/v1/projects/${projectId}/activeNumbers`,
+  { queryParams: '?regionCode=US&pageSize=5', headers: { accept: 'application/json' } },
+);
+const activeNumbers = await response.content.asJson();
+```
+
+URL, query string and body are sent untouched. See the [main README](../../README.md#low-level-http-client) for the full description and its limitations.
+
 ## Examples
 You can find an example of each request in the [../../examples/simple-examples](../../examples/simple-examples) folder.
 

@@ -4,7 +4,7 @@
 export interface ApiMoMessage {
   /** If this inbound message is in response to a previously sent message that contained a client reference, then this field contains *that* client reference.   Utilizing this feature requires additional setup on your account. Contact your <a href=\"https://dashboard.sinch.com/settings/account-details\" target=\"_blank\">account manager</a> to enable this feature. */
   client_reference?: string;
-  /** The phone number that sent the message. [More info](https://community.sinch.com/t5/Glossary/MSISDN/ta-p/7628) */
+  /** The phone number that sent the message. [More info](https://support.sinch.com/hc/en-us/articles/52299915309075-MSISDN) */
   from: string;
   /** The ID of this inbound message. */
   id: string;

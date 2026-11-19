@@ -1,6 +1,6 @@
 {
   "name": "@sinch/sdk-client",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Core services related to interacting with Sinch API",
   "homepage": "",
   "repository": {
@@ -16,8 +16,7 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.js"
-    },
-    "./version.ts": "./src/version.ts"
+    }
   },
   "directories": {
     "src": "dist",
