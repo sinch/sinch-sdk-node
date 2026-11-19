@@ -36,7 +36,7 @@ async function main() {
         .name('caller')
         .timeoutDurationSeconds(30)
         .onAnswer((seq) => {
-          // Step 1: play hold music while we try the primary
+          // Step 1: play a hold prompt while we try the primary
           seq.text('Connecting your call.', 'Emma', { name: 'hold' });
           // Step 2: caller joins the bridge (created on first reference)
           seq.bridgeCall('fwd-bridge');
@@ -47,7 +47,7 @@ async function main() {
               .from(Destination.phone(sinchNumber))
               .name('primary')
               .timeoutDurationSeconds(20)
-              // Primary answered: stop hold, bridge them
+              // Primary answered: stop the hold prompt, bridge them
               .onAnswer(joinBridge)
               // Primary didn't answer: try the fallback
               .onTimeout(

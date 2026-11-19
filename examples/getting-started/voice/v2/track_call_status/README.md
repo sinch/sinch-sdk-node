@@ -65,7 +65,7 @@ It shows the two ways to know what is happening with a call in the Voice API v2,
    example to do it with the SDK.
 
 5. Start an outbound call (e.g. with `track_session.js`), or call `SINCH_NUMBER` from any phone. The server logs each
-   event as it arrives. When `call.hangup` arrives with a final `call_result`, the call is done.
+   event as it arrives. When `call.hangup` arrives with a final `callResult`, the call is done.
 
 ### Poll call state
 
@@ -74,6 +74,6 @@ It shows the two ways to know what is happening with a call in the Voice API v2,
    node track_session.js
    ```
    A healthy outbound call walks the session through `QUEUED` → `IN_PROGRESS` → `COMPLETED`, then the script prints
-   each call leg, e.g. `call_result=COMPLETED call_reason=CALLEE_HANGUP`. If nobody answers, the leg shows
-   `call_result=NO_ANSWER` and the session still reaches `COMPLETED`.
+   each call leg, e.g. `callResult=COMPLETED callReason=CALLEE_HANGUP`. If nobody answers, the leg shows
+   `callResult=NO_ANSWER` and the session still reaches `COMPLETED`.
 

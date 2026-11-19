@@ -40,7 +40,7 @@ followed by a text-to-speech message, then hangs up.
    ```bash
    node callout.js
    ```
-   Or run it directly:
+   Or with npm:
    ```bash
-   node callout.js
+   npm start
    ```

@@ -46,16 +46,22 @@ async function main() {
   const maxDelay = 15;
   let attempt = 0;
   const maxAttempts = 40;
+  let completed = false;
   while (attempt < maxAttempts) {
     const state = (await sinchClient.voice.v2.sessions.get({ sessionId })).state;
     console.log(`state=${state}`);
     if (state === 'COMPLETED') {
       // terminal state -> stop
+      completed = true;
       break;
     }
     attempt += 1;
     await new Promise((resolve) => setTimeout(resolve, delay * 1000));
     delay = Math.min(delay * 2, maxDelay);
+  }
+  if (!completed) {
+    console.error(`Session ${sessionId} did not reach COMPLETED after ${maxAttempts} attempts`);
+    process.exit(1);
   }
 
   // 3. Print per-leg results (callName is NOT returned by the API).

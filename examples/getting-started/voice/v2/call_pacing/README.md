@@ -7,7 +7,8 @@ It uses the Voice API v2 through the [Sinch Node.js SDK](https://github.com/sinc
 - [create_batch.js](create_batch.js) submits a single batch request that queues one call per destination. The calls
   are started at the pace set by `maxCps` (calls per second) and any call not started within `ttlSeconds` expires.
   When a call is answered, it plays a text-to-speech reminder, then hangs up.
-- [poll_batch.js](poll_batch.js) polls the batch summary every 5 seconds until all call sessions reach a final state.
+- [poll_batch.js](poll_batch.js) polls the batch summary every 5 seconds until all call sessions reach a final state,
+  and gives up after 5 minutes.
 
 ## Requirements
 

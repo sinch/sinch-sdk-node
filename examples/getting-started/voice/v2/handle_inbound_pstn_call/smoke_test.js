@@ -1,5 +1,11 @@
+import * as dotenv from 'dotenv';
+
 async function main() {
-  const resp = await fetch('http://localhost:3000/voice/events', {
+  dotenv.config();
+
+  const port = process.env.PORT || '3000';
+
+  const resp = await fetch(`http://localhost:${port}/voice/events`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -21,7 +27,11 @@ async function main() {
       },
     }),
   });
-  
+
+  if (!resp.ok) {
+    throw new Error(`Server returned ${resp.status}: ${await resp.text()}`);
+  }
+
   const body = await resp.json();
   console.log(resp.status, body);
 }

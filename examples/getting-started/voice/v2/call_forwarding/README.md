@@ -43,7 +43,7 @@ is bridged with you. No webhook server is needed.
    ```bash
    node forward_call.js
    ```
-   Or run it directly:
+   Or with npm:
    ```bash
-   node forward_call.js
+   npm start
    ```

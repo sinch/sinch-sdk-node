@@ -58,8 +58,8 @@ v2 through the [Sinch Node.js SDK](https://github.com/sinch/sinch-sdk-node):
    ```bash
    node validate.js
    ```
-   Expected: `is_valid=True`. A successful request means validation ran, not that the payload passed; always read
-   `is_valid`.
+   Expected: `isValid=true`. A successful request means validation ran, not that the payload passed; always read
+   `isValid`.
 
 3. Start the server:
    ```bash

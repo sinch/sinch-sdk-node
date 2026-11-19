@@ -15,19 +15,22 @@ async function main() {
     keySecret,
   });
 
-  // Poll the batch summary every 5s until all call sessions reach a final state
-  while (true) {
+  // Poll the batch summary every 5s until all call sessions reach a final state, bounded by maxAttempts
+  const maxAttempts = 60;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     const response = await sinchClient.voice.v2.batches.get({ batchId });
 
     console.log(response);
 
     if (response.queued === 0 && response.inProgress === 0) {
       console.log('All call sessions finished.');
-      break;
+      return;
     }
 
     await new Promise((resolve) => setTimeout(resolve, 5000));
   }
+  console.error(`Batch ${batchId} still has call sessions running after ${maxAttempts} attempts`);
+  process.exit(1);
 }
 
 main().catch((error) => {
