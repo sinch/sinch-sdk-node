@@ -1,0 +1,20 @@
+{
+  "name": "@sinch/getting-started-voice-v2_call-hunting",
+  "version": "0.0.0",
+  "author": "Sinch",
+  "description": "Getting Started: hunt through a list of agents until one answers with Voice API v2",
+  "type": "module",
+  "scripts": {
+    "start": "node sequential_hunt.js",
+    "sequential-hunt": "node sequential_hunt.js",
+    "sim-ring": "node sim_ring.js",
+    "server": "node server.js",
+    "configure-service": "node configure_service.js",
+    "start-customer-call": "node start_customer_call.js"
+  },
+  "dependencies": {
+    "@sinch/sdk-core": "^1.7.0",
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1"
+  }
+}
