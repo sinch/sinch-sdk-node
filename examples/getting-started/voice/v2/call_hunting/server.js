@@ -58,12 +58,13 @@ function handleEvent(event) {
   }
 
   if (event.event === 'call.answered' && callName === 'customer') {
-    // Outbound customer leg answered: play the hold message and dial the
-    // first agent
+    // Outbound customer leg answered: play the hold message, join the
+    // bridge and dial the first agent
     cursors.set(sessionId, 0);
     return VoiceV2CallbackWebhooks.response({
       commands: new CommandsSequenceCreator()
         .text('Please hold while we find an agent.', 'Emma_3', { name: 'hold' })
+        .bridgeCall('hunt-bridge')
         .command(dialAgent(0))
         .build(),
     });

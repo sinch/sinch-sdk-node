@@ -47,8 +47,9 @@ async function main() {
     });
   }
 
-  // SVAML commands: dial the customer -> on answer play a hold message and ring
-  // the three agents at once (dial is non-blocking) -> first to answer wins
+  // SVAML commands: dial the customer -> on answer play a hold message, join the
+  // bridge and ring the three agents at once (dial is non-blocking) -> first to
+  // answer wins
   const commands = new CommandsSequenceCreator()
     .dial((dial) => {
       dial
@@ -59,6 +60,7 @@ async function main() {
         .onAnswer((sequence) => {
           sequence
             .text('Connecting you now.', 'Emma_3', { name: 'hold' })
+            .bridgeCall('hunt-bridge')
             .command(ringAgent(agent1, 'agent-A', ['agent-B', 'agent-C']))
             .command(ringAgent(agent2, 'agent-B', ['agent-A', 'agent-C']))
             .command(ringAgent(agent3, 'agent-C', ['agent-A', 'agent-B']));
